@@ -130,7 +130,11 @@ export function poloCogsCents(country: string, qty: number): number {
 // §4.3 — COGS upsells (produit + shipping add-on), EUR centimes
 // ---------------------------------------------------------------------------
 
-type UpsellTier = 1 | 2 | 3;
+// Paliers de bundle 1 / 2 / 4 pièces (identiques au polo). La 3ᵉ colonne du
+// tableau §4.3 du cahier des charges était étiquetée « 3 pcs » par erreur :
+// ces prix sont ceux de 4 pièces (correction confirmée par Badr le 06/07/2026).
+// Les valeurs sont inchangées, seul le palier passe de 3 à 4.
+type UpsellTier = 1 | 2 | 4;
 
 export const UPSELL_PRODUCT_KEYS = [
   "SHORT_SLEEVE_DRESS_SHIRT",
@@ -143,44 +147,44 @@ export type UpsellProductKey = (typeof UPSELL_PRODUCT_KEYS)[number];
 
 const UPSELL_GRID_CENTS: Record<UpsellProductKey, Record<string, Record<UpsellTier, number>>> = {
   SHORT_SLEEVE_DRESS_SHIRT: {
-    FR: { 1: 689, 2: 1359, 3: 2003 },
-    IT: { 1: 699, 2: 1378, 3: 2051 },
-    ES: { 1: 692, 2: 1365, 3: 2032 },
-    DE: { 1: 689, 2: 1340, 3: 1994 },
-    GB: { 1: 625, 2: 1244, 3: 1849 },
-    BE: { 1: 740, 2: 1462, 3: 2176 },
+    FR: { 1: 689, 2: 1359, 4: 2003 },
+    IT: { 1: 699, 2: 1378, 4: 2051 },
+    ES: { 1: 692, 2: 1365, 4: 2032 },
+    DE: { 1: 689, 2: 1340, 4: 1994 },
+    GB: { 1: 625, 2: 1244, 4: 1849 },
+    BE: { 1: 740, 2: 1462, 4: 2176 },
   },
   DRESS_TROUSERS: {
-    FR: { 1: 984, 2: 1926, 3: 2873 },
-    IT: { 1: 1000, 2: 1981, 3: 2956 },
-    ES: { 1: 989, 2: 1959, 3: 2923 },
-    DE: { 1: 967, 2: 1915, 3: 2857 },
-    GB: { 1: 884, 2: 1750, 3: 2642 },
-    BE: { 1: 1072, 2: 2125, 3: 3171 },
+    FR: { 1: 984, 2: 1926, 4: 2873 },
+    IT: { 1: 1000, 2: 1981, 4: 2956 },
+    ES: { 1: 989, 2: 1959, 4: 2923 },
+    DE: { 1: 967, 2: 1915, 4: 2857 },
+    GB: { 1: 884, 2: 1750, 4: 2642 },
+    BE: { 1: 1072, 2: 2125, 4: 3171 },
   },
   COMPRESSION_TANK_TOP: {
-    FR: { 1: 316, 2: 613, 3: 903 },
-    IT: { 1: 322, 2: 624, 3: 921 },
-    ES: { 1: 318, 2: 617, 3: 909 },
-    DE: { 1: 316, 2: 613, 3: 886 },
-    GB: { 1: 278, 2: 536, 3: 799 },
-    BE: { 1: 356, 2: 674, 3: 996 },
+    FR: { 1: 316, 2: 613, 4: 903 },
+    IT: { 1: 322, 2: 624, 4: 921 },
+    ES: { 1: 318, 2: 617, 4: 909 },
+    DE: { 1: 316, 2: 613, 4: 886 },
+    GB: { 1: 278, 2: 536, 4: 799 },
+    BE: { 1: 356, 2: 674, 4: 996 },
   },
   CHINO_SHORTS: {
-    FR: { 1: 624, 2: 1229, 3: 1813 },
-    IT: { 1: 632, 2: 1245, 3: 1851 },
-    ES: { 1: 627, 2: 1235, 3: 1836 },
-    DE: { 1: 624, 2: 1214, 3: 1805 },
-    GB: { 1: 573, 2: 1137, 3: 1690 },
-    BE: { 1: 678, 2: 1312, 3: 1951 },
+    FR: { 1: 624, 2: 1229, 4: 1813 },
+    IT: { 1: 632, 2: 1245, 4: 1851 },
+    ES: { 1: 627, 2: 1235, 4: 1836 },
+    DE: { 1: 624, 2: 1214, 4: 1805 },
+    GB: { 1: 573, 2: 1137, 4: 1690 },
+    BE: { 1: 678, 2: 1312, 4: 1951 },
   },
   LONG_SLEEVE_DRESS_SHIRT: {
-    FR: { 1: 680, 2: 1324, 3: 1970 },
-    IT: { 1: 692, 2: 1365, 3: 2031 },
-    ES: { 1: 684, 2: 1348, 3: 2007 },
-    DE: { 1: 667, 2: 1316, 3: 1957 },
-    GB: { 1: 606, 2: 1193, 3: 1773 },
-    BE: { 1: 745, 2: 1472, 3: 2191 },
+    FR: { 1: 680, 2: 1324, 4: 1970 },
+    IT: { 1: 692, 2: 1365, 4: 2031 },
+    ES: { 1: 684, 2: 1348, 4: 2007 },
+    DE: { 1: 667, 2: 1316, 4: 1957 },
+    GB: { 1: 606, 2: 1193, 4: 1773 },
+    BE: { 1: 745, 2: 1472, 4: 2191 },
   },
 };
 
@@ -195,7 +199,11 @@ function upsellGridValueCents(
   return maxListedForTier(grid, tier) + NON_LISTED_SURCHARGE_CENTS;
 }
 
-/** COGS upsell pour `qty` pièces d'un `productKey`, livré dans `country`. */
+/**
+ * COGS upsell pour `qty` pièces d'un `productKey`, livré dans `country`.
+ * Paliers directs 1/2/4 ; quantités hors grille traitées comme le polo
+ * (§4.2) : coût marginal par pièce supplémentaire = grille[2] − grille[1].
+ */
 export function upsellCogsCents(
   productKey: string,
   country: string,
@@ -206,12 +214,12 @@ export function upsellCogsCents(
     throw new UnmappedProductError(country, `upsell inconnu: ${productKey}`);
   }
   const key = productKey as UpsellProductKey;
-  if (qty === 1 || qty === 2 || qty === 3) {
+  if (qty === 1 || qty === 2 || qty === 4) {
     return upsellGridValueCents(key, country, qty);
   }
-  const g3 = upsellGridValueCents(key, country, 3);
   const g2 = upsellGridValueCents(key, country, 2);
-  return Math.round(g3 + (g3 - g2) * (qty - 3));
+  const g1 = upsellGridValueCents(key, country, 1);
+  return Math.round(g2 + (g2 - g1) * (qty - 2));
 }
 
 // ---------------------------------------------------------------------------

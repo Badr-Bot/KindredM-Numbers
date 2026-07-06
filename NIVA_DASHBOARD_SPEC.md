@@ -125,7 +125,9 @@ Quantités hors grille (ex. 3 polos) : `grille[2pcs] + (grille[2pcs] − grille[
 
 ### 4.3 COGS upsells — coût total (produit + shipping add-on, expédié avec la commande principale), EUR
 
-| product_key | Pays | 1 pc | 2 pcs | 3 pcs |
+> **Correction 06/07/2026 (Badr)** : la 3ᵉ colonne du tableau ci-dessous était étiquetée « 3 pcs » par erreur. Ces prix sont ceux du bundle **4 pièces** (les upsells se vendent en 1/2/4 comme le polo). Valeurs inchangées, seul l'intitulé du palier passe de 3 à 4. Quantités hors grille traitées comme le polo (§4.2).
+
+| product_key | Pays | 1 pc | 2 pcs | 4 pcs |
 |---|---|---|---|---|
 | SHORT_SLEEVE_DRESS_SHIRT | FR | 6.89 | 13.59 | 20.03 |
 | | IT | 6.99 | 13.78 | 20.51 |
@@ -158,7 +160,7 @@ Quantités hors grille (ex. 3 polos) : `grille[2pcs] + (grille[2pcs] − grille[
 | | GB | 6.06 | 11.93 | 17.73 |
 | | BE | 7.45 | 14.72 | 21.91 |
 
-Règles identiques au polo : pays non listé = max listé (+1,50 € plafond) ; qty > 3 : `grille[3] + (grille[3]−grille[2]) × (qty−3)`.
+Règles identiques au polo : pays non listé = max listé (+1,50 € plafond) ; quantités hors grille (ex. 3, ou > 4) : `grille[2] + (grille[2]−grille[1]) × (qty−2)` (coût marginal par pièce, comme §4.2).
 
 ### 4.4 Taxe UE — 3,00 € par commande
 - **Stores concernés : ES, DE, FR** (⚠️ FR = hypothèse logique « taxe européenne », **à confirmer par Badr** — flag config `EU_TAX_STORES = ['ES','DE','FR']`, modifiable en 1 ligne). **UK : exonéré** (règle explicite de Badr, au niveau du store).

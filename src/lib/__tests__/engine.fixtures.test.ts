@@ -125,16 +125,27 @@ describe("Grille COGS polo — pays non listé et quantités hors grille", () =>
   });
 });
 
-describe("Grille COGS upsells — pays non listé et quantités hors grille", () => {
+describe("Grille COGS upsells — paliers 1/2/4 (correction 3→4 pcs, 06/07/2026)", () => {
   it("pays non listé = max(pays listés, même bundle) + 1,50€", () => {
     const max1 = Math.max(689, 699, 692, 689, 625, 740); // SHORT_SLEEVE_DRESS_SHIRT tier 1
     expect(upsellCogsCents("SHORT_SLEEVE_DRESS_SHIRT", "CA", 1)).toBe(max1 + 150);
   });
 
-  it("qty > 3 = grille[3] + (grille[3] − grille[2]) × (qty−3)", () => {
-    const g3 = upsellCogsCents("DRESS_TROUSERS", "FR", 3); // 2873
+  it("le palier 4 pcs = la valeur ex-« 3 pcs » du tableau (inchangée)", () => {
+    // DRESS_TROUSERS FR : la 3e colonne (2873) est désormais le bundle 4 pcs.
+    expect(upsellCogsCents("DRESS_TROUSERS", "FR", 4)).toBe(2873);
+  });
+
+  it("qty=3 (hors grille) = grille[2] + (grille[2] − grille[1]) × 1, comme le polo", () => {
     const g2 = upsellCogsCents("DRESS_TROUSERS", "FR", 2); // 1926
-    expect(upsellCogsCents("DRESS_TROUSERS", "FR", 4)).toBe(Math.round(g3 + (g3 - g2) * 1));
+    const g1 = upsellCogsCents("DRESS_TROUSERS", "FR", 1); // 984
+    expect(upsellCogsCents("DRESS_TROUSERS", "FR", 3)).toBe(Math.round(g2 + (g2 - g1) * 1));
+  });
+
+  it("qty=5 (au-delà de 4) extrapole via le coût marginal grille[2]−grille[1]", () => {
+    const g2 = upsellCogsCents("CHINO_SHORTS", "ES", 2); // 1235
+    const g1 = upsellCogsCents("CHINO_SHORTS", "ES", 1); // 627
+    expect(upsellCogsCents("CHINO_SHORTS", "ES", 5)).toBe(Math.round(g2 + (g2 - g1) * 3));
   });
 });
 
