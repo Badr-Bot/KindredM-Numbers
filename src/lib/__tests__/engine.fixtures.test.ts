@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   classifyLineItems,
   computeDailyAggregate,
+  computeOrderCogsTax,
+  distinctProductCount,
   euTaxCents,
   feesCentsForCa,
   poloCogsCents,
@@ -22,7 +24,8 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 47992;
     const spendCents = 18427;
     const cogsCents = orders * poloCogsCents("ES", 2);
-    const taxCents = orders * euTaxCents("ES", "2026-07-04");
+    // polo seul = 1 produit distinct, dest ES (UE) → 3 € × 8
+    const taxCents = orders * euTaxCents("ES", "2026-07-04", 1);
 
     expect(cogsCents).toBe(11896);
     expect(taxCents).toBe(2400);
@@ -37,7 +40,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 44993;
     const spendCents = 29609;
     const cogsCents = 6 * poloCogsCents("ES", 2) + 1 * poloCogsCents("ES", 4);
-    const taxCents = 7 * euTaxCents("ES", "2026-07-03");
+    const taxCents = 7 * euTaxCents("ES", "2026-07-03", 1);
 
     expect(cogsCents).toBe(11575);
     expect(taxCents).toBe(2100);
@@ -47,11 +50,12 @@ describe("Fixtures §8 — validation au centime", () => {
     expect(agg.netCents).toBe(-2565);
   });
 
-  it("Fixture 3 — UK · 2026-07-03 : 1 cmd 2pcs (dest. GB), UK exonéré de taxe UE", () => {
+  it("Fixture 3 — UK · 2026-07-03 : 1 cmd 2pcs (dest. GB), GB hors UE → pas de taxe", () => {
     const caCents = 5766;
     const spendCents = 4218;
     const cogsCents = poloCogsCents("GB", 2);
-    const taxCents = euTaxCents("UK", "2026-07-03");
+    // dest GB (hors UE depuis le Brexit) → 0
+    const taxCents = euTaxCents("GB", "2026-07-03", 1);
 
     expect(cogsCents).toBe(1330);
     expect(taxCents).toBe(0);
@@ -65,7 +69,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 29996;
     const spendCents = 6534;
     const cogsCents = 2 * poloCogsCents("DE", 2) + 2 * poloCogsCents("DE", 4);
-    const taxCents = 4 * euTaxCents("DE", "2026-07-01");
+    const taxCents = 4 * euTaxCents("DE", "2026-07-01", 1);
 
     expect(cogsCents).toBe(8334);
     expect(taxCents).toBe(1200);
@@ -76,39 +80,59 @@ describe("Fixtures §8 — validation au centime", () => {
   });
 });
 
-describe("Cas upsell synthétique (note §8) — ES 2pcs polo + 1 CHINO_SHORTS", () => {
-  it("COGS = 14.87€ + 6.27€, taxe = 3.00€", () => {
-    const cogsProductCents = poloCogsCents("ES", 2);
-    const cogsUpsellsCents = upsellCogsCents("CHINO_SHORTS", "ES", 1);
-    const taxCents = euTaxCents("ES", "2026-07-04");
-
-    expect(cogsProductCents).toBe(1487);
-    expect(cogsUpsellsCents).toBe(627);
-    expect(taxCents).toBe(300);
+describe("Cas upsell synthétique — ES 2pcs polo + 1 CHINO_SHORTS", () => {
+  it("COGS = 14.87€ + 6.27€, taxe = 6.00€ (2 produits distincts, dest UE)", () => {
+    const order = computeOrderCogsTax({
+      store: "ES",
+      shippingCountry: "ES",
+      day: "2026-07-04",
+      poloQty: 2,
+      upsells: [{ productKey: "CHINO_SHORTS", qty: 1 }],
+    });
+    expect(order.cogsProductCents).toBe(1487);
+    expect(order.cogsUpsellsCents).toBe(627);
+    // polo + chino = 2 produits distincts → 3 € × 2
+    expect(order.taxCents).toBe(600);
   });
 });
 
-describe("Taxe UE — bornes et exonérations", () => {
-  it("0 avant le 2026-07-01 même pour ES/DE/FR", () => {
-    expect(euTaxCents("ES", "2026-06-30")).toBe(0);
-    expect(euTaxCents("DE", "2026-06-30")).toBe(0);
-    expect(euTaxCents("FR", "2026-06-30")).toBe(0);
+describe("Taxe UE — règle révisée (par produit distinct × destination UE)", () => {
+  it("3 € par produit distinct, jamais multiplié par la quantité", () => {
+    // 4 polos = 1 produit distinct = 3 €
+    expect(euTaxCents("ES", "2026-07-04", distinctProductCount(4, []))).toBe(300);
+    // 1 polo + 1 chemise = 2 produits distincts = 6 €
+    expect(
+      euTaxCents("ES", "2026-07-04", distinctProductCount(1, [{ productKey: "SHORT_SLEEVE_DRESS_SHIRT" }]))
+    ).toBe(600);
+    // 1 polo + 2 upsells différents = 3 produits distincts = 9 €
+    expect(
+      euTaxCents("FR", "2026-07-04", distinctProductCount(2, [
+        { productKey: "CHINO_SHORTS" },
+        { productKey: "DRESS_TROUSERS" },
+      ]))
+    ).toBe(900);
   });
 
-  it("300 à partir du 2026-07-01 inclus pour ES/DE/FR", () => {
-    expect(euTaxCents("ES", "2026-07-01")).toBe(300);
-    expect(euTaxCents("DE", "2026-07-01")).toBe(300);
-    expect(euTaxCents("FR", "2026-07-01")).toBe(300);
+  it("deux fois le même upsell = 1 seul produit distinct", () => {
+    expect(distinctProductCount(0, [
+      { productKey: "CHINO_SHORTS" },
+      { productKey: "CHINO_SHORTS" },
+    ])).toBe(1);
   });
 
-  it("UK toujours exonéré", () => {
-    expect(euTaxCents("UK", "2026-07-01")).toBe(0);
-    expect(euTaxCents("UK", "2027-01-01")).toBe(0);
+  it("0 avant le 2026-07-01, quelle que soit la destination", () => {
+    expect(euTaxCents("ES", "2026-06-30", 1)).toBe(0);
+    expect(euTaxCents("FR", "2026-06-30", 3)).toBe(0);
   });
 
-  it("une seule fois par commande quel que soit le nombre d'upsells (taxe indépendante des upsells)", () => {
-    // La taxe ne dépend que du store + de la date, jamais du contenu de la commande.
-    expect(euTaxCents("ES", "2026-07-04")).toBe(euTaxCents("ES", "2026-07-04"));
+  it("uniquement pour une destination dans l'UE", () => {
+    expect(euTaxCents("FR", "2026-07-01", 1)).toBe(300); // France = UE
+    expect(euTaxCents("IT", "2026-07-01", 1)).toBe(300); // Italie = UE
+    expect(euTaxCents("SE", "2026-07-01", 1)).toBe(300); // Suède = UE
+    expect(euTaxCents("GB", "2026-07-01", 1)).toBe(0); // GB hors UE
+    expect(euTaxCents("CA", "2026-07-01", 1)).toBe(0); // Canada hors UE
+    expect(euTaxCents("CH", "2026-07-01", 1)).toBe(0); // Suisse hors UE
+    expect(euTaxCents("US", "2026-07-01", 1)).toBe(0); // USA hors UE
   });
 });
 

@@ -6,7 +6,6 @@
 import {
   computeDailyAggregate,
   computeOrderCogsTax,
-  euTaxCents,
   type Market,
 } from "./engine";
 import type { DailyRow } from "./data";
@@ -96,9 +95,6 @@ function generateRow(day: string, market: Market): DailyRow {
   // Spend visant un ROAS dans la bande du marché.
   const targetRoas = profile.roasLow + rnd() * (profile.roasHigh - profile.roasLow);
   const spendCents = orders === 0 ? Math.round(rnd() * 4000) : Math.round(caCents / targetRoas);
-
-  // taxCents recalculé proprement (0 avant 07-01)
-  void euTaxCents;
 
   const agg = computeDailyAggregate({ orders, caCents, spendCents, cogsCents, taxCents });
   return { day, market, ...agg };

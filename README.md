@@ -106,8 +106,9 @@ Ces points sont explicitement marqués « à confirmer » dans le cahier des
 charges ou impliquent une interprétation raisonnable en l'absence de détail
 supplémentaire — à valider avant le backfill réel :
 
-- **Taxe UE pour FR (§4.4)** : appliquée par défaut (`EU_TAX_STORES =
-  ['ES','DE','FR']` dans `src/lib/engine.ts`), modifiable en une ligne.
+- **Taxe UE (§4.4, révisée le 06/07/2026)** : 3 € par produit *distinct* dans
+  la commande, uniquement si la destination est dans l'UE (`EU_COUNTRIES` dans
+  `src/lib/engine.ts`). FR est dans l'UE → taxé ; GB/UK et hors-UE → 0.
 - **Attribution des remboursements tardifs** : le schéma (§3) ne stocke
   qu'un `refunded_cents` cumulatif par commande (pas de table `refunds`
   séparée avec sa propre date). L'implémentation actuelle recalcule

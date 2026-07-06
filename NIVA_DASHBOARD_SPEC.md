@@ -162,9 +162,9 @@ Quantités hors grille (ex. 3 polos) : `grille[2pcs] + (grille[2pcs] − grille[
 
 Règles identiques au polo : pays non listé = max listé (+1,50 € plafond) ; quantités hors grille (ex. 3, ou > 4) : `grille[2] + (grille[2]−grille[1]) × (qty−2)` (coût marginal par pièce, comme §4.2).
 
-### 4.4 Taxe UE — 3,00 € par commande
-- **Stores concernés : ES, DE, FR** (⚠️ FR = hypothèse logique « taxe européenne », **à confirmer par Badr** — flag config `EU_TAX_STORES = ['ES','DE','FR']`, modifiable en 1 ligne). **UK : exonéré** (règle explicite de Badr, au niveau du store).
-- **Une seule fois par commande**, quel que soit le bundle ou les upsells.
+### 4.4 Taxe UE — 3,00 € par produit distinct (règle révisée 06/07/2026 par Badr)
+- **3,00 € par produit *distinct*** dans la commande (pas par commande, pas par quantité). Ex. : **4 polos = 3 €** (1 produit distinct) ; **1 polo + 1 chemise = 6 €** (2 produits distincts) ; 1 polo + 2 upsells différents = 9 €. Deux fois le même upsell = 1 seul produit distinct.
+- **Uniquement si le pays de *destination* (`shipping_country`) est dans l'UE.** Basé sur la destination, plus sur le store. GB/UK, CH, CA, US… = 0 €. (La liste UE-27 est dans `src/lib/engine.ts` : `EU_COUNTRIES`.) Cela résout aussi l'ancienne question « taxe FR ? » : FR ∈ UE → taxé.
 - Applicable aux commandes **à partir du 2026-07-01 inclus**. Avant : 0.
 
 ### 4.5 Frais — 9,5 % du CA total (modèle défini le 05/07/2026)

@@ -223,19 +223,44 @@ export function upsellCogsCents(
 }
 
 // ---------------------------------------------------------------------------
-// §4.4 — Taxe UE : 3,00€ par commande
+// §4.4 — Taxe UE (règle révisée par Badr le 06/07/2026)
+//   • 3,00 € par PRODUIT DISTINCT dans la commande (pas par commande, pas par
+//     quantité) : 4 polos = 1 produit distinct = 3 € ; 1 polo + 1 chemise =
+//     2 produits distincts = 6 €.
+//   • Uniquement si le PAYS DE DESTINATION est dans l'UE (basé sur
+//     shipping_country, plus sur le store). GB/UK, CH, CA, US… = 0 €.
 // ---------------------------------------------------------------------------
 
-/** Stores soumis à la taxe UE. Modifiable en 1 ligne (FR à confirmer par Badr). */
-export const EU_TAX_STORES: readonly Market[] = ["ES", "DE", "FR"];
-export const EU_TAX_CENTS = 300;
+export const EU_TAX_PER_PRODUCT_CENTS = 300;
 export const EU_TAX_START_DATE = "2026-07-01"; // inclusif, jour Europe/Paris (YYYY-MM-DD)
 
-/** `day` doit être le jour Europe/Paris au format YYYY-MM-DD (comparaison lexicographique valide). */
-export function euTaxCents(store: Market, day: string): number {
-  return EU_TAX_STORES.includes(store) && day >= EU_TAX_START_DATE
-    ? EU_TAX_CENTS
-    : 0;
+/** Pays membres de l'UE (ISO-2). GB exclu depuis le Brexit. */
+export const EU_COUNTRIES: ReadonlySet<string> = new Set([
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR",
+  "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK",
+  "SI", "ES", "SE",
+]);
+
+export function isEuCountry(country: string): boolean {
+  return EU_COUNTRIES.has(country.toUpperCase());
+}
+
+/**
+ * Taxe UE d'une commande : 3 € × nombre de produits distincts, uniquement si
+ * la destination est dans l'UE et la date ≥ 2026-07-01.
+ * `day` au format YYYY-MM-DD (jour Europe/Paris, comparaison lexicographique).
+ */
+export function euTaxCents(shippingCountry: string, day: string, distinctProducts: number): number {
+  if (day < EU_TAX_START_DATE) return 0;
+  if (!isEuCountry(shippingCountry)) return 0;
+  if (distinctProducts <= 0) return 0;
+  return EU_TAX_PER_PRODUCT_CENTS * distinctProducts;
+}
+
+/** Nombre de produits distincts d'une commande = polo (si présent) + upsells distincts. */
+export function distinctProductCount(poloQty: number, upsells: { productKey: string }[]): number {
+  const distinctUpsells = new Set(upsells.map((u) => u.productKey)).size;
+  return (poloQty > 0 ? 1 : 0) + distinctUpsells;
 }
 
 // ---------------------------------------------------------------------------
@@ -289,7 +314,11 @@ export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
     (sum, u) => sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty),
     0
   );
-  const taxCents = euTaxCents(order.store, order.day);
+  const taxCents = euTaxCents(
+    order.shippingCountry,
+    order.day,
+    distinctProductCount(order.poloQty, order.upsells)
+  );
   return { cogsProductCents, cogsUpsellsCents, taxCents };
 }
 
