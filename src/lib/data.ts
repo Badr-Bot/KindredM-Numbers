@@ -26,6 +26,7 @@ export interface DailyRow {
   taxCents: number;
   feesCents: number;
   netCents: number;
+  refundedCents: number; // brut remboursé (déjà déduit du CA/net) — pour la vue Contrôle
 }
 
 /** Totaux d'un ensemble de lignes (un marché ou global). */
@@ -37,6 +38,7 @@ export interface Totals {
   taxCents: number;
   feesCents: number;
   netCents: number;
+  refundedCents: number;
 }
 
 export interface Thresholds {
@@ -53,6 +55,7 @@ const EMPTY_TOTALS: Totals = {
   taxCents: 0,
   feesCents: 0,
   netCents: 0,
+  refundedCents: 0,
 };
 
 // ---------------------------------------------------------------------------
@@ -101,7 +104,7 @@ export async function fetchDailyRows(startDay: string, endDay: string): Promise<
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from("daily_aggregates")
-    .select("day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents")
+    .select("day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents")
     .gte("day", startDay)
     .lte("day", endDay)
     .order("day", { ascending: true });
@@ -117,6 +120,7 @@ export async function fetchDailyRows(startDay: string, endDay: string): Promise<
     taxCents: r.tax_cents,
     feesCents: r.fees_cents,
     netCents: r.net_cents,
+    refundedCents: r.refunded_cents ?? 0,
   }));
 }
 
@@ -134,6 +138,7 @@ export function sumRows(rows: DailyRow[]): Totals {
       taxCents: acc.taxCents + r.taxCents,
       feesCents: acc.feesCents + r.feesCents,
       netCents: acc.netCents + r.netCents,
+      refundedCents: acc.refundedCents + r.refundedCents,
     }),
     { ...EMPTY_TOTALS }
   );
@@ -157,6 +162,7 @@ export function collapseByDay(rows: DailyRow[]): Array<{ day: string } & Totals>
       taxCents: cur.taxCents + r.taxCents,
       feesCents: cur.feesCents + r.feesCents,
       netCents: cur.netCents + r.netCents,
+      refundedCents: cur.refundedCents + r.refundedCents,
     });
   }
   return [...byDay.entries()]
@@ -300,6 +306,7 @@ export async function getTodayView(): Promise<TodayView> {
         taxCents: m.taxCents,
         feesCents: m.feesCents,
         netCents: m.netCents,
+        refundedCents: 0, // les remboursements du jour arrivent surtout J+n ; la vue Contrôle les lit sur l'historique
       };
     }
     return {
@@ -385,6 +392,7 @@ export function groupByMonth(rows: DailyRow[]): MonthTotals[] {
       taxCents: cur.taxCents + r.taxCents,
       feesCents: cur.feesCents + r.feesCents,
       netCents: cur.netCents + r.netCents,
+      refundedCents: cur.refundedCents + r.refundedCents,
     });
   }
   return [...byMonth.entries()]
@@ -412,6 +420,53 @@ export async function getTabDayData(
     result[m] = collapseByDay(rows.filter((r) => r.market === m));
   }
   return result;
+}
+
+// ---------------------------------------------------------------------------
+// Vue Contrôle — remboursements + rétrofacturations (litiges)
+// ---------------------------------------------------------------------------
+
+export type ChargebackStatus = "open" | "won" | "lost";
+
+export interface Chargeback {
+  id: string;
+  day: string;
+  market: Market;
+  orderName: string | null;
+  amountCents: number;
+  feeCents: number;
+  status: ChargebackStatus;
+  reason: string | null;
+}
+
+export async function fetchChargebacks(start: string, end: string): Promise<Chargeback[]> {
+  const mode = getDataMode();
+  if (mode === "demo") {
+    const { getDemoChargebacks } = await import("./demo");
+    return getDemoChargebacks().filter((c) => c.day >= start && c.day <= end);
+  }
+  if (mode === "unconfigured") return [];
+
+  const { createSupabaseServerClient } = await import("./supabase");
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("chargebacks")
+    .select("id, day, market, order_name, amount_cents, fee_cents, status, reason")
+    .gte("day", start)
+    .lte("day", end)
+    .order("day", { ascending: false });
+  if (error) throw error;
+
+  return (data ?? []).map((c) => ({
+    id: c.id,
+    day: c.day,
+    market: c.market as Market,
+    orderName: c.order_name,
+    amountCents: c.amount_cents,
+    feeCents: c.fee_cents,
+    status: c.status as ChargebackStatus,
+    reason: c.reason,
+  }));
 }
 
 // ---------------------------------------------------------------------------

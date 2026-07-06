@@ -31,6 +31,7 @@ export async function recomputeDailyAggregate(
   const caCents = rows.reduce((sum, o) => sum + o.total_cents - o.refunded_cents, 0);
   const cogsCents = rows.reduce((sum, o) => sum + o.cogs_product_cents + o.cogs_upsells_cents, 0);
   const taxCents = rows.reduce((sum, o) => sum + o.tax_eu_cents, 0);
+  const refundedCents = rows.reduce((sum, o) => sum + o.refunded_cents, 0);
   const spendCents = (spendRows ?? []).reduce((sum, s) => sum + s.spend_cents, 0);
 
   const aggregate = computeDailyAggregate({
@@ -51,6 +52,7 @@ export async function recomputeDailyAggregate(
     tax_cents: aggregate.taxCents,
     fees_cents: aggregate.feesCents,
     net_cents: aggregate.netCents,
+    refunded_cents: refundedCents,
   });
   if (upsertError) throw upsertError;
 }

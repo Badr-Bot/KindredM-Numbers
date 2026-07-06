@@ -18,7 +18,7 @@ import { useSound } from "../sound/SoundProvider";
 import { DailyBarLineChart, type ChartPoint } from "./DailyBarLineChart";
 
 const EMPTY: Totals = {
-  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0,
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
 function sum(rows: DayAgg[]): Totals {
@@ -31,6 +31,7 @@ function sum(rows: DayAgg[]): Totals {
       taxCents: a.taxCents + r.taxCents,
       feesCents: a.feesCents + r.feesCents,
       netCents: a.netCents + r.netCents,
+      refundedCents: a.refundedCents + r.refundedCents,
     }),
     { ...EMPTY }
   );

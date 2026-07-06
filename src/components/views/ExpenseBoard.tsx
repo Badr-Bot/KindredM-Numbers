@@ -9,7 +9,7 @@ import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 
 const EMPTY: Totals = {
-  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0,
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
 // Palette catégorielle harmonisée dark — le gain net en phosphore ressort
@@ -36,6 +36,7 @@ function sumForPrefix(rows: DayAgg[], prefix: string): Totals {
       taxCents: a.taxCents + r.taxCents,
       feesCents: a.feesCents + r.feesCents,
       netCents: a.netCents + r.netCents,
+      refundedCents: a.refundedCents + r.refundedCents,
     };
   }, { ...EMPTY });
 }

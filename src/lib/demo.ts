@@ -8,7 +8,7 @@ import {
   computeOrderCogsTax,
   type Market,
 } from "./engine";
-import type { DailyRow } from "./data";
+import type { Chargeback, ChargebackStatus, DailyRow } from "./data";
 
 export const DEMO_TODAY = "2026-07-06";
 export const DEMO_START = "2026-06-04";
@@ -96,8 +96,46 @@ function generateRow(day: string, market: Market): DailyRow {
   const targetRoas = profile.roasLow + rnd() * (profile.roasHigh - profile.roasLow);
   const spendCents = orders === 0 ? Math.round(rnd() * 4000) : Math.round(caCents / targetRoas);
 
-  const agg = computeDailyAggregate({ orders, caCents, spendCents, cogsCents, taxCents });
-  return { day, market, ...agg };
+  // Remboursements : ~10 % des jours-marché ont une commande remboursée.
+  // Le CA (donc le net) est net du remboursement ; refundedCents garde le brut.
+  let refundedCents = 0;
+  if (orders > 0 && rnd() < 0.1) {
+    const rb = rnd();
+    const bundle: 1 | 2 | 4 = rb < 0.5 ? 2 : rb < 0.8 ? 1 : 4;
+    refundedCents = TICKET[bundle];
+  }
+  const netCa = Math.max(0, caCents - refundedCents);
+
+  const agg = computeDailyAggregate({ orders, caCents: netCa, spendCents, cogsCents, taxCents });
+  return { day, market, ...agg, refundedCents };
+}
+
+// Rétrofacturations (litiges) synthétiques — quelques cas répartis sur la période.
+function buildDemoChargebacks(): Chargeback[] {
+  const specs: Array<[string, Market, number, ChargebackStatus, string]> = [
+    ["2026-06-18", "UK", 5766, "lost", "Produit non reçu"],
+    ["2026-06-27", "ES", 5999, "won", "Transaction non reconnue"],
+    ["2026-07-01", "DE", 8999, "open", "Article non conforme"],
+    ["2026-07-03", "FR", 5999, "lost", "Non reçu"],
+    ["2026-07-05", "ES", 5499, "open", "Transaction non reconnue"],
+  ];
+  return specs.map(([day, market, amountCents, status, reason], i) => ({
+    id: `demo-cb-${i + 1}`,
+    day,
+    market,
+    orderName: `#${1050 + i * 7}`,
+    amountCents,
+    feeCents: 1500, // frais de litige typiques ~15 €
+    status,
+    reason,
+  }));
+}
+
+let cachedChargebacks: Chargeback[] | null = null;
+
+export function getDemoChargebacks(): Chargeback[] {
+  if (!cachedChargebacks) cachedChargebacks = buildDemoChargebacks();
+  return cachedChargebacks;
 }
 
 let cached: DailyRow[] | null = null;

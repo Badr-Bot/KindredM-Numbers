@@ -10,6 +10,7 @@ const ITEMS = [
   { href: "/mois", label: "Mois", emoji: "🗓️" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
+  { href: "/controle", label: "Contrôle", emoji: "🛡️" },
 ];
 
 export function BottomNav() {

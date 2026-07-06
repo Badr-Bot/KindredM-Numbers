@@ -15,7 +15,7 @@ import {
 import { MarketTabs } from "../shell/MarketTabs";
 
 const EMPTY: Totals = {
-  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0,
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
 function addTo(acc: Totals, r: DayAgg): Totals {
@@ -26,6 +26,7 @@ function addTo(acc: Totals, r: DayAgg): Totals {
   acc.taxCents += r.taxCents;
   acc.feesCents += r.feesCents;
   acc.netCents += r.netCents;
+  acc.refundedCents += r.refundedCents;
   return acc;
 }
 
