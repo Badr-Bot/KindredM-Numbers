@@ -7,22 +7,72 @@ const MIN_DELAY_MS = 550;
 export interface ShopifyStoreConfig {
   market: Market;
   domain: string;
-  token: string;
+  /** Token statique (shpat_…) si fourni directement. */
+  token?: string;
+  /** Sinon, identifiants pour le grant client_credentials (recommandé, Dev Dashboard 2026). */
+  clientId?: string;
+  clientSecret?: string;
 }
 
 const MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
 
+/**
+ * Deux méthodes d'auth par store, au choix (dans .env.local) :
+ *   1. SHOPIFY_<M>_TOKEN=shpat_…                          (token statique)
+ *   2. SHOPIFY_<M>_CLIENT_ID + SHOPIFY_<M>_CLIENT_SECRET  (client_credentials)
+ * La 2e est la méthode actuelle du Dev Dashboard : le token est obtenu
+ * automatiquement à l'exécution (voir resolveAccessToken).
+ */
 export function getShopifyStoreConfigs(): ShopifyStoreConfig[] {
   return MARKETS.map((market) => {
     const domain = process.env[`SHOPIFY_${market}_DOMAIN`];
     const token = process.env[`SHOPIFY_${market}_TOKEN`];
-    if (!domain || !token) {
+    const clientId = process.env[`SHOPIFY_${market}_CLIENT_ID`];
+    const clientSecret = process.env[`SHOPIFY_${market}_CLIENT_SECRET`];
+
+    if (!domain) {
+      throw new Error(`Variable manquante pour le store ${market}: SHOPIFY_${market}_DOMAIN`);
+    }
+    if (!token && !(clientId && clientSecret)) {
       throw new Error(
-        `Variables manquantes pour le store ${market}: SHOPIFY_${market}_DOMAIN / SHOPIFY_${market}_TOKEN`
+        `Auth manquante pour le store ${market}: définis SHOPIFY_${market}_TOKEN, ou SHOPIFY_${market}_CLIENT_ID + SHOPIFY_${market}_CLIENT_SECRET`
       );
     }
-    return { market, domain, token };
+    return { market, domain, token, clientId, clientSecret };
   });
+}
+
+// Cache des tokens obtenus par client_credentials (par domaine), le temps du process.
+const tokenCache = new Map<string, { token: string; expiresAt: number }>();
+
+/** Résout le token d'accès d'un store : statique, ou via client_credentials (24 h, mis en cache). */
+export async function resolveAccessToken(config: ShopifyStoreConfig): Promise<string> {
+  if (config.token) return config.token;
+  if (!config.clientId || !config.clientSecret) {
+    throw new Error(`Store ${config.market}: ni token ni client_id/secret.`);
+  }
+
+  const cached = tokenCache.get(config.domain);
+  if (cached && cached.expiresAt > Date.now() + 60_000) return cached.token;
+
+  const res = await fetch(`https://${config.domain}/admin/oauth/access_token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      client_id: config.clientId,
+      client_secret: config.clientSecret,
+      grant_type: "client_credentials",
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(
+      `client_credentials échoué pour ${config.market} (${res.status}) : ${await res.text()}`
+    );
+  }
+  const body: { access_token: string; expires_in?: number } = await res.json();
+  const expiresAt = Date.now() + (body.expires_in ?? 86400) * 1000;
+  tokenCache.set(config.domain, { token: body.access_token, expiresAt });
+  return body.access_token;
 }
 
 export interface ShopifyLineItem {
@@ -114,10 +164,11 @@ export async function* iterateOrders(
   if (options.createdAtMin) params.set("created_at_min", options.createdAtMin);
   if (options.updatedAtMin) params.set("updated_at_min", options.updatedAtMin);
 
+  const token = await resolveAccessToken(config);
   let url: string | null = `https://${config.domain}/admin/api/${API_VERSION}/orders.json?${params.toString()}`;
 
   while (url) {
-    const { body, nextUrl }: { body: { orders: ShopifyOrder[] }; nextUrl: string | null } = await shopifyFetch(url, config.token);
+    const { body, nextUrl }: { body: { orders: ShopifyOrder[] }; nextUrl: string | null } = await shopifyFetch(url, token);
     for (const order of body.orders) {
       yield order;
     }
