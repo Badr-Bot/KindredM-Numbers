@@ -18,9 +18,26 @@ négociable sans validation explicite.
 - ✅ Script de backfill (`scripts/backfill.ts`)
 - ✅ Cron de clôture quotidienne (`src/app/api/cron/route.ts` + `vercel.json`)
 - ✅ Fetch live du jour en cours avec cache 5 min (`src/lib/live.ts`)
-- ⏳ UI des 5 vues (§6) — en attente du choix de direction design
+- ✅ UI des 5 vues (§6) — direction **A · Terminal Noir** (dark, mono,
+  phosphore vert = positif), mobile-first, avec effets (boot terminal,
+  compteurs animés, glow, sons synthétisés coupables 🔊), drapeaux pays et
+  registre produits extensible (`src/lib/products.ts`)
+- ✅ Mode démo (`NIVA_DEMO=1`) — données synthétiques déterministes pour
+  explorer l'UI sans brancher aucune API
 - ⏳ Backfill réel + vérification contre l'admin Shopify — nécessite les
   vraies clés, à faire en local (voir ci-dessous)
+
+### Aperçu rapide sans aucune clé
+
+```bash
+npm install
+NIVA_DEMO=1 DASHBOARD_PASSWORD=demo npm run dev
+# ouvre http://localhost:3000 (identifiant : n'importe lequel, mot de passe : demo)
+```
+
+Les 5 vues : **Aujourd'hui** (net en direct par marché), **14 derniers jours**
+(tableau NIVA), **Par mois** (graphe CA/marge + Δ), **Par année** (totaux),
+**Répartition des dépenses** (donut + carrés + postes à optimiser).
 
 ## Sécurité — aucun secret dans ce repo
 

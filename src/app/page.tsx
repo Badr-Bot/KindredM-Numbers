@@ -1,12 +1,25 @@
-export default function Home() {
+import { getTodayView } from "@/lib/data";
+import { formatDayLabel } from "@/lib/format";
+import { PageHeading } from "@/components/shell/PageHeading";
+import { EmptyState } from "@/components/shell/EmptyState";
+import { RefreshButton } from "@/components/shell/RefreshButton";
+import { TodayBoard } from "@/components/views/TodayBoard";
+
+// Toujours recalculé côté serveur (le cache live est géré dans lib/live.ts).
+export const dynamic = "force-dynamic";
+
+export default async function TodayPage() {
+  const view = await getTodayView();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black px-6 text-center text-zinc-100">
-      <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">NIVA Dashboard</p>
-      <h1 className="text-xl font-semibold">Scaffold en place — UI en attente du choix de direction design</h1>
-      <p className="max-w-md text-sm text-zinc-400">
-        Auth, moteur de calcul, schéma Supabase et scripts sont prêts. Les 5 vues
-        (§6) arrivent une fois la direction visuelle validée.
-      </p>
+    <div>
+      <PageHeading
+        emoji="⚡"
+        title="Aujourd'hui"
+        subtitle={formatDayLabel(view.day)}
+        right={<RefreshButton fetchedAt={view.fetchedAt} />}
+      />
+      {view.mode === "unconfigured" ? <EmptyState /> : <TodayBoard view={view} />}
     </div>
   );
 }
