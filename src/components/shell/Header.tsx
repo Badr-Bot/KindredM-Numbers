@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { DataMode } from "@/lib/data";
 import { Clock } from "./Clock";
 import { Cursor } from "../fx/Cursor";
@@ -27,6 +28,14 @@ export function Header({ mode }: { mode: DataMode }) {
         </div>
         <div className="flex items-center gap-3 text-[11px]">
           <Clock />
+          <Link
+            href="/admin"
+            aria-label="Configuration"
+            title="Configuration"
+            className="flex h-8 w-8 items-center justify-center rounded border border-line text-ink-dim transition-colors hover:border-phosphor hover:text-phosphor"
+          >
+            ⚙️
+          </Link>
           <SoundToggle />
         </div>
       </div>

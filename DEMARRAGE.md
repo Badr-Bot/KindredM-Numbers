@@ -1,162 +1,86 @@
-# 🚀 Démarrage en local (guide pas à pas)
+# 🚀 Démarrage — chemin Vercel (sans terminal)
 
-Ce guide te fait passer de zéro au dashboard qui tourne sur ton ordinateur.
-Tout est confidentiel : tes clés restent sur ta machine, jamais sur GitHub.
-
-> 💡 Tu peux déjà voir le dashboard **sans aucune clé** en mode démo (étape 5).
-> Les vraies clés ne servent qu'à mettre TES chiffres à la place des chiffres
-> d'exemple.
+Zéro terminal, zéro Node.js. Tout se fait au clic : GitHub → Vercel →
+Supabase → bouton "Configuration" dans le dashboard lui-même.
 
 ---
 
-## 1. Installer Node.js (une seule fois)
+## 1. Créer la base Supabase (gratuit)
 
-1. Va sur **https://nodejs.org**
-2. Télécharge la version **LTS** (le gros bouton de gauche)
-3. Installe (Suivant → Suivant → Terminer)
-
-Pour vérifier : ouvre une fenêtre de commande et tape `node -v` → tu dois voir un numéro (ex. `v22.x`).
-
----
-
-## 2. Récupérer le projet sur ton ordinateur
-
-**Le plus simple (sans rien installer d'autre) :**
-1. Va sur ton dépôt GitHub `Badr-Bot/KindredM-Numbers`
-2. Bouton vert **« Code »** → **« Download ZIP »**
-3. Décompresse le ZIP quelque part (ex. `Documents\niva`)
-
-**Ouvre un terminal DANS ce dossier :**
-- Windows : ouvre le dossier décompressé, **clic droit dans un espace vide → « Ouvrir dans le terminal »**
-  (ou « Ouvrir la fenêtre PowerShell ici »)
+1. **https://supabase.com** → crée un compte → **New project**
+2. Une fois créé : **Project Settings → API** → note **Project URL** et la
+   clé **`service_role`** (tu les colleras dans Vercel à l'étape 3)
+3. **SQL Editor → New query** → colle le contenu de
+   `supabase/migrations/0001_init.sql` → **Run**
+4. Refais pareil avec `0002_control.sql`, puis `0003_campaign_overrides.sql`
+   (dans cet ordre, une seule fois)
 
 ---
 
-## 3. Créer ton fichier de clés `.env.local`
+## 2. Récupérer les clés restantes
 
-1. Dans le dossier du projet, repère le fichier **`.env.example`**
-2. **Copie-le** et renomme la copie en **`.env.local`** (exactement ce nom, avec le point devant)
-3. Ouvre `.env.local` avec le **Bloc-notes** et remplis tes valeurs :
+- **Shopify** (ES/UK/DE/FR) : Dev Dashboard de chaque store → **Paramètres →
+  Identifiants API** → Domain + Client ID + Client Secret
+- **Meta** : business.facebook.com → **Utilisateurs système** → générer un
+  token avec la permission `ads_read`
+- **Mot de passe du dashboard** : celui que tu veux
+
+---
+
+## 3. Déployer sur Vercel
+
+1. **vercel.com** → connecte-toi avec ton compte **GitHub**
+2. **Add New → Project** → sélectionne `Badr-Bot/KindredM-Numbers` →
+   branche `claude/kindredm-dashboard-setup-epbxha` → **Import**
+3. Section **Environment Variables**, colle une par une :
 
 ```
-# Shopify — un bloc par store (Client ID + Client Secret du Dev Dashboard)
-SHOPIFY_ES_DOMAIN=xxxxx.myshopify.com
-SHOPIFY_ES_CLIENT_ID=...
-SHOPIFY_ES_CLIENT_SECRET=...
-
-SHOPIFY_UK_DOMAIN=xxxxx.myshopify.com
-SHOPIFY_UK_CLIENT_ID=...
-SHOPIFY_UK_CLIENT_SECRET=...
-
-SHOPIFY_DE_DOMAIN=a9uac7-bm.myshopify.com
-SHOPIFY_DE_CLIENT_ID=23d8e43684016749396e86b492c59fa5
-SHOPIFY_DE_CLIENT_SECRET=...
-
-SHOPIFY_FR_DOMAIN=xxxxx.myshopify.com
-SHOPIFY_FR_CLIENT_ID=...
-SHOPIFY_FR_CLIENT_SECRET=...
-
-# Meta Ads
-META_ACCESS_TOKEN=...
-META_AD_ACCOUNT_ID=919559773962419
-
-# Supabase (créé à l'étape 6)
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_SERVICE_KEY=...
-
-# Mot de passe du dashboard (tu le choisis)
-DASHBOARD_PASSWORD=choisis-un-mot-de-passe
+SHOPIFY_ES_DOMAIN, SHOPIFY_ES_CLIENT_ID, SHOPIFY_ES_CLIENT_SECRET
+SHOPIFY_UK_DOMAIN, SHOPIFY_UK_CLIENT_ID, SHOPIFY_UK_CLIENT_SECRET
+SHOPIFY_DE_DOMAIN, SHOPIFY_DE_CLIENT_ID, SHOPIFY_DE_CLIENT_SECRET
+SHOPIFY_FR_DOMAIN, SHOPIFY_FR_CLIENT_ID, SHOPIFY_FR_CLIENT_SECRET
+META_ACCESS_TOKEN, META_AD_ACCOUNT_ID
+SUPABASE_URL, SUPABASE_SERVICE_KEY
+DASHBOARD_PASSWORD
 APP_TIMEZONE=Europe/Paris
 ```
 
-> ⚠️ Ce fichier `.env.local` ne doit **jamais** être envoyé sur GitHub. Il est
-> déjà protégé (dans `.gitignore`), donc il restera chez toi.
+4. **Deploy** → Vercel te donne un lien `https://xxx.vercel.app` en ~1 min
 
 ---
 
-## 4. Installer les dépendances (une seule fois)
+## 4. Charger tes produits et ton historique — tout dans le dashboard
 
-Dans le terminal (toujours dans le dossier du projet) :
+Ouvre ton lien Vercel, connecte-toi (mot de passe), puis clique sur
+**⚙️ (en haut à droite) → Configuration** :
 
-```bash
-npm install
-```
+1. **🔎 Découvrir** — lit tes 4 stores, liste les produits trouvés
+2. **Vérifie chaque ligne** — le polo est deviné automatiquement ; toute
+   ligne "A_VALIDER" doit être corrigée à la main (menu déroulant) avant de
+   continuer
+3. **💾 Charger ce mapping**
+4. **🚀 Lancer le backfill** — télécharge tout depuis le 04/06, calcule le
+   P&L, remplit Supabase (1-2 min)
 
-(Ça télécharge les briques du projet. Ça prend 1-2 min.)
-
----
-
-## 5. Voir le dashboard tout de suite (mode démo, sans clés)
-
-Ajoute cette ligne dans `.env.local` :
-
-```
-NIVA_DEMO=1
-```
-
-Puis :
-
-```bash
-npm run dev
-```
-
-Ouvre **http://localhost:3000** dans ton navigateur.
-Identifiant : n'importe lequel · Mot de passe : celui de `DASHBOARD_PASSWORD`.
-
-Tu verras les 6 écrans avec des chiffres d'exemple. **Quand tes vraies données
-seront chargées (étapes 6-8), enlève la ligne `NIVA_DEMO=1`.**
+Retourne sur **Aujourd'hui** : tes vrais chiffres sont là. 🎉
 
 ---
 
-## 6. Créer la base Supabase (gratuit)
+## Le cron de minuit
 
-1. Va sur **https://supabase.com** → crée un compte → **New project**
-2. Une fois créé : menu **Project Settings → API** → copie **Project URL** et
-   la clé **`service_role`** → mets-les dans `.env.local`
-   (`SUPABASE_URL` et `SUPABASE_SERVICE_KEY`)
-3. Menu **SQL Editor → New query** → copie-colle le contenu de
-   **`supabase/migrations/0001_init.sql`** → **Run**
-4. Refais pareil avec **`supabase/migrations/0002_control.sql`** → **Run**
-5. Et enfin **`supabase/migrations/0003_campaign_overrides.sql`** → **Run**
-
-(Ça crée les tables. À faire une seule fois, dans cet ordre.)
+`vercel.json` déclare déjà le cron de clôture quotidienne (00:05
+Europe/Paris) — rien à faire, il s'active tout seul après le déploiement.
 
 ---
 
-## 7. Découvrir tes produits
+## (Optionnel) Chemin local, si tu préfères un jour
 
-```bash
-npm run discover-products
-```
-
-Ça crée un fichier `products_map.draft.json` avec la liste de tes produits par
-store. **Envoie-moi cette liste** (juste les noms) et je te renvoie le mapping
-final à charger dans Supabase (table `products_map`).
+Si tu veux plus tard tout faire tourner sur ta machine plutôt que sur
+Vercel : installe Node.js (nodejs.org, LTS), télécharge le ZIP du repo,
+crée un `.env.local` à partir de `.env.example`, `npm install`, puis
+`npm run dev` / `npm run discover-products` / `npm run backfill` — mêmes
+étapes que ci-dessus mais en CLI. Le code est strictement identique.
 
 ---
 
-## 8. Charger tout l'historique
-
-Une fois le `products_map` chargé dans Supabase :
-
-```bash
-npm run backfill
-```
-
-Ça télécharge tout depuis le 4 juin, calcule le P&L et remplit Supabase.
-Enlève `NIVA_DEMO=1` de `.env.local`, relance `npm run dev`, et tu vois
-**tes vrais chiffres**. 🎉
-
----
-
-## Récap des commandes
-
-| Commande | Ce que ça fait |
-|---|---|
-| `npm install` | Installe le projet (1 fois) |
-| `npm run dev` | Lance le dashboard sur http://localhost:3000 |
-| `npm run discover-products` | Liste tes produits (pour le mapping) |
-| `npm run backfill` | Remplit Supabase avec ton historique |
-| `npm test` | Vérifie que les calculs sont justes (21 tests) |
-
-Bloqué à une étape ? Dis-moi le numéro de l'étape et ce que tu vois, je débloque.
+Bloqué à une étape ? Dis-moi le numéro et ce que tu vois, je débloque.
