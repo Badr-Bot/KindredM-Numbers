@@ -9,7 +9,7 @@
  * pour chaque jour touché. Vérifie ensuite manuellement les totaux affichés
  * contre l'admin Shopify de chaque store (critère d'acceptation §7.4).
  */
-import "dotenv/config";
+import "./load-env";
 import { createSupabaseServerClient } from "../src/lib/supabase";
 import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "../src/lib/shopify";
 import { fetchMetaSpend, mapCampaignToMarket } from "../src/lib/meta";

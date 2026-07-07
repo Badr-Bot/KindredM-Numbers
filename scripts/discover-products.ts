@@ -10,7 +10,7 @@
  * relu et validé par Badr avant d'être chargé dans products_map (§5 — aucun
  * produit ne doit rester non mappé silencieusement).
  */
-import "dotenv/config";
+import "./load-env";
 import { writeFileSync } from "node:fs";
 import { getShopifyStoreConfigs, iterateOrders } from "../src/lib/shopify";
 
