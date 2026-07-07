@@ -23,7 +23,10 @@ Supabase → bouton "Configuration" dans le dashboard lui-même.
   Identifiants API** → Domain + Client ID + Client Secret
 - **Meta** : business.facebook.com → **Utilisateurs système** → générer un
   token avec la permission `ads_read`
-- **Mot de passe du dashboard** : celui que tu veux
+- **Mot de passe du dashboard** *(optionnel)* : si tu laisses `DASHBOARD_PASSWORD`
+  vide/absent, le site reste **ouvert** — n'importe qui avec le lien voit ton
+  CA/net/marge. Tu peux l'ajouter à tout moment dans Vercel sans toucher au
+  code pour protéger le lien.
 
 ---
 

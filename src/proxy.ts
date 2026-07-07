@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 // §2 — auth : proxy basic-auth avec DASHBOARD_PASSWORD (env var). Tout le
 // site est derrière, y compris l'API cron (protégée en plus par CRON_SECRET).
+//
+// Si DASHBOARD_PASSWORD n'est pas défini, le site reste OUVERT (choix
+// explicite de Badr — n'importe qui avec le lien voit le CA/net/marge).
+// Réversible sans toucher au code : ajouter la variable dans Vercel suffit
+// à réactiver la protection.
 export function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/api/cron")) {
     return NextResponse.next();
@@ -9,7 +14,7 @@ export function proxy(request: NextRequest) {
 
   const expectedPassword = process.env.DASHBOARD_PASSWORD;
   if (!expectedPassword) {
-    return new NextResponse("DASHBOARD_PASSWORD n'est pas configuré.", { status: 500 });
+    return NextResponse.next();
   }
 
   const authHeader = request.headers.get("authorization");
