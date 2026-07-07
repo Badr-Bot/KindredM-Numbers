@@ -12,6 +12,10 @@ const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
+// Seuil d'alerte : le spend Meta au-delà de cette part du CA mange la marge
+// en silence — badge rouge dans « À optimiser ». Ajustable ici.
+const SPEND_ALERT_WEIGHT = 0.35;
+
 // Palette catégorielle harmonisée dark — le gain net en phosphore ressort
 // (c'est le message), les postes de coût en tons plus froids/désaturés.
 const SLICE_COLORS: Record<string, string> = {
@@ -236,13 +240,19 @@ export function ExpenseBoard({
               {topCosts.map((s) => {
                 const prevW = prevWeights.get(s.key);
                 const d = prevW !== undefined && prevW > 0 ? s.weight - prevW : null;
+                const spendAlert = s.key === "spend" && s.weight > SPEND_ALERT_WEIGHT;
                 return (
                   <li key={s.key} className="flex items-center justify-between text-[11.5px]">
                     <span className="flex items-center gap-1.5">
                       <span aria-hidden>{s.emoji}</span> {s.label}
+                      {spendAlert && (
+                        <span className="rounded border border-red/50 bg-red/10 px-1 py-0.5 text-[9px] font-bold text-red">
+                          🚨 &gt; {formatPct(SPEND_ALERT_WEIGHT)} du CA
+                        </span>
+                      )}
                     </span>
                     <span className="flex items-center gap-2 tnum">
-                      <span className="font-semibold">{formatPct(s.weight)}</span>
+                      <span className={`font-semibold ${spendAlert ? "text-red" : ""}`}>{formatPct(s.weight)}</span>
                       {d !== null && (
                         <span className={`text-[10px] ${d > 0 ? "text-red" : "text-phosphor"}`}>
                           {d > 0 ? "▲" : "▼"} {formatPct(Math.abs(d))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { TodayView } from "@/lib/data";
 import { MARKET_META } from "@/lib/markets";
 import {
@@ -31,6 +31,26 @@ export function TodayBoard({ view }: { view: TodayView }) {
 
   const netPos = global.totals.netCents >= 0;
 
+  // Rythme du jour : projection fin de journée = net actuel / fraction de la
+  // journée écoulée (heure Europe/Paris), comparée à hier et à la moyenne 7 j.
+  const pace = useMemo(() => {
+    const parts = new Intl.DateTimeFormat("fr-FR", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+      timeZone: "Europe/Paris",
+    }).formatToParts(new Date());
+    const hour = Number(parts.find((p) => p.type === "hour")?.value ?? 12);
+    const minute = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+    // Plancher à 20% : avant ~5h du matin une projection n'a aucun sens.
+    const fraction = Math.max((hour * 60 + minute) / 1440, 0.2);
+    const projectedNetCents = Math.round(global.totals.netCents / fraction);
+    const endOfDay = fraction >= 0.99;
+    return { projectedNetCents, endOfDay };
+  }, [global.totals.netCents]);
+
+  const hasPaceRefs = view.pace.avg7CaCents > 0 || view.pace.yesterdayCaCents > 0;
+
   return (
     <div className="flex flex-col gap-4">
       {/* Héros : gain net global */}
@@ -57,8 +77,28 @@ export function TodayBoard({ view }: { view: TodayView }) {
           <Metric label="Cmd" value={formatInt(global.totals.orders)} />
         </dl>
 
+        {hasPaceRefs && (
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-line-soft pt-2 text-[10.5px]">
+            <span className="uppercase tracking-wide text-ink-faint">📈 Rythme</span>
+            {!pace.endOfDay && (
+              <span className="text-ink-dim">
+                fin de journée ~
+                <b className={`tnum ${pace.projectedNetCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  {formatEurSigned0(pace.projectedNetCents)}
+                </b>
+              </span>
+            )}
+            <span className="text-ink-dim">
+              hier <b className="tnum text-ink">{formatEurSigned0(view.pace.yesterdayNetCents)}</b>
+            </span>
+            <span className="text-ink-dim">
+              moy. 7 j <b className="tnum text-ink">{formatEurSigned0(view.pace.avg7NetCents)}</b>
+            </span>
+          </div>
+        )}
+
         {global.thresholds.breakEven !== null && (
-          <p className="mt-3 border-t border-line-soft pt-2 text-[10.5px] text-ink-faint">
+          <p className="mt-2 text-[10.5px] text-ink-faint">
             Seuils ROAS (14 j) · rentabilité {formatRoasBare(global.thresholds.breakEven)}
             {global.thresholds.target !== null && <> · cible {formatRoasBare(global.thresholds.target)}</>}
           </p>

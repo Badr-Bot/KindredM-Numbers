@@ -38,7 +38,7 @@ export default async function MonthPage() {
   return (
     <div>
       <PageHeading emoji="🗓️" title="Par mois" subtitle="CA (barres) · marge (ligne) · Δ vs mois précédent" />
-      <MonthBoard dayData={dayData} months={months} />
+      <MonthBoard dayData={dayData} months={months} today={today} />
     </div>
   );
 }

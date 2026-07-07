@@ -46,9 +46,11 @@ function prevMonth(ym: string): string {
 export function MonthBoard({
   dayData,
   months,
+  today,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   months: string[];
+  today: string;
 }) {
   const { play } = useSound();
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
@@ -60,6 +62,21 @@ export function MonthBoard({
   const monthDays = useMemo(() => rows.filter((r) => r.day.startsWith(month)), [rows, month]);
   const totals = useMemo(() => sum(monthDays), [monthDays]);
   const prevTotals = useMemo(() => sum(rows.filter((r) => r.day.startsWith(prevMonth(month)))), [rows, month]);
+
+  // Projection fin de mois (mois en cours uniquement) : net cumulé / jours
+  // écoulés × jours du mois. Simple règle de trois, pas de la voyance.
+  const projection = useMemo(() => {
+    if (!today.startsWith(month)) return null;
+    const dayOfMonth = Number(today.slice(8, 10));
+    if (dayOfMonth < 3) return null; // trop tôt pour projeter quoi que ce soit
+    const [y, m] = month.split("-").map(Number);
+    const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    if (dayOfMonth >= daysInMonth) return null;
+    return {
+      netCents: Math.round((totals.netCents / dayOfMonth) * daysInMonth),
+      caCents: Math.round((totals.caCents / dayOfMonth) * daysInMonth),
+    };
+  }, [today, month, totals.netCents, totals.caCents]);
 
   const chartData: ChartPoint[] = monthDays.map((d) => ({
     label: formatDayShort(d.day),
@@ -98,6 +115,21 @@ export function MonthBoard({
         <Tile label="ROAS" value={formatRoas(roas(totals.caCents, totals.spendCents))} />
         <Tile label="Cmd" value={formatInt(totals.orders)} delta={delta(totals.orders, prevTotals.orders)} />
       </div>
+
+      {projection && (
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-phosphor/25 bg-phosphor/[0.04] px-3 py-2 text-[11px]">
+          <span className="uppercase tracking-wide text-ink-faint">🔮 Au rythme actuel</span>
+          <span className="text-ink-dim">
+            net fin de mois ~
+            <b className={`tnum ${projection.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
+              {formatEurSigned0(projection.netCents)}
+            </b>
+          </span>
+          <span className="text-ink-dim">
+            CA ~<b className="tnum text-ink">{formatEur0(projection.caCents)}</b>
+          </span>
+        </div>
+      )}
 
       {chartData.length > 0 ? (
         <DailyBarLineChart data={chartData} />

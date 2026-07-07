@@ -226,6 +226,14 @@ export interface TodayMarketCard {
   thresholds: Thresholds;
 }
 
+/** Références de rythme (global) : hier et moyenne 7 jours pleins précédents. */
+export interface PaceReference {
+  yesterdayNetCents: number;
+  yesterdayCaCents: number;
+  avg7NetCents: number;
+  avg7CaCents: number;
+}
+
 export interface TodayView {
   mode: DataMode;
   day: string;
@@ -233,6 +241,20 @@ export interface TodayView {
   /** true si les chiffres du jour viennent des agrégats en base (fallback) et non du live. */
   fromAggregates: boolean;
   cards: TodayMarketCard[]; // GLOBAL en tête puis ES/UK/DE/FR
+  pace: PaceReference;
+}
+
+async function computePaceReference(today: string): Promise<PaceReference> {
+  const yesterday = addDaysToDay(today, -1);
+  const from = addDaysToDay(today, -7);
+  const rows = await fetchDailyRows(from, yesterday);
+  const yRows = rows.filter((r) => r.day === yesterday);
+  const yesterdayNetCents = yRows.reduce((s, r) => s + r.netCents, 0);
+  const yesterdayCaCents = yRows.reduce((s, r) => s + r.caCents, 0);
+  const dayCount = new Set(rows.map((r) => r.day)).size || 1;
+  const avg7NetCents = Math.round(rows.reduce((s, r) => s + r.netCents, 0) / dayCount);
+  const avg7CaCents = Math.round(rows.reduce((s, r) => s + r.caCents, 0) / dayCount);
+  return { yesterdayNetCents, yesterdayCaCents, avg7NetCents, avg7CaCents };
 }
 
 function cardsFromTotals(
@@ -261,6 +283,7 @@ export async function getTodayView(): Promise<TodayView> {
   const mode = getDataMode();
   const day = await referenceToday();
   const thresholds = await computeThresholds(day);
+  const pace = await computePaceReference(day);
 
   const emptyPerMarket = (): Record<Market, Totals> => ({
     ES: { ...EMPTY_TOTALS },
@@ -276,6 +299,7 @@ export async function getTodayView(): Promise<TodayView> {
       fetchedAt: new Date().toISOString(),
       fromAggregates: false,
       cards: cardsFromTotals(emptyPerMarket(), thresholds),
+      pace,
     };
   }
 
@@ -289,6 +313,7 @@ export async function getTodayView(): Promise<TodayView> {
       fetchedAt: new Date().toISOString(),
       fromAggregates: false,
       cards: cardsFromTotals(perMarket, thresholds),
+      pace,
     };
   }
 
@@ -315,6 +340,7 @@ export async function getTodayView(): Promise<TodayView> {
       fetchedAt: snapshot.fetchedAt,
       fromAggregates: false,
       cards: cardsFromTotals(perMarket, thresholds),
+      pace,
     };
   } catch {
     const rows = await fetchDailyRows(day, day);
@@ -326,6 +352,7 @@ export async function getTodayView(): Promise<TodayView> {
       fetchedAt: new Date().toISOString(),
       fromAggregates: true,
       cards: cardsFromTotals(perMarket, thresholds),
+      pace,
     };
   }
 }

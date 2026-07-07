@@ -17,6 +17,10 @@ import { useSound } from "../sound/SoundProvider";
 
 type Granularity = "month" | "year";
 
+// Au-delà de ce taux de remboursement (part du CA brut), c'est un signal
+// produit/transporteur à investiguer — badge rouge. Ajustable ici.
+const REFUND_ALERT_RATE = 0.03;
+
 const STATUS_META: Record<Chargeback["status"], { label: string; emoji: string; className: string }> = {
   open: { label: "En cours", emoji: "⏳", className: "text-amber" },
   won: { label: "Gagné", emoji: "✅", className: "text-phosphor" },
@@ -152,14 +156,29 @@ export function ControlBoard({
       </div>
 
       {/* Remboursements */}
-      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <section
+        className={`rounded-lg border p-3.5 ${
+          refundRate > REFUND_ALERT_RATE ? "border-red/40 bg-red/[0.04]" : "border-line bg-panel/40"
+        }`}
+      >
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-sm font-semibold">↩︎ Remboursements</span>
+          <span className="flex items-center gap-2 text-sm font-semibold">
+            ↩︎ Remboursements
+            {refundRate > REFUND_ALERT_RATE && (
+              <span className="rounded border border-red/50 bg-red/10 px-1 py-0.5 text-[9px] font-bold text-red">
+                🚨 taux &gt; {formatPct(REFUND_ALERT_RATE)}
+              </span>
+            )}
+          </span>
           <span className="text-[10px] text-ink-faint">déjà déduits du net</span>
         </div>
         <div className="grid grid-cols-3 gap-2 text-center">
           <Stat label="Remboursé" value={formatEur0(refundedCents)} />
-          <Stat label="Taux" value={formatPct(refundRate)} />
+          <Stat
+            label="Taux"
+            value={formatPct(refundRate)}
+            valueClass={refundRate > REFUND_ALERT_RATE ? "text-red" : ""}
+          />
           <Stat label="CA brut" value={formatEur0(grossCaCents)} />
         </div>
       </section>
