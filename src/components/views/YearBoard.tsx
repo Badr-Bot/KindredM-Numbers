@@ -3,8 +3,9 @@
 import { useMemo, useState } from "react";
 import type { DayAgg, Totals } from "@/lib/data";
 import { marginPct, roas } from "@/lib/engine";
-import type { MarketTab } from "@/lib/markets";
+import { MARKET_META, MARKETS, type MarketTab } from "@/lib/markets";
 import {
+  formatDayShort,
   formatEur0,
   formatEurSigned0,
   formatInt,
@@ -33,14 +34,27 @@ function addTo(acc: Totals, r: DayAgg): Totals {
 export function YearBoard({
   dayData,
   years,
+  historyStart,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   years: string[];
+  historyStart: string;
 }) {
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
   const [year, setYear] = useState<string>(years[years.length - 1] ?? "");
 
   const rows = dayData[tab];
+
+  // 🏁 Depuis le début : totaux par marché toutes périodes confondues —
+  // « combien chaque pays a rapporté depuis le lancement » en un écran.
+  const lifetime = useMemo(() => {
+    const perMarket = MARKETS.map((m) => {
+      const t = dayData[m].reduce<Totals>((acc, r) => addTo(acc, r), { ...EMPTY });
+      return { market: m, ...t };
+    });
+    const global = dayData.GLOBAL.reduce<Totals>((acc, r) => addTo(acc, r), { ...EMPTY });
+    return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
+  }, [dayData]);
 
   const { monthRows, annual } = useMemo(() => {
     const byMonth = new Map<string, Totals>();
@@ -75,6 +89,47 @@ export function YearBoard({
           ))}
         </div>
       )}
+
+      {/* 🏁 Ce que chaque pays a rapporté depuis le lancement */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-2 flex items-baseline justify-between">
+          <span className="text-sm font-semibold">🏁 Depuis le début</span>
+          <span className="text-[10px] text-ink-faint">lancement {formatDayShort(historyStart)}</span>
+        </div>
+        <ul className="flex flex-col gap-1.5">
+          {lifetime.perMarket.map((m) => {
+            const maxNet = Math.max(...lifetime.perMarket.map((x) => Math.abs(x.netCents)), 1);
+            const barWidth = Math.max(4, Math.round((Math.abs(m.netCents) / maxNet) * 100));
+            return (
+              <li key={m.market} className="flex items-center gap-2 text-[11.5px]">
+                <span className="w-14 flex-none font-semibold">
+                  <span aria-hidden>{MARKET_META[m.market].flag}</span> {m.market}
+                </span>
+                <span className="relative h-4 flex-1 overflow-hidden rounded-sm bg-terminal/80">
+                  <span
+                    className={`absolute inset-y-0 left-0 rounded-sm ${m.netCents >= 0 ? "bg-phosphor/30" : "bg-red/30"}`}
+                    style={{ width: `${barWidth}%` }}
+                  />
+                </span>
+                <span className={`w-20 flex-none text-right font-bold tnum ${m.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  {formatEurSigned0(m.netCents)}
+                </span>
+                <span className="hidden w-20 flex-none text-right text-ink-dim tnum sm:inline">
+                  CA {formatEur0(m.caCents)}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="mt-2 flex items-baseline justify-between border-t border-line-soft pt-2 text-[11.5px]">
+          <span className="text-ink-dim">
+            🌍 Total · {formatInt(lifetime.global.orders)} cmd · CA {formatEur0(lifetime.global.caCents)}
+          </span>
+          <span className={`text-base font-bold tnum ${lifetime.global.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
+            {formatEurSigned0(lifetime.global.netCents)}
+          </span>
+        </div>
+      </section>
 
       <MarketTabs active={tab} onChange={setTab} />
 

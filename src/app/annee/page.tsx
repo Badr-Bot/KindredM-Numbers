@@ -27,7 +27,7 @@ export default async function YearPage() {
   return (
     <div>
       <PageHeading emoji="📈" title="Par année" subtitle="1 ligne par mois · totaux annuels" />
-      <YearBoard dayData={dayData} years={years} />
+      <YearBoard dayData={dayData} years={years} historyStart={HISTORY_START} />
     </div>
   );
 }
