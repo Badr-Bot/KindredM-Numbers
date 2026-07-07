@@ -116,9 +116,10 @@ seront chargées (étapes 6-8), enlève la ligne `NIVA_DEMO=1`.**
    (`SUPABASE_URL` et `SUPABASE_SERVICE_KEY`)
 3. Menu **SQL Editor → New query** → copie-colle le contenu de
    **`supabase/migrations/0001_init.sql`** → **Run**
-4. Refais un **New query** avec **`supabase/migrations/0002_control.sql`** → **Run**
+4. Refais pareil avec **`supabase/migrations/0002_control.sql`** → **Run**
+5. Et enfin **`supabase/migrations/0003_campaign_overrides.sql`** → **Run**
 
-(Ça crée les tables. À faire une seule fois.)
+(Ça crée les tables. À faire une seule fois, dans cet ordre.)
 
 ---
 
