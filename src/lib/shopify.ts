@@ -66,7 +66,7 @@ export async function resolveAccessToken(config: ShopifyStoreConfig): Promise<st
   });
   if (!res.ok) {
     throw new Error(
-      `client_credentials échoué pour ${config.market} (${res.status}) : ${await res.text()}`
+      `client_credentials échoué pour ${config.market} (${res.status}) : ${await summarizeErrorBody(res)}`
     );
   }
   const body: { access_token: string; expires_in?: number } = await res.json();
@@ -124,6 +124,24 @@ function parseNextLink(linkHeader: string | null): string | null {
     }
   }
   return null;
+}
+
+/**
+ * Réduit un corps d'erreur Shopify à un message lisible : JSON tel quel,
+ * HTML débarrassé de ses balises et tronqué. Évite qu'une page d'erreur
+ * Shopify entière (CSS + SVG inline) ne s'affiche brute dans l'UI.
+ */
+async function summarizeErrorBody(res: Response): Promise<string> {
+  const text = await res.text();
+  const contentType = res.headers.get("content-type") ?? "";
+  if (contentType.includes("json")) return text.slice(0, 300);
+  const stripped = text
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return stripped.slice(0, 300) || `HTTP ${res.status}`;
 }
 
 function delay(ms: number): Promise<void> {

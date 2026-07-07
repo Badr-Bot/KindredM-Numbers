@@ -166,9 +166,15 @@ export function AdminSetup() {
         >
           {discovering ? "Lecture des 4 stores…" : "🔎 Découvrir"}
         </button>
-        {discoverError && <p className="mt-2 text-[11px] text-red">❌ {discoverError}</p>}
+        {discoverError && (
+          <p className="mt-2 max-h-32 overflow-y-auto whitespace-pre-wrap break-words text-[11px] text-red">
+            ❌ {discoverError}
+          </p>
+        )}
         {storeErrors.map((e) => (
-          <p key={e} className="mt-1 text-[11px] text-amber">⚠️ {e}</p>
+          <p key={e} className="mt-1 max-h-32 overflow-y-auto whitespace-pre-wrap break-words text-[11px] text-amber">
+            ⚠️ {e}
+          </p>
         ))}
       </section>
 
