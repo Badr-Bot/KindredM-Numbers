@@ -497,6 +497,62 @@ export async function fetchChargebacks(start: string, end: string): Promise<Char
 }
 
 // ---------------------------------------------------------------------------
+// §4.6 — Spend Meta non affecté (bucket UNMAPPED)
+// ---------------------------------------------------------------------------
+
+export interface UnmappedCampaign {
+  campaignId: string;
+  campaignName: string;
+  spendCents: number;
+  firstDay: string;
+  lastDay: string;
+}
+
+export async function fetchUnmappedCampaigns(): Promise<UnmappedCampaign[]> {
+  const mode = getDataMode();
+  if (mode === "demo") {
+    // Exemple synthétique pour montrer le workflow d'affectation.
+    return [
+      {
+        campaignId: "demo-cmp-1",
+        campaignName: "TEST-BROAD-POLO-V3",
+        spendCents: 4230,
+        firstDay: "2026-07-02",
+        lastDay: "2026-07-05",
+      },
+    ];
+  }
+  if (mode === "unconfigured") return [];
+
+  const { createSupabaseServerClient } = await import("./supabase");
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("meta_spend")
+    .select("campaign_id, campaign_name, spend_cents, day")
+    .eq("market", "UNMAPPED");
+  if (error) throw error;
+
+  const byCampaign = new Map<string, UnmappedCampaign>();
+  for (const r of data ?? []) {
+    const cur = byCampaign.get(r.campaign_id);
+    if (!cur) {
+      byCampaign.set(r.campaign_id, {
+        campaignId: r.campaign_id,
+        campaignName: r.campaign_name,
+        spendCents: r.spend_cents,
+        firstDay: r.day,
+        lastDay: r.day,
+      });
+    } else {
+      cur.spendCents += r.spend_cents;
+      if (r.day < cur.firstDay) cur.firstDay = r.day;
+      if (r.day > cur.lastDay) cur.lastDay = r.day;
+    }
+  }
+  return [...byCampaign.values()].sort((a, b) => b.spendCents - a.spendCents);
+}
+
+// ---------------------------------------------------------------------------
 // Vue 6.5 — Répartition des dépenses (extensible produits)
 // ---------------------------------------------------------------------------
 

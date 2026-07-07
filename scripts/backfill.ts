@@ -12,7 +12,7 @@
 import "./load-env";
 import { createSupabaseServerClient } from "../src/lib/supabase";
 import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "../src/lib/shopify";
-import { fetchMetaSpend, mapCampaignToMarket } from "../src/lib/meta";
+import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "../src/lib/meta";
 import { classifyLineItems, computeOrderCogsTax, type ProductMapEntry } from "../src/lib/engine";
 import { toParisDay, todayParisDay, listParisDays } from "../src/lib/time";
 import { recomputeDailyAggregatesForDays } from "../src/lib/aggregate";
@@ -80,10 +80,15 @@ async function backfillOrders(productsMap: ProductMapEntry[]) {
 async function backfillMetaSpend() {
   const supabase = createSupabaseServerClient();
   const today = todayParisDay();
-  const rows = await fetchMetaSpend(META_SINCE_DAY, today);
+  const [rows, overrides] = await Promise.all([
+    fetchMetaSpend(META_SINCE_DAY, today),
+    loadCampaignOverrides(supabase),
+  ]);
 
+  const unmappedNames = new Set<string>();
   for (const row of rows) {
-    const market = mapCampaignToMarket(row.campaignName);
+    const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
+    if (market === "UNMAPPED") unmappedNames.add(row.campaignName);
     const { error } = await supabase.from("meta_spend").upsert({
       day: row.day,
       market,
@@ -94,10 +99,9 @@ async function backfillMetaSpend() {
     if (error) throw error;
   }
 
-  const unmapped = rows.filter((r) => mapCampaignToMarket(r.campaignName) === "UNMAPPED");
-  if (unmapped.length > 0) {
-    console.warn(`⚠️  ${unmapped.length} lignes de spend en UNMAPPED — à affecter manuellement dans l'UI :`);
-    for (const row of unmapped) console.warn(`   - ${row.campaignName}`);
+  if (unmappedNames.size > 0) {
+    console.warn(`⚠️  ${unmappedNames.size} campagnes en UNMAPPED — à affecter dans l'onglet Contrôle :`);
+    for (const name of unmappedNames) console.warn(`   - ${name}`);
   }
   console.log(`Meta spend: ${rows.length} lignes backfillées depuis ${META_SINCE_DAY}.`);
 }

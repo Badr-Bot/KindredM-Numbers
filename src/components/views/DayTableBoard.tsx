@@ -15,16 +15,48 @@ import { statusText } from "../shell/StatusPill";
 
 export function DayTableBoard({
   tabsData,
+  showTrend = true,
 }: {
   tabsData: Record<MarketTab, DayLine[]>;
+  showTrend?: boolean;
 }) {
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
   const lines = tabsData[tab];
   const totalNet = lines.reduce((s, l) => s + l.netCents, 0);
 
+  // Tendance : moyenne du net des 7 derniers jours vs les 7 précédents
+  // (sur les 14 lignes affichées — jour en cours inclus côté récent).
+  const trend = (() => {
+    if (!showTrend || lines.length < 14) return null;
+    const recent = lines.slice(-7);
+    const previous = lines.slice(-14, -7);
+    const avgRecent = Math.round(recent.reduce((s, l) => s + l.netCents, 0) / 7);
+    const avgPrevious = Math.round(previous.reduce((s, l) => s + l.netCents, 0) / 7);
+    if (avgPrevious === 0) return null;
+    const pct = (avgRecent - avgPrevious) / Math.abs(avgPrevious);
+    return { avgRecent, avgPrevious, pct };
+  })();
+
   return (
     <div className="flex flex-col gap-3">
       <MarketTabs active={tab} onChange={setTab} />
+
+      {trend && (
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-panel/40 px-3 py-2 text-[11px]">
+          <span className="uppercase tracking-wide text-ink-faint">
+            {trend.pct >= 0 ? "🚀" : "🐌"} Tendance
+          </span>
+          <span className="text-ink-dim">
+            net moyen/jour <b className="tnum text-ink">{formatEurSigned0(trend.avgRecent)}</b>
+          </span>
+          <span className="text-ink-dim">
+            vs 7 j avant <b className="tnum text-ink">{formatEurSigned0(trend.avgPrevious)}</b>
+          </span>
+          <span className={`tnum font-semibold ${trend.pct >= 0 ? "text-phosphor" : "text-red"}`}>
+            {trend.pct >= 0 ? "▲" : "▼"} {formatPct(Math.abs(trend.pct))}
+          </span>
+        </div>
+      )}
 
       <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full min-w-[400px] border-collapse text-[11.5px] sm:min-w-[600px]">

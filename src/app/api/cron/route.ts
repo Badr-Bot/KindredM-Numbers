@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "@/lib/shopify";
-import { fetchMetaSpend, mapCampaignToMarket } from "@/lib/meta";
+import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "@/lib/meta";
 import { classifyLineItems, computeOrderCogsTax, type ProductMapEntry } from "@/lib/engine";
 import { toParisDay, todayParisDay, addDaysToDay } from "@/lib/time";
 import { recomputeDailyAggregatesForDays } from "@/lib/aggregate";
@@ -89,10 +89,13 @@ export async function GET(request: NextRequest) {
       .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
   }
 
-  const metaRows = await fetchMetaSpend(rescanFromDay, yesterday);
+  const [metaRows, overrides] = await Promise.all([
+    fetchMetaSpend(rescanFromDay, yesterday),
+    loadCampaignOverrides(supabase),
+  ]);
   for (const row of metaRows) {
     touchedDays.add(row.day);
-    const market = mapCampaignToMarket(row.campaignName);
+    const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
     await supabase.from("meta_spend").upsert({
       day: row.day,
       market, // peut être "UNMAPPED" — persisté pour affectation manuelle dans l'UI (§4.6)

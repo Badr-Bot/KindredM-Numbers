@@ -1,5 +1,6 @@
 import {
   fetchChargebacks,
+  fetchUnmappedCampaigns,
   getDataMode,
   getTabDayData,
   HISTORY_START,
@@ -8,6 +9,7 @@ import {
 import { PageHeading } from "@/components/shell/PageHeading";
 import { EmptyState } from "@/components/shell/EmptyState";
 import { ControlBoard } from "@/components/views/ControlBoard";
+import { UnmappedSpend } from "@/components/views/UnmappedSpend";
 
 export const dynamic = "force-dynamic";
 
@@ -38,9 +40,10 @@ export default async function ControlPage() {
   }
 
   const today = await referenceToday();
-  const [dayData, chargebacks] = await Promise.all([
+  const [dayData, chargebacks, unmappedCampaigns] = await Promise.all([
     getTabDayData(HISTORY_START, today),
     fetchChargebacks(HISTORY_START, today),
+    fetchUnmappedCampaigns(),
   ]);
   const months = monthsBetween(HISTORY_START, today);
   const startYear = Number(HISTORY_START.slice(0, 4));
@@ -56,6 +59,9 @@ export default async function ControlPage() {
         subtitle="Remboursements & rétrofacturations — tout maîtriser"
       />
       <ControlBoard mode={mode} dayData={dayData} chargebacks={chargebacks} months={months} years={years} />
+      <div className="mt-3">
+        <UnmappedSpend mode={mode} campaigns={unmappedCampaigns} />
+      </div>
     </div>
   );
 }

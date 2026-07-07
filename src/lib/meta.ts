@@ -70,3 +70,28 @@ export function mapCampaignToMarket(campaignName: string): Market | "UNMAPPED" {
   if (/\bUK\b|CANADA|EUROPE|\bAUS\b|WORLDWIDE|\bANG\b/.test(name)) return "UK";
   return "UNMAPPED";
 }
+
+export type CampaignOverrides = Map<string, Market>;
+
+/**
+ * Résolution complète : l'override manuel (persisté via l'UI, §4.6) prime
+ * toujours sur le mapping par nom.
+ */
+export function resolveCampaignMarket(
+  campaignName: string,
+  campaignId: string,
+  overrides: CampaignOverrides
+): Market | "UNMAPPED" {
+  return overrides.get(campaignId) ?? mapCampaignToMarket(campaignName);
+}
+
+/** Charge les overrides depuis Supabase (vide si la table n'existe pas encore). */
+export async function loadCampaignOverrides(
+  supabase: import("@supabase/supabase-js").SupabaseClient
+): Promise<CampaignOverrides> {
+  const { data, error } = await supabase
+    .from("campaign_market_overrides")
+    .select("campaign_id, market");
+  if (error) return new Map();
+  return new Map((data ?? []).map((r) => [r.campaign_id as string, r.market as Market]));
+}
