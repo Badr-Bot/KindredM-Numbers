@@ -18,6 +18,21 @@ export function createSupabaseServerClient() {
   // la route et ferait échouer toutes les requêtes.
   const url = rawUrl.trim().replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, "");
 
+  // Garde-fou : une SUPABASE_URL qui ne pointe pas vers *.supabase.co (ex.
+  // l'URL du dashboard collée par erreur) renverrait du HTML à chaque requête.
+  // On échoue immédiatement avec la valeur fautive (non secrète) en clair.
+  let host = "";
+  try {
+    host = new URL(url).host;
+  } catch {
+    throw new Error(`SUPABASE_URL invalide : « ${url} ». Attendu : https://xxxx.supabase.co`);
+  }
+  if (!host.endsWith(".supabase.co")) {
+    throw new Error(
+      `SUPABASE_URL pointe vers « ${host} » au lieu d'un domaine *.supabase.co — corrige la variable dans Vercel (attendu : https://xxxx.supabase.co) puis Redeploy.`
+    );
+  }
+
   return createClient(url, serviceKey, {
     auth: { persistSession: false },
   });

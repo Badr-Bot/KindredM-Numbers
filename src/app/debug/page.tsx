@@ -40,10 +40,14 @@ async function runChecks(): Promise<CheckResult[]> {
     results.push({
       name: "🗄️ Supabase",
       ok: true,
-      detail: `products_map: ${mapCount ?? 0} · orders: ${ordCount ?? 0} · daily_aggregates: ${aggCount ?? 0}`,
+      detail: `URL: ${process.env.SUPABASE_URL?.trim()} · products_map: ${mapCount ?? 0} · orders: ${ordCount ?? 0} · daily_aggregates: ${aggCount ?? 0}`,
     });
   } catch (err) {
-    results.push({ name: "🗄️ Supabase", ok: false, detail: shorten((err as Error).message) });
+    results.push({
+      name: "🗄️ Supabase",
+      ok: false,
+      detail: `URL: ${process.env.SUPABASE_URL?.trim() ?? "(absente)"} — ${shorten((err as Error).message)}`,
+    });
   }
 
   // --- Shopify, store par store ---
