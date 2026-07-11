@@ -1,5 +1,7 @@
-import { getDataMode, getTabDayData, HISTORY_START, referenceToday } from "@/lib/data";
+import { getDataMode, getTabDayData, HISTORY_START, referenceToday, type DayAgg } from "@/lib/data";
+import type { MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
+import { DataError } from "@/components/shell/DataError";
 import { EmptyState } from "@/components/shell/EmptyState";
 import { ExpenseBoard } from "@/components/views/ExpenseBoard";
 
@@ -20,6 +22,25 @@ function monthsBetween(start: string, end: string): string[] {
   return out;
 }
 
+type LoadResult =
+  | { error: string }
+  | { dayData: Record<MarketTab, DayAgg[]>; months: string[]; years: string[] };
+
+async function loadData(): Promise<LoadResult> {
+  try {
+    const today = await referenceToday();
+    const dayData = await getTabDayData(HISTORY_START, today);
+    const months = monthsBetween(HISTORY_START, today);
+    const startYear = Number(HISTORY_START.slice(0, 4));
+    const endYear = Number(today.slice(0, 4));
+    const years: string[] = [];
+    for (let y = startYear; y <= endYear; y++) years.push(String(y));
+    return { dayData, months, years };
+  } catch (err) {
+    return { error: (err as Error).message };
+  }
+}
+
 export default async function ExpensePage() {
   const mode = getDataMode();
   if (mode === "unconfigured") {
@@ -31,13 +52,15 @@ export default async function ExpensePage() {
     );
   }
 
-  const today = await referenceToday();
-  const dayData = await getTabDayData(HISTORY_START, today);
-  const months = monthsBetween(HISTORY_START, today);
-  const startYear = Number(HISTORY_START.slice(0, 4));
-  const endYear = Number(today.slice(0, 4));
-  const years: string[] = [];
-  for (let y = startYear; y <= endYear; y++) years.push(String(y));
+  const result = await loadData();
+  if ("error" in result) {
+    return (
+      <div>
+        <PageHeading emoji="🍩" title="Répartition des dépenses" />
+        <DataError message={result.error} />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -46,7 +69,7 @@ export default async function ExpensePage() {
         title="Répartition des dépenses"
         subtitle="Où part chaque euro de CA · donut, carrés et postes à optimiser"
       />
-      <ExpenseBoard dayData={dayData} months={months} years={years} />
+      <ExpenseBoard dayData={result.dayData} months={result.months} years={result.years} />
     </div>
   );
 }
