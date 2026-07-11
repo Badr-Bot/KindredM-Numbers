@@ -33,6 +33,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: mapError.message }, { status: 500 });
   }
 
+  // Filet de sécurité « zéro clic » : si la base n'a jamais été initialisée
+  // (mapping vide), le cron fait l'init complète au lieu du rescan J-7.
+  if (!productsMap || productsMap.length === 0) {
+    const { runAutoSetup } = await import("@/lib/autoSetup");
+    const setup = await runAutoSetup();
+    return NextResponse.json({ autoSetup: setup }, { status: setup.ok ? 200 : 500 });
+  }
+
   const today = todayParisDay();
   const rescanFromDay = addDaysToDay(today, -7);
   const yesterday = addDaysToDay(today, -1);
