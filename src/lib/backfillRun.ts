@@ -15,17 +15,21 @@ export interface BackfillResult {
   metaSpendRows: number;
   unmappedCampaigns: string[];
   daysRecomputed: number;
+  /** Mode partiel : stores/Meta en échec, ignorés au lieu de tout bloquer. */
+  warnings: string[];
 }
 
 async function backfillOrders(
   supabase: SupabaseClient,
   productsMap: ProductMapEntry[]
-): Promise<Record<string, number>> {
+): Promise<{ ordersByStore: Record<string, number>; warnings: string[] }> {
   const configs = getShopifyStoreConfigs();
   const ordersByStore: Record<string, number> = {};
+  const warnings: string[] = [];
 
   for (const config of configs) {
     let count = 0;
+    try {
     for await (const order of iterateOrders(config, { createdAtMin: BACKFILL_SINCE_ISO })) {
       const day = toParisDay(order.created_at);
       const shippingCountry = order.shipping_address?.country_code ?? config.market;
@@ -73,8 +77,14 @@ async function backfillOrders(
       .from("sync_state")
       .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
     ordersByStore[config.market] = count;
+    } catch (err) {
+      // Mode partiel : un store en échec (scope, secret…) est ignoré et
+      // signalé — les autres continuent. Relancer le backfill une fois le
+      // store réparé complètera les données (idempotent).
+      warnings.push(`${config.market} ignoré : ${(err as Error).message}`);
+    }
   }
-  return ordersByStore;
+  return { ordersByStore, warnings };
 }
 
 async function backfillMetaSpend(
@@ -117,12 +127,32 @@ export async function runFullBackfill(): Promise<BackfillResult> {
     );
   }
 
-  const ordersByStore = await backfillOrders(supabase, productsMap as ProductMapEntry[]);
-  const { rows: metaSpendRows, unmapped: unmappedCampaigns } = await backfillMetaSpend(supabase);
+  const { ordersByStore, warnings } = await backfillOrders(
+    supabase,
+    productsMap as ProductMapEntry[]
+  );
+  if (Object.keys(ordersByStore).length === 0) {
+    throw new Error(`Aucun store accessible. ${warnings.join(" | ")}`);
+  }
+
+  // Mode partiel : Meta en échec = spend absent (net provisoirement calculé
+  // sans la pub, donc optimiste) — signalé, pas bloquant. Relancer le
+  // backfill une fois Meta réparé remet tout d'aplomb.
+  let metaSpendRows = 0;
+  let unmappedCampaigns: string[] = [];
+  try {
+    const meta = await backfillMetaSpend(supabase);
+    metaSpendRows = meta.rows;
+    unmappedCampaigns = meta.unmapped;
+  } catch (err) {
+    warnings.push(
+      `Spend Meta indisponible (net calculé SANS la pub pour l'instant) : ${(err as Error).message}`
+    );
+  }
 
   const today = todayParisDay();
   const days = listParisDays(ORDERS_SINCE_DAY, today);
   await recomputeDailyAggregatesForDays(supabase, days);
 
-  return { ordersByStore, metaSpendRows, unmappedCampaigns, daysRecomputed: days.length };
+  return { ordersByStore, metaSpendRows, unmappedCampaigns, daysRecomputed: days.length, warnings };
 }

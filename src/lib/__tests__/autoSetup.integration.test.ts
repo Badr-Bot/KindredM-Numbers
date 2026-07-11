@@ -187,7 +187,8 @@ beforeEach(() => {
       const host = new URL(url).host;
 
       if (url.includes("/admin/oauth/access_token")) {
-        if (tokenFailsFor && host.startsWith(tokenFailsFor)) {
+        // tokenFailsFor: null = tous OK ; "" = tous en échec ; "xx" = préfixe.
+        if (tokenFailsFor !== null && host.startsWith(tokenFailsFor)) {
           return jsonResponse({ error: "invalid_client" }, 401);
         }
         return jsonResponse({ access_token: `tok-${host}`, expires_in: 86400 });
@@ -277,14 +278,26 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
     expect(mockSupabase._tables.orders).toHaveLength(0);
   });
 
-  it("remonte l'erreur d'un store en échec d'auth sans backfiller", async () => {
+  it("mode partiel : un store en échec est ignoré avec avertissement, les autres passent", async () => {
     tokenFailsFor = "de.test";
+    const { runAutoSetup } = await import("../autoSetup");
+    const result = await runAutoSetup();
+
+    expect(result.ok).toBe(true);
+    expect(result.stage).toBe("done");
+    expect(result.warnings?.some((w) => w.includes("DE"))).toBe(true);
+    // 8 ES + 1 UK + 1 FR (DE ignoré)
+    expect(mockSupabase._tables.orders).toHaveLength(10);
+  });
+
+  it("échoue seulement si AUCUN store ne répond", async () => {
+    tokenFailsFor = ""; // préfixe vide = tous les domaines échouent
     const { runAutoSetup } = await import("../autoSetup");
     const result = await runAutoSetup();
 
     expect(result.ok).toBe(false);
     expect(result.stage).toBe("discover");
-    expect(result.storeErrors?.some((e) => e.startsWith("DE:"))).toBe(true);
+    expect(result.storeErrors).toHaveLength(4);
     expect(mockSupabase._tables.orders).toHaveLength(0);
   });
 });

@@ -21,6 +21,8 @@ export interface AutoSetupResult {
   mapped?: number;
   backfill?: BackfillResult;
   reason?: string;
+  /** Mode partiel : problèmes non bloquants (store ignoré, spend absent…). */
+  warnings?: string[];
 }
 
 /** true si la base est vide (pas de mapping ou pas d'agrégats) → init à faire. */
@@ -41,17 +43,20 @@ export async function isSetupNeeded(): Promise<boolean> {
 export async function runAutoSetup(): Promise<AutoSetupResult> {
   const supabase = createSupabaseServerClient();
 
-  // 1 — Découverte sur les 4 stores.
+  // 1 — Découverte. Mode partiel : un store en échec est ignoré et signalé,
+  // on ne bloque que si AUCUN store ne répond.
   const stores = await discoverProducts();
   const storeErrors = stores.filter((s) => s.error).map((s) => `${s.market}: ${s.error}`);
-  if (storeErrors.length > 0) {
+  const okStores = stores.filter((s) => !s.error);
+  if (okStores.length === 0) {
     return { ok: false, stage: "discover", storeErrors };
   }
+  const warnings = storeErrors.map((e) => `Store ignoré — ${e}`);
 
   // 2 — Mapping automatique, uniquement à coup sûr.
   const rows: Array<{ store: string; title_pattern: string; product_key: string; unit_group: string }> = [];
   const unmappedTitles: string[] = [];
-  for (const store of stores) {
+  for (const store of okStores) {
     for (const t of store.titles) {
       if (t.guessedProductKey === "A_VALIDER") {
         unmappedTitles.push(`${store.market}: ${t.title}`);
@@ -66,24 +71,25 @@ export async function runAutoSetup(): Promise<AutoSetupResult> {
     }
   }
   if (unmappedTitles.length > 0) {
-    return { ok: false, stage: "mapping", unmappedTitles };
+    return { ok: false, stage: "mapping", unmappedTitles, warnings };
   }
   if (rows.length === 0) {
-    return { ok: false, stage: "discover", reason: "Aucun produit trouvé sur les 4 stores." };
+    return { ok: false, stage: "discover", reason: "Aucun produit trouvé.", warnings };
   }
 
   const { error: mapError } = await supabase
     .from("products_map")
     .upsert(rows, { onConflict: "store,title_pattern" });
   if (mapError) {
-    return { ok: false, stage: "mapping", reason: mapError.message };
+    return { ok: false, stage: "mapping", reason: mapError.message, warnings };
   }
 
-  // 3 — Backfill complet (idempotent).
+  // 3 — Backfill (idempotent, tolérant : stores/Meta en échec → warnings).
   try {
     const backfill = await runFullBackfill();
-    return { ok: true, stage: "done", mapped: rows.length, backfill };
+    warnings.push(...backfill.warnings);
+    return { ok: true, stage: "done", mapped: rows.length, backfill, warnings };
   } catch (err) {
-    return { ok: false, stage: "backfill", reason: (err as Error).message };
+    return { ok: false, stage: "backfill", reason: (err as Error).message, warnings };
   }
 }

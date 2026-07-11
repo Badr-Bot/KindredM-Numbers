@@ -12,6 +12,7 @@ interface AutoSetupResponse {
   unmappedTitles?: string[];
   mapped?: number;
   reason?: string;
+  warnings?: string[];
   backfill?: { ordersByStore: Record<string, number>; daysRecomputed: number };
 }
 
@@ -28,6 +29,7 @@ export function AutoInit() {
   const startedRef = useRef(false);
   const [phase, setPhase] = useState<Phase>("running");
   const [detail, setDetail] = useState<string[]>([]);
+  const [warnings, setWarnings] = useState<string[]>([]);
 
   useEffect(() => {
     if (startedRef.current) return;
@@ -44,6 +46,7 @@ export function AutoInit() {
             .map(([m, c]) => `${m}: ${c} cmd`)
             .join(" · ");
           setDetail([`${json.mapped} produits mappés`, stores]);
+          setWarnings(json.warnings ?? []);
           setTimeout(() => router.refresh(), 1200);
         } else {
           play("error");
@@ -87,8 +90,15 @@ export function AutoInit() {
       )}
       {phase === "done" && (
         <>
-          <div className="text-sm font-semibold text-phosphor">✅ Initialisation terminée</div>
+          <div className="text-sm font-semibold text-phosphor">
+            {warnings.length > 0 ? "✅ Initialisation partielle terminée" : "✅ Initialisation terminée"}
+          </div>
           <p className="mt-1 text-[11px] text-ink-dim">{detail.filter(Boolean).join(" — ")}</p>
+          {warnings.map((w) => (
+            <p key={w} className="mt-1.5 break-words rounded border border-amber/30 bg-amber/[0.05] p-1.5 text-[10.5px] text-amber">
+              ⚠️ {w}
+            </p>
+          ))}
         </>
       )}
       {phase === "error" && (

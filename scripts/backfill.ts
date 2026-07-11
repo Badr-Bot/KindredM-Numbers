@@ -19,6 +19,7 @@ async function main() {
     console.warn(`⚠️  ${result.unmappedCampaigns.length} campagnes en UNMAPPED — à affecter dans l'onglet Contrôle :`);
     for (const name of result.unmappedCampaigns) console.warn(`   - ${name}`);
   }
+  for (const w of result.warnings) console.warn(`⚠️  ${w}`);
   console.log(`daily_aggregates recalculé pour ${result.daysRecomputed} jours.`);
   console.log("Backfill terminé. Vérifie les totaux affichés contre l'admin Shopify de chaque store (§7.4).");
 }
