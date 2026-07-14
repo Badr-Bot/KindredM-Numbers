@@ -27,56 +27,63 @@ async function backfillOrders(
   const ordersByStore: Record<string, number> = {};
   const warnings: string[] = [];
 
+  // Upsert par lots : commande par commande, ~1 400 allers-retours réseau
+  // faisaient dépasser la limite de temps de la fonction (init « infinie »).
+  const CHUNK = 250;
+
   for (const config of configs) {
-    let count = 0;
     try {
-    for await (const order of iterateOrders(config, { createdAtMin: BACKFILL_SINCE_ISO })) {
-      const day = toParisDay(order.created_at);
-      const shippingCountry = order.shipping_address?.country_code ?? config.market;
+      const rows: Record<string, unknown>[] = [];
+      for await (const order of iterateOrders(config, { createdAtMin: BACKFILL_SINCE_ISO })) {
+        const day = toParisDay(order.created_at);
+        const shippingCountry = order.shipping_address?.country_code ?? config.market;
 
-      const classified = classifyLineItems(
-        order.line_items.map((li) => ({
-          title: li.title,
-          sku: li.sku ?? undefined,
-          quantity: li.quantity,
-          price_cents: Math.round(parseFloat(li.price) * 100),
-        })),
-        productsMap,
-        config.market
-      );
+        const classified = classifyLineItems(
+          order.line_items.map((li) => ({
+            title: li.title,
+            sku: li.sku ?? undefined,
+            quantity: li.quantity,
+            price_cents: Math.round(parseFloat(li.price) * 100),
+          })),
+          productsMap,
+          config.market
+        );
 
-      const { cogsProductCents, cogsUpsellsCents, taxCents } = computeOrderCogsTax({
-        store: config.market,
-        shippingCountry,
-        day,
-        poloQty: classified.poloQty,
-        upsells: classified.upsells,
-      });
+        const { cogsProductCents, cogsUpsellsCents, taxCents } = computeOrderCogsTax({
+          store: config.market,
+          shippingCountry,
+          day,
+          poloQty: classified.poloQty,
+          upsells: classified.upsells,
+        });
 
-      const { error } = await supabase.from("orders").upsert({
-        id: order.id,
-        store: config.market,
-        order_name: order.name,
-        created_at_utc: order.created_at,
-        day,
-        shipping_country: shippingCountry,
-        total_cents: Math.round(parseFloat(order.total_price) * 100),
-        refunded_cents: computeRefundedCents(order),
-        line_items: order.line_items,
-        polo_qty: classified.poloQty,
-        upsells: classified.upsells,
-        cogs_product_cents: cogsProductCents,
-        cogs_upsells_cents: cogsUpsellsCents,
-        tax_eu_cents: taxCents,
-        updated_at_utc: order.updated_at,
-      });
-      if (error) throw error;
-      count++;
-    }
-    await supabase
-      .from("sync_state")
-      .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
-    ordersByStore[config.market] = count;
+        rows.push({
+          id: order.id,
+          store: config.market,
+          order_name: order.name,
+          created_at_utc: order.created_at,
+          day,
+          shipping_country: shippingCountry,
+          total_cents: Math.round(parseFloat(order.total_price) * 100),
+          refunded_cents: computeRefundedCents(order),
+          line_items: order.line_items,
+          polo_qty: classified.poloQty,
+          upsells: classified.upsells,
+          cogs_product_cents: cogsProductCents,
+          cogs_upsells_cents: cogsUpsellsCents,
+          tax_eu_cents: taxCents,
+          updated_at_utc: order.updated_at,
+        });
+      }
+
+      for (let i = 0; i < rows.length; i += CHUNK) {
+        const { error } = await supabase.from("orders").upsert(rows.slice(i, i + CHUNK));
+        if (error) throw error;
+      }
+      await supabase
+        .from("sync_state")
+        .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
+      ordersByStore[config.market] = rows.length;
     } catch (err) {
       // Mode partiel : un store en échec (scope, secret…) est ignoré et
       // signalé — les autres continuent. Relancer le backfill une fois le
@@ -97,16 +104,20 @@ async function backfillMetaSpend(
   ]);
 
   const unmappedNames = new Set<string>();
-  for (const row of rows) {
+  const upserts = rows.map((row) => {
     const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
     if (market === "UNMAPPED") unmappedNames.add(row.campaignName);
-    const { error } = await supabase.from("meta_spend").upsert({
+    return {
       day: row.day,
       market,
       campaign_id: row.campaignId,
       campaign_name: row.campaignName,
       spend_cents: row.spendCents,
-    });
+    };
+  });
+  const CHUNK = 500;
+  for (let i = 0; i < upserts.length; i += CHUNK) {
+    const { error } = await supabase.from("meta_spend").upsert(upserts.slice(i, i + CHUNK));
     if (error) throw error;
   }
   return { rows: rows.length, unmapped: [...unmappedNames] };

@@ -50,6 +50,10 @@ function createMockSupabase() {
         filters.push((r) => String(r[col]) <= String(val));
         return builder;
       },
+      in(col: string, vals: unknown[]) {
+        filters.push((r) => vals.includes(r[col]));
+        return builder;
+      },
       order() {
         return builder;
       },
