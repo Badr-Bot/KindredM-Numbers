@@ -38,6 +38,22 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 15/07 — nuit
+
+- **Cause de l'init « infinie » trouvée et corrigée** : écritures en base une
+  par une (~1 400 allers-retours) → dépassement de la limite de temps Vercel
+  → fonction tuée → relance en boucle à chaque ouverture. Corrigé par lots
+  (orders ×250, meta_spend ×500, agrégats en 3 requêtes groupées). L'init
+  complète tient maintenant en ~30-60 s.
+- **Spend Meta 21/06 → 15/07 injecté via le connecteur** (fichier
+  `meta_spend_seed.sql` fourni dans le chat, 141 lignes, mapping §4.6) — en
+  attendant le token API demain. Le backfill avec token écrasera proprement.
+- **Séquence de reprise** : 1) coller le SQL dans Supabase → Run ·
+  2) ouvrir l'accueil → l'init finit seule → chiffres réels AVEC spend
+  (DE inclus si les scopes ont bien été approuvés).
+- **Demain** : token Meta (app avec Marketing API) pour le spend du jour et
+  des jours suivants — le seed s'arrête au 15/07.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
