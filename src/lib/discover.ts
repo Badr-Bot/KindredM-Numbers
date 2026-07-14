@@ -39,12 +39,26 @@ const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
   ],
 };
 
+// Le polo a porté d'autres noms selon les stores/époques : « T-shirt
+// ultra-confortable » (FR, ancien titre — confirmé par Badr le 14/07, aucun
+// t-shirt distinct au catalogue) et équivalents localisés probables.
+const POLO_PATTERNS = [
+  /polo/i,
+  /t-?shirt\s*ultra-?confortable/i,
+  /camiseta\s*ultra-?c[oó]mod/i,
+  /ultra-?bequemes?\s*t-?shirt/i,
+];
+
+function isPolo(title: string): boolean {
+  return POLO_PATTERNS.some((p) => p.test(title));
+}
+
 export function guessUnitGroup(title: string): "polo" | "upsell" {
-  return /polo/i.test(title) ? "polo" : "upsell";
+  return isPolo(title) ? "polo" : "upsell";
 }
 
 export function guessProductKey(title: string): string {
-  if (/polo/i.test(title)) return "POLO";
+  if (isPolo(title)) return "POLO";
   for (const [key, patterns] of Object.entries(KNOWN_UPSELL_PATTERNS)) {
     if (patterns.some((p) => p.test(title))) return key;
   }
