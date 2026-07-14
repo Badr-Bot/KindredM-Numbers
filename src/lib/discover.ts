@@ -3,12 +3,40 @@ import { UPSELL_PRODUCT_KEYS } from "./engine";
 
 export const BACKFILL_SINCE_ISO = "2026-06-04T00:00:00+02:00";
 
-const KNOWN_UPSELL_PATTERNS: Record<string, RegExp> = {
-  SHORT_SLEEVE_DRESS_SHIRT: /short.?sleeve.*dress.*shirt/i,
-  DRESS_TROUSERS: /dress.*trouser/i,
-  COMPRESSION_TANK_TOP: /compression.*tank/i,
-  CHINO_SHORTS: /chino.*short/i,
-  LONG_SLEEVE_DRESS_SHIRT: /long.?sleeve.*dress.*shirt/i,
+// Titres localisés par store (EN/FR/DE/ES) — observés sur les vraies
+// boutiques. L'ordre des clés compte : les motifs les plus spécifiques
+// d'abord. Tout titre non reconnu reste A_VALIDER (§5, fail loudly).
+const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
+  SHORT_SLEEVE_DRESS_SHIRT: [
+    /short.?sleeve.*shirt/i,
+    /chemise.*manches?\s*courtes?/i,
+    /kurzarm.*hemd/i,
+    /camisa.*manga\s*corta/i,
+  ],
+  LONG_SLEEVE_DRESS_SHIRT: [
+    /long.?sleeve.*shirt/i,
+    /chemise.*(manches?\s*longues?|infroissable)/i,
+    /langarm.*hemd/i,
+    /camisa.*(manga\s*larga|antiarrugas)/i,
+  ],
+  DRESS_TROUSERS: [
+    /dress.*trouser|trousers/i,
+    /pantalon(?!\s*court)/i,
+    /anzugs?hose|\bhose\b/i,
+    /pantal[oó]n(?!\s*corto)|pantalones/i,
+  ],
+  COMPRESSION_TANK_TOP: [
+    /compression.*tank|tank.*top/i,
+    /d[ée]bardeur/i,
+    /unterhemd|kompression/i,
+    /camiseta.*(tirantes|compresi[oó]n)/i,
+  ],
+  CHINO_SHORTS: [
+    /chino.*short/i,
+    /\bshorts?\b/i,
+    /kurze\s*hose|bermuda/i,
+    /pantal[oó]n\s*corto/i,
+  ],
 };
 
 export function guessUnitGroup(title: string): "polo" | "upsell" {
@@ -17,8 +45,8 @@ export function guessUnitGroup(title: string): "polo" | "upsell" {
 
 export function guessProductKey(title: string): string {
   if (/polo/i.test(title)) return "POLO";
-  for (const [key, pattern] of Object.entries(KNOWN_UPSELL_PATTERNS)) {
-    if (pattern.test(title)) return key;
+  for (const [key, patterns] of Object.entries(KNOWN_UPSELL_PATTERNS)) {
+    if (patterns.some((p) => p.test(title))) return key;
   }
   return "A_VALIDER";
 }
