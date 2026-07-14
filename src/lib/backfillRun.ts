@@ -8,7 +8,9 @@ import { recomputeDailyAggregatesForDays } from "./aggregate";
 import { BACKFILL_SINCE_ISO } from "./discover";
 
 const ORDERS_SINCE_DAY = "2026-06-04";
-const META_SINCE_DAY = "2026-06-21";
+// Aligné sur le début des ventes (04/06) — le spec §7.4 disait 21/06 mais du
+// spend réel existe dès le 04/06 (vérifié sur le compte, demande de Badr 15/07).
+const META_SINCE_DAY = "2026-06-04";
 
 export interface BackfillResult {
   ordersByStore: Record<string, number>;
