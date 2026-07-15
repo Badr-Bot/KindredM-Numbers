@@ -32,9 +32,11 @@ export interface ClassifiedOrder {
 }
 
 export class UnmappedProductError extends Error {
+  readonly title: string;
   constructor(store: string, title: string) {
     super(`Produit non mappé (fail loudly) : store=${store} title="${title}"`);
     this.name = "UnmappedProductError";
+    this.title = title;
   }
 }
 

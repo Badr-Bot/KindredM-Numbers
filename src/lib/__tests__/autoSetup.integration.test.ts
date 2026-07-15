@@ -32,6 +32,7 @@ function createMockSupabase() {
   function from(table: string) {
     const filters: Array<(r: Row) => boolean> = [];
     let head = false;
+    let rangeBounds: [number, number] | null = null;
 
     const builder = {
       select(_cols?: string, opts?: { head?: boolean; count?: string }) {
@@ -55,6 +56,10 @@ function createMockSupabase() {
         return builder;
       },
       order() {
+        return builder;
+      },
+      range(from: number, to: number) {
+        rangeBounds = [from, to];
         return builder;
       },
       upsert(rows: Row | Row[], opts?: { onConflict?: string }) {
@@ -83,11 +88,16 @@ function createMockSupabase() {
         };
       },
       then(resolve: (v: unknown) => unknown, reject?: (e: unknown) => unknown) {
-        const rows = tables[table].filter((r) => filters.every((f) => f(r)));
+        let rows = tables[table].filter((r) => filters.every((f) => f(r)));
+        const total = rows.length;
+        // Reproduit le plafond PostgREST : max 1000 lignes par réponse, et
+        // .range(a, b) découpe — indispensable pour tester la pagination.
+        if (rangeBounds) rows = rows.slice(rangeBounds[0], rangeBounds[1] + 1);
+        rows = rows.slice(0, 1000);
         const result = {
           data: head ? null : rows.map((r) => ({ ...r })),
           error: null,
-          count: rows.length,
+          count: total,
         };
         return Promise.resolve(result).then(resolve, reject);
       },
@@ -292,6 +302,56 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
     expect(result.warnings?.some((w) => w.includes("DE"))).toBe(true);
     // 8 ES + 1 UK + 1 FR (DE ignoré)
     expect(mockSupabase._tables.orders).toHaveLength(10);
+  });
+
+  it("agrège correctement plus de 1000 commandes (pagination PostgREST)", async () => {
+    // Régression 15/07 : la lecture des commandes pour le recalcul des
+    // agrégats était plafonnée à 1000 lignes → CA sous-évalué dès que le
+    // volume dépassait (écart constaté vs l'admin Shopify FR).
+    ordersByDomain["es.test.myshopify.com"] = Array.from({ length: 1200 }, (_, i) =>
+      makeOrder(10000 + i, "2026-07-04T10:00:00Z", "59.99", "ES", [polo(TITLE_ES, 2)])
+    );
+    const { runAutoSetup } = await import("../autoSetup");
+    const result = await runAutoSetup();
+
+    expect(result.ok).toBe(true);
+    const agg = mockSupabase._tables.daily_aggregates.find(
+      (r) => r.day === "2026-07-04" && r.market === "ES"
+    );
+    expect(agg).toMatchObject({ orders: 1200, ca_cents: 1200 * 5999 });
+  });
+
+  it("backfill : une commande au produit inconnu est sautée avec avertissement, pas tout le store", async () => {
+    // Mapping déjà en place (cas /admin → backfill), puis une commande
+    // contient un titre hors mapping : avant, tout le lot du store était
+    // perdu ; maintenant seule la commande est sautée, signalée en clair.
+    mockSupabase._tables.products_map.push({
+      store: "ES",
+      title_pattern: TITLE_ES,
+      product_key: "POLO",
+      unit_group: "polo",
+    });
+    for (const m of ["UK", "DE", "FR"]) {
+      const title = { UK: TITLE_UK, DE: TITLE_DE, FR: TITLE_FR }[m]!;
+      mockSupabase._tables.products_map.push({
+        store: m,
+        title_pattern: title,
+        product_key: "POLO",
+        unit_group: "polo",
+      });
+    }
+    ordersByDomain["es.test.myshopify.com"] = [
+      ...ES_ORDERS,
+      makeOrder(1999, "2026-07-05T10:00:00Z", "19.99", "ES", [
+        { title: "Gadget Mystère XYZ", sku: null, quantity: 1, price: "19.99" },
+      ]),
+    ];
+    const { runFullBackfill } = await import("../backfillRun");
+    const result = await runFullBackfill();
+
+    expect(result.ordersByStore.ES).toBe(8); // les 8 valides, pas la 9e
+    expect(result.warnings.some((w) => w.includes("Gadget Mystère XYZ"))).toBe(true);
+    expect(mockSupabase._tables.orders).toHaveLength(11); // 8 ES + UK + DE + FR
   });
 
   it("échoue seulement si AUCUN store ne répond", async () => {

@@ -2,7 +2,12 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "./supabase";
 import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "./shopify";
 import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
-import { classifyLineItems, computeOrderCogsTax, type ProductMapEntry } from "./engine";
+import {
+  classifyLineItems,
+  computeOrderCogsTax,
+  UnmappedProductError,
+  type ProductMapEntry,
+} from "./engine";
 import { toParisDay, todayParisDay, listParisDays } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
 import { BACKFILL_SINCE_ISO } from "./discover";
@@ -36,20 +41,35 @@ async function backfillOrders(
   for (const config of configs) {
     try {
       const rows: Record<string, unknown>[] = [];
+      const unknownTitles = new Set<string>();
+      let skippedOrders = 0;
       for await (const order of iterateOrders(config, { createdAtMin: BACKFILL_SINCE_ISO })) {
         const day = toParisDay(order.created_at);
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
 
-        const classified = classifyLineItems(
-          order.line_items.map((li) => ({
-            title: li.title,
-            sku: li.sku ?? undefined,
-            quantity: li.quantity,
-            price_cents: Math.round(parseFloat(li.price) * 100),
-          })),
-          productsMap,
-          config.market
-        );
+        // Un titre inconnu ne doit pas faire perdre TOUT le store (avant :
+        // l'exception annulait le lot entier → CA du store absent) — on saute
+        // la commande, on signale fort, le reste du store passe.
+        let classified;
+        try {
+          classified = classifyLineItems(
+            order.line_items.map((li) => ({
+              title: li.title,
+              sku: li.sku ?? undefined,
+              quantity: li.quantity,
+              price_cents: Math.round(parseFloat(li.price) * 100),
+            })),
+            productsMap,
+            config.market
+          );
+        } catch (err) {
+          if (err instanceof UnmappedProductError) {
+            skippedOrders += 1;
+            unknownTitles.add(err.title);
+            continue;
+          }
+          throw err;
+        }
 
         const { cogsProductCents, cogsUpsellsCents, taxCents } = computeOrderCogsTax({
           store: config.market,
@@ -86,6 +106,11 @@ async function backfillOrders(
         .from("sync_state")
         .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
       ordersByStore[config.market] = rows.length;
+      if (skippedOrders > 0) {
+        warnings.push(
+          `${config.market} : ${skippedOrders} commande(s) SAUTÉE(S) — produit(s) inconnu(s) à mapper sur /admin : ${[...unknownTitles].join(" · ")}`
+        );
+      }
     } catch (err) {
       // Mode partiel : un store en échec (scope, secret…) est ignoré et
       // signalé — les autres continuent. Relancer le backfill une fois le

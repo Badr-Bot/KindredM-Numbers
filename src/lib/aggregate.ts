@@ -19,6 +19,25 @@ interface SpendAggInput {
   spend_cents: number;
 }
 
+// PostgREST plafonne chaque réponse à ~1000 lignes : sans pagination, tout
+// backfill de plus de 1000 commandes calculait le CA sur un échantillon
+// tronqué (bug « le CA affiché ne correspond pas à Shopify », 15/07).
+const PAGE = 1000;
+
+async function fetchAllPages<T>(
+  build: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>
+): Promise<T[]> {
+  const all: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await build(from, from + PAGE - 1);
+    if (error) throw error;
+    const rows = data ?? [];
+    all.push(...rows);
+    if (rows.length < PAGE) break;
+  }
+  return all;
+}
+
 /**
  * Recalcule daily_aggregates(day, market) depuis les données brutes (orders +
  * meta_spend) — loi §0.6 "recalcul plutôt que patch". daily_aggregates n'est
@@ -40,23 +59,26 @@ export async function recomputeDailyAggregatesForDays(
   const minDay = dayList.reduce((a, b) => (b < a ? b : a));
   const maxDay = dayList.reduce((a, b) => (b > a ? b : a));
 
-  const [{ data: orders, error: ordersError }, { data: spendRows, error: spendError }] =
-    await Promise.all([
+  const [orders, spendRows] = await Promise.all([
+    fetchAllPages<OrderAggInput>((from, to) =>
       supabase
         .from("orders")
         .select("day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
-        .in("store", markets) as unknown as Promise<{ data: OrderAggInput[] | null; error: { message: string } | null }>,
+        .in("store", markets)
+        .range(from, to) as unknown as PromiseLike<{ data: OrderAggInput[] | null; error: { message: string } | null }>
+    ),
+    fetchAllPages<SpendAggInput>((from, to) =>
       supabase
         .from("meta_spend")
         .select("day, market, spend_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
-        .in("market", markets) as unknown as Promise<{ data: SpendAggInput[] | null; error: { message: string } | null }>,
-    ]);
-  if (ordersError) throw ordersError;
-  if (spendError) throw spendError;
+        .in("market", markets)
+        .range(from, to) as unknown as PromiseLike<{ data: SpendAggInput[] | null; error: { message: string } | null }>
+    ),
+  ]);
 
   type Bucket = {
     orders: number;

@@ -38,6 +38,25 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 15/07 — CA faux vs Shopify : cause trouvée
+
+- **Bug trouvé et corrigé** : Supabase renvoie max **1000 lignes** par requête.
+  Le recalcul des agrégats lisait toutes les commandes en une requête → au-delà
+  de 1000 commandes, le surplus était ignoré → CA affiché très inférieur au
+  vrai (l'écart constaté vs l'admin Shopify FR). Corrigé par pagination ;
+  test de régression à 1200 commandes ajouté (27 tests verts).
+- **Robustesse** : une commande avec un produit inconnu ne fait plus perdre
+  tout le store au backfill — elle est sautée et signalée avec le titre exact.
+- **/debug = réconciliation** : pour chaque store, compare nb de commandes
+  Shopify depuis le 04/06 (+ total historique) vs base vs agrégats affichés,
+  avec l'écart en clair. Une capture de /debug dit où est la perte.
+- **Périmètre** : le dashboard démarre au **04/06** (spec §7.4). Les 243 k€/90j
+  de l'admin FR incluent mai — hors périmètre. À élargir si souhaité
+  (scope `read_all_orders` requis au-delà de 60 jours d'historique).
+- **Reprise** : 1) coller le SQL meta_spend dans Supabase → Run ·
+  2) /admin → 🚀 Lancer le backfill (recalcule tout avec le fix) ·
+  3) envoyer une capture de /debug.
+
 ## Mise à jour 15/07 — nuit
 
 - **Cause de l'init « infinie » trouvée et corrigée** : écritures en base une

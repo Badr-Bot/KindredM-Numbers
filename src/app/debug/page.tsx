@@ -50,25 +50,62 @@ async function runChecks(): Promise<CheckResult[]> {
     });
   }
 
-  // --- Shopify, store par store ---
+  // --- Shopify, store par store : RÉCONCILIATION comptes Shopify vs base ---
+  // Compare, depuis le 04/06 : nb de commandes côté Shopify (orders/count.json)
+  // vs nb de commandes brutes en base vs ce que les agrégats affichent.
+  // Un écart Shopify→base = perte à l'ingestion ; base→agrégats = bug de calcul.
   try {
     const { getShopifyStoreConfigs, resolveAccessToken } = await import("@/lib/shopify");
+    const { createSupabaseServerClient } = await import("@/lib/supabase");
+    const { BACKFILL_SINCE_ISO } = await import("@/lib/discover");
+    const supabase = createSupabaseServerClient();
+    const sinceParam = encodeURIComponent(BACKFILL_SINCE_ISO);
+
     for (const config of getShopifyStoreConfigs()) {
       try {
         const token = await resolveAccessToken(config);
-        const res = await fetch(
-          `https://${config.domain}/admin/api/2025-01/orders.json?limit=1&status=any`,
-          { headers: { "X-Shopify-Access-Token": token } }
-        );
-        if (!res.ok) {
-          const body = await res.text();
-          throw new Error(`HTTP ${res.status} — ${shorten(body)}`);
+        const headers = { "X-Shopify-Access-Token": token };
+        const countUrl = (qs: string) =>
+          `https://${config.domain}/admin/api/2025-01/orders/count.json?status=any${qs}`;
+
+        const [sinceRes, totalRes] = await Promise.all([
+          fetch(countUrl(`&created_at_min=${sinceParam}`), { headers }),
+          fetch(countUrl(""), { headers }),
+        ]);
+        if (!sinceRes.ok) {
+          const body = await sinceRes.text();
+          throw new Error(`HTTP ${sinceRes.status} — ${shorten(body)}`);
         }
-        const body: { orders: unknown[] } = await res.json();
+        const shopifySince = ((await sinceRes.json()) as { count: number }).count;
+        const shopifyTotal = totalRes.ok
+          ? ((await totalRes.json()) as { count: number }).count
+          : null;
+
+        const { count: dbCount, error: dbErr } = await supabase
+          .from("orders")
+          .select("*", { count: "exact", head: true })
+          .eq("store", config.market);
+        if (dbErr) throw new Error(dbErr.message);
+
+        const { data: aggRows, error: aggErr } = await supabase
+          .from("daily_aggregates")
+          .select("orders, ca_cents")
+          .eq("market", config.market);
+        if (aggErr) throw new Error(aggErr.message);
+        const aggOrders = (aggRows ?? []).reduce((s, r) => s + (r.orders as number), 0);
+        const aggCa = (aggRows ?? []).reduce((s, r) => s + (r.ca_cents as number), 0);
+
+        const delta = shopifySince - (dbCount ?? 0);
         results.push({
           name: `🛍️ Shopify ${config.market}`,
-          ok: true,
-          detail: `token OK · lecture commandes OK (${body.orders.length ? "≥1 commande visible" : "0 commande"})`,
+          ok: delta === 0,
+          detail:
+            `Shopify depuis 04/06 : ${shopifySince} cmd` +
+            (shopifyTotal !== null && shopifyTotal !== shopifySince
+              ? ` (${shopifyTotal} au total, dont ${shopifyTotal - shopifySince} avant le 04/06 — hors périmètre)`
+              : "") +
+            ` · Base : ${dbCount ?? 0} cmd (écart ${delta >= 0 ? "−" : "+"}${Math.abs(delta)})` +
+            ` · Agrégats affichés : ${aggOrders} cmd, CA ${(aggCa / 100).toFixed(2)} €`,
         });
       } catch (err) {
         results.push({
