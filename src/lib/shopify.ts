@@ -83,8 +83,14 @@ export interface ShopifyLineItem {
 }
 
 export interface ShopifyRefundTransaction {
+  /** Doc Shopify : par défaut dans la devise DU CLIENT (presentment), pas
+   * celle de la boutique — contrairement à Order.total_price. Ne jamais lire
+   * ce champ directement pour un montant en EUR (bug constaté 29/06 :
+   * remboursement DZD lu comme des euros, CA négatif). */
   amount: string;
   kind: string;
+  /** Toujours en devise boutique (EUR ici) — source de vérité pour le calcul. */
+  amount_set?: { shop_money?: { amount: string; currency_code: string } };
 }
 
 export interface ShopifyRefund {
@@ -105,12 +111,16 @@ export interface ShopifyOrder {
   refunds: ShopifyRefund[];
 }
 
-/** Somme des transactions de remboursement (kind === "refund"), en centimes. */
+/** Somme des transactions de remboursement (kind === "refund"), en centimes,
+ * toujours en devise boutique (EUR) via amount_set.shop_money — §4.7. */
 export function computeRefundedCents(order: ShopifyOrder): number {
   return order.refunds.reduce((sum, refund) => {
     const refundTotal = refund.transactions
       .filter((t) => t.kind === "refund")
-      .reduce((s, t) => s + Math.round(parseFloat(t.amount) * 100), 0);
+      .reduce((s, t) => {
+        const shopAmount = t.amount_set?.shop_money?.amount ?? t.amount;
+        return s + Math.round(parseFloat(shopAmount) * 100);
+      }, 0);
     return sum + refundTotal;
   }, 0);
 }
