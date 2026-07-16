@@ -125,21 +125,34 @@ export async function runIncrementalSync(
 const THROTTLE_KEY = "last_incremental_sync_at";
 const THROTTLE_MS = 5 * 60 * 1000;
 
+// Marqueur de « migration de données » auto-appliquée. À chaque correction
+// de bug qui fausse des données déjà en base (ex : devise de remboursement
+// mal lue le 16/07), on bump cette version — la prochaine synchro auto
+// détecte l'écart et relance un backfill complet de tout l'historique
+// silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
+// à jour, elle repasse en synchro rapide (7 jours) normalement.
+const RESYNC_VERSION_KEY = "full_resync_version";
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-refund-currency-fix";
+
 /**
  * Version throttlée pour un déclenchement automatique depuis le navigateur
  * (§ « zéro clic » — aucune action de Badr ne doit être requise). Si une
  * synchro a tourné il y a moins de 5 min, ne refait rien (protège Shopify/
- * Meta d'un martèlement si plusieurs visites arrivent en même temps).
+ * Meta d'un martèlement si plusieurs visites arrivent en même temps) — sauf
+ * si un recalcul complet est requis (voir REQUIRED_FULL_RESYNC_VERSION),
+ * auquel cas le throttle est ignoré pour ne pas retarder la correction.
  */
 export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResult> {
   const supabase = createSupabaseServerClient();
 
-  const { data: marker } = await supabase
-    .from("app_state")
-    .select("updated_at, value")
-    .eq("key", THROTTLE_KEY)
-    .maybeSingle();
+  const [{ data: marker }, { data: resyncMarker }] = await Promise.all([
+    supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
+    supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
+  ]);
+  const needsFullResync = resyncMarker?.value !== REQUIRED_FULL_RESYNC_VERSION;
+
   if (
+    !needsFullResync &&
     marker?.value === "done" &&
     Date.now() - new Date(marker.updated_at as string).getTime() < THROTTLE_MS
   ) {
@@ -154,7 +167,19 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
   // 5 min alors que rien n'a été écrit (constaté le 16/07 : CA resté figé
   // malgré 97 nouvelles commandes). Si deux visites arrivent au même
   // instant, elles refont le même travail idempotent — sans conséquence.
-  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  let result: IncrementalSyncResult;
+  if (needsFullResync) {
+    const { runFullBackfill } = await import("./backfillRun");
+    const full = await runFullBackfill();
+    result = { ran: true, warnings: full.warnings };
+    await supabase.from("app_state").upsert({
+      key: RESYNC_VERSION_KEY,
+      value: REQUIRED_FULL_RESYNC_VERSION,
+      updated_at: new Date().toISOString(),
+    });
+  } else {
+    result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  }
   await supabase
     .from("app_state")
     .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });

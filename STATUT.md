@@ -38,6 +38,24 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 16/07 — bouton backfill supprimé, corrections auto-appliquées
+
+Suite au bug de devise (remboursements DZD lus comme des EUR), Badr a
+demandé que TOUT se corrige tout seul, sans jamais avoir à cliquer sur
+« Lancer le backfill ». Fait :
+- Le bouton backfill a disparu de `/admin` (l'étape 3 est maintenant juste
+  informative).
+- `runThrottledIncrementalSync` compare une version de correctif
+  (`app_state.full_resync_version`) à `REQUIRED_FULL_RESYNC_VERSION` dans
+  `incrementalSync.ts`. Si elles ne correspondent pas (nouveau correctif
+  qui fausse des données déjà en base), la prochaine visite du site
+  déclenche automatiquement un backfill complet de tout l'historique
+  (au lieu du scan rapide 7 jours), puis repasse en mode normal.
+- **Pour toute future correction de bug qui affecte des données déjà
+  stockées** : bumper `REQUIRED_FULL_RESYNC_VERSION` dans
+  `src/lib/incrementalSync.ts` suffit — la correction s'applique seule à
+  la prochaine ouverture du site, aucune autre action nécessaire.
+
 ## Mise à jour 16/07 — vraiment zéro clic : synchro automatique en continu
 
 Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté :

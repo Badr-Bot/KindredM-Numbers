@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { runThrottledIncrementalSync } from "@/lib/incrementalSync";
 
-export const maxDuration = 60;
+// 300s (pas 60) : une correction de bug peut déclencher un backfill complet
+// de tout l'historique (voir REQUIRED_FULL_RESYNC_VERSION), aussi long que
+// le bouton manuel qu'on a supprimé — ce chemin ne s'emprunte qu'une fois
+// par correctif, ensuite la synchro repasse en mode rapide.
+export const maxDuration = 300;
 
 /**
  * Synchro « zéro clic » déclenchée automatiquement par le navigateur à

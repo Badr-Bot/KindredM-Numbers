@@ -35,9 +35,6 @@ export function AdminSetup() {
   const [storeErrors, setStoreErrors] = useState<string[]>([]);
   const [loadingMap, setLoadingMap] = useState(false);
   const [loadMsg, setLoadMsg] = useState<string | null>(null);
-  const [backfilling, setBackfilling] = useState(false);
-  const [backfillMsg, setBackfillMsg] = useState<string | null>(null);
-  const [backfillDetail, setBackfillDetail] = useState<Record<string, number> | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/products-map")
@@ -112,29 +109,6 @@ export function AdminSetup() {
       setLoadMsg("❌ Erreur réseau.");
     }
     setLoadingMap(false);
-  };
-
-  const runBackfill = async () => {
-    play("beep");
-    setBackfilling(true);
-    setBackfillMsg(null);
-    setBackfillDetail(null);
-    try {
-      const res = await fetch("/api/admin/backfill", { method: "POST" });
-      const json = await res.json();
-      if (json.ok) {
-        play("cash");
-        setBackfillMsg("✅ Backfill terminé — vérifie les totaux contre l'admin Shopify de chaque store.");
-        setBackfillDetail(json.result.ordersByStore);
-      } else {
-        play("error");
-        setBackfillMsg(`❌ ${json.reason} (relancer est sans risque, c'est idempotent)`);
-      }
-    } catch {
-      play("error");
-      setBackfillMsg("❌ Erreur réseau ou timeout — relancer est sans risque.");
-    }
-    setBackfilling(false);
   };
 
   const updateRow = (idx: number, patch: Partial<EditableRow>) => {
@@ -245,31 +219,14 @@ export function AdminSetup() {
         </section>
       )}
 
-      {/* Étape 3 — Backfill */}
+      {/* Étape 3 — plus de bouton : la synchro se déclenche seule dès qu'un
+          visiteur ouvre le site (voir LiveSync), y compris un recalcul
+          complet de l'historique après une correction de bug. */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
-        <span className="text-sm font-semibold">3️⃣ Lancer le backfill</span>
-        <p className="mb-2.5 mt-1 text-[11px] text-ink-dim">
-          Télécharge tout l&apos;historique (4 stores + Meta), calcule le P&amp;L, remplit Supabase.
-          Nécessite que products_map soit déjà chargé (étape 2). Peut prendre 1-2 min.
+        <span className="text-sm font-semibold">3️⃣ Backfill</span>
+        <p className="mt-1 text-[11px] text-ink-dim">
+          Automatique — se déclenche tout seul à l&apos;ouverture du site, rien à faire ici.
         </p>
-        <button
-          onClick={runBackfill}
-          disabled={backfilling || !mapCount}
-          className="rounded border border-phosphor/60 bg-phosphor/10 px-3 py-1.5 text-xs font-semibold text-phosphor transition-colors hover:bg-phosphor/20 disabled:opacity-40"
-        >
-          {backfilling ? "Backfill en cours…" : "🚀 Lancer le backfill"}
-        </button>
-        {!mapCount && <p className="mt-1.5 text-[10.5px] text-ink-faint">Charge d&apos;abord le mapping (étape 2).</p>}
-        {backfillMsg && <p className="mt-2 text-[11px] text-ink-dim">{backfillMsg}</p>}
-        {backfillDetail && (
-          <ul className="mt-1.5 flex flex-col gap-0.5 text-[11px] text-ink-dim">
-            {Object.entries(backfillDetail).map(([market, count]) => (
-              <li key={market} className="tnum">
-                {market}: {count} commandes
-              </li>
-            ))}
-          </ul>
-        )}
       </section>
     </div>
   );
