@@ -113,6 +113,13 @@ export async function GET(request: NextRequest) {
     });
   }
 
+  // Garde-fou : les 3 derniers jours sont TOUJOURS recalculés, même si le
+  // scan updated_at n'a rien détecté. Constaté le 16/07 — un backfill manuel
+  // avait bien écrit les commandes de J-1 en base mais l'agrégat affiché
+  // était resté périmé (recalcul non abouti) ; ce filet rattrape ce cas
+  // chaque nuit sans dépendre de la cause exacte.
+  for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
+
   await recomputeDailyAggregatesForDays(supabase, touchedDays);
 
   return NextResponse.json({ ok: true, touchedDays: [...touchedDays].sort() });
