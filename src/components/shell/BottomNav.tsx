@@ -6,7 +6,6 @@ import { useSound } from "../sound/SoundProvider";
 
 const ITEMS = [
   { href: "/", label: "Live", emoji: "⚡" },
-  { href: "/14-jours", label: "14 j", emoji: "📅" },
   { href: "/mois", label: "Mois", emoji: "🗓️" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },

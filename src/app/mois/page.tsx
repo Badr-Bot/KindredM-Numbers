@@ -1,5 +1,5 @@
-import { getDataMode, getTabDayData, HISTORY_START, referenceToday, type DayAgg } from "@/lib/data";
-import type { MarketTab } from "@/lib/markets";
+import { computeThresholds, getDataMode, getDayLines, HISTORY_START, referenceToday, type DayLine } from "@/lib/data";
+import { MARKET_TABS, type MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
 import { EmptyState } from "@/components/shell/EmptyState";
@@ -24,13 +24,17 @@ function monthsBetween(start: string, end: string): string[] {
 
 type LoadResult =
   | { error: string }
-  | { dayData: Record<MarketTab, DayAgg[]>; months: string[]; today: string };
+  | { dayLines: Record<MarketTab, DayLine[]>; months: string[]; today: string };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const dayData = await getTabDayData(HISTORY_START, today);
-    return { dayData, months: monthsBetween(HISTORY_START, today), today };
+    const thresholds = await computeThresholds(today);
+    const dayLines = {} as Record<MarketTab, DayLine[]>;
+    for (const tab of MARKET_TABS) {
+      dayLines[tab] = await getDayLines(tab, HISTORY_START, today, thresholds[tab], today);
+    }
+    return { dayLines, months: monthsBetween(HISTORY_START, today), today };
   } catch (err) {
     return { error: (err as Error).message };
   }
@@ -59,8 +63,8 @@ export default async function MonthPage() {
 
   return (
     <div>
-      <PageHeading emoji="🗓️" title="Par mois" subtitle="CA (barres) · marge (ligne) · Δ vs mois précédent" />
-      <MonthBoard dayData={result.dayData} months={result.months} today={result.today} />
+      <PageHeading emoji="🗓️" title="Par mois" subtitle="CA (barres) · marge (ligne) · listing jour par jour" />
+      <MonthBoard dayLines={result.dayLines} months={result.months} today={result.today} />
     </div>
   );
 }
