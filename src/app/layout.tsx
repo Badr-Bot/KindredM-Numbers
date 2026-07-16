@@ -5,6 +5,7 @@ import { SoundProvider } from "@/components/sound/SoundProvider";
 import { BootOverlay } from "@/components/fx/BootOverlay";
 import { Header } from "@/components/shell/Header";
 import { BottomNav } from "@/components/shell/BottomNav";
+import { LiveSync } from "@/components/shell/LiveSync";
 import { getDataMode } from "@/lib/data";
 
 const geistMono = Geist_Mono({
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <SoundProvider>
           <BootOverlay />
+          {mode === "live" && <LiveSync />}
           <Header mode={mode} />
           <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-6 pt-4">{children}</main>
           <BottomNav />

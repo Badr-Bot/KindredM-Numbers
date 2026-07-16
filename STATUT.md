@@ -38,6 +38,22 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 16/07 — vraiment zéro clic : synchro automatique en continu
+
+Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté :
+- `/api/sync` (throttlé 5 min côté serveur, table `app_state`) : même logique
+  que le cron, rescan commandes modifiées J-7 + spend Meta + recalcul des
+  jours touchés + toujours J-2/J-1/J en filet.
+- `LiveSync` (mémorisé dans `layout.tsx`, actif en mode live) : déclenche
+  cette synchro à l'ouverture du site, puis toutes les 5 min tant que
+  l'onglet reste ouvert, et rafraîchit la page automatiquement si des
+  données ont changé. Aucune UI, aucun bouton — juste des chiffres à jour.
+- Le cron de minuit reste le filet de secours si personne ne visite le site
+  un jour donné.
+- **Nouvelle migration à appliquer** : `supabase/migrations/0004_app_state.sql`
+  (table `app_state`, clé/valeur, pour le throttle) — à coller dans Supabase
+  SQL Editor comme les précédentes.
+
 ## Mise à jour 15/07 — CA faux vs Shopify : cause trouvée
 
 - **Bug trouvé et corrigé** : Supabase renvoie max **1000 lignes** par requête.
