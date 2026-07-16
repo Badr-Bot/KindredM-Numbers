@@ -104,7 +104,7 @@ export function MonthBoard({
 
       <MarketTabs active={tab} onChange={setTab} />
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2 lg:grid-cols-6 lg:gap-3">
         <Tile label="CA" value={formatEur0(totals.caCents)} delta={delta(totals.caCents, prevTotals.caCents)} />
         <Tile
           label="Net"
@@ -144,7 +144,7 @@ export function MonthBoard({
       {/* Listing jour par jour du mois sélectionné — fusionné depuis l'ancien
           onglet « 14 jours », colonnes complètes + cumul depuis le début. */}
       <div className="overflow-x-auto rounded-lg border border-line">
-        <table className="w-full min-w-[400px] border-collapse text-[11.5px] sm:min-w-[600px]">
+        <table className="w-full min-w-[400px] border-collapse text-[11.5px] sm:min-w-[600px] lg:text-sm">
           <thead>
             <tr className="border-b border-line bg-panel/60 text-[10px] uppercase tracking-wide text-ink-dim">
               <Th className="sticky left-0 bg-panel/95 text-left">Jour</Th>
@@ -242,11 +242,11 @@ function Tile({
   delta?: Delta | null;
 }) {
   return (
-    <div className="rounded-lg border border-line bg-panel/40 p-2.5">
-      <div className="text-[9px] uppercase tracking-wide text-ink-faint">{label}</div>
-      <div className={`mt-0.5 text-sm font-bold tnum ${valueClass}`}>{value}</div>
+    <div className="rounded-lg border border-line bg-panel/40 p-2.5 lg:p-4">
+      <div className="text-[9px] uppercase tracking-wide text-ink-faint lg:text-[11px]">{label}</div>
+      <div className={`mt-0.5 text-sm font-bold tnum lg:text-2xl ${valueClass}`}>{value}</div>
       {delta && (
-        <div className={`mt-0.5 text-[9.5px] tnum ${delta.positive ? "text-phosphor" : "text-red"}`}>
+        <div className={`mt-0.5 text-[9.5px] tnum lg:text-xs ${delta.positive ? "text-phosphor" : "text-red"}`}>
           {delta.pct >= 0 ? "▲" : "▼"} {formatPct(Math.abs(delta.pct))}
         </div>
       )}

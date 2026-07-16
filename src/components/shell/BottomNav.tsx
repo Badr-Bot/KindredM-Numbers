@@ -21,7 +21,7 @@ export function BottomNav() {
       className="sticky bottom-0 z-40 border-t border-line bg-terminal/95 backdrop-blur supports-[backdrop-filter]:bg-terminal/80"
       aria-label="Navigation principale"
     >
-      <ul className="mx-auto flex max-w-3xl">
+      <ul className="mx-auto flex max-w-3xl lg:max-w-2xl">
         {ITEMS.map((item) => {
           const active = pathname === item.href;
           return (

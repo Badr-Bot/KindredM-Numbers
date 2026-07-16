@@ -54,23 +54,23 @@ export function TodayBoard({ view }: { view: TodayView }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Héros : gain net global */}
-      <section className="rise-in overflow-hidden rounded-xl border border-line bg-panel/60 p-5">
+      <section className="rise-in overflow-hidden rounded-xl border border-line bg-panel/60 p-5 lg:p-8">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-[0.15em] text-ink-dim">
+          <span className="text-[11px] uppercase tracking-[0.15em] text-ink-dim lg:text-sm">
             {MARKET_META.GLOBAL.flag} Gain net · aujourd&apos;hui
           </span>
           <StatusPill status={global.metrics.status} roasLabel={formatRoas(global.metrics.roas)} />
         </div>
 
         <div
-          className={`mt-2 text-[clamp(2.75rem,13vw,4.5rem)] font-bold leading-none tnum ${
+          className={`mt-2 text-[clamp(3.25rem,14vw,7.5rem)] font-bold leading-none tnum ${
             netPos ? "text-phosphor glow-net-pos" : "text-red glow-net-neg"
           }`}
         >
           <CountUp value={global.totals.netCents / 100} format={(n) => formatEurSigned(Math.round(n * 100))} />
         </div>
 
-        <dl className="mt-4 grid grid-cols-4 gap-2 text-center">
+        <dl className="mt-4 grid grid-cols-4 gap-2 text-center lg:mt-6 lg:gap-4">
           <Metric label="CA" value={formatEur0(global.totals.caCents)} />
           <Metric label="Spend" value={formatEur0(global.totals.spendCents)} />
           <Metric label="Marge" value={formatPct(global.metrics.marginPct)} />
@@ -105,31 +105,31 @@ export function TodayBoard({ view }: { view: TodayView }) {
         )}
       </section>
 
-      {/* Cartes par marché */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Cartes par marché — 2 colonnes sur mobile, 4 en ligne sur ordinateur */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {markets.map((card, i) => {
           const meta = MARKET_META[card.market];
           const pos = card.totals.netCents >= 0;
           return (
             <section
               key={card.market}
-              className="rise-in rounded-lg border border-line bg-panel/40 p-3.5"
+              className="rise-in rounded-lg border border-line bg-panel/40 p-3.5 lg:p-5"
               style={{ animationDelay: `${80 + i * 60}ms` }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold lg:text-base">
                   <span aria-hidden>{meta.flag}</span> {meta.label}
                 </span>
                 <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
               </div>
-              <div className={`mt-2 text-2xl font-bold leading-none tnum ${pos ? "text-phosphor" : "text-red"}`}>
+              <div className={`mt-2 text-2xl font-bold leading-none tnum lg:text-4xl ${pos ? "text-phosphor" : "text-red"}`}>
                 <CountUp
                   value={card.totals.netCents / 100}
                   format={(n) => formatEurSigned0(Math.round(n * 100))}
                   durationMs={800}
                 />
               </div>
-              <dl className="mt-2.5 grid grid-cols-3 gap-1 text-center text-[10.5px]">
+              <dl className="mt-2.5 grid grid-cols-3 gap-1 text-center text-[10.5px] lg:mt-4 lg:text-xs">
                 <MiniMetric label="CA" value={formatEur0(card.totals.caCents)} />
                 <MiniMetric label="Spend" value={formatEur0(card.totals.spendCents)} />
                 <MiniMetric label="Cmd" value={formatInt(card.totals.orders)} />
@@ -156,8 +156,8 @@ export function TodayBoard({ view }: { view: TodayView }) {
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dt className="text-[10px] uppercase tracking-wide text-ink-faint">{label}</dt>
-      <dd className="text-sm font-semibold tnum">{value}</dd>
+      <dt className="text-[10px] uppercase tracking-wide text-ink-faint lg:text-xs">{label}</dt>
+      <dd className="text-sm font-semibold tnum lg:text-2xl">{value}</dd>
     </div>
   );
 }

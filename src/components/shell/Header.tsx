@@ -14,7 +14,7 @@ export function Header({ mode }: { mode: DataMode }) {
   const badge = MODE_BADGE[mode];
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-terminal/95 backdrop-blur supports-[backdrop-filter]:bg-terminal/80">
-      <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-2.5">
+      <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-2.5 lg:max-w-6xl lg:px-8">
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold tracking-[0.2em] text-phosphor">
             NIVA

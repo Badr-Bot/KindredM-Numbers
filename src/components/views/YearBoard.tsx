@@ -134,21 +134,21 @@ export function YearBoard({
       <MarketTabs active={tab} onChange={setTab} />
 
       {/* Réponse en 1 écran : CA et net de l'année */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-lg border border-line bg-panel/50 p-3">
-          <div className="text-[10px] uppercase tracking-wide text-ink-faint">CA {year}</div>
-          <div className="mt-1 text-2xl font-bold tnum">{formatEur0(annual.caCents)}</div>
+      <div className="grid grid-cols-2 gap-2 lg:gap-4">
+        <div className="rounded-lg border border-line bg-panel/50 p-3 lg:p-6">
+          <div className="text-[10px] uppercase tracking-wide text-ink-faint lg:text-sm">CA {year}</div>
+          <div className="mt-1 text-2xl font-bold tnum lg:mt-2 lg:text-5xl">{formatEur0(annual.caCents)}</div>
         </div>
-        <div className="rounded-lg border border-line bg-panel/50 p-3">
-          <div className="text-[10px] uppercase tracking-wide text-ink-faint">Net {year}</div>
-          <div className={`mt-1 text-2xl font-bold tnum ${annual.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
+        <div className="rounded-lg border border-line bg-panel/50 p-3 lg:p-6">
+          <div className="text-[10px] uppercase tracking-wide text-ink-faint lg:text-sm">Net {year}</div>
+          <div className={`mt-1 text-2xl font-bold tnum lg:mt-2 lg:text-5xl ${annual.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
             {formatEurSigned0(annual.netCents)}
           </div>
         </div>
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-line">
-        <table className="w-full min-w-[360px] border-collapse text-[11.5px] sm:min-w-[560px]">
+        <table className="w-full min-w-[360px] border-collapse text-[11.5px] sm:min-w-[560px] lg:text-sm">
           <thead>
             <tr className="border-b border-line bg-panel/60 text-[10px] uppercase tracking-wide text-ink-dim">
               <th className="px-2.5 py-2 text-left font-semibold">Mois</th>

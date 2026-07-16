@@ -16,8 +16,15 @@ function ensureContext(): AudioContext | null {
     if (!AC) return null;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = 0.5;
-    master.connect(ctx.destination);
+    // Volume global adouci (0.28 au lieu de 0.5) — demande de Badr : « pas des
+    // sons qui font mal à la tête ». Un filtre passe-bas coupe les aigus
+    // stridents qui fatiguent l'oreille sur les petits haut-parleurs.
+    master.gain.value = 0.28;
+    const lowpass = ctx.createBiquadFilter();
+    lowpass.type = "lowpass";
+    lowpass.frequency.value = 2600;
+    master.connect(lowpass);
+    lowpass.connect(ctx.destination);
   }
   if (ctx.state === "suspended") void ctx.resume();
   return ctx;
@@ -51,7 +58,9 @@ function tone(
     osc.frequency.exponentialRampToValueAtTime(Math.max(1, opts.to), opts.start + opts.duration);
   }
   const peak = opts.gain ?? 0.2;
-  const attack = opts.attack ?? 0.005;
+  // Attaque plus douce par défaut (12 ms) : un attack très court claque et
+  // fatigue. Release exponentiel long pour un fondu naturel, jamais sec.
+  const attack = opts.attack ?? 0.012;
   gain.gain.setValueAtTime(0.0001, opts.start);
   gain.gain.exponentialRampToValueAtTime(peak, opts.start + attack);
   gain.gain.exponentialRampToValueAtTime(0.0001, opts.start + opts.duration);
@@ -67,30 +76,35 @@ export function playSound(name: SoundName): void {
   if (!c || !master) return;
   const t = c.currentTime;
 
+  // Palette adoucie : sine/triangle uniquement (rondes, sans harmoniques
+  // agressives), fréquences ramenées dans le medium chaleureux, aigus
+  // stridents supprimés. Accords consonants façon UI d'anime moderne.
   switch (name) {
     case "boot":
-      // sweep ascendant + confirmation
-      tone(c, { type: "sawtooth", from: 90, to: 640, start: t, duration: 0.35, gain: 0.12 });
-      tone(c, { type: "sine", from: 520, to: 880, start: t + 0.18, duration: 0.22, gain: 0.14 });
-      tone(c, { type: "square", from: 1320, start: t + 0.42, duration: 0.08, gain: 0.06 });
+      // montée douce en quinte, comme un vaisseau qui s'allume
+      tone(c, { type: "sine", from: 220, to: 440, start: t, duration: 0.4, gain: 0.1 });
+      tone(c, { type: "triangle", from: 440, to: 660, start: t + 0.22, duration: 0.28, gain: 0.09 });
       break;
     case "tick":
-      tone(c, { type: "square", from: 2100, start: t, duration: 0.03, gain: 0.05 });
+      tone(c, { type: "sine", from: 660, start: t, duration: 0.045, gain: 0.045 });
       break;
     case "tab":
-      tone(c, { type: "triangle", from: 660, to: 990, start: t, duration: 0.07, gain: 0.08 });
+      // petit blip rond et bref, montée de tierce
+      tone(c, { type: "triangle", from: 523, to: 659, start: t, duration: 0.08, gain: 0.06 });
       break;
     case "beep":
-      tone(c, { type: "sine", from: 880, start: t, duration: 0.09, gain: 0.12 });
+      tone(c, { type: "sine", from: 587, start: t, duration: 0.1, gain: 0.09 });
       break;
     case "cash":
-      // petite arpège montante « caisse »
-      tone(c, { type: "triangle", from: 784, start: t, duration: 0.09, gain: 0.12 });
-      tone(c, { type: "triangle", from: 988, start: t + 0.08, duration: 0.09, gain: 0.12 });
-      tone(c, { type: "triangle", from: 1319, start: t + 0.16, duration: 0.14, gain: 0.12 });
+      // arpège majeur consonant (do-mi-sol), doux et satisfaisant
+      tone(c, { type: "triangle", from: 523, start: t, duration: 0.12, gain: 0.09 });
+      tone(c, { type: "triangle", from: 659, start: t + 0.1, duration: 0.12, gain: 0.09 });
+      tone(c, { type: "sine", from: 784, start: t + 0.2, duration: 0.22, gain: 0.1 });
       break;
     case "error":
-      tone(c, { type: "sawtooth", from: 220, to: 110, start: t, duration: 0.22, gain: 0.14 });
+      // deux notes descendantes douces, jamais un buzz strident
+      tone(c, { type: "sine", from: 392, start: t, duration: 0.14, gain: 0.1 });
+      tone(c, { type: "sine", from: 294, start: t + 0.12, duration: 0.2, gain: 0.1 });
       break;
   }
 }

@@ -37,7 +37,9 @@ export default function RootLayout({
           <BootOverlay />
           {mode === "live" && <LiveSync />}
           <Header mode={mode} />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-6 pt-4">{children}</main>
+          <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-6 pt-4 lg:max-w-6xl lg:px-8 lg:pt-6">
+            {children}
+          </main>
           <BottomNav />
         </SoundProvider>
       </body>
