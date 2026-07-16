@@ -68,18 +68,40 @@ async function runChecks(): Promise<CheckResult[]> {
         const countUrl = (qs: string) =>
           `https://${config.domain}/admin/api/2025-01/orders/count.json?status=any${qs}`;
 
-        const [sinceRes, totalRes] = await Promise.all([
+        const [sinceRes, shopRes, sampleRes] = await Promise.all([
           fetch(countUrl(`&created_at_min=${sinceParam}`), { headers }),
-          fetch(countUrl(""), { headers }),
+          fetch(`https://${config.domain}/admin/api/2025-01/shop.json?fields=currency,money_format`, { headers }),
+          fetch(
+            `https://${config.domain}/admin/api/2025-01/orders.json?status=any&limit=1&fields=currency,presentment_currency,total_price,total_price_set`,
+            { headers }
+          ),
         ]);
         if (!sinceRes.ok) {
           const body = await sinceRes.text();
           throw new Error(`HTTP ${sinceRes.status} — ${shorten(body)}`);
         }
         const shopifySince = ((await sinceRes.json()) as { count: number }).count;
-        const shopifyTotal = totalRes.ok
-          ? ((await totalRes.json()) as { count: number }).count
-          : null;
+
+        // Devise de la boutique : si ≠ EUR, total_price n'est PAS en euros et
+        // le CA est faux (on lit une autre monnaie comme des euros).
+        const shopCurrency = shopRes.ok
+          ? ((await shopRes.json()) as { shop?: { currency?: string } }).shop?.currency ?? "?"
+          : "?";
+        let sampleInfo = "";
+        if (sampleRes.ok) {
+          const sample = ((await sampleRes.json()) as {
+            orders?: Array<{
+              currency?: string;
+              presentment_currency?: string;
+              total_price?: string;
+              total_price_set?: { shop_money?: { amount?: string; currency_code?: string } };
+            }>;
+          }).orders?.[0];
+          if (sample) {
+            const shopMoney = sample.total_price_set?.shop_money;
+            sampleInfo = ` · ex. commande : total_price ${sample.total_price} ${sample.currency} (client paie en ${sample.presentment_currency}) · shop_money ${shopMoney?.amount} ${shopMoney?.currency_code}`;
+          }
+        }
 
         const { count: dbCount, error: dbErr } = await supabase
           .from("orders")
@@ -98,14 +120,13 @@ async function runChecks(): Promise<CheckResult[]> {
         const delta = shopifySince - (dbCount ?? 0);
         results.push({
           name: `🛍️ Shopify ${config.market}`,
-          ok: delta === 0,
+          ok: delta === 0 && shopCurrency === "EUR",
           detail:
-            `Shopify depuis 04/06 : ${shopifySince} cmd` +
-            (shopifyTotal !== null && shopifyTotal !== shopifySince
-              ? ` (${shopifyTotal} au total, dont ${shopifyTotal - shopifySince} avant le 04/06 — hors périmètre)`
-              : "") +
+            `💱 Devise boutique : ${shopCurrency}${shopCurrency !== "EUR" ? " ⚠️ PAS en euros — CA faux" : ""}` +
+            ` · Shopify depuis 04/06 : ${shopifySince} cmd` +
             ` · Base : ${dbCount ?? 0} cmd (écart ${delta >= 0 ? "−" : "+"}${Math.abs(delta)})` +
-            ` · Agrégats affichés : ${aggOrders} cmd, CA ${(aggCa / 100).toFixed(2)} €`,
+            ` · Agrégats : ${aggOrders} cmd, CA ${(aggCa / 100).toFixed(2)} €` +
+            sampleInfo,
         });
       } catch (err) {
         results.push({

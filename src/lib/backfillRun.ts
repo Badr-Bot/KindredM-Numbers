@@ -5,6 +5,7 @@ import {
   iterateOrders,
   computeRefundedCentsAccurate,
   resolveAccessToken,
+  totalPriceShopCents,
 } from "./shopify";
 import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
 import {
@@ -92,7 +93,7 @@ async function backfillOrders(
           created_at_utc: order.created_at,
           day,
           shipping_country: shippingCountry,
-          total_cents: Math.round(parseFloat(order.total_price) * 100),
+          total_cents: totalPriceShopCents(order),
           refunded_cents: await computeRefundedCentsAccurate(config, token, order),
           line_items: order.line_items,
           polo_qty: classified.poloQty,

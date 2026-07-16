@@ -5,6 +5,7 @@ import {
   iterateOrders,
   computeRefundedCentsAccurate,
   resolveAccessToken,
+  totalPriceShopCents,
 } from "./shopify";
 import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
 import { classifyLineItems, computeOrderCogsTax, UnmappedProductError, type ProductMapEntry } from "./engine";
@@ -80,7 +81,7 @@ export async function runIncrementalSync(
           created_at_utc: order.created_at,
           day,
           shipping_country: shippingCountry,
-          total_cents: Math.round(parseFloat(order.total_price) * 100),
+          total_cents: totalPriceShopCents(order),
           refunded_cents: await computeRefundedCentsAccurate(config, token, order),
           line_items: order.line_items,
           polo_qty: classified.poloQty,
@@ -138,11 +139,10 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v2 : le 1er correctif (amount_set) lisait un champ qui n'existe pas sur
-// Transaction — il ne changeait donc jamais rien. Le vrai fix relit les
-// transactions via in_shop_currency=true (computeRefundedCentsAccurate).
-// Nouvelle version = redéclenche le resync complet une fois de plus.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-refund-currency-fix-v2";
+// v3 : CA lu depuis total_price_set.shop_money (devise boutique garantie)
+// au lieu de total_price brut — corrige un éventuel CA en devise client sur
+// ES/DE/UK. Chaque bump redéclenche un resync complet à la prochaine visite.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-shop-currency-ca-v3";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 

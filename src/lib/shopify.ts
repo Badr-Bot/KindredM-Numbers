@@ -99,16 +99,35 @@ export interface ShopifyRefund {
   transactions: ShopifyRefundTransaction[];
 }
 
+export interface ShopifyMoneySet {
+  shop_money?: { amount: string; currency_code: string };
+  presentment_money?: { amount: string; currency_code: string };
+}
+
 export interface ShopifyOrder {
   id: number;
   name: string;
   created_at: string;
   updated_at: string;
   total_price: string;
+  /** Montant total dans les deux devises. shop_money = devise boutique
+   * (EUR) = source de vérité pour le CA. total_price seul peut, sur certaines
+   * commandes multi-devises, revenir en devise client (même piège que les
+   * remboursements) — voir totalPriceShopCents. */
+  total_price_set?: ShopifyMoneySet;
+  currency?: string;
   financial_status: string;
   line_items: ShopifyLineItem[];
   shipping_address: { country_code: string } | null;
   refunds: ShopifyRefund[];
+}
+
+/** CA d'une commande en centimes, TOUJOURS en devise boutique (EUR) : lit
+ * total_price_set.shop_money en priorité, retombe sur total_price si absent
+ * (commandes anciennes / réponses partielles). */
+export function totalPriceShopCents(order: ShopifyOrder): number {
+  const shopAmount = order.total_price_set?.shop_money?.amount ?? order.total_price;
+  return Math.round(parseFloat(shopAmount) * 100);
 }
 
 function sumRefundTransactions(transactions: ShopifyRefundTransaction[]): number {

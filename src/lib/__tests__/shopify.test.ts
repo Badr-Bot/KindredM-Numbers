@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { computeRefundedCents, computeRefundedCentsAccurate, type ShopifyOrder } from "../shopify";
+import {
+  computeRefundedCents,
+  computeRefundedCentsAccurate,
+  totalPriceShopCents,
+  type ShopifyOrder,
+} from "../shopify";
 
 function orderWithRefund(amount: string): ShopifyOrder {
   return {
@@ -31,6 +36,27 @@ function orderWithoutRefund(): ShopifyOrder {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+});
+
+describe("totalPriceShopCents (CA en devise boutique)", () => {
+  it("préfère total_price_set.shop_money (EUR) à total_price brut", () => {
+    // Commande multi-devises : total_price brut peut revenir en devise
+    // client ; shop_money est garanti en devise boutique (EUR).
+    const order: ShopifyOrder = {
+      ...orderWithoutRefund(),
+      total_price: "8500.00", // p.ex. montant en devise étrangère
+      total_price_set: {
+        shop_money: { amount: "59.98", currency_code: "EUR" },
+        presentment_money: { amount: "8500.00", currency_code: "DZD" },
+      },
+    };
+    expect(totalPriceShopCents(order)).toBe(5998);
+  });
+
+  it("retombe sur total_price si total_price_set est absent", () => {
+    const order: ShopifyOrder = { ...orderWithoutRefund(), total_price: "59.98" };
+    expect(totalPriceShopCents(order)).toBe(5998);
+  });
 });
 
 describe("computeRefundedCents (lecture naïve embarquée)", () => {
