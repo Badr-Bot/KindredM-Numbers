@@ -1,6 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "./supabase";
-import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "./shopify";
+import {
+  getShopifyStoreConfigs,
+  iterateOrders,
+  computeRefundedCentsAccurate,
+  resolveAccessToken,
+} from "./shopify";
 import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
 import { classifyLineItems, computeOrderCogsTax, UnmappedProductError, type ProductMapEntry } from "./engine";
 import { toParisDay, todayParisDay, addDaysToDay } from "./time";
@@ -34,6 +39,7 @@ export async function runIncrementalSync(
 
   for (const config of configs) {
     try {
+      const token = await resolveAccessToken(config);
       for await (const order of iterateOrders(config, { updatedAtMin: updatedAtMinIso })) {
         const day = toParisDay(order.created_at);
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
@@ -75,7 +81,7 @@ export async function runIncrementalSync(
           day,
           shipping_country: shippingCountry,
           total_cents: Math.round(parseFloat(order.total_price) * 100),
-          refunded_cents: computeRefundedCents(order),
+          refunded_cents: await computeRefundedCentsAccurate(config, token, order),
           line_items: order.line_items,
           polo_qty: classified.poloQty,
           upsells: classified.upsells,
@@ -132,7 +138,11 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-refund-currency-fix";
+// v2 : le 1er correctif (amount_set) lisait un champ qui n'existe pas sur
+// Transaction — il ne changeait donc jamais rien. Le vrai fix relit les
+// transactions via in_shop_currency=true (computeRefundedCentsAccurate).
+// Nouvelle version = redéclenche le resync complet une fois de plus.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-refund-currency-fix-v2";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 

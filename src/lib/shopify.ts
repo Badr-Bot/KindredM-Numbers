@@ -84,13 +84,13 @@ export interface ShopifyLineItem {
 
 export interface ShopifyRefundTransaction {
   /** Doc Shopify : par défaut dans la devise DU CLIENT (presentment), pas
-   * celle de la boutique — contrairement à Order.total_price. Ne jamais lire
-   * ce champ directement pour un montant en EUR (bug constaté 29/06 :
-   * remboursement DZD lu comme des euros, CA négatif). */
+   * celle de la boutique — contrairement à Order.total_price. La commande
+   * embarquée (order.refunds[].transactions[]) n'a PAS de variante « devise
+   * boutique » (pas de amount_set sur Transaction, contrairement à Order ou
+   * RefundLineItem) : impossible de lire un montant EUR fiable sans un
+   * second appel — voir computeRefundedCentsAccurate. */
   amount: string;
   kind: string;
-  /** Toujours en devise boutique (EUR ici) — source de vérité pour le calcul. */
-  amount_set?: { shop_money?: { amount: string; currency_code: string } };
 }
 
 export interface ShopifyRefund {
@@ -111,18 +111,43 @@ export interface ShopifyOrder {
   refunds: ShopifyRefund[];
 }
 
-/** Somme des transactions de remboursement (kind === "refund"), en centimes,
- * toujours en devise boutique (EUR) via amount_set.shop_money — §4.7. */
+function sumRefundTransactions(transactions: ShopifyRefundTransaction[]): number {
+  return transactions
+    .filter((t) => t.kind === "refund")
+    .reduce((s, t) => s + Math.round(parseFloat(t.amount) * 100), 0);
+}
+
+/** Lecture naïve depuis la commande embarquée — `amount` y est en devise
+ * CLIENT par défaut (bug 29/06 : DZD lu comme EUR). Gardé pour compat/tests
+ * uniquement ; le pipeline réel utilise computeRefundedCentsAccurate. */
 export function computeRefundedCents(order: ShopifyOrder): number {
-  return order.refunds.reduce((sum, refund) => {
-    const refundTotal = refund.transactions
-      .filter((t) => t.kind === "refund")
-      .reduce((s, t) => {
-        const shopAmount = t.amount_set?.shop_money?.amount ?? t.amount;
-        return s + Math.round(parseFloat(shopAmount) * 100);
-      }, 0);
-    return sum + refundTotal;
-  }, 0);
+  return order.refunds.reduce((sum, refund) => sum + sumRefundTransactions(refund.transactions), 0);
+}
+
+/**
+ * Version exacte, en devise boutique (EUR) : Shopify ne documente
+ * `in_shop_currency=true` que sur l'endpoint dédié transactions.json, pas
+ * sur orders.json — un second appel est donc nécessaire, mais UNIQUEMENT
+ * pour les commandes qui ont effectivement un remboursement (rare), donc
+ * sans impact notable sur le volume d'appels réseau du backfill.
+ */
+export async function computeRefundedCentsAccurate(
+  config: ShopifyStoreConfig,
+  token: string,
+  order: ShopifyOrder
+): Promise<number> {
+  if (order.refunds.length === 0) return 0;
+  const res = await fetch(
+    `https://${config.domain}/admin/api/${API_VERSION}/orders/${order.id}/transactions.json?in_shop_currency=true`,
+    { headers: { "X-Shopify-Access-Token": token } }
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Shopify transactions error ${res.status} (commande ${order.id}) : ${await summarizeErrorBody(res)}`
+    );
+  }
+  const body: { transactions: ShopifyRefundTransaction[] } = await res.json();
+  return sumRefundTransactions(body.transactions);
 }
 
 function parseNextLink(linkHeader: string | null): string | null {

@@ -1,6 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "./supabase";
-import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "./shopify";
+import {
+  getShopifyStoreConfigs,
+  iterateOrders,
+  computeRefundedCentsAccurate,
+  resolveAccessToken,
+} from "./shopify";
 import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
 import {
   classifyLineItems,
@@ -40,6 +45,7 @@ async function backfillOrders(
 
   for (const config of configs) {
     try {
+      const token = await resolveAccessToken(config);
       const rows: Record<string, unknown>[] = [];
       const unknownTitles = new Set<string>();
       let skippedOrders = 0;
@@ -87,7 +93,7 @@ async function backfillOrders(
           day,
           shipping_country: shippingCountry,
           total_cents: Math.round(parseFloat(order.total_price) * 100),
-          refunded_cents: computeRefundedCents(order),
+          refunded_cents: await computeRefundedCentsAccurate(config, token, order),
           line_items: order.line_items,
           polo_qty: classified.poloQty,
           upsells: classified.upsells,
