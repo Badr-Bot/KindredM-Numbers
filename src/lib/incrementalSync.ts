@@ -133,6 +133,8 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
 const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-refund-currency-fix";
+const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
+const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 
 /**
  * Version throttlée pour un déclenchement automatique depuis le navigateur
@@ -169,6 +171,22 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
   // instant, elles refont le même travail idempotent — sans conséquence.
   let result: IncrementalSyncResult;
   if (needsFullResync) {
+    // Verrou anti-doublon : le backfill complet peut prendre 1-2 min — si
+    // Badr recharge la page entre-temps (croyant que rien ne se passe), on
+    // évite de relancer un 2e backfill concurrent par-dessus le premier.
+    // Expire tout seul après 10 min au cas où le premier essai a échoué.
+    const { data: lock } = await supabase
+      .from("app_state")
+      .select("updated_at")
+      .eq("key", RESYNC_LOCK_KEY)
+      .maybeSingle();
+    if (lock && Date.now() - new Date(lock.updated_at as string).getTime() < RESYNC_LOCK_TTL_MS) {
+      return { ran: false };
+    }
+    await supabase
+      .from("app_state")
+      .upsert({ key: RESYNC_LOCK_KEY, value: "running", updated_at: new Date().toISOString() });
+
     const { runFullBackfill } = await import("./backfillRun");
     const full = await runFullBackfill();
     result = { ran: true, warnings: full.warnings };
