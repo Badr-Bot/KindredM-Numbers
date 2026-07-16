@@ -136,22 +136,27 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
 
   const { data: marker } = await supabase
     .from("app_state")
-    .select("updated_at")
+    .select("updated_at, value")
     .eq("key", THROTTLE_KEY)
     .maybeSingle();
-  if (marker && Date.now() - new Date(marker.updated_at as string).getTime() < THROTTLE_MS) {
+  if (
+    marker?.value === "done" &&
+    Date.now() - new Date(marker.updated_at as string).getTime() < THROTTLE_MS
+  ) {
     return { ran: false };
   }
-
-  // Pose le marqueur avant de lancer le travail : si deux requêtes arrivent
-  // en même temps, une seule gagne la course (upsert), l'autre voit le
-  // marqueur frais au prochain appel.
-  await supabase
-    .from("app_state")
-    .upsert({ key: THROTTLE_KEY, value: "running", updated_at: new Date().toISOString() });
 
   const { data: productsMap } = await supabase.from("products_map").select("*");
   if (!productsMap || productsMap.length === 0) return { ran: false };
 
-  return runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  // Le marqueur n'est posé ("done") qu'APRÈS un cycle réussi — sinon un
+  // échec en cours de route bloquerait toute nouvelle tentative pendant
+  // 5 min alors que rien n'a été écrit (constaté le 16/07 : CA resté figé
+  // malgré 97 nouvelles commandes). Si deux visites arrivent au même
+  // instant, elles refont le même travail idempotent — sans conséquence.
+  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  await supabase
+    .from("app_state")
+    .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });
+  return result;
 }
