@@ -119,6 +119,29 @@ async function runChecks(): Promise<CheckResult[]> {
     results.push({ name: "🛍️ Shopify (config)", ok: false, detail: shorten((err as Error).message) });
   }
 
+  // --- Synchro auto (LiveSync/app_state) ---
+  // Appelle la même fonction que /api/sync pour révéler directement une
+  // panne silencieuse (ex : table app_state manquante) au lieu de deviner.
+  try {
+    const { runThrottledIncrementalSync } = await import("@/lib/incrementalSync");
+    const result = await runThrottledIncrementalSync();
+    results.push({
+      name: "🔄 Synchro auto",
+      ok: true,
+      detail: result.ran
+        ? `Synchro exécutée · jours touchés : ${(result.touchedDays ?? []).join(", ") || "aucun"}${
+            result.warnings?.length ? ` · ⚠️ ${result.warnings.join(" | ")}` : ""
+          }`
+        : "Ignorée (déjà synchronisé il y a moins de 5 min, ou base pas encore initialisée) — normal si tu viens de recharger la page.",
+    });
+  } catch (err) {
+    results.push({
+      name: "🔄 Synchro auto",
+      ok: false,
+      detail: shorten((err as Error).message),
+    });
+  }
+
   // --- Meta ---
   try {
     const { fetchMetaSpend } = await import("@/lib/meta");
