@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   CartesianGrid,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -12,6 +14,7 @@ import {
 } from "recharts";
 import type { DayAgg, Thresholds } from "@/lib/data";
 import type { AnalyticsData } from "@/lib/analytics";
+import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatRoas } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
@@ -89,14 +92,19 @@ export function AnalyseBoard({
   thresholds,
   historyStart,
   today,
+  events,
+  journalReady,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
   thresholds: Thresholds;
   historyStart: string;
   today: string;
+  events: JournalEvent[];
+  journalReady: boolean;
 }) {
   const { play } = useSound();
+  const router = useRouter();
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
   const [preset, setPreset] = useState<Preset>("14");
   const [customFrom, setCustomFrom] = useState(historyStart);
@@ -220,6 +228,100 @@ export function AnalyseBoard({
     };
   }, [analytics.ads, thresholds]);
 
+  // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
+  const eventMarkers = useMemo(
+    () =>
+      events
+        .filter((e) => e.day >= from && e.day <= to)
+        .map((e) => ({ label: formatDayShort(e.day), emoji: EVENT_TYPE_META[e.type].emoji })),
+    [events, from, to]
+  );
+
+  // ⚖️ Verdict avant/après (3 j de chaque côté) par événement, sur le CA et
+  // le CPA du marché affiché — calculé sur tout l'historique, pas la fenêtre.
+  const eventVerdicts = useMemo(() => {
+    const byDay = new Map(dayData[tab].map((d) => [d.day, d]));
+    const out = new Map<number, string>();
+    for (const e of events) {
+      const pick = (offsets: number[]) => {
+        const ca: number[] = [];
+        const cpa: number[] = [];
+        for (const off of offsets) {
+          const d = new Date(`${e.day}T00:00:00Z`);
+          d.setUTCDate(d.getUTCDate() + off);
+          const row = byDay.get(d.toISOString().slice(0, 10));
+          if (row && row.day < today && (row.caCents > 0 || row.spendCents > 0)) {
+            ca.push(row.caCents);
+            if (row.orders > 0 && row.spendCents > 0) cpa.push(row.spendCents / row.orders);
+          }
+        }
+        return { ca, cpa };
+      };
+      const before = pick([-3, -2, -1]);
+      const after = pick([0, 1, 2]);
+      if (before.ca.length < 2 || after.ca.length < 2) continue;
+      const avg = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+      const dCa = (avg(after.ca) - avg(before.ca)) / avg(before.ca);
+      let text = `CA ${dCa >= 0 ? "+" : "−"}${Math.round(Math.abs(dCa) * 100)} %`;
+      if (before.cpa.length >= 2 && after.cpa.length >= 2) {
+        const dCpa = (avg(after.cpa) - avg(before.cpa)) / avg(before.cpa);
+        text += ` · CPA ${dCpa >= 0 ? "+" : "−"}${Math.round(Math.abs(dCpa) * 100)} %`;
+      }
+      out.set(e.id, text + " (3 j av/ap)");
+    }
+    return out;
+  }, [events, dayData, tab, today]);
+
+  // 📅 Heatmap jour-de-semaine (moyennes sur la fenêtre, jours pleins)
+  const weekHeatmap = useMemo(() => {
+    const WEEKDAYS = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
+    const buckets: { ca: number[]; orders: number[]; aov: number[] }[] = WEEKDAYS.map(() => ({
+      ca: [],
+      orders: [],
+      aov: [],
+    }));
+    for (const d of series) {
+      if (d.day >= today) continue;
+      const wd = (new Date(`${d.day}T00:00:00Z`).getUTCDay() + 6) % 7; // lun=0
+      buckets[wd].ca.push(d.caCents);
+      buckets[wd].orders.push(d.orders);
+      if (d.aovCents !== null) buckets[wd].aov.push(d.aovCents);
+    }
+    const avg = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
+    const rows = [
+      { label: "CA moyen", fmt: (v: number) => formatEur0(Math.round(v)), values: buckets.map((b) => avg(b.ca)) },
+      { label: "Commandes", fmt: (v: number) => String(Math.round(v)), values: buckets.map((b) => avg(b.orders)) },
+      { label: "Panier", fmt: eur2, values: buckets.map((b) => avg(b.aov)) },
+    ];
+    return { WEEKDAYS, rows };
+  }, [series, today]);
+
+  const submitEvent = async (day: string, type: EventType, note: string) => {
+    const res = await fetch("/api/journal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ day, type, note }),
+    });
+    const json = await res.json();
+    if (json.ok) {
+      play("cash");
+      router.refresh();
+      return null;
+    }
+    play("error");
+    return (json.reason as string) ?? "Échec.";
+  };
+
+  const deleteEvent = async (id: number) => {
+    play("tick");
+    await fetch("/api/journal", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    router.refresh();
+  };
+
   const presetBtn = (p: Preset, label: string) => (
     <button
       key={p}
@@ -304,12 +406,65 @@ export function AnalyseBoard({
         </section>
       )}
 
-      {/* Courbes : petits multiples, une métrique par graphe (jamais 2 axes) */}
+      {/* Courbes : petits multiples, une métrique par graphe (jamais 2 axes).
+          Les traits verticaux = événements du journal (avant/après visible). */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {METRICS.map((def) => (
-          <MetricChart key={def.key} def={def} series={series} locked={def.needsMeta && !hasMetaData} />
+          <MetricChart
+            key={def.key}
+            def={def}
+            series={series}
+            locked={def.needsMeta && !hasMetaData}
+            markers={eventMarkers}
+          />
         ))}
       </div>
+
+      {/* 📅 Heatmap jour-de-semaine */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+          📅 Patterns hebdomadaires · moyennes sur la période
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[460px] border-collapse text-[11px] tnum lg:text-xs">
+            <thead>
+              <tr className="text-[9.5px] uppercase tracking-wide text-ink-dim">
+                <th className="px-2 py-1 text-left font-semibold"></th>
+                {weekHeatmap.WEEKDAYS.map((d) => (
+                  <th key={d} className="px-2 py-1 text-center font-semibold">
+                    {d}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {weekHeatmap.rows.map((row) => {
+                const max = Math.max(...row.values.map((v) => v ?? 0), 1);
+                return (
+                  <tr key={row.label}>
+                    <td className="whitespace-nowrap px-2 py-1 text-left font-medium text-ink-dim">
+                      {row.label}
+                    </td>
+                    {row.values.map((v, i) => (
+                      <td key={i} className="px-1 py-0.5 text-center">
+                        <div
+                          className="rounded px-1 py-1.5"
+                          style={{ background: `rgba(255, 198, 26, ${v === null ? 0 : 0.06 + (v / max) * 0.3})` }}
+                        >
+                          {v === null ? "—" : row.fmt(v)}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-1.5 text-[10px] text-ink-faint">
+          Plus la case est dorée, plus le jour performe — utile pour caler budget et lancements.
+        </p>
+      </section>
 
       {/* 🔗 Corrélations */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
@@ -337,6 +492,17 @@ export function AnalyseBoard({
           </ul>
         )}
       </section>
+
+      {/* 📓 Journal de bord */}
+      <JournalSection
+        events={events}
+        verdicts={eventVerdicts}
+        ready={journalReady}
+        today={today}
+        historyStart={historyStart}
+        onSubmit={submitEvent}
+        onDelete={deleteEvent}
+      />
 
       {/* 🎨 Créas & hit rate */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
@@ -401,14 +567,150 @@ export function AnalyseBoard({
 
 // ---------------------------------------------------------------------------
 
+function JournalSection({
+  events,
+  verdicts,
+  ready,
+  today,
+  historyStart,
+  onSubmit,
+  onDelete,
+}: {
+  events: JournalEvent[];
+  verdicts: Map<number, string>;
+  ready: boolean;
+  today: string;
+  historyStart: string;
+  onSubmit: (day: string, type: EventType, note: string) => Promise<string | null>;
+  onDelete: (id: number) => void;
+}) {
+  const [day, setDay] = useState(today);
+  const [type, setType] = useState<EventType>("crea");
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  const submit = async () => {
+    setBusy(true);
+    setMsg(null);
+    const err = await onSubmit(day, type, note);
+    if (err) setMsg(err);
+    else setNote("");
+    setBusy(false);
+  };
+
+  return (
+    <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+        📓 Journal de bord · relie tes changements aux chiffres
+      </div>
+
+      {!ready ? (
+        <p className="rounded border border-amber/40 bg-amber/[0.05] p-2.5 text-[11.5px] text-amber">
+          ⚠️ Colle la migration <b>0006_journal.sql</b> dans Supabase (SQL Editor → Run) pour
+          activer le journal.
+        </p>
+      ) : (
+        <>
+          {/* Saisie 20 secondes */}
+          <div className="mb-3 flex flex-wrap items-end gap-2">
+            <input
+              type="date"
+              value={day}
+              min={historyStart}
+              max={today}
+              onChange={(e) => setDay(e.target.value)}
+              className="rounded border border-line bg-terminal px-2 py-1.5 text-[11.5px] text-ink"
+            />
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value as EventType)}
+              className="rounded border border-line bg-terminal px-2 py-1.5 text-[11.5px] text-ink"
+            >
+              {(Object.keys(EVENT_TYPE_META) as EventType[])
+                .filter((t) => t !== "campagne")
+                .map((t) => (
+                  <option key={t} value={t}>
+                    {EVENT_TYPE_META[t].emoji} {EVENT_TYPE_META[t].label}
+                  </option>
+                ))}
+            </select>
+            <input
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="ex. bundle 4 pcs passé à 84,99 €"
+              className="min-w-[180px] flex-1 rounded border border-line bg-terminal px-2 py-1.5 text-[11.5px] text-ink"
+            />
+            <button
+              onClick={submit}
+              disabled={busy || !note.trim()}
+              className="rounded border border-phosphor/60 bg-phosphor/10 px-3 py-1.5 text-xs font-semibold text-phosphor transition-colors hover:bg-phosphor/20 disabled:opacity-40"
+            >
+              {busy ? "…" : "➕ Noter"}
+            </button>
+          </div>
+          {msg && <p className="mb-2 text-[11px] text-red">{msg}</p>}
+
+          {events.length === 0 ? (
+            <p className="text-[11.5px] text-ink-faint">
+              Aucun événement pour l&apos;instant. Note chaque changement (créa, landing, offre,
+              prix…) — il apparaîtra en trait vertical sur les courbes, avec un verdict
+              avant/après automatique. Les coupures/lancements de campagne se détectent tout
+              seuls.
+            </p>
+          ) : (
+            <ul className="flex max-h-72 flex-col gap-1.5 overflow-y-auto">
+              {events.map((e) => (
+                <li
+                  key={e.id}
+                  className="flex items-start justify-between gap-2 rounded border border-line-soft bg-terminal/50 px-2.5 py-1.5 text-[11.5px]"
+                >
+                  <span className="min-w-0">
+                    <span className="mr-1.5 whitespace-nowrap font-semibold text-ink-dim tnum">
+                      {formatDayShort(e.day)}
+                    </span>
+                    <span aria-hidden className="mr-1">{EVENT_TYPE_META[e.type].emoji}</span>
+                    <span className="break-words">{e.note}</span>
+                    {e.source === "auto" && (
+                      <span className="ml-1.5 rounded border border-cyan/40 bg-cyan/10 px-1 text-[9px] font-bold text-cyan">
+                        auto
+                      </span>
+                    )}
+                    {verdicts.has(e.id) && (
+                      <span className="ml-1.5 whitespace-nowrap text-[10.5px] text-ink-faint tnum">
+                        ⚖️ {verdicts.get(e.id)}
+                      </span>
+                    )}
+                  </span>
+                  {e.source === "manual" && (
+                    <button
+                      onClick={() => onDelete(e.id)}
+                      aria-label="Supprimer"
+                      className="flex-none text-ink-faint hover:text-red"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
 function MetricChart({
   def,
   series,
   locked,
+  markers,
 }: {
   def: MetricDef;
   series: DayMetrics[];
   locked: boolean;
+  markers: { label: string; emoji: string }[];
 }) {
   const data = series.map((d) => ({
     label: d.label,
@@ -461,6 +763,14 @@ function MetricChart({
                   );
                 }}
               />
+              {markers.map((m, i) => (
+                <ReferenceLine
+                  key={`${m.label}-${i}`}
+                  x={m.label}
+                  stroke="#6c6482"
+                  strokeDasharray="3 3"
+                />
+              ))}
               <Line
                 dataKey="value"
                 stroke={def.color}

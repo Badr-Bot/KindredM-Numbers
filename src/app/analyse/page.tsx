@@ -8,6 +8,7 @@ import {
   type Thresholds,
 } from "@/lib/data";
 import { getAnalyticsData, type AnalyticsData } from "@/lib/analytics";
+import { getJournalEvents, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
@@ -23,17 +24,27 @@ type LoadResult =
       analytics: AnalyticsData;
       thresholds: Thresholds;
       today: string;
+      events: JournalEvent[];
+      journalReady: boolean;
     };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const [dayData, analytics, thresholds] = await Promise.all([
+    const [dayData, analytics, thresholds, journal] = await Promise.all([
       getTabDayData(HISTORY_START, today),
       getAnalyticsData(HISTORY_START, today),
       computeThresholds(today),
+      getJournalEvents(),
     ]);
-    return { dayData, analytics, thresholds: thresholds.GLOBAL, today };
+    return {
+      dayData,
+      analytics,
+      thresholds: thresholds.GLOBAL,
+      today,
+      events: journal.events,
+      journalReady: journal.ready,
+    };
   } catch (err) {
     return { error: (err as Error).message };
   }
@@ -73,6 +84,8 @@ export default async function AnalysePage() {
         thresholds={result.thresholds}
         historyStart={HISTORY_START}
         today={result.today}
+        events={result.events}
+        journalReady={result.journalReady}
       />
     </div>
   );

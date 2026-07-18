@@ -38,6 +38,19 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 18/07 (soir) — vague 1 du plan Intelligence
+
+- **📓 Journal de bord** (migration `0006_journal.sql` à coller) : saisie
+  20 s (date + type + note) dans l'onglet Analyse ; événements auto-détectés
+  depuis meta_spend (campagne coupée/lancée, saut de budget ±50 %) — marche
+  déjà avec le seed, sans token ; marqueurs verticaux sur toutes les courbes
+  Analyse ; verdict avant/après automatique (CA + CPA, 3 j de chaque côté).
+- **📅 Heatmap jour-de-semaine** dans Analyse (CA, commandes, panier).
+- **🧠 Brief du jour** sur l'accueil : net d'hier vs moyenne 7 j, anomalies
+  ±20 % (CA/CPA/panier), rappels campagnes coupées. v2 (waterfall
+  CPM/CTR/CVR) s'activera avec le token Meta.
+- Reste du plan (waterfall, labo créas, ROAS marginal) : en attente du token.
+
 ## Mise à jour 18/07 — onglet 📊 Analyse
 
 Nouvel onglet Analyse (nav, entre Mois et Année) : sélecteur de période

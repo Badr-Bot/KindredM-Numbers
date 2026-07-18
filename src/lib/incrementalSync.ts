@@ -160,6 +160,11 @@ export async function runIncrementalSync(
     warnings.push(`Spend Meta indisponible pour ce cycle : ${(err as Error).message}`);
   }
 
+  // 📓 Journal : détection auto (campagne coupée/lancée, saut de budget)
+  // depuis meta_spend — marche même quand le token Meta est HS (seed SQL).
+  const { detectCampaignEvents } = await import("./journal");
+  await detectCampaignEvents(supabase);
+
   // Filet de sécurité : les 3 derniers jours sont toujours recalculés, même
   // si le scan updated_at n'a rien détecté (cause du CA périmé du 16/07).
   for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
