@@ -120,8 +120,8 @@ export async function runIncrementalSync(
         campaign_name: row.campaignName,
         spend_cents: row.spendCents,
       });
-      // Métriques détaillées (Analyse) — best effort : si la migration 0005
-      // n'est pas encore appliquée, on n'empêche pas le spend de passer.
+      // Métriques détaillées (Analyse) — best effort : si les migrations
+      // 0005/0007 manquent, on n'empêche pas le spend de passer.
       await supabase.from("meta_insights").upsert({
         day: row.day,
         campaign_id: row.campaignId,
@@ -132,6 +132,14 @@ export async function runIncrementalSync(
         clicks: row.clicks,
         purchases: row.purchases,
         purchase_value_cents: row.purchaseValueCents,
+        reach: row.reach,
+        frequency: row.frequency,
+        link_clicks: row.linkClicks,
+        landing_page_views: row.landingPageViews,
+        add_to_cart: row.addToCart,
+        initiate_checkout: row.initiateCheckout,
+        video_3s: row.video3s,
+        thruplays: row.thruplays,
       });
     }
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
@@ -151,10 +159,40 @@ export async function runIncrementalSync(
           clicks: row.clicks,
           purchases: row.purchases,
           purchase_value_cents: row.purchaseValueCents,
+          reach: row.reach,
+          frequency: row.frequency,
+          link_clicks: row.linkClicks,
+          landing_page_views: row.landingPageViews,
+          add_to_cart: row.addToCart,
+          initiate_checkout: row.initiateCheckout,
+          video_3s: row.video3s,
+          thruplays: row.thruplays,
+          quality_ranking: row.qualityRanking,
+          engagement_ranking: row.engagementRanking,
+          conversion_ranking: row.conversionRanking,
         });
       }
     } catch (err) {
       warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
+    }
+    // Breakdown pays : le vrai ROAS BE/CA/CH dans les campagnes « FR ».
+    try {
+      const { fetchMetaCountryInsights } = await import("./meta");
+      const countryRows = await fetchMetaCountryInsights(rescanFromDay, yesterday);
+      for (const row of countryRows) {
+        await supabase.from("meta_country_insights").upsert({
+          day: row.day,
+          campaign_id: row.campaignId,
+          country: row.country,
+          spend_cents: row.spendCents,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          purchases: row.purchases,
+          purchase_value_cents: row.purchaseValueCents,
+        });
+      }
+    } catch (err) {
+      warnings.push(`Répartition pays Meta indisponible : ${(err as Error).message}`);
     }
   } catch (err) {
     warnings.push(`Spend Meta indisponible pour ce cycle : ${(err as Error).message}`);

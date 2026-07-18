@@ -22,8 +22,16 @@ interface MetaInsightsRow {
   spend: string;
   impressions?: string;
   clicks?: string;
+  reach?: string;
+  frequency?: string;
   actions?: MetaAction[];
   action_values?: MetaAction[];
+  outbound_clicks?: MetaAction[];
+  video_thruplay_watched_actions?: MetaAction[];
+  quality_ranking?: string;
+  engagement_rate_ranking?: string;
+  conversion_rate_ranking?: string;
+  country?: string;
   date_start: string;
 }
 
@@ -41,11 +49,33 @@ export interface MetaInsightRow {
   clicks: number;
   purchases: number;
   purchaseValueCents: number;
+  reach: number;
+  frequency: number;
+  linkClicks: number;
+  landingPageViews: number;
+  addToCart: number;
+  initiateCheckout: number;
+  video3s: number;
+  thruplays: number;
 }
 
 export interface MetaAdInsightRow extends MetaInsightRow {
   adId: string;
   adName: string;
+  qualityRanking: string | null;
+  engagementRanking: string | null;
+  conversionRanking: string | null;
+}
+
+export interface MetaCountryInsightRow {
+  day: string;
+  campaignId: string;
+  country: string;
+  spendCents: number;
+  impressions: number;
+  clicks: number;
+  purchases: number;
+  purchaseValueCents: number;
 }
 
 function pickPurchase(actions: MetaAction[] | undefined): number {
@@ -55,29 +85,44 @@ function pickPurchase(actions: MetaAction[] | undefined): number {
   return hit ? Math.round(parseFloat(hit.value) * 100) / 100 : 0;
 }
 
+/** Premier action_type trouvé dans la liste, arrondi entier (compteurs). */
+function pickAction(list: MetaAction[] | undefined, ...types: string[]): number {
+  for (const t of types) {
+    const hit = list?.find((a) => a.action_type === t);
+    if (hit) return Math.round(parseFloat(hit.value));
+  }
+  return 0;
+}
+
 async function* iterateInsights(
   level: "campaign" | "ad",
   sinceDay: string,
-  untilDay: string
+  untilDay: string,
+  options: { countryBreakdown?: boolean } = {}
 ): AsyncGenerator<MetaInsightsRow> {
   const token = process.env.META_ACCESS_TOKEN;
   const accountId = process.env.META_AD_ACCOUNT_ID;
   if (!token || !accountId) {
     throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
   }
-  const fields =
-    (level === "ad" ? "ad_id,ad_name," : "") +
-    "campaign_id,campaign_name,spend,impressions,clicks,actions,action_values";
+  const fields = options.countryBreakdown
+    ? // breakdown pays : Meta n'autorise pas les rankings/fréquence ici,
+      // on reste sur le cœur transactionnel
+      "campaign_id,campaign_name,spend,impressions,clicks,actions,action_values"
+    : (level === "ad" ? "ad_id,ad_name,quality_ranking,engagement_rate_ranking,conversion_rate_ranking," : "") +
+      "campaign_id,campaign_name,spend,impressions,clicks,reach,frequency," +
+      "actions,action_values,outbound_clicks,video_thruplay_watched_actions";
+  const params = new URLSearchParams({
+    level,
+    time_increment: "1",
+    fields,
+    time_range: JSON.stringify({ since: sinceDay, until: untilDay }),
+    limit: "500",
+    access_token: token,
+  });
+  if (options.countryBreakdown) params.set("breakdowns", "country");
   let url: string | null =
-    `https://graph.facebook.com/${API_VERSION}/act_${accountId}/insights?` +
-    new URLSearchParams({
-      level,
-      time_increment: "1",
-      fields,
-      time_range: JSON.stringify({ since: sinceDay, until: untilDay }),
-      limit: "500",
-      access_token: token,
-    }).toString();
+    `https://graph.facebook.com/${API_VERSION}/act_${accountId}/insights?` + params.toString();
 
   while (url) {
     const res = await fetch(url);
@@ -100,6 +145,14 @@ function toInsight(row: MetaInsightsRow): MetaInsightRow {
     clicks: Number(row.clicks ?? 0),
     purchases: Math.round(pickPurchase(row.actions)),
     purchaseValueCents: Math.round(pickPurchase(row.action_values) * 100),
+    reach: Number(row.reach ?? 0),
+    frequency: Number(row.frequency ?? 0),
+    linkClicks: pickAction(row.actions, "link_click"),
+    landingPageViews: pickAction(row.actions, "landing_page_view", "omni_landing_page_view"),
+    addToCart: pickAction(row.actions, "omni_add_to_cart", "add_to_cart"),
+    initiateCheckout: pickAction(row.actions, "omni_initiated_checkout", "initiate_checkout"),
+    video3s: pickAction(row.actions, "video_view"),
+    thruplays: pickAction(row.video_thruplay_watched_actions, "video_view"),
   };
 }
 
@@ -122,7 +175,36 @@ export async function fetchMetaAdInsights(
 ): Promise<MetaAdInsightRow[]> {
   const rows: MetaAdInsightRow[] = [];
   for await (const row of iterateInsights("ad", sinceDay, untilDay)) {
-    rows.push({ ...toInsight(row), adId: row.ad_id ?? "", adName: row.ad_name ?? "" });
+    rows.push({
+      ...toInsight(row),
+      adId: row.ad_id ?? "",
+      adName: row.ad_name ?? "",
+      qualityRanking: row.quality_ranking ?? null,
+      engagementRanking: row.engagement_rate_ranking ?? null,
+      conversionRanking: row.conversion_rate_ranking ?? null,
+    });
+  }
+  return rows;
+}
+
+/** Spend/achats par PAYS réel de diffusion (breakdown country) — le vrai
+ * ROAS Belgique/Canada/Suisse à l'intérieur d'une campagne « FR ». */
+export async function fetchMetaCountryInsights(
+  sinceDay: string,
+  untilDay: string
+): Promise<MetaCountryInsightRow[]> {
+  const rows: MetaCountryInsightRow[] = [];
+  for await (const row of iterateInsights("campaign", sinceDay, untilDay, { countryBreakdown: true })) {
+    rows.push({
+      day: row.date_start,
+      campaignId: row.campaign_id,
+      country: (row.country ?? "??").toUpperCase(),
+      spendCents: Math.round(parseFloat(row.spend) * 100),
+      impressions: Number(row.impressions ?? 0),
+      clicks: Number(row.clicks ?? 0),
+      purchases: Math.round(pickPurchase(row.actions)),
+      purchaseValueCents: Math.round(pickPurchase(row.action_values) * 100),
+    });
   }
   return rows;
 }
