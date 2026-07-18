@@ -38,6 +38,23 @@ simulés) : Fixture 1 reproduite au centime (24 tests verts).
 5. Plus tard (quand tout tourne) : faire pivoter les secrets qui ont transité
    par le chat (Dev Dashboard → Paramètres → « Faire pivoter ») + màj Vercel.
 
+## Mise à jour 18/07 — onglet 📊 Analyse
+
+Nouvel onglet Analyse (nav, entre Mois et Année) : sélecteur de période
+(7/14/30 j, tout, dates précises), courbes CPA·CPM·CPC·CTR·CVR·panier moyen
+en petits multiples, panneau 🚨 Dérapages (3 derniers jours vs 7 précédents,
+seuil ±20 %), panneau 🔗 Corrélations (Pearson entre CPM↔CPA, CTR↔CPA,
+CTR↔CVR, Spend↔CA, Spend↔CPA avec lecture en clair), section 🎨 Créas avec
+hit rate (gagnantes = ROAS ≥ cible ÷ créas testées ≥ 20 € de spend).
+
+- **Migration à coller** : `supabase/migrations/0005_meta_insights.sql`
+  (tables meta_insights + meta_ad_insights).
+- CPA et panier moyen marchent déjà (données Shopify). CPM/CPC/CTR/CVR et
+  les créas se rempliront automatiquement dès que le token Meta (app avec
+  Marketing API) fonctionnera — la synchro écrit déjà tout, aucune action.
+- CVR = commandes Shopify ÷ clics Meta (les sessions Shopify ne sont pas
+  accessibles avec les scopes actuels — proxy standard).
+
 ## Mise à jour 16/07 — bouton backfill supprimé, corrections auto-appliquées
 
 Suite au bug de devise (remboursements DZD lus comme des EUR), Badr a

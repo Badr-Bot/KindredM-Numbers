@@ -7,7 +7,12 @@ import {
   resolveAccessToken,
   totalPriceShopCents,
 } from "./shopify";
-import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
+import {
+  fetchMetaAdInsights,
+  fetchMetaInsights,
+  loadCampaignOverrides,
+  resolveCampaignMarket,
+} from "./meta";
 import { classifyLineItems, computeOrderCogsTax, UnmappedProductError, type ProductMapEntry } from "./engine";
 import { toParisDay, todayParisDay, addDaysToDay } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
@@ -102,7 +107,7 @@ export async function runIncrementalSync(
 
   try {
     const [metaRows, overrides] = await Promise.all([
-      fetchMetaSpend(rescanFromDay, yesterday),
+      fetchMetaInsights(rescanFromDay, yesterday),
       loadCampaignOverrides(supabase),
     ]);
     for (const row of metaRows) {
@@ -115,6 +120,41 @@ export async function runIncrementalSync(
         campaign_name: row.campaignName,
         spend_cents: row.spendCents,
       });
+      // Métriques détaillées (Analyse) — best effort : si la migration 0005
+      // n'est pas encore appliquée, on n'empêche pas le spend de passer.
+      await supabase.from("meta_insights").upsert({
+        day: row.day,
+        campaign_id: row.campaignId,
+        campaign_name: row.campaignName,
+        market,
+        spend_cents: row.spendCents,
+        impressions: row.impressions,
+        clicks: row.clicks,
+        purchases: row.purchases,
+        purchase_value_cents: row.purchaseValueCents,
+      });
+    }
+    // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
+    try {
+      const adRows = await fetchMetaAdInsights(rescanFromDay, yesterday);
+      for (const row of adRows) {
+        const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
+        await supabase.from("meta_ad_insights").upsert({
+          day: row.day,
+          ad_id: row.adId,
+          ad_name: row.adName,
+          campaign_id: row.campaignId,
+          campaign_name: row.campaignName,
+          market,
+          spend_cents: row.spendCents,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          purchases: row.purchases,
+          purchase_value_cents: row.purchaseValueCents,
+        });
+      }
+    } catch (err) {
+      warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
     }
   } catch (err) {
     warnings.push(`Spend Meta indisponible pour ce cycle : ${(err as Error).message}`);
