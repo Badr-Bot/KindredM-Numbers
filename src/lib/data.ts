@@ -250,6 +250,109 @@ export interface TodayView {
   fromAggregates: boolean;
   cards: TodayMarketCard[]; // GLOBAL en tête puis ES/UK/DE/FR
   pace: PaceReference;
+  acquisition: AcquisitionToday | null;
+}
+
+// ---------------------------------------------------------------------------
+// 🧭 Acquisition du jour — d'où viennent les ventes (Google/Meta/direct) +
+// clients récurrents. Champs remplis par le resync v5 (migration 0008).
+// ---------------------------------------------------------------------------
+
+export interface AcquisitionSource {
+  key: "meta" | "google" | "direct" | "autre";
+  label: string;
+  emoji: string;
+  orders: number;
+  caCents: number;
+}
+
+export interface AcquisitionToday {
+  sources: AcquisitionSource[];
+  repeatOrders: number;
+  repeatCaCents: number;
+  /** true = les champs source/client ne sont pas encore remplis (re-scan v5 en cours). */
+  pending: boolean;
+}
+
+function classifyOrderSource(o: {
+  source_name: string | null;
+  referring_site: string | null;
+  landing_site: string | null;
+}): AcquisitionSource["key"] {
+  const s = `${o.source_name ?? ""} ${o.referring_site ?? ""} ${o.landing_site ?? ""}`.toLowerCase();
+  if (/facebook|instagram|fbclid|\bmeta\b|\bfb\b|\big\b/.test(s)) return "meta";
+  if (/google|gclid|youtube/.test(s)) return "google";
+  if (!o.referring_site && (!o.landing_site || o.landing_site === "/")) return "direct";
+  return "autre";
+}
+
+async function getTodayAcquisition(day: string): Promise<AcquisitionToday | null> {
+  if (getDataMode() !== "live") return null;
+  try {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("orders")
+      .select("total_cents, refunded_cents, customer_id, source_name, referring_site, landing_site")
+      .eq("day", day);
+    if (error || !data || data.length === 0) return null;
+
+    const base = { orders: 0, caCents: 0 };
+    const buckets: Record<AcquisitionSource["key"], { orders: number; caCents: number }> = {
+      meta: { ...base },
+      google: { ...base },
+      direct: { ...base },
+      autre: { ...base },
+    };
+    const pending = data.every(
+      (o) => o.source_name == null && o.referring_site == null && o.landing_site == null
+    );
+
+    // Récurrents : clients d'aujourd'hui déjà vus AVANT aujourd'hui.
+    const ids = [...new Set(data.map((o) => o.customer_id).filter((v): v is string => !!v))];
+    const seenBefore = new Set<string>();
+    if (ids.length > 0) {
+      const { data: prev } = await supabase
+        .from("orders")
+        .select("customer_id")
+        .in("customer_id", ids)
+        .lt("day", day)
+        .limit(1000);
+      for (const p of prev ?? []) if (p.customer_id) seenBefore.add(p.customer_id as string);
+    }
+
+    let repeatOrders = 0;
+    let repeatCaCents = 0;
+    for (const o of data) {
+      const net = (o.total_cents as number) - ((o.refunded_cents as number) ?? 0);
+      const key = classifyOrderSource(o);
+      buckets[key].orders += 1;
+      buckets[key].caCents += net;
+      if (o.customer_id && seenBefore.has(o.customer_id as string)) {
+        repeatOrders += 1;
+        repeatCaCents += net;
+      }
+    }
+
+    const META_LABELS: Record<AcquisitionSource["key"], { label: string; emoji: string }> = {
+      meta: { label: "Meta", emoji: "📣" },
+      google: { label: "Google", emoji: "🔎" },
+      direct: { label: "Direct", emoji: "🚪" },
+      autre: { label: "Autres", emoji: "❔" },
+    };
+    return {
+      sources: (Object.keys(buckets) as AcquisitionSource["key"][]).map((k) => ({
+        key: k,
+        ...META_LABELS[k],
+        ...buckets[k],
+      })),
+      repeatOrders,
+      repeatCaCents,
+      pending,
+    };
+  } catch {
+    return null;
+  }
 }
 
 async function computePaceReference(today: string): Promise<PaceReference> {
@@ -308,6 +411,7 @@ export async function getTodayView(): Promise<TodayView> {
       fromAggregates: false,
       cards: cardsFromTotals(emptyPerMarket(), thresholds),
       pace,
+      acquisition: null,
     };
   }
 
@@ -322,6 +426,7 @@ export async function getTodayView(): Promise<TodayView> {
       fromAggregates: false,
       cards: cardsFromTotals(perMarket, thresholds),
       pace,
+      acquisition: null,
     };
   }
 
@@ -339,6 +444,7 @@ export async function getTodayView(): Promise<TodayView> {
     fromAggregates: false,
     cards: cardsFromTotals(perMarket, thresholds),
     pace,
+    acquisition: await getTodayAcquisition(day),
   };
 }
 

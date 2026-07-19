@@ -105,6 +105,48 @@ export function TodayBoard({ view }: { view: TodayView }) {
         )}
       </section>
 
+      {/* 🧭 D'où viennent les ventes du jour (source + récurrents) */}
+      {view.acquisition && (
+        <section className="rise-in rounded-lg border border-line bg-panel/40 p-3.5">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+              🧭 Sources des ventes du jour
+            </span>
+            {view.acquisition.repeatOrders > 0 && (
+              <span className="rounded border border-cyan/40 bg-cyan/10 px-2 py-0.5 text-[10.5px] font-bold text-cyan tnum">
+                🔁 {view.acquisition.repeatOrders} client{view.acquisition.repeatOrders > 1 ? "s" : ""} qui
+                revien{view.acquisition.repeatOrders > 1 ? "nent" : "t"} ·{" "}
+                {formatEur0(view.acquisition.repeatCaCents)}
+              </span>
+            )}
+          </div>
+          {view.acquisition.pending ? (
+            <p className="text-[11px] text-ink-faint">
+              ⏳ Le re-scan des sources est en cours (automatique) — les répartitions
+              Google/Meta/direct apparaîtront d&apos;ici quelques minutes.
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {view.acquisition.sources.map((s) => (
+                <div key={s.key} className="rounded border border-line-soft bg-terminal/50 px-2.5 py-2 text-center">
+                  <div className="text-[10px] uppercase tracking-wide text-ink-faint">
+                    <span aria-hidden>{s.emoji}</span> {s.label}
+                  </div>
+                  <div className="mt-0.5 text-sm font-bold tnum lg:text-lg">
+                    {s.orders} <span className="text-[10px] font-normal text-ink-dim">cmd</span>
+                  </div>
+                  <div className="text-[10.5px] text-ink-dim tnum">{formatEur0(s.caCents)}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mt-2 text-[9.5px] text-ink-faint">
+            Le ROAS Meta se lit face aux ventes 📣 Meta — les ventes Google/direct/récurrents sont
+            « gratuites » (pas de spend), elles gonflent le ROAS global.
+          </p>
+        </section>
+      )}
+
       {/* Cartes par marché — 2 colonnes sur mobile, 4 en ligne sur ordinateur */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {markets.map((card, i) => {
