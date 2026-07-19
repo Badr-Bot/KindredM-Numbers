@@ -15,9 +15,11 @@ export function RefreshButton({ fetchedAt }: { fetchedAt: string }) {
     setBusy(true);
     play("beep");
     try {
-      await fetch("/api/refresh", { method: "POST" });
+      // Déclenche une vraie synchro (throttlée côté serveur à 1×/5 min) :
+      // si les données ont plus de 5 min, elles se rafraîchissent vraiment.
+      await fetch("/api/sync", { method: "POST" });
     } catch {
-      // en démo / non configuré, /api/refresh reste inoffensif
+      // en démo / non configuré, reste inoffensif
     }
     startTransition(() => router.refresh());
     setBusy(false);

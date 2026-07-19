@@ -317,44 +317,21 @@ export async function getTodayView(): Promise<TodayView> {
     };
   }
 
-  // live : tente le fetch temps réel, retombe sur les agrégats du jour si KO.
-  try {
-    const { getTodaySnapshot } = await import("./live");
-    const snapshot = await getTodaySnapshot();
-    const perMarket = emptyPerMarket();
-    for (const m of snapshot.markets) {
-      perMarket[m.market] = {
-        orders: m.orders,
-        caCents: m.caCents,
-        spendCents: m.spendCents,
-        cogsCents: m.cogsCents,
-        taxCents: m.taxCents,
-        feesCents: m.feesCents,
-        netCents: m.netCents,
-        refundedCents: 0, // les remboursements du jour arrivent surtout J+n ; la vue Contrôle les lit sur l'historique
-      };
-    }
-    return {
-      mode,
-      day: snapshot.day,
-      fetchedAt: snapshot.fetchedAt,
-      fromAggregates: false,
-      cards: cardsFromTotals(perMarket, thresholds),
-      pace,
-    };
-  } catch {
-    const rows = await fetchDailyRows(day, day);
-    const perMarket = emptyPerMarket();
-    for (const r of rows) perMarket[r.market] = { ...r };
-    return {
-      mode,
-      day,
-      fetchedAt: new Date().toISOString(),
-      fromAggregates: true,
-      cards: cardsFromTotals(perMarket, thresholds),
-      pace,
-    };
-  }
+  // live : lit les MÊMES agrégats que l'onglet Mois — source de vérité
+  // unique, jamais de décalage entre les deux vues (demande Badr 19/07).
+  // La synchro auto (LiveSync, ≤ 5 min) rafraîchit ces agrégats, jour en
+  // cours et spend Meta inclus.
+  const rows = await fetchDailyRows(day, day);
+  const perMarket = emptyPerMarket();
+  for (const r of rows) perMarket[r.market] = { ...r };
+  return {
+    mode,
+    day,
+    fetchedAt: new Date().toISOString(),
+    fromAggregates: false,
+    cards: cardsFromTotals(perMarket, thresholds),
+    pace,
+  };
 }
 
 // ---------------------------------------------------------------------------

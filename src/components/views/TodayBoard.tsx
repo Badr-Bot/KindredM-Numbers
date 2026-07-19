@@ -139,11 +139,6 @@ export function TodayBoard({ view }: { view: TodayView }) {
         })}
       </div>
 
-      {view.fromAggregates && (
-        <p className="text-center text-[10.5px] text-ink-faint">
-          ⚠︎ Live indisponible — chiffres du jour lus depuis les agrégats en base.
-        </p>
-      )}
       <p className="text-center text-[10.5px] text-ink-faint">
         Couleur ROAS : <span className={statusText("red")}>🔴 sous rentabilité</span> ·{" "}
         <span className={statusText("yellow")}>🟡 vers cible</span> ·{" "}
