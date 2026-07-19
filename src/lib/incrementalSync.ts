@@ -222,10 +222,10 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v3 : CA lu depuis total_price_set.shop_money (devise boutique garantie)
-// au lieu de total_price brut — corrige un éventuel CA en devise client sur
-// ES/DE/UK. Chaque bump redéclenche un resync complet à la prochaine visite.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-16-shop-currency-ca-v3";
+// v4 : token Meta enfin actif — backfill de TOUT l'historique des métriques
+// avancées (insights campagne/annonce/pays depuis le 04/06) via
+// backfillMetaSpend enrichi. Chaque bump redéclenche un resync complet.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-18-meta-insights-history-v4";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 

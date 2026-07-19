@@ -7,7 +7,13 @@ import {
   resolveAccessToken,
   totalPriceShopCents,
 } from "./shopify";
-import { fetchMetaSpend, loadCampaignOverrides, resolveCampaignMarket } from "./meta";
+import {
+  fetchMetaAdInsights,
+  fetchMetaCountryInsights,
+  fetchMetaInsights,
+  loadCampaignOverrides,
+  resolveCampaignMarket,
+} from "./meta";
 import {
   classifyLineItems,
   computeOrderCogsTax,
@@ -133,12 +139,14 @@ async function backfillMetaSpend(
 ): Promise<{ rows: number; unmapped: string[] }> {
   const today = todayParisDay();
   const [rows, overrides] = await Promise.all([
-    fetchMetaSpend(META_SINCE_DAY, today),
+    fetchMetaInsights(META_SINCE_DAY, today),
     loadCampaignOverrides(supabase),
   ]);
 
   const unmappedNames = new Set<string>();
-  const upserts = rows.map((row) => {
+  const CHUNK = 500;
+
+  const spendUpserts = rows.map((row) => {
     const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
     if (market === "UNMAPPED") unmappedNames.add(row.campaignName);
     return {
@@ -149,11 +157,90 @@ async function backfillMetaSpend(
       spend_cents: row.spendCents,
     };
   });
-  const CHUNK = 500;
-  for (let i = 0; i < upserts.length; i += CHUNK) {
-    const { error } = await supabase.from("meta_spend").upsert(upserts.slice(i, i + CHUNK));
+  for (let i = 0; i < spendUpserts.length; i += CHUNK) {
+    const { error } = await supabase.from("meta_spend").upsert(spendUpserts.slice(i, i + CHUNK));
     if (error) throw error;
   }
+
+  // Historique complet des métriques avancées (Analyse) — best effort : les
+  // tables 0005/0007 absentes ou une erreur Meta n'empêchent pas le spend.
+  try {
+    const insightUpserts = rows.map((row) => ({
+      day: row.day,
+      campaign_id: row.campaignId,
+      campaign_name: row.campaignName,
+      market: resolveCampaignMarket(row.campaignName, row.campaignId, overrides),
+      spend_cents: row.spendCents,
+      impressions: row.impressions,
+      clicks: row.clicks,
+      purchases: row.purchases,
+      purchase_value_cents: row.purchaseValueCents,
+      reach: row.reach,
+      frequency: row.frequency,
+      link_clicks: row.linkClicks,
+      landing_page_views: row.landingPageViews,
+      add_to_cart: row.addToCart,
+      initiate_checkout: row.initiateCheckout,
+      video_3s: row.video3s,
+      thruplays: row.thruplays,
+    }));
+    for (let i = 0; i < insightUpserts.length; i += CHUNK) {
+      await supabase.from("meta_insights").upsert(insightUpserts.slice(i, i + CHUNK));
+    }
+  } catch {
+    /* non bloquant */
+  }
+  try {
+    const adRows = await fetchMetaAdInsights(META_SINCE_DAY, today);
+    const adUpserts = adRows.map((row) => ({
+      day: row.day,
+      ad_id: row.adId,
+      ad_name: row.adName,
+      campaign_id: row.campaignId,
+      campaign_name: row.campaignName,
+      market: resolveCampaignMarket(row.campaignName, row.campaignId, overrides),
+      spend_cents: row.spendCents,
+      impressions: row.impressions,
+      clicks: row.clicks,
+      purchases: row.purchases,
+      purchase_value_cents: row.purchaseValueCents,
+      reach: row.reach,
+      frequency: row.frequency,
+      link_clicks: row.linkClicks,
+      landing_page_views: row.landingPageViews,
+      add_to_cart: row.addToCart,
+      initiate_checkout: row.initiateCheckout,
+      video_3s: row.video3s,
+      thruplays: row.thruplays,
+      quality_ranking: row.qualityRanking,
+      engagement_ranking: row.engagementRanking,
+      conversion_ranking: row.conversionRanking,
+    }));
+    for (let i = 0; i < adUpserts.length; i += CHUNK) {
+      await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
+    }
+  } catch {
+    /* non bloquant */
+  }
+  try {
+    const countryRows = await fetchMetaCountryInsights(META_SINCE_DAY, today);
+    const countryUpserts = countryRows.map((row) => ({
+      day: row.day,
+      campaign_id: row.campaignId,
+      country: row.country,
+      spend_cents: row.spendCents,
+      impressions: row.impressions,
+      clicks: row.clicks,
+      purchases: row.purchases,
+      purchase_value_cents: row.purchaseValueCents,
+    }));
+    for (let i = 0; i < countryUpserts.length; i += CHUNK) {
+      await supabase.from("meta_country_insights").upsert(countryUpserts.slice(i, i + CHUNK));
+    }
+  } catch {
+    /* non bloquant */
+  }
+
   return { rows: rows.length, unmapped: [...unmappedNames] };
 }
 
