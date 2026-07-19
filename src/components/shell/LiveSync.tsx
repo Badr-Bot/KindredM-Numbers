@@ -51,8 +51,10 @@ export function LiveSync() {
   }, [router]);
 
   if (!syncing) return null;
+  // Au-dessus de la barre de navigation (jamais par-dessus les onglets),
+  // non cliquable pour ne rien bloquer en dessous.
   return (
-    <div className="fixed bottom-3 right-3 z-50 flex items-center gap-1.5 rounded border border-phosphor/30 bg-terminal/95 px-2 py-1 text-[10px] text-phosphor/80 shadow-lg backdrop-blur">
+    <div className="pointer-events-none fixed bottom-16 right-3 z-30 flex items-center gap-1.5 rounded border border-phosphor/30 bg-terminal/95 px-2 py-1 text-[10px] text-phosphor/80 shadow-lg backdrop-blur">
       <span className="inline-block animate-spin">↻</span>
       synchro en cours…
     </div>
