@@ -39,6 +39,8 @@ interface DayMetrics {
   cvrPct: number | null;
   aovCents: number | null;
   roas: number | null;
+  /** fréquence = impressions / reach (fatigue/saturation) */
+  freq: number | null;
 }
 
 const eur2 = (cents: number) =>
@@ -123,19 +125,20 @@ export function AnalyseBoard({
 
   // Série journalière fusionnée (agrégats Shopify + insights Meta) sur la fenêtre.
   const series: DayMetrics[] = useMemo(() => {
-    const insightsByDay = new Map<string, { impressions: number; clicks: number }>();
+    const insightsByDay = new Map<string, { impressions: number; clicks: number; reach: number }>();
     for (const r of analytics.insights) {
       if (r.day < from || r.day > to) continue;
       if (tab !== "GLOBAL" && r.market !== tab) continue;
-      const cur = insightsByDay.get(r.day) ?? { impressions: 0, clicks: 0 };
+      const cur = insightsByDay.get(r.day) ?? { impressions: 0, clicks: 0, reach: 0 };
       cur.impressions += r.impressions;
       cur.clicks += r.clicks;
+      cur.reach += r.reach;
       insightsByDay.set(r.day, cur);
     }
     return dayData[tab]
       .filter((d) => d.day >= from && d.day <= to)
       .map((d) => {
-        const ins = insightsByDay.get(d.day) ?? { impressions: 0, clicks: 0 };
+        const ins = insightsByDay.get(d.day) ?? { impressions: 0, clicks: 0, reach: 0 };
         return {
           day: d.day,
           label: formatDayShort(d.day),
@@ -151,6 +154,7 @@ export function AnalyseBoard({
           cvrPct: ins.clicks > 0 ? (d.orders / ins.clicks) * 100 : null,
           aovCents: d.orders > 0 ? Math.round(d.caCents / d.orders) : null,
           roas: d.spendCents > 0 ? d.caCents / d.spendCents : null,
+          freq: ins.reach > 0 ? ins.impressions / ins.reach : null,
         };
       });
   }, [dayData, analytics.insights, tab, from, to]);
@@ -174,6 +178,85 @@ export function AnalyseBoard({
     }
     return out.sort((a, b) => Math.abs(b.deltaPct) - Math.abs(a.deltaPct));
   }, [series, today]);
+
+  // 🧠 Diagnostic : hypothèses en clair sur les dérapages, croisées avec le
+  // journal (un événement ≤ 4 jours avant le mouvement = suspect n°1).
+  const diagnosis = useMemo(() => {
+    const full = series.filter((d) => d.day < today);
+    if (full.length < 6) return [];
+    const deltaOf = (key: keyof DayMetrics): number | null => {
+      const vals = full.map((d) => d[key] as number | null);
+      const recent = vals.slice(-3).filter((v): v is number => v !== null);
+      const before = vals.slice(-10, -3).filter((v): v is number => v !== null);
+      if (recent.length < 2 || before.length < 3) return null;
+      const aR = recent.reduce((a, b) => a + b, 0) / recent.length;
+      const aB = before.reduce((a, b) => a + b, 0) / before.length;
+      return aB === 0 ? null : (aR - aB) / Math.abs(aB);
+    };
+    const d = {
+      cpm: deltaOf("cpmCents"),
+      cpc: deltaOf("cpcCents"),
+      ctr: deltaOf("ctrPct"),
+      cvr: deltaOf("cvrPct"),
+      cpa: deltaOf("cpaCents"),
+      freq: deltaOf("freq"),
+      aov: deltaOf("aovCents"),
+    };
+    const pctTxt = (v: number) => `${v >= 0 ? "+" : "−"}${Math.round(Math.abs(v) * 100)} %`;
+    const lines: { emoji: string; text: string }[] = [];
+
+    // Événements récents du journal = suspects prioritaires
+    const lastDay = full[full.length - 1]?.day ?? today;
+    const cutoff = new Date(`${lastDay}T00:00:00Z`);
+    cutoff.setUTCDate(cutoff.getUTCDate() - 6);
+    const recentEvents = events.filter((e) => e.day >= cutoff.toISOString().slice(0, 10) && e.day <= lastDay);
+
+    if (d.cpm !== null && d.cpm > 0.2) {
+      if (d.freq !== null && d.freq > 0.15) {
+        lines.push({
+          emoji: "🔥",
+          text: `CPM ${pctTxt(d.cpm)} ET fréquence ${pctTxt(d.freq)} → saturation d'audience probable : Meta repaie les mêmes personnes plus cher. Élargir l'audience ou pousser de nouvelles créas.`,
+        });
+      } else {
+        lines.push({
+          emoji: "💸",
+          text: `CPM ${pctTxt(d.cpm)} avec fréquence stable → l'enchère coûte plus cher, pas l'usure : concurrence, re-learning après un changement (page, campagne, budget), ou période chargée.`,
+        });
+      }
+    }
+    if (d.ctr !== null && d.ctr < -0.15) {
+      lines.push({
+        emoji: "🎨",
+        text: `CTR ${pctTxt(d.ctr)}${d.freq !== null && d.freq > 0.1 ? " avec fréquence en hausse" : ""} → fatigue créa probable : le hook n'arrête plus le scroll. Rotation de créas à prévoir.`,
+      });
+    }
+    if (d.cvr !== null && d.cvr < -0.15) {
+      lines.push({
+        emoji: "🖥️",
+        text: `CVR ${pctTxt(d.cvr)} alors que les clics arrivent → le problème est APRÈS le clic : landing, offre, prix, vitesse de page ou pays livré. Vérifie ce qui a changé côté site.`,
+      });
+    }
+    if (d.cpa !== null && d.cpa > 0.2) {
+      const causes: string[] = [];
+      if (d.cpm !== null && d.cpm > 0.1) causes.push("CPM");
+      if (d.ctr !== null && d.ctr < -0.1) causes.push("CTR");
+      if (d.cvr !== null && d.cvr < -0.1) causes.push("CVR");
+      lines.push({
+        emoji: "🎯",
+        text: `CPA ${pctTxt(d.cpa)} — moteur principal : ${causes.length ? causes.join(" + ") : "mix de petits mouvements"}.`,
+      });
+    }
+    for (const e of recentEvents.slice(0, 2)) {
+      lines.push({
+        emoji: "📓",
+        text: `Suspect n°1 à vérifier : « ${e.note} » (${formatDayShort(e.day)}) — colle avec le début du mouvement ?`,
+      });
+    }
+    if (lines.length === 0 && (d.cpa !== null || d.cpm !== null)) {
+      lines.push({ emoji: "✅", text: "Pas de dérapage majeur sur les 3 derniers jours — RAS." });
+    }
+    return lines;
+  }, [series, today, events]);
 
   // 🔗 Corrélations (Pearson) sur la fenêtre, entre paires parlantes.
   const correlations = useMemo(() => {
@@ -293,7 +376,7 @@ export function AnalyseBoard({
       { label: "Commandes", fmt: (v: number) => String(Math.round(v)), values: buckets.map((b) => avg(b.orders)) },
       { label: "Panier", fmt: eur2, values: buckets.map((b) => avg(b.aov)) },
     ];
-    return { WEEKDAYS, rows };
+    return { WEEKDAYS, rows, counts: buckets.map((b) => b.ca.length) };
   }, [series, today]);
 
   const submitEvent = async (day: string, type: EventType, note: string) => {
@@ -406,6 +489,23 @@ export function AnalyseBoard({
         </section>
       )}
 
+      {/* 🧠 Diagnostic : les hypothèses en français, croisées avec le journal */}
+      {diagnosis.length > 0 && (
+        <section className="rounded-lg border border-phosphor/25 bg-phosphor/[0.03] p-3.5">
+          <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+            🧠 Diagnostic · pourquoi ça bouge (hypothèses auto)
+          </div>
+          <ul className="flex flex-col gap-1.5">
+            {diagnosis.map((l, i) => (
+              <li key={i} className="text-[11.5px] leading-snug lg:text-[12.5px]">
+                <span aria-hidden className="mr-1">{l.emoji}</span>
+                {l.text}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Courbes : petits multiples, une métrique par graphe (jamais 2 axes).
           Les traits verticaux = événements du journal (avant/après visible). */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -422,17 +522,22 @@ export function AnalyseBoard({
 
       {/* 📅 Heatmap jour-de-semaine */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
-        <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
-          📅 Patterns hebdomadaires · moyennes sur la période
+        <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+          📅 Quel jour de la semaine performe le mieux ?
         </div>
+        <p className="mb-2 text-[10.5px] text-ink-faint">
+          Moyenne de <b>tous</b> les lundis, mardis… entre le {formatDayShort(from)} et le{" "}
+          {formatDayShort(to)} (le nombre entre parenthèses = combien de jours comptés). Ex. : si la
+          case « dim » est la plus dorée, tes dimanches rapportent plus — pousse le budget ce jour-là.
+        </p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[460px] border-collapse text-[11px] tnum lg:text-xs">
             <thead>
               <tr className="text-[9.5px] uppercase tracking-wide text-ink-dim">
                 <th className="px-2 py-1 text-left font-semibold"></th>
-                {weekHeatmap.WEEKDAYS.map((d) => (
+                {weekHeatmap.WEEKDAYS.map((d, i) => (
                   <th key={d} className="px-2 py-1 text-center font-semibold">
-                    {d}
+                    {d} <span className="font-normal text-ink-faint">({weekHeatmap.counts[i]})</span>
                   </th>
                 ))}
               </tr>
@@ -461,9 +566,6 @@ export function AnalyseBoard({
             </tbody>
           </table>
         </div>
-        <p className="mt-1.5 text-[10px] text-ink-faint">
-          Plus la case est dorée, plus le jour performe — utile pour caler budget et lancements.
-        </p>
       </section>
 
       {/* 🔗 Corrélations */}

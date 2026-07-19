@@ -30,9 +30,11 @@ export function LiveSync() {
       if (runningRef.current) return;
       runningRef.current = true;
       setSyncing(true);
+      let moreWork = false;
       try {
         const res = await fetch("/api/sync", { method: "POST" });
-        const json: { ran?: boolean } = await res.json().catch(() => ({}));
+        const json: { ran?: boolean; moreWork?: boolean } = await res.json().catch(() => ({}));
+        moreWork = Boolean(json.moreWork);
         if (!cancelled && json.ran) router.refresh();
       } catch {
         // Silencieux : la prochaine visite ou le cron de minuit rattraperont.
@@ -40,6 +42,9 @@ export function LiveSync() {
         runningRef.current = false;
         if (!cancelled) setSyncing(false);
       }
+      // Resync par étapes : tant que le serveur dit qu'il reste du travail,
+      // on enchaîne tout de suite (petite pause) au lieu d'attendre 5 min.
+      if (!cancelled && moreWork) setTimeout(tick, 2500);
     }
 
     tick();

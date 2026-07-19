@@ -12,6 +12,7 @@ export interface InsightDaily {
   impressions: number;
   clicks: number;
   purchases: number;
+  reach: number;
 }
 
 export interface AdPerf {
@@ -41,6 +42,7 @@ interface RawInsight {
   impressions: number;
   clicks: number;
   purchases: number;
+  reach: number | null;
 }
 
 interface RawAdInsight {
@@ -63,7 +65,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
       .from("meta_insights")
-      .select("day, market, spend_cents, impressions, clicks, purchases")
+      .select("day, market, spend_cents, impressions, clicks, purchases, reach")
       .gte("day", start)
       .lte("day", end)
       .range(from, from + PAGE - 1);
@@ -80,6 +82,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         impressions: r.impressions,
         clicks: r.clicks,
         purchases: r.purchases,
+        reach: r.reach ?? 0,
       });
     }
     if (rows.length < PAGE) break;

@@ -38,7 +38,7 @@ export interface BackfillResult {
   warnings: string[];
 }
 
-async function backfillOrders(
+export async function backfillOrders(
   supabase: SupabaseClient,
   productsMap: ProductMapEntry[]
 ): Promise<{ ordersByStore: Record<string, number>; warnings: string[] }> {
@@ -134,7 +134,7 @@ async function backfillOrders(
   return { ordersByStore, warnings };
 }
 
-async function backfillMetaSpend(
+export async function backfillMetaSpend(
   supabase: SupabaseClient
 ): Promise<{ rows: number; unmapped: string[] }> {
   const today = todayParisDay();

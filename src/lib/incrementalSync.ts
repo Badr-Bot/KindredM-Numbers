@@ -19,6 +19,8 @@ import { recomputeDailyAggregatesForDays } from "./aggregate";
 
 export interface IncrementalSyncResult {
   ran: boolean;
+  /** true = une étape de resync reste à faire — le client doit rappeler /api/sync tout de suite. */
+  moreWork?: boolean;
   touchedDays?: string[];
   warnings?: string[];
 }
@@ -110,19 +112,23 @@ export async function runIncrementalSync(
       fetchMetaInsights(rescanFromDay, yesterday),
       loadCampaignOverrides(supabase),
     ]);
+    // Écritures PAR LOTS : la version commande-par-commande (~800 upserts
+    // séquentiels avec les annonces + pays) faisait dépasser la limite de
+    // temps de la fonction → « synchro en cours » sans fin.
+    const CHUNK = 500;
+    const spendUpserts: Record<string, unknown>[] = [];
+    const insightUpserts: Record<string, unknown>[] = [];
     for (const row of metaRows) {
       touchedDays.add(row.day);
       const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
-      await supabase.from("meta_spend").upsert({
+      spendUpserts.push({
         day: row.day,
         market,
         campaign_id: row.campaignId,
         campaign_name: row.campaignName,
         spend_cents: row.spendCents,
       });
-      // Métriques détaillées (Analyse) — best effort : si les migrations
-      // 0005/0007 manquent, on n'empêche pas le spend de passer.
-      await supabase.from("meta_insights").upsert({
+      insightUpserts.push({
         day: row.day,
         campaign_id: row.campaignId,
         campaign_name: row.campaignName,
@@ -142,35 +148,41 @@ export async function runIncrementalSync(
         thruplays: row.thruplays,
       });
     }
+    for (let i = 0; i < spendUpserts.length; i += CHUNK) {
+      await supabase.from("meta_spend").upsert(spendUpserts.slice(i, i + CHUNK));
+    }
+    for (let i = 0; i < insightUpserts.length; i += CHUNK) {
+      await supabase.from("meta_insights").upsert(insightUpserts.slice(i, i + CHUNK));
+    }
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
     try {
       const adRows = await fetchMetaAdInsights(rescanFromDay, yesterday);
-      for (const row of adRows) {
-        const market = resolveCampaignMarket(row.campaignName, row.campaignId, overrides);
-        await supabase.from("meta_ad_insights").upsert({
-          day: row.day,
-          ad_id: row.adId,
-          ad_name: row.adName,
-          campaign_id: row.campaignId,
-          campaign_name: row.campaignName,
-          market,
-          spend_cents: row.spendCents,
-          impressions: row.impressions,
-          clicks: row.clicks,
-          purchases: row.purchases,
-          purchase_value_cents: row.purchaseValueCents,
-          reach: row.reach,
-          frequency: row.frequency,
-          link_clicks: row.linkClicks,
-          landing_page_views: row.landingPageViews,
-          add_to_cart: row.addToCart,
-          initiate_checkout: row.initiateCheckout,
-          video_3s: row.video3s,
-          thruplays: row.thruplays,
-          quality_ranking: row.qualityRanking,
-          engagement_ranking: row.engagementRanking,
-          conversion_ranking: row.conversionRanking,
-        });
+      const adUpserts = adRows.map((row) => ({
+        day: row.day,
+        ad_id: row.adId,
+        ad_name: row.adName,
+        campaign_id: row.campaignId,
+        campaign_name: row.campaignName,
+        market: resolveCampaignMarket(row.campaignName, row.campaignId, overrides),
+        spend_cents: row.spendCents,
+        impressions: row.impressions,
+        clicks: row.clicks,
+        purchases: row.purchases,
+        purchase_value_cents: row.purchaseValueCents,
+        reach: row.reach,
+        frequency: row.frequency,
+        link_clicks: row.linkClicks,
+        landing_page_views: row.landingPageViews,
+        add_to_cart: row.addToCart,
+        initiate_checkout: row.initiateCheckout,
+        video_3s: row.video3s,
+        thruplays: row.thruplays,
+        quality_ranking: row.qualityRanking,
+        engagement_ranking: row.engagementRanking,
+        conversion_ranking: row.conversionRanking,
+      }));
+      for (let i = 0; i < adUpserts.length; i += CHUNK) {
+        await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
       }
     } catch (err) {
       warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
@@ -179,17 +191,18 @@ export async function runIncrementalSync(
     try {
       const { fetchMetaCountryInsights } = await import("./meta");
       const countryRows = await fetchMetaCountryInsights(rescanFromDay, yesterday);
-      for (const row of countryRows) {
-        await supabase.from("meta_country_insights").upsert({
-          day: row.day,
-          campaign_id: row.campaignId,
-          country: row.country,
-          spend_cents: row.spendCents,
-          impressions: row.impressions,
-          clicks: row.clicks,
-          purchases: row.purchases,
-          purchase_value_cents: row.purchaseValueCents,
-        });
+      const countryUpserts = countryRows.map((row) => ({
+        day: row.day,
+        campaign_id: row.campaignId,
+        country: row.country,
+        spend_cents: row.spendCents,
+        impressions: row.impressions,
+        clicks: row.clicks,
+        purchases: row.purchases,
+        purchase_value_cents: row.purchaseValueCents,
+      }));
+      for (let i = 0; i < countryUpserts.length; i += CHUNK) {
+        await supabase.from("meta_country_insights").upsert(countryUpserts.slice(i, i + CHUNK));
       }
     } catch (err) {
       warnings.push(`Répartition pays Meta indisponible : ${(err as Error).message}`);
@@ -228,6 +241,7 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 const REQUIRED_FULL_RESYNC_VERSION = "2026-07-18-meta-insights-history-v4";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
+const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → terminé
 
 /**
  * Version throttlée pour un déclenchement automatique depuis le navigateur
@@ -274,20 +288,61 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
       .eq("key", RESYNC_LOCK_KEY)
       .maybeSingle();
     if (lock && Date.now() - new Date(lock.updated_at as string).getTime() < RESYNC_LOCK_TTL_MS) {
-      return { ran: false };
+      return { ran: false, moreWork: true };
     }
     await supabase
       .from("app_state")
       .upsert({ key: RESYNC_LOCK_KEY, value: "running", updated_at: new Date().toISOString() });
 
-    const { runFullBackfill } = await import("./backfillRun");
-    const full = await runFullBackfill();
-    result = { ran: true, warnings: full.warnings };
-    await supabase.from("app_state").upsert({
-      key: RESYNC_VERSION_KEY,
-      value: REQUIRED_FULL_RESYNC_VERSION,
-      updated_at: new Date().toISOString(),
-    });
+    // ÉTAPES COURTES : le resync complet en un seul appel dépassait la
+    // limite de temps Vercel → tué avant la fin → jamais marqué terminé →
+    // relancé de zéro à chaque visite (« synchro en cours » sans fin, 19/07
+    // jamais recalculé). Chaque appel fait UNE étape (< 60 s), le navigateur
+    // rappelle immédiatement tant que moreWork=true.
+    const { data: stageRow } = await supabase
+      .from("app_state")
+      .select("value")
+      .eq("key", RESYNC_STAGE_KEY)
+      .maybeSingle();
+    const stage = stageRow?.value === "meta" ? "meta" : "orders";
+    const { listParisDays } = await import("./time");
+    const today = todayParisDay();
+    const allDays = listParisDays("2026-06-04", today);
+
+    if (stage === "orders") {
+      const { backfillOrders } = await import("./backfillRun");
+      const res = await backfillOrders(supabase, productsMap as ProductMapEntry[]);
+      await recomputeDailyAggregatesForDays(supabase, allDays);
+      await supabase
+        .from("app_state")
+        .upsert({ key: RESYNC_STAGE_KEY, value: "meta", updated_at: new Date().toISOString() });
+      result = { ran: true, moreWork: true, warnings: res.warnings };
+    } else {
+      const { backfillMetaSpend } = await import("./backfillRun");
+      const warnings: string[] = [];
+      try {
+        await backfillMetaSpend(supabase);
+      } catch (err) {
+        warnings.push(`Meta indisponible : ${(err as Error).message}`);
+      }
+      const { detectCampaignEvents } = await import("./journal");
+      await detectCampaignEvents(supabase);
+      await recomputeDailyAggregatesForDays(supabase, allDays);
+      await supabase.from("app_state").upsert({
+        key: RESYNC_VERSION_KEY,
+        value: REQUIRED_FULL_RESYNC_VERSION,
+        updated_at: new Date().toISOString(),
+      });
+      await supabase
+        .from("app_state")
+        .upsert({ key: RESYNC_STAGE_KEY, value: "orders", updated_at: new Date().toISOString() });
+      result = { ran: true, warnings };
+    }
+    // Libère le verrou tout de suite : l'étape suivante peut démarrer au
+    // prochain appel sans attendre l'expiration des 10 min.
+    await supabase
+      .from("app_state")
+      .upsert({ key: RESYNC_LOCK_KEY, value: "released", updated_at: new Date(0).toISOString() });
   } else {
     result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
   }
