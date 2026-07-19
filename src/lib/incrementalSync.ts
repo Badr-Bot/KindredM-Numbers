@@ -6,6 +6,7 @@ import {
   computeRefundedCentsAccurate,
   resolveAccessToken,
   totalPriceShopCents,
+  orderAcquisitionFields,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -102,6 +103,7 @@ export async function runIncrementalSync(
           cogs_upsells_cents: cogsUpsellsCents,
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
+          ...orderAcquisitionFields(order),
         });
       }
       for (let i = 0; i < rows.length; i += ORDER_CHUNK) {
@@ -246,10 +248,9 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v4 : token Meta enfin actif — backfill de TOUT l'historique des métriques
-// avancées (insights campagne/annonce/pays depuis le 04/06) via
-// backfillMetaSpend enrichi. Chaque bump redéclenche un resync complet.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-18-meta-insights-history-v4";
+// v5 : acquisition & réachat — customer_id + source (Google/Meta/direct) sur
+// chaque commande de l'historique. Chaque bump redéclenche un resync complet.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-19-acquisition-v5";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → terminé

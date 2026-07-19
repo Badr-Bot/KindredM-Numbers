@@ -110,6 +110,12 @@ export interface ShopifyOrder {
   created_at: string;
   updated_at: string;
   total_price: string;
+  /** Identifiant client (numérique, aucune donnée personnelle) — réachat. */
+  customer?: { id?: number } | null;
+  /** Acquisition : canal déclaré + site référent + page d'atterrissage. */
+  source_name?: string | null;
+  referring_site?: string | null;
+  landing_site?: string | null;
   /** Montant total dans les deux devises. shop_money = devise boutique
    * (EUR) = source de vérité pour le CA. total_price seul peut, sur certaines
    * commandes multi-devises, revenir en devise client (même piège que les
@@ -120,6 +126,16 @@ export interface ShopifyOrder {
   line_items: ShopifyLineItem[];
   shipping_address: { country_code: string } | null;
   refunds: ShopifyRefund[];
+}
+
+/** Champs acquisition/réachat d'une commande, prêts pour l'upsert. */
+export function orderAcquisitionFields(order: ShopifyOrder): Record<string, unknown> {
+  return {
+    customer_id: order.customer?.id != null ? String(order.customer.id) : null,
+    source_name: order.source_name ?? null,
+    referring_site: (order.referring_site ?? "").slice(0, 300) || null,
+    landing_site: (order.landing_site ?? "").slice(0, 300) || null,
+  };
 }
 
 /** CA d'une commande en centimes, TOUJOURS en devise boutique (EUR) : lit

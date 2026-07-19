@@ -6,6 +6,7 @@ import {
   computeRefundedCentsAccurate,
   resolveAccessToken,
   totalPriceShopCents,
+  orderAcquisitionFields,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -108,6 +109,7 @@ export async function backfillOrders(
           cogs_upsells_cents: cogsUpsellsCents,
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
+          ...orderAcquisitionFields(order),
         });
       }
 
