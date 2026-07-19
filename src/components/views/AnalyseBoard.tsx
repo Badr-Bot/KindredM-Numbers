@@ -784,15 +784,13 @@ function JournalSection({
                       </span>
                     )}
                   </span>
-                  {e.source === "manual" && (
-                    <button
-                      onClick={() => onDelete(e.id)}
-                      aria-label="Supprimer"
-                      className="flex-none text-ink-faint hover:text-red"
-                    >
-                      ✕
-                    </button>
-                  )}
+                  <button
+                    onClick={() => onDelete(e.id)}
+                    aria-label="Supprimer"
+                    className="flex-none text-ink-faint hover:text-red"
+                  >
+                    ✕
+                  </button>
                 </li>
               ))}
             </ul>

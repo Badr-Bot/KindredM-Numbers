@@ -90,9 +90,12 @@ export async function detectCampaignEvents(supabase: SupabaseClient): Promise<vo
 
     for (const [id, c] of byCampaign) {
       for (let i = 1; i < orderedDays.length; i++) {
+        const day = orderedDays[i];
+        // Jamais de comparaison vers AUJOURD'HUI : le spend du jour est
+        // partiel par définition → faux « budget réduit » systématiques.
+        if (day >= today) continue;
         const prev = c.byDay.get(orderedDays[i - 1]) ?? 0;
         const cur = c.byDay.get(orderedDays[i]) ?? 0;
-        const day = orderedDays[i];
         // Coupée : dépensait ≥ 50 €/j, tombe sous 5 % de la veille
         if (prev >= 5000 && cur <= prev * 0.05) {
           rows.push({
@@ -135,6 +138,23 @@ export async function detectCampaignEvents(supabase: SupabaseClient): Promise<vo
       await supabase
         .from("events")
         .upsert(rows.slice(i, i + CHUNK), { onConflict: "day,type,ref", ignoreDuplicates: true });
+    }
+
+    // Auto-guérison : un événement auto qui ne correspond plus aux données
+    // actuelles (ex : « budget réduit » calculé sur un jour partiel, corrigé
+    // depuis par la vraie synchro) est supprimé au lieu de rester à polluer
+    // le journal et le diagnostic.
+    const expected = new Set(rows.map((r) => `${r.day}|${r.type}|${r.ref}`));
+    const { data: existing } = await supabase
+      .from("events")
+      .select("id, day, type, ref")
+      .eq("source", "auto")
+      .gte("day", since);
+    const toDelete = (existing ?? [])
+      .filter((e) => e.ref && !expected.has(`${String(e.day)}|${e.type}|${e.ref}`))
+      .map((e) => e.id as number);
+    if (toDelete.length > 0) {
+      await supabase.from("events").delete().in("id", toDelete);
     }
   } catch {
     // table absente (migration 0006 pas encore collée) ou autre — non bloquant
