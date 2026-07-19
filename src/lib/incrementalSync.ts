@@ -116,8 +116,11 @@ export async function runIncrementalSync(
   }
 
   try {
+    // Jusqu'à AUJOURD'HUI inclus : borné à hier, le spend du jour n'était
+    // jamais rafraîchi entre deux backfills → ROAS du jour incohérent entre
+    // Live (spend direct) et Mois (agrégats). Constaté le 19/07.
     const [metaRows, overrides] = await Promise.all([
-      fetchMetaInsights(rescanFromDay, yesterday),
+      fetchMetaInsights(rescanFromDay, today),
       loadCampaignOverrides(supabase),
     ]);
     // Écritures PAR LOTS : la version commande-par-commande (~800 upserts
@@ -164,7 +167,7 @@ export async function runIncrementalSync(
     }
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
     try {
-      const adRows = await fetchMetaAdInsights(rescanFromDay, yesterday);
+      const adRows = await fetchMetaAdInsights(rescanFromDay, today);
       const adUpserts = adRows.map((row) => ({
         day: row.day,
         ad_id: row.adId,
@@ -198,7 +201,7 @@ export async function runIncrementalSync(
     // Breakdown pays : le vrai ROAS BE/CA/CH dans les campagnes « FR ».
     try {
       const { fetchMetaCountryInsights } = await import("./meta");
-      const countryRows = await fetchMetaCountryInsights(rescanFromDay, yesterday);
+      const countryRows = await fetchMetaCountryInsights(rescanFromDay, today);
       const countryUpserts = countryRows.map((row) => ({
         day: row.day,
         campaign_id: row.campaignId,
