@@ -45,9 +45,14 @@ export async function runIncrementalSync(
   const touchedDays = new Set<string>();
   const warnings: string[] = [];
 
+  // Écritures PAR LOTS (250) : commande par commande, le rescan J-7 de FR
+  // (~600 commandes) prenait 1-2 min à chaque cycle → badge « synchro en
+  // cours » interminable à chaque visite.
+  const ORDER_CHUNK = 250;
   for (const config of configs) {
     try {
       const token = await resolveAccessToken(config);
+      const rows: Record<string, unknown>[] = [];
       for await (const order of iterateOrders(config, { updatedAtMin: updatedAtMinIso })) {
         const day = toParisDay(order.created_at);
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
@@ -81,7 +86,7 @@ export async function runIncrementalSync(
           upsells: classified.upsells,
         });
 
-        await supabase.from("orders").upsert({
+        rows.push({
           id: order.id,
           store: config.market,
           order_name: order.name,
@@ -98,6 +103,9 @@ export async function runIncrementalSync(
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
         });
+      }
+      for (let i = 0; i < rows.length; i += ORDER_CHUNK) {
+        await supabase.from("orders").upsert(rows.slice(i, i + ORDER_CHUNK));
       }
       await supabase
         .from("sync_state")

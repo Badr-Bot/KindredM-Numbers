@@ -211,7 +211,9 @@ export function MonthBoard({
         </table>
       </div>
       <p className="text-center text-[10.5px] text-ink-faint">
-        ⚡ jour en cours · Net & ROAS colorés selon les seuils dynamiques (14 j) · Cumul depuis le début
+        ⚡ jour en cours — mis à jour à chaque synchro (peut avoir quelques minutes de retard sur le
+        Live, qui interroge Shopify à la seconde) · Net & ROAS colorés selon les seuils dynamiques
+        (14 j) · Cumul depuis le début
       </p>
     </div>
   );
