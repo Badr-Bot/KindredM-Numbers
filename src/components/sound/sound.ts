@@ -19,10 +19,10 @@ function ensureContext(): AudioContext | null {
     // Volume global adouci (0.28 au lieu de 0.5) — demande de Badr : « pas des
     // sons qui font mal à la tête ». Un filtre passe-bas coupe les aigus
     // stridents qui fatiguent l'oreille sur les petits haut-parleurs.
-    master.gain.value = 0.28;
+    master.gain.value = 0.24;
     const lowpass = ctx.createBiquadFilter();
     lowpass.type = "lowpass";
-    lowpass.frequency.value = 2600;
+    lowpass.frequency.value = 2200;
     master.connect(lowpass);
     lowpass.connect(ctx.destination);
   }
@@ -86,20 +86,21 @@ export function playSound(name: SoundName): void {
       tone(c, { type: "triangle", from: 440, to: 660, start: t + 0.22, duration: 0.28, gain: 0.09 });
       break;
     case "tick":
-      tone(c, { type: "sine", from: 660, start: t, duration: 0.045, gain: 0.045 });
+      tone(c, { type: "sine", from: 520, start: t, duration: 0.03, gain: 0.03 });
       break;
     case "tab":
-      // petit blip rond et bref, montée de tierce
-      tone(c, { type: "triangle", from: 523, to: 659, start: t, duration: 0.08, gain: 0.06 });
+      // « pop » feutré et bref — réponse tactile, jamais fatigant
+      tone(c, { type: "sine", from: 380, to: 540, start: t, duration: 0.055, gain: 0.05 });
+      tone(c, { type: "sine", from: 1080, start: t + 0.01, duration: 0.03, gain: 0.015 });
       break;
     case "beep":
-      tone(c, { type: "sine", from: 587, start: t, duration: 0.1, gain: 0.09 });
+      tone(c, { type: "sine", from: 587, start: t, duration: 0.08, gain: 0.06 });
       break;
     case "cash":
-      // arpège majeur consonant (do-mi-sol), doux et satisfaisant
-      tone(c, { type: "triangle", from: 523, start: t, duration: 0.12, gain: 0.09 });
-      tone(c, { type: "triangle", from: 659, start: t + 0.1, duration: 0.12, gain: 0.09 });
-      tone(c, { type: "sine", from: 784, start: t + 0.2, duration: 0.22, gain: 0.1 });
+      // arpège majeur rapide et feutré (do-mi-sol)
+      tone(c, { type: "sine", from: 523, start: t, duration: 0.1, gain: 0.06 });
+      tone(c, { type: "sine", from: 659, start: t + 0.08, duration: 0.1, gain: 0.065 });
+      tone(c, { type: "sine", from: 784, start: t + 0.16, duration: 0.2, gain: 0.075 });
       break;
     case "error":
       // deux notes descendantes douces, jamais un buzz strident

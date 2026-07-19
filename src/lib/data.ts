@@ -8,6 +8,7 @@ import {
   type Market,
   type RoasStatus,
 } from "./engine";
+import { cache as reactCache } from "react";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
 
@@ -89,8 +90,15 @@ export async function referenceToday(): Promise<string> {
  * Lecture des agrégats journaliers [startDay, endDay] (inclus), toutes lignes
  * (jour × marché). Source : daily_aggregates (live) ou données démo. En mode
  * non configuré : vide.
+ *
+ * Mémoïsé par requête (React cache) : l'onglet Mois appelait 5× la même
+ * plage (une par onglet marché) → 5 allers-retours Supabase identiques par
+ * navigation, d'où des changements d'onglet très lents. Une seule lecture
+ * désormais, partagée par tout le rendu.
  */
-export async function fetchDailyRows(startDay: string, endDay: string): Promise<DailyRow[]> {
+export const fetchDailyRows = reactCache(fetchDailyRowsUncached);
+
+async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise<DailyRow[]> {
   const mode = getDataMode();
 
   if (mode === "demo") {
