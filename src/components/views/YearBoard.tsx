@@ -19,9 +19,10 @@ const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
-// 👥 Associés : Adnane a lancé seul ; Badr a rejoint le 14/07/2026.
-// Avant cette date : 100 % Adnane · depuis : partagé 50/50.
-const PARTNER_START = "2026-07-14";
+// 👥 Associés : Adnane a lancé seul ; Badr est entré à 50/50 par boutique —
+// ES/UK/DE dès le 20/06/2026, FR dès le 14/07/2026 (précision Badr 19/07).
+const PARTNER_START_FR = "2026-07-14";
+const PARTNER_START_OTHERS = "2026-06-20";
 
 function addTo(acc: Totals, r: DayAgg): Totals {
   acc.orders += r.orders;
@@ -60,21 +61,32 @@ export function YearBoard({
     return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
   }, [dayData]);
 
-  // 👥 Net par associé + 🧾 TVA cumulée (toutes périodes, GLOBAL)
+  // 👥 Net par associé (règle par boutique) + 🧾 TVA cumulée
   const partners = useMemo(() => {
-    let beforeNet = 0;
-    let afterNet = 0;
-    let tvaCents = 0;
-    for (const r of dayData.GLOBAL) {
-      if (r.day < PARTNER_START) beforeNet += r.netCents;
-      else afterNet += r.netCents;
-      tvaCents += feesBreakdownForCa(r.caCents).tvaCents;
+    let adnane = 0;
+    let badr = 0;
+    let soloNet = 0;
+    let sharedNet = 0;
+    for (const m of MARKETS) {
+      const start = m === "FR" ? PARTNER_START_FR : PARTNER_START_OTHERS;
+      for (const r of dayData[m]) {
+        if (r.day < start) {
+          adnane += r.netCents;
+          soloNet += r.netCents;
+        } else {
+          adnane += r.netCents / 2;
+          badr += r.netCents / 2;
+          sharedNet += r.netCents;
+        }
+      }
     }
+    let tvaCents = 0;
+    for (const r of dayData.GLOBAL) tvaCents += feesBreakdownForCa(r.caCents).tvaCents;
     return {
-      beforeNet,
-      afterNet,
-      adnane: beforeNet + Math.round(afterNet / 2),
-      badr: Math.round(afterNet / 2),
+      adnane: Math.round(adnane),
+      badr: Math.round(badr),
+      soloNet,
+      sharedNet,
       tvaCents,
     };
   }, [dayData]);
@@ -160,21 +172,21 @@ export function YearBoard({
           <div className="mb-2 text-sm font-semibold">👥 Net par associé</div>
           <ul className="flex flex-col gap-1.5 text-[12px]">
             <li className="flex items-baseline justify-between">
-              <span>Adnane <span className="text-[10px] text-ink-faint">(seul avant le 14/07 + 50 % ensuite)</span></span>
+              <span>Adnane <span className="text-[10px] text-ink-faint">(période solo + 50 % ensuite)</span></span>
               <b className={`tnum ${partners.adnane >= 0 ? "text-phosphor" : "text-red"}`}>
                 {formatEurSigned0(partners.adnane)}
               </b>
             </li>
             <li className="flex items-baseline justify-between">
-              <span>Badr <span className="text-[10px] text-ink-faint">(50 % depuis le 14/07)</span></span>
+              <span>Badr <span className="text-[10px] text-ink-faint">(50 % · ES/UK/DE dès 20/06 · FR dès 14/07)</span></span>
               <b className={`tnum ${partners.badr >= 0 ? "text-phosphor" : "text-red"}`}>
                 {formatEurSigned0(partners.badr)}
               </b>
             </li>
           </ul>
           <p className="mt-2 border-t border-line-soft pt-1.5 text-[10px] text-ink-faint tnum">
-            Avant 14/07 : {formatEurSigned0(partners.beforeNet)} (Adnane) · depuis :{" "}
-            {formatEurSigned0(partners.afterNet)} partagés 50/50
+            Période solo Adnane : {formatEurSigned0(partners.soloNet)} · période partagée :{" "}
+            {formatEurSigned0(partners.sharedNet)} (50/50 par boutique)
           </p>
         </section>
         <section className="rounded-lg border border-amber/30 bg-amber/[0.04] p-3.5">

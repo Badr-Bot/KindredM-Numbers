@@ -12,7 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { DayAgg, Thresholds } from "@/lib/data";
+import type { DayAgg } from "@/lib/data";
 import type { AnalyticsData } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
@@ -91,7 +91,6 @@ type Preset = "7" | "14" | "30" | "all" | "custom";
 export function AnalyseBoard({
   dayData,
   analytics,
-  thresholds,
   historyStart,
   today,
   events,
@@ -99,7 +98,6 @@ export function AnalyseBoard({
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
-  thresholds: Thresholds;
   historyStart: string;
   today: string;
   events: JournalEvent[];
@@ -292,24 +290,28 @@ export function AnalyseBoard({
   }, [series]);
 
   // 🎨 Créas : hit rate + top/flop sur la fenêtre (données niveau annonce).
+  // Définition de Badr (19/07) : winneuse = ≥ 1 000 € de spend ET ROAS ≥ 2.
   const creas = useMemo(() => {
-    const MIN_SPEND = 2000; // 20 € : en dessous, pas assez de signal
-    const eligible = analytics.ads.filter((a) => a.spendCents >= MIN_SPEND);
-    const target = thresholds.target ?? thresholds.breakEven;
+    const MIN_SPEND_TESTED = 2000; // 20 € : en dessous, pas vraiment testée
+    const WINNER_MIN_SPEND = 100000; // 1 000 €
+    const WINNER_MIN_ROAS = 2;
+    const eligible = analytics.ads.filter((a) => a.spendCents >= MIN_SPEND_TESTED);
     const withMetrics = eligible.map((a) => ({
       ...a,
       cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
       roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
     }));
-    const winners = withMetrics.filter((a) => a.roas !== null && target !== null && a.roas >= target);
+    const isWinner = (a: (typeof withMetrics)[number]) =>
+      a.spendCents >= WINNER_MIN_SPEND && a.roas !== null && a.roas >= WINNER_MIN_ROAS;
+    const winners = withMetrics.filter(isWinner);
     return {
       total: withMetrics.length,
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
       rows: withMetrics.sort((a, b) => b.spendCents - a.spendCents).slice(0, 12),
-      target,
+      isWinner,
     };
-  }, [analytics.ads, thresholds]);
+  }, [analytics.ads]);
 
   // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
   const eventMarkers = useMemo(
@@ -638,7 +640,7 @@ export function AnalyseBoard({
               </thead>
               <tbody className="tnum">
                 {creas.rows.map((a) => {
-                  const winner = a.roas !== null && creas.target !== null && a.roas >= creas.target;
+                  const winner = creas.isWinner(a);
                   return (
                     <tr key={a.adId} className="border-b border-line-soft last:border-0">
                       <td className="max-w-[260px] truncate px-2 py-1.5 text-left font-medium text-ink">
@@ -657,8 +659,8 @@ export function AnalyseBoard({
               </tbody>
             </table>
             <p className="mt-2 text-[10px] text-ink-faint">
-              🏆 = ROAS ≥ cible ({creas.target !== null ? creas.target.toFixed(2) : "—"}) · l&apos;angle
-              se lit dans le nom de la créa · min. 20 € de spend pour compter.
+              🏆 winneuse = ≥ 1 000 € de spend ET ROAS ≥ 2 · hit rate = winneuses ÷ créas testées
+              (≥ 20 € de spend) · l&apos;angle se lit dans le nom de la créa.
             </p>
           </div>
         )}
