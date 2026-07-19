@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { DayAgg, Totals } from "@/lib/data";
-import { marginPct, roas } from "@/lib/engine";
+import { feesBreakdownForCa, marginPct, roas } from "@/lib/engine";
 import { MARKET_META, MARKETS, type MarketTab } from "@/lib/markets";
 import {
   formatDayShort,
@@ -18,6 +18,10 @@ import { MarketTabs } from "../shell/MarketTabs";
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
+
+// 👥 Associés : Adnane a lancé seul ; Badr a rejoint le 14/07/2026.
+// Avant cette date : 100 % Adnane · depuis : partagé 50/50.
+const PARTNER_START = "2026-07-14";
 
 function addTo(acc: Totals, r: DayAgg): Totals {
   acc.orders += r.orders;
@@ -54,6 +58,25 @@ export function YearBoard({
     });
     const global = dayData.GLOBAL.reduce<Totals>((acc, r) => addTo(acc, r), { ...EMPTY });
     return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
+  }, [dayData]);
+
+  // 👥 Net par associé + 🧾 TVA cumulée (toutes périodes, GLOBAL)
+  const partners = useMemo(() => {
+    let beforeNet = 0;
+    let afterNet = 0;
+    let tvaCents = 0;
+    for (const r of dayData.GLOBAL) {
+      if (r.day < PARTNER_START) beforeNet += r.netCents;
+      else afterNet += r.netCents;
+      tvaCents += feesBreakdownForCa(r.caCents).tvaCents;
+    }
+    return {
+      beforeNet,
+      afterNet,
+      adnane: beforeNet + Math.round(afterNet / 2),
+      badr: Math.round(afterNet / 2),
+      tvaCents,
+    };
   }, [dayData]);
 
   const { monthRows, annual } = useMemo(() => {
@@ -130,6 +153,39 @@ export function YearBoard({
           </span>
         </div>
       </section>
+
+      {/* 👥 Associés + 🧾 TVA */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+          <div className="mb-2 text-sm font-semibold">👥 Net par associé</div>
+          <ul className="flex flex-col gap-1.5 text-[12px]">
+            <li className="flex items-baseline justify-between">
+              <span>Adnane <span className="text-[10px] text-ink-faint">(seul avant le 14/07 + 50 % ensuite)</span></span>
+              <b className={`tnum ${partners.adnane >= 0 ? "text-phosphor" : "text-red"}`}>
+                {formatEurSigned0(partners.adnane)}
+              </b>
+            </li>
+            <li className="flex items-baseline justify-between">
+              <span>Badr <span className="text-[10px] text-ink-faint">(50 % depuis le 14/07)</span></span>
+              <b className={`tnum ${partners.badr >= 0 ? "text-phosphor" : "text-red"}`}>
+                {formatEurSigned0(partners.badr)}
+              </b>
+            </li>
+          </ul>
+          <p className="mt-2 border-t border-line-soft pt-1.5 text-[10px] text-ink-faint tnum">
+            Avant 14/07 : {formatEurSigned0(partners.beforeNet)} (Adnane) · depuis :{" "}
+            {formatEurSigned0(partners.afterNet)} partagés 50/50
+          </p>
+        </section>
+        <section className="rounded-lg border border-amber/30 bg-amber/[0.04] p-3.5">
+          <div className="mb-1 text-sm font-semibold">🧾 TVA cumulée · à provisionner</div>
+          <div className="text-2xl font-bold tnum text-amber lg:text-3xl">{formatEur0(partners.tvaCents)}</div>
+          <p className="mt-1.5 text-[10.5px] text-ink-faint">
+            5,5 % du CA depuis le début. Déjà déduite du net affiché (incluse dans les frais) —
+            c&apos;est le montant à garder de côté pour la payer plus tard.
+          </p>
+        </section>
+      </div>
 
       <MarketTabs active={tab} onChange={setTab} />
 
