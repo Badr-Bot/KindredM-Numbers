@@ -7,6 +7,7 @@ import {
   resolveAccessToken,
   totalPriceShopCents,
   orderAcquisitionFields,
+  acquisitionColumnsReady,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -50,6 +51,7 @@ export async function backfillOrders(
   // Upsert par lots : commande par commande, ~1 400 allers-retours réseau
   // faisaient dépasser la limite de temps de la fonction (init « infinie »).
   const CHUNK = 250;
+  const hasAcqColumns = await acquisitionColumnsReady(supabase);
 
   for (const config of configs) {
     try {
@@ -109,7 +111,7 @@ export async function backfillOrders(
           cogs_upsells_cents: cogsUpsellsCents,
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
-          ...orderAcquisitionFields(order),
+          ...(hasAcqColumns ? orderAcquisitionFields(order) : {}),
         });
       }
 

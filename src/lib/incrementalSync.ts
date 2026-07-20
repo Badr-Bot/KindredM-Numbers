@@ -7,6 +7,7 @@ import {
   resolveAccessToken,
   totalPriceShopCents,
   orderAcquisitionFields,
+  acquisitionColumnsReady,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -50,6 +51,7 @@ export async function runIncrementalSync(
   // (~600 commandes) prenait 1-2 min à chaque cycle → badge « synchro en
   // cours » interminable à chaque visite.
   const ORDER_CHUNK = 250;
+  const hasAcqColumns = await acquisitionColumnsReady(supabase);
   for (const config of configs) {
     try {
       const token = await resolveAccessToken(config);
@@ -103,11 +105,14 @@ export async function runIncrementalSync(
           cogs_upsells_cents: cogsUpsellsCents,
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
-          ...orderAcquisitionFields(order),
+          ...(hasAcqColumns ? orderAcquisitionFields(order) : {}),
         });
       }
       for (let i = 0; i < rows.length; i += ORDER_CHUNK) {
-        await supabase.from("orders").upsert(rows.slice(i, i + ORDER_CHUNK));
+        const { error } = await supabase.from("orders").upsert(rows.slice(i, i + ORDER_CHUNK));
+        // Une écriture qui échoue doit se VOIR (warning sur /debug), jamais
+        // passer en silence — cause du « j'ai eu des ventes et rien ne bouge ».
+        if (error) throw new Error(`écriture commandes échouée : ${error.message}`);
       }
       await supabase
         .from("sync_state")

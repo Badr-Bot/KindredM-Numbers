@@ -128,6 +128,16 @@ export interface ShopifyOrder {
   refunds: ShopifyRefund[];
 }
 
+/** true si la migration 0008 (colonnes acquisition) est appliquée — sinon on
+ * écrit les commandes SANS ces champs plutôt que d'échouer (les ventes
+ * doivent TOUJOURS passer, migration ou pas). */
+export async function acquisitionColumnsReady(
+  supabase: import("@supabase/supabase-js").SupabaseClient
+): Promise<boolean> {
+  const { error } = await supabase.from("orders").select("customer_id").limit(1);
+  return !error;
+}
+
 /** Champs acquisition/réachat d'une commande, prêts pour l'upsert. */
 export function orderAcquisitionFields(order: ShopifyOrder): Record<string, unknown> {
   return {

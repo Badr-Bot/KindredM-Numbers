@@ -58,6 +58,9 @@ function createMockSupabase() {
       order() {
         return builder;
       },
+      limit() {
+        return builder;
+      },
       range(from: number, to: number) {
         rangeBounds = [from, to];
         return builder;
