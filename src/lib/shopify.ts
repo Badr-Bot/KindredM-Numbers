@@ -182,17 +182,30 @@ export async function computeRefundedCentsAccurate(
   order: ShopifyOrder
 ): Promise<number> {
   if (order.refunds.length === 0) return 0;
-  const res = await fetch(
-    `https://${config.domain}/admin/api/${API_VERSION}/orders/${order.id}/transactions.json?in_shop_currency=true`,
-    { headers: { "X-Shopify-Access-Token": token } }
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Shopify transactions error ${res.status} (commande ${order.id}) : ${await summarizeErrorBody(res)}`
-    );
+  // Anti rate-limit : ces appels partent en rafale (un par commande
+  // remboursée du scan) sans le délai de 550 ms de la pagination — un 429
+  // faisait échouer TOUT le lot du store pour le cycle (constaté 20/07 :
+  // « 7 ventes, 1 affichée »). Retry sur 429, et en dernier recours repli
+  // sur le montant embarqué plutôt que d'abandonner la commande.
+  try {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const res = await fetch(
+        `https://${config.domain}/admin/api/${API_VERSION}/orders/${order.id}/transactions.json?in_shop_currency=true`,
+        { headers: { "X-Shopify-Access-Token": token } }
+      );
+      if (res.status === 429) {
+        const retryAfter = Number(res.headers.get("Retry-After") ?? "2");
+        await new Promise((r) => setTimeout(r, retryAfter * 1000));
+        continue;
+      }
+      if (!res.ok) break;
+      const body: { transactions: ShopifyRefundTransaction[] } = await res.json();
+      return sumRefundTransactions(body.transactions);
+    }
+  } catch {
+    /* réseau — repli ci-dessous */
   }
-  const body: { transactions: ShopifyRefundTransaction[] } = await res.json();
-  return sumRefundTransactions(body.transactions);
+  return computeRefundedCents(order);
 }
 
 function parseNextLink(linkHeader: string | null): string | null {

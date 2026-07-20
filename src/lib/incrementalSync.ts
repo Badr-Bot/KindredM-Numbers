@@ -43,7 +43,11 @@ export async function runIncrementalSync(
   const yesterday = addDaysToDay(today, -1);
   const updatedAtMinIso = `${rescanFromDay}T00:00:00+02:00`;
 
-  const configs = getShopifyStoreConfigs();
+  // FR d'abord : c'est ~90 % des ventes — s'il doit se passer quelque chose
+  // (limite de temps, erreur), que les petits stores en pâtissent, pas FR.
+  const configs = [...getShopifyStoreConfigs()].sort(
+    (a, b) => Number(b.market === "FR") - Number(a.market === "FR")
+  );
   const touchedDays = new Set<string>();
   const warnings: string[] = [];
 
