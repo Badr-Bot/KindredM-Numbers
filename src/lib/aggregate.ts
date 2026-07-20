@@ -59,26 +59,47 @@ export async function recomputeDailyAggregatesForDays(
   const minDay = dayList.reduce((a, b) => (b < a ? b : a));
   const maxDay = dayList.reduce((a, b) => (b > a ? b : a));
 
-  const [orders, spendRows] = await Promise.all([
-    fetchAllPages<OrderAggInput>((from, to) =>
+  // Tri STABLE obligatoire : sans ORDER BY, la pagination .range() n'est pas
+  // déterministe — une commande écrite pendant la lecture décale les pages et
+  // des lignes reviennent en double (constaté 20/07 : jour compté 2×, CA et
+  // commandes exactement doublés). Ceinture + bretelles : tri par clé unique
+  // ET déduplication en mémoire.
+  const [ordersRaw, spendRaw] = await Promise.all([
+    fetchAllPages<OrderAggInput & { id: number }>((from, to) =>
       supabase
         .from("orders")
-        .select("day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
+        .select("id, day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
         .in("store", markets)
-        .range(from, to) as unknown as PromiseLike<{ data: OrderAggInput[] | null; error: { message: string } | null }>
+        .order("id", { ascending: true })
+        .range(from, to) as unknown as PromiseLike<{ data: (OrderAggInput & { id: number })[] | null; error: { message: string } | null }>
     ),
-    fetchAllPages<SpendAggInput>((from, to) =>
+    fetchAllPages<SpendAggInput & { campaign_id: string }>((from, to) =>
       supabase
         .from("meta_spend")
-        .select("day, market, spend_cents")
+        .select("day, market, campaign_id, spend_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
         .in("market", markets)
-        .range(from, to) as unknown as PromiseLike<{ data: SpendAggInput[] | null; error: { message: string } | null }>
+        .order("day", { ascending: true })
+        .order("campaign_id", { ascending: true })
+        .range(from, to) as unknown as PromiseLike<{ data: (SpendAggInput & { campaign_id: string })[] | null; error: { message: string } | null }>
     ),
   ]);
+  const seenOrderIds = new Set<number>();
+  const orders = ordersRaw.filter((o) => {
+    if (seenOrderIds.has(o.id)) return false;
+    seenOrderIds.add(o.id);
+    return true;
+  });
+  const seenSpendKeys = new Set<string>();
+  const spendRows = spendRaw.filter((s) => {
+    const k = `${s.day}|${s.campaign_id}`;
+    if (seenSpendKeys.has(k)) return false;
+    seenSpendKeys.add(k);
+    return true;
+  });
 
   type Bucket = {
     orders: number;
