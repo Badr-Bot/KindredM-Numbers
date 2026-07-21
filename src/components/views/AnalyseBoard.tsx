@@ -305,6 +305,10 @@ export function AnalyseBoard({
       a.spendCents >= WINNER_MIN_SPEND && a.roas !== null && a.roas >= WINNER_MIN_ROAS;
     const winners = withMetrics.filter(isWinner);
     return {
+      // Toutes les créas AYANT DIFFUSÉ sur la période (≥1 impression) — les
+      // créas « actives » dans Ads Manager mais sans diffusion n'ont pas de
+      // données chez Meta, elles ne peuvent apparaître nulle part.
+      seen: analytics.ads.length,
       total: withMetrics.length,
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
@@ -661,6 +665,13 @@ export function AnalyseBoard({
             <p className="mt-2 text-[10px] text-ink-faint">
               🏆 winneuse = ≥ 1 000 € de spend ET ROAS ≥ 2 · hit rate = winneuses ÷ créas testées
               (≥ 20 € de spend) · l&apos;angle se lit dans le nom de la créa.
+            </p>
+            <p className="mt-1 text-[10px] text-ink-faint">
+              {creas.seen} créa{creas.seen > 1 ? "s" : ""} avec de la diffusion sur cette période
+              (≥ 1 impression) — {creas.total} testée{creas.total > 1 ? "s" : ""} (≥ 20 €). Ads
+              Manager affiche « actif » dès qu&apos;une créa est activée, même sans diffusion
+              récente : c&apos;est pour ça que ton compte y (300+) est plus élevé qu&apos;ici — le
+              hit rate ne peut porter que sur les créas qui ont réellement tourné.
             </p>
           </div>
         )}
