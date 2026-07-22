@@ -137,6 +137,20 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
 - **Demain** : token Meta (app avec Marketing API) pour le spend du jour et
   des jours suivants — le seed s'arrête au 15/07.
 
+## Mise à jour 22/07 — heartbeat de synchro indépendant du navigateur
+
+- **Cause trouvée** : « les dépenses Meta depuis 1h ne se mettent pas à jour »
+  — la synchro (commandes + spend Meta) ne se déclenchait QUE quand le
+  dashboard était ouvert dans un onglet (poll toutes les 5 min côté
+  navigateur, `LiveSync.tsx`). Écran verrouillé / onglet fermé / personne ne
+  regarde = plus aucune synchro. Seul filet côté serveur : le cron Vercel,
+  1×/jour à 23h05 UTC.
+- **Fix** : `.github/workflows/keep-sync.yml` — un heartbeat GitHub Actions
+  qui appelle `/api/sync` toutes les 5 min, tout seul, sans dépendre de qui
+  regarde le dashboard (endpoint déjà throttlé côté serveur, sans risque).
+  Se déclenche automatiquement une fois poussé sur la branche par défaut du
+  repo (`claude/kindredm-dashboard-setup-epbxha`).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
