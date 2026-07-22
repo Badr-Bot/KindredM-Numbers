@@ -1,4 +1,4 @@
-import { getTodayView, type TodayView } from "@/lib/data";
+import { getTodayView, getUnmappedSpendCentsForDay, type TodayView } from "@/lib/data";
 import type { Brief } from "@/lib/brief";
 import { formatDayLabel } from "@/lib/format";
 import { PageHeading } from "@/components/shell/PageHeading";
@@ -12,7 +12,9 @@ import { BriefCard } from "@/components/views/BriefCard";
 // Toujours recalculé côté serveur (le cache live est géré dans lib/live.ts).
 export const dynamic = "force-dynamic";
 
-type LoadResult = { error: string } | { view: TodayView; needsInit: boolean; brief: Brief | null };
+type LoadResult =
+  | { error: string }
+  | { view: TodayView; needsInit: boolean; brief: Brief | null; unmappedSpendCents: number };
 
 async function loadData(): Promise<LoadResult> {
   try {
@@ -21,15 +23,19 @@ async function loadData(): Promise<LoadResult> {
     // seule (découverte + mapping + backfill) et la page se rafraîchit après.
     let needsInit = false;
     let brief: Brief | null = null;
+    let unmappedSpendCents = 0;
     if (view.mode === "live") {
       const { isSetupNeeded } = await import("@/lib/autoSetup");
       needsInit = await isSetupNeeded();
       if (!needsInit) {
         const { computeBrief } = await import("@/lib/brief");
-        brief = await computeBrief().catch(() => null);
+        [brief, unmappedSpendCents] = await Promise.all([
+          computeBrief().catch(() => null),
+          getUnmappedSpendCentsForDay(view.day).catch(() => 0),
+        ]);
       }
     }
-    return { view, needsInit, brief };
+    return { view, needsInit, brief, unmappedSpendCents };
   } catch (err) {
     return { error: (err as Error).message };
   }
@@ -47,7 +53,7 @@ export default async function TodayPage() {
     );
   }
 
-  const { view, needsInit, brief } = result;
+  const { view, needsInit, brief, unmappedSpendCents } = result;
   return (
     <div>
       <PageHeading
@@ -58,7 +64,11 @@ export default async function TodayPage() {
       />
       {needsInit && <AutoInit />}
       {brief && <BriefCard brief={brief} />}
-      {view.mode === "unconfigured" ? <EmptyState /> : <TodayBoard view={view} />}
+      {view.mode === "unconfigured" ? (
+        <EmptyState />
+      ) : (
+        <TodayBoard view={view} unmappedSpendCents={unmappedSpendCents} />
+      )}
     </div>
   );
 }

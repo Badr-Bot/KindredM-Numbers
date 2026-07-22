@@ -3,6 +3,18 @@ import { computeDailyAggregate, type Market } from "./engine";
 
 const ALL_MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
 
+// Un spend Meta dont la campagne n'est pas encore reconnue (nom qui ne
+// contient ni FR/ESP/GE/UK ni les synonymes usuels, ex. campagne "WORLD"
+// fraîchement créée) est écrit avec market="UNMAPPED" — voir mapCampaignToMarket
+// (§4.6). Avant ce correctif, ce bucket n'était JAMAIS lu ici (`.in("market",
+// markets)` l'excluait) : la dépense disparaissait purement et simplement du
+// Net/Marge du jour tant que Badr n'allait pas l'assigner manuellement dans
+// Contrôle (constaté 22/07 : spend du jour affiché 1 158 € au lieu de
+// 1 275,75 € réels). On l'inclut désormais TOUJOURS dans le total GLOBAL —
+// coût réel, marché encore inconnu — sans jamais l'assigner à un marché au
+// hasard (l'affectation reste manuelle, §4.6).
+const UNMAPPED_MARKET = "UNMAPPED";
+
 interface OrderAggInput {
   day: string;
   store: string;
@@ -81,7 +93,7 @@ export async function recomputeDailyAggregatesForDays(
         .select("day, market, campaign_id, spend_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
-        .in("market", markets)
+        .in("market", [...markets, UNMAPPED_MARKET])
         .order("day", { ascending: true })
         .order("campaign_id", { ascending: true })
         .range(from, to) as unknown as PromiseLike<{ data: (SpendAggInput & { campaign_id: string })[] | null; error: { message: string } | null }>
@@ -122,8 +134,9 @@ export async function recomputeDailyAggregatesForDays(
 
   // Initialise tous les (jour, marché) demandés à zéro, pour bien écraser
   // un ancien agrégat si les données brutes ont disparu (remboursement total, etc).
+  // UNMAPPED toujours inclus : voir commentaire en tête de fichier.
   for (const day of dayList) {
-    for (const market of markets) buckets.set(key(day, market), emptyBucket());
+    for (const market of [...markets, UNMAPPED_MARKET]) buckets.set(key(day, market), emptyBucket());
   }
 
   for (const o of orders ?? []) {
@@ -166,9 +179,21 @@ export async function recomputeDailyAggregatesForDays(
   });
 
   // Upsert par lots de 500 (limite raisonnable côté payload/Postgres).
+  // UNMAPPED est isolé dans son propre lot : la colonne `market` a une
+  // contrainte CHECK ('ES','UK','DE','FR') tant que la migration 0009 n'est
+  // pas collée — un rejet sur ce lot ne doit jamais faire échouer le
+  // recalcul des VRAIS marchés (régression bien pire que le bug qu'il corrige).
   const CHUNK = 500;
-  for (let i = 0; i < rows.length; i += CHUNK) {
-    const { error } = await supabase.from("daily_aggregates").upsert(rows.slice(i, i + CHUNK));
+  const knownRows = rows.filter((r) => r.market !== UNMAPPED_MARKET);
+  const unmappedRows = rows.filter((r) => r.market === UNMAPPED_MARKET);
+  for (let i = 0; i < knownRows.length; i += CHUNK) {
+    const { error } = await supabase.from("daily_aggregates").upsert(knownRows.slice(i, i + CHUNK));
     if (error) throw error;
+  }
+  for (let i = 0; i < unmappedRows.length; i += CHUNK) {
+    await supabase.from("daily_aggregates").upsert(unmappedRows.slice(i, i + CHUNK));
+    // Erreur ignorée ici (ex. migration 0009 pas encore appliquée) : le spend
+    // UNMAPPED redevient alors invisible du total, comme avant ce correctif —
+    // jamais bloquant pour le reste.
   }
 }

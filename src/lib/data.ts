@@ -643,6 +643,24 @@ export async function fetchUnmappedCampaigns(): Promise<UnmappedCampaign[]> {
   return [...byCampaign.values()].sort((a, b) => b.spendCents - a.spendCents);
 }
 
+/** Spend Meta non classé (campagne au nom pas reconnu) pour un jour donné —
+ * sert à avertir sur Aujourd'hui que le total peut être sous-évalué tant que
+ * la campagne n'est pas assignée dans Contrôle (voir aggregate.ts). */
+export async function getUnmappedSpendCentsForDay(day: string): Promise<number> {
+  const mode = getDataMode();
+  if (mode !== "live") return 0;
+
+  const { createSupabaseServerClient } = await import("./supabase");
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("meta_spend")
+    .select("spend_cents")
+    .eq("market", "UNMAPPED")
+    .eq("day", day);
+  if (error) return 0;
+  return (data ?? []).reduce((sum, r) => sum + r.spend_cents, 0);
+}
+
 // ---------------------------------------------------------------------------
 // Vue 6.5 — Répartition des dépenses (extensible produits)
 // ---------------------------------------------------------------------------

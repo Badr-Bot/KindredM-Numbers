@@ -16,7 +16,13 @@ import { CountUp } from "../fx/CountUp";
 import { StatusPill, statusText } from "../shell/StatusPill";
 import { useSound } from "../sound/SoundProvider";
 
-export function TodayBoard({ view }: { view: TodayView }) {
+export function TodayBoard({
+  view,
+  unmappedSpendCents = 0,
+}: {
+  view: TodayView;
+  unmappedSpendCents?: number;
+}) {
   const { play } = useSound();
   const global = view.cards[0];
   const markets = view.cards.slice(1);
@@ -53,6 +59,17 @@ export function TodayBoard({ view }: { view: TodayView }) {
 
   return (
     <div className="flex flex-col gap-4">
+      {unmappedSpendCents > 0 && (
+        <a
+          href="/controle"
+          className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-[11.5px] text-amber-300 transition hover:bg-amber-500/15"
+        >
+          ⚠️ {formatEur0(unmappedSpendCents)} de spend Meta pas encore classé
+          aujourd&apos;hui (nouvelle campagne pas reconnue) — déjà compté dans le
+          total ci-dessous, mais pas encore réparti par marché. Assigne-la dans
+          Contrôle →
+        </a>
+      )}
       {/* Héros : gain net global */}
       <section className="rise-in overflow-hidden rounded-xl border border-line bg-panel/60 p-5 lg:p-8">
         <div className="flex items-center justify-between">
