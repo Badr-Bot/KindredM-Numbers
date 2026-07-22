@@ -1,0 +1,21 @@
+name: Keep sync alive
+
+# La synchro (commandes Shopify + spend Meta) ne se déclenchait auparavant
+# QUE quand quelqu'un avait le dashboard ouvert dans un onglet (voir
+# LiveSync.tsx, poll toutes les 5 min) — si personne ne regardait la page
+# pendant un moment (écran verrouillé, onglet fermé), les chiffres restaient
+# figés jusqu'à la prochaine visite. Le seul filet côté serveur était le cron
+# Vercel une fois par jour (23h05 UTC). Ce workflow appelle /api/sync toutes
+# les 5 min, indépendamment de qui regarde le dashboard, sans clic ni action
+# de personne.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST /api/sync
+        run: curl -sS -X POST --max-time 280 https://kindred-m-numbers.vercel.app/api/sync
