@@ -12,7 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import type { CreasData } from "@/lib/analytics";
-import { formatDayShort, formatEur0, formatPct, formatRoas } from "@/lib/format";
+import { formatDayShort, formatEur0, formatInt, formatPct, formatRoas } from "@/lib/format";
 import { useSound } from "../sound/SoundProvider";
 
 // Même seuil que le hit rate de l'onglet Analyse — en dessous, la créa n'a
@@ -897,8 +897,57 @@ const STATUS_BADGE: Record<CreaStatus, { emoji: string; label: string; cls: stri
   testing: { emoji: "⏳", label: "En test", cls: "text-ink-faint" },
 };
 
-/** Tableau récapitulatif, une section par campagne. Conserve le tri et les
- * filtres choisis en haut de page (les lignes arrivent déjà ordonnées). */
+/** Colonnes du tableau — toutes les métriques disponibles par créa. `key`
+ * doit désigner un champ numérique de CreaRow pour que le tri fonctionne. */
+type ColKey =
+  | "spendCents"
+  | "caCents"
+  | "purchases"
+  | "roas"
+  | "cpaCents"
+  | "cpmCents"
+  | "impressions"
+  | "clicks"
+  | "ctrPct"
+  | "freq"
+  | "lpvRate"
+  | "atcRate"
+  | "checkoutRate"
+  | "cvrLanding"
+  | "hookRate"
+  | "hold50"
+  | "hold75"
+  | "hold100"
+  | "spendShare";
+
+const eur = (v: number) => formatEur0(v);
+const pct = (v: number) => formatPct(v);
+const num2 = (v: number) => v.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
+
+const TABLE_COLS: { key: ColKey; label: string; format: (v: number) => string }[] = [
+  { key: "spendCents", label: "Spend", format: eur },
+  { key: "caCents", label: "CA", format: eur },
+  { key: "purchases", label: "Ventes", format: formatInt },
+  { key: "roas", label: "ROAS", format: formatRoas },
+  { key: "cpaCents", label: "CPA", format: eur },
+  { key: "cpmCents", label: "CPM", format: eur },
+  { key: "impressions", label: "Impr.", format: formatInt },
+  { key: "clicks", label: "Clics", format: formatInt },
+  { key: "ctrPct", label: "CTR", format: pct },
+  { key: "freq", label: "Fréq.", format: num2 },
+  { key: "lpvRate", label: "Atterr.", format: pct },
+  { key: "atcRate", label: "Panier", format: pct },
+  { key: "checkoutRate", label: "Checkout", format: pct },
+  { key: "cvrLanding", label: "Achat/clic", format: pct },
+  { key: "hookRate", label: "Hook", format: pct },
+  { key: "hold50", label: "Hold 50", format: pct },
+  { key: "hold75", label: "Hold 75", format: pct },
+  { key: "hold100", label: "Hold 100", format: pct },
+  { key: "spendShare", label: "% budget", format: pct },
+];
+
+/** Tableau récapitulatif, une section par campagne. Tri propre au tableau :
+ * clic sur un en-tête de colonne, appliqué à TOUTES les campagnes. */
 function CampaignTables({
   rows,
   targetCpaCents,
@@ -906,6 +955,19 @@ function CampaignTables({
   rows: CreaRow[];
   targetCpaCents: number | null;
 }) {
+  const { play } = useSound();
+  const [sortCol, setSortCol] = useState<ColKey>("spendCents");
+  const [dir, setDir] = useState<"asc" | "desc">("desc");
+
+  const toggle = (key: ColKey) => {
+    play("tab");
+    if (key === sortCol) setDir((d) => (d === "desc" ? "asc" : "desc"));
+    else {
+      setSortCol(key);
+      setDir("desc");
+    }
+  };
+
   const byCampaign = useMemo(() => {
     const map = new Map<string, CreaRow[]>();
     for (const r of rows) {
@@ -914,17 +976,34 @@ function CampaignTables({
       arr.push(r);
       map.set(key, arr);
     }
+    // Les valeurs nulles (métrique non calculable) finissent toujours en bas,
+    // quel que soit le sens du tri — sinon elles squattent le haut en « asc ».
+    for (const arr of map.values()) {
+      arr.sort((a, b) => {
+        const av = a[sortCol];
+        const bv = b[sortCol];
+        if (av === null && bv === null) return 0;
+        if (av === null) return 1;
+        if (bv === null) return -1;
+        return dir === "desc" ? bv - av : av - bv;
+      });
+    }
     // Campagnes triées par spend décroissant (la plus grosse en premier).
     return [...map.entries()].sort(
       (a, b) =>
         b[1].reduce((s, r) => s + r.spendCents, 0) - a[1].reduce((s, r) => s + r.spendCents, 0)
     );
-  }, [rows]);
+  }, [rows, sortCol, dir]);
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
-        📋 Tableau par campagne
+      <div className="flex flex-wrap items-baseline gap-x-2">
+        <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+          📋 Tableau par campagne
+        </span>
+        <span className="text-[10px] text-ink-faint">
+          ← fais glisser pour voir toutes les colonnes · clique un titre de colonne pour trier
+        </span>
       </div>
       {byCampaign.map(([campaignName, list]) => {
         const spend = list.reduce((s, r) => s + r.spendCents, 0);
@@ -945,18 +1024,27 @@ function CampaignTables({
               </div>
             </summary>
             <div className="overflow-x-auto border-t border-line-soft">
-              <table className="w-full min-w-[700px] border-collapse text-[10.5px]">
+              <table className="w-full border-collapse text-[10.5px]">
                 <thead>
                   <tr className="border-b border-line-soft text-[9px] uppercase tracking-wide text-ink-faint">
-                    <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">Spend</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">CA</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">Ventes</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">ROAS</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">CPA</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">CTR</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">Fréq.</th>
-                    <th className="px-2 py-1.5 text-right font-semibold">Achat/clic</th>
+                    {/* Colonne créa figée : on scrolle horizontalement sans
+                        perdre de vue quelle ligne on lit. */}
+                    <th className="sticky left-0 z-10 bg-terminal px-2 py-1.5 text-left font-semibold">
+                      Créa
+                    </th>
+                    {TABLE_COLS.map((c) => (
+                      <th key={c.key} className="whitespace-nowrap px-2 py-1.5 text-right font-semibold">
+                        <button
+                          onClick={() => toggle(c.key)}
+                          className={`inline-flex items-center gap-0.5 hover:text-ink ${
+                            sortCol === c.key ? "text-phosphor" : ""
+                          }`}
+                        >
+                          {c.label}
+                          {sortCol === c.key && <span>{dir === "desc" ? "▼" : "▲"}</span>}
+                        </button>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody className="tnum">
@@ -966,26 +1054,25 @@ function CampaignTables({
                       targetCpaCents !== null && r.cpaCents !== null && r.cpaCents > targetCpaCents;
                     return (
                       <tr key={r.adId} className="border-b border-line-soft last:border-0">
-                        <td className="max-w-[260px] px-2 py-1.5 text-left">
+                        <td className="sticky left-0 z-10 max-w-[220px] truncate bg-terminal px-2 py-1.5 text-left">
                           <span className={`mr-1 ${badge.cls}`} title={badge.label}>
                             {badge.emoji}
                           </span>
                           <span className="text-ink">{r.adName}</span>
                         </td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(r.spendCents)}</td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(r.caCents)}</td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">{r.purchases}</td>
-                        <td className={`px-2 py-1.5 text-right font-semibold ${badge.cls}`}>
-                          {formatRoas(r.roas)}
-                        </td>
-                        <td className={`px-2 py-1.5 text-right ${cpaOver ? "text-red" : "text-ink"}`}>
-                          {r.cpaCents !== null ? formatEur0(r.cpaCents) : "—"}
-                        </td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatPct(r.ctrPct)}</td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">
-                          {r.freq !== null ? r.freq.toLocaleString("fr-FR", { maximumFractionDigits: 2 }) : "—"}
-                        </td>
-                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatPct(r.cvrLanding)}</td>
+                        {TABLE_COLS.map((c) => {
+                          const v = r[c.key];
+                          const highlight =
+                            c.key === "roas" ? badge.cls : c.key === "cpaCents" && cpaOver ? "text-red" : "text-ink-dim";
+                          return (
+                            <td
+                              key={c.key}
+                              className={`whitespace-nowrap px-2 py-1.5 text-right ${highlight}`}
+                            >
+                              {v === null ? "—" : c.format(v)}
+                            </td>
+                          );
+                        })}
                       </tr>
                     );
                   })}
