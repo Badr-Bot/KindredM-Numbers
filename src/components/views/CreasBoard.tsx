@@ -630,6 +630,11 @@ export function CreasBoard({
               {rows.length - visibleCount} restantes)
             </button>
           )}
+          {/* Vue tableau, groupée par campagne — pour comparer toutes les créas
+              d'un coup d'œil sans dérouler chaque carte. Pas de graphiques ici,
+              donc on peut afficher TOUTES les lignes sans pagination. */}
+          <CampaignTables rows={rows} targetCpaCents={targetCpaCents} />
+
           {/* Toutes les définitions vivent ICI, une seule fois — les cartes
               ne portent plus que des libellés courts (demandé le 26/07). */}
           <details className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10px] text-ink-faint">
@@ -881,6 +886,115 @@ function CreaCard({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+const STATUS_BADGE: Record<CreaStatus, { emoji: string; label: string; cls: string }> = {
+  cut: { emoji: "🔪", label: "À couper", cls: "text-red" },
+  watch: { emoji: "👁️", label: "À surveiller", cls: "text-amber" },
+  winner: { emoji: "🏆", label: "Gagnante", cls: "text-phosphor" },
+  testing: { emoji: "⏳", label: "En test", cls: "text-ink-faint" },
+};
+
+/** Tableau récapitulatif, une section par campagne. Conserve le tri et les
+ * filtres choisis en haut de page (les lignes arrivent déjà ordonnées). */
+function CampaignTables({
+  rows,
+  targetCpaCents,
+}: {
+  rows: CreaRow[];
+  targetCpaCents: number | null;
+}) {
+  const byCampaign = useMemo(() => {
+    const map = new Map<string, CreaRow[]>();
+    for (const r of rows) {
+      const key = r.campaignName || "(campagne inconnue)";
+      const arr = map.get(key) ?? [];
+      arr.push(r);
+      map.set(key, arr);
+    }
+    // Campagnes triées par spend décroissant (la plus grosse en premier).
+    return [...map.entries()].sort(
+      (a, b) =>
+        b[1].reduce((s, r) => s + r.spendCents, 0) - a[1].reduce((s, r) => s + r.spendCents, 0)
+    );
+  }, [rows]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
+        📋 Tableau par campagne
+      </div>
+      {byCampaign.map(([campaignName, list]) => {
+        const spend = list.reduce((s, r) => s + r.spendCents, 0);
+        const ca = list.reduce((s, r) => s + r.caCents, 0);
+        const purchases = list.reduce((s, r) => s + r.purchases, 0);
+        const roas = spend > 0 ? ca / spend : null;
+        const cpa = purchases > 0 ? Math.round(spend / purchases) : null;
+        return (
+          <details key={campaignName} open className="rounded-lg border border-line bg-panel/40">
+            <summary className="cursor-pointer list-none p-2.5">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+                <span className="text-[11.5px] font-semibold text-ink">{campaignName}</span>
+                <span className="text-[10px] tnum text-ink-dim">
+                  {list.length} créa{list.length > 1 ? "s" : ""} · {formatEur0(spend)} spend ·{" "}
+                  {formatEur0(ca)} CA · ROAS {formatRoas(roas)} · CPA{" "}
+                  {cpa !== null ? formatEur0(cpa) : "—"}
+                </span>
+              </div>
+            </summary>
+            <div className="overflow-x-auto border-t border-line-soft">
+              <table className="w-full min-w-[700px] border-collapse text-[10.5px]">
+                <thead>
+                  <tr className="border-b border-line-soft text-[9px] uppercase tracking-wide text-ink-faint">
+                    <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">Spend</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">CA</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">Ventes</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">ROAS</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">CPA</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">CTR</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">Fréq.</th>
+                    <th className="px-2 py-1.5 text-right font-semibold">Achat/clic</th>
+                  </tr>
+                </thead>
+                <tbody className="tnum">
+                  {list.map((r) => {
+                    const badge = STATUS_BADGE[r.status];
+                    const cpaOver =
+                      targetCpaCents !== null && r.cpaCents !== null && r.cpaCents > targetCpaCents;
+                    return (
+                      <tr key={r.adId} className="border-b border-line-soft last:border-0">
+                        <td className="max-w-[260px] px-2 py-1.5 text-left">
+                          <span className={`mr-1 ${badge.cls}`} title={badge.label}>
+                            {badge.emoji}
+                          </span>
+                          <span className="text-ink">{r.adName}</span>
+                        </td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(r.spendCents)}</td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(r.caCents)}</td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">{r.purchases}</td>
+                        <td className={`px-2 py-1.5 text-right font-semibold ${badge.cls}`}>
+                          {formatRoas(r.roas)}
+                        </td>
+                        <td className={`px-2 py-1.5 text-right ${cpaOver ? "text-red" : "text-ink"}`}>
+                          {r.cpaCents !== null ? formatEur0(r.cpaCents) : "—"}
+                        </td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatPct(r.ctrPct)}</td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">
+                          {r.freq !== null ? r.freq.toLocaleString("fr-FR", { maximumFractionDigits: 2 }) : "—"}
+                        </td>
+                        <td className="px-2 py-1.5 text-right text-ink-dim">{formatPct(r.cvrLanding)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        );
+      })}
     </div>
   );
 }
