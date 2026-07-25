@@ -64,27 +64,20 @@ interface CreaRow {
   cvrLanding: number | null;
   atcRate: number | null;
   checkoutRate: number | null;
+  series: { label: string; caCents: number; roas: number | null }[];
 }
 
-type SortKey =
-  | "spendCents"
-  | "caCents"
-  | "roas"
-  | "cpaCents"
-  | "ctrPct"
-  | "hookRate"
-  | "hold100"
-  | "cvrLanding";
+type SortKey = "spendCents" | "caCents" | "roas" | "cpaCents" | "ctrPct" | "hookRate" | "hold100" | "cvrLanding";
 
-const COLUMNS: { key: SortKey; label: string; emoji: string }[] = [
-  { key: "spendCents", label: "Spend", emoji: "📣" },
-  { key: "caCents", label: "CA", emoji: "💶" },
-  { key: "roas", label: "ROAS", emoji: "⚖️" },
-  { key: "cpaCents", label: "CPA", emoji: "🎯" },
-  { key: "ctrPct", label: "CTR", emoji: "👀" },
-  { key: "hookRate", label: "Hook", emoji: "🪝" },
-  { key: "hold100", label: "Hold 100%", emoji: "🎬" },
-  { key: "cvrLanding", label: "CVR landing", emoji: "🛬" },
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: "spendCents", label: "Spend" },
+  { key: "caCents", label: "CA" },
+  { key: "roas", label: "ROAS" },
+  { key: "cpaCents", label: "CPA" },
+  { key: "ctrPct", label: "CTR" },
+  { key: "hookRate", label: "Hook" },
+  { key: "hold100", label: "Hold 100 %" },
+  { key: "cvrLanding", label: "CVR landing" },
 ];
 
 export function CreasBoard({
@@ -101,7 +94,6 @@ export function CreasBoard({
   const [campaignFilter, setCampaignFilter] = useState<string>("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("spendCents");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [expandedAdId, setExpandedAdId] = useState<string | null>(null);
 
   const { from, to } = useMemo(() => {
     if (preset === "all") return { from: historyStart, to: today };
@@ -124,46 +116,50 @@ export function CreasBoard({
   );
 
   const rows: CreaRow[] = useMemo(() => {
-    const byAd = new Map<string, CreaRow>();
+    type Acc = Omit<CreaRow, "series"> & { dailyPoints: { day: string; spendCents: number; caCents: number }[] };
+    const byAd = new Map<string, Acc>();
     for (const d of filteredDaily) {
       const m = metaByAd.get(d.adId);
       if (campaignFilter !== "ALL" && m?.campaignName !== campaignFilter) continue;
-      const cur = byAd.get(d.adId) ?? {
-        adId: d.adId,
-        adName: m?.adName ?? d.adId,
-        campaignId: m?.campaignId ?? "",
-        campaignName: m?.campaignName ?? "",
-        body: m?.body ?? null,
-        qualityRanking: m?.qualityRanking ?? null,
-        engagementRanking: m?.engagementRanking ?? null,
-        conversionRanking: m?.conversionRanking ?? null,
-        spendCents: 0,
-        caCents: 0,
-        clicks: 0,
-        purchases: 0,
-        impressions: 0,
-        reach: 0,
-        linkClicks: 0,
-        landingPageViews: 0,
-        addToCart: 0,
-        initiateCheckout: 0,
-        video3s: 0,
-        video50: 0,
-        video75: 0,
-        video100: 0,
-        isVideo: false,
-        roas: null,
-        cpaCents: null,
-        ctrPct: null,
-        hookRate: null,
-        hold50: null,
-        hold75: null,
-        hold100: null,
-        lpvRate: null,
-        cvrLanding: null,
-        atcRate: null,
-        checkoutRate: null,
-      };
+      const cur =
+        byAd.get(d.adId) ??
+        ({
+          adId: d.adId,
+          adName: m?.adName ?? d.adId,
+          campaignId: m?.campaignId ?? "",
+          campaignName: m?.campaignName ?? "",
+          body: m?.body ?? null,
+          qualityRanking: m?.qualityRanking ?? null,
+          engagementRanking: m?.engagementRanking ?? null,
+          conversionRanking: m?.conversionRanking ?? null,
+          spendCents: 0,
+          caCents: 0,
+          clicks: 0,
+          purchases: 0,
+          impressions: 0,
+          reach: 0,
+          linkClicks: 0,
+          landingPageViews: 0,
+          addToCart: 0,
+          initiateCheckout: 0,
+          video3s: 0,
+          video50: 0,
+          video75: 0,
+          video100: 0,
+          isVideo: false,
+          roas: null,
+          cpaCents: null,
+          ctrPct: null,
+          hookRate: null,
+          hold50: null,
+          hold75: null,
+          hold100: null,
+          lpvRate: null,
+          cvrLanding: null,
+          atcRate: null,
+          checkoutRate: null,
+          dailyPoints: [],
+        } satisfies Acc);
       cur.spendCents += d.spendCents;
       cur.caCents += d.purchaseValueCents;
       cur.clicks += d.clicks;
@@ -178,6 +174,7 @@ export function CreasBoard({
       cur.video50 += d.video50;
       cur.video75 += d.video75;
       cur.video100 += d.video100;
+      cur.dailyPoints.push({ day: d.day, spendCents: d.spendCents, caCents: d.purchaseValueCents });
       byAd.set(d.adId, cur);
     }
 
@@ -200,7 +197,50 @@ export function CreasBoard({
       r.cvrLanding = r.landingPageViews > 0 ? r.purchases / r.landingPageViews : null;
       r.atcRate = r.landingPageViews > 0 ? r.addToCart / r.landingPageViews : null;
       r.checkoutRate = r.addToCart > 0 ? r.initiateCheckout / r.addToCart : null;
-      out.push(r);
+      const series = r.dailyPoints
+        .sort((a, b) => a.day.localeCompare(b.day))
+        .map((p) => ({
+          label: formatDayShort(p.day),
+          caCents: p.caCents,
+          roas: p.spendCents > 0 ? p.caCents / p.spendCents : null,
+        }));
+      out.push({
+        adId: r.adId,
+        adName: r.adName,
+        campaignId: r.campaignId,
+        campaignName: r.campaignName,
+        body: r.body,
+        qualityRanking: r.qualityRanking,
+        engagementRanking: r.engagementRanking,
+        conversionRanking: r.conversionRanking,
+        spendCents: r.spendCents,
+        caCents: r.caCents,
+        clicks: r.clicks,
+        purchases: r.purchases,
+        impressions: r.impressions,
+        reach: r.reach,
+        linkClicks: r.linkClicks,
+        landingPageViews: r.landingPageViews,
+        addToCart: r.addToCart,
+        initiateCheckout: r.initiateCheckout,
+        video3s: r.video3s,
+        video50: r.video50,
+        video75: r.video75,
+        video100: r.video100,
+        isVideo: r.isVideo,
+        roas: r.roas,
+        cpaCents: r.cpaCents,
+        ctrPct: r.ctrPct,
+        hookRate: r.hookRate,
+        hold50: r.hold50,
+        hold75: r.hold75,
+        hold100: r.hold100,
+        lpvRate: r.lpvRate,
+        cvrLanding: r.cvrLanding,
+        atcRate: r.atcRate,
+        checkoutRate: r.checkoutRate,
+        series,
+      });
     }
 
     out.sort((a, b) => {
@@ -213,34 +253,9 @@ export function CreasBoard({
     return out;
   }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir]);
 
-  const toggleSort = (key: SortKey) => {
-    play("tab");
-    if (key === sortKey) {
-      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
-    } else {
-      setSortKey(key);
-      setSortDir("desc");
-    }
-  };
-
-  const expandedSeries = useMemo(() => {
-    if (!expandedAdId) return [];
-    return filteredDaily
-      .filter((d) => d.adId === expandedAdId)
-      .map((d) => ({
-        day: d.day,
-        label: formatDayShort(d.day),
-        caCents: d.purchaseValueCents,
-        roas: d.spendCents > 0 ? d.purchaseValueCents / d.spendCents : null,
-        cpaCents: d.purchases > 0 ? Math.round(d.spendCents / d.purchases) : null,
-        ctrPct: d.impressions > 0 ? (d.clicks / d.impressions) * 100 : null,
-      }))
-      .sort((a, b) => a.day.localeCompare(b.day));
-  }, [filteredDaily, expandedAdId]);
-
   return (
     <div className="flex flex-col gap-4">
-      {/* Filtres : période + campagne */}
+      {/* Filtres : période + campagne + tri */}
       <div className="flex flex-wrap items-center gap-2">
         {(["7", "14", "30", "all"] as Preset[]).map((p) => (
           <button
@@ -273,6 +288,29 @@ export function CreasBoard({
             </option>
           ))}
         </select>
+        <select
+          value={sortKey}
+          onChange={(e) => {
+            play("tab");
+            setSortKey(e.target.value as SortKey);
+          }}
+          className="rounded border border-line bg-terminal px-2 py-1 text-[11px] text-ink"
+        >
+          {SORT_OPTIONS.map((o) => (
+            <option key={o.key} value={o.key}>
+              Trier : {o.label}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => {
+            play("tab");
+            setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+          }}
+          className="rounded border border-line px-2 py-1 text-[11px] text-ink-dim hover:text-ink"
+        >
+          {sortDir === "desc" ? "▼" : "▲"}
+        </button>
       </div>
 
       {creas.missingTables && (
@@ -289,121 +327,105 @@ export function CreasBoard({
       )}
 
       {rows.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-line bg-panel/40">
-          <table className="w-full min-w-[900px] border-collapse text-[11px]">
-            <thead>
-              <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
-                <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
-                {COLUMNS.map((c) => (
-                  <th key={c.key} className="px-2 py-1.5 text-right font-semibold">
-                    <button
-                      onClick={() => toggleSort(c.key)}
-                      className={`inline-flex items-center gap-0.5 hover:text-ink ${
-                        sortKey === c.key ? "text-phosphor" : ""
-                      }`}
-                    >
-                      <span aria-hidden>{c.emoji}</span> {c.label}
-                      {sortKey === c.key && <span>{sortDir === "desc" ? "▼" : "▲"}</span>}
-                    </button>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="tnum">
-              {rows.map((r) => (
-                <CreaTableRow
-                  key={r.adId}
-                  row={r}
-                  expanded={expandedAdId === r.adId}
-                  onToggle={() => {
-                    play("tab");
-                    setExpandedAdId((cur) => (cur === r.adId ? null : r.adId));
-                  }}
-                  series={expandedAdId === r.adId ? expandedSeries : []}
-                />
-              ))}
-            </tbody>
-          </table>
-          <p className="p-2.5 text-[10px] text-ink-faint">
+        <>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {rows.map((r) => (
+              <CreaCard key={r.adId} row={r} />
+            ))}
+          </div>
+          <p className="text-[10px] text-ink-faint">
             🪝 Hook = % qui regarde ≥ 3 s (vidéo uniquement) · 🎬 Hold = % qui va jusqu&apos;au bout
             de la vidéo (parmi ceux qui ont dépassé 3 s) · 🛬 CVR landing = achats ÷ atterrissages
             réels sur la page (sépare le problème clic→page du problème page→achat) · reach cumulé
             sur plusieurs jours = approximatif (pas de déduplication inter-jours côté Meta).
           </p>
-        </div>
+        </>
       )}
     </div>
   );
 }
 
-function CreaTableRow({
-  row,
-  expanded,
-  onToggle,
-  series,
-}: {
-  row: CreaRow;
-  expanded: boolean;
-  onToggle: () => void;
-  series: { label: string; caCents: number; roas: number | null; cpaCents: number | null; ctrPct: number | null }[];
-}) {
+function CreaCard({ row }: { row: CreaRow }) {
+  const { play } = useSound();
+  const [open, setOpen] = useState(false);
+  const roasColor =
+    row.roas === null ? "text-ink" : row.roas >= 2 ? "text-phosphor" : row.roas >= 1 ? "text-amber" : "text-red";
+
   return (
-    <>
-      <tr
-        onClick={onToggle}
-        className={`cursor-pointer border-b border-line-soft last:border-0 hover:bg-panel/60 ${
-          expanded ? "bg-panel/60" : ""
-        }`}
+    <div className="rounded-lg border border-line bg-panel/40 p-3">
+      <div className="mb-1.5">
+        <div className="truncate text-[12.5px] font-semibold text-ink">{row.adName}</div>
+        <div className="truncate text-[10px] text-ink-faint">{row.campaignName}</div>
+      </div>
+
+      <div className="mb-2 flex items-baseline justify-between">
+        <span className={`text-2xl font-bold tnum ${roasColor}`}>{formatRoas(row.roas)}</span>
+        <span className="text-right text-[10.5px] tnum text-ink-dim">
+          {formatEur0(row.caCents)} CA
+          <br />
+          {formatEur0(row.spendCents)} spend
+        </span>
+      </div>
+
+      {/* Mini-courbe CA — toujours visible, pas besoin de cliquer (25/07) */}
+      <MiniChart data={row.series} dataKey="caCents" divideBy={100} format={formatEur0} />
+
+      <div className="mt-2 grid grid-cols-3 gap-1 text-center text-[10px] text-ink-dim">
+        <div>
+          <div className="text-ink-faint">CPA</div>
+          <div className="tnum text-ink">{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</div>
+        </div>
+        <div>
+          <div className="text-ink-faint">CTR</div>
+          <div className="tnum text-ink">{formatPct(row.ctrPct)}</div>
+        </div>
+        <div>
+          <div className="text-ink-faint">{row.isVideo ? "Hook" : "CVR landing"}</div>
+          <div className="tnum text-ink">{row.isVideo ? formatPct(row.hookRate) : formatPct(row.cvrLanding)}</div>
+        </div>
+      </div>
+
+      <button
+        onClick={() => {
+          play("tab");
+          setOpen((v) => !v);
+        }}
+        className="mt-2 w-full rounded border border-line-soft py-1 text-[10px] uppercase tracking-wide text-ink-faint hover:text-ink"
       >
-        <td className="max-w-[280px] px-2 py-1.5 text-left">
-          <div className="truncate font-medium text-ink">{row.adName}</div>
-          <div className="truncate text-[9.5px] text-ink-faint">{row.campaignName}</div>
-          {row.body && <div className="mt-0.5 line-clamp-2 text-[9.5px] text-ink-dim">{row.body}</div>}
-        </td>
-        <td className="px-2 py-1.5 text-right">{formatEur0(row.spendCents)}</td>
-        <td className="px-2 py-1.5 text-right">{formatEur0(row.caCents)}</td>
-        <td className="px-2 py-1.5 text-right font-semibold">{formatRoas(row.roas)}</td>
-        <td className="px-2 py-1.5 text-right">{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</td>
-        <td className="px-2 py-1.5 text-right">{formatPct(row.ctrPct)}</td>
-        <td className="px-2 py-1.5 text-right">{row.isVideo ? formatPct(row.hookRate) : "—"}</td>
-        <td className="px-2 py-1.5 text-right">{row.isVideo ? formatPct(row.hold100) : "—"}</td>
-        <td className="px-2 py-1.5 text-right">{formatPct(row.cvrLanding)}</td>
-      </tr>
-      {expanded && (
-        <tr className="border-b border-line-soft last:border-0">
-          <td colSpan={9} className="bg-terminal/40 p-3">
-            <div className="mb-2 grid grid-cols-2 gap-x-6 gap-y-1 text-[10.5px] text-ink-dim sm:grid-cols-4">
-              <span>🛬 Atterrissage : {formatPct(row.lpvRate)}</span>
-              <span>🛒 Panier : {formatPct(row.atcRate)}</span>
-              <span>💳 Checkout : {formatPct(row.checkoutRate)}</span>
-              {row.isVideo && (
-                <>
-                  <span>🎬 Hold 50 % : {formatPct(row.hold50)}</span>
-                  <span>🎬 Hold 75 % : {formatPct(row.hold75)}</span>
-                </>
-              )}
-              {row.qualityRanking && (
-                <span>⭐ Qualité : {RANKING_LABEL[row.qualityRanking] ?? row.qualityRanking}</span>
-              )}
-              {row.engagementRanking && (
-                <span>💬 Engagement : {RANKING_LABEL[row.engagementRanking] ?? row.engagementRanking}</span>
-              )}
-              {row.conversionRanking && (
-                <span>🎯 Conversion : {RANKING_LABEL[row.conversionRanking] ?? row.conversionRanking}</span>
-              )}
-            </div>
-            {series.length < 2 ? (
-              <p className="text-[10.5px] text-ink-faint">Pas assez de jours pour un graphe.</p>
-            ) : (
-              <div className="grid gap-2 sm:grid-cols-2">
-                <MiniChart title="💶 CA" data={series} dataKey="caCents" divideBy={100} format={formatEur0} />
-                <MiniChart title="⚖️ ROAS" data={series} dataKey="roas" format={formatRoas} />
-              </div>
+        {open ? "▲ Moins de détails" : "▼ Funnel complet"}
+      </button>
+
+      {open && (
+        <div className="mt-2 flex flex-col gap-2 border-t border-line-soft pt-2">
+          {row.body && <p className="line-clamp-3 text-[10.5px] text-ink-dim">{row.body}</p>}
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10.5px] text-ink-dim">
+            <span>🛬 Atterrissage : {formatPct(row.lpvRate)}</span>
+            <span>🛒 Panier : {formatPct(row.atcRate)}</span>
+            <span>💳 Checkout : {formatPct(row.checkoutRate)}</span>
+            <span>🛬 CVR landing : {formatPct(row.cvrLanding)}</span>
+            {row.isVideo && (
+              <>
+                <span>🎬 Hold 50 % : {formatPct(row.hold50)}</span>
+                <span>🎬 Hold 75 % : {formatPct(row.hold75)}</span>
+                <span>🎬 Hold 100 % : {formatPct(row.hold100)}</span>
+              </>
             )}
-          </td>
-        </tr>
+            {row.qualityRanking && (
+              <span>⭐ Qualité : {RANKING_LABEL[row.qualityRanking] ?? row.qualityRanking}</span>
+            )}
+            {row.engagementRanking && (
+              <span>💬 Engagement : {RANKING_LABEL[row.engagementRanking] ?? row.engagementRanking}</span>
+            )}
+            {row.conversionRanking && (
+              <span>🎯 Conversion : {RANKING_LABEL[row.conversionRanking] ?? row.conversionRanking}</span>
+            )}
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <MiniChart title="⚖️ ROAS" data={row.series} dataKey="roas" format={formatRoas} />
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -414,7 +436,7 @@ function MiniChart({
   divideBy = 1,
   format,
 }: {
-  title: string;
+  title?: string;
   data: { label: string; [k: string]: unknown }[];
   dataKey: string;
   divideBy?: number;
@@ -424,12 +446,15 @@ function MiniChart({
     label: d.label,
     value: d[dataKey] === null || d[dataKey] === undefined ? null : (d[dataKey] as number) / divideBy,
   }));
+  if (chartData.length < 2) {
+    return <p className="text-[10px] text-ink-faint">Pas assez de jours pour un graphe.</p>;
+  }
   return (
-    <div className="rounded border border-line bg-panel/40 p-2">
-      <div className="mb-1 text-[10px] font-semibold text-ink-dim">{title}</div>
-      <div className="h-24 w-full">
+    <div>
+      {title && <div className="mb-1 text-[10px] font-semibold text-ink-dim">{title}</div>}
+      <div className="h-20 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 4, right: 6, bottom: 0, left: -18 }}>
+          <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
             <CartesianGrid stroke="#322c42" vertical={false} />
             <XAxis
               dataKey="label"
@@ -439,7 +464,7 @@ function MiniChart({
               interval="preserveStartEnd"
               minTickGap={16}
             />
-            <YAxis tick={{ fill: "#6c6482", fontSize: 8 }} tickLine={false} axisLine={false} width={38} domain={["auto", "auto"]} />
+            <YAxis tick={{ fill: "#6c6482", fontSize: 8 }} tickLine={false} axisLine={false} width={34} domain={["auto", "auto"]} />
             <Tooltip
               content={({ active, payload, label }) => {
                 if (!active || !payload?.length || payload[0].value == null) return null;
