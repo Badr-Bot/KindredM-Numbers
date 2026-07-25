@@ -65,7 +65,16 @@ interface CreaRow {
   atcRate: number | null;
   checkoutRate: number | null;
   toCut: boolean;
-  series: { label: string; caCents: number; roas: number | null }[];
+  toCutCpaCents: number | null;
+  series: {
+    label: string;
+    spendCents: number;
+    caCents: number;
+    roas: number | null;
+    cpaCents: number | null;
+    ctrPct: number | null;
+    cpmCents: number | null;
+  }[];
 }
 
 type SortKey = "spendCents" | "caCents" | "roas" | "cpaCents" | "ctrPct" | "hookRate" | "hold100" | "cvrLanding";
@@ -129,15 +138,15 @@ export function CreasBoard({
   // le signal reste "à couper maintenant"). Un jour dépensé sans aucune
   // vente compte comme pire que la cible. "Aujourd'hui" exclu (jour partiel
   // — même piège que les faux positifs du journal auto, voir journal.ts).
-  const toCutIds = useMemo(() => {
-    if (targetCpaCents === null) return new Set<string>();
+  const toCutInfo = useMemo(() => {
+    const out = new Map<string, number | null>(); // adId -> CPA blended des 3 derniers jours (null si 0 vente)
+    if (targetCpaCents === null) return out;
     const byAd = new Map<string, { day: string; spendCents: number; purchases: number }[]>();
     for (const d of creas.daily) {
       const arr = byAd.get(d.adId) ?? [];
       arr.push({ day: d.day, spendCents: d.spendCents, purchases: d.purchases });
       byAd.set(d.adId, arr);
     }
-    const out = new Set<string>();
     for (const [adId, points] of byAd) {
       const lastFull = [...points]
         .filter((p) => p.day < today)
@@ -149,13 +158,18 @@ export function CreasBoard({
         if (p.purchases === 0) return true;
         return Math.round(p.spendCents / p.purchases) > targetCpaCents;
       });
-      if (allOver) out.add(adId);
+      if (!allOver) continue;
+      const spend3 = lastFull.reduce((s, p) => s + p.spendCents, 0);
+      const purchases3 = lastFull.reduce((s, p) => s + p.purchases, 0);
+      out.set(adId, purchases3 > 0 ? Math.round(spend3 / purchases3) : null);
     }
     return out;
   }, [creas.daily, targetCpaCents, today]);
 
   const rows: CreaRow[] = useMemo(() => {
-    type Acc = Omit<CreaRow, "series"> & { dailyPoints: { day: string; spendCents: number; caCents: number }[] };
+    type Acc = Omit<CreaRow, "series"> & {
+      dailyPoints: { day: string; spendCents: number; caCents: number; clicks: number; impressions: number; purchases: number }[];
+    };
     const byAd = new Map<string, Acc>();
     for (const d of filteredDaily) {
       const m = metaByAd.get(d.adId);
@@ -198,6 +212,7 @@ export function CreasBoard({
           atcRate: null,
           checkoutRate: null,
           toCut: false,
+          toCutCpaCents: null,
           dailyPoints: [],
         } satisfies Acc);
       cur.spendCents += d.spendCents;
@@ -214,7 +229,14 @@ export function CreasBoard({
       cur.video50 += d.video50;
       cur.video75 += d.video75;
       cur.video100 += d.video100;
-      cur.dailyPoints.push({ day: d.day, spendCents: d.spendCents, caCents: d.purchaseValueCents });
+      cur.dailyPoints.push({
+        day: d.day,
+        spendCents: d.spendCents,
+        caCents: d.purchaseValueCents,
+        clicks: d.clicks,
+        impressions: d.impressions,
+        purchases: d.purchases,
+      });
       byAd.set(d.adId, cur);
     }
 
@@ -241,8 +263,12 @@ export function CreasBoard({
         .sort((a, b) => a.day.localeCompare(b.day))
         .map((p) => ({
           label: formatDayShort(p.day),
+          spendCents: p.spendCents,
           caCents: p.caCents,
           roas: p.spendCents > 0 ? p.caCents / p.spendCents : null,
+          cpaCents: p.purchases > 0 ? Math.round(p.spendCents / p.purchases) : null,
+          ctrPct: p.impressions > 0 ? (p.clicks / p.impressions) * 100 : null,
+          cpmCents: p.impressions > 0 ? Math.round((p.spendCents / p.impressions) * 1000) : null,
         }));
       out.push({
         adId: r.adId,
@@ -279,7 +305,8 @@ export function CreasBoard({
         cvrLanding: r.cvrLanding,
         atcRate: r.atcRate,
         checkoutRate: r.checkoutRate,
-        toCut: toCutIds.has(r.adId),
+        toCut: toCutInfo.has(r.adId),
+        toCutCpaCents: toCutInfo.get(r.adId) ?? null,
         series,
       });
     }
@@ -293,7 +320,7 @@ export function CreasBoard({
       return sortDir === "desc" ? bn - an : an - bn;
     });
     return out;
-  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, toCutIds]);
+  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, toCutInfo]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -454,11 +481,28 @@ function CreaCard({ row }: { row: CreaRow }) {
           <div className="truncate text-[10px] text-ink-faint">{row.campaignName}</div>
         </div>
         {row.toCut && (
-          <span className="flex-none rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-red">
+          <span
+            title={
+              row.toCutCpaCents !== null
+                ? `CPA des 3 derniers jours pleins : ${formatEur0(row.toCutCpaCents)}`
+                : "0 vente sur les 3 derniers jours pleins malgré du spend"
+            }
+            className="flex-none whitespace-nowrap rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-right text-[9.5px] font-bold uppercase tracking-wide text-red"
+          >
             🔪 À couper
+            <br />
+            <span className="normal-case tracking-normal">
+              {row.toCutCpaCents !== null ? `${formatEur0(row.toCutCpaCents)}/3j` : "0 vente/3j"}
+            </span>
           </span>
         )}
       </div>
+      {row.toCut && (
+        <p className="mb-1.5 text-[10px] text-red/80">
+          ⚠️ Basé sur les 3 derniers jours PLEINS uniquement — peut différer du CPA affiché plus bas,
+          qui lui porte sur toute la période sélectionnée en haut de page.
+        </p>
+      )}
 
       <div className="mb-2 flex items-baseline justify-between">
         <span className={`text-2xl font-bold tnum ${roasColor}`}>{formatRoas(row.roas)}</span>
@@ -542,7 +586,11 @@ function CreaCard({ row }: { row: CreaRow }) {
             )}
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
+            <MiniChart title="📣 Spend" data={row.series} dataKey="spendCents" divideBy={100} format={formatEur0} />
             <MiniChart title="⚖️ ROAS" data={row.series} dataKey="roas" format={formatRoas} />
+            <MiniChart title="🎯 CPA" data={row.series} dataKey="cpaCents" divideBy={100} format={formatEur0} />
+            <MiniChart title="👀 CTR" data={row.series} dataKey="ctrPct" format={(v) => formatPct(v / 100)} />
+            <MiniChart title="📢 CPM" data={row.series} dataKey="cpmCents" divideBy={100} format={formatEur0} />
           </div>
         </div>
       )}
