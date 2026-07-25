@@ -5,6 +5,7 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -71,6 +72,7 @@ interface CreaRow {
   roas: number | null;
   cpaCents: number | null;
   ctrPct: number | null;
+  cpmCents: number | null;
   hookRate: number | null;
   hold50: number | null;
   hold75: number | null;
@@ -196,6 +198,7 @@ export function CreasBoard({
           roas: null,
           cpaCents: null,
           ctrPct: null,
+          cpmCents: null,
           hookRate: null,
           hold50: null,
           hold75: null,
@@ -240,6 +243,7 @@ export function CreasBoard({
       r.roas = r.spendCents > 0 && r.caCents > 0 ? r.caCents / r.spendCents : null;
       r.cpaCents = r.purchases > 0 ? Math.round(r.spendCents / r.purchases) : null;
       r.ctrPct = r.impressions > 0 ? r.clicks / r.impressions : null;
+      r.cpmCents = r.impressions > 0 ? Math.round((r.spendCents / r.impressions) * 1000) : null;
       r.hookRate = r.isVideo && r.impressions > 0 ? r.video3s / r.impressions : null;
       r.hold50 = r.isVideo && r.video3s > 0 ? r.video50 / r.video3s : null;
       r.hold75 = r.isVideo && r.video3s > 0 ? r.video75 / r.video3s : null;
@@ -308,6 +312,7 @@ export function CreasBoard({
         roas: r.roas,
         cpaCents: r.cpaCents,
         ctrPct: r.ctrPct,
+        cpmCents: r.cpmCents,
         hookRate: r.hookRate,
         hold50: r.hold50,
         hold75: r.hold75,
@@ -549,7 +554,14 @@ function CreaCard({ row }: { row: CreaRow }) {
       </div>
 
       {/* Mini-courbe CA — toujours visible, pas besoin de cliquer (25/07) */}
-      <MiniChart data={row.series} dataKey="caCents" divideBy={100} format={formatEur0} />
+      <MiniChart
+        title="💶 CA / jour"
+        data={row.series}
+        dataKey="caCents"
+        divideBy={100}
+        format={formatEur0}
+        average={row.series.length > 0 ? row.caCents / row.series.length : null}
+      />
 
       <div className="mt-2 grid grid-cols-4 gap-1 text-center text-[10px] text-ink-dim">
         <div>
@@ -621,11 +633,44 @@ function CreaCard({ row }: { row: CreaRow }) {
             )}
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            <MiniChart title="📣 Spend" data={row.series} dataKey="spendCents" divideBy={100} format={formatEur0} />
-            <MiniChart title="⚖️ ROAS" data={row.series} dataKey="roas" format={formatRoas} />
-            <MiniChart title="🎯 CPA" data={row.series} dataKey="cpaCents" divideBy={100} format={formatEur0} />
-            <MiniChart title="👀 CTR" data={row.series} dataKey="ctrPct" format={(v) => formatPct(v / 100)} />
-            <MiniChart title="📢 CPM" data={row.series} dataKey="cpmCents" divideBy={100} format={formatEur0} />
+            <MiniChart
+              title="📣 Spend / jour"
+              data={row.series}
+              dataKey="spendCents"
+              divideBy={100}
+              format={formatEur0}
+              average={row.series.length > 0 ? row.spendCents / row.series.length : null}
+            />
+            <MiniChart
+              title="⚖️ ROAS"
+              data={row.series}
+              dataKey="roas"
+              format={formatRoas}
+              average={row.roas}
+            />
+            <MiniChart
+              title="🎯 CPA"
+              data={row.series}
+              dataKey="cpaCents"
+              divideBy={100}
+              format={formatEur0}
+              average={row.cpaCents}
+            />
+            <MiniChart
+              title="👀 CTR"
+              data={row.series}
+              dataKey="ctrPct"
+              format={(v) => formatPct(v / 100)}
+              average={row.ctrPct !== null ? row.ctrPct * 100 : null}
+            />
+            <MiniChart
+              title="📢 CPM"
+              data={row.series}
+              dataKey="cpmCents"
+              divideBy={100}
+              format={formatEur0}
+              average={row.cpmCents}
+            />
           </div>
         </div>
       )}
@@ -639,12 +684,19 @@ function MiniChart({
   dataKey,
   divideBy = 1,
   format,
+  average,
 }: {
   title?: string;
   data: { label: string; [k: string]: unknown }[];
   dataKey: string;
   divideBy?: number;
   format: (v: number) => string;
+  /** Moyenne de la période, DANS L'UNITÉ D'ORIGINE (celle que `format`
+   * attend, avant divideBy). Volontairement passée par l'appelant plutôt
+   * que calculée ici : pour ROAS/CPA/CTR/CPM la bonne moyenne est pondérée
+   * (CA total ÷ spend total…), pas la moyenne des valeurs journalières —
+   * un jour à 5 € de spend ne doit pas peser autant qu'un jour à 500 €. */
+  average?: number | null;
 }) {
   const chartData = data.map((d) => ({
     label: d.label,
@@ -655,7 +707,14 @@ function MiniChart({
   }
   return (
     <div>
-      {title && <div className="mb-1 text-[10px] font-semibold text-ink-dim">{title}</div>}
+      {title && (
+        <div className="mb-1 flex items-baseline justify-between gap-2">
+          <span className="text-[10px] font-semibold text-ink-dim">{title}</span>
+          {average !== null && average !== undefined && (
+            <span className="text-[10px] tnum text-ink-faint">moy. {format(average)}</span>
+          )}
+        </div>
+      )}
       <div className="h-20 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
@@ -680,6 +739,9 @@ function MiniChart({
                 );
               }}
             />
+            {average !== null && average !== undefined && (
+              <ReferenceLine y={average / divideBy} stroke="#6c6482" strokeDasharray="3 3" />
+            )}
             <Line dataKey="value" stroke="#33ff9c" strokeWidth={2} dot={false} connectNulls />
           </LineChart>
         </ResponsiveContainer>
