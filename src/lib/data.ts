@@ -233,6 +233,20 @@ export function thresholdsFromTotals(t: Totals): Thresholds {
   return { cm, breakEven, target };
 }
 
+/** CPA cible (centimes) = panier moyen ÷ ROAS cible, sur les 14 jours
+ * glissants GLOBAL — sert à la règle « créa à couper » de l'onglet Créas
+ * (25/07) : dépasse ce CPA 3 jours d'affilé = à couper. Bouge tout seul si
+ * la marge change, jamais figé en dur. null si la marge ne permet pas
+ * encore de définir une cible (même condition que thresholdsFromTotals). */
+export async function getTargetCpaCents(endDay: string): Promise<number | null> {
+  const startDay = addDaysToDay(endDay, -13);
+  const rows = await fetchDailyRows(startDay, endDay);
+  const totals = sumRows(rows);
+  const { target } = thresholdsFromTotals(totals);
+  if (target === null || totals.orders === 0) return null;
+  return Math.round(totals.caCents / totals.orders / target);
+}
+
 /** Seuils par onglet marché, calculés sur les 14 jours glissants finissant à `endDay`. */
 export async function computeThresholds(endDay: string): Promise<Record<MarketTab, Thresholds>> {
   const startDay = addDaysToDay(endDay, -13);

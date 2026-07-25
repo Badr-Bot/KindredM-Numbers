@@ -64,6 +64,7 @@ interface CreaRow {
   cvrLanding: number | null;
   atcRate: number | null;
   checkoutRate: number | null;
+  toCut: boolean;
   series: { label: string; caCents: number; roas: number | null }[];
 }
 
@@ -84,10 +85,14 @@ export function CreasBoard({
   creas,
   today,
   historyStart,
+  targetCpaCents,
 }: {
   creas: CreasData;
   today: string;
   historyStart: string;
+  /** CPA cible (panier moyen ÷ ROAS cible, 14j glissants) — null si la marge
+   * ne permet pas encore d'en définir une. */
+  targetCpaCents: number | null;
 }) {
   const { play } = useSound();
   const [preset, setPreset] = useState<Preset>("14");
@@ -117,6 +122,37 @@ export function CreasBoard({
     () => creas.daily.filter((d) => d.day >= from && d.day <= to),
     [creas.daily, from, to]
   );
+
+  // 🔪 Créas à couper (règle de Badr, 25/07) : CPA au-dessus de la cible
+  // 3 jours PLEINS d'affilé (jamais l'historique entier, jamais le filtre de
+  // période choisi ci-dessus — toujours les 3 derniers vrais jours, pour que
+  // le signal reste "à couper maintenant"). Un jour dépensé sans aucune
+  // vente compte comme pire que la cible. "Aujourd'hui" exclu (jour partiel
+  // — même piège que les faux positifs du journal auto, voir journal.ts).
+  const toCutIds = useMemo(() => {
+    if (targetCpaCents === null) return new Set<string>();
+    const byAd = new Map<string, { day: string; spendCents: number; purchases: number }[]>();
+    for (const d of creas.daily) {
+      const arr = byAd.get(d.adId) ?? [];
+      arr.push({ day: d.day, spendCents: d.spendCents, purchases: d.purchases });
+      byAd.set(d.adId, arr);
+    }
+    const out = new Set<string>();
+    for (const [adId, points] of byAd) {
+      const lastFull = [...points]
+        .filter((p) => p.day < today)
+        .sort((a, b) => b.day.localeCompare(a.day))
+        .slice(0, 3);
+      if (lastFull.length < 3) continue;
+      const allOver = lastFull.every((p) => {
+        if (p.spendCents === 0) return false;
+        if (p.purchases === 0) return true;
+        return Math.round(p.spendCents / p.purchases) > targetCpaCents;
+      });
+      if (allOver) out.add(adId);
+    }
+    return out;
+  }, [creas.daily, targetCpaCents, today]);
 
   const rows: CreaRow[] = useMemo(() => {
     type Acc = Omit<CreaRow, "series"> & { dailyPoints: { day: string; spendCents: number; caCents: number }[] };
@@ -161,6 +197,7 @@ export function CreasBoard({
           cvrLanding: null,
           atcRate: null,
           checkoutRate: null,
+          toCut: false,
           dailyPoints: [],
         } satisfies Acc);
       cur.spendCents += d.spendCents;
@@ -242,11 +279,13 @@ export function CreasBoard({
         cvrLanding: r.cvrLanding,
         atcRate: r.atcRate,
         checkoutRate: r.checkoutRate,
+        toCut: toCutIds.has(r.adId),
         series,
       });
     }
 
     out.sort((a, b) => {
+      if (a.toCut !== b.toCut) return a.toCut ? -1 : 1; // à couper toujours en tête
       const av = a[sortKey];
       const bv = b[sortKey];
       const an = av === null ? -Infinity : av;
@@ -254,7 +293,7 @@ export function CreasBoard({
       return sortDir === "desc" ? bn - an : an - bn;
     });
     return out;
-  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir]);
+  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, toCutIds]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -343,6 +382,29 @@ export function CreasBoard({
         </button>
       </div>
 
+      {targetCpaCents !== null ? (
+        (() => {
+          const cutCount = rows.filter((r) => r.toCut).length;
+          return cutCount > 0 ? (
+            <p className="rounded-lg border border-red/40 bg-red/[0.06] p-3 text-[11.5px] text-red">
+              🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — CPA au-dessus de la cible
+              ({formatEur0(targetCpaCents)}) 3 jours pleins d&apos;affilé. Repérées en tête de liste,
+              bordure rouge.
+            </p>
+          ) : (
+            <p className="text-[10.5px] text-ink-faint">
+              🎯 CPA cible actuel : {formatEur0(targetCpaCents)} (14j glissants, bouge avec ta marge)
+              — aucune créa ne le dépasse 3 jours d&apos;affilé pour l&apos;instant.
+            </p>
+          );
+        })()
+      ) : (
+        <p className="text-[10.5px] text-ink-faint">
+          🔒 CPA cible pas encore calculable (marge insuffisante sur les 14 derniers jours) — la règle
+          « à couper » s&apos;activera automatiquement dès que la marge le permet.
+        </p>
+      )}
+
       {creas.missingTables && (
         <p className="rounded-lg border border-amber/40 bg-amber/[0.05] p-3 text-[11.5px] text-amber">
           ⚠️ Migrations <b>0005</b>/<b>0007</b>/<b>0011</b> pas encore appliquées dans Supabase (SQL
@@ -381,10 +443,21 @@ function CreaCard({ row }: { row: CreaRow }) {
     row.roas === null ? "text-ink" : row.roas >= 2 ? "text-phosphor" : row.roas >= 1 ? "text-amber" : "text-red";
 
   return (
-    <div className="rounded-lg border border-line bg-panel/40 p-3">
-      <div className="mb-1.5">
-        <div className="truncate text-[12.5px] font-semibold text-ink">{row.adName}</div>
-        <div className="truncate text-[10px] text-ink-faint">{row.campaignName}</div>
+    <div
+      className={`rounded-lg border p-3 ${
+        row.toCut ? "border-red/50 bg-red/[0.05]" : "border-line bg-panel/40"
+      }`}
+    >
+      <div className="mb-1.5 flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="truncate text-[12.5px] font-semibold text-ink">{row.adName}</div>
+          <div className="truncate text-[10px] text-ink-faint">{row.campaignName}</div>
+        </div>
+        {row.toCut && (
+          <span className="flex-none rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-red">
+            🔪 À couper
+          </span>
+        )}
       </div>
 
       <div className="mb-2 flex items-baseline justify-between">
