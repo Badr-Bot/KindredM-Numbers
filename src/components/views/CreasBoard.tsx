@@ -70,6 +70,7 @@ interface CreaRow {
   cpaCents: number | null;
   ctrPct: number | null;
   cpmCents: number | null;
+  freq: number | null;
   hookRate: number | null;
   hold50: number | null;
   hold75: number | null;
@@ -89,6 +90,12 @@ interface CreaRow {
     cpaCents: number | null;
     ctrPct: number | null;
     cpmCents: number | null;
+    freq: number | null;
+    cvrLandingPct: number | null;
+    atcPct: number | null;
+    lpvPct: number | null;
+    hookPct: number | null;
+    hold100Pct: number | null;
   }[];
 }
 
@@ -161,7 +168,20 @@ export function CreasBoard({
 
   const allRows: CreaRow[] = useMemo(() => {
     type Acc = Omit<CreaRow, "series"> & {
-      dailyPoints: { day: string; spendCents: number; caCents: number; clicks: number; impressions: number; purchases: number }[];
+      dailyPoints: {
+        day: string;
+        spendCents: number;
+        caCents: number;
+        clicks: number;
+        impressions: number;
+        purchases: number;
+        reach: number;
+        linkClicks: number;
+        landingPageViews: number;
+        addToCart: number;
+        video3s: number;
+        video100: number;
+      }[];
     };
     const byAd = new Map<string, Acc>();
     for (const d of filteredDaily) {
@@ -197,6 +217,7 @@ export function CreasBoard({
           cpaCents: null,
           ctrPct: null,
           cpmCents: null,
+          freq: null,
           hookRate: null,
           hold50: null,
           hold75: null,
@@ -230,6 +251,12 @@ export function CreasBoard({
         clicks: d.clicks,
         impressions: d.impressions,
         purchases: d.purchases,
+        reach: d.reach,
+        linkClicks: d.linkClicks,
+        landingPageViews: d.landingPageViews,
+        addToCart: d.addToCart,
+        video3s: d.video3s,
+        video100: d.video100,
       });
       byAd.set(d.adId, cur);
     }
@@ -245,6 +272,9 @@ export function CreasBoard({
       r.cpaCents = r.purchases > 0 ? Math.round(r.spendCents / r.purchases) : null;
       r.ctrPct = r.impressions > 0 ? r.clicks / r.impressions : null;
       r.cpmCents = r.impressions > 0 ? Math.round((r.spendCents / r.impressions) * 1000) : null;
+      // Fréquence cumulée sur plusieurs jours = approximative (Meta ne
+      // déduplique pas le reach entre les jours) — indicatif de saturation.
+      r.freq = r.reach > 0 ? r.impressions / r.reach : null;
       r.hookRate = r.isVideo && r.impressions > 0 ? r.video3s / r.impressions : null;
       r.hold50 = r.isVideo && r.video3s > 0 ? r.video50 / r.video3s : null;
       r.hold75 = r.isVideo && r.video3s > 0 ? r.video75 / r.video3s : null;
@@ -267,6 +297,12 @@ export function CreasBoard({
           cpaCents: p.purchases > 0 ? Math.round(p.spendCents / p.purchases) : null,
           ctrPct: p.impressions > 0 ? (p.clicks / p.impressions) * 100 : null,
           cpmCents: p.impressions > 0 ? Math.round((p.spendCents / p.impressions) * 1000) : null,
+          freq: p.reach > 0 ? p.impressions / p.reach : null,
+          cvrLandingPct: p.landingPageViews > 0 ? (p.purchases / p.landingPageViews) * 100 : null,
+          atcPct: p.landingPageViews > 0 ? (p.addToCart / p.landingPageViews) * 100 : null,
+          lpvPct: p.linkClicks > 0 ? (p.landingPageViews / p.linkClicks) * 100 : null,
+          hookPct: p.impressions > 0 && p.video3s > 0 ? (p.video3s / p.impressions) * 100 : null,
+          hold100Pct: p.video3s > 0 ? (p.video100 / p.video3s) * 100 : null,
         }));
 
       // ⏳ / 🔪 / 🏆 Verdict du batch — voir l'arbre en tête de fichier.
@@ -307,6 +343,7 @@ export function CreasBoard({
         cpaCents: r.cpaCents,
         ctrPct: r.ctrPct,
         cpmCents: r.cpmCents,
+        freq: r.freq,
         hookRate: r.hookRate,
         hold50: r.hold50,
         hold75: r.hold75,
@@ -494,15 +531,28 @@ export function CreasBoard({
               <CreaCard key={r.adId} row={r} />
             ))}
           </div>
-          <p className="text-[10px] text-ink-faint">
-            ⏳ <b>En test</b> = pas encore {JUDGE_SPEND_MULTIPLE}× le CPA cible de spend, trop tôt
-            pour juger · 🔪 <b>À couper</b> = a franchi ce seuil sans tenir le CPA cible (ou zéro
-            vente) · 🏆 <b>Gagnante</b> = a franchi ce seuil EN tenant le CPA cible → passe en
-            campagne de scaling, sort du batch. Une créa établie qui fait 2-3 mauvais jours
-            n&apos;est PAS à couper. 👆 Clique &laquo; Funnel complet &raquo; pour voir où les gens
-            décrochent (clic → page → panier → checkout → achat) et toutes les courbes. Reach cumulé
-            sur plusieurs jours = approximatif (pas de déduplication inter-jours côté Meta).
-          </p>
+          {/* Toutes les définitions vivent ICI, une seule fois — les cartes
+              ne portent plus que des libellés courts (demandé le 26/07). */}
+          <details className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10px] text-ink-faint">
+            <summary className="cursor-pointer font-semibold text-ink-dim">
+              ❓ Que veut dire chaque chiffre ?
+            </summary>
+            <div className="mt-2 flex flex-col gap-1">
+              <span>
+                ⏳ <b>En test</b> : pas encore {JUDGE_SPEND_MULTIPLE}× le CPA cible de spend, trop tôt
+                pour juger · 🔪 <b>À couper</b> : a franchi ce seuil sans tenir le CPA cible (ou zéro
+                vente) · 🏆 <b>Gagnante</b> : a franchi ce seuil EN tenant le CPA cible → à passer en
+                campagne de scaling. Une créa établie qui fait 2-3 mauvais jours n&apos;est PAS à couper.
+              </span>
+              <span>🛬 <b>Atterrissage</b> : sur 100 clics, combien arrivent vraiment sur la page (bas = page lente ou lien cassé).</span>
+              <span>🛒 <b>Ajout panier</b> : sur ceux arrivés sur la page, combien mettent un article au panier (bas = offre ou prix).</span>
+              <span>💳 <b>Checkout</b> : sur ceux qui ont un panier, combien lancent le paiement (bas = frais de port ou confiance).</span>
+              <span>🛍️ <b>Achat/clic</b> : sur 100 qui atterrissent sur la page, combien achètent au final.</span>
+              <span>🪝 <b>Hook 3 s</b> : % qui regarde au moins 3 s (vidéo) · 🎬 <b>Fin 100 %</b> : % qui va jusqu&apos;au bout, parmi ceux qui ont dépassé 3 s.</span>
+              <span>🔁 <b>Fréquence</b> : combien de fois la même personne voit la pub (monte = audience qui sature). Cumulée sur plusieurs jours = approximative, Meta ne déduplique pas le reach entre les jours.</span>
+              <span>Les moyennes affichées à côté de chaque titre sont pondérées (totaux ÷ totaux), pas la moyenne des jours — un jour à 5 € ne pèse pas autant qu&apos;un jour à 500 €.</span>
+            </div>
+          </details>
         </>
       )}
     </div>
@@ -545,38 +595,14 @@ function CreaCard({ row }: { row: CreaRow }) {
           </span>
         )}
       </div>
-      {row.status === "cut" && (
-        <p className="mb-1.5 text-[10px] text-red/80">
-          ⚠️ {formatEur0(row.spendCents)} dépensés,{" "}
-          {row.purchases === 0 ? (
-            <b>0 vente</b>
-          ) : (
-            <>
-              CPA <b>{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</b> au-dessus de la
-              cible
-            </>
-          )}{" "}
-          — verdict rendu.
-        </p>
-      )}
       {row.status === "winner" && (
-        <p className="mb-1.5 text-[10px] text-phosphor/80">
-          ✅ CPA {row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"} sous la cible sur{" "}
-          {formatEur0(row.spendCents)} — <b>à passer en scaling</b>
-          {row.spendShare !== null && <> · {formatPct(row.spendShare)} du budget de sa campagne</>}.
-        </p>
-      )}
-      {row.status === "testing" && (
-        <p className="mb-1.5 text-[10px] text-ink-faint">
-          ⏳ {formatEur0(row.spendCents)} dépensés, {row.purchases} vente{row.purchases > 1 ? "s" : ""}{" "}
-          — pas encore assez pour trancher.
-        </p>
+        <p className="mb-1.5 text-[10px] font-semibold text-phosphor/80">→ à passer en scaling</p>
       )}
 
       <div className="mb-2 flex items-baseline justify-between">
         <span className={`text-2xl font-bold tnum ${roasColor}`}>{formatRoas(row.roas)}</span>
         <span className="text-right text-[10.5px] tnum text-ink-dim">
-          {formatEur0(row.caCents)} CA
+          {formatEur0(row.caCents)} CA · {row.purchases} vente{row.purchases > 1 ? "s" : ""}
           <br />
           {formatEur0(row.spendCents)} spend
         </span>
@@ -584,7 +610,7 @@ function CreaCard({ row }: { row: CreaRow }) {
 
       {/* Mini-courbe CA — toujours visible, pas besoin de cliquer (25/07) */}
       <MiniChart
-        title="💶 CA / jour"
+        title="💶 CA/j"
         data={row.series}
         dataKey="caCents"
         divideBy={100}
@@ -594,23 +620,20 @@ function CreaCard({ row }: { row: CreaRow }) {
 
       {/* Ces 4 chiffres SONT les moyennes de la période sélectionnée
           (pondérées : totaux ÷ totaux, pas moyenne des jours). */}
-      <div className="mt-2 grid grid-cols-4 gap-1 text-center text-[10px] text-ink-dim">
-        <div>
-          <div className="text-ink-faint">CPA moy.</div>
-          <div className="tnum text-ink">{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</div>
-        </div>
-        <div>
-          <div className="text-ink-faint">CTR moy.</div>
-          <div className="tnum text-ink">{formatPct(row.ctrPct)}</div>
-        </div>
-        <div>
-          <div className="text-ink-faint">Atterr. moy.</div>
-          <div className="tnum text-ink">{formatPct(row.lpvRate)}</div>
-        </div>
-        <div>
-          <div className="text-ink-faint">Panier moy.</div>
-          <div className="tnum text-ink">{formatPct(row.atcRate)}</div>
-        </div>
+      <div className="mt-2 grid grid-cols-4 gap-1 text-center text-[10px]">
+        {(
+          [
+            ["CPA", row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"],
+            ["CTR", formatPct(row.ctrPct)],
+            ["Fréq.", row.freq !== null ? row.freq.toLocaleString("fr-FR", { maximumFractionDigits: 2 }) : "—"],
+            ["Achat/clic", formatPct(row.cvrLanding)],
+          ] as [string, string][]
+        ).map(([label, value]) => (
+          <div key={label}>
+            <div className="text-ink-faint">{label}</div>
+            <div className="tnum text-ink">{value}</div>
+          </div>
+        ))}
       </div>
 
       <button
@@ -625,60 +648,41 @@ function CreaCard({ row }: { row: CreaRow }) {
 
       {open && (
         <div className="mt-2 flex flex-col gap-2 border-t border-line-soft pt-2">
-          {row.body && <p className="line-clamp-3 text-[10.5px] text-ink-dim">{row.body}</p>}
-          {/* Entonnoir dans l'ordre où les gens avancent (ou pas) — chaque
-              taux se lit "sur 100 qui passent l'étape d'avant, combien
-              vont à celle-ci". Sépare clairement où ça se perd. */}
-          <div className="flex flex-col gap-1 text-[10.5px] text-ink-dim">
-            <span>
-              🛬 <b className="text-ink">Atterrissage</b> {formatPct(row.lpvRate)} — sur 100 clics, combien
-              arrivent vraiment sur la page (page lente/cassée si bas)
-            </span>
-            <span>
-              🛒 <b className="text-ink">Ajout panier</b> {formatPct(row.atcRate)} — sur ceux arrivés sur
-              la page, combien mettent un article au panier (offre/prix si bas)
-            </span>
-            <span>
-              💳 <b className="text-ink">Checkout</b> {formatPct(row.checkoutRate)} — sur ceux qui ont
-              un panier, combien lancent le paiement (frais de port/confiance si bas)
-            </span>
-            <span>
-              🛍️ <b className="text-ink">Achat après clic</b> {formatPct(row.cvrLanding)} — sur 100 qui
-              atterrissent sur la page, combien achètent au final
-            </span>
+          {row.body && <p className="line-clamp-2 text-[10px] text-ink-faint">{row.body}</p>}
+          {/* Entonnoir compact — les définitions sont dans la légende en bas
+              de page, pas répétées sur chaque carte (demandé le 26/07). */}
+          <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[10.5px] text-ink-dim">
+            <Stat label="🛬 Atterrissage" value={formatPct(row.lpvRate)} />
+            <Stat label="🛒 Ajout panier" value={formatPct(row.atcRate)} />
+            <Stat label="💳 Checkout" value={formatPct(row.checkoutRate)} />
+            <Stat label="🛍️ Achat/clic" value={formatPct(row.cvrLanding)} />
             {row.isVideo && (
               <>
-                <span>🎬 Reste jusqu&apos;à 50 % de la vidéo : {formatPct(row.hold50)}</span>
-                <span>🎬 Reste jusqu&apos;à 75 % de la vidéo : {formatPct(row.hold75)}</span>
-                <span>🎬 Reste jusqu&apos;à la fin (100 %) : {formatPct(row.hold100)}</span>
+                <Stat label="🪝 Hook 3 s" value={formatPct(row.hookRate)} />
+                <Stat label="🎬 Fin 100 %" value={formatPct(row.hold100)} />
               </>
             )}
-            {row.qualityRanking && (
-              <span>⭐ Qualité : {RANKING_LABEL[row.qualityRanking] ?? row.qualityRanking}</span>
+            {/* Rankings Meta : masqués tant qu'ils sont "unknown" (bruit). */}
+            {row.qualityRanking && row.qualityRanking !== "unknown" && (
+              <Stat label="⭐ Qualité" value={RANKING_LABEL[row.qualityRanking] ?? row.qualityRanking} />
             )}
-            {row.engagementRanking && (
-              <span>💬 Engagement : {RANKING_LABEL[row.engagementRanking] ?? row.engagementRanking}</span>
-            )}
-            {row.conversionRanking && (
-              <span>🎯 Conversion : {RANKING_LABEL[row.conversionRanking] ?? row.conversionRanking}</span>
+            {row.conversionRanking && row.conversionRanking !== "unknown" && (
+              <Stat
+                label="🎯 Conversion"
+                value={RANKING_LABEL[row.conversionRanking] ?? row.conversionRanking}
+              />
             )}
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             <MiniChart
-              title="📣 Spend / jour"
+              title="📣 Spend/j"
               data={row.series}
               dataKey="spendCents"
               divideBy={100}
               format={formatEur0}
               average={row.series.length > 0 ? row.spendCents / row.series.length : null}
             />
-            <MiniChart
-              title="⚖️ ROAS"
-              data={row.series}
-              dataKey="roas"
-              format={formatRoas}
-              average={row.roas}
-            />
+            <MiniChart title="⚖️ ROAS" data={row.series} dataKey="roas" format={formatRoas} average={row.roas} />
             <MiniChart
               title="🎯 CPA"
               data={row.series}
@@ -702,10 +706,66 @@ function CreaCard({ row }: { row: CreaRow }) {
               format={formatEur0}
               average={row.cpmCents}
             />
+            <MiniChart
+              title="🔁 Fréquence"
+              data={row.series}
+              dataKey="freq"
+              format={(v) => v.toLocaleString("fr-FR", { maximumFractionDigits: 2 })}
+              average={row.freq}
+            />
+            <MiniChart
+              title="🛍️ Achat/clic"
+              data={row.series}
+              dataKey="cvrLandingPct"
+              format={(v) => formatPct(v / 100)}
+              average={row.cvrLanding !== null ? row.cvrLanding * 100 : null}
+            />
+            <MiniChart
+              title="🛒 Ajout panier"
+              data={row.series}
+              dataKey="atcPct"
+              format={(v) => formatPct(v / 100)}
+              average={row.atcRate !== null ? row.atcRate * 100 : null}
+            />
+            <MiniChart
+              title="🛬 Atterrissage"
+              data={row.series}
+              dataKey="lpvPct"
+              format={(v) => formatPct(v / 100)}
+              average={row.lpvRate !== null ? row.lpvRate * 100 : null}
+            />
+            {row.isVideo && (
+              <>
+                <MiniChart
+                  title="🪝 Hook 3 s"
+                  data={row.series}
+                  dataKey="hookPct"
+                  format={(v) => formatPct(v / 100)}
+                  average={row.hookRate !== null ? row.hookRate * 100 : null}
+                />
+                <MiniChart
+                  title="🎬 Fin 100 %"
+                  data={row.series}
+                  dataKey="hold100Pct"
+                  format={(v) => formatPct(v / 100)}
+                  average={row.hold100 !== null ? row.hold100 * 100 : null}
+                />
+              </>
+            )}
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+/** Ligne « libellé … valeur » compacte de l'entonnoir. */
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <span className="flex items-baseline justify-between gap-1">
+      <span className="truncate">{label}</span>
+      <span className="tnum font-semibold text-ink">{value}</span>
+    </span>
   );
 }
 
@@ -737,10 +797,12 @@ function MiniChart({
 
   // Le libellé « moy. » est TOUJOURS affiché (avec — si indéfini) : son
   // absence donnait l'impression que la moyenne n'était pas implémentée.
+  // Moyenne collée au titre (et pas à l'autre bout de la ligne) : demandé
+  // le 26/07, on lit « ROAS moy. 1,34× » d'un seul coup d'œil.
   const header = title && (
-    <div className="mb-1 flex items-baseline justify-between gap-2">
+    <div className="mb-1 flex items-baseline gap-1.5">
       <span className="text-[10px] font-semibold text-ink-dim">{title}</span>
-      <span className="text-[10px] tnum text-ink-faint">
+      <span className="text-[10px] font-bold tnum text-ink">
         moy. {average !== null && average !== undefined ? format(average) : "—"}
       </span>
     </div>
