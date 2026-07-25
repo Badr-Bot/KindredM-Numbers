@@ -109,6 +109,7 @@ export function AnalyseBoard({
   const [preset, setPreset] = useState<Preset>("14");
   const [customFrom, setCustomFrom] = useState(historyStart);
   const [customTo, setCustomTo] = useState(today);
+  const [campaignFilter, setCampaignFilter] = useState<string>("ALL");
 
   const { from, to } = useMemo(() => {
     if (preset === "custom") return { from: customFrom, to: customTo };
@@ -121,41 +122,67 @@ export function AnalyseBoard({
 
   const hasMetaData = analytics.insights.length > 0;
 
+  // Campagnes disponibles dans l'onglet marché actif — sert à isoler une
+  // courbe par campagne au lieu d'une moyenne mélangée entre plusieurs
+  // campagnes actives en même temps (constaté 25/07 : pas représentatif
+  // dès que 2+ campagnes tournent dans le même marché).
+  const campaignsForTab = useMemo(() => {
+    const seen = new Map<string, string>();
+    for (const r of analytics.insights) {
+      if (tab !== "GLOBAL" && r.market !== tab) continue;
+      if (r.campaignId && !seen.has(r.campaignId)) seen.set(r.campaignId, r.campaignName || r.campaignId);
+    }
+    return [...seen.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  }, [analytics.insights, tab]);
+
+  // Le filtre campagne doit rester valide quand on change d'onglet marché.
+  const effectiveCampaignFilter = campaignsForTab.some(([id]) => id === campaignFilter) ? campaignFilter : "ALL";
+
   // Série journalière fusionnée (agrégats Shopify + insights Meta) sur la fenêtre.
+  // Spend/CPM/CPC/CTR/fréquence restent fiables par campagne (données Meta
+  // pures). CA/commandes/CPA/CVR/ROAS/panier, eux, ne le sont PAS dès qu'une
+  // campagne précise est isolée : Shopify ne sait pas quelle commande vient
+  // de quelle campagne, seulement du marché entier — ils passent à null
+  // plutôt que d'afficher un chiffre trompeur (voir bandeau sous les filtres).
   const series: DayMetrics[] = useMemo(() => {
-    const insightsByDay = new Map<string, { impressions: number; clicks: number; reach: number }>();
+    const insightsByDay = new Map<string, { spendCents: number; impressions: number; clicks: number; reach: number }>();
     for (const r of analytics.insights) {
       if (r.day < from || r.day > to) continue;
       if (tab !== "GLOBAL" && r.market !== tab) continue;
-      const cur = insightsByDay.get(r.day) ?? { impressions: 0, clicks: 0, reach: 0 };
+      if (effectiveCampaignFilter !== "ALL" && r.campaignId !== effectiveCampaignFilter) continue;
+      const cur = insightsByDay.get(r.day) ?? { spendCents: 0, impressions: 0, clicks: 0, reach: 0 };
+      cur.spendCents += r.spendCents;
       cur.impressions += r.impressions;
       cur.clicks += r.clicks;
       cur.reach += r.reach;
       insightsByDay.set(r.day, cur);
     }
+    const byCampaign = effectiveCampaignFilter !== "ALL";
     return dayData[tab]
       .filter((d) => d.day >= from && d.day <= to)
       .map((d) => {
-        const ins = insightsByDay.get(d.day) ?? { impressions: 0, clicks: 0, reach: 0 };
+        const ins = insightsByDay.get(d.day) ?? { spendCents: 0, impressions: 0, clicks: 0, reach: 0 };
+        // Spend de la campagne isolée si filtré, sinon spend Shopify/marché.
+        const spendCents = byCampaign ? ins.spendCents : d.spendCents;
         return {
           day: d.day,
           label: formatDayShort(d.day),
           caCents: d.caCents,
           orders: d.orders,
-          spendCents: d.spendCents,
+          spendCents,
           impressions: ins.impressions,
           clicks: ins.clicks,
-          cpaCents: d.orders > 0 && d.spendCents > 0 ? Math.round(d.spendCents / d.orders) : null,
-          cpmCents: ins.impressions > 0 ? Math.round((d.spendCents / ins.impressions) * 1000) : null,
-          cpcCents: ins.clicks > 0 ? Math.round(d.spendCents / ins.clicks) : null,
+          cpaCents: !byCampaign && d.orders > 0 && d.spendCents > 0 ? Math.round(d.spendCents / d.orders) : null,
+          cpmCents: ins.impressions > 0 ? Math.round((spendCents / ins.impressions) * 1000) : null,
+          cpcCents: ins.clicks > 0 ? Math.round(spendCents / ins.clicks) : null,
           ctrPct: ins.impressions > 0 ? (ins.clicks / ins.impressions) * 100 : null,
-          cvrPct: ins.clicks > 0 ? (d.orders / ins.clicks) * 100 : null,
-          aovCents: d.orders > 0 ? Math.round(d.caCents / d.orders) : null,
-          roas: d.spendCents > 0 ? d.caCents / d.spendCents : null,
+          cvrPct: !byCampaign && ins.clicks > 0 ? (d.orders / ins.clicks) * 100 : null,
+          aovCents: !byCampaign && d.orders > 0 ? Math.round(d.caCents / d.orders) : null,
+          roas: !byCampaign && d.spendCents > 0 ? d.caCents / d.spendCents : null,
           freq: ins.reach > 0 ? ins.impressions / ins.reach : null,
         };
       });
-  }, [dayData, analytics.insights, tab, from, to]);
+  }, [dayData, analytics.insights, tab, from, to, effectiveCampaignFilter]);
 
   // 🚨 Dérapages : moyenne 3 derniers jours pleins vs 7 précédents, par métrique.
   const alerts = useMemo(() => {
@@ -457,7 +484,33 @@ export function AnalyseBoard({
           </span>
         )}
       </div>
-      <MarketTabs active={tab} onChange={setTab} />
+      <div className="flex flex-wrap items-center gap-2">
+        <MarketTabs active={tab} onChange={setTab} />
+        {campaignsForTab.length > 1 && (
+          <select
+            value={effectiveCampaignFilter}
+            onChange={(e) => {
+              play("tab");
+              setCampaignFilter(e.target.value);
+            }}
+            className="rounded border border-line bg-terminal px-2 py-1 text-[11px] text-ink"
+          >
+            <option value="ALL">Toutes les campagnes (moyenne)</option>
+            {campaignsForTab.map(([id, name]) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      {effectiveCampaignFilter !== "ALL" && (
+        <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
+          🎯 Vue isolée sur une campagne : CPM/CPC/CTR/fréquence sont fiables (données Meta pures).
+          CPA, CVR, ROAS et panier moyen sont grisés — Shopify ne sait pas quelle commande vient de
+          quelle campagne, seulement du marché entier, donc pas de chiffre inventé ici.
+        </p>
+      )}
 
       {analytics.missingTables && (
         <p className="rounded-lg border border-amber/40 bg-amber/[0.05] p-3 text-[11.5px] text-amber">
@@ -521,6 +574,10 @@ export function AnalyseBoard({
             def={def}
             series={series}
             locked={def.needsMeta && !hasMetaData}
+            notPerCampaign={
+              effectiveCampaignFilter !== "ALL" &&
+              (def.key === "cpaCents" || def.key === "cvrPct" || def.key === "aovCents")
+            }
             markers={eventMarkers}
           />
         ))}
@@ -818,11 +875,13 @@ function MetricChart({
   def,
   series,
   locked,
+  notPerCampaign,
   markers,
 }: {
   def: MetricDef;
   series: DayMetrics[];
   locked: boolean;
+  notPerCampaign?: boolean;
   markers: { label: string; emoji: string }[];
 }) {
   const data = series.map((d) => ({
@@ -840,7 +899,11 @@ function MetricChart({
       </div>
       {locked || !hasData ? (
         <div className="flex h-32 items-center justify-center text-center text-[10.5px] text-ink-faint">
-          {locked ? "🔒 En attente du token Meta" : "Pas de données sur la période"}
+          {locked
+            ? "🔒 En attente du token Meta"
+            : notPerCampaign
+              ? "🎯 Pas isolable par campagne (Shopify ne relie pas la vente à la campagne)"
+              : "Pas de données sur la période"}
         </div>
       ) : (
         <div className="h-32 w-full">

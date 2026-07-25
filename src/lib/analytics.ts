@@ -8,6 +8,8 @@ import { createSupabaseServerClient } from "./supabase";
 export interface InsightDaily {
   day: string;
   market: string;
+  campaignId: string;
+  campaignName: string;
   spendCents: number;
   impressions: number;
   clicks: number;
@@ -38,6 +40,8 @@ const PAGE = 1000;
 interface RawInsight {
   day: string;
   market: string;
+  campaign_id: string;
+  campaign_name: string | null;
   spend_cents: number;
   impressions: number;
   clicks: number;
@@ -65,7 +69,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
       .from("meta_insights")
-      .select("day, market, spend_cents, impressions, clicks, purchases, reach")
+      .select("day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, reach")
       .gte("day", start)
       .lte("day", end)
       .range(from, from + PAGE - 1);
@@ -78,6 +82,8 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
       insights.push({
         day: String(r.day),
         market: r.market,
+        campaignId: r.campaign_id,
+        campaignName: r.campaign_name ?? "",
         spendCents: r.spend_cents,
         impressions: r.impressions,
         clicks: r.clicks,
