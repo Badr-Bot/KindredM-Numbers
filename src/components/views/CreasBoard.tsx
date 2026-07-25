@@ -19,20 +19,17 @@ import { useSound } from "../sound/SoundProvider";
 // pas vraiment été testée, elle ne fait que gonfler la liste sans rien dire.
 const MIN_SPEND_TESTED = 2000; // 20 €
 
-// 🔪 Règle de coupure (Badr, 26/07) : « elle dépense 2 ou 3 fois le CPA cible
-// et zéro achat ». On prend 2× (alerte plus tôt) — une créa qui a brûlé deux
-// paniers d'acquisition sans UNE seule vente n'a rien à prouver de plus.
+// Arbre de décision du batch de test (Badr, 26/07) :
+//   1. Une créa neuve dépense — tant qu'elle n'a pas atteint 2× le CPA cible,
+//      elle est « en test », on ne juge pas (pas assez de données).
+//   2. Passé ce seuil : CPA au-dessus de la cible (ou zéro vente) → on coupe.
+//   3. Sinon → gagnante : elle passe en campagne de scaling et sort du batch.
 // Remplace l'ancienne règle « 3 jours au-dessus de la cible » : la source de
 // Badr dit explicitement l'inverse (une créa établie qui fait 2-3 mauvais
 // jours, on n'y touche pas), et cette règle-là coupait des créas rentables.
-const CUT_SPEND_MULTIPLE = 2;
+const JUDGE_SPEND_MULTIPLE = 2;
 
-// 🏆 Gagnante : prend une vraie part du budget de SA campagne (l'algo lui fait
-// confiance) ET tient le KPI (CPA ≤ cible). Une créa à bon CPA mais 1 % du
-// spend n'est pas une gagnante, juste un coup de chance sur 2 ventes.
-const WINNER_MIN_SPEND_SHARE = 0.1;
-
-type CreaStatus = "cut" | "winner" | "neutral";
+type CreaStatus = "cut" | "winner" | "testing";
 
 type Preset = "7" | "14" | "30" | "all" | "custom";
 
@@ -207,7 +204,7 @@ export function CreasBoard({
           cvrLanding: null,
           atcRate: null,
           checkoutRate: null,
-          status: "neutral" as CreaStatus,
+          status: "testing" as CreaStatus,
           spendShare: null,
           dailyPoints: [],
         } satisfies Acc);
@@ -268,21 +265,14 @@ export function CreasBoard({
           cpmCents: p.impressions > 0 ? Math.round((p.spendCents / p.impressions) * 1000) : null,
         }));
 
-      // 🔪 / 🏆 Statut — voir les constantes en tête de fichier.
+      // ⏳ / 🔪 / 🏆 Verdict du batch — voir l'arbre en tête de fichier.
       const campaignTotal = campaignSpend.get(r.campaignId) ?? 0;
       const spendShare = campaignTotal > 0 ? r.spendCents / campaignTotal : null;
-      let status: CreaStatus = "neutral";
-      if (targetCpaCents !== null) {
-        if (r.purchases === 0 && r.spendCents >= CUT_SPEND_MULTIPLE * targetCpaCents) {
-          status = "cut";
-        } else if (
-          r.cpaCents !== null &&
-          r.cpaCents <= targetCpaCents &&
-          spendShare !== null &&
-          spendShare >= WINNER_MIN_SPEND_SHARE
-        ) {
-          status = "winner";
-        }
+      let status: CreaStatus = "testing";
+      if (targetCpaCents !== null && r.spendCents >= JUDGE_SPEND_MULTIPLE * targetCpaCents) {
+        // Assez dépensé pour trancher : zéro vente OU CPA au-dessus de la
+        // cible → on coupe ; sinon elle a fait ses preuves.
+        status = r.cpaCents === null || r.cpaCents > targetCpaCents ? "cut" : "winner";
       }
 
       out.push({
@@ -330,7 +320,7 @@ export function CreasBoard({
     // Les créas à couper d'abord (action à prendre), puis les gagnantes
     // (à dupliquer/scaler), puis le reste — chaque groupe trié par le
     // critère choisi.
-    const STATUS_ORDER: Record<CreaStatus, number> = { cut: 0, winner: 1, neutral: 2 };
+    const STATUS_ORDER: Record<CreaStatus, number> = { cut: 0, winner: 1, testing: 2 };
     out.sort((a, b) => {
       if (a.status !== b.status) return STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
       const av = a[sortKey];
@@ -433,27 +423,28 @@ export function CreasBoard({
         (() => {
           const cutCount = rows.filter((r) => r.status === "cut").length;
           const winCount = rows.filter((r) => r.status === "winner").length;
+          const testCount = rows.filter((r) => r.status === "testing").length;
+          const judgeAt = JUDGE_SPEND_MULTIPLE * targetCpaCents;
           return (
             <div className="flex flex-col gap-1.5">
               {cutCount > 0 && (
                 <p className="rounded-lg border border-red/40 bg-red/[0.06] p-3 text-[11.5px] text-red">
-                  🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — a brûlé{" "}
-                  {CUT_SPEND_MULTIPLE}× le CPA cible ({formatEur0(CUT_SPEND_MULTIPLE * targetCpaCents)})
-                  sans <b>une seule</b> vente. En tête de liste, bordure rouge.
+                  🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — a dépensé{" "}
+                  {formatEur0(judgeAt)} sans atteindre le CPA cible ({formatEur0(targetCpaCents)}).
+                  En tête de liste, bordure rouge.
                 </p>
               )}
               {winCount > 0 && (
                 <p className="rounded-lg border border-phosphor/40 bg-phosphor/[0.06] p-3 text-[11.5px] text-phosphor">
-                  🏆 <b>{winCount} gagnante{winCount > 1 ? "s" : ""}</b> — prend ≥{" "}
-                  {Math.round(WINNER_MIN_SPEND_SHARE * 100)} % du budget de sa campagne ET CPA sous la
-                  cible ({formatEur0(targetCpaCents)}). À dupliquer / décliner.
+                  🏆 <b>{winCount} gagnante{winCount > 1 ? "s" : ""}</b> — a tenu le CPA cible sur{" "}
+                  {formatEur0(judgeAt)} de test. <b>À passer en campagne de scaling</b> et sortir du
+                  batch.
                 </p>
               )}
               <p className="text-[10.5px] text-ink-faint">
                 🎯 CPA cible : {formatEur0(targetCpaCents)} (14 j glissants, bouge tout seul avec ta
-                marge). Une créa qui dépense beaucoup avec un ROAS moyen n&apos;est pas forcément
-                mauvaise — elle nourrit le compte en trafic pas cher, la couper fait souvent tomber
-                les autres.
+                marge) · verdict à partir de {formatEur0(judgeAt)} de spend
+                {testCount > 0 && ` · ${testCount} créa${testCount > 1 ? "s" : ""} encore en test`}.
               </p>
             </div>
           );
@@ -486,13 +477,13 @@ export function CreasBoard({
             ))}
           </div>
           <p className="text-[10px] text-ink-faint">
-            🔪 <b>À couper</b> = {CUT_SPEND_MULTIPLE}× le CPA cible dépensés, zéro vente · 🏆{" "}
-            <b>Gagnante</b> = ≥ {Math.round(WINNER_MIN_SPEND_SHARE * 100)} % du budget de sa campagne
-            ET CPA sous la cible. Une créa établie qui fait 2-3 mauvais jours n&apos;est PAS à couper
-            — seule une créa qui brûle du budget sans jamais convertir l&apos;est. 👆 Clique
-            &laquo; Funnel complet &raquo; pour voir où les gens décrochent (clic → page → panier →
-            checkout → achat) et toutes les courbes. Reach cumulé sur plusieurs jours = approximatif
-            (pas de déduplication inter-jours côté Meta).
+            ⏳ <b>En test</b> = pas encore {JUDGE_SPEND_MULTIPLE}× le CPA cible de spend, trop tôt
+            pour juger · 🔪 <b>À couper</b> = a franchi ce seuil sans tenir le CPA cible (ou zéro
+            vente) · 🏆 <b>Gagnante</b> = a franchi ce seuil EN tenant le CPA cible → passe en
+            campagne de scaling, sort du batch. Une créa établie qui fait 2-3 mauvais jours
+            n&apos;est PAS à couper. 👆 Clique &laquo; Funnel complet &raquo; pour voir où les gens
+            décrochent (clic → page → panier → checkout → achat) et toutes les courbes. Reach cumulé
+            sur plusieurs jours = approximatif (pas de déduplication inter-jours côté Meta).
           </p>
         </>
       )}
@@ -530,17 +521,37 @@ function CreaCard({ row }: { row: CreaRow }) {
             🏆 Gagnante
           </span>
         )}
+        {row.status === "testing" && (
+          <span className="flex-none whitespace-nowrap rounded border border-line bg-panel/60 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-ink-faint">
+            ⏳ En test
+          </span>
+        )}
       </div>
       {row.status === "cut" && (
         <p className="mb-1.5 text-[10px] text-red/80">
-          ⚠️ {formatEur0(row.spendCents)} dépensés, <b>0 vente</b> — au-delà de{" "}
-          {CUT_SPEND_MULTIPLE}× le CPA cible sans résultat.
+          ⚠️ {formatEur0(row.spendCents)} dépensés,{" "}
+          {row.purchases === 0 ? (
+            <b>0 vente</b>
+          ) : (
+            <>
+              CPA <b>{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</b> au-dessus de la
+              cible
+            </>
+          )}{" "}
+          — verdict rendu.
         </p>
       )}
-      {row.status === "winner" && row.spendShare !== null && (
+      {row.status === "winner" && (
         <p className="mb-1.5 text-[10px] text-phosphor/80">
-          ✅ {formatPct(row.spendShare)} du budget de sa campagne, CPA{" "}
-          {row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"} sous la cible.
+          ✅ CPA {row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"} sous la cible sur{" "}
+          {formatEur0(row.spendCents)} — <b>à passer en scaling</b>
+          {row.spendShare !== null && <> · {formatPct(row.spendShare)} du budget de sa campagne</>}.
+        </p>
+      )}
+      {row.status === "testing" && (
+        <p className="mb-1.5 text-[10px] text-ink-faint">
+          ⏳ {formatEur0(row.spendCents)} dépensés, {row.purchases} vente{row.purchases > 1 ? "s" : ""}{" "}
+          — pas encore assez pour trancher.
         </p>
       )}
 
