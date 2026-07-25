@@ -123,6 +123,7 @@ export function CreasBoard({
   const [customFrom, setCustomFrom] = useState(historyStart);
   const [customTo, setCustomTo] = useState(today);
   const [campaignFilter, setCampaignFilter] = useState<string>("ALL");
+  const [statusFilter, setStatusFilter] = useState<CreaStatus | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("spendCents");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
@@ -158,7 +159,7 @@ export function CreasBoard({
     return out;
   }, [filteredDaily, metaByAd]);
 
-  const rows: CreaRow[] = useMemo(() => {
+  const allRows: CreaRow[] = useMemo(() => {
     type Acc = Omit<CreaRow, "series"> & {
       dailyPoints: { day: string; spendCents: number; caCents: number; clicks: number; impressions: number; purchases: number }[];
     };
@@ -237,7 +238,10 @@ export function CreasBoard({
     for (const r of byAd.values()) {
       if (r.spendCents < MIN_SPEND_TESTED) continue;
       r.isVideo = r.video3s > 0;
-      r.roas = r.spendCents > 0 && r.caCents > 0 ? r.caCents / r.spendCents : null;
+      // ROAS 0 (spend sans CA) est une info valable, pas une absence de
+      // donnée : sans ça la courbe et la moyenne ROAS restaient vides sur
+      // les créas à 0 vente — justement celles qu'il faut voir.
+      r.roas = r.spendCents > 0 ? r.caCents / r.spendCents : null;
       r.cpaCents = r.purchases > 0 ? Math.round(r.spendCents / r.purchases) : null;
       r.ctrPct = r.impressions > 0 ? r.clicks / r.impressions : null;
       r.cpmCents = r.impressions > 0 ? Math.round((r.spendCents / r.impressions) * 1000) : null;
@@ -259,7 +263,7 @@ export function CreasBoard({
           label: formatDayShort(p.day),
           spendCents: p.spendCents,
           caCents: p.caCents,
-          roas: p.spendCents > 0 ? p.caCents / p.spendCents : null,
+          roas: p.spendCents > 0 ? p.caCents / p.spendCents : null, // 0 = jour sans vente, pas "pas de donnée"
           cpaCents: p.purchases > 0 ? Math.round(p.spendCents / p.purchases) : null,
           ctrPct: p.impressions > 0 ? (p.clicks / p.impressions) * 100 : null,
           cpmCents: p.impressions > 0 ? Math.round((p.spendCents / p.impressions) * 1000) : null,
@@ -317,12 +321,10 @@ export function CreasBoard({
       });
     }
 
-    // Les créas à couper d'abord (action à prendre), puis les gagnantes
-    // (à dupliquer/scaler), puis le reste — chaque groupe trié par le
-    // critère choisi.
-    const STATUS_ORDER: Record<CreaStatus, number> = { cut: 0, winner: 1, testing: 2 };
+    // Tri PUR sur le critère choisi — le statut ne doit jamais primer, sinon
+    // « trier par spend » semble ne rien faire (les groupes cut/winner/testing
+    // masquaient l'ordre demandé). Le statut se filtre à part, voir statusFilter.
     out.sort((a, b) => {
-      if (a.status !== b.status) return STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
       const av = a[sortKey];
       const bv = b[sortKey];
       const an = av === null ? -Infinity : av;
@@ -331,6 +333,11 @@ export function CreasBoard({
     });
     return out;
   }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents]);
+
+  const rows = useMemo(
+    () => (statusFilter === "ALL" ? allRows : allRows.filter((r) => r.status === statusFilter)),
+    [allRows, statusFilter]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -419,34 +426,45 @@ export function CreasBoard({
         </button>
       </div>
 
+      {/* Filtre par verdict — remplace l'ancien groupement forcé qui écrasait
+          le tri choisi (bug signalé 26/07 : « trier par spend ne marche pas »). */}
+      {targetCpaCents !== null && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {(
+            [
+              ["ALL", `Toutes (${allRows.length})`],
+              ["cut", `🔪 À couper (${allRows.filter((r) => r.status === "cut").length})`],
+              ["winner", `🏆 Gagnantes (${allRows.filter((r) => r.status === "winner").length})`],
+              ["testing", `⏳ En test (${allRows.filter((r) => r.status === "testing").length})`],
+            ] as [CreaStatus | "ALL", string][]
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => {
+                play("tab");
+                setStatusFilter(key);
+              }}
+              className={`rounded border px-2 py-1 text-[10.5px] font-semibold transition-colors ${
+                statusFilter === key
+                  ? "border-phosphor bg-phosphor/10 text-phosphor"
+                  : "border-line text-ink-dim hover:text-ink"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {targetCpaCents !== null ? (
         (() => {
-          const cutCount = rows.filter((r) => r.status === "cut").length;
-          const winCount = rows.filter((r) => r.status === "winner").length;
-          const testCount = rows.filter((r) => r.status === "testing").length;
           const judgeAt = JUDGE_SPEND_MULTIPLE * targetCpaCents;
           return (
-            <div className="flex flex-col gap-1.5">
-              {cutCount > 0 && (
-                <p className="rounded-lg border border-red/40 bg-red/[0.06] p-3 text-[11.5px] text-red">
-                  🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — a dépensé{" "}
-                  {formatEur0(judgeAt)} sans atteindre le CPA cible ({formatEur0(targetCpaCents)}).
-                  En tête de liste, bordure rouge.
-                </p>
-              )}
-              {winCount > 0 && (
-                <p className="rounded-lg border border-phosphor/40 bg-phosphor/[0.06] p-3 text-[11.5px] text-phosphor">
-                  🏆 <b>{winCount} gagnante{winCount > 1 ? "s" : ""}</b> — a tenu le CPA cible sur{" "}
-                  {formatEur0(judgeAt)} de test. <b>À passer en campagne de scaling</b> et sortir du
-                  batch.
-                </p>
-              )}
-              <p className="text-[10.5px] text-ink-faint">
-                🎯 CPA cible : {formatEur0(targetCpaCents)} (14 j glissants, bouge tout seul avec ta
-                marge) · verdict à partir de {formatEur0(judgeAt)} de spend
-                {testCount > 0 && ` · ${testCount} créa${testCount > 1 ? "s" : ""} encore en test`}.
-              </p>
-            </div>
+            <p className="text-[10.5px] text-ink-faint">
+              🎯 CPA cible : {formatEur0(targetCpaCents)} (14 j glissants, bouge tout seul avec ta
+              marge) · verdict rendu à partir de {formatEur0(judgeAt)} de spend · 🏆 gagnante ={" "}
+              <b>à passer en campagne de scaling</b>, sort du batch.
+            </p>
           );
         })()
       ) : (
@@ -574,21 +592,23 @@ function CreaCard({ row }: { row: CreaRow }) {
         average={row.series.length > 0 ? row.caCents / row.series.length : null}
       />
 
+      {/* Ces 4 chiffres SONT les moyennes de la période sélectionnée
+          (pondérées : totaux ÷ totaux, pas moyenne des jours). */}
       <div className="mt-2 grid grid-cols-4 gap-1 text-center text-[10px] text-ink-dim">
         <div>
-          <div className="text-ink-faint">CPA</div>
+          <div className="text-ink-faint">CPA moy.</div>
           <div className="tnum text-ink">{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</div>
         </div>
         <div>
-          <div className="text-ink-faint">CTR</div>
+          <div className="text-ink-faint">CTR moy.</div>
           <div className="tnum text-ink">{formatPct(row.ctrPct)}</div>
         </div>
         <div>
-          <div className="text-ink-faint">Atterr.</div>
+          <div className="text-ink-faint">Atterr. moy.</div>
           <div className="tnum text-ink">{formatPct(row.lpvRate)}</div>
         </div>
         <div>
-          <div className="text-ink-faint">Panier</div>
+          <div className="text-ink-faint">Panier moy.</div>
           <div className="tnum text-ink">{formatPct(row.atcRate)}</div>
         </div>
       </div>
@@ -713,19 +733,32 @@ function MiniChart({
     label: d.label,
     value: d[dataKey] === null || d[dataKey] === undefined ? null : (d[dataKey] as number) / divideBy,
   }));
-  if (chartData.length < 2) {
-    return <p className="text-[10px] text-ink-faint">Pas assez de jours pour un graphe.</p>;
+  const hasValues = chartData.some((d) => d.value !== null);
+
+  // Le libellé « moy. » est TOUJOURS affiché (avec — si indéfini) : son
+  // absence donnait l'impression que la moyenne n'était pas implémentée.
+  const header = title && (
+    <div className="mb-1 flex items-baseline justify-between gap-2">
+      <span className="text-[10px] font-semibold text-ink-dim">{title}</span>
+      <span className="text-[10px] tnum text-ink-faint">
+        moy. {average !== null && average !== undefined ? format(average) : "—"}
+      </span>
+    </div>
+  );
+
+  if (chartData.length < 2 || !hasValues) {
+    return (
+      <div>
+        {header}
+        <p className="flex h-20 items-center justify-center text-center text-[10px] text-ink-faint">
+          {!hasValues ? "Aucune valeur sur la période (0 vente)" : "Pas assez de jours pour un graphe"}
+        </p>
+      </div>
+    );
   }
   return (
     <div>
-      {title && (
-        <div className="mb-1 flex items-baseline justify-between gap-2">
-          <span className="text-[10px] font-semibold text-ink-dim">{title}</span>
-          {average !== null && average !== undefined && (
-            <span className="text-[10px] tnum text-ink-faint">moy. {format(average)}</span>
-          )}
-        </div>
-      )}
+      {header}
       <div className="h-20 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
