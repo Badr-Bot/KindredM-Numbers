@@ -36,6 +36,9 @@ const JUDGE_SPEND_MULTIPLE = 2;
 // source de Badr, 26/07).
 const ESTABLISHED_SPEND_MULTIPLE = 10;
 
+// Nombre de cartes rendues d'un coup (chacune porte un graphique).
+const PAGE_SIZE = 24;
+
 type CreaStatus = "cut" | "watch" | "winner" | "testing";
 
 /** Tous les jours (inclus) entre deux dates ISO — pour matérialiser les jours
@@ -155,9 +158,15 @@ export function CreasBoard({
   const [statusFilter, setStatusFilter] = useState<CreaStatus | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("spendCents");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  // Déplier une carte déplie TOUTES les cartes (demandé le 26/07) : on compare
-  // les créas entre elles, pas une par une.
-  const [expandAll, setExpandAll] = useState(false);
+  // Dépliage INDÉPENDANT par carte : déplier les ~40 cartes d'un coup montait
+  // 400+ graphiques Recharts simultanément et figeait le navigateur (signalé
+  // 26/07 : « quand j'appuie sur défiler ça bug »). Une carte ouverte à la
+  // fois affiche déjà tout son détail d'un seul coup.
+  const [openAdId, setOpenAdId] = useState<string | null>(null);
+
+  // Rendu par paquets : chaque carte porte déjà une courbe CA, donc 300 créas
+  // = 300 graphiques au montage. On en affiche un nombre limité, extensible.
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const { from, to } = useMemo(() => {
     if (preset === "custom") return { from: customFrom, to: customTo };
@@ -437,6 +446,12 @@ export function CreasBoard({
     [allRows, statusFilter]
   );
 
+  // Changer de filtre/tri/période repart du haut de liste.
+  const resetView = () => {
+    setVisibleCount(PAGE_SIZE);
+    setOpenAdId(null);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       {/* Filtres : période + campagne + tri */}
@@ -447,6 +462,7 @@ export function CreasBoard({
             onClick={() => {
               play("tab");
               setPreset(p);
+              resetView();
             }}
             className={`rounded border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
               preset === p
@@ -489,6 +505,7 @@ export function CreasBoard({
           onChange={(e) => {
             play("tab");
             setCampaignFilter(e.target.value);
+            resetView();
           }}
           className="rounded border border-line bg-terminal px-2 py-1 text-[11px] text-ink"
         >
@@ -504,6 +521,7 @@ export function CreasBoard({
           onChange={(e) => {
             play("tab");
             setSortKey(e.target.value as SortKey);
+            resetView();
           }}
           className="rounded border border-line bg-terminal px-2 py-1 text-[11px] text-ink"
         >
@@ -517,6 +535,7 @@ export function CreasBoard({
           onClick={() => {
             play("tab");
             setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+            resetView();
           }}
           className="rounded border border-line px-2 py-1 text-[11px] text-ink-dim hover:text-ink"
         >
@@ -542,6 +561,7 @@ export function CreasBoard({
               onClick={() => {
                 play("tab");
                 setStatusFilter(key);
+                resetView();
               }}
               className={`rounded border px-2 py-1 text-[10.5px] font-semibold transition-colors ${
                 statusFilter === key
@@ -589,10 +609,27 @@ export function CreasBoard({
       {rows.length > 0 && (
         <>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {rows.map((r) => (
-              <CreaCard key={r.adId} row={r} open={expandAll} onToggle={() => setExpandAll((v) => !v)} />
+            {rows.slice(0, visibleCount).map((r) => (
+              <CreaCard
+                key={r.adId}
+                row={r}
+                open={openAdId === r.adId}
+                onToggle={() => setOpenAdId((cur) => (cur === r.adId ? null : r.adId))}
+              />
             ))}
           </div>
+          {rows.length > visibleCount && (
+            <button
+              onClick={() => {
+                play("tab");
+                setVisibleCount((n) => n + PAGE_SIZE);
+              }}
+              className="w-full rounded border border-line py-2 text-[11px] font-semibold uppercase tracking-wide text-ink-dim hover:text-ink"
+            >
+              ▼ Afficher {Math.min(PAGE_SIZE, rows.length - visibleCount)} créas de plus (
+              {rows.length - visibleCount} restantes)
+            </button>
+          )}
           {/* Toutes les définitions vivent ICI, une seule fois — les cartes
               ne portent plus que des libellés courts (demandé le 26/07). */}
           <details className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10px] text-ink-faint">
@@ -732,7 +769,7 @@ function CreaCard({
         }}
         className="mt-2 w-full rounded border border-line-soft py-1 text-[10px] uppercase tracking-wide text-ink-faint hover:text-ink"
       >
-        {open ? "▲ Replier toutes les créas" : "▼ Déplier toutes les créas"}
+        {open ? "▲ Replier" : "▼ Tout le détail (funnel + courbes)"}
       </button>
 
       {open && (
