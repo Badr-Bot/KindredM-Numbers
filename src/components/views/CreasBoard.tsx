@@ -18,7 +18,7 @@ import { useSound } from "../sound/SoundProvider";
 // pas vraiment été testée, elle ne fait que gonfler la liste sans rien dire.
 const MIN_SPEND_TESTED = 2000; // 20 €
 
-type Preset = "7" | "14" | "30" | "all";
+type Preset = "7" | "14" | "30" | "all" | "custom";
 
 const RANKING_LABEL: Record<string, string> = {
   above_average: "au-dessus",
@@ -75,9 +75,9 @@ const SORT_OPTIONS: { key: SortKey; label: string }[] = [
   { key: "roas", label: "ROAS" },
   { key: "cpaCents", label: "CPA" },
   { key: "ctrPct", label: "CTR" },
-  { key: "hookRate", label: "Hook" },
-  { key: "hold100", label: "Hold 100 %" },
-  { key: "cvrLanding", label: "CVR landing" },
+  { key: "hookRate", label: "Hook (vidéo)" },
+  { key: "hold100", label: "Reste jusqu'à la fin (vidéo)" },
+  { key: "cvrLanding", label: "Achat après clic" },
 ];
 
 export function CreasBoard({
@@ -91,17 +91,20 @@ export function CreasBoard({
 }) {
   const { play } = useSound();
   const [preset, setPreset] = useState<Preset>("14");
+  const [customFrom, setCustomFrom] = useState(historyStart);
+  const [customTo, setCustomTo] = useState(today);
   const [campaignFilter, setCampaignFilter] = useState<string>("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("spendCents");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   const { from, to } = useMemo(() => {
+    if (preset === "custom") return { from: customFrom, to: customTo };
     if (preset === "all") return { from: historyStart, to: today };
     const days = Number(preset);
     const d = new Date(`${today}T00:00:00Z`);
     d.setUTCDate(d.getUTCDate() - (days - 1));
     return { from: d.toISOString().slice(0, 10), to: today };
-  }, [preset, today, historyStart]);
+  }, [preset, customFrom, customTo, today, historyStart]);
 
   const metaByAd = useMemo(() => new Map(creas.meta.map((m) => [m.adId, m])), [creas.meta]);
 
@@ -257,7 +260,7 @@ export function CreasBoard({
     <div className="flex flex-col gap-4">
       {/* Filtres : période + campagne + tri */}
       <div className="flex flex-wrap items-center gap-2">
-        {(["7", "14", "30", "all"] as Preset[]).map((p) => (
+        {(["7", "14", "30", "all", "custom"] as Preset[]).map((p) => (
           <button
             key={p}
             onClick={() => {
@@ -270,9 +273,36 @@ export function CreasBoard({
                 : "border-line text-ink-dim hover:text-ink"
             }`}
           >
-            {p === "all" ? "Tout" : `${p} j`}
+            {p === "all" ? "Tout" : p === "custom" ? "Dates" : `${p} j`}
           </button>
         ))}
+        {preset === "custom" && (
+          <span className="flex items-center gap-1 text-[11px]">
+            <input
+              type="date"
+              value={customFrom}
+              min={historyStart}
+              max={today}
+              onChange={(e) => {
+                play("tab");
+                setCustomFrom(e.target.value);
+              }}
+              className="rounded border border-line bg-terminal px-1.5 py-1 text-[11px] text-ink"
+            />
+            →
+            <input
+              type="date"
+              value={customTo}
+              min={historyStart}
+              max={today}
+              onChange={(e) => {
+                play("tab");
+                setCustomTo(e.target.value);
+              }}
+              className="rounded border border-line bg-terminal px-1.5 py-1 text-[11px] text-ink"
+            />
+          </span>
+        )}
         <select
           value={campaignFilter}
           onChange={(e) => {
@@ -334,9 +364,8 @@ export function CreasBoard({
             ))}
           </div>
           <p className="text-[10px] text-ink-faint">
-            🪝 Hook = % qui regarde ≥ 3 s (vidéo uniquement) · 🎬 Hold = % qui va jusqu&apos;au bout
-            de la vidéo (parmi ceux qui ont dépassé 3 s) · 🛬 CVR landing = achats ÷ atterrissages
-            réels sur la page (sépare le problème clic→page du problème page→achat) · reach cumulé
+            👆 Clique &laquo; Funnel complet &raquo; sur une créa pour voir en détail où les gens
+            décrochent (clic → page → panier → checkout → achat) et le graphe ROAS. Reach cumulé
             sur plusieurs jours = approximatif (pas de déduplication inter-jours côté Meta).
           </p>
         </>
@@ -370,7 +399,7 @@ function CreaCard({ row }: { row: CreaRow }) {
       {/* Mini-courbe CA — toujours visible, pas besoin de cliquer (25/07) */}
       <MiniChart data={row.series} dataKey="caCents" divideBy={100} format={formatEur0} />
 
-      <div className="mt-2 grid grid-cols-3 gap-1 text-center text-[10px] text-ink-dim">
+      <div className="mt-2 grid grid-cols-4 gap-1 text-center text-[10px] text-ink-dim">
         <div>
           <div className="text-ink-faint">CPA</div>
           <div className="tnum text-ink">{row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"}</div>
@@ -380,8 +409,12 @@ function CreaCard({ row }: { row: CreaRow }) {
           <div className="tnum text-ink">{formatPct(row.ctrPct)}</div>
         </div>
         <div>
-          <div className="text-ink-faint">{row.isVideo ? "Hook" : "CVR landing"}</div>
-          <div className="tnum text-ink">{row.isVideo ? formatPct(row.hookRate) : formatPct(row.cvrLanding)}</div>
+          <div className="text-ink-faint">Atterr.</div>
+          <div className="tnum text-ink">{formatPct(row.lpvRate)}</div>
+        </div>
+        <div>
+          <div className="text-ink-faint">Panier</div>
+          <div className="tnum text-ink">{formatPct(row.atcRate)}</div>
         </div>
       </div>
 
@@ -398,16 +431,31 @@ function CreaCard({ row }: { row: CreaRow }) {
       {open && (
         <div className="mt-2 flex flex-col gap-2 border-t border-line-soft pt-2">
           {row.body && <p className="line-clamp-3 text-[10.5px] text-ink-dim">{row.body}</p>}
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10.5px] text-ink-dim">
-            <span>🛬 Atterrissage : {formatPct(row.lpvRate)}</span>
-            <span>🛒 Panier : {formatPct(row.atcRate)}</span>
-            <span>💳 Checkout : {formatPct(row.checkoutRate)}</span>
-            <span>🛬 CVR landing : {formatPct(row.cvrLanding)}</span>
+          {/* Entonnoir dans l'ordre où les gens avancent (ou pas) — chaque
+              taux se lit "sur 100 qui passent l'étape d'avant, combien
+              vont à celle-ci". Sépare clairement où ça se perd. */}
+          <div className="flex flex-col gap-1 text-[10.5px] text-ink-dim">
+            <span>
+              🛬 <b className="text-ink">Atterrissage</b> {formatPct(row.lpvRate)} — sur 100 clics, combien
+              arrivent vraiment sur la page (page lente/cassée si bas)
+            </span>
+            <span>
+              🛒 <b className="text-ink">Ajout panier</b> {formatPct(row.atcRate)} — sur ceux arrivés sur
+              la page, combien mettent un article au panier (offre/prix si bas)
+            </span>
+            <span>
+              💳 <b className="text-ink">Checkout</b> {formatPct(row.checkoutRate)} — sur ceux qui ont
+              un panier, combien lancent le paiement (frais de port/confiance si bas)
+            </span>
+            <span>
+              🛍️ <b className="text-ink">Achat après clic</b> {formatPct(row.cvrLanding)} — sur 100 qui
+              atterrissent sur la page, combien achètent au final
+            </span>
             {row.isVideo && (
               <>
-                <span>🎬 Hold 50 % : {formatPct(row.hold50)}</span>
-                <span>🎬 Hold 75 % : {formatPct(row.hold75)}</span>
-                <span>🎬 Hold 100 % : {formatPct(row.hold100)}</span>
+                <span>🎬 Reste jusqu&apos;à 50 % de la vidéo : {formatPct(row.hold50)}</span>
+                <span>🎬 Reste jusqu&apos;à 75 % de la vidéo : {formatPct(row.hold75)}</span>
+                <span>🎬 Reste jusqu&apos;à la fin (100 %) : {formatPct(row.hold100)}</span>
               </>
             )}
             {row.qualityRanking && (
