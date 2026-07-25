@@ -151,6 +151,26 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   Se déclenche automatiquement une fois poussé sur la branche par défaut du
   repo (`claude/kindredm-dashboard-setup-epbxha`).
 
+## Mise à jour 25/07 — onglet Créas + fixes ROAS/COGS
+
+- **Nouvel onglet 🎬 Créas** : tableau détaillé par annonce (spend, CA, ROAS,
+  CPA, CTR, hook rate, hold 50/75/100 %, CVR landing page, taux
+  atterrissage/panier/checkout), filtrable par campagne et période,
+  triable, avec mini-graphes CA/ROAS par créa au clic et le texte de la
+  créa affiché. Nécessite `0011_creas_tab.sql` (colle comme d'habitude).
+- **Fix COGS upsells toujours à 0** dans Dépenses — split polo/upsells
+  jamais câblé, total Net/Marge jamais faux. Nécessite `0010_cogs_split.sql`.
+- **Fix spend Meta « non classé » qui disparaissait du total** quand une
+  nouvelle campagne au nom pas reconnu (ex. sans "FR"/"WORLDWIDE") était
+  créée — compté nulle part avant, maintenant toujours inclus dans le
+  total Aujourd'hui avec bandeau d'alerte + lien vers Contrôle. Nécessite
+  `0009_unmapped_in_aggregates.sql`.
+- **Heartbeat GitHub Actions** (`.github/workflows/keep-sync.yml`) : la
+  synchro tournait avant uniquement quand le dashboard était ouvert dans un
+  onglet — corrigé, ping `/api/sync` toutes les 5 min indépendamment.
+- **Séquence de reprise** : coller dans Supabase SQL Editor, dans l'ordre,
+  toutes les migrations `0009` → `0011` si pas déjà fait.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
