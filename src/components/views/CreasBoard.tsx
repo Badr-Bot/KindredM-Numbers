@@ -29,7 +29,27 @@ const MIN_SPEND_TESTED = 2000; // 20 €
 // jours, on n'y touche pas), et cette règle-là coupait des créas rentables.
 const JUDGE_SPEND_MULTIPLE = 2;
 
-type CreaStatus = "cut" | "winner" | "testing";
+// Une créa qui a déjà beaucoup dépensé ET qui vend n'est PAS traitée comme
+// un simple échec de test : au-delà de ce seuil, un CPA au-dessus de la cible
+// donne « à surveiller » et non « à couper » — elle nourrit le compte en
+// trafic, la couper fait souvent tomber les autres (mise en garde de la
+// source de Badr, 26/07).
+const ESTABLISHED_SPEND_MULTIPLE = 10;
+
+type CreaStatus = "cut" | "watch" | "winner" | "testing";
+
+/** Tous les jours (inclus) entre deux dates ISO — pour matérialiser les jours
+ * sans diffusion, que Meta omet purement et simplement. */
+function listDays(from: string, to: string): string[] {
+  const out: string[] = [];
+  const d = new Date(`${from}T00:00:00Z`);
+  const end = new Date(`${to}T00:00:00Z`);
+  while (d <= end) {
+    out.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return out;
+}
 
 type Preset = "7" | "14" | "30" | "all" | "custom";
 
@@ -84,6 +104,8 @@ interface CreaRow {
   spendShare: number | null;
   series: {
     label: string;
+    /** aucune diffusion ce jour-là (Meta n'a rien renvoyé, ou spend 0) */
+    noDelivery: boolean;
     spendCents: number;
     caCents: number;
     roas: number | null;
@@ -133,6 +155,9 @@ export function CreasBoard({
   const [statusFilter, setStatusFilter] = useState<CreaStatus | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("spendCents");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  // Déplier une carte déplie TOUTES les cartes (demandé le 26/07) : on compare
+  // les créas entre elles, pas une par une.
+  const [expandAll, setExpandAll] = useState(false);
 
   const { from, to } = useMemo(() => {
     if (preset === "custom") return { from: customFrom, to: customTo };
@@ -287,10 +312,35 @@ export function CreasBoard({
       r.cvrLanding = r.landingPageViews > 0 ? r.purchases / r.landingPageViews : null;
       r.atcRate = r.landingPageViews > 0 ? r.addToCart / r.landingPageViews : null;
       r.checkoutRate = r.addToCart > 0 ? r.initiateCheckout / r.addToCart : null;
-      const series = r.dailyPoints
-        .sort((a, b) => a.day.localeCompare(b.day))
-        .map((p) => ({
+      // Meta ne renvoie AUCUNE ligne pour un jour sans diffusion : sans
+      // remplissage, la courbe reliait le 17/07 au 22/07 en ligne droite et
+      // donnait l'illusion d'une baisse continue (« le CTR chute, la créa
+      // fatigue ») alors que la créa était simplement à l'arrêt. On matérialise
+      // ces jours en trous (valeurs nulles + ligne coupée côté MiniChart).
+      const pointByDay = new Map(r.dailyPoints.map((p) => [p.day, p]));
+      const series = listDays(from, to).map((day) => {
+        const p = pointByDay.get(day);
+        if (!p || p.spendCents === 0) {
+          return {
+            label: formatDayShort(day),
+            noDelivery: true,
+            spendCents: p?.spendCents ?? 0,
+            caCents: p?.caCents ?? 0,
+            roas: null,
+            cpaCents: null,
+            ctrPct: null,
+            cpmCents: null,
+            freq: null,
+            cvrLandingPct: null,
+            atcPct: null,
+            lpvPct: null,
+            hookPct: null,
+            hold100Pct: null,
+          };
+        }
+        return {
           label: formatDayShort(p.day),
+          noDelivery: false,
           spendCents: p.spendCents,
           caCents: p.caCents,
           roas: p.spendCents > 0 ? p.caCents / p.spendCents : null, // 0 = jour sans vente, pas "pas de donnée"
@@ -303,16 +353,27 @@ export function CreasBoard({
           lpvPct: p.linkClicks > 0 ? (p.landingPageViews / p.linkClicks) * 100 : null,
           hookPct: p.impressions > 0 && p.video3s > 0 ? (p.video3s / p.impressions) * 100 : null,
           hold100Pct: p.video3s > 0 ? (p.video100 / p.video3s) * 100 : null,
-        }));
+        };
+      });
 
       // ⏳ / 🔪 / 🏆 Verdict du batch — voir l'arbre en tête de fichier.
       const campaignTotal = campaignSpend.get(r.campaignId) ?? 0;
       const spendShare = campaignTotal > 0 ? r.spendCents / campaignTotal : null;
       let status: CreaStatus = "testing";
       if (targetCpaCents !== null && r.spendCents >= JUDGE_SPEND_MULTIPLE * targetCpaCents) {
-        // Assez dépensé pour trancher : zéro vente OU CPA au-dessus de la
-        // cible → on coupe ; sinon elle a fait ses preuves.
-        status = r.cpaCents === null || r.cpaCents > targetCpaCents ? "cut" : "winner";
+        if (r.cpaCents !== null && r.cpaCents <= targetCpaCents) {
+          status = "winner";
+        } else if (r.purchases === 0) {
+          // Zéro vente malgré 2× le CPA cible dépensé : aucun doute possible.
+          status = "cut";
+        } else {
+          // Elle vend, mais trop cher. « À couper » seulement si elle est
+          // encore en phase de test ; passé ESTABLISHED_SPEND_MULTIPLE elle
+          // fait tourner le compte et la couper peut faire tomber le reste →
+          // « à surveiller », décision humaine.
+          status =
+            r.spendCents >= ESTABLISHED_SPEND_MULTIPLE * targetCpaCents ? "watch" : "cut";
+        }
       }
 
       out.push({
@@ -369,7 +430,7 @@ export function CreasBoard({
       return sortDir === "desc" ? bn - an : an - bn;
     });
     return out;
-  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents]);
+  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents, from, to]);
 
   const rows = useMemo(
     () => (statusFilter === "ALL" ? allRows : allRows.filter((r) => r.status === statusFilter)),
@@ -471,6 +532,7 @@ export function CreasBoard({
             [
               ["ALL", `Toutes (${allRows.length})`],
               ["cut", `🔪 À couper (${allRows.filter((r) => r.status === "cut").length})`],
+              ["watch", `👁️ À surveiller (${allRows.filter((r) => r.status === "watch").length})`],
               ["winner", `🏆 Gagnantes (${allRows.filter((r) => r.status === "winner").length})`],
               ["testing", `⏳ En test (${allRows.filter((r) => r.status === "testing").length})`],
             ] as [CreaStatus | "ALL", string][]
@@ -528,7 +590,7 @@ export function CreasBoard({
         <>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {rows.map((r) => (
-              <CreaCard key={r.adId} row={r} />
+              <CreaCard key={r.adId} row={r} open={expandAll} onToggle={() => setExpandAll((v) => !v)} />
             ))}
           </div>
           {/* Toutes les définitions vivent ICI, une seule fois — les cartes
@@ -540,9 +602,17 @@ export function CreasBoard({
             <div className="mt-2 flex flex-col gap-1">
               <span>
                 ⏳ <b>En test</b> : pas encore {JUDGE_SPEND_MULTIPLE}× le CPA cible de spend, trop tôt
-                pour juger · 🔪 <b>À couper</b> : a franchi ce seuil sans tenir le CPA cible (ou zéro
-                vente) · 🏆 <b>Gagnante</b> : a franchi ce seuil EN tenant le CPA cible → à passer en
-                campagne de scaling. Une créa établie qui fait 2-3 mauvais jours n&apos;est PAS à couper.
+                pour juger · 🔪 <b>À couper</b> : a franchi ce seuil avec zéro vente, ou vend trop cher
+                alors qu&apos;elle est encore jeune · 👁️ <b>À surveiller</b> : vend au-dessus du CPA
+                cible MAIS a déjà dépensé plus de {ESTABLISHED_SPEND_MULTIPLE}× la cible — elle
+                alimente le compte en trafic, la couper fait souvent tomber les autres, donc c&apos;est
+                à toi de trancher · 🏆 <b>Gagnante</b> : a franchi le seuil EN tenant le CPA cible → à
+                passer en campagne de scaling.
+              </span>
+              <span>
+                ◌ <b>Jours sans diffusion</b> : la courbe est <b>coupée</b> (pas reliée) ces jours-là
+                — un trou n&apos;est pas une baisse. Le nombre de jours concernés est indiqué à côté du
+                titre.
               </span>
               <span>🛬 <b>Atterrissage</b> : sur 100 clics, combien arrivent vraiment sur la page (bas = page lente ou lien cassé).</span>
               <span>🛒 <b>Ajout panier</b> : sur ceux arrivés sur la page, combien mettent un article au panier (bas = offre ou prix).</span>
@@ -559,18 +629,27 @@ export function CreasBoard({
   );
 }
 
-function CreaCard({ row }: { row: CreaRow }) {
+function CreaCard({
+  row,
+  open,
+  onToggle,
+}: {
+  row: CreaRow;
+  open: boolean;
+  onToggle: () => void;
+}) {
   const { play } = useSound();
-  const [open, setOpen] = useState(false);
   const roasColor =
     row.roas === null ? "text-ink" : row.roas >= 2 ? "text-phosphor" : row.roas >= 1 ? "text-amber" : "text-red";
 
   const shell =
     row.status === "cut"
       ? "border-red/50 bg-red/[0.05]"
-      : row.status === "winner"
-        ? "border-phosphor/50 bg-phosphor/[0.05]"
-        : "border-line bg-panel/40";
+      : row.status === "watch"
+        ? "border-amber/50 bg-amber/[0.05]"
+        : row.status === "winner"
+          ? "border-phosphor/50 bg-phosphor/[0.05]"
+          : "border-line bg-panel/40";
 
   return (
     <div className={`rounded-lg border p-3 ${shell}`}>
@@ -582,6 +661,11 @@ function CreaCard({ row }: { row: CreaRow }) {
         {row.status === "cut" && (
           <span className="flex-none whitespace-nowrap rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-red">
             🔪 À couper
+          </span>
+        )}
+        {row.status === "watch" && (
+          <span className="flex-none whitespace-nowrap rounded border border-amber/50 bg-amber/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-amber">
+            👁️ À surveiller
           </span>
         )}
         {row.status === "winner" && (
@@ -597,6 +681,11 @@ function CreaCard({ row }: { row: CreaRow }) {
       </div>
       {row.status === "winner" && (
         <p className="mb-1.5 text-[10px] font-semibold text-phosphor/80">→ à passer en scaling</p>
+      )}
+      {row.status === "watch" && (
+        <p className="mb-1.5 text-[10px] text-amber/80">
+          CPA au-dessus de la cible, mais elle vend et fait tourner le compte — décision à toi.
+        </p>
       )}
 
       <div className="mb-2 flex items-baseline justify-between">
@@ -639,11 +728,11 @@ function CreaCard({ row }: { row: CreaRow }) {
       <button
         onClick={() => {
           play("tab");
-          setOpen((v) => !v);
+          onToggle();
         }}
         className="mt-2 w-full rounded border border-line-soft py-1 text-[10px] uppercase tracking-wide text-ink-faint hover:text-ink"
       >
-        {open ? "▲ Moins de détails" : "▼ Funnel complet"}
+        {open ? "▲ Replier toutes les créas" : "▼ Déplier toutes les créas"}
       </button>
 
       {open && (
@@ -792,8 +881,10 @@ function MiniChart({
   const chartData = data.map((d) => ({
     label: d.label,
     value: d[dataKey] === null || d[dataKey] === undefined ? null : (d[dataKey] as number) / divideBy,
+    noDelivery: Boolean(d.noDelivery),
   }));
   const hasValues = chartData.some((d) => d.value !== null);
+  const offDays = chartData.filter((d) => d.noDelivery).length;
 
   // Le libellé « moy. » est TOUJOURS affiché (avec — si indéfini) : son
   // absence donnait l'impression que la moyenne n'était pas implémentée.
@@ -805,6 +896,11 @@ function MiniChart({
       <span className="text-[10px] font-bold tnum text-ink">
         moy. {average !== null && average !== undefined ? format(average) : "—"}
       </span>
+      {offDays > 0 && (
+        <span className="text-[9px] text-amber" title="Jours sans diffusion : la courbe est coupée, pas en baisse">
+          ◌ {offDays} j sans diff.
+        </span>
+      )}
     </div>
   );
 
@@ -836,7 +932,16 @@ function MiniChart({
             <YAxis tick={{ fill: "#6c6482", fontSize: 8 }} tickLine={false} axisLine={false} width={34} domain={["auto", "auto"]} />
             <Tooltip
               content={({ active, payload, label }) => {
-                if (!active || !payload?.length || payload[0].value == null) return null;
+                if (!active || !payload?.length) return null;
+                const point = payload[0].payload as { noDelivery?: boolean };
+                if (payload[0].value == null) {
+                  return point.noDelivery ? (
+                    <div className="rounded border border-line bg-terminal/95 px-2 py-1 text-[10px] shadow-lg">
+                      <span className="text-ink-dim">{label} · </span>
+                      <span className="font-bold text-amber">aucune diffusion</span>
+                    </div>
+                  ) : null;
+                }
                 return (
                   <div className="rounded border border-line bg-terminal/95 px-2 py-1 text-[10px] tnum shadow-lg">
                     <span className="text-ink-dim">{label} · </span>
@@ -848,7 +953,17 @@ function MiniChart({
             {average !== null && average !== undefined && (
               <ReferenceLine y={average / divideBy} stroke="#6c6482" strokeDasharray="3 3" />
             )}
-            <Line dataKey="value" stroke="#33ff9c" strokeWidth={2} dot={false} connectNulls />
+            {/* connectNulls VOLONTAIREMENT absent : relier par-dessus un jour
+                sans diffusion faisait lire « le CTR chute » là où la créa était
+                simplement à l'arrêt (signalé 26/07). Les points isolés doivent
+                rester visibles → dot activé. */}
+            <Line
+              dataKey="value"
+              stroke="#33ff9c"
+              strokeWidth={2}
+              dot={{ r: 1.5, fill: "#33ff9c", strokeWidth: 0 }}
+              activeDot={{ r: 3.5 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
