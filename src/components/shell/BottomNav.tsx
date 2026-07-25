@@ -8,6 +8,7 @@ const ITEMS = [
   { href: "/", label: "Live", emoji: "⚡" },
   { href: "/mois", label: "Mois", emoji: "🗓️" },
   { href: "/analyse", label: "Analyse", emoji: "📊" },
+  { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
   { href: "/controle", label: "Contrôle", emoji: "🛡️" },

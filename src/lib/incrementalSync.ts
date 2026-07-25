@@ -179,6 +179,14 @@ export async function runIncrementalSync(
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
     try {
       const adRows = await fetchMetaAdInsights(rescanFromDay, today);
+      // video_p50/p75/p100 ajoutés par la migration 0011 — probe avant
+      // d'inclure, même filet que UNMAPPED/cogs_split (colonne absente ferait
+      // échouer tout le lot sinon).
+      const { error: videoPctProbeError } = await supabase
+        .from("meta_ad_insights")
+        .select("video_p50")
+        .limit(1);
+      const hasVideoPct = !videoPctProbeError;
       const adUpserts = adRows.map((row) => ({
         day: row.day,
         ad_id: row.adId,
@@ -202,12 +210,31 @@ export async function runIncrementalSync(
         quality_ranking: row.qualityRanking,
         engagement_ranking: row.engagementRanking,
         conversion_ranking: row.conversionRanking,
+        ...(hasVideoPct
+          ? { video_p50: row.video50, video_p75: row.video75, video_p100: row.video100 }
+          : {}),
       }));
       for (let i = 0; i < adUpserts.length; i += CHUNK) {
         await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
       }
     } catch (err) {
       warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
+    }
+    // Texte des créas (angle/copy) — snapshot courant, isolé : son échec ne
+    // bloque rien (table ajoutée par la migration 0011).
+    try {
+      const { fetchAdCreativeBodies } = await import("./meta");
+      const bodies = await fetchAdCreativeBodies();
+      const bodyUpserts = [...bodies.entries()].map(([ad_id, body]) => ({
+        ad_id,
+        body,
+        updated_at: new Date().toISOString(),
+      }));
+      for (let i = 0; i < bodyUpserts.length; i += CHUNK) {
+        await supabase.from("meta_ad_creatives").upsert(bodyUpserts.slice(i, i + CHUNK));
+      }
+    } catch (err) {
+      warnings.push(`Texte des créas indisponible : ${(err as Error).message}`);
     }
     // Breakdown pays : le vrai ROAS BE/CA/CH dans les campagnes « FR ».
     try {
@@ -257,11 +284,9 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v6 : split COGS polo/upsells dans daily_aggregates (migration 0010) — sans
-// ce recalcul, les jours déjà agrégés avant le correctif restent à 0 sur
-// cogs_upsells_cents même une fois la colonne créée. Chaque bump redéclenche
-// un resync complet.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-25-cogs-split-v6";
+// v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011) sur
+// l'historique des créas. Chaque bump redéclenche un resync complet.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-25-creas-tab-v7";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → terminé

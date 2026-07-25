@@ -196,6 +196,13 @@ export async function backfillMetaSpend(
   }
   try {
     const adRows = await fetchMetaAdInsights(META_SINCE_DAY, today);
+    // video_p50/p75/p100 ajoutés par la migration 0011 — probe avant
+    // d'inclure (colonne absente ferait échouer tout le lot sinon).
+    const { error: videoPctProbeError } = await supabase
+      .from("meta_ad_insights")
+      .select("video_p50")
+      .limit(1);
+    const hasVideoPct = !videoPctProbeError;
     const adUpserts = adRows.map((row) => ({
       day: row.day,
       ad_id: row.adId,
@@ -219,9 +226,26 @@ export async function backfillMetaSpend(
       quality_ranking: row.qualityRanking,
       engagement_ranking: row.engagementRanking,
       conversion_ranking: row.conversionRanking,
+      ...(hasVideoPct
+        ? { video_p50: row.video50, video_p75: row.video75, video_p100: row.video100 }
+        : {}),
     }));
     for (let i = 0; i < adUpserts.length; i += CHUNK) {
       await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
+    }
+  } catch {
+    /* non bloquant */
+  }
+  try {
+    const { fetchAdCreativeBodies } = await import("./meta");
+    const bodies = await fetchAdCreativeBodies();
+    const bodyUpserts = [...bodies.entries()].map(([ad_id, body]) => ({
+      ad_id,
+      body,
+      updated_at: new Date().toISOString(),
+    }));
+    for (let i = 0; i < bodyUpserts.length; i += CHUNK) {
+      await supabase.from("meta_ad_creatives").upsert(bodyUpserts.slice(i, i + CHUNK));
     }
   } catch {
     /* non bloquant */

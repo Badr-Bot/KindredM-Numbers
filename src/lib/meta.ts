@@ -28,6 +28,9 @@ interface MetaInsightsRow {
   action_values?: MetaAction[];
   outbound_clicks?: MetaAction[];
   video_thruplay_watched_actions?: MetaAction[];
+  video_p50_watched_actions?: MetaAction[];
+  video_p75_watched_actions?: MetaAction[];
+  video_p100_watched_actions?: MetaAction[];
   quality_ranking?: string;
   engagement_rate_ranking?: string;
   conversion_rate_ranking?: string;
@@ -57,6 +60,9 @@ export interface MetaInsightRow {
   initiateCheckout: number;
   video3s: number;
   thruplays: number;
+  video50: number;
+  video75: number;
+  video100: number;
 }
 
 export interface MetaAdInsightRow extends MetaInsightRow {
@@ -109,7 +115,10 @@ async function* iterateInsights(
     ? // breakdown pays : Meta n'autorise pas les rankings/fréquence ici,
       // on reste sur le cœur transactionnel
       "campaign_id,campaign_name,spend,impressions,clicks,actions,action_values"
-    : (level === "ad" ? "ad_id,ad_name,quality_ranking,engagement_rate_ranking,conversion_rate_ranking," : "") +
+    : (level === "ad"
+        ? "ad_id,ad_name,quality_ranking,engagement_rate_ranking,conversion_rate_ranking," +
+          "video_p50_watched_actions,video_p75_watched_actions,video_p100_watched_actions,"
+        : "") +
       "campaign_id,campaign_name,spend,impressions,clicks,reach,frequency," +
       "actions,action_values,outbound_clicks,video_thruplay_watched_actions";
   const params = new URLSearchParams({
@@ -153,6 +162,9 @@ function toInsight(row: MetaInsightsRow): MetaInsightRow {
     initiateCheckout: pickAction(row.actions, "omni_initiated_checkout", "initiate_checkout"),
     video3s: pickAction(row.actions, "video_view"),
     thruplays: pickAction(row.video_thruplay_watched_actions, "video_view"),
+    video50: pickAction(row.video_p50_watched_actions, "video_view"),
+    video75: pickAction(row.video_p75_watched_actions, "video_view"),
+    video100: pickAction(row.video_p100_watched_actions, "video_view"),
   };
 }
 
@@ -207,6 +219,47 @@ export async function fetchMetaCountryInsights(
     });
   }
   return rows;
+}
+
+interface MetaAdsListRow {
+  id: string;
+  creative?: { body?: string };
+}
+
+interface MetaAdsListResponse {
+  data: MetaAdsListRow[];
+  paging?: { next?: string };
+}
+
+/** Texte (angle/copy) de chaque annonce active — snapshot courant, pas
+ * historisé jour par jour (la créa attachée à une annonce change rarement).
+ * Alimente l'onglet Créas pour identifier l'angle sans rouvrir Ads Manager. */
+export async function fetchAdCreativeBodies(): Promise<Map<string, string>> {
+  const token = process.env.META_ACCESS_TOKEN;
+  const accountId = process.env.META_AD_ACCOUNT_ID;
+  if (!token || !accountId) {
+    throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
+  }
+  const bodies = new Map<string, string>();
+  const params = new URLSearchParams({
+    fields: "id,creative{body}",
+    limit: "500",
+    access_token: token,
+  });
+  let url: string | null = `https://graph.facebook.com/${API_VERSION}/act_${accountId}/ads?` + params.toString();
+
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Meta API error ${res.status}: ${await res.text()}`);
+    }
+    const body: MetaAdsListResponse = await res.json();
+    for (const row of body.data) {
+      if (row.creative?.body) bodies.set(row.id, row.creative.body);
+    }
+    url = body.paging?.next ?? null;
+  }
+  return bodies;
 }
 
 /** Spend Meta par jour/campagne (compat : dérivé de fetchMetaInsights). */
