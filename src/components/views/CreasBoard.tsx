@@ -18,6 +18,21 @@ import { useSound } from "../sound/SoundProvider";
 // pas vraiment été testée, elle ne fait que gonfler la liste sans rien dire.
 const MIN_SPEND_TESTED = 2000; // 20 €
 
+// 🔪 Règle de coupure (Badr, 26/07) : « elle dépense 2 ou 3 fois le CPA cible
+// et zéro achat ». On prend 2× (alerte plus tôt) — une créa qui a brûlé deux
+// paniers d'acquisition sans UNE seule vente n'a rien à prouver de plus.
+// Remplace l'ancienne règle « 3 jours au-dessus de la cible » : la source de
+// Badr dit explicitement l'inverse (une créa établie qui fait 2-3 mauvais
+// jours, on n'y touche pas), et cette règle-là coupait des créas rentables.
+const CUT_SPEND_MULTIPLE = 2;
+
+// 🏆 Gagnante : prend une vraie part du budget de SA campagne (l'algo lui fait
+// confiance) ET tient le KPI (CPA ≤ cible). Une créa à bon CPA mais 1 % du
+// spend n'est pas une gagnante, juste un coup de chance sur 2 ventes.
+const WINNER_MIN_SPEND_SHARE = 0.1;
+
+type CreaStatus = "cut" | "winner" | "neutral";
+
 type Preset = "7" | "14" | "30" | "all" | "custom";
 
 const RANKING_LABEL: Record<string, string> = {
@@ -64,8 +79,9 @@ interface CreaRow {
   cvrLanding: number | null;
   atcRate: number | null;
   checkoutRate: number | null;
-  toCut: boolean;
-  toCutCpaCents: number | null;
+  status: CreaStatus;
+  /** part du spend de SA campagne sur la période (0..1) — critère gagnante */
+  spendShare: number | null;
   series: {
     label: string;
     spendCents: number;
@@ -132,39 +148,16 @@ export function CreasBoard({
     [creas.daily, from, to]
   );
 
-  // 🔪 Créas à couper (règle de Badr, 25/07) : CPA au-dessus de la cible
-  // 3 jours PLEINS d'affilé (jamais l'historique entier, jamais le filtre de
-  // période choisi ci-dessus — toujours les 3 derniers vrais jours, pour que
-  // le signal reste "à couper maintenant"). Un jour dépensé sans aucune
-  // vente compte comme pire que la cible. "Aujourd'hui" exclu (jour partiel
-  // — même piège que les faux positifs du journal auto, voir journal.ts).
-  const toCutInfo = useMemo(() => {
-    const out = new Map<string, number | null>(); // adId -> CPA blended des 3 derniers jours (null si 0 vente)
-    if (targetCpaCents === null) return out;
-    const byAd = new Map<string, { day: string; spendCents: number; purchases: number }[]>();
-    for (const d of creas.daily) {
-      const arr = byAd.get(d.adId) ?? [];
-      arr.push({ day: d.day, spendCents: d.spendCents, purchases: d.purchases });
-      byAd.set(d.adId, arr);
-    }
-    for (const [adId, points] of byAd) {
-      const lastFull = [...points]
-        .filter((p) => p.day < today)
-        .sort((a, b) => b.day.localeCompare(a.day))
-        .slice(0, 3);
-      if (lastFull.length < 3) continue;
-      const allOver = lastFull.every((p) => {
-        if (p.spendCents === 0) return false;
-        if (p.purchases === 0) return true;
-        return Math.round(p.spendCents / p.purchases) > targetCpaCents;
-      });
-      if (!allOver) continue;
-      const spend3 = lastFull.reduce((s, p) => s + p.spendCents, 0);
-      const purchases3 = lastFull.reduce((s, p) => s + p.purchases, 0);
-      out.set(adId, purchases3 > 0 ? Math.round(spend3 / purchases3) : null);
+  // Spend total par campagne sur la période — dénominateur du critère
+  // « gagnante » (part du budget que l'algo lui confie).
+  const campaignSpend = useMemo(() => {
+    const out = new Map<string, number>();
+    for (const d of filteredDaily) {
+      const campaignId = metaByAd.get(d.adId)?.campaignId ?? "";
+      out.set(campaignId, (out.get(campaignId) ?? 0) + d.spendCents);
     }
     return out;
-  }, [creas.daily, targetCpaCents, today]);
+  }, [filteredDaily, metaByAd]);
 
   const rows: CreaRow[] = useMemo(() => {
     type Acc = Omit<CreaRow, "series"> & {
@@ -211,8 +204,8 @@ export function CreasBoard({
           cvrLanding: null,
           atcRate: null,
           checkoutRate: null,
-          toCut: false,
-          toCutCpaCents: null,
+          status: "neutral" as CreaStatus,
+          spendShare: null,
           dailyPoints: [],
         } satisfies Acc);
       cur.spendCents += d.spendCents;
@@ -270,6 +263,24 @@ export function CreasBoard({
           ctrPct: p.impressions > 0 ? (p.clicks / p.impressions) * 100 : null,
           cpmCents: p.impressions > 0 ? Math.round((p.spendCents / p.impressions) * 1000) : null,
         }));
+
+      // 🔪 / 🏆 Statut — voir les constantes en tête de fichier.
+      const campaignTotal = campaignSpend.get(r.campaignId) ?? 0;
+      const spendShare = campaignTotal > 0 ? r.spendCents / campaignTotal : null;
+      let status: CreaStatus = "neutral";
+      if (targetCpaCents !== null) {
+        if (r.purchases === 0 && r.spendCents >= CUT_SPEND_MULTIPLE * targetCpaCents) {
+          status = "cut";
+        } else if (
+          r.cpaCents !== null &&
+          r.cpaCents <= targetCpaCents &&
+          spendShare !== null &&
+          spendShare >= WINNER_MIN_SPEND_SHARE
+        ) {
+          status = "winner";
+        }
+      }
+
       out.push({
         adId: r.adId,
         adName: r.adName,
@@ -305,14 +316,18 @@ export function CreasBoard({
         cvrLanding: r.cvrLanding,
         atcRate: r.atcRate,
         checkoutRate: r.checkoutRate,
-        toCut: toCutInfo.has(r.adId),
-        toCutCpaCents: toCutInfo.get(r.adId) ?? null,
+        status,
+        spendShare,
         series,
       });
     }
 
+    // Les créas à couper d'abord (action à prendre), puis les gagnantes
+    // (à dupliquer/scaler), puis le reste — chaque groupe trié par le
+    // critère choisi.
+    const STATUS_ORDER: Record<CreaStatus, number> = { cut: 0, winner: 1, neutral: 2 };
     out.sort((a, b) => {
-      if (a.toCut !== b.toCut) return a.toCut ? -1 : 1; // à couper toujours en tête
+      if (a.status !== b.status) return STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
       const av = a[sortKey];
       const bv = b[sortKey];
       const an = av === null ? -Infinity : av;
@@ -320,7 +335,7 @@ export function CreasBoard({
       return sortDir === "desc" ? bn - an : an - bn;
     });
     return out;
-  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, toCutInfo]);
+  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -411,24 +426,37 @@ export function CreasBoard({
 
       {targetCpaCents !== null ? (
         (() => {
-          const cutCount = rows.filter((r) => r.toCut).length;
-          return cutCount > 0 ? (
-            <p className="rounded-lg border border-red/40 bg-red/[0.06] p-3 text-[11.5px] text-red">
-              🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — CPA au-dessus de la cible
-              ({formatEur0(targetCpaCents)}) 3 jours pleins d&apos;affilé. Repérées en tête de liste,
-              bordure rouge.
-            </p>
-          ) : (
-            <p className="text-[10.5px] text-ink-faint">
-              🎯 CPA cible actuel : {formatEur0(targetCpaCents)} (14j glissants, bouge avec ta marge)
-              — aucune créa ne le dépasse 3 jours d&apos;affilé pour l&apos;instant.
-            </p>
+          const cutCount = rows.filter((r) => r.status === "cut").length;
+          const winCount = rows.filter((r) => r.status === "winner").length;
+          return (
+            <div className="flex flex-col gap-1.5">
+              {cutCount > 0 && (
+                <p className="rounded-lg border border-red/40 bg-red/[0.06] p-3 text-[11.5px] text-red">
+                  🔪 <b>{cutCount} créa{cutCount > 1 ? "s" : ""} à couper</b> — a brûlé{" "}
+                  {CUT_SPEND_MULTIPLE}× le CPA cible ({formatEur0(CUT_SPEND_MULTIPLE * targetCpaCents)})
+                  sans <b>une seule</b> vente. En tête de liste, bordure rouge.
+                </p>
+              )}
+              {winCount > 0 && (
+                <p className="rounded-lg border border-phosphor/40 bg-phosphor/[0.06] p-3 text-[11.5px] text-phosphor">
+                  🏆 <b>{winCount} gagnante{winCount > 1 ? "s" : ""}</b> — prend ≥{" "}
+                  {Math.round(WINNER_MIN_SPEND_SHARE * 100)} % du budget de sa campagne ET CPA sous la
+                  cible ({formatEur0(targetCpaCents)}). À dupliquer / décliner.
+                </p>
+              )}
+              <p className="text-[10.5px] text-ink-faint">
+                🎯 CPA cible : {formatEur0(targetCpaCents)} (14 j glissants, bouge tout seul avec ta
+                marge). Une créa qui dépense beaucoup avec un ROAS moyen n&apos;est pas forcément
+                mauvaise — elle nourrit le compte en trafic pas cher, la couper fait souvent tomber
+                les autres.
+              </p>
+            </div>
           );
         })()
       ) : (
         <p className="text-[10.5px] text-ink-faint">
-          🔒 CPA cible pas encore calculable (marge insuffisante sur les 14 derniers jours) — la règle
-          « à couper » s&apos;activera automatiquement dès que la marge le permet.
+          🔒 CPA cible pas encore calculable (marge insuffisante sur les 14 derniers jours) — les
+          statuts gagnante/à couper s&apos;activeront automatiquement dès que la marge le permet.
         </p>
       )}
 
@@ -453,9 +481,13 @@ export function CreasBoard({
             ))}
           </div>
           <p className="text-[10px] text-ink-faint">
-            👆 Clique &laquo; Funnel complet &raquo; sur une créa pour voir en détail où les gens
-            décrochent (clic → page → panier → checkout → achat) et le graphe ROAS. Reach cumulé
-            sur plusieurs jours = approximatif (pas de déduplication inter-jours côté Meta).
+            🔪 <b>À couper</b> = {CUT_SPEND_MULTIPLE}× le CPA cible dépensés, zéro vente · 🏆{" "}
+            <b>Gagnante</b> = ≥ {Math.round(WINNER_MIN_SPEND_SHARE * 100)} % du budget de sa campagne
+            ET CPA sous la cible. Une créa établie qui fait 2-3 mauvais jours n&apos;est PAS à couper
+            — seule une créa qui brûle du budget sans jamais convertir l&apos;est. 👆 Clique
+            &laquo; Funnel complet &raquo; pour voir où les gens décrochent (clic → page → panier →
+            checkout → achat) et toutes les courbes. Reach cumulé sur plusieurs jours = approximatif
+            (pas de déduplication inter-jours côté Meta).
           </p>
         </>
       )}
@@ -469,38 +501,41 @@ function CreaCard({ row }: { row: CreaRow }) {
   const roasColor =
     row.roas === null ? "text-ink" : row.roas >= 2 ? "text-phosphor" : row.roas >= 1 ? "text-amber" : "text-red";
 
+  const shell =
+    row.status === "cut"
+      ? "border-red/50 bg-red/[0.05]"
+      : row.status === "winner"
+        ? "border-phosphor/50 bg-phosphor/[0.05]"
+        : "border-line bg-panel/40";
+
   return (
-    <div
-      className={`rounded-lg border p-3 ${
-        row.toCut ? "border-red/50 bg-red/[0.05]" : "border-line bg-panel/40"
-      }`}
-    >
+    <div className={`rounded-lg border p-3 ${shell}`}>
       <div className="mb-1.5 flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="truncate text-[12.5px] font-semibold text-ink">{row.adName}</div>
           <div className="truncate text-[10px] text-ink-faint">{row.campaignName}</div>
         </div>
-        {row.toCut && (
-          <span
-            title={
-              row.toCutCpaCents !== null
-                ? `CPA des 3 derniers jours pleins : ${formatEur0(row.toCutCpaCents)}`
-                : "0 vente sur les 3 derniers jours pleins malgré du spend"
-            }
-            className="flex-none whitespace-nowrap rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-right text-[9.5px] font-bold uppercase tracking-wide text-red"
-          >
+        {row.status === "cut" && (
+          <span className="flex-none whitespace-nowrap rounded border border-red/50 bg-red/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-red">
             🔪 À couper
-            <br />
-            <span className="normal-case tracking-normal">
-              {row.toCutCpaCents !== null ? `${formatEur0(row.toCutCpaCents)}/3j` : "0 vente/3j"}
-            </span>
+          </span>
+        )}
+        {row.status === "winner" && (
+          <span className="flex-none whitespace-nowrap rounded border border-phosphor/50 bg-phosphor/10 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-phosphor">
+            🏆 Gagnante
           </span>
         )}
       </div>
-      {row.toCut && (
+      {row.status === "cut" && (
         <p className="mb-1.5 text-[10px] text-red/80">
-          ⚠️ Basé sur les 3 derniers jours PLEINS uniquement — peut différer du CPA affiché plus bas,
-          qui lui porte sur toute la période sélectionnée en haut de page.
+          ⚠️ {formatEur0(row.spendCents)} dépensés, <b>0 vente</b> — au-delà de{" "}
+          {CUT_SPEND_MULTIPLE}× le CPA cible sans résultat.
+        </p>
+      )}
+      {row.status === "winner" && row.spendShare !== null && (
+        <p className="mb-1.5 text-[10px] text-phosphor/80">
+          ✅ {formatPct(row.spendShare)} du budget de sa campagne, CPA{" "}
+          {row.cpaCents !== null ? formatEur0(row.cpaCents) : "—"} sous la cible.
         </p>
       )}
 
