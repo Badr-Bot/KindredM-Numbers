@@ -16,7 +16,8 @@ import {
 import { MarketTabs } from "../shell/MarketTabs";
 
 const EMPTY: Totals = {
-  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
+  taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
 // 👥 Associés : Adnane a lancé seul ; Badr est entré à 50/50 par boutique —
@@ -29,6 +30,8 @@ function addTo(acc: Totals, r: DayAgg): Totals {
   acc.caCents += r.caCents;
   acc.spendCents += r.spendCents;
   acc.cogsCents += r.cogsCents;
+  acc.cogsProductCents += r.cogsProductCents;
+  acc.cogsUpsellsCents += r.cogsUpsellsCents;
   acc.taxCents += r.taxCents;
   acc.feesCents += r.feesCents;
   acc.netCents += r.netCents;

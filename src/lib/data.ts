@@ -24,6 +24,10 @@ export interface DailyRow {
   caCents: number;
   spendCents: number;
   cogsCents: number;
+  // cogsProductCents + cogsUpsellsCents = cogsCents ci-dessus — split affiché
+  // uniquement (Vue Dépenses), jamais réutilisé pour le Net/Marge.
+  cogsProductCents: number;
+  cogsUpsellsCents: number;
   taxCents: number;
   feesCents: number;
   netCents: number;
@@ -36,6 +40,8 @@ export interface Totals {
   caCents: number;
   spendCents: number;
   cogsCents: number;
+  cogsProductCents: number;
+  cogsUpsellsCents: number;
   taxCents: number;
   feesCents: number;
   netCents: number;
@@ -53,6 +59,8 @@ const EMPTY_TOTALS: Totals = {
   caCents: 0,
   spendCents: 0,
   cogsCents: 0,
+  cogsProductCents: 0,
+  cogsUpsellsCents: 0,
   taxCents: 0,
   feesCents: 0,
   netCents: 0,
@@ -110,12 +118,41 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
 
   const { createSupabaseServerClient } = await import("./supabase");
   const supabase = createSupabaseServerClient();
-  const { data, error } = await supabase
+
+  // Colonnes cogs_product_cents/cogs_upsells_cents ajoutées par la migration
+  // 0010 — sélectionner une colonne inexistante ferait échouer TOUTE la
+  // requête (PostgREST), donc on sonde une fois avant de les inclure (même
+  // filet que acquisitionColumnsReady côté écriture).
+  const { error: probeError } = await supabase.from("daily_aggregates").select("cogs_product_cents").limit(1);
+  const hasCogsSplit = !probeError;
+  const cols =
+    "day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents" +
+    (hasCogsSplit ? ", cogs_product_cents, cogs_upsells_cents" : "");
+
+  interface RawAggRow {
+    day: string;
+    market: string;
+    orders: number;
+    ca_cents: number;
+    spend_cents: number;
+    cogs_cents: number;
+    cogs_product_cents?: number | null;
+    cogs_upsells_cents?: number | null;
+    tax_cents: number;
+    fees_cents: number;
+    net_cents: number;
+    refunded_cents: number | null;
+  }
+
+  const { data, error } = (await supabase
     .from("daily_aggregates")
-    .select("day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents")
+    .select(cols)
     .gte("day", startDay)
     .lte("day", endDay)
-    .order("day", { ascending: true });
+    .order("day", { ascending: true })) as unknown as {
+    data: RawAggRow[] | null;
+    error: { message: string } | null;
+  };
   if (error) throw error;
 
   return (data ?? []).map((r) => ({
@@ -125,6 +162,8 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
     caCents: r.ca_cents,
     spendCents: r.spend_cents,
     cogsCents: r.cogs_cents,
+    cogsProductCents: hasCogsSplit ? r.cogs_product_cents ?? 0 : 0,
+    cogsUpsellsCents: hasCogsSplit ? r.cogs_upsells_cents ?? 0 : 0,
     taxCents: r.tax_cents,
     feesCents: r.fees_cents,
     netCents: r.net_cents,
@@ -143,6 +182,8 @@ export function sumRows(rows: DailyRow[]): Totals {
       caCents: acc.caCents + r.caCents,
       spendCents: acc.spendCents + r.spendCents,
       cogsCents: acc.cogsCents + r.cogsCents,
+      cogsProductCents: acc.cogsProductCents + r.cogsProductCents,
+      cogsUpsellsCents: acc.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: acc.taxCents + r.taxCents,
       feesCents: acc.feesCents + r.feesCents,
       netCents: acc.netCents + r.netCents,
@@ -167,6 +208,8 @@ export function collapseByDay(rows: DailyRow[]): Array<{ day: string } & Totals>
       caCents: cur.caCents + r.caCents,
       spendCents: cur.spendCents + r.spendCents,
       cogsCents: cur.cogsCents + r.cogsCents,
+      cogsProductCents: cur.cogsProductCents + r.cogsProductCents,
+      cogsUpsellsCents: cur.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: cur.taxCents + r.taxCents,
       feesCents: cur.feesCents + r.feesCents,
       netCents: cur.netCents + r.netCents,
@@ -507,6 +550,8 @@ export function groupByMonth(rows: DailyRow[]): MonthTotals[] {
       caCents: cur.caCents + r.caCents,
       spendCents: cur.spendCents + r.spendCents,
       cogsCents: cur.cogsCents + r.cogsCents,
+      cogsProductCents: cur.cogsProductCents + r.cogsProductCents,
+      cogsUpsellsCents: cur.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: cur.taxCents + r.taxCents,
       feesCents: cur.feesCents + r.feesCents,
       netCents: cur.netCents + r.netCents,
@@ -686,7 +731,7 @@ export interface ExpenseBreakdown {
  * TVA 5,5 % / Shopify 3 % / Autres 1 %. Le COGS est présenté polo vs upsells ;
  * cette structure accueillera d'autres produits sans changement d'UI.
  */
-export function buildExpenseBreakdown(t: Totals, splitCogs?: { poloCents: number; upsellCents: number }): ExpenseBreakdown {
+export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
   const ca = t.caCents;
   const w = (c: number) => (ca > 0 ? c / ca : 0);
 
@@ -695,8 +740,12 @@ export function buildExpenseBreakdown(t: Totals, splitCogs?: { poloCents: number
   const shopify = Math.round(ca * 0.03);
   const autres = t.feesCents - tva - shopify;
 
-  const poloCents = splitCogs?.poloCents ?? t.cogsCents;
-  const upsellCents = splitCogs?.upsellCents ?? 0;
+  // Repli tant que la migration 0010 (+ son resync auto) n'est pas encore
+  // appliquée : tout le COGS reste affiché sous "polo" plutôt que de perdre
+  // silencieusement la part upsells (comportement identique à avant ce correctif).
+  const hasCogsSplit = t.cogsProductCents + t.cogsUpsellsCents > 0;
+  const poloCents = hasCogsSplit ? t.cogsProductCents : t.cogsCents;
+  const upsellCents = hasCogsSplit ? t.cogsUpsellsCents : 0;
 
   const slices: ExpenseSlice[] = [
     { key: "spend", label: "Spend Meta", emoji: "📣", cents: t.spendCents, weight: w(t.spendCents), kind: "spend" },

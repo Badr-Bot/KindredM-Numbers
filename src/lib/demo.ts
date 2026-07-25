@@ -107,7 +107,8 @@ function generateRow(day: string, market: Market): DailyRow {
   const netCa = Math.max(0, caCents - refundedCents);
 
   const agg = computeDailyAggregate({ orders, caCents: netCa, spendCents, cogsCents, taxCents });
-  return { day, market, ...agg, refundedCents };
+  // Démo ne simule pas d'upsells (bundles polo seuls) : tout le COGS est "polo".
+  return { day, market, ...agg, cogsProductCents: cogsCents, cogsUpsellsCents: 0, refundedCents };
 }
 
 // Rétrofacturations (litiges) synthétiques — quelques cas répartis sur la période.

@@ -9,7 +9,8 @@ import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 
 const EMPTY: Totals = {
-  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
+  taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
 // Seuil d'alerte : le spend Meta au-delà de cette part du CA mange la marge
@@ -37,6 +38,8 @@ function sumForPrefix(rows: DayAgg[], prefix: string): Totals {
       caCents: a.caCents + r.caCents,
       spendCents: a.spendCents + r.spendCents,
       cogsCents: a.cogsCents + r.cogsCents,
+      cogsProductCents: a.cogsProductCents + r.cogsProductCents,
+      cogsUpsellsCents: a.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: a.taxCents + r.taxCents,
       feesCents: a.feesCents + r.feesCents,
       netCents: a.netCents + r.netCents,

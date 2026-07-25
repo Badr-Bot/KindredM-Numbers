@@ -257,9 +257,11 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v5 : acquisition & réachat — customer_id + source (Google/Meta/direct) sur
-// chaque commande de l'historique. Chaque bump redéclenche un resync complet.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-19-acquisition-v5";
+// v6 : split COGS polo/upsells dans daily_aggregates (migration 0010) — sans
+// ce recalcul, les jours déjà agrégés avant le correctif restent à 0 sur
+// cogs_upsells_cents même une fois la colonne créée. Chaque bump redéclenche
+// un resync complet.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-25-cogs-split-v6";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → terminé

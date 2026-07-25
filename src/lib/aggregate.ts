@@ -117,6 +117,8 @@ export async function recomputeDailyAggregatesForDays(
     orders: number;
     caCents: number;
     cogsCents: number;
+    cogsProductCents: number;
+    cogsUpsellsCents: number;
     taxCents: number;
     refundedCents: number;
     spendCents: number;
@@ -127,6 +129,8 @@ export async function recomputeDailyAggregatesForDays(
     orders: 0,
     caCents: 0,
     cogsCents: 0,
+    cogsProductCents: 0,
+    cogsUpsellsCents: 0,
     taxCents: 0,
     refundedCents: 0,
     spendCents: 0,
@@ -146,6 +150,8 @@ export async function recomputeDailyAggregatesForDays(
     b.orders += 1;
     b.caCents += o.total_cents - o.refunded_cents;
     b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
+    b.cogsProductCents += o.cogs_product_cents;
+    b.cogsUpsellsCents += o.cogs_upsells_cents;
     b.taxCents += o.tax_eu_cents;
     b.refundedCents += o.refunded_cents;
   }
@@ -154,6 +160,16 @@ export async function recomputeDailyAggregatesForDays(
     if (!b) continue;
     b.spendCents += s.spend_cents;
   }
+
+  // Répartition polo/upsells du COGS (affichage Dépenses uniquement — le
+  // total cogs_cents ci-dessous, seul utilisé pour le Net/Marge, contient
+  // déjà les deux combinés, migration ou pas). Colonnes ajoutées par la
+  // migration 0010 : probe une fois, comme pour UNMAPPED (migration 0009).
+  const { error: cogsSplitProbeError } = await supabase
+    .from("daily_aggregates")
+    .select("cogs_product_cents")
+    .limit(1);
+  const hasCogsSplit = !cogsSplitProbeError;
 
   const rows = [...buckets.entries()].map(([k, b]) => {
     const [day, market] = k.split("|");
@@ -175,6 +191,9 @@ export async function recomputeDailyAggregatesForDays(
       fees_cents: agg.feesCents,
       net_cents: agg.netCents,
       refunded_cents: b.refundedCents,
+      ...(hasCogsSplit
+        ? { cogs_product_cents: b.cogsProductCents, cogs_upsells_cents: b.cogsUpsellsCents }
+        : {}),
     };
   });
 
