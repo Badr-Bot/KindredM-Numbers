@@ -171,6 +171,28 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
 - **Séquence de reprise** : coller dans Supabase SQL Editor, dans l'ordre,
   toutes les migrations `0009` → `0011` si pas déjà fait.
 
+## Mise à jour 26/07 — bug créas manquantes dans l'onglet Créas
+
+- **Cause trouvée et corrigée** : sur CBO-POLO-FR-TESTING, Badr voyait
+  "Toutes (70)" alors que Meta a bien ~300 créas actives dans cette
+  campagne (vérifié en direct sur l'API Meta : 302 annonces, 278 avec du
+  spend réel depuis le 04/06). Le tableau Créas ne remontait donc qu'une
+  fraction des créas réelles — pas propre à une seule campagne, le même
+  bug touchait tout l'onglet Créas (et aussi l'onglet Analyse : le taux
+  de créas "vues" et les courbes par campagne).
+- Cause technique : 3 requêtes Supabase paginées dans `analytics.ts`
+  utilisaient `.range()` sans `.order()` explicite. Sans tri
+  déterministe, la pagination OFFSET/LIMIT de PostgREST n'est pas
+  garantie stable entre deux pages — surtout sur `meta_ad_insights`,
+  réécrite en continu par la synchro toutes les 5 min pendant la
+  lecture. Résultat : des lignes sautées entre pages, donc des créas
+  entières invisibles côté dashboard bien qu'elles existent en base.
+  Même défaut que celui déjà corrigé plus tôt sur `aggregate.ts` — pas
+  reporté sur ce fichier-ci à l'époque.
+- Correctif : ajout de `.order("day").order("ad_id"/"campaign_id")`
+  avant chaque `.range()`. Pas de migration SQL nécessaire, effectif dès
+  le prochain chargement de page (pas besoin de resynchroniser).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
