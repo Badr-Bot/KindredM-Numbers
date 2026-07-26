@@ -325,6 +325,98 @@ export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
 }
 
 // ---------------------------------------------------------------------------
+// Variantes TOLÉRANTES — « une vente ne se perd jamais »
+//
+// Les versions strictes ci-dessus lèvent une erreur dès qu'un titre ou une
+// clé d'upsell est inconnu. Dans le pipeline de synchro, cela faisait
+// disparaître la commande entière du CA — voire tout le lot du store (constaté
+// 26/07 : 12 ventes réelles, 1 affichée, à cause du « Caleçon Ultra
+// Extensible » absent des grilles). Le CA est la donnée la plus critique du
+// dashboard : on enregistre TOUJOURS la vente, on calcule le COGS de ce qu'on
+// connaît, et on remonte la liste des produits à mapper.
+// Les versions strictes restent la référence (tests, calculs hors synchro).
+// ---------------------------------------------------------------------------
+
+export interface TolerantClassification extends ClassifiedOrder {
+  /** titres de line items absents de products_map */
+  unknownTitles: string[];
+  /** nb de produits distincts non reconnus (pour la taxe UE) */
+  unknownDistinctCount: number;
+}
+
+/** Comme classifyLineItems, mais collecte les titres inconnus au lieu d'échouer. */
+export function classifyLineItemsTolerant(
+  lineItems: LineItem[],
+  productsMap: ProductMapEntry[],
+  store: string
+): TolerantClassification {
+  const patternsForStore = productsMap.filter((p) => p.store === store);
+  const upsellQtyByKey = new Map<string, number>();
+  const unknown = new Set<string>();
+  let poloQty = 0;
+
+  for (const item of lineItems) {
+    const normalized = normalizeTitle(item.title);
+    const match = patternsForStore.find((p) => normalizeTitle(p.title_pattern) === normalized);
+    if (!match) {
+      unknown.add(item.title);
+      continue;
+    }
+    if (match.unit_group === "polo") {
+      poloQty += item.quantity;
+    } else {
+      upsellQtyByKey.set(
+        match.product_key,
+        (upsellQtyByKey.get(match.product_key) ?? 0) + item.quantity
+      );
+    }
+  }
+
+  return {
+    poloQty,
+    upsells: Array.from(upsellQtyByKey, ([productKey, qty]) => ({ productKey, qty })),
+    unknownTitles: [...unknown],
+    unknownDistinctCount: unknown.size,
+  };
+}
+
+export interface TolerantOrderCogsTax extends OrderCogsTax {
+  /** clés d'upsell mappées mais absentes des grilles §4.3 */
+  unknownUpsellKeys: string[];
+}
+
+/**
+ * Comme computeOrderCogsTax, mais un upsell hors grille est compté 0 € de COGS
+ * et signalé, au lieu de faire échouer la commande. Le Net est donc
+ * LÉGÈREMENT SUR-ESTIMÉ tant que le produit n'est pas mappé — c'est assumé et
+ * signalé bruyamment : mieux vaut un coût manquant visible qu'une vente
+ * invisible.
+ */
+export function computeOrderCogsTaxTolerant(
+  order: OrderForEngine & { unknownDistinctCount?: number }
+): TolerantOrderCogsTax {
+  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty);
+  const unknownUpsellKeys: string[] = [];
+  let cogsUpsellsCents = 0;
+  for (const u of order.upsells) {
+    try {
+      cogsUpsellsCents += upsellCogsCents(u.productKey, order.shippingCountry, u.qty);
+    } catch (err) {
+      if (err instanceof UnmappedProductError) unknownUpsellKeys.push(u.productKey);
+      else throw err;
+    }
+  }
+  // Les produits non reconnus comptent quand même comme produits distincts
+  // pour la taxe UE (prudent : on préfère sur-estimer un coût que l'oublier).
+  const taxCents = euTaxCents(
+    order.shippingCountry,
+    order.day,
+    distinctProductCount(order.poloQty, order.upsells) + (order.unknownDistinctCount ?? 0)
+  );
+  return { cogsProductCents, cogsUpsellsCents, taxCents, unknownUpsellKeys };
+}
+
+// ---------------------------------------------------------------------------
 // Agrégation jour/marché (daily_aggregates) — §4.7 net(jour, marché)
 // ---------------------------------------------------------------------------
 

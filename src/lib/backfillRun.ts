@@ -17,9 +17,8 @@ import {
   resolveCampaignMarket,
 } from "./meta";
 import {
-  classifyLineItems,
-  computeOrderCogsTax,
-  UnmappedProductError,
+  classifyLineItemsTolerant,
+  computeOrderCogsTaxTolerant,
   type ProductMapEntry,
 } from "./engine";
 import { toParisDay, todayParisDay, listParisDays } from "./time";
@@ -63,37 +62,34 @@ export async function backfillOrders(
         const day = toParisDay(order.created_at);
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
 
-        // Un titre inconnu ne doit pas faire perdre TOUT le store (avant :
-        // l'exception annulait le lot entier → CA du store absent) — on saute
-        // la commande, on signale fort, le reste du store passe.
-        let classified;
-        try {
-          classified = classifyLineItems(
-            order.line_items.map((li) => ({
-              title: li.title,
-              sku: li.sku ?? undefined,
-              quantity: li.quantity,
-              price_cents: Math.round(parseFloat(li.price) * 100),
-            })),
-            productsMap,
-            config.market
-          );
-        } catch (err) {
-          if (err instanceof UnmappedProductError) {
-            skippedOrders += 1;
-            unknownTitles.add(err.title);
-            continue;
-          }
-          throw err;
+        // Version TOLÉRANTE : un produit inconnu ne fait perdre NI la commande
+        // (le CA est la donnée la plus critique) NI le lot du store. On
+        // enregistre, on calcule le COGS de ce qu'on connaît, on signale.
+        const classified = classifyLineItemsTolerant(
+          order.line_items.map((li) => ({
+            title: li.title,
+            sku: li.sku ?? undefined,
+            quantity: li.quantity,
+            price_cents: Math.round(parseFloat(li.price) * 100),
+          })),
+          productsMap,
+          config.market
+        );
+        if (classified.unknownTitles.length > 0) {
+          skippedOrders += 1; // commandes au COGS incomplet (plus « ignorées »)
+          for (const t of classified.unknownTitles) unknownTitles.add(t);
         }
 
-        const { cogsProductCents, cogsUpsellsCents, taxCents } = computeOrderCogsTax({
-          store: config.market,
-          shippingCountry,
-          day,
-          poloQty: classified.poloQty,
-          upsells: classified.upsells,
-        });
+        const { cogsProductCents, cogsUpsellsCents, taxCents, unknownUpsellKeys } =
+          computeOrderCogsTaxTolerant({
+            store: config.market,
+            shippingCountry,
+            day,
+            poloQty: classified.poloQty,
+            upsells: classified.upsells,
+            unknownDistinctCount: classified.unknownDistinctCount,
+          });
+        for (const k of unknownUpsellKeys) unknownTitles.add(`clé ${k}`);
 
         rows.push({
           id: order.id,
@@ -125,7 +121,7 @@ export async function backfillOrders(
       ordersByStore[config.market] = rows.length;
       if (skippedOrders > 0) {
         warnings.push(
-          `${config.market} : ${skippedOrders} commande(s) SAUTÉE(S) — produit(s) inconnu(s) à mapper sur /admin : ${[...unknownTitles].join(" · ")}`
+          `${config.market} : ${skippedOrders} commande(s) enregistrée(s) avec un COGS INCOMPLET (compté 0 € pour le produit manquant → Net trop optimiste). À mapper sur /admin : ${[...unknownTitles].join(" · ")}`
         );
       }
     } catch (err) {

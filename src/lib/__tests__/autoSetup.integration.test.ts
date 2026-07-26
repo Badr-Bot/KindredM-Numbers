@@ -324,10 +324,11 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
     expect(agg).toMatchObject({ orders: 1200, ca_cents: 1200 * 5999 });
   });
 
-  it("backfill : une commande au produit inconnu est sautée avec avertissement, pas tout le store", async () => {
-    // Mapping déjà en place (cas /admin → backfill), puis une commande
-    // contient un titre hors mapping : avant, tout le lot du store était
-    // perdu ; maintenant seule la commande est sautée, signalée en clair.
+  it("backfill : une commande au produit inconnu est ENREGISTRÉE avec avertissement (jamais perdue)", async () => {
+    // Contrat révisé le 26/07 après une perte réelle de CA : le titre hors
+    // mapping ne fait plus perdre ni le store (1re version) ni la commande
+    // (2e version). La vente est comptée, seul son COGS est incomplet, et
+    // l'avertissement nomme le produit à mapper.
     mockSupabase._tables.products_map.push({
       store: "ES",
       title_pattern: TITLE_ES,
@@ -352,9 +353,13 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
     const { runFullBackfill } = await import("../backfillRun");
     const result = await runFullBackfill();
 
-    expect(result.ordersByStore.ES).toBe(8); // les 8 valides, pas la 9e
+    expect(result.ordersByStore.ES).toBe(9); // les 8 valides ET celle au produit inconnu
     expect(result.warnings.some((w) => w.includes("Gadget Mystère XYZ"))).toBe(true);
-    expect(mockSupabase._tables.orders).toHaveLength(11); // 8 ES + UK + DE + FR
+    expect(mockSupabase._tables.orders).toHaveLength(12); // 9 ES + UK + DE + FR
+
+    // Le CA de la commande « inconnue » est bien compté, COGS upsell à 0.
+    const odd = mockSupabase._tables.orders.find((o) => o.id === 1999);
+    expect(odd).toMatchObject({ total_cents: 1999, cogs_upsells_cents: 0 });
   });
 
   it("échoue seulement si AUCUN store ne répond", async () => {

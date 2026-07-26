@@ -15,7 +15,11 @@ import {
   loadCampaignOverrides,
   resolveCampaignMarket,
 } from "./meta";
-import { classifyLineItems, computeOrderCogsTax, UnmappedProductError, type ProductMapEntry } from "./engine";
+import {
+  classifyLineItemsTolerant,
+  computeOrderCogsTaxTolerant,
+  type ProductMapEntry,
+} from "./engine";
 import { toParisDay, todayParisDay, addDaysToDay } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
 
@@ -50,6 +54,10 @@ export async function runIncrementalSync(
   );
   const touchedDays = new Set<string>();
   const warnings: string[] = [];
+  // Produits rencontrés dans les commandes mais absents de products_map (ou
+  // des grilles COGS). Regroupés pour n'émettre qu'UN avertissement lisible
+  // à la fin, plutôt qu'un par commande.
+  const unmappedProducts = new Set<string>();
 
   // Écritures PAR LOTS (250) : commande par commande, le rescan J-7 de FR
   // (~600 commandes) prenait 1-2 min à chaque cycle → badge « synchro en
@@ -64,34 +72,33 @@ export async function runIncrementalSync(
         const day = toParisDay(order.created_at);
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
 
-        let classified;
-        try {
-          classified = classifyLineItems(
-            order.line_items.map((li) => ({
-              title: li.title,
-              sku: li.sku ?? undefined,
-              quantity: li.quantity,
-              price_cents: Math.round(parseFloat(li.price) * 100),
-            })),
-            productsMap,
-            config.market
-          );
-        } catch (err) {
-          if (err instanceof UnmappedProductError) {
-            warnings.push(`${config.market} : produit inconnu ignoré — ${err.title}`);
-            continue;
-          }
-          throw err;
-        }
+        // Version TOLÉRANTE : un produit inconnu ne fait plus disparaître la
+        // vente (ni, pire, tout le lot du store — computeOrderCogsTax était
+        // hors du try/catch et tuait la boucle entière). On enregistre la
+        // commande, on signale le produit à mapper.
+        const classified = classifyLineItemsTolerant(
+          order.line_items.map((li) => ({
+            title: li.title,
+            sku: li.sku ?? undefined,
+            quantity: li.quantity,
+            price_cents: Math.round(parseFloat(li.price) * 100),
+          })),
+          productsMap,
+          config.market
+        );
+        for (const t of classified.unknownTitles) unmappedProducts.add(`${config.market} · ${t}`);
 
         touchedDays.add(day);
-        const { cogsProductCents, cogsUpsellsCents, taxCents } = computeOrderCogsTax({
-          store: config.market,
-          shippingCountry,
-          day,
-          poloQty: classified.poloQty,
-          upsells: classified.upsells,
-        });
+        const { cogsProductCents, cogsUpsellsCents, taxCents, unknownUpsellKeys } =
+          computeOrderCogsTaxTolerant({
+            store: config.market,
+            shippingCountry,
+            day,
+            poloQty: classified.poloQty,
+            upsells: classified.upsells,
+            unknownDistinctCount: classified.unknownDistinctCount,
+          });
+        for (const k of unknownUpsellKeys) unmappedProducts.add(`${config.market} · clé ${k}`);
 
         rows.push({
           id: order.id,
@@ -270,6 +277,14 @@ export async function runIncrementalSync(
   for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
 
   await recomputeDailyAggregatesForDays(supabase, touchedDays);
+
+  if (unmappedProducts.size > 0) {
+    warnings.push(
+      `⚠️ Produits à mapper dans /admin (COGS compté 0 € en attendant, le Net est donc trop optimiste) : ${[
+        ...unmappedProducts,
+      ].join(" · ")}`
+    );
+  }
 
   return { ran: true, touchedDays: [...touchedDays].sort(), warnings };
 }

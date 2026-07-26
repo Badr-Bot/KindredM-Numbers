@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   classifyLineItems,
+  classifyLineItemsTolerant,
+  computeOrderCogsTaxTolerant,
   computeDailyAggregate,
   computeOrderCogsTax,
   distinctProductCount,
@@ -213,5 +215,74 @@ describe("Frais 9,5% — arrondi à l'agrégat, pas par commande", () => {
     expect(aggregateRounded).toBe(4559);
     expect(perOrderRoundedSum).toBe(4560);
     expect(aggregateRounded).not.toBe(perOrderRoundedSum);
+  });
+});
+
+/**
+ * Régression 26/07 : 12 ventes réelles, 1 seule affichée. Deux causes dans le
+ * pipeline de synchro — un produit non mappé faisait « continue » (vente
+ * perdue), et un upsell hors grille levait une exception NON rattrapée qui
+ * annulait le lot entier du store. Le CA est la donnée la plus critique du
+ * dashboard : ces variantes tolérantes garantissent qu'une vente n'est
+ * JAMAIS perdue, quitte à signaler un COGS incomplet.
+ */
+describe("Variantes tolérantes — une vente ne se perd jamais", () => {
+  const productsMap = [
+    { store: "FR", title_pattern: "Nivafit™ - Polo ultra-confortable", product_key: "POLO", unit_group: "polo" as const },
+    { store: "FR", title_pattern: "Nivafit™ - Short en coton extensible", product_key: "CHINO_SHORTS", unit_group: "upsell" as const },
+    { store: "FR", title_pattern: "Nivafit — Caleçon Ultra Extensible", product_key: "CALECON", unit_group: "upsell" as const },
+  ];
+
+  it("classe la commande et signale le titre inconnu au lieu de la rejeter", () => {
+    const res = classifyLineItemsTolerant(
+      [
+        { title: "Nivafit™ - Polo ultra-confortable", quantity: 2, price_cents: 5998 },
+        { title: "E-Book : produit jamais mappé", quantity: 1, price_cents: 0 },
+      ],
+      productsMap,
+      "FR"
+    );
+    expect(res.poloQty).toBe(2);
+    expect(res.unknownTitles).toEqual(["E-Book : produit jamais mappé"]);
+    expect(res.unknownDistinctCount).toBe(1);
+  });
+
+  it("un upsell hors grille COGS ne fait plus échouer la commande", () => {
+    // « CALECON » est mappé dans products_map mais absent des grilles §4.3 :
+    // c'est exactement ce qui tuait tout le lot FR le 26/07.
+    expect(() =>
+      computeOrderCogsTax({
+        store: "FR",
+        shippingCountry: "FR",
+        day: "2026-07-26",
+        poloQty: 4,
+        upsells: [{ productKey: "CALECON", qty: 1 }],
+      })
+    ).toThrow(UnmappedProductError);
+
+    const tolerant = computeOrderCogsTaxTolerant({
+      store: "FR",
+      shippingCountry: "FR",
+      day: "2026-07-26",
+      poloQty: 4,
+      upsells: [{ productKey: "CALECON", qty: 1 }],
+    });
+    // Le COGS polo reste exact ; seul l'upsell inconnu est à 0 et signalé.
+    expect(tolerant.cogsProductCents).toBe(poloCogsCents("FR", 4));
+    expect(tolerant.cogsUpsellsCents).toBe(0);
+    expect(tolerant.unknownUpsellKeys).toEqual(["CALECON"]);
+  });
+
+  it("compte le produit inconnu dans la taxe UE (prudence)", () => {
+    const res = computeOrderCogsTaxTolerant({
+      store: "FR",
+      shippingCountry: "FR",
+      day: "2026-07-26",
+      poloQty: 2,
+      upsells: [],
+      unknownDistinctCount: 1,
+    });
+    // 1 polo distinct + 1 produit inconnu = 2 × 3 €
+    expect(res.taxCents).toBe(600);
   });
 });
