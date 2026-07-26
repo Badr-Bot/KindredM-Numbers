@@ -17,6 +17,11 @@ import { useSound } from "../sound/SoundProvider";
 
 // Même seuil que le hit rate de l'onglet Analyse — en dessous, la créa n'a
 // pas vraiment été testée, elle ne fait que gonfler la liste sans rien dire.
+// S'applique au spend TOTAL depuis le début, jamais à celui de la période
+// affichée : sinon, en vue « aujourd'hui », une créa qui tourne depuis des
+// semaines mais n'a encore dépensé que 12 € dans la journée disparaissait de
+// la liste (signalé 26/07). Le verdict aussi se juge sur toute la vie de la
+// créa — seuls les CHIFFRES affichés suivent la période choisie.
 const MIN_SPEND_TESTED = 2000; // 20 €
 
 // Arbre de décision du batch de test (Badr, 26/07) :
@@ -105,6 +110,9 @@ interface CreaRow {
   status: CreaStatus;
   /** part du spend de SA campagne sur la période (0..1) — critère gagnante */
   spendShare: number | null;
+  /** cumul depuis le début (hors filtre de période) — base du verdict */
+  lifetimeSpendCents: number;
+  lifetimeCpaCents: number | null;
   series: {
     label: string;
     /** aucune diffusion ce jour-là (Meta n'a rien renvoyé, ou spend 0) */
@@ -189,6 +197,20 @@ export function CreasBoard({
     [creas.daily, from, to]
   );
 
+  // Totaux « depuis le début » (tout l'historique chargé, hors filtre de
+  // période) : servent à décider QUI apparaît et QUEL verdict, jamais à
+  // remplir les colonnes/courbes — celles-ci restent sur la période choisie.
+  const lifetimeByAd = useMemo(() => {
+    const out = new Map<string, { spendCents: number; purchases: number }>();
+    for (const d of creas.daily) {
+      const cur = out.get(d.adId) ?? { spendCents: 0, purchases: 0 };
+      cur.spendCents += d.spendCents;
+      cur.purchases += d.purchases;
+      out.set(d.adId, cur);
+    }
+    return out;
+  }, [creas.daily]);
+
   // Spend total par campagne sur la période — dénominateur du critère
   // « gagnante » (part du budget que l'algo lui confie).
   const campaignSpend = useMemo(() => {
@@ -262,6 +284,8 @@ export function CreasBoard({
           checkoutRate: null,
           status: "testing" as CreaStatus,
           spendShare: null,
+          lifetimeSpendCents: 0,
+          lifetimeCpaCents: null,
           dailyPoints: [],
         } satisfies Acc);
       cur.spendCents += d.spendCents;
@@ -297,7 +321,12 @@ export function CreasBoard({
 
     const out: CreaRow[] = [];
     for (const r of byAd.values()) {
-      if (r.spendCents < MIN_SPEND_TESTED) continue;
+      const lifetime = lifetimeByAd.get(r.adId) ?? { spendCents: 0, purchases: 0 };
+      // Éligibilité sur toute la vie de la créa, pas sur la fenêtre affichée.
+      if (lifetime.spendCents < MIN_SPEND_TESTED) continue;
+      r.lifetimeSpendCents = lifetime.spendCents;
+      r.lifetimeCpaCents =
+        lifetime.purchases > 0 ? Math.round(lifetime.spendCents / lifetime.purchases) : null;
       r.isVideo = r.video3s > 0;
       // ROAS 0 (spend sans CA) est une info valable, pas une absence de
       // donnée : sans ça la courbe et la moyenne ROAS restaient vides sur
@@ -366,13 +395,16 @@ export function CreasBoard({
       });
 
       // ⏳ / 🔪 / 🏆 Verdict du batch — voir l'arbre en tête de fichier.
+      // Jugé sur TOUTE la vie de la créa : sur une fenêtre d'un jour, un
+      // verdict calculé sur la période remettrait chaque créa « en test »
+      // tous les matins.
       const campaignTotal = campaignSpend.get(r.campaignId) ?? 0;
       const spendShare = campaignTotal > 0 ? r.spendCents / campaignTotal : null;
       let status: CreaStatus = "testing";
-      if (targetCpaCents !== null && r.spendCents >= JUDGE_SPEND_MULTIPLE * targetCpaCents) {
-        if (r.cpaCents !== null && r.cpaCents <= targetCpaCents) {
+      if (targetCpaCents !== null && lifetime.spendCents >= JUDGE_SPEND_MULTIPLE * targetCpaCents) {
+        if (r.lifetimeCpaCents !== null && r.lifetimeCpaCents <= targetCpaCents) {
           status = "winner";
-        } else if (r.purchases === 0) {
+        } else if (lifetime.purchases === 0) {
           // Zéro vente malgré 2× le CPA cible dépensé : aucun doute possible.
           status = "cut";
         } else {
@@ -381,7 +413,7 @@ export function CreasBoard({
           // fait tourner le compte et la couper peut faire tomber le reste →
           // « à surveiller », décision humaine.
           status =
-            r.spendCents >= ESTABLISHED_SPEND_MULTIPLE * targetCpaCents ? "watch" : "cut";
+            lifetime.spendCents >= ESTABLISHED_SPEND_MULTIPLE * targetCpaCents ? "watch" : "cut";
         }
       }
 
@@ -424,6 +456,8 @@ export function CreasBoard({
         checkoutRate: r.checkoutRate,
         status,
         spendShare,
+        lifetimeSpendCents: r.lifetimeSpendCents,
+        lifetimeCpaCents: r.lifetimeCpaCents,
         series,
       });
     }
@@ -439,7 +473,7 @@ export function CreasBoard({
       return sortDir === "desc" ? bn - an : an - bn;
     });
     return out;
-  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents, from, to]);
+  }, [filteredDaily, metaByAd, campaignFilter, sortKey, sortDir, campaignSpend, targetCpaCents, from, to, lifetimeByAd]);
 
   const rows = useMemo(
     () => (statusFilter === "ALL" ? allRows : allRows.filter((r) => r.status === statusFilter)),
@@ -601,8 +635,8 @@ export function CreasBoard({
       )}
       {!creas.missingTables && rows.length === 0 && (
         <p className="rounded-lg border border-line bg-panel/40 p-3 text-[11.5px] text-ink-dim">
-          🔒 Pas de créa avec ≥ 20 € de spend sur cette période. Élargis la fenêtre ou attends que
-          les données Meta se remplissent.
+          🔒 Aucune créa n&apos;a diffusé sur cette période (parmi celles ayant dépassé 20 € de spend
+          depuis leur lancement). Élargis la fenêtre ou attends que les données Meta se remplissent.
         </p>
       )}
 
@@ -650,6 +684,13 @@ export function CreasBoard({
                 alimente le compte en trafic, la couper fait souvent tomber les autres, donc c&apos;est
                 à toi de trancher · 🏆 <b>Gagnante</b> : a franchi le seuil EN tenant le CPA cible → à
                 passer en campagne de scaling.
+              </span>
+              <span>
+                📅 <b>Période vs total</b> : les chiffres et courbes affichés portent sur la période
+                choisie en haut. En revanche, le <b>verdict</b> (à couper / gagnante / en test) et la
+                sélection des créas se basent sur <b>tout l&apos;historique</b> — sinon une créa qui
+                tourne depuis des semaines repasserait « en test » chaque matin en vue journalière.
+                Colonnes « Spend total » et « CPA total » = ce cumul depuis le début.
               </span>
               <span>
                 ◌ <b>Jours sans diffusion</b> : la courbe est <b>coupée</b> (pas reliée) ces jours-là
@@ -736,6 +777,10 @@ function CreaCard({
           {formatEur0(row.caCents)} CA · {row.purchases} vente{row.purchases > 1 ? "s" : ""}
           <br />
           {formatEur0(row.spendCents)} spend
+          <br />
+          <span className="text-[9.5px] text-ink-faint">
+            {formatEur0(row.lifetimeSpendCents)} depuis le début
+          </span>
         </span>
       </div>
 
@@ -918,7 +963,9 @@ type ColKey =
   | "hold50"
   | "hold75"
   | "hold100"
-  | "spendShare";
+  | "spendShare"
+  | "lifetimeSpendCents"
+  | "lifetimeCpaCents";
 
 const eur = (v: number) => formatEur0(v);
 const pct = (v: number) => formatPct(v);
@@ -944,6 +991,10 @@ const TABLE_COLS: { key: ColKey; label: string; format: (v: number) => string }[
   { key: "hold75", label: "Hold 75", format: pct },
   { key: "hold100", label: "Hold 100", format: pct },
   { key: "spendShare", label: "% budget", format: pct },
+  // Cumul depuis le début — indépendant de la période affichée, sert à voir
+  // d'un coup d'œil si une créa est jeune ou déjà bien rodée.
+  { key: "lifetimeSpendCents", label: "Spend total", format: eur },
+  { key: "lifetimeCpaCents", label: "CPA total", format: eur },
 ];
 
 /** Tableau récapitulatif, une section par campagne. Tri propre au tableau :
