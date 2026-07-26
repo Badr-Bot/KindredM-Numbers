@@ -133,6 +133,21 @@ export async function runIncrementalSync(
     }
   }
 
+  // ⚠️ RECALCUL IMMÉDIAT, AVANT TOUTE LA PARTIE META.
+  // daily_aggregates est la table que le dashboard LIT. Tant que ce recalcul
+  // n'a pas tourné, les commandes fraîchement écrites ci-dessus restent
+  // invisibles. En le laissant à la toute fin (après les insights Meta,
+  // annonces, pays, textes de créas), le moindre dépassement de temps sur
+  // Meta gelait le CA du jour alors que les ventes ÉTAIENT en base — cause du
+  // « toujours rien » du 26/07. Le CA passe donc avant tout le reste ; un
+  // second recalcul en fin de cycle intégrera le spend.
+  for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
+  try {
+    await recomputeDailyAggregatesForDays(supabase, touchedDays);
+  } catch (err) {
+    warnings.push(`Recalcul des agrégats (commandes) échoué : ${(err as Error).message}`);
+  }
+
   try {
     // Jusqu'à AUJOURD'HUI inclus : borné à hier, le spend du jour n'était
     // jamais rafraîchi entre deux backfills → ROAS du jour incohérent entre
@@ -227,22 +242,10 @@ export async function runIncrementalSync(
     } catch (err) {
       warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
     }
-    // Texte des créas (angle/copy) — snapshot courant, isolé : son échec ne
-    // bloque rien (table ajoutée par la migration 0011).
-    try {
-      const { fetchAdCreativeBodies } = await import("./meta");
-      const bodies = await fetchAdCreativeBodies();
-      const bodyUpserts = [...bodies.entries()].map(([ad_id, body]) => ({
-        ad_id,
-        body,
-        updated_at: new Date().toISOString(),
-      }));
-      for (let i = 0; i < bodyUpserts.length; i += CHUNK) {
-        await supabase.from("meta_ad_creatives").upsert(bodyUpserts.slice(i, i + CHUNK));
-      }
-    } catch (err) {
-      warnings.push(`Texte des créas indisponible : ${(err as Error).message}`);
-    }
+    // (Le texte des créas n'est PAS récupéré ici : il faut parcourir tout le
+    // compte, 300+ annonces, pour une donnée qui ne change quasiment jamais.
+    // Le faire toutes les 5 min allongeait le cycle au point de le faire
+    // dépasser sa limite de temps. Il est rafraîchi lors du rattrapage Meta.)
     // Breakdown pays : le vrai ROAS BE/CA/CH dans les campagnes « FR ».
     try {
       const { fetchMetaCountryInsights } = await import("./meta");
@@ -269,14 +272,21 @@ export async function runIncrementalSync(
 
   // 📓 Journal : détection auto (campagne coupée/lancée, saut de budget)
   // depuis meta_spend — marche même quand le token Meta est HS (seed SQL).
-  const { detectCampaignEvents } = await import("./journal");
-  await detectCampaignEvents(supabase);
+  // Isolé : une erreur ici ne doit pas empêcher le recalcul final ci-dessous.
+  try {
+    const { detectCampaignEvents } = await import("./journal");
+    await detectCampaignEvents(supabase);
+  } catch (err) {
+    warnings.push(`Journal auto indisponible : ${(err as Error).message}`);
+  }
 
-  // Filet de sécurité : les 3 derniers jours sont toujours recalculés, même
-  // si le scan updated_at n'a rien détecté (cause du CA périmé du 16/07).
-  for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
-
-  await recomputeDailyAggregatesForDays(supabase, touchedDays);
+  // 2e recalcul : intègre le spend Meta arrivé ci-dessus. Le CA, lui, a déjà
+  // été publié avant la phase Meta (voir plus haut).
+  try {
+    await recomputeDailyAggregatesForDays(supabase, touchedDays);
+  } catch (err) {
+    warnings.push(`Recalcul des agrégats (spend) échoué : ${(err as Error).message}`);
+  }
 
   if (unmappedProducts.size > 0) {
     warnings.push(
