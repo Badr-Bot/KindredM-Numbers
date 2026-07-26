@@ -72,6 +72,8 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
       .select("day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, reach")
       .gte("day", start)
       .lte("day", end)
+      .order("day", { ascending: true })
+      .order("campaign_id", { ascending: true })
       .range(from, from + PAGE - 1);
     if (error) {
       missingTables = /does not exist|relation|schema cache/i.test(error.message);
@@ -102,6 +104,8 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
       .select("ad_id, ad_name, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents")
       .gte("day", start)
       .lte("day", end)
+      .order("day", { ascending: true })
+      .order("ad_id", { ascending: true })
       .range(from, from + PAGE - 1);
     if (error) break; // même cause que missingTables, déjà signalée
     const rows = (data ?? []) as RawAdInsight[];
@@ -226,6 +230,8 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
       .select(cols)
       .gte("day", start)
       .lte("day", end)
+      .order("day", { ascending: true })
+      .order("ad_id", { ascending: true })
       .range(from, from + PAGE - 1)) as unknown as { data: RawCreaRow[] | null; error: { message: string } | null };
     if (error) {
       missingTables = /does not exist|relation|schema cache/i.test(error.message);
