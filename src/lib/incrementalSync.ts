@@ -283,13 +283,33 @@ const THROTTLE_MS = 5 * 60 * 1000;
 // détecte l'écart et relance un backfill complet de tout l'historique
 // silencieusement, sans que Badr n'ait jamais à cliquer sur rien. Une fois
 // à jour, elle repasse en synchro rapide (7 jours) normalement.
+// Trois marqueurs SÉPARÉS, du moins cher au plus cher — un correctif qui ne
+// touche qu'aux données Meta ne doit JAMAIS re-scanner deux mois de commandes
+// Shopify (5 000+ commandes = dépassement de la limite de temps garanti, la
+// synchro repartait de zéro à chaque appel et le jour en cours restait figé —
+// constaté 26/07 : 12 ventes réelles, 1 affichée).
+//
+//   • recompute : relit orders/meta_spend en base et réécrit daily_aggregates.
+//     Aucun appel API. À bumper quand seul le CALCUL change.
+//   • orders    : re-télécharge tout l'historique Shopify. Très lent.
+//     À bumper UNIQUEMENT quand un champ des commandes change.
+//   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
+//     métrique Meta est ajoutée.
+const RECOMPUTE_VERSION_KEY = "full_recompute_version";
+const REQUIRED_RECOMPUTE_VERSION = "2026-07-25-cogs-split-v6";
+
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011) sur
-// l'historique des créas. Chaque bump redéclenche un resync complet.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-25-creas-tab-v7";
+// Inchangé depuis l'acquisition (v5) : aucun champ de commande n'a bougé
+// depuis. Les bumps v6/v7 ne concernaient que le calcul et les données Meta.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-07-19-acquisition-v5";
+
+const META_RESYNC_VERSION_KEY = "meta_resync_version";
+// v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
+const REQUIRED_META_RESYNC_VERSION = "2026-07-25-creas-tab-v7";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
-const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → terminé
+// (l'ancien marqueur d'étape "full_resync_stage" n'est plus utilisé : chaque
+// type de rattrapage porte désormais son propre marqueur de version.)
 
 /**
  * Version throttlée pour un déclenchement automatique depuis le navigateur
@@ -302,14 +322,20 @@ const RESYNC_STAGE_KEY = "full_resync_stage"; // "orders" → "meta" → termin�
 export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResult> {
   const supabase = createSupabaseServerClient();
 
-  const [{ data: marker }, { data: resyncMarker }] = await Promise.all([
-    supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
-    supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
-  ]);
-  const needsFullResync = resyncMarker?.value !== REQUIRED_FULL_RESYNC_VERSION;
+  const [{ data: marker }, { data: ordersMarker }, { data: metaMarker }, { data: recomputeMarker }] =
+    await Promise.all([
+      supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
+      supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
+      supabase.from("app_state").select("value").eq("key", META_RESYNC_VERSION_KEY).maybeSingle(),
+      supabase.from("app_state").select("value").eq("key", RECOMPUTE_VERSION_KEY).maybeSingle(),
+    ]);
+  const needsOrdersResync = ordersMarker?.value !== REQUIRED_FULL_RESYNC_VERSION;
+  const needsMetaResync = metaMarker?.value !== REQUIRED_META_RESYNC_VERSION;
+  const needsRecompute = recomputeMarker?.value !== REQUIRED_RECOMPUTE_VERSION;
+  const needsMaintenance = needsOrdersResync || needsMetaResync || needsRecompute;
 
   if (
-    !needsFullResync &&
+    !needsMaintenance &&
     marker?.value === "done" &&
     Date.now() - new Date(marker.updated_at as string).getTime() < THROTTLE_MS
   ) {
@@ -319,83 +345,88 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
   const { data: productsMap } = await supabase.from("products_map").select("*");
   if (!productsMap || productsMap.length === 0) return { ran: false };
 
+  // 1) TOUJOURS la synchro rapide (7 jours) EN PREMIER, quel que soit l'état
+  //    des rattrapages historiques. C'est elle qui fait vivre le jour en
+  //    cours ; la faire attendre la fin d'un backfill de deux mois gelait le
+  //    dashboard pendant des heures (26/07). Ses écritures sont validées
+  //    avant qu'un éventuel rattrapage ne risque de dépasser le temps limite.
+  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+
   // Le marqueur n'est posé ("done") qu'APRÈS un cycle réussi — sinon un
   // échec en cours de route bloquerait toute nouvelle tentative pendant
   // 5 min alors que rien n'a été écrit (constaté le 16/07 : CA resté figé
-  // malgré 97 nouvelles commandes). Si deux visites arrivent au même
-  // instant, elles refont le même travail idempotent — sans conséquence.
-  let result: IncrementalSyncResult;
-  if (needsFullResync) {
-    // Verrou anti-doublon : le backfill complet peut prendre 1-2 min — si
-    // Badr recharge la page entre-temps (croyant que rien ne se passe), on
-    // évite de relancer un 2e backfill concurrent par-dessus le premier.
-    // Expire tout seul après 10 min au cas où le premier essai a échoué.
-    const { data: lock } = await supabase
-      .from("app_state")
-      .select("updated_at")
-      .eq("key", RESYNC_LOCK_KEY)
-      .maybeSingle();
-    if (lock && Date.now() - new Date(lock.updated_at as string).getTime() < RESYNC_LOCK_TTL_MS) {
-      return { ran: false, moreWork: true };
-    }
-    await supabase
-      .from("app_state")
-      .upsert({ key: RESYNC_LOCK_KEY, value: "running", updated_at: new Date().toISOString() });
+  // malgré 97 nouvelles commandes).
+  await supabase
+    .from("app_state")
+    .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });
 
-    // ÉTAPES COURTES : le resync complet en un seul appel dépassait la
-    // limite de temps Vercel → tué avant la fin → jamais marqué terminé →
-    // relancé de zéro à chaque visite (« synchro en cours » sans fin, 19/07
-    // jamais recalculé). Chaque appel fait UNE étape (< 60 s), le navigateur
-    // rappelle immédiatement tant que moreWork=true.
-    const { data: stageRow } = await supabase
-      .from("app_state")
-      .select("value")
-      .eq("key", RESYNC_STAGE_KEY)
-      .maybeSingle();
-    const stage = stageRow?.value === "meta" ? "meta" : "orders";
-    const { listParisDays } = await import("./time");
-    const today = todayParisDay();
-    const allDays = listParisDays("2026-06-04", today);
+  if (!needsMaintenance) return result;
 
-    if (stage === "orders") {
-      const { backfillOrders } = await import("./backfillRun");
-      const res = await backfillOrders(supabase, productsMap as ProductMapEntry[]);
+  // 2) UNE seule étape de rattrapage par appel, de la moins chère à la plus
+  //    chère. Verrou anti-doublon : si Badr recharge la page pendant un
+  //    backfill, on n'en relance pas un deuxième par-dessus.
+  const { data: lock } = await supabase
+    .from("app_state")
+    .select("updated_at")
+    .eq("key", RESYNC_LOCK_KEY)
+    .maybeSingle();
+  if (lock && Date.now() - new Date(lock.updated_at as string).getTime() < RESYNC_LOCK_TTL_MS) {
+    return { ...result, moreWork: true };
+  }
+  await supabase
+    .from("app_state")
+    .upsert({ key: RESYNC_LOCK_KEY, value: "running", updated_at: new Date().toISOString() });
+
+  const warnings = [...(result.warnings ?? [])];
+  const { listParisDays } = await import("./time");
+  const allDays = listParisDays("2026-06-04", todayParisDay());
+
+  try {
+    if (needsRecompute) {
+      // Le moins cher : aucun appel API, on relit la base et on réécrit les
+      // agrégats (ex. répartition COGS polo/upsells ajoutée après coup).
       await recomputeDailyAggregatesForDays(supabase, allDays);
-      await supabase
-        .from("app_state")
-        .upsert({ key: RESYNC_STAGE_KEY, value: "meta", updated_at: new Date().toISOString() });
-      result = { ran: true, moreWork: true, warnings: res.warnings };
-    } else {
+      await supabase.from("app_state").upsert({
+        key: RECOMPUTE_VERSION_KEY,
+        value: REQUIRED_RECOMPUTE_VERSION,
+        updated_at: new Date().toISOString(),
+      });
+    } else if (needsMetaResync) {
       const { backfillMetaSpend } = await import("./backfillRun");
-      const warnings: string[] = [];
-      try {
-        await backfillMetaSpend(supabase);
-      } catch (err) {
-        warnings.push(`Meta indisponible : ${(err as Error).message}`);
-      }
+      await backfillMetaSpend(supabase);
       const { detectCampaignEvents } = await import("./journal");
       await detectCampaignEvents(supabase);
+      await recomputeDailyAggregatesForDays(supabase, allDays);
+      await supabase.from("app_state").upsert({
+        key: META_RESYNC_VERSION_KEY,
+        value: REQUIRED_META_RESYNC_VERSION,
+        updated_at: new Date().toISOString(),
+      });
+    } else {
+      // Le plus lourd, et le plus rare : re-téléchargement de l'historique
+      // Shopify complet.
+      const { backfillOrders } = await import("./backfillRun");
+      const res = await backfillOrders(supabase, productsMap as ProductMapEntry[]);
+      warnings.push(...res.warnings);
       await recomputeDailyAggregatesForDays(supabase, allDays);
       await supabase.from("app_state").upsert({
         key: RESYNC_VERSION_KEY,
         value: REQUIRED_FULL_RESYNC_VERSION,
         updated_at: new Date().toISOString(),
       });
-      await supabase
-        .from("app_state")
-        .upsert({ key: RESYNC_STAGE_KEY, value: "orders", updated_at: new Date().toISOString() });
-      result = { ran: true, warnings };
     }
+  } catch (err) {
+    warnings.push(`Rattrapage historique interrompu : ${(err as Error).message}`);
+  } finally {
     // Libère le verrou tout de suite : l'étape suivante peut démarrer au
     // prochain appel sans attendre l'expiration des 10 min.
     await supabase
       .from("app_state")
       .upsert({ key: RESYNC_LOCK_KEY, value: "released", updated_at: new Date(0).toISOString() });
-  } else {
-    result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
   }
-  await supabase
-    .from("app_state")
-    .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });
-  return result;
+
+  // Reste-t-il du travail après cette étape ?
+  const stillPending =
+    (needsRecompute && (needsMetaResync || needsOrdersResync)) || (needsMetaResync && needsOrdersResync);
+  return { ...result, warnings, moreWork: stillPending };
 }
