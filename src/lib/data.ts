@@ -741,18 +741,22 @@ export interface ExpenseBreakdown {
 }
 
 /**
- * Décomposition du CA en postes (§6.5). Les frais 9,5 % sont éclatés en
- * TVA 5,5 % / Shopify 3 % / Autres 1 %. Le COGS est présenté polo vs upsells ;
- * cette structure accueillera d'autres produits sans changement d'UI.
+ * Décomposition du CA en postes (§6.5). Les frais 4 % sont éclatés en
+ * Shopify 3 % / Autres 1 %. Le COGS est présenté polo vs upsells ; cette
+ * structure accueillera d'autres produits sans changement d'UI.
+ *
+ * Révision Badr 27/07/2026 : la TVA 5,5 % n'apparaît plus ici comme poste
+ * déduit — ce n'est pas une vraie dépense (argent collecté pour l'État,
+ * pas pour nous), elle est désormais incluse dans "Gain net" et suivie à
+ * part pour la provision (voir 🧾 TVA cumulée, onglet Année).
  */
 export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
   const ca = t.caCents;
   const w = (c: number) => (ca > 0 ? c / ca : 0);
 
-  // Frais éclatés proportionnellement (5,5 / 3 / 1 sur 9,5).
-  const tva = Math.round(ca * 0.055);
+  // Frais éclatés proportionnellement (3 / 1 sur 4).
   const shopify = Math.round(ca * 0.03);
-  const autres = t.feesCents - tva - shopify;
+  const autres = t.feesCents - shopify;
 
   // Repli tant que la migration 0010 (+ son resync auto) n'est pas encore
   // appliquée : tout le COGS reste affiché sous "polo" plutôt que de perdre
@@ -766,7 +770,6 @@ export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
     { key: "cogs_polo", label: "COGS polo", emoji: "👕", cents: poloCents, weight: w(poloCents), kind: "cogs" },
     { key: "cogs_upsells", label: "COGS upsells", emoji: "🧦", cents: upsellCents, weight: w(upsellCents), kind: "cogs" },
     { key: "tax", label: "Taxe UE", emoji: "🇪🇺", cents: t.taxCents, weight: w(t.taxCents), kind: "tax" },
-    { key: "tva", label: "TVA 5,5 %", emoji: "🧾", cents: tva, weight: w(tva), kind: "fee" },
     { key: "shopify", label: "Shopify 3 %", emoji: "🛒", cents: shopify, weight: w(shopify), kind: "fee" },
     { key: "autres", label: "Autres 1 %", emoji: "⚙️", cents: autres, weight: w(autres), kind: "fee" },
     { key: "net", label: "Gain net", emoji: "💰", cents: t.netCents, weight: w(t.netCents), kind: "net" },

@@ -321,7 +321,7 @@ const THROTTLE_MS = 5 * 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
-const REQUIRED_RECOMPUTE_VERSION = "2026-07-25-cogs-split-v6";
+const REQUIRED_RECOMPUTE_VERSION = "2026-07-27-fees-4pct-v7";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // Inchangé depuis l'acquisition (v5) : aucun champ de commande n'a bougé

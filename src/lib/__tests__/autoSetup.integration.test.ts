@@ -266,8 +266,8 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
       spend_cents: 18427,
       cogs_cents: 11896,
       tax_cents: 2400,
-      fees_cents: 4559,
-      net_cents: 10710,
+      fees_cents: 1920,
+      net_cents: 13349,
       refunded_cents: 0,
     });
 

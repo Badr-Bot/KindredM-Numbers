@@ -3,7 +3,7 @@
  *
  * Toutes les fonctions ici sont pures et travaillent exclusivement en
  * centimes (integers). Aucun float, aucun arrondi sauf là où le spec
- * l'exige explicitement (frais 9,5%, formule hors-grille).
+ * l'exige explicitement (frais 4%, formule hors-grille).
  */
 
 export type Market = "ES" | "UK" | "DE" | "FR";
@@ -266,11 +266,18 @@ export function distinctProductCount(poloQty: number, upsells: { productKey: str
 }
 
 // ---------------------------------------------------------------------------
-// §4.5 — Frais : 9,5% du CA (calculé sur l'agrégat jour/marché, jamais commande
-// par commande — voir daily_aggregates, seule table qui porte fees_cents)
+// §4.5 — Frais : 4% du CA (calculé sur l'agrégat jour/marché, jamais commande
+// par commande — voir daily_aggregates, seule table qui porte fees_cents).
+//
+// Révision Badr 27/07/2026 : la TVA 5,5% n'est PLUS déduite du net — c'est de
+// l'argent collecté pour le compte de l'État, pas une vraie dépense. Elle
+// reste calculée à part (feesBreakdownForCa/tvaCents) pour savoir combien
+// provisionner, mais ne réduit plus le net affiché. Frais réels = Shopify
+// 3% + Autres 1% = 4%. Recalculée sur tout l'historique (voir
+// REQUIRED_RECOMPUTE_VERSION dans incrementalSync.ts).
 // ---------------------------------------------------------------------------
 
-export const FEES_RATE = 0.095;
+export const FEES_RATE = 0.04;
 export const FEES_BREAKDOWN_RATES = { tva: 0.055, shopify: 0.03, autres: 0.01 } as const;
 
 export function feesCentsForCa(caCents: number): number {
@@ -283,7 +290,11 @@ export interface FeesBreakdown {
   autresCents: number;
 }
 
-/** Décomposition pour la vue §6.5. Arrondis indépendants : la somme peut différer de feesCentsForCa() de 1 centime. */
+/**
+ * TVA à provisionner (5,5% du CA) — informatif uniquement, PAS déduite du
+ * net (voir révision 27/07 ci-dessus). Arrondis indépendants : shopify+autres
+ * peut différer de feesCentsForCa() de 1 centime.
+ */
 export function feesBreakdownForCa(caCents: number): FeesBreakdown {
   return {
     tvaCents: Math.round(caCents * FEES_BREAKDOWN_RATES.tva),
@@ -433,7 +444,7 @@ export interface DailyAggregate extends DailyAggregateInput {
   netCents: number;
 }
 
-/** net(jour, marché) = CA − spend − COGS − taxeUE − frais(9,5%) — §4.7 */
+/** net(jour, marché) = CA − spend − COGS − taxeUE − frais(4%) — §4.7 */
 export function computeDailyAggregate(input: DailyAggregateInput): DailyAggregate {
   const feesCents = feesCentsForCa(input.caCents);
   const netCents =

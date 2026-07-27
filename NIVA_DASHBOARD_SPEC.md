@@ -167,9 +167,14 @@ Règles identiques au polo : pays non listé = max listé (+1,50 € plafond) ; 
 - **Uniquement si le pays de *destination* (`shipping_country`) est dans l'UE.** Basé sur la destination, plus sur le store. GB/UK, CH, CA, US… = 0 €. (La liste UE-27 est dans `src/lib/engine.ts` : `EU_COUNTRIES`.) Cela résout aussi l'ancienne question « taxe FR ? » : FR ∈ UE → taxé.
 - Applicable aux commandes **à partir du 2026-07-01 inclus**. Avant : 0.
 
-### 4.5 Frais — 9,5 % du CA total (modèle défini le 05/07/2026)
-`frais = 9,5 % × total encaissé` (upsells inclus), décomposé pour la vue « dépenses » en : **TVA 5,5 % + Shopify 3 % + Autres 1 %**.
-Modèle appliqué **uniformément sur tout l'historique** (cohérence des comparaisons). Pas de fixe par commande.
+### 4.5 Frais — 4 % du CA total (modèle défini le 05/07/2026, révisé 27/07/2026 par Badr)
+`frais = 4 % × total encaissé` (upsells inclus), décomposé pour la vue « dépenses » en : **Shopify 3 % + Autres 1 %**.
+La TVA 5,5 % n'est **plus déduite du net** depuis le 27/07/2026 — ce n'est pas une vraie
+dépense (argent collecté pour le compte de l'État, à reverser), pas un coût de l'activité.
+Elle reste calculée à part (`feesBreakdownForCa`) pour savoir combien provisionner (onglet
+Année, carte « 🧾 TVA cumulée »), mais n'entre plus dans le calcul du net.
+Modèle appliqué **uniformément sur tout l'historique** (cohérence des comparaisons, recalcul
+rétroactif via `full_recompute_version`). Pas de fixe par commande.
 
 ### 4.6 Spend Meta — mapping campagne → marché (par nom)
 ```
@@ -182,7 +187,7 @@ Toute campagne non mappable avec certitude → bucket `UNMAPPED`, affiché dans 
 
 ### 4.7 Formules
 ```
-net(jour, marché)  = CA − spend − COGS(polo+upsells) − taxeUE − frais(9,5%)
+net(jour, marché)  = CA − spend − COGS(polo+upsells) − taxeUE − frais(4%)
 marge %            = net / CA
 ROAS               = CA / spend            (spend > 0)
 CM (marge contrib.) = (CA − COGS − taxe − frais) / CA       ← avant pub
@@ -236,16 +241,18 @@ Pour la période sélectionnée (mois / année / custom) et le marché sélectio
 
 ---
 
-## 8. FIXTURES DE VALIDATION (jours réels, modèle de frais 9,5 % uniforme)
+## 8. FIXTURES DE VALIDATION (jours réels, modèle de frais 4 % uniforme, révisé 27/07/2026)
 
 | # | Marché · jour | Entrées | Attendu |
 |---|---|---|---|
-| 1 | **ES · 2026-07-04** | 8 cmd toutes 2pcs (dest. ES), CA 479,92 €, spend 184,27 € | COGS 118,96 · taxe 24,00 · frais 45,59 · **net +107,10** · ROAS 2,60 |
-| 2 | **ES · 2026-07-03** | 7 cmd (6× 2pcs + 1× 4pcs), CA 449,93 €, spend 296,09 € | COGS 115,75 · taxe 21,00 · frais 42,74 · **net −25,65** |
-| 3 | **UK · 2026-07-03** | 1 cmd 2pcs (dest. GB), CA 57,66 €, spend 42,18 € | COGS 13,30 · taxe 0 · frais 5,48 · **net −3,30** |
-| 4 | **DE · 2026-07-01** | 4 cmd (2× 2pcs + 2× 4pcs), CA 299,96 €, spend 65,34 € | COGS 83,34 · taxe 12,00 · frais 28,50 · **net +110,78** |
+| 1 | **ES · 2026-07-04** | 8 cmd toutes 2pcs (dest. ES), CA 479,92 €, spend 184,27 € | COGS 118,96 · taxe 24,00 · frais 19,20 · **net +133,49** · ROAS 2,60 |
+| 2 | **ES · 2026-07-03** | 7 cmd (6× 2pcs + 1× 4pcs), CA 449,93 €, spend 296,09 € | COGS 115,75 · taxe 21,00 · frais 18,00 · **net −0,91** |
+| 3 | **UK · 2026-07-03** | 1 cmd 2pcs (dest. GB), CA 57,66 €, spend 42,18 € | COGS 13,30 · taxe 0 · frais 2,31 · **net −0,13** |
+| 4 | **DE · 2026-07-01** | 4 cmd (2× 2pcs + 2× 4pcs), CA 299,96 €, spend 65,34 € | COGS 83,34 · taxe 12,00 · frais 12,00 · **net +127,28** |
 
-*(Aucun upsell dans ces journées historiques : cas upsell à couvrir par tests unitaires synthétiques — ex. cmd ES 2pcs polo + 1 CHINO_SHORTS : COGS = 14,87 + 6,27, taxe 3,00, frais 9,5 % du total.)*
+*(Valeurs de frais/net recalculées le 27/07 : la TVA 5,5 % est sortie du calcul du net, cf. §4.5. CA/spend/COGS/taxe inchangés.)*
+
+*(Aucun upsell dans ces journées historiques : cas upsell à couvrir par tests unitaires synthétiques — ex. cmd ES 2pcs polo + 1 CHINO_SHORTS : COGS = 14,87 + 6,27, taxe 3,00, frais 4 % du total.)*
 
 ---
 

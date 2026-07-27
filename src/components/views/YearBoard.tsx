@@ -196,8 +196,8 @@ export function YearBoard({
           <div className="mb-1 text-sm font-semibold">🧾 TVA cumulée · à provisionner</div>
           <div className="text-2xl font-bold tnum text-amber lg:text-3xl">{formatEur0(partners.tvaCents)}</div>
           <p className="mt-1.5 text-[10.5px] text-ink-faint">
-            5,5 % du CA depuis le début. Déjà déduite du net affiché (incluse dans les frais) —
-            c&apos;est le montant à garder de côté pour la payer plus tard.
+            5,5 % du CA depuis le début. PAS déduite du net affiché (le net l&apos;inclut) —
+            c&apos;est le montant à mettre de côté toi-même pour la payer plus tard.
           </p>
         </section>
       </div>
