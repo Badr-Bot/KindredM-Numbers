@@ -193,6 +193,22 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   avant chaque `.range()`. Pas de migration SQL nécessaire, effectif dès
   le prochain chargement de page (pas besoin de resynchroniser).
 
+## Mise à jour 27/07 — TVA 5,5 % retirée du calcul du net
+
+- **Sur demande Badr** : les frais passent de 9,5 % à 4 % du CA (Shopify
+  3 % + Autres 1 %). La TVA 5,5 % n'est plus déduite du net — c'est de
+  l'argent collecté pour le compte de l'État, pas un coût de l'activité.
+  Elle reste calculée à part et affichée dans la carte « 🧾 TVA cumulée ·
+  à provisionner » de l'onglet Année (montant à mettre de côté), mais ne
+  réduit plus le net affiché nulle part (Aujourd'hui, Contrôle, Dépenses,
+  Année).
+- **Recalcul rétroactif sur tout l'historique**, automatique via le
+  marqueur `full_recompute_version` (relit orders/meta_spend déjà en
+  base, aucun appel API Shopify/Meta, aucune migration SQL). Effectif
+  dès le prochain cycle de synchro (≤ 5 min).
+- Ne touche pas la « Taxe UE » (3 €/produit distinct, règle du 06/07) —
+  c'est une taxe distincte, inchangée.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
