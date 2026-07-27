@@ -195,7 +195,7 @@ ROAS break-even    = 1 / CM
 ROAS cible 20 %    = 1 / (CM − 0,20)
 ```
 **Les seuils BE/cible sont DYNAMIQUES** : calculés par marché sur les **14 derniers jours glissants** (CM blended réel, incluant mix bundles + upsells + prix du moment lus via l'API). Repères au 05/07 pour contrôle : ES ≈ 1,65 / 2,46 (2pcs à 59,99 €).
-- Remboursements : soustraits du CA **le jour du remboursement** (comportement « Total sales » Shopify) ; le cron re-scanne J-1 à J-7 via `updated_at` pour attraper les refunds tardifs.
+- Remboursements : soustraits du CA **du jour d'achat de la commande d'origine** (pas le jour où le remboursement est traité) — `refunded_cents` est stocké sur la ligne de la commande, qui reste rattachée à son jour de création. Le cron re-scanne les commandes modifiées sur J-7→J-1 via `updated_at` pour attraper les remboursements tardifs (même sur une commande ancienne), et recalcule l'agrégat du **jour d'achat d'origine**, pas celui du jour courant. Précisé/corrigé le 27/07 (l'ancienne formulation « jour du remboursement » était trompeuse — vérifié dans `aggregate.ts` : `caCents += total_cents − refunded_cents`, groupé par `orders.day` = jour de création).
 
 ---
 
