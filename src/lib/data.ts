@@ -427,11 +427,15 @@ async function computePaceReference(today: string): Promise<PaceReference> {
 
 function cardsFromTotals(
   perMarket: Record<Market, Totals>,
-  thresholds: Record<MarketTab, Thresholds>
+  thresholds: Record<MarketTab, Thresholds>,
+  // Spend Meta pas encore classé (market="UNMAPPED" dans daily_aggregates,
+  // voir aggregate.ts) : jamais assigné à un marché au hasard, mais TOUJOURS
+  // compté dans le GLOBAL — sinon ce total diverge de celui de l'onglet Mois
+  // (qui, lui, somme toutes les lignes du jour sans filtrer par marché).
+  // Bug réel constaté 27/07 : le bandeau d'alerte affirmait « déjà compté
+  // dans le total » alors que ce total l'ignorait complètement.
+  globalTotals: Totals = sumRows(MARKETS.map((m) => ({ day: "", market: m, ...perMarket[m] })))
 ): TodayMarketCard[] {
-  const globalTotals = sumRows(
-    MARKETS.map((m) => ({ day: "", market: m, ...perMarket[m] }))
-  );
   const globalCard: TodayMarketCard = {
     market: "GLOBAL",
     totals: globalTotals,
@@ -475,13 +479,13 @@ export async function getTodayView(): Promise<TodayView> {
   if (mode === "demo") {
     const rows = (await fetchDailyRows(day, day));
     const perMarket = emptyPerMarket();
-    for (const r of rows) perMarket[r.market] = { ...r };
+    for (const r of rows) if (r.market in perMarket) perMarket[r.market] = { ...r };
     return {
       mode,
       day,
       fetchedAt: new Date().toISOString(),
       fromAggregates: false,
-      cards: cardsFromTotals(perMarket, thresholds),
+      cards: cardsFromTotals(perMarket, thresholds, sumRows(rows)),
       pace,
       acquisition: null,
     };
@@ -490,16 +494,18 @@ export async function getTodayView(): Promise<TodayView> {
   // live : lit les MÊMES agrégats que l'onglet Mois — source de vérité
   // unique, jamais de décalage entre les deux vues (demande Badr 19/07).
   // La synchro auto (LiveSync, ≤ 5 min) rafraîchit ces agrégats, jour en
-  // cours et spend Meta inclus.
+  // cours et spend Meta inclus. `rows` peut contenir une ligne UNMAPPED (spend
+  // Meta pas encore classé) : sumRows(rows) l'inclut dans le GLOBAL, perMarket
+  // ne la garde pas (jamais assignée à un marché au hasard, voir cardsFromTotals).
   const rows = await fetchDailyRows(day, day);
   const perMarket = emptyPerMarket();
-  for (const r of rows) perMarket[r.market] = { ...r };
+  for (const r of rows) if (r.market in perMarket) perMarket[r.market] = { ...r };
   return {
     mode,
     day,
     fetchedAt: new Date().toISOString(),
     fromAggregates: false,
-    cards: cardsFromTotals(perMarket, thresholds),
+    cards: cardsFromTotals(perMarket, thresholds, sumRows(rows)),
     pace,
     acquisition: await getTodayAcquisition(day),
   };

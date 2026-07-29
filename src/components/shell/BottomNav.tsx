@@ -20,7 +20,12 @@ export function BottomNav() {
 
   return (
     <nav
-      className="sticky bottom-0 z-40 border-t border-line bg-terminal/95 backdrop-blur supports-[backdrop-filter]:bg-terminal/80"
+      // fixed, pas sticky : un `sticky` dépend de la hauteur totale du
+      // document, qui bouge d'un coup quand une carte Créas se déplie (9
+      // graphiques insérés) — la barre "saute" visuellement le temps que le
+      // navigateur recalcule sa position (signalé 27/07, mobile). `fixed` est
+      // ancré au viewport, indifférent aux changements de hauteur du contenu.
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-terminal/95 pb-[env(safe-area-inset-bottom)] backdrop-blur supports-[backdrop-filter]:bg-terminal/80"
       aria-label="Navigation principale"
     >
       <ul className="mx-auto flex max-w-3xl lg:max-w-2xl">

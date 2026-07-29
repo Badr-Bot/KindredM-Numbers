@@ -37,7 +37,9 @@ export default function RootLayout({
           <BootOverlay />
           {mode === "live" && <LiveSync />}
           <Header mode={mode} />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-6 pt-4 lg:max-w-6xl lg:px-8 lg:pt-6">
+          {/* pb calé sur la hauteur de BottomNav (fixed, hors du flux) + zone
+              sûre iOS, pour que le bas du contenu ne se cache jamais dessous. */}
+          <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 lg:max-w-6xl lg:px-8 lg:pt-6">
             {children}
           </main>
           <BottomNav />

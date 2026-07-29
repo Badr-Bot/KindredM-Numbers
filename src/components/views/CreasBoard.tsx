@@ -15,15 +15,6 @@ import type { CreasData } from "@/lib/analytics";
 import { formatDayShort, formatEur0, formatInt, formatPct, formatRoas } from "@/lib/format";
 import { useSound } from "../sound/SoundProvider";
 
-// Même seuil que le hit rate de l'onglet Analyse — en dessous, la créa n'a
-// pas vraiment été testée, elle ne fait que gonfler la liste sans rien dire.
-// S'applique au spend TOTAL depuis le début, jamais à celui de la période
-// affichée : sinon, en vue « aujourd'hui », une créa qui tourne depuis des
-// semaines mais n'a encore dépensé que 12 € dans la journée disparaissait de
-// la liste (signalé 26/07). Le verdict aussi se juge sur toute la vie de la
-// créa — seuls les CHIFFRES affichés suivent la période choisie.
-const MIN_SPEND_TESTED = 2000; // 20 €
-
 // Arbre de décision du batch de test (Badr, 26/07) :
 //   1. Une créa neuve dépense — tant qu'elle n'a pas atteint 2× le CPA cible,
 //      elle est « en test », on ne juge pas (pas assez de données).
@@ -322,8 +313,13 @@ export function CreasBoard({
     const out: CreaRow[] = [];
     for (const r of byAd.values()) {
       const lifetime = lifetimeByAd.get(r.adId) ?? { spendCents: 0, purchases: 0 };
-      // Éligibilité sur toute la vie de la créa, pas sur la fenêtre affichée.
-      if (lifetime.spendCents < MIN_SPEND_TESTED) continue;
+      // Pas de seuil de spend minimum pour APPARAÎTRE dans la liste — Badr
+      // veut voir le compte total réel (signalé 27/07 : "j'ai 500 créa, tu
+      // m'en affiches 100"). Un ancien seuil de 20 € ici masquait purement et
+      // simplement toute créa en dessous, ce qui n'était pas un vrai "bug"
+      // mais donnait exactement cette impression. Les créas peu dépensières
+      // restent visibles avec le statut "⏳ En test" (le seuil de JUGEMENT,
+      // lui, reste sur JUDGE_SPEND_MULTIPLE × CPA cible, voir plus bas).
       r.lifetimeSpendCents = lifetime.spendCents;
       r.lifetimeCpaCents =
         lifetime.purchases > 0 ? Math.round(lifetime.spendCents / lifetime.purchases) : null;
@@ -635,8 +631,8 @@ export function CreasBoard({
       )}
       {!creas.missingTables && rows.length === 0 && (
         <p className="rounded-lg border border-line bg-panel/40 p-3 text-[11.5px] text-ink-dim">
-          🔒 Aucune créa n&apos;a diffusé sur cette période (parmi celles ayant dépassé 20 € de spend
-          depuis leur lancement). Élargis la fenêtre ou attends que les données Meta se remplissent.
+          🔒 Aucune créa n&apos;a diffusé sur cette période. Élargis la fenêtre ou attends que les
+          données Meta se remplissent.
         </p>
       )}
 
