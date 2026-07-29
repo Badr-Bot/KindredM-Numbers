@@ -209,6 +209,26 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
 - Ne touche pas la « Taxe UE » (3 €/produit distinct, règle du 06/07) —
   c'est une taxe distincte, inchangée.
 
+## Mise à jour 27/07 (soir) — 3 bugs signalés d'un coup
+
+- **Live ≠ Mois** : le total GLOBAL d'Aujourd'hui ne sommait que ES+UK+DE+FR,
+  alors que Mois sommait toutes les lignes du jour (y compris un éventuel
+  spend Meta pas encore classé, market="UNMAPPED"). Les deux divergeaient
+  dès qu'une nouvelle campagne au nom pas reconnu tournait le jour même —
+  le bandeau d'alerte affirmait même à tort « déjà compté dans le total ».
+  Corrigé : le GLOBAL d'Aujourd'hui inclut maintenant l'UNMAPPED, comme Mois.
+- **Barre du bas (nav) qui saute sur mobile** en dépliant une carte Créas :
+  elle était en `sticky bottom-0`, qui recalcule sa position à chaque
+  changement de hauteur du document — un dépli de carte insère 9 graphiques
+  d'un coup, la barre "saute" le temps du recalcul. Passée en `fixed`,
+  indifférente au contenu. Vérifié avec Playwright (position identique
+  avant/après injection de 3000px de contenu).
+- **Créas manquantes en masse dans l'onglet Créas** : un seuil de 20 €
+  de spend lifetime cachait purement et simplement toute créa en dessous
+  de la liste — donnait l'impression de 100 créas affichées sur 500
+  réelles. Seuil supprimé, toutes les créas ayant diffusé apparaissent
+  (statut "⏳ En test" pour celles peu dépensières, comme avant).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
