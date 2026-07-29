@@ -181,9 +181,15 @@ rétroactif via `full_recompute_version`). Pas de fixe par commande.
 nom contient "ESP"                          → ES
 nom contient "GE"  (ex. CBO-GE-POLO-…)      → DE
 nom contient "FR"  (FR-TESTING, WORLDWIDE-FR, CANADA (FR), ZOMBIE-FR…) → FR
-sinon (UK, CANADA ANG, EUROPE ANG, AUS, tout ANG/worldwide anglais)     → UK
+nom contient UK/CANADA/EUROPE/AUS/WORLDWIDE/ANG (anglais)               → UK
+sinon (aucun indice pays dans le nom)                                   → FR
 ```
-Toute campagne non mappable avec certitude → bucket `UNMAPPED`, affiché dans l'UI pour affectation manuelle (persistée). Spend par jour via l'API Insights (`time_increment=1`, `level=campaign`, champ spend). Compte : `act_919559773962419`.
+Défaut FR sur aucun indice pays (règle Badr, 29/07) : en pratique une campagne
+sans mention de pays est presque toujours FR, le plus gros marché — plus
+besoin d'assignation manuelle systématique pour ce cas. Un override manuel
+persisté (Contrôle) prime toujours sur ce mapping par nom, pour les cas
+vraiment ambigus. Spend par jour via l'API Insights (`time_increment=1`,
+`level=campaign`, champ spend). Compte : `act_919559773962419`.
 
 ### 4.7 Formules
 ```

@@ -229,6 +229,21 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   réelles. Seuil supprimé, toutes les créas ayant diffusé apparaissent
   (statut "⏳ En test" pour celles peu dépensières, comme avant).
 
+## Mise à jour 29/07 — mapping campagne par défaut : FR au lieu d'UNMAPPED
+
+- **Sur demande Badr** : une campagne Meta dont le nom ne contient aucun
+  indice pays (pas de ESP/GE/FR/UK/CANADA/EUROPE/AUS/WORLDWIDE/ANG) est
+  désormais classée **FR par défaut**, au lieu de tomber dans le bucket
+  `UNMAPPED` (qui demandait une assignation manuelle dans Contrôle). En
+  pratique une campagne sans mention de pays est presque toujours FR, le
+  plus gros marché.
+- Un override manuel persisté (Contrôle) prime toujours sur ce mapping —
+  les cas vraiment ambigus restent réassignables à la main.
+- Ne touche PAS les campagnes déjà en base classées `UNMAPPED` avant ce
+  changement (le mapping se fait à l'écriture, pas relu à chaque
+  recalcul) — celles-là restent à assigner à la main dans Contrôle comme
+  avant. Seules les NOUVELLES campagnes suivent la nouvelle règle.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

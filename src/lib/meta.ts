@@ -281,7 +281,11 @@ export function mapCampaignToMarket(campaignName: string): Market | "UNMAPPED" {
   if (name.includes("GE")) return "DE";
   if (name.includes("FR")) return "FR";
   if (/\bUK\b|CANADA|EUROPE|\bAUS\b|WORLDWIDE|\bANG\b/.test(name)) return "UK";
-  return "UNMAPPED";
+  // Par défaut, sans indice pays dans le nom → FR (règle Badr, 29/07) : en
+  // pratique une campagne sans mention de pays est presque toujours FR, le
+  // plus gros marché. Les cas vraiment ambigus restent réassignables à la
+  // main dans Contrôle (l'override prime toujours, voir resolveCampaignMarket).
+  return "FR";
 }
 
 export type CampaignOverrides = Map<string, Market>;
