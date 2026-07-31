@@ -144,6 +144,7 @@ export const UPSELL_PRODUCT_KEYS = [
   "COMPRESSION_TANK_TOP",
   "CHINO_SHORTS",
   "LONG_SLEEVE_DRESS_SHIRT",
+  "GILET",
 ] as const;
 export type UpsellProductKey = (typeof UPSELL_PRODUCT_KEYS)[number];
 
@@ -187,6 +188,19 @@ const UPSELL_GRID_CENTS: Record<UpsellProductKey, Record<string, Record<UpsellTi
     DE: { 1: 667, 2: 1316, 4: 1957 },
     GB: { 1: 606, 2: 1193, 4: 1773 },
     BE: { 1: 745, 2: 1472, 4: 2191 },
+  },
+  // Gilet — coût linéaire, pas de grille DDP par pays (Badr, 31/07) : 11,90 €
+  // pièce, pas de remise bundle. Même valeur partout donne le comportement
+  // exact demandé via la formule générique (tiers 1/2/4 ET quantités hors
+  // grille, ex. 3 pcs, retombent tous sur qty × 1190 puisque la grille elle-
+  // même est linéaire).
+  GILET: {
+    FR: { 1: 1190, 2: 2380, 4: 4760 },
+    IT: { 1: 1190, 2: 2380, 4: 4760 },
+    ES: { 1: 1190, 2: 2380, 4: 4760 },
+    DE: { 1: 1190, 2: 2380, 4: 4760 },
+    GB: { 1: 1190, 2: 2380, 4: 4760 },
+    BE: { 1: 1190, 2: 2380, 4: 4760 },
   },
 };
 

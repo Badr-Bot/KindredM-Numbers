@@ -102,6 +102,20 @@ describe("Cas upsell synthétique — ES 2pcs polo + 1 CHINO_SHORTS", () => {
   });
 });
 
+describe("GILET — coût linéaire, pas de grille DDP par pays (Badr, 31/07)", () => {
+  it("qty × 11,90 €, quel que soit le pays ou la quantité (y compris hors grille)", () => {
+    expect(upsellCogsCents("GILET", "FR", 1)).toBe(1190);
+    expect(upsellCogsCents("GILET", "FR", 2)).toBe(2380);
+    // 3 pcs = hors grille (paliers 1/2/4) : la formule marginale doit quand
+    // même retomber sur 3 × 1190, car la grille elle-même est linéaire.
+    expect(upsellCogsCents("GILET", "FR", 3)).toBe(3570);
+    expect(upsellCogsCents("GILET", "FR", 4)).toBe(4760);
+    // Même prix quel que soit le pays (pas de variation DDP comme les autres upsells).
+    expect(upsellCogsCents("GILET", "GB", 2)).toBe(2380);
+    expect(upsellCogsCents("GILET", "DE", 2)).toBe(2380);
+  });
+});
+
 describe("Taxe UE — règle révisée (par produit distinct × destination UE)", () => {
   it("3 € par produit distinct, jamais multiplié par la quantité", () => {
     // 4 polos = 1 produit distinct = 3 €
