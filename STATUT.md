@@ -244,6 +244,22 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   recalcul) — celles-là restent à assigner à la main dans Contrôle comme
   avant. Seules les NOUVELLES campagnes suivent la nouvelle règle.
 
+## Mise à jour 31/07 — 2 nouveaux produits tarifés (Gilet + Caleçon)
+
+- **Gilet** (`GILET`) : vraie grille fournisseur reçue (devis Panda du 31/07).
+  Paliers **1/2/3 pièces** (pas 1/2/4) + Suisse incluse → grille et fonction
+  de calcul séparées pour ne pas toucher aux 5 upsells déjà validés.
+  8,07 € (UK) à 11,25 € (CH) la pièce selon destination.
+- **Caleçon** (`CALECON`) : **forfait 2,00 €/pièce**, partout. Il était mappé
+  dans `products_map` mais absent de TOUTE grille COGS → compté 0 € sur ~50
+  pièces/jour, donc Net trop optimiste (~35 €/jour d'écart). C'était le plus
+  gros trou restant dans le calcul du net.
+- **À faire côté Supabase** : coller le `insert into products_map` du Gilet
+  (titre `Nivafit - Gilet ultra-confortable`) — le Caleçon, lui, était déjà
+  mappé, seul son prix manquait (et le prix vit dans le code, pas en base).
+- Les commandes des 7 derniers jours étant re-scannées à chaque synchro, les
+  COGS se corrigent tout seuls sans resync complet.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

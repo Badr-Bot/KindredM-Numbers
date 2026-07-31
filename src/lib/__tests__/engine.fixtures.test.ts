@@ -124,6 +124,18 @@ describe("GILET — grille DDP par pays, paliers 1/2/3 (devis Panda, 31/07)", ()
   });
 });
 
+describe("CALECON — forfait 2 € la pièce, partout (Badr, 31/07)", () => {
+  it("strictement linéaire : qty × 2 €, sans variation par pays", () => {
+    expect(upsellCogsCents("CALECON", "FR", 1)).toBe(200);
+    expect(upsellCogsCents("CALECON", "FR", 2)).toBe(400);
+    expect(upsellCogsCents("CALECON", "FR", 6)).toBe(1200);
+    // Aucune grille DDP : même prix hors UE / pays non listé.
+    expect(upsellCogsCents("CALECON", "GB", 1)).toBe(200);
+    expect(upsellCogsCents("CALECON", "CH", 1)).toBe(200);
+    expect(upsellCogsCents("CALECON", "LU", 1)).toBe(200);
+  });
+});
+
 describe("Taxe UE — règle révisée (par produit distinct × destination UE)", () => {
   it("3 € par produit distinct, jamais multiplié par la quantité", () => {
     // 4 polos = 1 produit distinct = 3 €
@@ -274,15 +286,17 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
   });
 
   it("un upsell hors grille COGS ne fait plus échouer la commande", () => {
-    // « CALECON » est mappé dans products_map mais absent des grilles §4.3 :
-    // c'est exactement ce qui tuait tout le lot FR le 26/07.
+    // Scénario du 26/07 qui tuait tout le lot FR : une clé mappée dans
+    // products_map mais absente des grilles §4.3. (À l'époque c'était CALECON ;
+    // il a désormais un vrai COGS — cf. describe « CALECON » plus bas — donc on
+    // reproduit le cas avec une clé encore non tarifée.)
     expect(() =>
       computeOrderCogsTax({
         store: "FR",
         shippingCountry: "FR",
         day: "2026-07-26",
         poloQty: 4,
-        upsells: [{ productKey: "CALECON", qty: 1 }],
+        upsells: [{ productKey: "CEINTURE_PAS_ENCORE_TARIFEE", qty: 1 }],
       })
     ).toThrow(UnmappedProductError);
 
@@ -291,12 +305,24 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
       shippingCountry: "FR",
       day: "2026-07-26",
       poloQty: 4,
-      upsells: [{ productKey: "CALECON", qty: 1 }],
+      upsells: [{ productKey: "CEINTURE_PAS_ENCORE_TARIFEE", qty: 1 }],
     });
     // Le COGS polo reste exact ; seul l'upsell inconnu est à 0 et signalé.
     expect(tolerant.cogsProductCents).toBe(poloCogsCents("FR", 4));
     expect(tolerant.cogsUpsellsCents).toBe(0);
-    expect(tolerant.unknownUpsellKeys).toEqual(["CALECON"]);
+    expect(tolerant.unknownUpsellKeys).toEqual(["CEINTURE_PAS_ENCORE_TARIFEE"]);
+  });
+
+  it("CALECON a désormais un vrai COGS (2 € la pièce) et n'est plus signalé", () => {
+    const res = computeOrderCogsTaxTolerant({
+      store: "FR",
+      shippingCountry: "FR",
+      day: "2026-07-31",
+      poloQty: 4,
+      upsells: [{ productKey: "CALECON", qty: 3 }],
+    });
+    expect(res.cogsUpsellsCents).toBe(600);
+    expect(res.unknownUpsellKeys).toEqual([]);
   });
 
   it("compte le produit inconnu dans la taxe UE (prudence)", () => {

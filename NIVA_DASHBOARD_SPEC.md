@@ -162,6 +162,28 @@ Quantités hors grille (ex. 3 polos) : `grille[2pcs] + (grille[2pcs] − grille[
 
 Règles identiques au polo : pays non listé = max listé (+1,50 € plafond) ; quantités hors grille (ex. 3, ou > 4) : `grille[2] + (grille[2]−grille[1]) × (qty−2)` (coût marginal par pièce, comme §4.2).
 
+#### GILET — grille propre, paliers 1/2/3 (devis fournisseur du 31/07/2026)
+
+Le gilet (*Men's Herringbone Waistcoat*) ne suit PAS le tableau ci-dessus : ses paliers sont **1/2/3 pièces** (pas 1/2/4) et il couvre aussi la **Suisse**. Grille séparée (`GILET_GRID_CENTS`) pour ne pas toucher aux 5 upsells déjà validés au centime. Valeurs = colonne « Dropship Price » du devis (produit + shipping, DDP).
+
+| product_key | Pays | 1 pc | 2 pcs | 3 pcs |
+|---|---|---|---|---|
+| GILET | FR | 8.90 | 17.20 | 25.55 |
+| | IT | 8.98 | 17.47 | 25.94 |
+| | ES | 8.90 | 17.29 | 25.68 |
+| | DE | 8.72 | 16.94 | 25.15 |
+| | GB | 8.07 | 15.64 | 23.45 |
+| | CH | 11.25 | 20.78 | 30.91 |
+| | BE | 9.59 | 18.69 | 27.77 |
+
+Au-delà de 3 pièces : `grille[3] + (grille[3]−grille[2]) × (qty−3)`. Pays non listé : même règle que les autres (max listé + 1,50 €).
+
+#### CALECON — forfait 2,00 € la pièce (Badr, 31/07/2026)
+
+Produit très majoritairement **offert en bonus** dans les commandes. Coût unitaire unique : **2,00 € × quantité**, sans grille par pays ni remise par quantité (donc pas de surcharge « pays non listé » non plus).
+
+> Avant le 31/07, `CALECON` était mappé dans `products_map` mais absent de toute grille COGS : son coût était compté **0 €** sur ~50 pièces/jour, ce qui rendait le Net trop optimiste. Corrigé.
+
 ### 4.4 Taxe UE — 3,00 € par produit distinct (règle révisée 06/07/2026 par Badr)
 - **3,00 € par produit *distinct*** dans la commande (pas par commande, pas par quantité). Ex. : **4 polos = 3 €** (1 produit distinct) ; **1 polo + 1 chemise = 6 €** (2 produits distincts) ; 1 polo + 2 upsells différents = 9 €. Deux fois le même upsell = 1 seul produit distinct.
 - **Uniquement si le pays de *destination* (`shipping_country`) est dans l'UE.** Basé sur la destination, plus sur le store. GB/UK, CH, CA, US… = 0 €. (La liste UE-27 est dans `src/lib/engine.ts` : `EU_COUNTRIES`.) Cela résout aussi l'ancienne question « taxe FR ? » : FR ∈ UE → taxé.

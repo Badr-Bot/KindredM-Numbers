@@ -145,13 +145,14 @@ export const UPSELL_PRODUCT_KEYS = [
   "CHINO_SHORTS",
   "LONG_SLEEVE_DRESS_SHIRT",
   "GILET",
+  "CALECON",
 ] as const;
 export type UpsellProductKey = (typeof UPSELL_PRODUCT_KEYS)[number];
 
-// Le Gilet a ses propres paliers (1/2/3, pas 1/2/4) et sa propre grille DDP —
-// jamais mélangé à UPSELL_GRID_CENTS pour ne prendre aucun risque sur les 5
-// upsells déjà validés au centime (voir GILET_GRID_CENTS plus bas).
-type StandardUpsellKey = Exclude<UpsellProductKey, "GILET">;
+// Le Gilet (paliers 1/2/3 + grille DDP propre) et le Caleçon (forfait à la
+// pièce) ont chacun leur logique — jamais mélangés à UPSELL_GRID_CENTS pour ne
+// prendre aucun risque sur les 5 upsells déjà validés au centime.
+type StandardUpsellKey = Exclude<UpsellProductKey, "GILET" | "CALECON">;
 
 const UPSELL_GRID_CENTS: Record<StandardUpsellKey, Record<string, Record<UpsellTier, number>>> = {
   SHORT_SLEEVE_DRESS_SHIRT: {
@@ -233,6 +234,22 @@ function giletGridValueCents(country: string, tier: GiletTier): number {
   return maxListedForTier(GILET_GRID_CENTS, tier) + NON_LISTED_SURCHARGE_CENTS;
 }
 
+// ---------------------------------------------------------------------------
+// Caleçon — forfait 2,00 € la pièce (Badr, 31/07). Produit très majoritairement
+// OFFERT en bonus dans les commandes : pas de grille DDP par pays, pas de
+// remise par quantité, coût unitaire unique. Avant cette date il était mappé
+// dans products_map mais absent de toute grille → COGS compté 0 € sur ~50
+// pièces/jour, donc un Net trop optimiste (constaté 31/07). Si un devis
+// détaillé par pays arrive un jour, remplacer par une grille type GILET.
+// ---------------------------------------------------------------------------
+
+const CALECON_UNIT_COGS_CENTS = 200;
+
+/** COGS Caleçon : strictement linéaire, 2,00 € × quantité, partout. */
+function caleconCogsCents(qty: number): number {
+  return qty <= 0 ? 0 : CALECON_UNIT_COGS_CENTS * qty;
+}
+
 /** COGS Gilet pour `qty` pièces, livré dans `country`. Paliers directs 1/2/3 ;
  * au-delà, coût marginal basé sur l'écart 2→3 pcs (dernier palier connu). */
 function giletCogsCents(country: string, qty: number): number {
@@ -258,6 +275,7 @@ export function upsellCogsCents(
 ): number {
   if (qty <= 0) return 0;
   if (productKey === "GILET") return giletCogsCents(country, qty);
+  if (productKey === "CALECON") return caleconCogsCents(qty);
   if (!UPSELL_PRODUCT_KEYS.includes(productKey as UpsellProductKey)) {
     throw new UnmappedProductError(country, `upsell inconnu: ${productKey}`);
   }
