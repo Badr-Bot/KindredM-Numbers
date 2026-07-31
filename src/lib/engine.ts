@@ -148,7 +148,12 @@ export const UPSELL_PRODUCT_KEYS = [
 ] as const;
 export type UpsellProductKey = (typeof UPSELL_PRODUCT_KEYS)[number];
 
-const UPSELL_GRID_CENTS: Record<UpsellProductKey, Record<string, Record<UpsellTier, number>>> = {
+// Le Gilet a ses propres paliers (1/2/3, pas 1/2/4) et sa propre grille DDP —
+// jamais mélangé à UPSELL_GRID_CENTS pour ne prendre aucun risque sur les 5
+// upsells déjà validés au centime (voir GILET_GRID_CENTS plus bas).
+type StandardUpsellKey = Exclude<UpsellProductKey, "GILET">;
+
+const UPSELL_GRID_CENTS: Record<StandardUpsellKey, Record<string, Record<UpsellTier, number>>> = {
   SHORT_SLEEVE_DRESS_SHIRT: {
     FR: { 1: 689, 2: 1359, 4: 2003 },
     IT: { 1: 699, 2: 1378, 4: 2051 },
@@ -189,23 +194,10 @@ const UPSELL_GRID_CENTS: Record<UpsellProductKey, Record<string, Record<UpsellTi
     GB: { 1: 606, 2: 1193, 4: 1773 },
     BE: { 1: 745, 2: 1472, 4: 2191 },
   },
-  // Gilet — coût linéaire, pas de grille DDP par pays (Badr, 31/07) : 11,90 €
-  // pièce, pas de remise bundle. Même valeur partout donne le comportement
-  // exact demandé via la formule générique (tiers 1/2/4 ET quantités hors
-  // grille, ex. 3 pcs, retombent tous sur qty × 1190 puisque la grille elle-
-  // même est linéaire).
-  GILET: {
-    FR: { 1: 1190, 2: 2380, 4: 4760 },
-    IT: { 1: 1190, 2: 2380, 4: 4760 },
-    ES: { 1: 1190, 2: 2380, 4: 4760 },
-    DE: { 1: 1190, 2: 2380, 4: 4760 },
-    GB: { 1: 1190, 2: 2380, 4: 4760 },
-    BE: { 1: 1190, 2: 2380, 4: 4760 },
-  },
 };
 
 function upsellGridValueCents(
-  productKey: UpsellProductKey,
+  productKey: StandardUpsellKey,
   country: string,
   tier: UpsellTier
 ): number {
@@ -215,10 +207,49 @@ function upsellGridValueCents(
   return maxListedForTier(grid, tier) + NON_LISTED_SURCHARGE_CENTS;
 }
 
+// ---------------------------------------------------------------------------
+// Gilet (Men's Herringbone Waistcoat) — devis "Panda Dropshipping" du
+// 31/07/2026 : grille DDP par pays, mais paliers 1/2/3 pièces (pas 1/2/4
+// comme les autres upsells), + Suisse (absente des autres grilles). Valeurs =
+// colonne "Dropship Price" du devis (Product Cost + Shipping Cost, même
+// principe DDP que le reste de la grille §4.3).
+// ---------------------------------------------------------------------------
+
+type GiletTier = 1 | 2 | 3;
+
+const GILET_GRID_CENTS: Record<string, Record<GiletTier, number>> = {
+  FR: { 1: 890, 2: 1720, 3: 2555 },
+  IT: { 1: 898, 2: 1747, 3: 2594 },
+  ES: { 1: 890, 2: 1729, 3: 2568 },
+  DE: { 1: 872, 2: 1694, 3: 2515 },
+  GB: { 1: 807, 2: 1564, 3: 2345 },
+  CH: { 1: 1125, 2: 2078, 3: 3091 },
+  BE: { 1: 959, 2: 1869, 3: 2777 },
+};
+
+function giletGridValueCents(country: string, tier: GiletTier): number {
+  const row = GILET_GRID_CENTS[country];
+  if (row) return row[tier];
+  return maxListedForTier(GILET_GRID_CENTS, tier) + NON_LISTED_SURCHARGE_CENTS;
+}
+
+/** COGS Gilet pour `qty` pièces, livré dans `country`. Paliers directs 1/2/3 ;
+ * au-delà, coût marginal basé sur l'écart 2→3 pcs (dernier palier connu). */
+function giletCogsCents(country: string, qty: number): number {
+  if (qty <= 0) return 0;
+  if (qty === 1 || qty === 2 || qty === 3) {
+    return giletGridValueCents(country, qty);
+  }
+  const g3 = giletGridValueCents(country, 3);
+  const g2 = giletGridValueCents(country, 2);
+  return Math.round(g3 + (g3 - g2) * (qty - 3));
+}
+
 /**
  * COGS upsell pour `qty` pièces d'un `productKey`, livré dans `country`.
- * Paliers directs 1/2/4 ; quantités hors grille traitées comme le polo
- * (§4.2) : coût marginal par pièce supplémentaire = grille[2] − grille[1].
+ * Paliers directs 1/2/4 (1/2/3 pour le Gilet, grille séparée) ; quantités
+ * hors grille traitées comme le polo (§4.2) : coût marginal par pièce
+ * supplémentaire = dernier écart de palier connu.
  */
 export function upsellCogsCents(
   productKey: string,
@@ -226,10 +257,11 @@ export function upsellCogsCents(
   qty: number
 ): number {
   if (qty <= 0) return 0;
+  if (productKey === "GILET") return giletCogsCents(country, qty);
   if (!UPSELL_PRODUCT_KEYS.includes(productKey as UpsellProductKey)) {
     throw new UnmappedProductError(country, `upsell inconnu: ${productKey}`);
   }
-  const key = productKey as UpsellProductKey;
+  const key = productKey as StandardUpsellKey;
   if (qty === 1 || qty === 2 || qty === 4) {
     return upsellGridValueCents(key, country, qty);
   }

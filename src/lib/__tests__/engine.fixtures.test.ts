@@ -102,17 +102,25 @@ describe("Cas upsell synthétique — ES 2pcs polo + 1 CHINO_SHORTS", () => {
   });
 });
 
-describe("GILET — coût linéaire, pas de grille DDP par pays (Badr, 31/07)", () => {
-  it("qty × 11,90 €, quel que soit le pays ou la quantité (y compris hors grille)", () => {
-    expect(upsellCogsCents("GILET", "FR", 1)).toBe(1190);
-    expect(upsellCogsCents("GILET", "FR", 2)).toBe(2380);
-    // 3 pcs = hors grille (paliers 1/2/4) : la formule marginale doit quand
-    // même retomber sur 3 × 1190, car la grille elle-même est linéaire.
-    expect(upsellCogsCents("GILET", "FR", 3)).toBe(3570);
-    expect(upsellCogsCents("GILET", "FR", 4)).toBe(4760);
-    // Même prix quel que soit le pays (pas de variation DDP comme les autres upsells).
-    expect(upsellCogsCents("GILET", "GB", 2)).toBe(2380);
-    expect(upsellCogsCents("GILET", "DE", 2)).toBe(2380);
+describe("GILET — grille DDP par pays, paliers 1/2/3 (devis Panda, 31/07)", () => {
+  it("paliers directs 1/2/3 pcs, par pays de destination", () => {
+    expect(upsellCogsCents("GILET", "FR", 1)).toBe(890);
+    expect(upsellCogsCents("GILET", "FR", 2)).toBe(1720);
+    expect(upsellCogsCents("GILET", "FR", 3)).toBe(2555);
+    expect(upsellCogsCents("GILET", "GB", 2)).toBe(1564);
+    expect(upsellCogsCents("GILET", "DE", 2)).toBe(1694);
+    // Suisse : présente pour le Gilet uniquement (absente des autres grilles).
+    expect(upsellCogsCents("GILET", "CH", 1)).toBe(1125);
+  });
+
+  it("hors grille (4 pcs+) : coût marginal basé sur l'écart 2→3 pcs (dernier palier connu)", () => {
+    // FR : 3pcs=2555, 2pcs=1720, écart=835 → 4pcs = 2555+835=3390
+    expect(upsellCogsCents("GILET", "FR", 4)).toBe(3390);
+  });
+
+  it("pays non listé (ex. Luxembourg) : max des pays listés + surcharge conservatrice", () => {
+    // 1pc : max listé = Suisse 1125 + 150 (NON_LISTED_SURCHARGE_CENTS)
+    expect(upsellCogsCents("GILET", "LU", 1)).toBe(1275);
   });
 });
 
