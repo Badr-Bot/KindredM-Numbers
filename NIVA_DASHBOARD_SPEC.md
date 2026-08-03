@@ -184,8 +184,9 @@ Produit très majoritairement **offert en bonus** dans les commandes. Coût unit
 
 > Avant le 31/07, `CALECON` était mappé dans `products_map` mais absent de toute grille COGS : son coût était compté **0 €** sur ~50 pièces/jour, ce qui rendait le Net trop optimiste. Corrigé.
 
-### 4.4 Taxe UE — 3,00 € par produit distinct (règle révisée 06/07/2026 par Badr)
+### 4.4 Taxe UE — 3,00 € par produit distinct (règle révisée 06/07/2026, caleçon exempté 03/08/2026)
 - **3,00 € par produit *distinct*** dans la commande (pas par commande, pas par quantité). Ex. : **4 polos = 3 €** (1 produit distinct) ; **1 polo + 1 chemise = 6 €** (2 produits distincts) ; 1 polo + 2 upsells différents = 9 €. Deux fois le même upsell = 1 seul produit distinct.
+- **Le CALEÇON est exempté** (Badr, 03/08/2026) : glissé dans le colis des autres produits, il ne compte jamais comme produit distinct. Polo + caleçon = 3 € (pas 6 €) ; commande 100 % caleçons = 0 € (conséquence assumée). Liste des exemptés : `TAX_EXEMPT_UPSELL_KEYS` dans `engine.ts`. Correction rétroactive de l'historique via re-scan complet des commandes (`full_resync_version` v6).
 - **Uniquement si le pays de *destination* (`shipping_country`) est dans l'UE.** Basé sur la destination, plus sur le store. GB/UK, CH, CA, US… = 0 €. (La liste UE-27 est dans `src/lib/engine.ts` : `EU_COUNTRIES`.) Cela résout aussi l'ancienne question « taxe FR ? » : FR ∈ UE → taxé.
 - Applicable aux commandes **à partir du 2026-07-01 inclus**. Avant : 0.
 

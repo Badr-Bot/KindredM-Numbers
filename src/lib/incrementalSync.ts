@@ -324,9 +324,12 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 const REQUIRED_RECOMPUTE_VERSION = "2026-07-27-fees-4pct-v7";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
-// Inchangé depuis l'acquisition (v5) : aucun champ de commande n'a bougé
-// depuis. Les bumps v6/v7 ne concernaient que le calcul et les données Meta.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-07-19-acquisition-v5";
+// v6 : caleçon exempté de la taxe UE (03/08) — tax_eu_cents est stocké par
+// commande au moment de la synchro, donc toutes les commandes historiques
+// avec caleçon portent 3 € de taxe en trop tant qu'elles ne sont pas
+// re-scannées. Le re-scan tourne en étapes après la synchro rapide (jamais
+// bloquant) et recalcule COGS + taxe de chaque commande.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-03-calecon-tax-v6";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

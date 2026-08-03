@@ -289,10 +289,11 @@ export function upsellCogsCents(
 }
 
 // ---------------------------------------------------------------------------
-// §4.4 — Taxe UE (règle révisée par Badr le 06/07/2026)
+// §4.4 — Taxe UE (règle révisée par Badr le 06/07/2026, caleçon exempté 03/08)
 //   • 3,00 € par PRODUIT DISTINCT dans la commande (pas par commande, pas par
 //     quantité) : 4 polos = 1 produit distinct = 3 € ; 1 polo + 1 chemise =
-//     2 produits distincts = 6 €.
+//     2 produits distincts = 6 €. Le CALEÇON ne compte JAMAIS (glissé dans le
+//     colis des autres produits) : polo + caleçon = 3 €, pas 6 €.
 //   • Uniquement si le PAYS DE DESTINATION est dans l'UE (basé sur
 //     shipping_country, plus sur le store). GB/UK, CH, CA, US… = 0 €.
 // ---------------------------------------------------------------------------
@@ -323,9 +324,17 @@ export function euTaxCents(shippingCountry: string, day: string, distinctProduct
   return EU_TAX_PER_PRODUCT_CENTS * distinctProducts;
 }
 
-/** Nombre de produits distincts d'une commande = polo (si présent) + upsells distincts. */
+/** Produits EXEMPTÉS de la taxe UE (Badr, 03/08) : le caleçon est glissé dans
+ * le colis des autres produits, il ne compte pas comme produit distinct.
+ * Conséquence assumée : une commande 100 % caleçons = 0 produit distinct = 0 €. */
+export const TAX_EXEMPT_UPSELL_KEYS: ReadonlySet<string> = new Set(["CALECON"]);
+
+/** Nombre de produits distincts d'une commande = polo (si présent) + upsells
+ * distincts, hors produits exemptés (voir TAX_EXEMPT_UPSELL_KEYS). */
 export function distinctProductCount(poloQty: number, upsells: { productKey: string }[]): number {
-  const distinctUpsells = new Set(upsells.map((u) => u.productKey)).size;
+  const distinctUpsells = new Set(
+    upsells.map((u) => u.productKey).filter((k) => !TAX_EXEMPT_UPSELL_KEYS.has(k))
+  ).size;
   return (poloQty > 0 ? 1 : 0) + distinctUpsells;
 }
 

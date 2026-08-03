@@ -260,6 +260,24 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
 - Les commandes des 7 derniers jours étant re-scannées à chaque synchro, les
   COGS se corrigent tout seuls sans resync complet.
 
+## Mise à jour 03/08 — caleçon exempté de la taxe UE + MEMO.md
+
+- **Sur demande Badr** : le caleçon est glissé dans le colis des autres
+  produits → il ne compte plus jamais comme « produit distinct » pour la
+  taxe UE de 3 €. Polo + caleçon = 3 € (avant : 6 €). Commande 100 %
+  caleçons = 0 € (conséquence assumée). Implémenté via
+  `TAX_EXEMPT_UPSELL_KEYS` dans `engine.ts` (les deux chemins, strict et
+  tolérant, passent par `distinctProductCount`).
+- **Correction rétroactive** : `full_resync_version` bumpe en v6 → re-scan
+  complet des commandes Shopify (étape par étape après la synchro rapide,
+  jamais bloquant) qui recalcule la taxe de chaque commande historique
+  contenant un caleçon (~3 € de trop par commande concernée depuis le
+  01/07). Aucune migration SQL.
+- **Nouveau `MEMO.md`** : contexte métier compact (prix, grilles, seuils,
+  protocole de scaling, faits vérifiés, infra) — source unique à relire en
+  début de session au lieu de re-dériver, et à maintenir à chaque
+  changement de règle.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

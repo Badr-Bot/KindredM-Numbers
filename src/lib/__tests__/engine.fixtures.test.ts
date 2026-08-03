@@ -160,6 +160,16 @@ describe("Taxe UE — règle révisée (par produit distinct × destination UE)"
     ])).toBe(1);
   });
 
+  it("le CALEÇON est exempté (glissé dans le colis — Badr, 03/08)", () => {
+    // 4 polos + 1 caleçon = 1 seul produit distinct = 3 € (pas 6 €)
+    expect(distinctProductCount(4, [{ productKey: "CALECON" }])).toBe(1);
+    // gilet + caleçon = 1 produit distinct (le gilet) = 3 €
+    expect(distinctProductCount(0, [{ productKey: "GILET" }, { productKey: "CALECON" }])).toBe(1);
+    // commande 100 % caleçons : 0 produit distinct → 0 € (conséquence assumée)
+    expect(distinctProductCount(0, [{ productKey: "CALECON" }])).toBe(0);
+    expect(euTaxCents("FR", "2026-08-03", 0)).toBe(0);
+  });
+
   it("0 avant le 2026-07-01, quelle que soit la destination", () => {
     expect(euTaxCents("ES", "2026-06-30", 1)).toBe(0);
     expect(euTaxCents("FR", "2026-06-30", 3)).toBe(0);
