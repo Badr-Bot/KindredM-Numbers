@@ -1,4 +1,5 @@
 import { getTodayView, getUnmappedSpendCentsForDay, type TodayView } from "@/lib/data";
+import { getProductSplitForDay, type ProductSplitCard } from "@/lib/analytics";
 import type { Brief } from "@/lib/brief";
 import { formatDayLabel } from "@/lib/format";
 import { PageHeading } from "@/components/shell/PageHeading";
@@ -14,7 +15,13 @@ export const dynamic = "force-dynamic";
 
 type LoadResult =
   | { error: string }
-  | { view: TodayView; needsInit: boolean; brief: Brief | null; unmappedSpendCents: number };
+  | {
+      view: TodayView;
+      needsInit: boolean;
+      brief: Brief | null;
+      unmappedSpendCents: number;
+      productSplit: ProductSplitCard[];
+    };
 
 async function loadData(): Promise<LoadResult> {
   try {
@@ -24,18 +31,20 @@ async function loadData(): Promise<LoadResult> {
     let needsInit = false;
     let brief: Brief | null = null;
     let unmappedSpendCents = 0;
+    let productSplit: ProductSplitCard[] = [];
     if (view.mode === "live") {
       const { isSetupNeeded } = await import("@/lib/autoSetup");
       needsInit = await isSetupNeeded();
       if (!needsInit) {
         const { computeBrief } = await import("@/lib/brief");
-        [brief, unmappedSpendCents] = await Promise.all([
+        [brief, unmappedSpendCents, productSplit] = await Promise.all([
           computeBrief().catch(() => null),
           getUnmappedSpendCentsForDay(view.day).catch(() => 0),
+          getProductSplitForDay(view.day).catch(() => []),
         ]);
       }
     }
-    return { view, needsInit, brief, unmappedSpendCents };
+    return { view, needsInit, brief, unmappedSpendCents, productSplit };
   } catch (err) {
     return { error: (err as Error).message };
   }
@@ -53,7 +62,7 @@ export default async function TodayPage() {
     );
   }
 
-  const { view, needsInit, brief, unmappedSpendCents } = result;
+  const { view, needsInit, brief, unmappedSpendCents, productSplit } = result;
   return (
     <div>
       <PageHeading
@@ -67,7 +76,7 @@ export default async function TodayPage() {
       {view.mode === "unconfigured" ? (
         <EmptyState />
       ) : (
-        <TodayBoard view={view} unmappedSpendCents={unmappedSpendCents} />
+        <TodayBoard view={view} unmappedSpendCents={unmappedSpendCents} productSplit={productSplit} />
       )}
     </div>
   );

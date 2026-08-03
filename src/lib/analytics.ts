@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "./supabase";
+import { feesCentsForCa } from "./engine";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -291,4 +292,116 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
   }
 
   return { meta: [...metaByAd.values()], daily, missingTables };
+}
+
+// ---------------------------------------------------------------------------
+// Onglet ⚡ Aujourd'hui — carte par produit PRINCIPAL (demandé 02-03/08).
+// Seuls Gilet et Polo sont des produits principaux — tout le reste (Caleçon,
+// Chemise, Débardeur, E-Book...) est un upsell ajouté à une commande d'un des
+// deux : pas de carte séparée pour eux, leur CA/COGS/taxe sont comptés dans
+// le produit principal de LEUR commande (Badr, 03/08).
+//
+// Chaque commande du jour est classée ENTIÈREMENT dans un seul bucket (Gilet
+// si elle contient un Gilet, sinon Polo par défaut — le Polo absorbe donc
+// aussi les commandes 100% upsell, marginal en volume) : on lit directement
+// les montants déjà calculés par la synchro (total_cents, cogs_*, tax_eu_cents)
+// au lieu de les redériver, pour ne jamais diverger du reste du dashboard.
+//
+// Spend : Gilet = campagnes dont le nom contient "LANCASTER". Polo = TOUT LE
+// RESTE (Badr, 03/08 : "le polo c'est toutes les campagnes qui ciblent pas
+// le gilet") — inclut donc aussi le spend UNMAPPED, comme le total GLOBAL.
+// ---------------------------------------------------------------------------
+
+export interface ProductSplitCard {
+  key: string;
+  label: string;
+  emoji: string;
+  orders: number;
+  caCents: number;
+  spendCents: number;
+  cogsCents: number;
+  taxCents: number;
+  feesCents: number;
+  netCents: number;
+}
+
+/** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
+const GILET_CAMPAIGN_KEYWORD = "LANCASTER";
+
+interface RawOrderForSplit {
+  total_cents: number;
+  refunded_cents: number;
+  cogs_product_cents: number;
+  cogs_upsells_cents: number;
+  tax_eu_cents: number;
+  line_items: { title: string }[];
+}
+
+function emptyBucket() {
+  return { orders: 0, caCents: 0, cogsCents: 0, taxCents: 0 };
+}
+
+function toCard(
+  key: string,
+  label: string,
+  emoji: string,
+  bucket: ReturnType<typeof emptyBucket>,
+  spendCents: number
+): ProductSplitCard {
+  const feesCents = feesCentsForCa(bucket.caCents);
+  const netCents = bucket.caCents - spendCents - bucket.cogsCents - bucket.taxCents - feesCents;
+  return { key, label, emoji, spendCents, feesCents, netCents, ...bucket };
+}
+
+export async function getProductSplitForDay(day: string): Promise<ProductSplitCard[]> {
+  const supabase = createSupabaseServerClient();
+
+  const [{ data: mapRows, error: mapError }, { data: spendRows, error: spendError }] = await Promise.all([
+    supabase.from("products_map").select("title_pattern").eq("product_key", "GILET"),
+    supabase.from("meta_spend").select("campaign_name, spend_cents").eq("day", day),
+  ]);
+  if (mapError) return [];
+  const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
+
+  const orders: RawOrderForSplit[] = [];
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = (await supabase
+      .from("orders")
+      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
+      .eq("day", day)
+      .order("id", { ascending: true })
+      .range(from, from + PAGE - 1)) as unknown as {
+      data: RawOrderForSplit[] | null;
+      error: { message: string } | null;
+    };
+    if (error) return [];
+    const rows = data ?? [];
+    orders.push(...rows);
+    if (rows.length < PAGE) break;
+  }
+  if (orders.length === 0) return [];
+
+  const gilet = emptyBucket();
+  const polo = emptyBucket();
+  for (const o of orders) {
+    const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
+    const b = isGilet ? gilet : polo;
+    b.orders += 1;
+    b.caCents += o.total_cents - o.refunded_cents;
+    b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
+    b.taxCents += o.tax_eu_cents;
+  }
+
+  const spend = spendError ? [] : (spendRows ?? []);
+  const giletSpendCents = spend
+    .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(GILET_CAMPAIGN_KEYWORD))
+    .reduce((s, r) => s + (r.spend_cents as number), 0);
+  const totalSpendCents = spend.reduce((s, r) => s + (r.spend_cents as number), 0);
+  const poloSpendCents = totalSpendCents - giletSpendCents;
+
+  return [
+    toCard("GILET", "Gilet", "🎽", gilet, giletSpendCents),
+    toCard("POLO", "Polo", "👕", polo, poloSpendCents),
+  ];
 }

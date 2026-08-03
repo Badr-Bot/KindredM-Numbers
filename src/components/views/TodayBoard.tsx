@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import type { TodayView } from "@/lib/data";
+import type { ProductSplitCard } from "@/lib/analytics";
 import { MARKET_META } from "@/lib/markets";
 import {
   formatEur0,
@@ -19,9 +20,11 @@ import { useSound } from "../sound/SoundProvider";
 export function TodayBoard({
   view,
   unmappedSpendCents = 0,
+  productSplit = [],
 }: {
   view: TodayView;
   unmappedSpendCents?: number;
+  productSplit?: ProductSplitCard[];
 }) {
   const { play } = useSound();
   const global = view.cards[0];
@@ -203,7 +206,51 @@ export function TodayBoard({
         <span className={statusText("yellow")}>🟡 vers cible</span> ·{" "}
         <span className={statusText("green")}>🟢 ≥ cible 20 %</span>
       </p>
+
+      {productSplit.length > 0 && <ProductCards cards={productSplit} />}
     </div>
+  );
+}
+
+/** Cartes par produit PRINCIPAL (Gilet vs Polo) — demandé 02-03/08. Les
+ * upsells (Caleçon, Chemise, Débardeur...) n'ont pas de carte à eux : leur
+ * CA/COGS/taxe sont comptés dans le produit principal de leur commande. Le
+ * spend du Polo = tout ce qui n'est pas une campagne Gilet (voir
+ * getProductSplitForDay). */
+function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
+  return (
+    <section className="rounded-lg border border-line bg-panel/40 p-3.5 lg:p-5">
+      <div className="mb-2.5 flex items-baseline justify-between">
+        <span className="text-sm font-semibold lg:text-base">🏷️ Par produit</span>
+        <span className="text-[9.5px] text-ink-faint">upsells inclus dans leur produit principal</span>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        {cards.map((c) => {
+          const pos = c.netCents >= 0;
+          const roas = c.spendCents > 0 ? c.caCents / c.spendCents : null;
+          const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
+          return (
+            <div key={c.key} className="rounded-lg border border-line-soft bg-terminal/40 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[12.5px] font-semibold">
+                  <span aria-hidden>{c.emoji}</span> {c.label}
+                </span>
+                <span className="text-[10px] text-ink-faint tnum">{formatInt(c.orders)} cmd</span>
+              </div>
+              <div className={`mt-1.5 text-xl font-bold leading-none tnum lg:text-2xl ${pos ? "text-phosphor" : "text-red"}`}>
+                {formatEurSigned0(c.netCents)}
+              </div>
+              <dl className="mt-2 grid grid-cols-2 gap-1 text-center text-[10.5px]">
+                <MiniMetric label="CA" value={formatEur0(c.caCents)} />
+                <MiniMetric label="Spend" value={formatEur0(c.spendCents)} />
+                <MiniMetric label="ROAS" value={roas !== null ? formatRoas(roas) : "—"} />
+                <MiniMetric label="Marge" value={margePct !== null ? formatPct(margePct) : "—"} />
+              </dl>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
