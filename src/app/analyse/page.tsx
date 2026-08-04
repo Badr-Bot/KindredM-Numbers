@@ -7,7 +7,13 @@ import {
   type DayAgg,
   type Thresholds,
 } from "@/lib/data";
-import { getAnalyticsData, type AnalyticsData } from "@/lib/analytics";
+import {
+  getAnalyticsData,
+  getProductRoasThresholds,
+  type AnalyticsData,
+  type CreaProduct,
+  type ProductRoasThresholds,
+} from "@/lib/analytics";
 import { getJournalEvents, type JournalEvent } from "@/lib/journal";
 import { fetchActiveCampaignIds } from "@/lib/meta";
 import type { MarketTab } from "@/lib/markets";
@@ -30,18 +36,22 @@ type LoadResult =
       /** null = statut live indisponible (token Meta HS, mode démo…) — la
        * liste des créas gagnantes reste vide plutôt que de deviner. */
       activeCampaignIds: Set<string> | null;
+      /** Seuils BE/cible par produit (Gilet vs Polo) — null : retombe sur GLOBAL. */
+      productThresholds: Record<CreaProduct, ProductRoasThresholds> | null;
     };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const [dayData, analytics, journal, allThresholds, activeCampaignIds] = await Promise.all([
-      getTabDayData(HISTORY_START, today),
-      getAnalyticsData(HISTORY_START, today),
-      getJournalEvents(),
-      computeThresholds(today),
-      fetchActiveCampaignIds().catch(() => null),
-    ]);
+    const [dayData, analytics, journal, allThresholds, activeCampaignIds, productThresholds] =
+      await Promise.all([
+        getTabDayData(HISTORY_START, today),
+        getAnalyticsData(HISTORY_START, today),
+        getJournalEvents(),
+        computeThresholds(today),
+        fetchActiveCampaignIds().catch(() => null),
+        getProductRoasThresholds(today).catch(() => null),
+      ]);
     return {
       dayData,
       analytics,
@@ -50,6 +60,7 @@ async function loadData(): Promise<LoadResult> {
       journalReady: journal.ready,
       thresholds: allThresholds.GLOBAL,
       activeCampaignIds,
+      productThresholds,
     };
   } catch (err) {
     return { error: (err as Error).message };
@@ -93,6 +104,7 @@ export default async function AnalysePage() {
         journalReady={result.journalReady}
         thresholds={result.thresholds}
         activeCampaignIds={result.activeCampaignIds}
+        productThresholds={result.productThresholds}
       />
     </div>
   );

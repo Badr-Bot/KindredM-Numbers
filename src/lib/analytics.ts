@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from "./supabase";
-import { feesCentsForCa } from "./engine";
+import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget20 } from "./engine";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -29,6 +29,12 @@ export interface AdPerf {
   purchases: number;
   purchaseValueCents: number;
   video3s: number;
+  video100: number;
+  reach: number;
+  linkClicks: number;
+  landingPageViews: number;
+  addToCart: number;
+  initiateCheckout: number;
 }
 
 export interface AnalyticsData {
@@ -63,6 +69,12 @@ interface RawAdInsight {
   purchases: number;
   purchase_value_cents: number;
   video_3s: number | null;
+  video_p100: number | null;
+  reach: number | null;
+  link_clicks: number | null;
+  landing_page_views: number | null;
+  add_to_cart: number | null;
+  initiate_checkout: number | null;
 }
 
 export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
@@ -101,19 +113,26 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
     if (rows.length < PAGE) break;
   }
 
-  // Créas : agrégées par annonce sur la fenêtre demandée.
+  // Créas : agrégées par annonce sur la fenêtre demandée. video_p100 vient de
+  // la migration 0011 — probe avant de le demander (même filet que getCreasData).
+  const { error: videoPctProbeError } = await supabase.from("meta_ad_insights").select("video_p100").limit(1);
+  const hasVideoPct = !videoPctProbeError;
+  const adCols =
+    "ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, " +
+    "purchase_value_cents, video_3s, reach, link_clicks, landing_page_views, add_to_cart, initiate_checkout" +
+    (hasVideoPct ? ", video_p100" : "");
   const byAd = new Map<string, AdPerf>();
   for (let from = 0; ; from += PAGE) {
-    const { data, error } = await supabase
+    const { data, error } = (await supabase
       .from("meta_ad_insights")
-      .select("ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents, video_3s")
+      .select(adCols)
       .gte("day", start)
       .lte("day", end)
       .order("day", { ascending: true })
       .order("ad_id", { ascending: true })
-      .range(from, from + PAGE - 1);
+      .range(from, from + PAGE - 1)) as unknown as { data: RawAdInsight[] | null; error: { message: string } | null };
     if (error) break; // même cause que missingTables, déjà signalée
-    const rows = (data ?? []) as RawAdInsight[];
+    const rows = data ?? [];
     for (const r of rows) {
       const cur = byAd.get(r.ad_id) ?? {
         adId: r.ad_id,
@@ -126,6 +145,12 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         purchases: 0,
         purchaseValueCents: 0,
         video3s: 0,
+        video100: 0,
+        reach: 0,
+        linkClicks: 0,
+        landingPageViews: 0,
+        addToCart: 0,
+        initiateCheckout: 0,
       };
       cur.spendCents += r.spend_cents;
       cur.impressions += r.impressions;
@@ -133,6 +158,12 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
       cur.purchases += r.purchases;
       cur.purchaseValueCents += r.purchase_value_cents;
       cur.video3s += r.video_3s ?? 0;
+      cur.video100 += r.video_p100 ?? 0;
+      cur.reach += r.reach ?? 0;
+      cur.linkClicks += r.link_clicks ?? 0;
+      cur.landingPageViews += r.landing_page_views ?? 0;
+      cur.addToCart += r.add_to_cart ?? 0;
+      cur.initiateCheckout += r.initiate_checkout ?? 0;
       byAd.set(r.ad_id, cur);
     }
     if (rows.length < PAGE) break;
@@ -426,4 +457,80 @@ export async function getProductSplitForDay(
     toCard("GILET", "Gilet", "🎽", gilet, giletSpendCents),
     toCard("POLO", "Polo", "👕", polo, poloSpendCents),
   ];
+}
+
+// ---------------------------------------------------------------------------
+// Seuils ROAS PAR PRODUIT (Badr, 04/08) — le BE/cible blended du compte est
+// dominé par le polo (~90 % du CA) : juger une créa Gilet (Lancaster) contre
+// la cible blended la disqualifiait à tort (le gilet a une marge plus haute,
+// donc un BE ET une cible PLUS BAS). Même méthode que computeThresholds
+// (CM sur 14 jours glissants → BE = 1/CM, cible = 1/(CM−0,20)), mais les
+// totaux CA/COGS/taxe sont bucketés par produit comme getProductSplitForDay
+// (commande entière → GILET si elle contient un gilet, sinon POLO).
+// ---------------------------------------------------------------------------
+
+export type CreaProduct = "GILET" | "POLO";
+
+export interface ProductRoasThresholds {
+  cm: number | null;
+  breakEven: number | null;
+  target: number | null;
+}
+
+/** endDay inclus, 14 jours glissants. null si les commandes sont illisibles
+ * (le composant retombe alors sur les seuils GLOBAL). */
+export async function getProductRoasThresholds(
+  endDay: string
+): Promise<Record<CreaProduct, ProductRoasThresholds> | null> {
+  const supabase = createSupabaseServerClient();
+  const start = new Date(`${endDay}T00:00:00Z`);
+  start.setUTCDate(start.getUTCDate() - 13);
+  const startDay = start.toISOString().slice(0, 10);
+
+  const { data: mapRows, error: mapError } = await supabase
+    .from("products_map")
+    .select("title_pattern")
+    .eq("product_key", "GILET");
+  if (mapError) return null;
+  const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
+
+  const gilet = emptyBucket();
+  const polo = emptyBucket();
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = (await supabase
+      .from("orders")
+      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
+      .gte("day", startDay)
+      .lte("day", endDay)
+      .order("id", { ascending: true })
+      .range(from, from + PAGE - 1)) as unknown as {
+      data: RawOrderForSplit[] | null;
+      error: { message: string } | null;
+    };
+    if (error) return null;
+    const rows = data ?? [];
+    for (const o of rows) {
+      const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
+      const b = isGilet ? gilet : polo;
+      b.caCents += o.total_cents - o.refunded_cents;
+      b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
+      b.taxCents += o.tax_eu_cents;
+    }
+    if (rows.length < PAGE) break;
+  }
+
+  const toThresholds = (b: ReturnType<typeof emptyBucket>): ProductRoasThresholds => {
+    const cm = contributionMargin(b.caCents, b.cogsCents, b.taxCents, feesCentsForCa(b.caCents));
+    if (cm === null || cm <= 0) return { cm, breakEven: null, target: null };
+    return {
+      cm,
+      breakEven: roasBreakEven(cm),
+      // Même règle que thresholdsFromTotals (data.ts) : cible définie
+      // seulement si la marge laisse la place aux 20 % visés.
+      target: cm > 0.2 ? roasTarget20(cm) : null,
+    };
+  };
+
+  return { GILET: toThresholds(gilet), POLO: toThresholds(polo) };
 }

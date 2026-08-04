@@ -378,6 +378,30 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
     = inverser. Tri par défaut : ROAS décroissant. Les valeurs `null`
     (ex. Hook sur une image) vont toujours en fin de liste.
 
+## Mise à jour 04/08 (suite) — seuils PAR PRODUIT + funnel complet sur la liste gagnantes
+
+- **Bug de fond signalé par Badr** (« le Lancaster je vois aucune créa
+  sachant que c'est pas le même BE ni le même ROAS target ») : les créas
+  étaient toutes jugées contre la cible blended GLOBAL, dominée par le polo
+  (~90 % du CA) — or le gilet a une marge plus haute donc un BE ET une
+  cible PLUS BAS ; aucune créa Lancaster ne pouvait qualifier. Corrigé :
+  nouveau `getProductRoasThresholds(endDay)` dans `analytics.ts` (même
+  méthode que `computeThresholds` — CM 14 j glissants → BE = 1/CM, cible =
+  1/(CM−0,20) — mais les commandes sont bucketées Gilet/Polo comme
+  `getProductSplitForDay`). Chaque créa est comparée aux seuils de SON
+  produit (campagne LANCASTER → Gilet, sinon Polo), repli sur GLOBAL si le
+  calcul produit échoue. Colonnes BE/Cible affichées PAR LIGNE + nouvelle
+  colonne Produit (🎽/👕, triable).
+- **Funnel complet ajouté** (demande « tous les éléments intéressants pour
+  trouver des patterns ») : CPC, CPM, Hold (vues complètes ÷ vues 3 s),
+  Atterrissage (LPV ÷ clics lien), ATC (ajouts panier ÷ LPV), CVR (achats
+  ÷ LPV), Panier moyen — en plus de Spend/Achats/CPA/CTR/Hook/ROAS déjà là.
+  Toutes triables. `AdPerf` étendu (video100 avec probe migration 0011,
+  reach, link_clicks, landing_page_views, add_to_cart, initiate_checkout).
+- Au passage : les libellés « cible 15 % » de la veille étaient inexacts —
+  la cible dynamique du dash a toujours été 1/(CM−0,20) (20 % de marge
+  nette, `roasTarget20`). Libellés corrigés en « cible » tout court.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

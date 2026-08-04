@@ -13,7 +13,7 @@ import {
   YAxis,
 } from "recharts";
 import type { DayAgg, Thresholds } from "@/lib/data";
-import type { AnalyticsData } from "@/lib/analytics";
+import type { AnalyticsData, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatPct, formatRoas, formatRoasBare } from "@/lib/format";
@@ -89,11 +89,19 @@ type Preset = "7" | "14" | "30" | "all" | "custom";
 type CreaSortKey =
   | "adName"
   | "campaignName"
+  | "product"
   | "spendCents"
   | "purchases"
   | "cpaCents"
+  | "cpcCents"
+  | "cpmCents"
   | "ctrPct"
   | "hookRate"
+  | "holdRate"
+  | "lpvRate"
+  | "atcRate"
+  | "cvr"
+  | "aovCents"
   | "roas";
 
 function CreaTh({
@@ -137,6 +145,7 @@ export function AnalyseBoard({
   journalReady,
   thresholds,
   activeCampaignIds,
+  productThresholds,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -146,6 +155,7 @@ export function AnalyseBoard({
   journalReady: boolean;
   thresholds: Thresholds;
   activeCampaignIds: Set<string> | null;
+  productThresholds: Record<CreaProduct, ProductRoasThresholds> | null;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -380,21 +390,45 @@ export function AnalyseBoard({
   // thresholds.target, identique à celui utilisé partout ailleurs dans le
   // dash) ET campagne mère active.
   const creas = useMemo(() => {
-    const winnerMinRoas = thresholds.target;
+    // Seuils PAR PRODUIT (Badr, 04/08) : les créas Lancaster (Gilet) étaient
+    // jugées contre la cible blended du compte, dominée par le polo (~90 % du
+    // CA) — or le gilet a une marge plus haute, donc un BE et une cible PLUS
+    // BAS : aucune créa Gilet ne qualifiait à tort. Chaque créa est maintenant
+    // comparée aux seuils de SON produit (campagne LANCASTER → Gilet, sinon
+    // Polo), avec repli sur les seuils GLOBAL si le calcul produit manque.
+    const thresholdsFor = (product: CreaProduct) => {
+      const p = productThresholds?.[product];
+      return {
+        breakEven: p?.breakEven ?? thresholds.breakEven,
+        target: p?.target ?? thresholds.target,
+      };
+    };
     const withMetrics = analytics.ads.map((a) => {
       const isVideo = a.video3s > 0;
+      const product: CreaProduct = a.campaignName.toUpperCase().includes("LANCASTER") ? "GILET" : "POLO";
+      const t = thresholdsFor(product);
       return {
         ...a,
+        product,
+        breakEven: t.breakEven,
+        target: t.target,
         roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
         cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
+        cpcCents: a.clicks > 0 ? Math.round(a.spendCents / a.clicks) : null,
+        cpmCents: a.impressions > 0 ? Math.round((a.spendCents / a.impressions) * 1000) : null,
         ctrPct: a.impressions > 0 ? a.clicks / a.impressions : null,
         hookRate: isVideo && a.impressions > 0 ? a.video3s / a.impressions : null,
+        holdRate: isVideo && a.video3s > 0 && a.video100 > 0 ? a.video100 / a.video3s : null,
+        lpvRate: a.linkClicks > 0 ? a.landingPageViews / a.linkClicks : null,
+        atcRate: a.landingPageViews > 0 ? a.addToCart / a.landingPageViews : null,
+        cvr: a.landingPageViews > 0 ? a.purchases / a.landingPageViews : null,
+        aovCents: a.purchases > 0 ? Math.round(a.purchaseValueCents / a.purchases) : null,
       };
     });
     const isWinner = (a: (typeof withMetrics)[number]) =>
-      winnerMinRoas !== null &&
+      a.target !== null &&
       a.roas !== null &&
-      a.roas >= winnerMinRoas &&
+      a.roas >= a.target &&
       activeCampaignIds !== null &&
       activeCampaignIds.has(a.campaignId);
     const winners = withMetrics.filter(isWinner);
@@ -409,11 +443,12 @@ export function AnalyseBoard({
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
       rows: winners,
-      winnerMinRoas,
-      breakEven: thresholds.breakEven,
       statusUnavailable: activeCampaignIds === null,
+      giletThresholds: productThresholds?.GILET ?? null,
+      poloThresholds: productThresholds?.POLO ?? null,
+      globalTarget: thresholds.target,
     };
-  }, [analytics.ads, thresholds, activeCampaignIds]);
+  }, [analytics.ads, thresholds, activeCampaignIds, productThresholds]);
 
   // Tri de la table gagnantes — cliquable par colonne (Badr, 04/08).
   const [creaSortKey, setCreaSortKey] = useState<CreaSortKey>("roas");
@@ -790,62 +825,85 @@ export function AnalyseBoard({
           </p>
         ) : creas.rows.length === 0 ? (
           <p className="text-[11.5px] text-ink-faint">
-            Aucune créa au-dessus de la cible {creas.winnerMinRoas !== null && `(${formatRoasBare(creas.winnerMinRoas)})`}{" "}
-            sur une campagne active en ce moment.
+            Aucune créa au-dessus de sa cible produit
+            {creas.poloThresholds?.target != null && ` (Polo ${formatRoasBare(creas.poloThresholds.target)}`}
+            {creas.giletThresholds?.target != null && ` · Gilet ${formatRoasBare(creas.giletThresholds.target)}`}
+            {creas.poloThresholds?.target != null && ")"} sur une campagne active en ce moment.
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[1150px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
                   <CreaTh label="Créa" sortKey="adName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Campagne mère" sortKey="campaignName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
+                  <CreaTh label="Produit" sortKey="product" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Spend (début)" sortKey="spendCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="Achats" sortKey="purchases" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="CPA" sortKey="cpaCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="CPC" sortKey="cpcCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="CPM" sortKey="cpmCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="CTR" sortKey="ctrPct" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="Hook" sortKey="hookRate" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Hold" sortKey="holdRate" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Atterrissage" sortKey="lpvRate" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="ATC" sortKey="atcRate" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="CVR" sortKey="cvr" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Panier" sortKey="aovCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="ROAS" sortKey="roas" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
-                  <th className="px-2 py-1.5 text-right font-semibold">ROAS BE</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">ROAS cible</th>
+                  <th className="px-2 py-1.5 text-right font-semibold">BE</th>
+                  <th className="px-2 py-1.5 text-right font-semibold">Cible</th>
                 </tr>
               </thead>
               <tbody className="tnum">
                 {sortedCreaRows.map((a) => (
                   <tr key={a.adId} className="border-b border-line-soft last:border-0">
-                    <td className="max-w-[200px] truncate px-2 py-1.5 text-left font-medium text-ink">
+                    <td className="max-w-[180px] truncate px-2 py-1.5 text-left font-medium text-ink">
                       🏆 {a.adName}
                     </td>
-                    <td className="max-w-[200px] truncate px-2 py-1.5 text-left text-ink-dim">
+                    <td className="max-w-[160px] truncate px-2 py-1.5 text-left text-ink-dim">
                       {a.campaignName}
+                    </td>
+                    <td className="whitespace-nowrap px-2 py-1.5 text-left">
+                      {a.product === "GILET" ? "🎽 Gilet" : "👕 Polo"}
                     </td>
                     <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(a.spendCents)}</td>
                     <td className="px-2 py-1.5 text-right text-ink-dim">{a.purchases}</td>
                     <td className="px-2 py-1.5 text-right">{a.cpaCents !== null ? eur2(a.cpaCents) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.cpcCents !== null ? eur2(a.cpcCents) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.cpmCents !== null ? formatEur0(a.cpmCents) : "—"}</td>
                     <td className="px-2 py-1.5 text-right">{formatPct(a.ctrPct)}</td>
-                    <td className="px-2 py-1.5 text-right">
-                      {a.hookRate !== null ? formatPct(a.hookRate) : "—"}
-                    </td>
+                    <td className="px-2 py-1.5 text-right">{a.hookRate !== null ? formatPct(a.hookRate) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.holdRate !== null ? formatPct(a.holdRate) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.lpvRate !== null ? formatPct(a.lpvRate) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.atcRate !== null ? formatPct(a.atcRate) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.cvr !== null ? formatPct(a.cvr) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{a.aovCents !== null ? formatEur0(a.aovCents) : "—"}</td>
                     <td className="px-2 py-1.5 text-right font-semibold text-phosphor">
                       {formatRoas(a.roas)}
                     </td>
-                    <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(creas.breakEven)}</td>
-                    <td className="px-2 py-1.5 text-right text-ink-faint">
-                      {formatRoasBare(creas.winnerMinRoas)}
-                    </td>
+                    <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(a.breakEven)}</td>
+                    <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(a.target)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <p className="mt-2 text-[10px] text-ink-faint">
-              🏆 gagnante = ROAS ≥ cible 15 % (seuil dynamique 14 j glissants) ET campagne mère
-              active — le spend n&apos;est plus un critère, une créa peu testée peut apparaître
-              ici avec un échantillon faible. Spend/achats/CPA/CTR/hook = depuis le tout début
-              (historique complet, pas juste la période affichée plus haut). Hook = vidéo
-              seulement (3 sec ÷ impressions), « — » pour une image. Clique un en-tête pour trier,
-              reclique pour inverser. {creas.winners}/{creas.seen} créa
-              {creas.winners > 1 ? "s" : ""} avec diffusion qualifie{creas.winners > 1 ? "nt" : ""}{" "}
-              en ce moment.
+              🏆 gagnante = ROAS ≥ cible de SON produit (Lancaster → Gilet, sinon Polo — chaque
+              produit a son BE/cible, calculés sur ses propres commandes 14 j glissants
+              {creas.poloThresholds?.target != null && ` : Polo cible ${formatRoasBare(creas.poloThresholds.target)}`}
+              {creas.giletThresholds?.target != null && ` · Gilet cible ${formatRoasBare(creas.giletThresholds.target)}`})
+              ET campagne mère active. Le spend n&apos;est pas un critère. Toutes les métriques =
+              depuis le tout début (historique complet). Clique un en-tête pour trier, reclique
+              pour inverser. {creas.winners}/{creas.seen} créa{creas.winners > 1 ? "s" : ""} avec
+              diffusion qualifie{creas.winners > 1 ? "nt" : ""} en ce moment.
+            </p>
+            <p className="mt-1 text-[10px] text-ink-faint">
+              Hook = vues 3 s ÷ impressions (vidéo) · Hold = vues complètes ÷ vues 3 s (vidéo) ·
+              Atterrissage = pages vues ÷ clics lien (un taux bas = page lente ou clics
+              accidentels) · ATC = ajouts panier ÷ pages vues · CVR = achats ÷ pages vues ·
+              Panier = CA ÷ achats · « — » = pas applicable (ex. Hook sur une image) ou pas
+              assez de données.
             </p>
           </div>
         )}
