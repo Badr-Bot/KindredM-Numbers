@@ -364,6 +364,20 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   `meta_ad_insights`) pour pouvoir croiser chaque créa avec le statut live
   de sa campagne.
 
+## Mise à jour 04/08 (suite) — colonnes d'analyse + tri par colonne sur la liste gagnantes
+
+- Badr : « il manque le spend depuis le début, le hook, le CTR, le CPA...
+  pour trouver des patterns » + tri par colonne. Ajouté :
+  - **Spend, Achats, CPA, CTR, Hook rate** — déjà lifetime (pas juste la
+    fenêtre des graphes du haut) car `getAnalyticsData` charge tout
+    l'historique depuis `HISTORY_START`. Hook rate = vidéo seulement
+    (video_3s ÷ impressions, `AdPerf.video3s`, nouveau champ sélectionné
+    depuis `meta_ad_insights`) ; « — » pour une image.
+  - **Tri cliquable par colonne** (Créa, Campagne, Spend, Achats, CPA, CTR,
+    Hook, ROAS) — clic = trier par cette colonne (desc par défaut), reclic
+    = inverser. Tri par défaut : ROAS décroissant. Les valeurs `null`
+    (ex. Hook sur une image) vont toujours en fin de liste.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

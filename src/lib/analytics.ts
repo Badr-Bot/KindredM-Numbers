@@ -28,6 +28,7 @@ export interface AdPerf {
   clicks: number;
   purchases: number;
   purchaseValueCents: number;
+  video3s: number;
 }
 
 export interface AnalyticsData {
@@ -61,6 +62,7 @@ interface RawAdInsight {
   clicks: number;
   purchases: number;
   purchase_value_cents: number;
+  video_3s: number | null;
 }
 
 export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
@@ -104,7 +106,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
       .from("meta_ad_insights")
-      .select("ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents")
+      .select("ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents, video_3s")
       .gte("day", start)
       .lte("day", end)
       .order("day", { ascending: true })
@@ -123,12 +125,14 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         clicks: 0,
         purchases: 0,
         purchaseValueCents: 0,
+        video3s: 0,
       };
       cur.spendCents += r.spend_cents;
       cur.impressions += r.impressions;
       cur.clicks += r.clicks;
       cur.purchases += r.purchases;
       cur.purchaseValueCents += r.purchase_value_cents;
+      cur.video3s += r.video_3s ?? 0;
       byAd.set(r.ad_id, cur);
     }
     if (rows.length < PAGE) break;

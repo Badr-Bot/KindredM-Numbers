@@ -16,7 +16,7 @@ import type { DayAgg, Thresholds } from "@/lib/data";
 import type { AnalyticsData } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
-import { formatDayShort, formatEur0, formatRoas, formatRoasBare } from "@/lib/format";
+import { formatDayShort, formatEur0, formatPct, formatRoas, formatRoasBare } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 
@@ -85,6 +85,46 @@ const METRICS: MetricDef[] = [
 ];
 
 type Preset = "7" | "14" | "30" | "all" | "custom";
+
+type CreaSortKey =
+  | "adName"
+  | "campaignName"
+  | "spendCents"
+  | "purchases"
+  | "cpaCents"
+  | "ctrPct"
+  | "hookRate"
+  | "roas";
+
+function CreaTh({
+  label,
+  sortKey,
+  active,
+  dir,
+  onSort,
+  align = "right",
+}: {
+  label: string;
+  sortKey: CreaSortKey;
+  active: CreaSortKey;
+  dir: "asc" | "desc";
+  onSort: (key: CreaSortKey) => void;
+  align?: "left" | "right";
+}) {
+  const isActive = active === sortKey;
+  return (
+    <th
+      className={`cursor-pointer select-none px-2 py-1.5 font-semibold hover:text-ink ${
+        align === "left" ? "text-left" : "text-right"
+      } ${isActive ? "text-ink" : ""}`}
+      onClick={() => onSort(sortKey)}
+      title="Trier par cette colonne"
+    >
+      {label}
+      {isActive && <span className="ml-1">{dir === "asc" ? "▲" : "▼"}</span>}
+    </th>
+  );
+}
 
 // ---------------------------------------------------------------------------
 
@@ -341,21 +381,30 @@ export function AnalyseBoard({
   // dash) ET campagne mère active.
   const creas = useMemo(() => {
     const winnerMinRoas = thresholds.target;
-    const withMetrics = analytics.ads.map((a) => ({
-      ...a,
-      roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
-    }));
+    const withMetrics = analytics.ads.map((a) => {
+      const isVideo = a.video3s > 0;
+      return {
+        ...a,
+        roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
+        cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
+        ctrPct: a.impressions > 0 ? a.clicks / a.impressions : null,
+        hookRate: isVideo && a.impressions > 0 ? a.video3s / a.impressions : null,
+      };
+    });
     const isWinner = (a: (typeof withMetrics)[number]) =>
       winnerMinRoas !== null &&
       a.roas !== null &&
       a.roas >= winnerMinRoas &&
       activeCampaignIds !== null &&
       activeCampaignIds.has(a.campaignId);
-    const winners = withMetrics.filter(isWinner).sort((a, b) => (b.roas ?? 0) - (a.roas ?? 0));
+    const winners = withMetrics.filter(isWinner);
     return {
       // Toutes les créas AYANT DIFFUSÉ sur la période (≥1 impression) — les
       // créas « actives » dans Ads Manager mais sans diffusion n'ont pas de
-      // données chez Meta, elles ne peuvent apparaître nulle part.
+      // données chez Meta, elles ne peuvent apparaître nulle part. « Depuis
+      // le début » : getAnalyticsData charge tout l'historique (HISTORY_START
+      // → aujourd'hui), pas juste la fenêtre affichée dans les graphes CPA/CTR
+      // au-dessus — spend et métriques sont donc déjà lifetime, pas 14j.
       seen: analytics.ads.length,
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
@@ -365,6 +414,32 @@ export function AnalyseBoard({
       statusUnavailable: activeCampaignIds === null,
     };
   }, [analytics.ads, thresholds, activeCampaignIds]);
+
+  // Tri de la table gagnantes — cliquable par colonne (Badr, 04/08).
+  const [creaSortKey, setCreaSortKey] = useState<CreaSortKey>("roas");
+  const [creaSortDir, setCreaSortDir] = useState<"asc" | "desc">("desc");
+  const sortedCreaRows = useMemo(() => {
+    const dir = creaSortDir === "asc" ? 1 : -1;
+    return [...creas.rows].sort((a, b) => {
+      const va = a[creaSortKey];
+      const vb = b[creaSortKey];
+      if (va === null && vb === null) return 0;
+      if (va === null) return 1; // null toujours en dernier, peu importe le sens
+      if (vb === null) return -1;
+      if (typeof va === "string" || typeof vb === "string") {
+        return dir * String(va).localeCompare(String(vb));
+      }
+      return dir * ((va as number) - (vb as number));
+    });
+  }, [creas.rows, creaSortKey, creaSortDir]);
+  const toggleCreaSort = (key: CreaSortKey) => {
+    if (key === creaSortKey) {
+      setCreaSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setCreaSortKey(key);
+      setCreaSortDir("desc");
+    }
+  };
 
   // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
   const eventMarkers = useMemo(
@@ -720,24 +795,36 @@ export function AnalyseBoard({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[480px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[720px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
-                  <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
-                  <th className="px-2 py-1.5 text-left font-semibold">Campagne mère</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">ROAS</th>
+                  <CreaTh label="Créa" sortKey="adName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
+                  <CreaTh label="Campagne mère" sortKey="campaignName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
+                  <CreaTh label="Spend (début)" sortKey="spendCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Achats" sortKey="purchases" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="CPA" sortKey="cpaCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="CTR" sortKey="ctrPct" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Hook" sortKey="hookRate" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="ROAS" sortKey="roas" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <th className="px-2 py-1.5 text-right font-semibold">ROAS BE</th>
                   <th className="px-2 py-1.5 text-right font-semibold">ROAS cible</th>
                 </tr>
               </thead>
               <tbody className="tnum">
-                {creas.rows.map((a) => (
+                {sortedCreaRows.map((a) => (
                   <tr key={a.adId} className="border-b border-line-soft last:border-0">
-                    <td className="max-w-[220px] truncate px-2 py-1.5 text-left font-medium text-ink">
+                    <td className="max-w-[200px] truncate px-2 py-1.5 text-left font-medium text-ink">
                       🏆 {a.adName}
                     </td>
-                    <td className="max-w-[220px] truncate px-2 py-1.5 text-left text-ink-dim">
+                    <td className="max-w-[200px] truncate px-2 py-1.5 text-left text-ink-dim">
                       {a.campaignName}
+                    </td>
+                    <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(a.spendCents)}</td>
+                    <td className="px-2 py-1.5 text-right text-ink-dim">{a.purchases}</td>
+                    <td className="px-2 py-1.5 text-right">{a.cpaCents !== null ? eur2(a.cpaCents) : "—"}</td>
+                    <td className="px-2 py-1.5 text-right">{formatPct(a.ctrPct)}</td>
+                    <td className="px-2 py-1.5 text-right">
+                      {a.hookRate !== null ? formatPct(a.hookRate) : "—"}
                     </td>
                     <td className="px-2 py-1.5 text-right font-semibold text-phosphor">
                       {formatRoas(a.roas)}
@@ -753,7 +840,10 @@ export function AnalyseBoard({
             <p className="mt-2 text-[10px] text-ink-faint">
               🏆 gagnante = ROAS ≥ cible 15 % (seuil dynamique 14 j glissants) ET campagne mère
               active — le spend n&apos;est plus un critère, une créa peu testée peut apparaître
-              ici avec un échantillon faible. {creas.winners}/{creas.seen} créa
+              ici avec un échantillon faible. Spend/achats/CPA/CTR/hook = depuis le tout début
+              (historique complet, pas juste la période affichée plus haut). Hook = vidéo
+              seulement (3 sec ÷ impressions), « — » pour une image. Clique un en-tête pour trier,
+              reclique pour inverser. {creas.winners}/{creas.seen} créa
               {creas.winners > 1 ? "s" : ""} avec diffusion qualifie{creas.winners > 1 ? "nt" : ""}{" "}
               en ce moment.
             </p>
