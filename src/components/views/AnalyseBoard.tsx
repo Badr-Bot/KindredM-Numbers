@@ -16,7 +16,7 @@ import type { DayAgg, Thresholds } from "@/lib/data";
 import type { AnalyticsData } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
-import { formatDayShort, formatEur0, formatEurSigned0, formatPct, formatRoas, formatRoasBare } from "@/lib/format";
+import { formatDayShort, formatEur0, formatRoas, formatRoasBare } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 
@@ -96,6 +96,7 @@ export function AnalyseBoard({
   events,
   journalReady,
   thresholds,
+  activeCampaignIds,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -104,6 +105,7 @@ export function AnalyseBoard({
   events: JournalEvent[];
   journalReady: boolean;
   thresholds: Thresholds;
+  activeCampaignIds: Set<string> | null;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -318,54 +320,51 @@ export function AnalyseBoard({
     return out.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
   }, [series]);
 
-  // 🎨 Créas : hit rate + top/flop sur la fenêtre (données niveau annonce).
+  // 🎨 Créas gagnantes actives (données niveau annonce).
   // Révisé le 04/08 (Badr) : l'ancien seuil fixe "ROAS ≥ 2" (19/07) était
   // déconnecté de la vraie rentabilité — une créa à 1,66× est déjà
   // profitable (BE ≈ 1,62×) mais ne recevait jamais le 🏆, d'où un hit rate
   // ridicule (1 % alors que la plupart des créas listées gagnent de
-  // l'argent). Winneuse = ≥ 1 000 € de spend ET ROAS ≥ cible 15 % (seuil
-  // dynamique 14 j glissants, identique à celui utilisé partout ailleurs
-  // dans le dash — thresholds.target). Marge nette = approximation blended
-  // (marge de contribution moyenne du compte × CA de la créa − son spend) :
-  // le COGS/taxe réels par commande ne sont pas connus au niveau créa
-  // (Meta n'a pas cette donnée), donc c'est un ordre de grandeur, pas un
-  // calcul au centime comme le reste du dash.
+  // l'argent). Deux changements demandés par Badr :
+  //   1. Le spend n'est plus un critère (l'ancien seuil "≥ 1 000 € de
+  //      spend" est supprimé) — seul le ROAS compte, quelle que soit la
+  //      taille de l'échantillon.
+  //   2. Une créa dont la CAMPAGNE MÈRE n'est plus active (coupée/en pause)
+  //      ne peut jamais être gagnante, même avec un excellent ROAS
+  //      historique — sinon on pousserait à rallumer une créa dont le
+  //      contexte (budget, angle, offre) a changé depuis. Statut vérifié en
+  //      direct auprès de Meta (activeCampaignIds) : si indisponible
+  //      (token HS, mode démo), on ne devine pas — liste vide.
+  // La liste ne montre plus que les gagnantes (plus un top/flop général) :
+  // gagnante = ROAS ≥ cible 15 % (seuil dynamique 14 j glissants,
+  // thresholds.target, identique à celui utilisé partout ailleurs dans le
+  // dash) ET campagne mère active.
   const creas = useMemo(() => {
-    const MIN_SPEND_TESTED = 2000; // 20 € : en dessous, pas vraiment testée
-    const WINNER_MIN_SPEND = 100000; // 1 000 €
     const winnerMinRoas = thresholds.target;
-    const cm = thresholds.cm;
-    const eligible = analytics.ads.filter((a) => a.spendCents >= MIN_SPEND_TESTED);
-    const withMetrics = eligible.map((a) => {
-      const roas = a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null;
-      const netCents = cm !== null ? Math.round(a.purchaseValueCents * cm) - a.spendCents : null;
-      const margePct =
-        cm !== null && a.purchaseValueCents > 0 ? cm - a.spendCents / a.purchaseValueCents : null;
-      return {
-        ...a,
-        cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
-        roas,
-        netCents,
-        margePct,
-      };
-    });
+    const withMetrics = analytics.ads.map((a) => ({
+      ...a,
+      roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
+    }));
     const isWinner = (a: (typeof withMetrics)[number]) =>
-      a.spendCents >= WINNER_MIN_SPEND && winnerMinRoas !== null && a.roas !== null && a.roas >= winnerMinRoas;
-    const winners = withMetrics.filter(isWinner);
+      winnerMinRoas !== null &&
+      a.roas !== null &&
+      a.roas >= winnerMinRoas &&
+      activeCampaignIds !== null &&
+      activeCampaignIds.has(a.campaignId);
+    const winners = withMetrics.filter(isWinner).sort((a, b) => (b.roas ?? 0) - (a.roas ?? 0));
     return {
       // Toutes les créas AYANT DIFFUSÉ sur la période (≥1 impression) — les
       // créas « actives » dans Ads Manager mais sans diffusion n'ont pas de
       // données chez Meta, elles ne peuvent apparaître nulle part.
       seen: analytics.ads.length,
-      total: withMetrics.length,
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
-      rows: withMetrics.sort((a, b) => b.spendCents - a.spendCents).slice(0, 12),
-      isWinner,
+      rows: winners,
       winnerMinRoas,
       breakEven: thresholds.breakEven,
+      statusUnavailable: activeCampaignIds === null,
     };
-  }, [analytics.ads, thresholds]);
+  }, [analytics.ads, thresholds, activeCampaignIds]);
 
   // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
   const eventMarkers = useMemo(
@@ -692,90 +691,71 @@ export function AnalyseBoard({
         onDelete={deleteEvent}
       />
 
-      {/* 🎨 Créas & hit rate */}
+      {/* 🎨 Créas gagnantes actives */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
         <div className="mb-2 flex items-center justify-between">
           <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
-            🎨 Créas · période sélectionnée
+            🏆 Créas gagnantes · campagne active
           </span>
-          {creas.hitRate !== null && (
+          {creas.hitRate !== null && !creas.statusUnavailable && (
             <span className="rounded border border-phosphor/40 bg-phosphor/10 px-2 py-0.5 text-[11px] font-bold text-phosphor tnum">
-              Hit rate {Math.round(creas.hitRate * 100)} % ({creas.winners}/{creas.total})
+              {creas.winners}/{creas.seen}
             </span>
           )}
         </div>
-        {creas.rows.length === 0 ? (
+        {creas.statusUnavailable ? (
+          <p className="text-[11.5px] text-amber">
+            ⚠️ Statut des campagnes indisponible en direct (token Meta ou mode démo) — impossible
+            de confirmer quelle campagne mère est active, donc pas de créa gagnante affichée par
+            prudence plutôt que de deviner.
+          </p>
+        ) : creas.seen === 0 ? (
           <p className="text-[11.5px] text-ink-faint">
-            🔒 En attente des données niveau annonce (token Meta). Dès qu&apos;elles arrivent :
-            classement des créas par dépense, CPA et ROAS par créa, gagnantes marquées 🏆
-            (ROAS ≥ cible), hit rate = gagnantes ÷ créas testées (≥ 20 € de spend).
+            🔒 En attente des données niveau annonce (token Meta).
+          </p>
+        ) : creas.rows.length === 0 ? (
+          <p className="text-[11.5px] text-ink-faint">
+            Aucune créa au-dessus de la cible {creas.winnerMinRoas !== null && `(${formatRoasBare(creas.winnerMinRoas)})`}{" "}
+            sur une campagne active en ce moment.
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[680px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[480px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
                   <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">Spend</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">Achats</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">CPA</th>
+                  <th className="px-2 py-1.5 text-left font-semibold">Campagne mère</th>
                   <th className="px-2 py-1.5 text-right font-semibold">ROAS</th>
                   <th className="px-2 py-1.5 text-right font-semibold">ROAS BE</th>
-                  <th className="px-2 py-1.5 text-right font-semibold">Marge nette*</th>
+                  <th className="px-2 py-1.5 text-right font-semibold">ROAS cible</th>
                 </tr>
               </thead>
               <tbody className="tnum">
-                {creas.rows.map((a) => {
-                  const winner = creas.isWinner(a);
-                  const netPos = a.netCents !== null && a.netCents >= 0;
-                  return (
-                    <tr key={a.adId} className="border-b border-line-soft last:border-0">
-                      <td className="max-w-[260px] truncate px-2 py-1.5 text-left font-medium text-ink">
-                        {winner && <span className="mr-1">🏆</span>}
-                        {a.adName}
-                      </td>
-                      <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(a.spendCents)}</td>
-                      <td className="px-2 py-1.5 text-right text-ink-dim">{a.purchases}</td>
-                      <td className="px-2 py-1.5 text-right">{a.cpaCents !== null ? eur2(a.cpaCents) : "—"}</td>
-                      <td className={`px-2 py-1.5 text-right font-semibold ${winner ? "text-phosphor" : ""}`}>
-                        {formatRoas(a.roas)}
-                      </td>
-                      <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(creas.breakEven)}</td>
-                      <td className={`px-2 py-1.5 text-right ${a.netCents === null ? "text-ink-faint" : netPos ? "text-phosphor" : "text-red"}`}>
-                        {a.netCents !== null ? (
-                          <>
-                            {formatEurSigned0(a.netCents)}
-                            <span className="ml-1 text-[9.5px] text-ink-faint">
-                              ({formatPct(a.margePct)})
-                            </span>
-                          </>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {creas.rows.map((a) => (
+                  <tr key={a.adId} className="border-b border-line-soft last:border-0">
+                    <td className="max-w-[220px] truncate px-2 py-1.5 text-left font-medium text-ink">
+                      🏆 {a.adName}
+                    </td>
+                    <td className="max-w-[220px] truncate px-2 py-1.5 text-left text-ink-dim">
+                      {a.campaignName}
+                    </td>
+                    <td className="px-2 py-1.5 text-right font-semibold text-phosphor">
+                      {formatRoas(a.roas)}
+                    </td>
+                    <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(creas.breakEven)}</td>
+                    <td className="px-2 py-1.5 text-right text-ink-faint">
+                      {formatRoasBare(creas.winnerMinRoas)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
             <p className="mt-2 text-[10px] text-ink-faint">
-              🏆 winneuse = ≥ 1 000 € de spend ET ROAS ≥ cible 15 %{" "}
-              {creas.winnerMinRoas !== null && `(${formatRoasBare(creas.winnerMinRoas)} en ce moment)`} · hit
-              rate = winneuses ÷ créas testées (≥ 20 € de spend) · l&apos;angle se lit dans le nom
-              de la créa.
-            </p>
-            <p className="mt-1 text-[10px] text-ink-faint">
-              * Marge nette estimée = marge de contribution moyenne du compte (14 j glissants) ×
-              CA de la créa − son spend. Le COGS/taxe réels par commande ne sont pas connus au
-              niveau créa (donnée Meta) : c&apos;est un ordre de grandeur, pas un calcul au
-              centime.
-            </p>
-            <p className="mt-1 text-[10px] text-ink-faint">
-              {creas.seen} créa{creas.seen > 1 ? "s" : ""} avec de la diffusion sur cette période
-              (≥ 1 impression) — {creas.total} testée{creas.total > 1 ? "s" : ""} (≥ 20 €). Ads
-              Manager affiche « actif » dès qu&apos;une créa est activée, même sans diffusion
-              récente : c&apos;est pour ça que ton compte y (300+) est plus élevé qu&apos;ici — le
-              hit rate ne peut porter que sur les créas qui ont réellement tourné.
+              🏆 gagnante = ROAS ≥ cible 15 % (seuil dynamique 14 j glissants) ET campagne mère
+              active — le spend n&apos;est plus un critère, une créa peu testée peut apparaître
+              ici avec un échantillon faible. {creas.winners}/{creas.seen} créa
+              {creas.winners > 1 ? "s" : ""} avec diffusion qualifie{creas.winners > 1 ? "nt" : ""}{" "}
+              en ce moment.
             </p>
           </div>
         )}

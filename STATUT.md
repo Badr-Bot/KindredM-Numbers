@@ -344,6 +344,26 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   approximation signalée comme telle, le COGS/taxe réel par commande n'est
   pas connu au niveau créa côté Meta).
 
+## Mise à jour 04/08 (suite) — liste créas simplifiée : gagnantes actives uniquement
+
+- Nouvelle demande Badr sur la même section : ne montrer QUE les créas
+  gagnantes (ROAS ≥ cible 15 %), plus de top/flop général ni de seuil de
+  spend (« on s'en fou du spend » — l'ancien seuil ≥ 1 000 € est supprimé).
+  Colonnes réduites à Créa / Campagne mère / ROAS / ROAS BE / ROAS cible
+  (Spend, Achats, CPA, Marge nette retirés de cette liste).
+- **Nouvelle règle stricte** : une créa ne peut être gagnante que si sa
+  CAMPAGNE MÈRE est actuellement ACTIVE sur Meta — sinon jamais de 🏆, même
+  avec un excellent historique. Nécessite le statut live des campagnes
+  (absent des tables Supabase, qui n'ont que l'historique) : nouvelle
+  fonction `fetchActiveCampaignIds()` dans `meta.ts` (GET
+  `/act_{id}/campaigns?fields=id,effective_status`), appelée depuis
+  `analyse/page.tsx` en parallèle du reste. Si indisponible (token HS, mode
+  démo) : liste vide + bandeau ⚠️ explicite plutôt que de deviner (loi
+  « jamais de chiffre inventé »).
+- `AdPerf` gagne un champ `campaignId` (ajouté à la sélection
+  `meta_ad_insights`) pour pouvoir croiser chaque créa avec le statut live
+  de sa campagne.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

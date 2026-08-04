@@ -262,6 +262,49 @@ export async function fetchAdCreativeBodies(): Promise<Map<string, string>> {
   return bodies;
 }
 
+interface MetaCampaignsListRow {
+  id: string;
+  effective_status: string;
+}
+
+interface MetaCampaignsListResponse {
+  data: MetaCampaignsListRow[];
+  paging?: { next?: string };
+}
+
+/** IDs des campagnes actuellement ACTIVE (snapshot live, pas historisé) —
+ * sert à exclure une créa gagnante dont la campagne mère a été coupée/mise en
+ * pause depuis (demande Badr, 04/08 : « la campagne mère doit être active
+ * sinon aucune créa gagnante »). */
+export async function fetchActiveCampaignIds(): Promise<Set<string>> {
+  const token = process.env.META_ACCESS_TOKEN;
+  const accountId = process.env.META_AD_ACCOUNT_ID;
+  if (!token || !accountId) {
+    throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
+  }
+  const active = new Set<string>();
+  const params = new URLSearchParams({
+    fields: "id,effective_status",
+    limit: "500",
+    access_token: token,
+  });
+  let url: string | null =
+    `https://graph.facebook.com/${API_VERSION}/act_${accountId}/campaigns?` + params.toString();
+
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Meta API error ${res.status}: ${await res.text()}`);
+    }
+    const body: MetaCampaignsListResponse = await res.json();
+    for (const row of body.data) {
+      if (row.effective_status === "ACTIVE") active.add(row.id);
+    }
+    url = body.paging?.next ?? null;
+  }
+  return active;
+}
+
 /** Spend Meta par jour/campagne (compat : dérivé de fetchMetaInsights). */
 export async function fetchMetaSpend(sinceDay: string, untilDay: string): Promise<MetaSpendRow[]> {
   const insights = await fetchMetaInsights(sinceDay, untilDay);

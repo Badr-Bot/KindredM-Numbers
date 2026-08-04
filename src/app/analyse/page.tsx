@@ -9,6 +9,7 @@ import {
 } from "@/lib/data";
 import { getAnalyticsData, type AnalyticsData } from "@/lib/analytics";
 import { getJournalEvents, type JournalEvent } from "@/lib/journal";
+import { fetchActiveCampaignIds } from "@/lib/meta";
 import type { MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
@@ -26,16 +27,20 @@ type LoadResult =
       events: JournalEvent[];
       journalReady: boolean;
       thresholds: Thresholds;
+      /** null = statut live indisponible (token Meta HS, mode démo…) — la
+       * liste des créas gagnantes reste vide plutôt que de deviner. */
+      activeCampaignIds: Set<string> | null;
     };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const [dayData, analytics, journal, allThresholds] = await Promise.all([
+    const [dayData, analytics, journal, allThresholds, activeCampaignIds] = await Promise.all([
       getTabDayData(HISTORY_START, today),
       getAnalyticsData(HISTORY_START, today),
       getJournalEvents(),
       computeThresholds(today),
+      fetchActiveCampaignIds().catch(() => null),
     ]);
     return {
       dayData,
@@ -44,6 +49,7 @@ async function loadData(): Promise<LoadResult> {
       events: journal.events,
       journalReady: journal.ready,
       thresholds: allThresholds.GLOBAL,
+      activeCampaignIds,
     };
   } catch (err) {
     return { error: (err as Error).message };
@@ -86,6 +92,7 @@ export default async function AnalysePage() {
         events={result.events}
         journalReady={result.journalReady}
         thresholds={result.thresholds}
+        activeCampaignIds={result.activeCampaignIds}
       />
     </div>
   );
