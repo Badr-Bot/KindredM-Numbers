@@ -419,6 +419,21 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   d'historique nécessaire : les seuils sont calculés à la volée, jamais
   stockés.
 
+## Mise à jour 04/08 — âge de la créa + métriques calées sur la période sélectionnée
+
+- **Âge** : nouvelle colonne triable sur la liste des gagnantes = jours
+  depuis la 1ʳᵉ diffusion HISTORIQUE de la créa (indépendant de la période
+  affichée) — pour croiser avec le ROAS (jeune prometteuse ≠ vieille qui
+  s'essouffle). `AdDailyPerf` expose le jour par ligne, le 1er jour est
+  déduit côté client sur tout l'historique.
+- **Période** : sur demande Badr, toutes les autres métriques de la table
+  (spend, achats, CPA, CPC, CPM, CTR, hook, hold, atterrissage, ATC, CVR,
+  panier, ROAS) suivent désormais le SÉLECTEUR DE PÉRIODE en haut de
+  l'onglet (7/14/30 j/tout/custom) au lieu d'être figées en lifetime.
+  Restructuration : `getAnalyticsData` renvoie les lignes JOURNALIÈRES par
+  créa (`adsDaily`, comme l'onglet Créas) et l'agrégation se fait côté
+  client sur [from, to] — zéro appel serveur au changement de période.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

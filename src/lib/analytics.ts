@@ -18,7 +18,11 @@ export interface InsightDaily {
   reach: number;
 }
 
-export interface AdPerf {
+/** Une ligne PAR JOUR et par créa — l'agrégation (lifetime ou période
+ * sélectionnée) se fait côté client, comme l'onglet Créas (demande Badr
+ * 04/08 : le tableau des gagnantes doit suivre le sélecteur de période). */
+export interface AdDailyPerf {
+  day: string;
   adId: string;
   adName: string;
   campaignId: string;
@@ -39,7 +43,7 @@ export interface AdPerf {
 
 export interface AnalyticsData {
   insights: InsightDaily[];
-  ads: AdPerf[];
+  adsDaily: AdDailyPerf[];
   /** Migration 0005 pas encore appliquée dans Supabase. */
   missingTables: boolean;
 }
@@ -59,6 +63,7 @@ interface RawInsight {
 }
 
 interface RawAdInsight {
+  day: string;
   ad_id: string;
   ad_name: string | null;
   campaign_id: string;
@@ -118,10 +123,10 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   const { error: videoPctProbeError } = await supabase.from("meta_ad_insights").select("video_p100").limit(1);
   const hasVideoPct = !videoPctProbeError;
   const adCols =
-    "ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, " +
+    "day, ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, " +
     "purchase_value_cents, video_3s, reach, link_clicks, landing_page_views, add_to_cart, initiate_checkout" +
     (hasVideoPct ? ", video_p100" : "");
-  const byAd = new Map<string, AdPerf>();
+  const adsDaily: AdDailyPerf[] = [];
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("meta_ad_insights")
@@ -134,42 +139,30 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
     if (error) break; // même cause que missingTables, déjà signalée
     const rows = data ?? [];
     for (const r of rows) {
-      const cur = byAd.get(r.ad_id) ?? {
+      adsDaily.push({
+        day: r.day,
         adId: r.ad_id,
         adName: r.ad_name ?? r.ad_id,
         campaignId: r.campaign_id,
         campaignName: r.campaign_name ?? "",
-        spendCents: 0,
-        impressions: 0,
-        clicks: 0,
-        purchases: 0,
-        purchaseValueCents: 0,
-        video3s: 0,
-        video100: 0,
-        reach: 0,
-        linkClicks: 0,
-        landingPageViews: 0,
-        addToCart: 0,
-        initiateCheckout: 0,
-      };
-      cur.spendCents += r.spend_cents;
-      cur.impressions += r.impressions;
-      cur.clicks += r.clicks;
-      cur.purchases += r.purchases;
-      cur.purchaseValueCents += r.purchase_value_cents;
-      cur.video3s += r.video_3s ?? 0;
-      cur.video100 += r.video_p100 ?? 0;
-      cur.reach += r.reach ?? 0;
-      cur.linkClicks += r.link_clicks ?? 0;
-      cur.landingPageViews += r.landing_page_views ?? 0;
-      cur.addToCart += r.add_to_cart ?? 0;
-      cur.initiateCheckout += r.initiate_checkout ?? 0;
-      byAd.set(r.ad_id, cur);
+        spendCents: r.spend_cents,
+        impressions: r.impressions,
+        clicks: r.clicks,
+        purchases: r.purchases,
+        purchaseValueCents: r.purchase_value_cents,
+        video3s: r.video_3s ?? 0,
+        video100: r.video_p100 ?? 0,
+        reach: r.reach ?? 0,
+        linkClicks: r.link_clicks ?? 0,
+        landingPageViews: r.landing_page_views ?? 0,
+        addToCart: r.add_to_cart ?? 0,
+        initiateCheckout: r.initiate_checkout ?? 0,
+      });
     }
     if (rows.length < PAGE) break;
   }
 
-  return { insights, ads: [...byAd.values()], missingTables };
+  return { insights, adsDaily, missingTables };
 }
 
 // ---------------------------------------------------------------------------

@@ -90,6 +90,7 @@ type CreaSortKey =
   | "adName"
   | "campaignName"
   | "product"
+  | "ageDays"
   | "spendCents"
   | "purchases"
   | "cpaCents"
@@ -403,13 +404,75 @@ export function AnalyseBoard({
         target: p?.target ?? thresholds.target,
       };
     };
-    const withMetrics = analytics.ads.map((a) => {
+    // L'âge se calcule sur TOUT l'historique (première diffusion réelle),
+    // indépendamment de la période sélectionnée en haut.
+    const firstDayByAd = new Map<string, string>();
+    for (const r of analytics.adsDaily) {
+      const cur = firstDayByAd.get(r.adId);
+      if (!cur || r.day < cur) firstDayByAd.set(r.adId, r.day);
+    }
+    // Le reste des métriques suit le SÉLECTEUR DE PÉRIODE en haut de l'onglet
+    // (Badr, 04/08) : agrégation locale des lignes journalières sur [from, to],
+    // exactement comme les graphes au-dessus.
+    interface AdAgg {
+      adId: string;
+      adName: string;
+      campaignId: string;
+      campaignName: string;
+      spendCents: number;
+      impressions: number;
+      clicks: number;
+      purchases: number;
+      purchaseValueCents: number;
+      video3s: number;
+      video100: number;
+      linkClicks: number;
+      landingPageViews: number;
+      addToCart: number;
+    }
+    const byAd = new Map<string, AdAgg>();
+    for (const r of analytics.adsDaily) {
+      if (r.day < from || r.day > to) continue;
+      const cur = byAd.get(r.adId) ?? {
+        adId: r.adId,
+        adName: r.adName,
+        campaignId: r.campaignId,
+        campaignName: r.campaignName,
+        spendCents: 0,
+        impressions: 0,
+        clicks: 0,
+        purchases: 0,
+        purchaseValueCents: 0,
+        video3s: 0,
+        video100: 0,
+        linkClicks: 0,
+        landingPageViews: 0,
+        addToCart: 0,
+      };
+      cur.spendCents += r.spendCents;
+      cur.impressions += r.impressions;
+      cur.clicks += r.clicks;
+      cur.purchases += r.purchases;
+      cur.purchaseValueCents += r.purchaseValueCents;
+      cur.video3s += r.video3s;
+      cur.video100 += r.video100;
+      cur.linkClicks += r.linkClicks;
+      cur.landingPageViews += r.landingPageViews;
+      cur.addToCart += r.addToCart;
+      byAd.set(r.adId, cur);
+    }
+    const withMetrics = [...byAd.values()].map((a) => {
       const isVideo = a.video3s > 0;
       const product: CreaProduct = a.campaignName.toUpperCase().includes("LANCASTER") ? "GILET" : "POLO";
       const t = thresholdsFor(product);
+      // Âge = jours depuis la première diffusion HISTORIQUE (aujourd'hui inclus).
+      const firstDay = firstDayByAd.get(a.adId) ?? today;
+      const ageDays =
+        Math.round((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${firstDay}T00:00:00Z`)) / 86_400_000) + 1;
       return {
         ...a,
         product,
+        ageDays,
         breakEven: t.breakEven,
         target: t.target,
         roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
@@ -433,13 +496,10 @@ export function AnalyseBoard({
       activeCampaignIds.has(a.campaignId);
     const winners = withMetrics.filter(isWinner);
     return {
-      // Toutes les créas AYANT DIFFUSÉ sur la période (≥1 impression) — les
+      // Toutes les créas AYANT DIFFUSÉ sur la période sélectionnée — les
       // créas « actives » dans Ads Manager mais sans diffusion n'ont pas de
-      // données chez Meta, elles ne peuvent apparaître nulle part. « Depuis
-      // le début » : getAnalyticsData charge tout l'historique (HISTORY_START
-      // → aujourd'hui), pas juste la fenêtre affichée dans les graphes CPA/CTR
-      // au-dessus — spend et métriques sont donc déjà lifetime, pas 14j.
-      seen: analytics.ads.length,
+      // données chez Meta, elles ne peuvent apparaître nulle part.
+      seen: byAd.size,
       winners: winners.length,
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
       rows: winners,
@@ -448,7 +508,7 @@ export function AnalyseBoard({
       poloThresholds: productThresholds?.POLO ?? null,
       globalTarget: thresholds.target,
     };
-  }, [analytics.ads, thresholds, activeCampaignIds, productThresholds]);
+  }, [analytics.adsDaily, thresholds, activeCampaignIds, productThresholds, from, to, today]);
 
   // Tri de la table gagnantes — cliquable par colonne (Badr, 04/08).
   const [creaSortKey, setCreaSortKey] = useState<CreaSortKey>("roas");
@@ -805,7 +865,7 @@ export function AnalyseBoard({
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
         <div className="mb-2 flex items-center justify-between">
           <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
-            🏆 Créas gagnantes · campagne active
+            🏆 Créas gagnantes · période sélectionnée · campagne active
           </span>
           {creas.hitRate !== null && !creas.statusUnavailable && (
             <span className="rounded border border-phosphor/40 bg-phosphor/10 px-2 py-0.5 text-[11px] font-bold text-phosphor tnum">
@@ -832,13 +892,14 @@ export function AnalyseBoard({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1150px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[1200px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
                   <CreaTh label="Créa" sortKey="adName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Campagne mère" sortKey="campaignName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Produit" sortKey="product" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
-                  <CreaTh label="Spend (début)" sortKey="spendCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Âge" sortKey="ageDays" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
+                  <CreaTh label="Spend" sortKey="spendCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="Achats" sortKey="purchases" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="CPA" sortKey="cpaCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="CPC" sortKey="cpcCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
@@ -867,6 +928,7 @@ export function AnalyseBoard({
                     <td className="whitespace-nowrap px-2 py-1.5 text-left">
                       {a.product === "GILET" ? "🎽 Gilet" : "👕 Polo"}
                     </td>
+                    <td className="whitespace-nowrap px-2 py-1.5 text-right text-ink-dim">{a.ageDays} j</td>
                     <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(a.spendCents)}</td>
                     <td className="px-2 py-1.5 text-right text-ink-dim">{a.purchases}</td>
                     <td className="px-2 py-1.5 text-right">{a.cpaCents !== null ? eur2(a.cpaCents) : "—"}</td>
@@ -893,8 +955,9 @@ export function AnalyseBoard({
               produit a son BE/cible, calculés sur ses propres commandes 14 j glissants
               {creas.poloThresholds?.target != null && ` : Polo cible ${formatRoasBare(creas.poloThresholds.target)}`}
               {creas.giletThresholds?.target != null && ` · Gilet cible ${formatRoasBare(creas.giletThresholds.target)}`})
-              ET campagne mère active. Le spend n&apos;est pas un critère. Toutes les métriques =
-              depuis le tout début (historique complet). Clique un en-tête pour trier, reclique
+              ET campagne mère active. Le spend n&apos;est pas un critère. Toutes les métriques suivent la
+              PÉRIODE SÉLECTIONNÉE en haut de l&apos;onglet (7/14/30 j…) — sauf l&apos;Âge,
+              toujours depuis la 1ʳᵉ diffusion historique. Clique un en-tête pour trier, reclique
               pour inverser. {creas.winners}/{creas.seen} créa{creas.winners > 1 ? "s" : ""} avec
               diffusion qualifie{creas.winners > 1 ? "nt" : ""} en ce moment.
             </p>
@@ -902,7 +965,7 @@ export function AnalyseBoard({
               Hook = vues 3 s ÷ impressions (vidéo) · Hold = vues complètes ÷ vues 3 s (vidéo) ·
               Atterrissage = pages vues ÷ clics lien (un taux bas = page lente ou clics
               accidentels) · ATC = ajouts panier ÷ pages vues · CVR = achats ÷ pages vues ·
-              Panier = CA ÷ achats · « — » = pas applicable (ex. Hook sur une image) ou pas
+              Panier = CA ÷ achats · Âge = jours depuis la 1ʳᵉ diffusion historique (croiser avec le ROAS : jeune prometteuse ≠ vieille qui s&apos;essouffle) · « — » = pas applicable (ex. Hook sur une image) ou pas
               assez de données.
             </p>
           </div>
