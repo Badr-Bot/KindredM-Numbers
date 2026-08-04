@@ -25,7 +25,7 @@
 ## Seuils (repères de contrôle)
 - Polo : marge contrib ≈ 62 % → ROAS BE ≈ 1,62× · cible 15 % ≈ 2,13×.
 - Gilet : marge ≈ 70 % → BE ≈ 1,43× · cible 15 % ≈ 1,98×.
-- Dashboard : seuils dynamiques 14 j glissants (jamais figés).
+- Dashboard : seuils dynamiques 14 j glissants (jamais figés). Cible = 15 % net (aligné Master 04/08, ex-20 %) : `roasTarget15` = 1/(CM−0,15). Seuils aussi calculés PAR PRODUIT pour les créas (Lancaster→Gilet, sinon Polo).
 
 ## Protocole scaling (Master, validé Badr 03/08) — base : moyenne ROAS réel 3 j
 - SCALE si moy ≥ cible15 ET santé OK (CTR stable, CVR ±10 %, fréq <2, CPM <+20 %) : <200 €/j +25 % · 200-600 +20 % · 600-1500 +15 % · >1500 +10 %. Max +30 %. CBO fourchette basse. Attendre 48-72 h entre scales. Duplication seulement >1000-1500 €/j très stable.

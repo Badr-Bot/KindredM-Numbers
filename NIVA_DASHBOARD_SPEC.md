@@ -23,7 +23,7 @@ Un lien unique (mobile + desktop) où Badr voit en permanence :
 - **Les 14 derniers jours** : 1 ligne par jour (format tableau NIVA classique).
 - **Par mois** (sélecteur) et **par année** : CA, gain net, marge, ROAS, commandes.
 - **Répartition des dépenses** : donut/treemap par catégorie de coût avec pondération % (voir §6.5).
-- **Seuils dynamiques** : break-even ROAS et ROAS cible 20 % net, par marché, recalculés depuis les prix réels.
+- **Seuils dynamiques** : break-even ROAS et ROAS cible 15 % net (aligné protocole Master, 04/08 — avant : 20 %), par marché, recalculés depuis les prix réels.
 
 **Marchés (4 stores Shopify, tous en EUR)** : `ES`, `UK` (store international : GB + CA/AU/SE/IE/BE/IT…), `DE`, `FR` *(nouveau — les campagnes FR ne sont plus exclues, FR devient un marché à part entière)*.
 
@@ -229,7 +229,7 @@ marge %            = net / CA
 ROAS               = CA / spend            (spend > 0)
 CM (marge contrib.) = (CA − COGS − taxe − frais) / CA       ← avant pub
 ROAS break-even    = 1 / CM
-ROAS cible 20 %    = 1 / (CM − 0,20)
+ROAS cible 15 %    = 1 / (CM − 0,15)   (aligné Master 04/08 — avant : 20 %)
 ```
 **Les seuils BE/cible sont DYNAMIQUES** : calculés par marché sur les **14 derniers jours glissants** (CM blended réel, incluant mix bundles + upsells + prix du moment lus via l'API). Repères au 05/07 pour contrôle : ES ≈ 1,65 / 2,46 (2pcs à 59,99 €).
 - Remboursements : soustraits du CA **du jour d'achat de la commande d'origine** (pas le jour où le remboursement est traité) — `refunded_cents` est stocké sur la ligne de la commande, qui reste rattachée à son jour de création. Le cron re-scanne les commandes modifiées sur J-7→J-1 via `updated_at` pour attraper les remboursements tardifs (même sur une commande ancienne), et recalcule l'agrégat du **jour d'achat d'origine**, pas celui du jour courant. Précisé/corrigé le 27/07 (l'ancienne formulation « jour du remboursement » était trompeuse — vérifié dans `aggregate.ts` : `caCents += total_cents − refunded_cents`, groupé par `orders.day` = jour de création).
@@ -300,7 +300,7 @@ Pour la période sélectionnée (mois / année / custom) et le marché sélectio
 Contraintes non négociables :
 - **Dark obligatoire**, mobile-first (l'usage principal = téléphone, souvent à minuit 😄).
 - **Hiérarchie** : le gain net est TOUJOURS le chiffre le plus visible de chaque écran.
-- **La couleur porte du sens** : 🔴 sous break-even · 🟡 entre BE et cible · 🟢 ≥ cible 20 %. Pas de couleur décorative qui entre en conflit.
+- **La couleur porte du sens** : 🔴 sous break-even · 🟡 entre BE et cible · 🟢 ≥ cible 15 %. Pas de couleur décorative qui entre en conflit.
 - Tableaux denses lisibles au pouce ; chargement < 1 s (données servies depuis Supabase).
 - Liberté totale sur le reste : glassmorphism, néon, grilles animées, monospace numérique… surprends-le, il aime les interfaces gamifiées/futuristes soignées.
 

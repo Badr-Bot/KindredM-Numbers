@@ -204,7 +204,7 @@ export function TodayBoard({
       <p className="text-center text-[10.5px] text-ink-faint">
         Couleur ROAS : <span className={statusText("red")}>🔴 sous rentabilité</span> ·{" "}
         <span className={statusText("yellow")}>🟡 vers cible</span> ·{" "}
-        <span className={statusText("green")}>🟢 ≥ cible 20 %</span>
+        <span className={statusText("green")}>🟢 ≥ cible 15 %</span>
       </p>
 
       {productSplit.length > 0 && <ProductCards cards={productSplit} />}

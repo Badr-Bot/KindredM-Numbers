@@ -4,7 +4,8 @@ import {
   roas,
   roasBreakEven,
   roasStatus,
-  roasTarget20,
+  roasTarget15,
+  TARGET_NET_MARGIN,
   type Market,
   type RoasStatus,
 } from "./engine";
@@ -229,7 +230,7 @@ export function thresholdsFromTotals(t: Totals): Thresholds {
   const cm = contributionMargin(t.caCents, t.cogsCents, t.taxCents, t.feesCents);
   if (cm === null) return { cm: null, breakEven: null, target: null };
   const breakEven = roasBreakEven(cm);
-  const target = cm > 0.2 ? roasTarget20(cm) : null;
+  const target = cm > TARGET_NET_MARGIN ? roasTarget15(cm) : null;
   return { cm, breakEven, target };
 }
 

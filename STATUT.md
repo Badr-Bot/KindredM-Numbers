@@ -402,6 +402,23 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   la cible dynamique du dash a toujours été 1/(CM−0,20) (20 % de marge
   nette, `roasTarget20`). Libellés corrigés en « cible » tout court.
 
+## Mise à jour 04/08 — cible alignée sur le protocole Master : 15 % net (ex-20 %)
+
+- Décision Badr (« on s'aligne sur master ecom ») : le ROAS cible dynamique
+  du dashboard passe de 1/(CM−0,20) à **1/(CM−0,15)** — même définition que
+  la cible du protocole Master utilisée par le rapport Slack 23h. Fini le
+  double référentiel (le dash affichait une cible plus exigeante que celle
+  sur laquelle on prend les décisions de scaling).
+- `roasTarget20` → `roasTarget15` dans engine.ts + constante
+  `TARGET_NET_MARGIN = 0.15` (sert aussi de seuil de validité de la cible
+  dans thresholdsFromTotals et getProductRoasThresholds). Libellé légende
+  Aujourd'hui « 🟢 ≥ cible 15 % ». Spec §1/§4.7 et MEMO à jour.
+- Effet mécanique : la cible baisse (ex. CM 62 % → cible 2,13× au lieu de
+  2,38×) → des campagnes/jours passeront de 🟡 à 🟢 et le CPA cible de
+  l'onglet Créas monte un peu (panier ÷ cible plus basse). Aucun recalcul
+  d'historique nécessaire : les seuils sont calculés à la volée, jamais
+  stockés.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

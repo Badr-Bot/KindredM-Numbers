@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from "./supabase";
-import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget20 } from "./engine";
+import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -528,7 +528,7 @@ export async function getProductRoasThresholds(
       breakEven: roasBreakEven(cm),
       // Même règle que thresholdsFromTotals (data.ts) : cible définie
       // seulement si la marge laisse la place aux 20 % visés.
-      target: cm > 0.2 ? roasTarget20(cm) : null,
+      target: cm > TARGET_NET_MARGIN ? roasTarget15(cm) : null,
     };
   };
 

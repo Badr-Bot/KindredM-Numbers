@@ -557,9 +557,15 @@ export function roasBreakEven(cm: number): number {
   return 1 / cm;
 }
 
-/** ROAS cible 20% net = 1 / (CM − 0,20) */
-export function roasTarget20(cm: number): number {
-  return 1 / (cm - 0.2);
+/** Marge nette visée par le protocole Master (validé Badr 03/08, aligné
+ * dashboard 04/08 — avant : 20 %). Sert au ROAS cible ET au seuil de
+ * validité de la cible (cm doit dépasser la marge visée, sinon pas de
+ * cible définissable). */
+export const TARGET_NET_MARGIN = 0.15;
+
+/** ROAS cible 15% net (Master) = 1 / (CM − 0,15) */
+export function roasTarget15(cm: number): number {
+  return 1 / (cm - TARGET_NET_MARGIN);
 }
 
 export type RoasStatus = "red" | "yellow" | "green";
