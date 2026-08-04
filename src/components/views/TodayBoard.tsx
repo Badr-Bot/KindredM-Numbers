@@ -12,6 +12,7 @@ import {
   formatPct,
   formatRoas,
   formatRoasBare,
+  netTierClass,
 } from "@/lib/format";
 import { CountUp } from "../fx/CountUp";
 import { StatusPill, statusText } from "../shell/StatusPill";
@@ -83,9 +84,9 @@ export function TodayBoard({
         </div>
 
         <div
-          className={`mt-2 text-[clamp(3.25rem,14vw,7.5rem)] font-bold leading-none tnum ${
-            netPos ? "text-phosphor glow-net-pos" : "text-red glow-net-neg"
-          }`}
+          className={`mt-2 text-[clamp(3.25rem,14vw,7.5rem)] font-bold leading-none tnum ${netTierClass(
+            global.totals.netCents
+          )} ${netPos ? "glow-net-pos" : "glow-net-neg"}`}
         >
           <CountUp value={global.totals.netCents / 100} format={(n) => formatEurSigned(Math.round(n * 100))} />
         </div>
@@ -171,7 +172,6 @@ export function TodayBoard({
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {markets.map((card, i) => {
           const meta = MARKET_META[card.market];
-          const pos = card.totals.netCents >= 0;
           return (
             <section
               key={card.market}
@@ -184,7 +184,7 @@ export function TodayBoard({
                 </span>
                 <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
               </div>
-              <div className={`mt-2 text-2xl font-bold leading-none tnum lg:text-4xl ${pos ? "text-phosphor" : "text-red"}`}>
+              <div className={`mt-2 text-2xl font-bold leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
                 <CountUp
                   value={card.totals.netCents / 100}
                   format={(n) => formatEurSigned0(Math.round(n * 100))}
@@ -226,7 +226,6 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
       </div>
       <div className="grid grid-cols-2 gap-3">
         {cards.map((c) => {
-          const pos = c.netCents >= 0;
           const roas = c.spendCents > 0 ? c.caCents / c.spendCents : null;
           const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
           return (
@@ -237,7 +236,7 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
                 </span>
                 <span className="text-[10px] text-ink-faint tnum">{formatInt(c.orders)} cmd</span>
               </div>
-              <div className={`mt-1.5 text-xl font-bold leading-none tnum lg:text-2xl ${pos ? "text-phosphor" : "text-red"}`}>
+              <div className={`mt-1.5 text-xl font-bold leading-none tnum lg:text-2xl ${netTierClass(c.netCents)}`}>
                 {formatEurSigned0(c.netCents)}
               </div>
               <dl className="mt-2 grid grid-cols-2 gap-1 text-center text-[10.5px]">

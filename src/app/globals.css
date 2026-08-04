@@ -26,6 +26,18 @@
   /* data-viz / accent froid — distinct des couleurs de statut ROAS */
   --color-cyan: #2fd8ff;
 
+  /* Paliers de net (Badr, 04/08) — rampe ordinale mono-teinte (or), même
+     teinte que --color-phosphor (H≈87°), L croissant par paliers de 500 €.
+     Négatif reste --color-red (statut, pas dans la rampe). Palier 5 =
+     phosphor lui-même (le "positif" déjà établi devient le plafond de la
+     rampe). Validé six-checks ordinal (skill dataviz) : monotone, ΔL≥0.06,
+     contraste texte ≥4,5:1 sur --color-terminal ET --color-panel. */
+  --color-net-1: #ac7500; /* 0 - 500 € */
+  --color-net-2: #c08900; /* 500 - 1000 € */
+  --color-net-3: #d59d00; /* 1000 - 1500 € */
+  --color-net-4: #eab100; /* 1500 - 2000 € */
+  --color-net-5: #ffc61a; /* ≥ 2000 € (= phosphor) */
+
   --font-mono:
     var(--font-geist-mono), ui-monospace, "SF Mono", "Menlo", "Consolas",
     monospace;

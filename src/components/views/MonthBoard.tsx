@@ -12,6 +12,7 @@ import {
   formatMonthLabel,
   formatPct,
   formatRoas,
+  netTierClass,
 } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { statusText } from "../shell/StatusPill";
@@ -183,7 +184,7 @@ export function MonthBoard({
                     {l.caCents ? formatEur0(l.cogsCents + l.taxCents) : "—"}
                   </Td>
                   <Td className="hidden text-right text-ink-dim sm:table-cell">{l.caCents ? formatEur0(l.feesCents) : "—"}</Td>
-                  <Td className={`text-right font-semibold ${empty ? "" : statusText(l.status)}`}>
+                  <Td className={`text-right font-semibold ${empty ? "" : netTierClass(l.netCents)}`}>
                     {l.caCents || l.spendCents ? formatEurSigned0(l.netCents) : "—"}
                   </Td>
                   <Td className="hidden text-right text-ink-dim sm:table-cell">{l.caCents ? formatPct(l.marginPct) : "—"}</Td>
