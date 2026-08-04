@@ -494,7 +494,11 @@ export function AnalyseBoard({
         aovCents: a.purchases > 0 ? Math.round(a.purchaseValueCents / a.purchases) : null,
       };
     });
+    // Plancher de spend (Badr, 04/08) : sous 60 € sur la période, une seule
+    // vente chanceuse suffit à afficher un ROAS délirant — pas un signal.
+    const WINNER_MIN_SPEND_CENTS = 6000;
     const isWinner = (a: (typeof withMetrics)[number]) =>
+      a.spendCents >= WINNER_MIN_SPEND_CENTS &&
       a.target !== null &&
       a.roas !== null &&
       a.roas >= a.target &&
@@ -961,11 +965,12 @@ export function AnalyseBoard({
               </tbody>
             </table>
             <p className="mt-2 text-[10px] text-ink-faint">
-              🏆 gagnante = ROAS ≥ cible de SON produit (Lancaster → Gilet, sinon Polo — chaque
+              🏆 gagnante = ≥ 60 € de spend sur la période (en dessous, une vente chanceuse
+              fausse tout) ET ROAS ≥ cible de SON produit (Lancaster → Gilet, sinon Polo — chaque
               produit a son BE/cible, calculés sur ses propres commandes 14 j glissants
               {creas.poloThresholds?.target != null && ` : Polo cible ${formatRoasBare(creas.poloThresholds.target)}`}
               {creas.giletThresholds?.target != null && ` · Gilet cible ${formatRoasBare(creas.giletThresholds.target)}`})
-              ET campagne mère active. Le spend n&apos;est pas un critère. Toutes les métriques suivent la
+              ET campagne mère active. Toutes les métriques suivent la
               PÉRIODE SÉLECTIONNÉE en haut de l&apos;onglet (7/14/30 j…) — sauf l&apos;Âge,
               toujours depuis la 1ʳᵉ diffusion historique. Clique un en-tête pour trier, reclique
               pour inverser. {creas.winners}/{creas.seen} créa{creas.winners > 1 ? "s" : ""} avec
