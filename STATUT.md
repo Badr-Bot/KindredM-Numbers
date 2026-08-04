@@ -307,11 +307,15 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
 ## Mise à jour 04/08 — couleurs par paliers sur le net (journalier + live)
 
 - Sur demande Badr : le Net n'est plus juste vert/rouge — négatif reste
-  rouge, mais au-dessus de 0 la couleur monte par paliers de 500 €
-  (`netTierClass` dans `format.ts`, 5 paliers, plafonné au-delà de 2000 €).
-  Rampe mono-teinte or (`--color-net-1..5` dans `globals.css`, validée
-  six-checks ordinal via le skill dataviz — monotone, contraste ≥4,5:1 sur
-  fond terminal ET panel), le palier 5 = `--color-phosphor` déjà établi.
+  rouge, mais au-dessus de 0 chaque palier de 500 € a une teinte VRAIMENT
+  différente (`netTierClass` dans `format.ts`, 5 paliers, plafonné au-delà
+  de 2000 €) : amber → phosphor(or) → émeraude → azur → indigo
+  (`--color-net-1..5` dans `globals.css`). Première version (dégradé
+  mono-teinte or) refusée par Badr ("je veux des couleurs différentes") —
+  remplacée par cette rampe multi-teintes, chaque paire adjacente validée
+  CVD-safe (skill dataviz, six-checks) sauf amber↔rouge (14,0 vs seuil 15,
+  deux tokens déjà existants, acceptable vu que le signe +/− désambiguïse
+  déjà).
 - Appliqué : le tableau journalier de l'onglet Mois (colonne Net) et
   l'onglet Aujourd'hui (gain net héros, cartes par marché, cartes par
   produit). Colonnes ROAS/Cumul et le reste du dashboard inchangés (hors

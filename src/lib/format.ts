@@ -71,11 +71,11 @@ export function formatInt(n: number): string {
   return n.toLocaleString("fr-FR");
 }
 
-// Paliers de couleur du net (Badr, 04/08) — négatif en rouge, puis un palier
-// de couleur toutes les 500 €, plafonné à 5 paliers (au-delà de 2000 €, la
-// couleur ne change plus). Rampe mono-teinte or définie dans globals.css
-// (--color-net-1..5, la dernière = --color-phosphor). Classes Tailwind
-// générées automatiquement depuis ces tokens @theme.
+// Paliers de couleur du net (Badr, 04/08) — négatif en rouge, puis une
+// teinte VRAIMENT différente toutes les 500 €, plafonné à 5 paliers (au-delà
+// de 2000 €, la couleur ne change plus). Teintes définies dans globals.css
+// (--color-net-1..5). Classes Tailwind générées automatiquement depuis ces
+// tokens @theme.
 const NET_TIER_CENTS = 50000; // 500 €
 const NET_TIER_CLASSES = ["text-net-1", "text-net-2", "text-net-3", "text-net-4", "text-net-5"];
 
