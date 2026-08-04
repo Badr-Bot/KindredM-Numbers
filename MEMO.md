@@ -17,8 +17,8 @@
 ## Coûts (grilles officielles = engine.ts, ne jamais approximer)
 - COGS Polo €/bundle 1/2/4 pcs : FR 9,23/15,06/26,76 · ES 9,01/14,87/26,53 · DE 9,36/15,18/26,49 · GB 8,02/13,30/23,65 · BE 9,91/16,29/28,99 · IT 9,97/15,91/27,71. Non listé = max +1,50. Hors palier : g2+(g2−g1)×(qty−2).
 - COGS Gilet €/bundle 1/2/3 pcs : FR 8,90/17,20/25,55 · GB 8,07/15,64/23,45 · CH 11,25/20,78/30,91 · BE 9,59/18,69/27,77 · DE 8,72/16,94/25,15 · ES 8,90/17,29/25,68 · IT 8,98/17,47/25,94. >3 pcs : g3+(g3−g2)×(qty−3).
-- Caleçon : 2,00 €/pièce partout. E-Book : 0 €.
-- **Taxe UE** : 3 € × produit DISTINCT (4 polos = 3 € ; polo+chemise = 6 €), destination UE seulement (GB/CH/CA/US = 0). **CALEÇON EXEMPTÉ** (03/08) : polo+caleçon = 3 €. `TAX_EXEMPT_UPSELL_KEYS`.
+- Caleçon €/pièce (grille par pays, 04/08, ex-2,00€ partout) : FR 2,46 · BE 2,74 · ES 2,47 · non listé 4,24 (max+1,50). E-Book : 0 €.
+- **Taxe UE** : forfait **3 € par COMMANDE/colis** expédié en UE (pas par produit — confirmé par facture fournisseur du 01/08 : jamais 6/9/12€ même multi-produits, même une commande 100% caleçon est taxée 3€), destination UE seulement (GB/CH/CA/US = 0). Remplace les anciennes règles "3€×produits distincts" (06/07) et "caleçon exempté" (03/08), toutes deux fausses.
 - **Frais : 4 % du CA** (Shopify 3 % + autres 1 %). TVA 5,5 % = PAS un coût (27/07), provisionnée à part (onglet Année).
 - Net = CA − spend − COGS − taxeUE − frais4 %. Remboursements imputés au JOUR D'ACHAT d'origine.
 
@@ -43,7 +43,8 @@
 
 ## Infra (résumé)
 - Next.js/Supabase/Vercel, branche `claude/kindredm-dashboard-setup-epbxha` (= défaut), auto-deploy. Proxy bloque vercel.app → jamais vérifiable en direct d'ici.
-- Marqueurs de rattrapage (incrementalSync.ts) : `full_recompute_version` (calcul seul, pas d'API) · `full_resync_version` (re-scan Shopify complet — v6 = caleçon taxe 03/08) · `meta_resync_version`. La synchro rapide 7 j tourne TOUJOURS d'abord.
+- Marqueurs de rattrapage (incrementalSync.ts) : `full_recompute_version` (calcul seul, pas d'API) · `full_resync_version` (re-scan Shopify complet — v7 = taxe forfait 3€/colis + grille caleçon, 04/08) · `meta_resync_version`. La synchro rapide 7 j tourne TOUJOURS d'abord.
+- **Facture fournisseur = vérité terrain** : la facture Panda Dropshipping (COGS + taxe réels) fait foi sur nos grilles/hypothèses. Toujours comparer une facture reçue aux grilles engine.ts avant de la valider — a déjà révélé 2 erreurs de modèle (04/08 : taxe forfait, caleçon par pays).
 - Onglet Aujourd'hui : cartes par produit Gilet vs Polo (spend Polo = tout sauf LANCASTER, UNMAPPED inclus).
 - Mapping campagne→marché : ESP→ES, GE→DE, FR→FR, UK/CANADA/EUROPE/AUS/WORLDWIDE/ANG→UK, **sinon FR par défaut** (29/07). Override manuel prime.
 - **Routine 23h05 Paris** (trig_01VoaeW4pHFecyw3fHwTMxUn, cron 0 21 * * * UTC — décaler à l'heure d'hiver fin octobre) : rapport ROAS 3 j par campagne + verdicts protocole Master → Slack (canal type « décision »). Recommande, n'exécute JAMAIS.

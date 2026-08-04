@@ -5,7 +5,6 @@ import {
   computeOrderCogsTaxTolerant,
   computeDailyAggregate,
   computeOrderCogsTax,
-  distinctProductCount,
   euTaxCents,
   feesCentsForCa,
   poloCogsCents,
@@ -21,8 +20,11 @@ import {
  * passent pas exactement.
  *
  * feesCents/netCents mis à jour le 27/07 (frais 9,5% → 4%, TVA 5,5% retirée
- * du calcul du net sur demande Badr) — caCents/spendCents/cogsCents/taxCents
- * inchangés, seule la formule des frais change.
+ * du calcul du net sur demande Badr) — caCents/spendCents/cogsCents
+ * inchangés depuis, seule la formule des frais change. taxCents mis à jour
+ * le 04/08 (taxe UE : forfait 3€/colis au lieu de 3€/produit distinct) —
+ * dans ces 4 fixtures (1 seul type de produit par commande), le montant ne
+ * change pas, seul le raisonnement (calculé via `true`, pas un compteur).
  */
 describe("Fixtures §8 — validation au centime", () => {
   it("Fixture 1 — ES · 2026-07-04 : 8 cmd toutes 2pcs (dest. ES)", () => {
@@ -30,8 +32,8 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 47992;
     const spendCents = 18427;
     const cogsCents = orders * poloCogsCents("ES", 2);
-    // polo seul = 1 produit distinct, dest ES (UE) → 3 € × 8
-    const taxCents = orders * euTaxCents("ES", "2026-07-04", 1);
+    // dest ES (UE), commande non vide → 3 € × 8 colis
+    const taxCents = orders * euTaxCents("ES", "2026-07-04", true);
 
     expect(cogsCents).toBe(11896);
     expect(taxCents).toBe(2400);
@@ -46,7 +48,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 44993;
     const spendCents = 29609;
     const cogsCents = 6 * poloCogsCents("ES", 2) + 1 * poloCogsCents("ES", 4);
-    const taxCents = 7 * euTaxCents("ES", "2026-07-03", 1);
+    const taxCents = 7 * euTaxCents("ES", "2026-07-03", true);
 
     expect(cogsCents).toBe(11575);
     expect(taxCents).toBe(2100);
@@ -61,7 +63,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const spendCents = 4218;
     const cogsCents = poloCogsCents("GB", 2);
     // dest GB (hors UE depuis le Brexit) → 0
-    const taxCents = euTaxCents("GB", "2026-07-03", 1);
+    const taxCents = euTaxCents("GB", "2026-07-03", true);
 
     expect(cogsCents).toBe(1330);
     expect(taxCents).toBe(0);
@@ -75,7 +77,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const caCents = 29996;
     const spendCents = 6534;
     const cogsCents = 2 * poloCogsCents("DE", 2) + 2 * poloCogsCents("DE", 4);
-    const taxCents = 4 * euTaxCents("DE", "2026-07-01", 1);
+    const taxCents = 4 * euTaxCents("DE", "2026-07-01", true);
 
     expect(cogsCents).toBe(8334);
     expect(taxCents).toBe(1200);
@@ -87,7 +89,7 @@ describe("Fixtures §8 — validation au centime", () => {
 });
 
 describe("Cas upsell synthétique — ES 2pcs polo + 1 CHINO_SHORTS", () => {
-  it("COGS = 14.87€ + 6.27€, taxe = 6.00€ (2 produits distincts, dest UE)", () => {
+  it("COGS = 14.87€ + 6.27€, taxe = 3.00€ forfait/colis (04/08, plus par produit)", () => {
     const order = computeOrderCogsTax({
       store: "ES",
       shippingCountry: "ES",
@@ -97,8 +99,8 @@ describe("Cas upsell synthétique — ES 2pcs polo + 1 CHINO_SHORTS", () => {
     });
     expect(order.cogsProductCents).toBe(1487);
     expect(order.cogsUpsellsCents).toBe(627);
-    // polo + chino = 2 produits distincts → 3 € × 2
-    expect(order.taxCents).toBe(600);
+    // 1 colis vers l'UE, peu importe le nombre de produits dedans → 3 €
+    expect(order.taxCents).toBe(300);
   });
 });
 
@@ -124,65 +126,57 @@ describe("GILET — grille DDP par pays, paliers 1/2/3 (devis Panda, 31/07)", ()
   });
 });
 
-describe("CALECON — forfait 2 € la pièce, partout (Badr, 31/07)", () => {
-  it("strictement linéaire : qty × 2 €, sans variation par pays", () => {
-    expect(upsellCogsCents("CALECON", "FR", 1)).toBe(200);
-    expect(upsellCogsCents("CALECON", "FR", 2)).toBe(400);
-    expect(upsellCogsCents("CALECON", "FR", 6)).toBe(1200);
-    // Aucune grille DDP : même prix hors UE / pays non listé.
-    expect(upsellCogsCents("CALECON", "GB", 1)).toBe(200);
-    expect(upsellCogsCents("CALECON", "CH", 1)).toBe(200);
-    expect(upsellCogsCents("CALECON", "LU", 1)).toBe(200);
+describe("CALECON — grille par pays (Badr, 04/08, déduite de la facture Panda du 01/08)", () => {
+  it("linéaire (qty × prix/pièce), prix qui varie par pays de destination", () => {
+    // FR/BE/ES = grille officielle déduite de 54 commandes de la facture fournisseur.
+    expect(upsellCogsCents("CALECON", "FR", 1)).toBe(246);
+    expect(upsellCogsCents("CALECON", "FR", 2)).toBe(492);
+    expect(upsellCogsCents("CALECON", "FR", 6)).toBe(1476);
+    expect(upsellCogsCents("CALECON", "BE", 1)).toBe(274);
+    expect(upsellCogsCents("CALECON", "ES", 1)).toBe(247);
+  });
+
+  it("pays non listé (ex. GB/CH/LU) = max des pays listés + surcharge conservatrice", () => {
+    // max listé = BE 2,74€ = 274 cents + 150 (NON_LISTED_SURCHARGE_CENTS)
+    expect(upsellCogsCents("CALECON", "GB", 1)).toBe(424);
+    expect(upsellCogsCents("CALECON", "CH", 1)).toBe(424);
+    expect(upsellCogsCents("CALECON", "LU", 1)).toBe(424);
   });
 });
 
-describe("Taxe UE — règle révisée (par produit distinct × destination UE)", () => {
-  it("3 € par produit distinct, jamais multiplié par la quantité", () => {
-    // 4 polos = 1 produit distinct = 3 €
-    expect(euTaxCents("ES", "2026-07-04", distinctProductCount(4, []))).toBe(300);
-    // 1 polo + 1 chemise = 2 produits distincts = 6 €
-    expect(
-      euTaxCents("ES", "2026-07-04", distinctProductCount(1, [{ productKey: "SHORT_SLEEVE_DRESS_SHIRT" }]))
-    ).toBe(600);
-    // 1 polo + 2 upsells différents = 3 produits distincts = 9 €
-    expect(
-      euTaxCents("FR", "2026-07-04", distinctProductCount(2, [
-        { productKey: "CHINO_SHORTS" },
-        { productKey: "DRESS_TROUSERS" },
-      ]))
-    ).toBe(900);
+describe("Taxe UE — forfait 3€/colis (révision Badr 04/08, ex-« 3€/produit distinct »)", () => {
+  it("3 € par commande UE non vide, peu importe le nombre ou le type de produits dedans", () => {
+    // 4 polos seuls = 3 €
+    expect(euTaxCents("ES", "2026-07-04", true)).toBe(300);
+    // 1 polo + 1 chemise = toujours 3 € (pas 6 € comme dans l'ancienne règle)
+    expect(euTaxCents("ES", "2026-07-04", true)).toBe(300);
+    // 1 polo + 2 upsells différents = toujours 3 € (pas 9 €)
+    expect(euTaxCents("FR", "2026-07-04", true)).toBe(300);
   });
 
-  it("deux fois le même upsell = 1 seul produit distinct", () => {
-    expect(distinctProductCount(0, [
-      { productKey: "CHINO_SHORTS" },
-      { productKey: "CHINO_SHORTS" },
-    ])).toBe(1);
+  it("une commande 100% caleçons (colis quand même expédié) est taxée comme les autres", () => {
+    // Confirmé par la facture fournisseur (commande #5304, CALECONx6, taxée 3€) —
+    // contredit l'ancienne exemption caleçon du 03/08, abandonnée.
+    expect(euTaxCents("FR", "2026-08-04", true)).toBe(300);
   });
 
-  it("le CALEÇON est exempté (glissé dans le colis — Badr, 03/08)", () => {
-    // 4 polos + 1 caleçon = 1 seul produit distinct = 3 € (pas 6 €)
-    expect(distinctProductCount(4, [{ productKey: "CALECON" }])).toBe(1);
-    // gilet + caleçon = 1 produit distinct (le gilet) = 3 €
-    expect(distinctProductCount(0, [{ productKey: "GILET" }, { productKey: "CALECON" }])).toBe(1);
-    // commande 100 % caleçons : 0 produit distinct → 0 € (conséquence assumée)
-    expect(distinctProductCount(0, [{ productKey: "CALECON" }])).toBe(0);
-    expect(euTaxCents("FR", "2026-08-03", 0)).toBe(0);
+  it("commande vide (aucun article) = 0 €, cas défensif", () => {
+    expect(euTaxCents("FR", "2026-08-04", false)).toBe(0);
   });
 
   it("0 avant le 2026-07-01, quelle que soit la destination", () => {
-    expect(euTaxCents("ES", "2026-06-30", 1)).toBe(0);
-    expect(euTaxCents("FR", "2026-06-30", 3)).toBe(0);
+    expect(euTaxCents("ES", "2026-06-30", true)).toBe(0);
+    expect(euTaxCents("FR", "2026-06-30", true)).toBe(0);
   });
 
   it("uniquement pour une destination dans l'UE", () => {
-    expect(euTaxCents("FR", "2026-07-01", 1)).toBe(300); // France = UE
-    expect(euTaxCents("IT", "2026-07-01", 1)).toBe(300); // Italie = UE
-    expect(euTaxCents("SE", "2026-07-01", 1)).toBe(300); // Suède = UE
-    expect(euTaxCents("GB", "2026-07-01", 1)).toBe(0); // GB hors UE
-    expect(euTaxCents("CA", "2026-07-01", 1)).toBe(0); // Canada hors UE
-    expect(euTaxCents("CH", "2026-07-01", 1)).toBe(0); // Suisse hors UE
-    expect(euTaxCents("US", "2026-07-01", 1)).toBe(0); // USA hors UE
+    expect(euTaxCents("FR", "2026-07-01", true)).toBe(300); // France = UE
+    expect(euTaxCents("IT", "2026-07-01", true)).toBe(300); // Italie = UE
+    expect(euTaxCents("SE", "2026-07-01", true)).toBe(300); // Suède = UE
+    expect(euTaxCents("GB", "2026-07-01", true)).toBe(0); // GB hors UE
+    expect(euTaxCents("CA", "2026-07-01", true)).toBe(0); // Canada hors UE
+    expect(euTaxCents("CH", "2026-07-01", true)).toBe(0); // Suisse hors UE
+    expect(euTaxCents("US", "2026-07-01", true)).toBe(0); // USA hors UE
   });
 });
 
@@ -323,7 +317,7 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
     expect(tolerant.unknownUpsellKeys).toEqual(["CEINTURE_PAS_ENCORE_TARIFEE"]);
   });
 
-  it("CALECON a désormais un vrai COGS (2 € la pièce) et n'est plus signalé", () => {
+  it("CALECON a désormais un vrai COGS (grille par pays) et n'est plus signalé", () => {
     const res = computeOrderCogsTaxTolerant({
       store: "FR",
       shippingCountry: "FR",
@@ -331,20 +325,20 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
       poloQty: 4,
       upsells: [{ productKey: "CALECON", qty: 3 }],
     });
-    expect(res.cogsUpsellsCents).toBe(600);
+    expect(res.cogsUpsellsCents).toBe(738); // 3 × 246 (grille FR)
     expect(res.unknownUpsellKeys).toEqual([]);
   });
 
-  it("compte le produit inconnu dans la taxe UE (prudence)", () => {
+  it("un produit inconnu compte comme un colis non vide pour la taxe UE (prudence)", () => {
     const res = computeOrderCogsTaxTolerant({
       store: "FR",
       shippingCountry: "FR",
       day: "2026-07-26",
-      poloQty: 2,
+      poloQty: 0,
       upsells: [],
       unknownDistinctCount: 1,
     });
-    // 1 polo distinct + 1 produit inconnu = 2 × 3 €
-    expect(res.taxCents).toBe(600);
+    // Commande "vide" côté connu, mais 1 produit inconnu = quand même un colis → 3 €
+    expect(res.taxCents).toBe(300);
   });
 });

@@ -324,12 +324,14 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 const REQUIRED_RECOMPUTE_VERSION = "2026-07-27-fees-4pct-v7";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
-// v6 : caleçon exempté de la taxe UE (03/08) — tax_eu_cents est stocké par
-// commande au moment de la synchro, donc toutes les commandes historiques
-// avec caleçon portent 3 € de taxe en trop tant qu'elles ne sont pas
-// re-scannées. Le re-scan tourne en étapes après la synchro rapide (jamais
-// bloquant) et recalcule COGS + taxe de chaque commande.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-03-calecon-tax-v6";
+// v7 : taxe UE forfait 3€/colis (ex-3€/produit distinct + exemption
+// caleçon, toutes deux abandonnées le 04/08 — voir engine.ts §4.4) ET
+// caleçon grille par pays (ex-forfait 2€/pièce). tax_eu_cents ET
+// cogs_upsells_cents sont stockés par commande au moment de la synchro :
+// tout l'historique EU (surtout les commandes multi-produits, sur-taxées
+// par l'ancienne règle) doit être re-scanné. Le re-scan tourne en étapes
+// après la synchro rapide (jamais bloquant).
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-04-tax-flat-calecon-grid-v7";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

@@ -235,19 +235,31 @@ function giletGridValueCents(country: string, tier: GiletTier): number {
 }
 
 // ---------------------------------------------------------------------------
-// Caleçon — forfait 2,00 € la pièce (Badr, 31/07). Produit très majoritairement
-// OFFERT en bonus dans les commandes : pas de grille DDP par pays, pas de
-// remise par quantité, coût unitaire unique. Avant cette date il était mappé
-// dans products_map mais absent de toute grille → COGS compté 0 € sur ~50
-// pièces/jour, donc un Net trop optimiste (constaté 31/07). Si un devis
-// détaillé par pays arrive un jour, remplacer par une grille type GILET.
+// Caleçon — grille par pays (Badr, 04/08/2026), déduite de la facture
+// fournisseur Panda Dropshipping du 01/08/2026 (650 commandes) : pour
+// chaque commande "1 polo/gilet (palier exact) + 1 caleçon", le delta entre
+// le Subtotal facturé et le COGS polo/gilet connu est constant par pays —
+// FR (35 échantillons) = 2,46 € pile ; BE (18 échantillons) = 2,74 € pile ;
+// ES (1 échantillon) = 2,47 €. Remplace le forfait 2,00 €/pièce partout
+// (Badr, 31/07) qui sous-estimait le vrai coût. Toujours linéaire (pas de
+// palier par quantité), comme avant. Pays non listé : cf. surcharge §4.2.
 // ---------------------------------------------------------------------------
 
-const CALECON_UNIT_COGS_CENTS = 200;
+const CALECON_GRID_CENTS: Record<string, number> = {
+  FR: 246,
+  BE: 274,
+  ES: 247,
+};
 
-/** COGS Caleçon : strictement linéaire, 2,00 € × quantité, partout. */
-function caleconCogsCents(qty: number): number {
-  return qty <= 0 ? 0 : CALECON_UNIT_COGS_CENTS * qty;
+function caleconUnitCogsCents(country: string): number {
+  const value = CALECON_GRID_CENTS[country];
+  if (value !== undefined) return value;
+  return Math.max(...Object.values(CALECON_GRID_CENTS)) + NON_LISTED_SURCHARGE_CENTS;
+}
+
+/** COGS Caleçon : linéaire, prix/pièce par pays (grille ci-dessus) × quantité. */
+function caleconCogsCents(country: string, qty: number): number {
+  return qty <= 0 ? 0 : caleconUnitCogsCents(country) * qty;
 }
 
 /** COGS Gilet pour `qty` pièces, livré dans `country`. Paliers directs 1/2/3 ;
@@ -275,7 +287,7 @@ export function upsellCogsCents(
 ): number {
   if (qty <= 0) return 0;
   if (productKey === "GILET") return giletCogsCents(country, qty);
-  if (productKey === "CALECON") return caleconCogsCents(qty);
+  if (productKey === "CALECON") return caleconCogsCents(country, qty);
   if (!UPSELL_PRODUCT_KEYS.includes(productKey as UpsellProductKey)) {
     throw new UnmappedProductError(country, `upsell inconnu: ${productKey}`);
   }
@@ -289,16 +301,22 @@ export function upsellCogsCents(
 }
 
 // ---------------------------------------------------------------------------
-// §4.4 — Taxe UE (règle révisée par Badr le 06/07/2026, caleçon exempté 03/08)
-//   • 3,00 € par PRODUIT DISTINCT dans la commande (pas par commande, pas par
-//     quantité) : 4 polos = 1 produit distinct = 3 € ; 1 polo + 1 chemise =
-//     2 produits distincts = 6 €. Le CALEÇON ne compte JAMAIS (glissé dans le
-//     colis des autres produits) : polo + caleçon = 3 €, pas 6 €.
+// §4.4 — Taxe UE (règle révisée par Badr le 04/08/2026, forfait par colis)
+//   • 3,00 € FORFAITAIRE PAR COLIS expédié en UE — indépendant du nombre ou
+//     du type de produits dedans (frais de douane/traitement, pas une taxe
+//     produit). Confirmé par la facture fournisseur Panda Dropshipping du
+//     01/08/2026 : la colonne Tax est à 3,00 € sur 518/520 commandes UE,
+//     JAMAIS 6/9/12€ même sur des commandes multi-produits (ex: polo +
+//     pantalon + short = toujours 3€, pas 9€) — et une commande 100 %
+//     caleçons a aussi été taxée 3€. Remplace l'ancienne règle "3€ ×
+//     produits distincts" (06/07) et l'exemption caleçon (03/08), toutes
+//     deux fausses : elle sur-taxait les commandes multi-produits et
+//     sous-comptait certaines commandes caleçon-only.
 //   • Uniquement si le PAYS DE DESTINATION est dans l'UE (basé sur
-//     shipping_country, plus sur le store). GB/UK, CH, CA, US… = 0 €.
+//     shipping_country, pas sur le store). GB/UK, CH, CA, US… = 0 €.
 // ---------------------------------------------------------------------------
 
-export const EU_TAX_PER_PRODUCT_CENTS = 300;
+export const EU_TAX_PER_ORDER_CENTS = 300;
 export const EU_TAX_START_DATE = "2026-07-01"; // inclusif, jour Europe/Paris (YYYY-MM-DD)
 
 /** Pays membres de l'UE (ISO-2). GB exclu depuis le Brexit. */
@@ -313,29 +331,15 @@ export function isEuCountry(country: string): boolean {
 }
 
 /**
- * Taxe UE d'une commande : 3 € × nombre de produits distincts, uniquement si
- * la destination est dans l'UE et la date ≥ 2026-07-01.
- * `day` au format YYYY-MM-DD (jour Europe/Paris, comparaison lexicographique).
+ * Taxe UE d'une commande : forfait 3 €/colis, uniquement si la destination
+ * est dans l'UE, la commande contient au moins un article, et la date ≥
+ * 2026-07-01. `day` au format YYYY-MM-DD (jour Europe/Paris).
  */
-export function euTaxCents(shippingCountry: string, day: string, distinctProducts: number): number {
+export function euTaxCents(shippingCountry: string, day: string, hasItems: boolean): number {
   if (day < EU_TAX_START_DATE) return 0;
   if (!isEuCountry(shippingCountry)) return 0;
-  if (distinctProducts <= 0) return 0;
-  return EU_TAX_PER_PRODUCT_CENTS * distinctProducts;
-}
-
-/** Produits EXEMPTÉS de la taxe UE (Badr, 03/08) : le caleçon est glissé dans
- * le colis des autres produits, il ne compte pas comme produit distinct.
- * Conséquence assumée : une commande 100 % caleçons = 0 produit distinct = 0 €. */
-export const TAX_EXEMPT_UPSELL_KEYS: ReadonlySet<string> = new Set(["CALECON"]);
-
-/** Nombre de produits distincts d'une commande = polo (si présent) + upsells
- * distincts, hors produits exemptés (voir TAX_EXEMPT_UPSELL_KEYS). */
-export function distinctProductCount(poloQty: number, upsells: { productKey: string }[]): number {
-  const distinctUpsells = new Set(
-    upsells.map((u) => u.productKey).filter((k) => !TAX_EXEMPT_UPSELL_KEYS.has(k))
-  ).size;
-  return (poloQty > 0 ? 1 : 0) + distinctUpsells;
+  if (!hasItems) return 0;
+  return EU_TAX_PER_ORDER_CENTS;
 }
 
 // ---------------------------------------------------------------------------
@@ -403,7 +407,7 @@ export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
   const taxCents = euTaxCents(
     order.shippingCountry,
     order.day,
-    distinctProductCount(order.poloQty, order.upsells)
+    order.poloQty > 0 || order.upsells.length > 0
   );
   return { cogsProductCents, cogsUpsellsCents, taxCents };
 }
@@ -490,12 +494,10 @@ export function computeOrderCogsTaxTolerant(
       else throw err;
     }
   }
-  // Les produits non reconnus comptent quand même comme produits distincts
-  // pour la taxe UE (prudent : on préfère sur-estimer un coût que l'oublier).
   const taxCents = euTaxCents(
     order.shippingCountry,
     order.day,
-    distinctProductCount(order.poloQty, order.upsells) + (order.unknownDistinctCount ?? 0)
+    order.poloQty > 0 || order.upsells.length > 0 || (order.unknownDistinctCount ?? 0) > 0
   );
   return { cogsProductCents, cogsUpsellsCents, taxCents, unknownUpsellKeys };
 }

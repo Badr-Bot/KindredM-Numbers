@@ -178,15 +178,23 @@ Le gilet (*Men's Herringbone Waistcoat*) ne suit PAS le tableau ci-dessus : ses 
 
 Au-delà de 3 pièces : `grille[3] + (grille[3]−grille[2]) × (qty−3)`. Pays non listé : même règle que les autres (max listé + 1,50 €).
 
-#### CALECON — forfait 2,00 € la pièce (Badr, 31/07/2026)
+#### CALECON — grille par pays (Badr, 04/08/2026, ex-forfait 2,00 €/pièce du 31/07)
 
-Produit très majoritairement **offert en bonus** dans les commandes. Coût unitaire unique : **2,00 € × quantité**, sans grille par pays ni remise par quantité (donc pas de surcharge « pays non listé » non plus).
+Coût unitaire linéaire (**prix/pièce × quantité**, pas de remise par quantité), mais désormais **par pays** au lieu d'un forfait unique. Grille déduite de la facture fournisseur Panda Dropshipping du 01/08/2026 (650 commandes) : sur chaque commande isolable « 1 polo/gilet à palier exact + 1 caleçon », l'écart entre le Subtotal facturé et le COGS polo/gilet connu est constant par pays.
 
-> Avant le 31/07, `CALECON` était mappé dans `products_map` mais absent de toute grille COGS : son coût était compté **0 €** sur ~50 pièces/jour, ce qui rendait le Net trop optimiste. Corrigé.
+| Pays | €/pièce | Échantillons facture |
+|---|---|---|
+| FR | 2,46 | 35 |
+| BE | 2,74 | 18 |
+| ES | 2,47 | 1 |
+| Autre (non listé) | 4,24 (max listé BE + 1,50 €) | — |
 
-### 4.4 Taxe UE — 3,00 € par produit distinct (règle révisée 06/07/2026, caleçon exempté 03/08/2026)
-- **3,00 € par produit *distinct*** dans la commande (pas par commande, pas par quantité). Ex. : **4 polos = 3 €** (1 produit distinct) ; **1 polo + 1 chemise = 6 €** (2 produits distincts) ; 1 polo + 2 upsells différents = 9 €. Deux fois le même upsell = 1 seul produit distinct.
-- **Le CALEÇON est exempté** (Badr, 03/08/2026) : glissé dans le colis des autres produits, il ne compte jamais comme produit distinct. Polo + caleçon = 3 € (pas 6 €) ; commande 100 % caleçons = 0 € (conséquence assumée). Liste des exemptés : `TAX_EXEMPT_UPSELL_KEYS` dans `engine.ts`. Correction rétroactive de l'historique via re-scan complet des commandes (`full_resync_version` v6).
+> Avant le 31/07, `CALECON` était mappé dans `products_map` mais absent de toute grille COGS : son coût était compté **0 €** sur ~50 pièces/jour. Le forfait 2,00 €/pièce du 31/07 était une estimation en attendant un vrai devis ; sous-estimait le vrai coût de 15 à 35 % selon le pays. Corrigé le 04/08 avec la grille ci-dessus.
+
+### 4.4 Taxe UE — forfait 3,00 € par colis (révision Badr 04/08/2026)
+- **3,00 € forfaitaire par commande/colis expédié en UE**, indépendant du nombre ou du type de produits dedans (c'est un frais de douane/traitement par expédition, pas une taxe produit). Ex. : 4 polos = 3 € ; 1 polo + 1 chemise = 3 € (pas 6 €) ; 1 polo + 2 upsells différents = 3 € (pas 9 €) ; commande 100 % caleçons = 3 € aussi (le colis part quand même).
+- **Confirmé par la facture fournisseur Panda Dropshipping du 01/08/2026** : sur 650 commandes, la colonne Tax est à 3,00 € sur 518/520 commandes UE, jamais 6/9/12 € même sur des commandes multi-produits (2 anomalies isolées, probables erreurs de saisie du fournisseur).
+- Remplace deux règles antérieures, toutes deux fausses : "3 € × produits distincts" (06/07) qui sur-taxait les commandes multi-produits, et l'exemption caleçon (03/08) qui sous-comptait les commandes 100 % caleçon. Correction rétroactive de l'historique via re-scan complet des commandes (`full_resync_version` v7).
 - **Uniquement si le pays de *destination* (`shipping_country`) est dans l'UE.** Basé sur la destination, plus sur le store. GB/UK, CH, CA, US… = 0 €. (La liste UE-27 est dans `src/lib/engine.ts` : `EU_COUNTRIES`.) Cela résout aussi l'ancienne question « taxe FR ? » : FR ∈ UE → taxé.
 - Applicable aux commandes **à partir du 2026-07-01 inclus**. Avant : 0.
 

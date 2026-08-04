@@ -278,6 +278,32 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   début de session au lieu de re-dériver, et à maintenir à chaque
   changement de règle.
 
+## Mise à jour 04/08 — facture fournisseur vérifiée : taxe UE forfaitaire + grille caleçon par pays
+
+- **Contexte** : Badr a reçu une facture Panda Dropshipping (650 commandes,
+  01/08/2026) et a demandé une vérification. Recalcul ligne par ligne contre
+  `engine.ts` → deux erreurs de modèle trouvées, toutes deux corrigées :
+- **Taxe UE** : la colonne Tax de la facture est à 3,00 € flat sur 518/520
+  commandes UE — JAMAIS 6/9/12 € même sur des commandes multi-produits, et
+  une commande 100 % caleçons (#5304) a aussi été taxée 3 €. La règle
+  "3 € × produits distincts" (06/07) et l'exemption caleçon (03/08) étaient
+  donc **fausses toutes les deux** : la vraie règle est un forfait 3 €/colis
+  UE, point. `euTaxCents()` simplifié en conséquence ; `distinctProductCount`
+  et `TAX_EXEMPT_UPSELL_KEYS` supprimés (devenus inutiles).
+- **Caleçon** : en isolant les commandes « 1 polo/gilet palier exact + 1
+  caleçon » dans la facture, l'écart de coût implicite est constant par
+  pays et très net : FR 2,46 € (35 échantillons), BE 2,74 € (18), ES 2,47 €
+  (1) — pas 2,00 € partout comme estimé le 31/07. Nouvelle grille
+  `CALECON_GRID_CENTS` (pays non listé = max + 1,50 €, même convention que
+  les autres grilles).
+- **Correction rétroactive** : `full_resync_version` bumpe en v7 → re-scan
+  complet de l'historique EU (tax_eu_cents et cogs_upsells_cents stockés par
+  commande). Impact net attendu : commandes multi-produits → net réévalué
+  à la hausse (moins de taxe) ; commandes avec caleçon → net réévalué à la
+  baisse (COGS plus réaliste).
+- 42/42 tests passent après mise à jour des fixtures. Docs (SPEC + MEMO)
+  et le rapport Slack 23h mis à jour en cohérence.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
