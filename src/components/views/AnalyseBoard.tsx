@@ -90,6 +90,7 @@ type CreaSortKey =
   | "adName"
   | "campaignName"
   | "product"
+  | "creaType"
   | "ageDays"
   | "spendCents"
   | "purchases"
@@ -407,9 +408,13 @@ export function AnalyseBoard({
     // L'âge se calcule sur TOUT l'historique (première diffusion réelle),
     // indépendamment de la période sélectionnée en haut.
     const firstDayByAd = new Map<string, string>();
+    // Type (vidéo/image) déterminé sur TOUT l'historique : une vidéo sans vue
+    // 3 s sur une fenêtre courte ne doit pas être reclassée « image ».
+    const videoAdIds = new Set<string>();
     for (const r of analytics.adsDaily) {
       const cur = firstDayByAd.get(r.adId);
       if (!cur || r.day < cur) firstDayByAd.set(r.adId, r.day);
+      if (r.video3s > 0) videoAdIds.add(r.adId);
     }
     // Le reste des métriques suit le SÉLECTEUR DE PÉRIODE en haut de l'onglet
     // (Badr, 04/08) : agrégation locale des lignes journalières sur [from, to],
@@ -462,7 +467,7 @@ export function AnalyseBoard({
       byAd.set(r.adId, cur);
     }
     const withMetrics = [...byAd.values()].map((a) => {
-      const isVideo = a.video3s > 0;
+      const isVideo = videoAdIds.has(a.adId);
       const product: CreaProduct = a.campaignName.toUpperCase().includes("LANCASTER") ? "GILET" : "POLO";
       const t = thresholdsFor(product);
       // Âge = jours depuis la première diffusion HISTORIQUE (aujourd'hui inclus).
@@ -472,6 +477,7 @@ export function AnalyseBoard({
       return {
         ...a,
         product,
+        creaType: isVideo ? "VIDEO" : "IMAGE",
         ageDays,
         breakEven: t.breakEven,
         target: t.target,
@@ -481,7 +487,7 @@ export function AnalyseBoard({
         cpmCents: a.impressions > 0 ? Math.round((a.spendCents / a.impressions) * 1000) : null,
         ctrPct: a.impressions > 0 ? a.clicks / a.impressions : null,
         hookRate: isVideo && a.impressions > 0 ? a.video3s / a.impressions : null,
-        holdRate: isVideo && a.video3s > 0 && a.video100 > 0 ? a.video100 / a.video3s : null,
+        holdRate: isVideo && a.video3s > 0 ? a.video100 / a.video3s : null,
         lpvRate: a.linkClicks > 0 ? a.landingPageViews / a.linkClicks : null,
         atcRate: a.landingPageViews > 0 ? a.addToCart / a.landingPageViews : null,
         cvr: a.landingPageViews > 0 ? a.purchases / a.landingPageViews : null,
@@ -892,12 +898,13 @@ export function AnalyseBoard({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[1280px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
                   <CreaTh label="Créa" sortKey="adName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Campagne mère" sortKey="campaignName" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Produit" sortKey="product" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
+                  <CreaTh label="Type" sortKey="creaType" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} align="left" />
                   <CreaTh label="Âge" sortKey="ageDays" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="Spend" sortKey="spendCents" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
                   <CreaTh label="Achats" sortKey="purchases" active={creaSortKey} dir={creaSortDir} onSort={toggleCreaSort} />
@@ -927,6 +934,9 @@ export function AnalyseBoard({
                     </td>
                     <td className="whitespace-nowrap px-2 py-1.5 text-left">
                       {a.product === "GILET" ? "🎽 Gilet" : "👕 Polo"}
+                    </td>
+                    <td className="whitespace-nowrap px-2 py-1.5 text-left text-ink-dim">
+                      {a.creaType === "VIDEO" ? "🎬 Vidéo" : "🖼️ Image"}
                     </td>
                     <td className="whitespace-nowrap px-2 py-1.5 text-right text-ink-dim">{a.ageDays} j</td>
                     <td className="px-2 py-1.5 text-right text-ink-dim">{formatEur0(a.spendCents)}</td>
