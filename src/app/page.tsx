@@ -40,7 +40,7 @@ async function loadData(): Promise<LoadResult> {
         [brief, unmappedSpendCents, productSplit] = await Promise.all([
           computeBrief().catch(() => null),
           getUnmappedSpendCentsForDay(view.day).catch(() => 0),
-          getProductSplitForDay(view.day).catch(() => []),
+          getProductSplitForDay(view.day, view.cards[0].totals.spendCents).catch(() => []),
         ]);
       }
     }

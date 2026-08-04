@@ -353,7 +353,20 @@ function toCard(
   return { key, label, emoji, spendCents, feesCents, netCents, ...bucket };
 }
 
-export async function getProductSplitForDay(day: string): Promise<ProductSplitCard[]> {
+/**
+ * `globalSpendCents` = spend GLOBAL déjà calculé pour ce jour (daily_aggregates,
+ * même source que le reste de l'onglet Aujourd'hui — voir getTodayView). Le
+ * split Gilet/Polo doit toujours sommer exactement à ce total : on ne re-somme
+ * PAS le spend depuis meta_spend (table resynchronisée à un rythme différent
+ * de daily_aggregates, donc temporairement désynchronisée en cours de journée
+ * — constaté 04/08, Gilet+Polo dépassait le Global de ~86€). Seule la part
+ * Gilet (Lancaster) est lue depuis meta_spend ; la part Polo = Global − Gilet,
+ * garantissant la somme par construction.
+ */
+export async function getProductSplitForDay(
+  day: string,
+  globalSpendCents: number
+): Promise<ProductSplitCard[]> {
   const supabase = createSupabaseServerClient();
 
   const [{ data: mapRows, error: mapError }, { data: spendRows, error: spendError }] = await Promise.all([
@@ -394,11 +407,13 @@ export async function getProductSplitForDay(day: string): Promise<ProductSplitCa
   }
 
   const spend = spendError ? [] : (spendRows ?? []);
-  const giletSpendCents = spend
+  const giletSpendCentsRaw = spend
     .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(GILET_CAMPAIGN_KEYWORD))
     .reduce((s, r) => s + (r.spend_cents as number), 0);
-  const totalSpendCents = spend.reduce((s, r) => s + (r.spend_cents as number), 0);
-  const poloSpendCents = totalSpendCents - giletSpendCents;
+  // Clampé au Global : si meta_spend est temporairement en avance sur
+  // daily_aggregates, on ne veut jamais un Polo négatif.
+  const giletSpendCents = Math.min(giletSpendCentsRaw, Math.max(globalSpendCents, 0));
+  const poloSpendCents = Math.max(globalSpendCents - giletSpendCents, 0);
 
   return [
     toCard("GILET", "Gilet", "🎽", gilet, giletSpendCents),

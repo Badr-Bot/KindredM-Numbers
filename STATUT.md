@@ -321,6 +321,29 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   produit). Colonnes ROAS/Cumul et le reste du dashboard inchangés (hors
   scope de la demande).
 
+## Mise à jour 04/08 — 2 bugs signalés par Badr (screenshots) : split produit + hit rate créas
+
+- **Bug 1 — Gilet + Polo ne sommait pas au Global** (screenshot : Global
+  +152€, Gilet −11€ + Polo +77€ = 66€ seulement). Cause : `getProductSplitForDay`
+  sommait le spend directement depuis la table `meta_spend` (resynchronisée
+  par le cron), alors que le Global de l'onglet Aujourd'hui vient de
+  `daily_aggregates` (recalculé séparément) — les deux peuvent être
+  temporairement désynchronisés en cours de journée. Corrigé : le spend
+  Polo = Global (passé en paramètre depuis `page.tsx`, `view.cards[0].totals.spendCents`)
+  moins le spend Gilet (Lancaster) lu dans meta_spend, clampé à 0. Gilet +
+  Polo somme maintenant TOUJOURS exactement au Global, par construction.
+- **Bug 2 — hit rate créas ridicule (1 %, 2/185) dans l'onglet Analyse**
+  (screenshot : plein de créas à ROAS 1,46-1,88× sans 🏆 alors qu'elles sont
+  déjà rentables). Cause : seuil gagnante codé en dur à "ROAS ≥ 2" depuis le
+  19/07, jamais mis à jour avec le passage aux seuils dynamiques BE/cible
+  15 % utilisés partout ailleurs dans le dash. Corrigé : `AnalyseBoard`
+  reçoit maintenant `thresholds` (GLOBAL, 14 j glissants, `computeThresholds`)
+  depuis `page.tsx`, le seuil gagnante = `thresholds.target` (dynamique).
+  Ajouté sur demande Badr : colonnes **ROAS BE** et **Marge nette*** (≈
+  marge de contribution moyenne du compte × CA de la créa − son spend —
+  approximation signalée comme telle, le COGS/taxe réel par commande n'est
+  pas connu au niveau créa côté Meta).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

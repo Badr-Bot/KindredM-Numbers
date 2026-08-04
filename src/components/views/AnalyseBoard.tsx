@@ -12,11 +12,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { DayAgg } from "@/lib/data";
+import type { DayAgg, Thresholds } from "@/lib/data";
 import type { AnalyticsData } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import type { MarketTab } from "@/lib/markets";
-import { formatDayShort, formatEur0, formatRoas } from "@/lib/format";
+import { formatDayShort, formatEur0, formatEurSigned0, formatPct, formatRoas, formatRoasBare } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 
@@ -95,6 +95,7 @@ export function AnalyseBoard({
   today,
   events,
   journalReady,
+  thresholds,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -102,6 +103,7 @@ export function AnalyseBoard({
   today: string;
   events: JournalEvent[];
   journalReady: boolean;
+  thresholds: Thresholds;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -317,19 +319,38 @@ export function AnalyseBoard({
   }, [series]);
 
   // 🎨 Créas : hit rate + top/flop sur la fenêtre (données niveau annonce).
-  // Définition de Badr (19/07) : winneuse = ≥ 1 000 € de spend ET ROAS ≥ 2.
+  // Révisé le 04/08 (Badr) : l'ancien seuil fixe "ROAS ≥ 2" (19/07) était
+  // déconnecté de la vraie rentabilité — une créa à 1,66× est déjà
+  // profitable (BE ≈ 1,62×) mais ne recevait jamais le 🏆, d'où un hit rate
+  // ridicule (1 % alors que la plupart des créas listées gagnent de
+  // l'argent). Winneuse = ≥ 1 000 € de spend ET ROAS ≥ cible 15 % (seuil
+  // dynamique 14 j glissants, identique à celui utilisé partout ailleurs
+  // dans le dash — thresholds.target). Marge nette = approximation blended
+  // (marge de contribution moyenne du compte × CA de la créa − son spend) :
+  // le COGS/taxe réels par commande ne sont pas connus au niveau créa
+  // (Meta n'a pas cette donnée), donc c'est un ordre de grandeur, pas un
+  // calcul au centime comme le reste du dash.
   const creas = useMemo(() => {
     const MIN_SPEND_TESTED = 2000; // 20 € : en dessous, pas vraiment testée
     const WINNER_MIN_SPEND = 100000; // 1 000 €
-    const WINNER_MIN_ROAS = 2;
+    const winnerMinRoas = thresholds.target;
+    const cm = thresholds.cm;
     const eligible = analytics.ads.filter((a) => a.spendCents >= MIN_SPEND_TESTED);
-    const withMetrics = eligible.map((a) => ({
-      ...a,
-      cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
-      roas: a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null,
-    }));
+    const withMetrics = eligible.map((a) => {
+      const roas = a.spendCents > 0 && a.purchaseValueCents > 0 ? a.purchaseValueCents / a.spendCents : null;
+      const netCents = cm !== null ? Math.round(a.purchaseValueCents * cm) - a.spendCents : null;
+      const margePct =
+        cm !== null && a.purchaseValueCents > 0 ? cm - a.spendCents / a.purchaseValueCents : null;
+      return {
+        ...a,
+        cpaCents: a.purchases > 0 ? Math.round(a.spendCents / a.purchases) : null,
+        roas,
+        netCents,
+        margePct,
+      };
+    });
     const isWinner = (a: (typeof withMetrics)[number]) =>
-      a.spendCents >= WINNER_MIN_SPEND && a.roas !== null && a.roas >= WINNER_MIN_ROAS;
+      a.spendCents >= WINNER_MIN_SPEND && winnerMinRoas !== null && a.roas !== null && a.roas >= winnerMinRoas;
     const winners = withMetrics.filter(isWinner);
     return {
       // Toutes les créas AYANT DIFFUSÉ sur la période (≥1 impression) — les
@@ -341,8 +362,10 @@ export function AnalyseBoard({
       hitRate: withMetrics.length > 0 ? winners.length / withMetrics.length : null,
       rows: withMetrics.sort((a, b) => b.spendCents - a.spendCents).slice(0, 12),
       isWinner,
+      winnerMinRoas,
+      breakEven: thresholds.breakEven,
     };
-  }, [analytics.ads]);
+  }, [analytics.ads, thresholds]);
 
   // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
   const eventMarkers = useMemo(
@@ -689,7 +712,7 @@ export function AnalyseBoard({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[520px] border-collapse text-[11px] lg:text-xs">
+            <table className="w-full min-w-[680px] border-collapse text-[11px] lg:text-xs">
               <thead>
                 <tr className="border-b border-line text-[9.5px] uppercase tracking-wide text-ink-dim">
                   <th className="px-2 py-1.5 text-left font-semibold">Créa</th>
@@ -697,11 +720,14 @@ export function AnalyseBoard({
                   <th className="px-2 py-1.5 text-right font-semibold">Achats</th>
                   <th className="px-2 py-1.5 text-right font-semibold">CPA</th>
                   <th className="px-2 py-1.5 text-right font-semibold">ROAS</th>
+                  <th className="px-2 py-1.5 text-right font-semibold">ROAS BE</th>
+                  <th className="px-2 py-1.5 text-right font-semibold">Marge nette*</th>
                 </tr>
               </thead>
               <tbody className="tnum">
                 {creas.rows.map((a) => {
                   const winner = creas.isWinner(a);
+                  const netPos = a.netCents !== null && a.netCents >= 0;
                   return (
                     <tr key={a.adId} className="border-b border-line-soft last:border-0">
                       <td className="max-w-[260px] truncate px-2 py-1.5 text-left font-medium text-ink">
@@ -714,14 +740,35 @@ export function AnalyseBoard({
                       <td className={`px-2 py-1.5 text-right font-semibold ${winner ? "text-phosphor" : ""}`}>
                         {formatRoas(a.roas)}
                       </td>
+                      <td className="px-2 py-1.5 text-right text-ink-faint">{formatRoasBare(creas.breakEven)}</td>
+                      <td className={`px-2 py-1.5 text-right ${a.netCents === null ? "text-ink-faint" : netPos ? "text-phosphor" : "text-red"}`}>
+                        {a.netCents !== null ? (
+                          <>
+                            {formatEurSigned0(a.netCents)}
+                            <span className="ml-1 text-[9.5px] text-ink-faint">
+                              ({formatPct(a.margePct)})
+                            </span>
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
             <p className="mt-2 text-[10px] text-ink-faint">
-              🏆 winneuse = ≥ 1 000 € de spend ET ROAS ≥ 2 · hit rate = winneuses ÷ créas testées
-              (≥ 20 € de spend) · l&apos;angle se lit dans le nom de la créa.
+              🏆 winneuse = ≥ 1 000 € de spend ET ROAS ≥ cible 15 %{" "}
+              {creas.winnerMinRoas !== null && `(${formatRoasBare(creas.winnerMinRoas)} en ce moment)`} · hit
+              rate = winneuses ÷ créas testées (≥ 20 € de spend) · l&apos;angle se lit dans le nom
+              de la créa.
+            </p>
+            <p className="mt-1 text-[10px] text-ink-faint">
+              * Marge nette estimée = marge de contribution moyenne du compte (14 j glissants) ×
+              CA de la créa − son spend. Le COGS/taxe réels par commande ne sont pas connus au
+              niveau créa (donnée Meta) : c&apos;est un ordre de grandeur, pas un calcul au
+              centime.
             </p>
             <p className="mt-1 text-[10px] text-ink-faint">
               {creas.seen} créa{creas.seen > 1 ? "s" : ""} avec de la diffusion sur cette période

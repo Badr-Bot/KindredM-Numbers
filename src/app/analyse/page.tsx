@@ -1,9 +1,11 @@
 import {
+  computeThresholds,
   getDataMode,
   getTabDayData,
   HISTORY_START,
   referenceToday,
   type DayAgg,
+  type Thresholds,
 } from "@/lib/data";
 import { getAnalyticsData, type AnalyticsData } from "@/lib/analytics";
 import { getJournalEvents, type JournalEvent } from "@/lib/journal";
@@ -23,15 +25,17 @@ type LoadResult =
       today: string;
       events: JournalEvent[];
       journalReady: boolean;
+      thresholds: Thresholds;
     };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const [dayData, analytics, journal] = await Promise.all([
+    const [dayData, analytics, journal, allThresholds] = await Promise.all([
       getTabDayData(HISTORY_START, today),
       getAnalyticsData(HISTORY_START, today),
       getJournalEvents(),
+      computeThresholds(today),
     ]);
     return {
       dayData,
@@ -39,6 +43,7 @@ async function loadData(): Promise<LoadResult> {
       today,
       events: journal.events,
       journalReady: journal.ready,
+      thresholds: allThresholds.GLOBAL,
     };
   } catch (err) {
     return { error: (err as Error).message };
@@ -80,6 +85,7 @@ export default async function AnalysePage() {
         today={result.today}
         events={result.events}
         journalReady={result.journalReady}
+        thresholds={result.thresholds}
       />
     </div>
   );
