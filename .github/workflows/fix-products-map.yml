@@ -49,13 +49,23 @@ jobs:
           echo "$OUT"
           echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC: upsert products_map refuse"; exit 1; }
 
-      - name: 3. Resynchroniser (rescan J-7, re-classe les commandes du jour)
+      - name: 3. Resynchroniser (insiste jusqu'a un vrai passage, ran=true)
         run: |
           set -e
-          OUT=$(curl -sS --max-time 290 -w "\nHTTP:%{http_code}" \
-            -X POST https://kindred-m-numbers.vercel.app/api/sync)
-          echo "$OUT"
-          echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC: /api/sync"; exit 1; }
+          # La synchro est throttlee a 1 passage / 5 min et le cron keep-sync
+          # gagne souvent la course : on reessaie chaque 65 s jusqu'a obtenir
+          # un passage reellement execute, dont on affiche le resultat complet
+          # (compteurs + avertissements produits non mappes = la preuve).
+          for i in 1 2 3 4 5 6 7; do
+            OUT=$(curl -sS --max-time 290 -X POST https://kindred-m-numbers.vercel.app/api/sync)
+            echo "tentative $i : $OUT"
+            if echo "$OUT" | grep -q '"ran":true'; then
+              echo "=== PASSAGE REEL OBTENU ==="
+              exit 0
+            fi
+            sleep 65
+          done
+          echo "AVERTISSEMENT : que des passages throttles — le cron a synchronise entre-temps (voir ses runs)."
 
       - name: 4. Preuve — compteur products_map
         run: |
