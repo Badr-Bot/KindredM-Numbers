@@ -257,6 +257,22 @@ terre       #9C5B34   (urgence / rupture uniquement)
 
 ---
 
+## 5 ter. Deux décisions de fin de journée (05/08, thème V2)
+
+**Barre collante — le prix a été RETIRÉ.** Deux tentatives pour lui faire suivre
+l'offre choisie dans Moon Bundles ont échoué : la lecture du prix dans le DOM du
+widget suppose de deviner sa structure, et je ne peux pas charger la page pour
+vérifier. Badr a tranché (« soit tu le règles soit on enlève le prix ») → barre =
+**bouton noir pleine largeur seul**, sans chiffre. Raison à retenir : un prix faux
+sous le pouce du client est pire que pas de prix. Appliqué au polo et au gilet.
+Ne pas réintroduire de prix dans cette barre sans pouvoir tester le rendu réel.
+
+**Section `niva-selection.liquid`** (nouvelle) : remplace « Produits associés » de
+Dawn, qui remontait tout seul le caleçon et l'e-book. Réglage `product_list` →
+Badr choisit ses pièces à la main, avec repli sur une collection si la liste est
+vide. Posée sur la page du gilet (Polo, Pantalon Rivoli, Chemise Turenne).
+Réutilisable sur les autres fiches — bascule non faite, à demander.
+
 ## 5 bis. Le Gilet Sully — page refondue le 05/08 (thème V2)
 
 **Faits produit confirmés par Badr** : c'est un **gilet de costume** (sans manches,
