@@ -6,10 +6,18 @@ export const BACKFILL_SINCE_ISO = "2026-06-04T00:00:00+02:00";
 // Titres localisés par store (EN/FR/DE/ES) — observés sur les vraies
 // boutiques. L'ordre des clés compte : les motifs les plus spécifiques
 // d'abord. Tout titre non reconnu reste A_VALIDER (§5, fail loudly).
+// 05/08 : rebranding « rues parisiennes » sur la boutique FR (décision Badr).
+// Chaque pièce garde sa clé produit — seuls les titres changent :
+// Le Polo Marceau (POLO), Le Gilet Sully (GILET), La Chemise Turenne
+// (SHORT_SLEEVE), Le Pantalon Rivoli (DRESS_TROUSERS), Le Short Cassini
+// (CHINO_SHORTS). Les motifs ci-dessous couvrent anciens ET nouveaux titres.
 const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
+  GILET: [/gilet/i, /sully/i, /\bvest\b/i, /weste/i, /chaleco/i],
+  CALECON: [/cale[cç]on/i, /boxer/i, /unterhose/i, /calzoncillo/i],
   SHORT_SLEEVE_DRESS_SHIRT: [
     /short.?sleeve.*shirt/i,
     /chemise.*manches?\s*courtes?/i,
+    /turenne/i,
     /kurzarm.*hemd/i,
     /camisa.*manga\s*corta/i,
   ],
@@ -22,6 +30,7 @@ const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
   DRESS_TROUSERS: [
     /dress.*trouser|trousers/i,
     /pantalon(?!\s*court)/i,
+    /rivoli/i,
     /anzugs?hose|\bhose\b/i,
     /pantal[oó]n(?!\s*corto)|pantalones/i,
   ],
@@ -34,6 +43,7 @@ const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
   CHINO_SHORTS: [
     /chino.*short/i,
     /\bshorts?\b/i,
+    /cassini/i,
     /kurze\s*hose|bermuda/i,
     /pantal[oó]n\s*corto/i,
   ],
@@ -44,6 +54,7 @@ const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
 // t-shirt distinct au catalogue) et équivalents localisés probables.
 const POLO_PATTERNS = [
   /polo/i,
+  /marceau/i,
   /t-?shirt\s*ultra-?confortable/i,
   /camiseta\s*ultra-?c[oó]mod/i,
   /ultra-?bequemes?\s*t-?shirt/i,

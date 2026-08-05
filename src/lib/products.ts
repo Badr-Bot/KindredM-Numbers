@@ -17,11 +17,13 @@ export interface ProductDef {
 
 export const PRODUCTS: ProductDef[] = [
   { key: "POLO", label: "Polo NIVAFIT", emoji: "👕", kind: "polo", hero: true },
+  { key: "GILET", label: "Gilet (Sully)", emoji: "🧥", kind: "upsell" },
   { key: "SHORT_SLEEVE_DRESS_SHIRT", label: "Chemise MC", emoji: "🩳", kind: "upsell" },
   { key: "LONG_SLEEVE_DRESS_SHIRT", label: "Chemise ML", emoji: "👔", kind: "upsell" },
   { key: "DRESS_TROUSERS", label: "Pantalon", emoji: "👖", kind: "upsell" },
   { key: "CHINO_SHORTS", label: "Short chino", emoji: "🩳", kind: "upsell" },
   { key: "COMPRESSION_TANK_TOP", label: "Débardeur", emoji: "🎽", kind: "upsell" },
+  { key: "CALECON", label: "Caleçon", emoji: "🩲", kind: "upsell" },
 ];
 
 const BY_KEY = new Map(PRODUCTS.map((p) => [p.key, p]));
