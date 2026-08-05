@@ -44,8 +44,19 @@ Dernière mise à jour : 2026-08-05
 | Objet | ID / valeur |
 |---|---|
 | Boutique | mynivashop.com |
-| Thème **LIVE** — NE JAMAIS ÉCRIRE DESSUS | `gid://shopify/OnlineStoreTheme/192925434230` — « NIVA — Maison » |
-| Thème **de travail** (non publié) | `gid://shopify/OnlineStoreTheme/197881692534` — « NIVA — Maison V1 (brouillon) » |
+| Thème **LIVE** depuis le 05/08 ~18h — écriture API BLOQUÉE | `gid://shopify/OnlineStoreTheme/197881692534` — « NIVA — Maison V1 (brouillon) » (nom trompeur : il est publié) |
+| Thème **correctif** prêt à publier | `gid://shopify/OnlineStoreTheme/197928550774` — « NIVA — Maison V2 (correctif barre prix) » |
+| Ancien thème (désormais non publié) | `gid://shopify/OnlineStoreTheme/192925434230` — « NIVA — Maison » |
+
+> **⚠️ Méthode obligatoire depuis que le thème est live** : `themeFilesUpsert` est
+> refusé sur le thème publié. Pour livrer un correctif :
+> 1. `themeDuplicate(id: <live>, name: "…")` → renvoie `newTheme` (UNPUBLISHED) ;
+> 2. **relire le template depuis la copie** (Badr retouche dans l'éditeur : ma copie
+>    locale du scratchpad est souvent périmée — le 05/08 elle ignorait ses retouches
+>    sur `niva_ba`, `niva_ben1/2/3`, `niva_cit`) ;
+> 3. patcher **uniquement** le bloc visé, repousser, puis **prouver** par un diff que
+>    seul ce bloc a changé ;
+> 4. Badr publie la copie en un clic.
 | **Le Polo Marceau** (DRAFT, la pièce en cours) | `gid://shopify/Product/15830356132214` — handle `le-polo-marceau` — suffixe `polo-2` |
 | Polo LIVE (celui qui vend aujourd'hui) | `gid://shopify/Product/15746273837430` — suffixe `polo-breeze` |
 | Collection | `gid://shopify/Collection/695588487542` — titre « Le Vestiaire », handle `nivafit` |
