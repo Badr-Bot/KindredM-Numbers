@@ -72,10 +72,31 @@ supprimés, il reste exactement les 6 visuels coloris ci-dessus.
   le même fond ivoire, leurs marges s'additionnaient en un blanc géant.
 
 **⚠️ Conflit d'écriture vécu le 05/08 :** un agent de vérification a écrasé
-`niva-theme.css` pendant que j'écrivais dessus (sa version a perdu mes sections
-23/24). Règle : **un seul écrivain par fichier** — les agents de vérification
-travaillent en LECTURE SEULE et rapportent les corrections, c'est moi qui applique.
-Toujours comparer `size` local/serveur après chaque push.
+`niva-theme.css`, `niva-citations.liquid` ET `product.polo-2.json` pendant que
+j'écrivais dessus — il a pris mes messages de coordination pour une injection et
+a « restauré » l'état d'avant les décisions de Badr. Règle : **un seul écrivain
+par fichier** — les agents de vérification travaillent en LECTURE SEULE et
+rapportent les corrections, c'est moi qui applique. Toujours comparer
+`size`/contenu local/serveur après chaque push. Nota : Shopify **re-sérialise**
+les templates JSON à l'upsert (taille différente = normal, comparer la
+structure) et **retire les settings inconnus du schéma en vigueur** au moment de
+l'upsert (`speed` du bandeau a sauté ainsi ; sans effet, le défaut du schéma
+vaut 55).
+
+**Audit Opus du 05/08 — la découverte capitale :** le bloc `custom_liquid_fonts`
+du template polo-2 contient un verrou inline
+`#MainContent .product .product__info-wrapper p {...!important}` (spécificité
+(1,2,1)) et `...span:not(...):not(...)` ((1,4,1)) qui battait TOUT : le titre
+produit, le prix, l'offre et les étiquettes s'affichaient en Instrument Sans.
+Corrigé par la **section 25** du CSS (sélecteurs à spécificité > (1,4,1)).
+Autres corrections issues de l'audit : `.nv2-social__txt strong` ajouté à la
+section 23 ; couture `.nvv → .nvs-maison` (page d'accueil, blanc de 208 px
+desktop) ajoutée à la section 24 ; `.nvg__titre`, `.nvg__nom`,
+`.footer-block__heading`, `.nv2-offer__time`, `.nv2-note__stars` repassés en Mono.
+CSS de référence : **55 893 octets** (09:08:44Z).
+L'agent Sonnet a corrigé de son côté : délais dans `product.polo-breeze.json`
+(template du polo LIVE) et la page Livraison & Retours ; mention « 48h » laissée
+dans un avis client verbatim (citation, pas une politique).
 
 ---
 
