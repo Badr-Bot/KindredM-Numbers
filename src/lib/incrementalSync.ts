@@ -324,6 +324,18 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 const REQUIRED_RECOMPUTE_VERSION = "2026-07-27-fees-4pct-v7";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
+// v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —
+// découvert le 05/08 via l'avertissement « produit non mappé » d'un vrai
+// passage de synchro. Conséquence : son COGS était compté 0 € sur TOUT
+// l'historique (produit très souvent offert en bonus, donc présent dans une
+// grosse part des commandes) → cogs_upsells_cents sous-évalué et Net
+// légèrement SURESTIMÉ depuis le 04/06. Le mapping est désormais chargé
+// (FR + ES), mais cogs_upsells_cents est figé par commande au moment de la
+// synchro : il faut re-scanner tout l'historique pour l'appliquer.
+// Couvre aussi le rebranding « rues parisiennes » du 05/08 (Le Polo Marceau,
+// Le Gilet Sully, La Chemise Turenne, Le Pantalon Rivoli, Le Short Cassini) :
+// les commandes passées avant le chargement du mapping étaient sorties du
+// comptage produit.
 // v7 : taxe UE forfait 3€/colis (ex-3€/produit distinct + exemption
 // caleçon, toutes deux abandonnées le 04/08 — voir engine.ts §4.4) ET
 // caleçon grille par pays (ex-forfait 2€/pièce). tax_eu_cents ET
@@ -331,7 +343,7 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // tout l'historique EU (surtout les commandes multi-produits, sur-taxées
 // par l'ancienne règle) doit être re-scanné. Le re-scan tourne en étapes
 // après la synchro rapide (jamais bloquant).
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-04-tax-flat-calecon-grid-v7";
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-05-calecon-mappe-rebranding-v8";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
