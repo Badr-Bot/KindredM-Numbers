@@ -10,10 +10,16 @@ Dernière mise à jour : 2026-08-05
 
 ## 1. Règles absolues (données par Badr)
 
-0. **Je ne touche PLUS aux images. Badr les génère et les importe lui-même.**
-   (05/08 : « ne me fait plus d'image je le ferais seul » puis « pour les images
-   touche a rien, c'est moi qui va tout faire ».) Je ne génère rien, et je ne
-   réassigne pas d'image existante sans qu'il me le demande explicitement.
+0. **JE NE SUPPRIME JAMAIS UNE IMAGE. JAMAIS.** (05/08, mot pour mot : « quand je
+   fais des modifs des images et je remets des images, ne les supprime pas ».)
+   Badr réimporte régulièrement des visuels : tout média présent sur un produit
+   ou dans Fichiers est à lui et reste. Aucun `productDeleteMedia`, aucun
+   `fileDelete`, même pour « faire le ménage », même si un média paraît orphelin
+   ou périmé. Si une galerie est encombrée : je le signale, il tranche.
+   Corollaire : **je ne génère plus d'images** (« ne me fait plus d'image je le
+   ferais seul ») et **je ne réassigne pas** une image sans demande explicite.
+   Ce que je peux faire sans risque : relier une variante à un média existant,
+   réordonner une galerie, écrire un texte alternatif.
 0 bis. **Pas de Judge.me.** Retiré des 9 templates produit le 05/08 sur sa demande
    (« enlève judge de tous les produits ») : les avis passent par la section figée
    NIVA · Avis clients, pas par une app. La section `apps` reste en place, vide.
