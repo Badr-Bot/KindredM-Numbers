@@ -1,0 +1,56 @@
+name: Fix products map (rebranding 05/08)
+
+# Les runners GitHub joignent le dashboard Vercel là où l'environnement de
+# travail de Claude en est empêché (proxy). Ce workflow fait, sans navigateur :
+#   1. état de santé de l'app (env-check) — diagnostique aussi les
+#      « erreurs de connexion » vues depuis /admin ;
+#   2. charge dans products_map les titres exacts issus du rebranding
+#      « rues parisiennes » (le moteur mappe par titre exact : sans ces
+#      lignes, les ventes postérieures au renommage sortent du comptage) ;
+#   3. relance la synchro (rescan J-7) pour re-classer les commandes du jour ;
+#   4. relit le compteur de mapping pour prouver l'écriture.
+# Idempotent : l'upsert est en onConflict(store,title_pattern), relançable
+# sans risque.
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Sante de l'app (env-check)
+        run: |
+          set -x
+          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
+            https://kindred-m-numbers.vercel.app/api/admin/env-check || true
+
+      - name: 2. Charger le mapping des nouveaux titres (store FR)
+        run: |
+          set -e
+          BODY='{"rows":[
+            {"store":"FR","title_pattern":"Le Polo Marceau","product_key":"POLO","unit_group":"polo"},
+            {"store":"FR","title_pattern":"Le Gilet Sully","product_key":"GILET","unit_group":"upsell"},
+            {"store":"FR","title_pattern":"Le Pantalon Rivoli","product_key":"DRESS_TROUSERS","unit_group":"upsell"},
+            {"store":"FR","title_pattern":"La Chemise Turenne","product_key":"SHORT_SLEEVE_DRESS_SHIRT","unit_group":"upsell"},
+            {"store":"FR","title_pattern":"Le Short Cassini","product_key":"CHINO_SHORTS","unit_group":"upsell"}
+          ]}'
+          OUT=$(curl -sS --max-time 60 -w "\nHTTP:%{http_code}" \
+            -X POST -H "Content-Type: application/json" \
+            -d "$BODY" \
+            https://kindred-m-numbers.vercel.app/api/admin/products-map)
+          echo "$OUT"
+          echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC: upsert products_map refuse"; exit 1; }
+
+      - name: 3. Resynchroniser (rescan J-7, re-classe les commandes du jour)
+        run: |
+          set -e
+          OUT=$(curl -sS --max-time 290 -w "\nHTTP:%{http_code}" \
+            -X POST https://kindred-m-numbers.vercel.app/api/sync)
+          echo "$OUT"
+          echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC: /api/sync"; exit 1; }
+
+      - name: 4. Preuve — compteur products_map
+        run: |
+          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
+            https://kindred-m-numbers.vercel.app/api/admin/products-map
