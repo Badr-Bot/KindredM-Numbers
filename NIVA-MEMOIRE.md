@@ -277,7 +277,17 @@ Ne pas réintroduire de prix dans cette barre sans pouvoir tester le rendu réel
 Dawn, qui remontait tout seul le caleçon et l'e-book. Réglage `product_list` →
 Badr choisit ses pièces à la main, avec repli sur une collection si la liste est
 vide. Posée sur la page du gilet (Polo, Pantalon Rivoli, Chemise Turenne).
-Réutilisable sur les autres fiches — bascule non faite, à demander.
+
+Posée aussi sur **la page du polo** le 05/08 à sa demande : section `niva_sel`
+intercalée entre `niva_avis` et `niva_rappel` (le rappel d'achat reste le dernier
+mot de la page), pièces choisies = **Gilet Sully, Pantalon Rivoli, Chemise
+Turenne**, 3 colonnes, lien « Voir tout le vestiaire » → `/collections/nivafit`.
+Template vérifié après coup : 15 sections, `main` toujours à 18 blocs, 3 vidéos
+UGC intactes, avis intacts. Réglages en `product_list` = **liste de handles**
+(pas de GID) — format à réutiliser pour les autres fiches.
+
+Reste à basculer : les autres templates produit tournent encore sur
+`related-products` de Dawn et remontent l'e-book.
 
 ## 5 bis. Le Gilet Sully — page refondue le 05/08 (thème V2)
 
