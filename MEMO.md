@@ -35,8 +35,10 @@
 - Cas particuliers prioritaires : campagne <3 j → pas de ROAS (CTR/CPM/CVR) · budget <50 €/j → volume insuffisant · post-scale → 48-72 h sans décision lourde.
 
 ## Faits vérifiés (ne pas re-prouver)
-- **ROAS Meta du jour J sous-estime fortement** (attribution) — se corrige en 24-72 h (jours anciens matchent Shopify exactement). Piloter au ROAS réel = CA Shopify ÷ spend, via UTM (utmParameters.campaign = ID campagne).
-- ~20-25 % des commandes = organique (Google/Direct) — jamais attribuées par Meta, normal.
+- **ROAS Meta du jour J sous-estime fortement** (attribution) — se corrige en 24-72 h (jours anciens matchent Shopify exactement). Piloter au ROAS réel = CA Shopify ÷ spend, via UTM (utmParameters.campaign = ID campagne) **pour le Polo** (plusieurs campagnes en parallèle, UTM = seule méthode possible).
+- **Gilet/Lancaster : NE PAS utiliser l'UTM seul** (05/08, Badr) — tant qu'une seule campagne Gilet existe, toute commande contenant un Gilet lui appartient (vérifier les line items, pas le champ UTM). Une partie des commandes perdent leur UTM (pixel/CAPI Meta les trackait quand même via wetracked) — confirmé 04/08 : 2 commandes Gilet sur 3 avaient UTM null, 3 achats Meta = 3 commandes Shopify Gilet à l'euro près. Casse dès qu'une 2ᵉ campagne Gilet est lancée (repasser à l'UTM strict).
+- L'UTM se perd aussi probablement sur une partie des commandes Polo (CA "organique" du dashboard légèrement gonflé, ROAS par campagne Polo légèrement sous-estimé) — mais impossible à corriger campagne par campagne avec plusieurs campagnes Polo actives en parallèle (contrairement au Gilet).
+- ~20-25 % des commandes = organique (Google/Direct) — jamais attribuées par Meta, normal (part réelle un peu plus basse vu le point UTM ci-dessus).
 - Jours en heure de PARIS (UTC+2 été) — une commande 22h30 UTC = lendemain Paris.
 - Quasi 0 client récurrent (22/23 premiers achats sur l'échantillon vérifié).
 - GitHub Actions heartbeat réel : toutes les 1-2h30 (pas 5 min — throttling GitHub).
