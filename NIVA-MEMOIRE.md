@@ -10,6 +10,9 @@ Dernière mise à jour : 2026-08-05
 
 ## 1. Règles absolues (données par Badr)
 
+0. **Je ne génère PLUS d'images. Badr les fait lui-même.** (05/08 : « ne me fait
+   plus d'image je le ferais seul ».) Je peux poser des images existantes dans des
+   sections, jamais en créer.
 1. **Aucune suppression, aucun retrait, aucune désactivation sans permission explicite.**
    (S'applique aux sections, textes, images, blocs, produits, pages.)
 2. Le **polo est prioritaire** sur tout le reste.
@@ -52,8 +55,27 @@ Dernière mise à jour : 2026-08-05
 Les **54 variantes** (6 coloris × 9 tailles S→6XL) sont reliées à l'image de leur coloris
 via `productVariantsBulkUpdate { mediaId }` → cliquer une pastille change la photo.
 
-Il reste **~22 anciens médias** en fin de galerie (résidus des niches précédentes).
-→ **En attente de la permission de Badr pour les retirer.**
+Galerie **nettoyée le 05/08 avec l'accord de Badr** : les 22 anciens médias sont
+supprimés, il reste exactement les 6 visuels coloris ci-dessus.
+
+**Décisions de Badr du 05/08 (après retours visuels) :**
+- La section Citations reste un **bandeau défilant** (pas un mur statique) — corrigé
+  en filet fin : padding 13 px mobile / 17 px desktop, texte 13 / 16,5 px, exclu du
+  rythme vertical de la section 20 du CSS.
+- L'avant/après reprend **les anciennes images** (`hf_20260531_232009_8d9563bc...png`
+  avant, `hf_20260531_224602_..._1.png` après, labels AVANT/APRÈS) — vérifié : les
+  deux fichiers existent toujours dans Files.
+- Le gras du texte courant : `font-weight:500!important` (section 23) — le
+  `!important` est OBLIGATOIRE car les `<style>` des sections arrivent après la
+  feuille dans le DOM et regagnaient avec leur 600.
+- Couture UGC→Maison resserrée (section 24, `:has()`) : les deux sections partagent
+  le même fond ivoire, leurs marges s'additionnaient en un blanc géant.
+
+**⚠️ Conflit d'écriture vécu le 05/08 :** un agent de vérification a écrasé
+`niva-theme.css` pendant que j'écrivais dessus (sa version a perdu mes sections
+23/24). Règle : **un seul écrivain par fichier** — les agents de vérification
+travaillent en LECTURE SEULE et rapportent les corrections, c'est moi qui applique.
+Toujours comparer `size` local/serveur après chaque push.
 
 ---
 
@@ -185,19 +207,24 @@ terre       #9C5B34   (urgence / rupture uniquement)
 
 ---
 
-## 6. Nommage proposé (à valider)
+## 6. Nommage — VALIDÉ ET APPLIQUÉ le 05/08
 
-La **collection** = *Nivafit* (la coupe ajustée). Chaque **pièce** prend un nom de rue parisienne.
+La **collection** = *Nivafit* (la coupe ajustée). Chaque **pièce** porte un nom de rue
+parisienne. Titres changés, **handles inchangés** (aucune URL cassée).
 
-| Pièce | Nom proposé | État |
-|---|---|---|
-| Polo | **Le Polo Marceau** | ✅ appliqué |
-| Gilet | Le Gilet Sully | à valider |
-| Pantalon extensible | Le Pantalon Rivoli | à valider |
-| Chemise manches courtes | La Chemise Turenne | à valider |
-| Short extensible | Le Short Cassini | à valider |
-| Ceinture | La Ceinture Bréguet | à valider |
-| Chaussettes | Les Chaussettes Vosges | à valider |
+| Produit (ID) | Titre appliqué |
+|---|---|
+| 15830356132214 | **Le Polo Marceau** |
+| 15822378336630 | **Le Gilet Sully** |
+| 15778111684982 | **Le Pantalon Rivoli** |
+| 15778128855414 | **La Chemise Turenne** |
+| 15778112405878 | **Le Short Cassini** |
+| 15778136424822 | **La Ceinture Bréguet** |
+| 15778113749366 | **Les Chaussettes Malesherbes** (Vosges était pris par le T-shirt) |
+| 15765172617590 | Le T-shirt Vosges (déjà nommé, inchangé) |
+
+Non nommés (hors périmètre validé) : débardeur de compression, chemise
+infroissable (bellutia), caleçon, e-book.
 
 ---
 
