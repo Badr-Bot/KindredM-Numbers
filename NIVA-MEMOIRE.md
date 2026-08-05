@@ -333,6 +333,69 @@ infroissable (bellutia), caleçon, e-book.
 
 ---
 
+## 6 ter. Galerie couleur ≠ vignettes du bundle (05/08, thème V2)
+
+**Le piège central, à ne jamais réapprendre.** Shopify n'a **qu'une seule donnée**,
+`variant.featured_media`. Elle pilote **à la fois** la galerie de la fiche **et** les
+vignettes du bundle Moon Bundles. Donc : mannequins sur les variantes → le bundle
+affiche des mannequins ; packshots sur les variantes → la fiche affiche des
+packshots. On ne peut pas satisfaire les deux par ce chemin.
+
+**Décision de Badr** : le bundle doit montrer les **packshots**, la fiche doit
+montrer les **mannequins**. Les variantes restent donc liées aux packshots
+(`294.png`, `292.png`, `291.png`, `red_….jpg`) — **NE PAS LES RELIER AUX
+MANNEQUINS**, c'est exactement ce qu'il a défait à la main.
+
+**Solution** : `snippets/niva-galerie-couleur.liquid` (nouveau). Appelé par un bloc
+`custom_liquid_galerie` du template polo : `{% render 'niva-galerie-couleur',
+prefixe: 'POLO_MARCEAU' %}`. Il :
+1. prend les médias dont le **nom de fichier contient le préfixe**, dans l'ordre de
+   la galerie, et les met en face des couleurs **dans l'ordre des couleurs** —
+   la règle que Badr a suivie en nommant ses fichiers. 6 = 6 sur le polo ;
+2. détourne `media-gallery.setActiveMedia` pour substituer le mannequin au
+   packshot demandé par le thème ;
+3. **bloque tout changement d'image tant que le client n'a pas cliqué une
+   couleur** → le visuel d'accueil reste en place (demande explicite : « ça part
+   pas vers l'image grise »). Les vignettes, liées à la méthode d'origine à la
+   construction, restent cliquables normalement ;
+4. ignore les sélecteurs situés dans un bloc bundle/app.
+
+Sécurités : si le nombre de mannequins ≠ nombre de couleurs, le snippet
+**n'écrit rien** (retour au comportement actuel plutôt qu'une mauvaise image).
+Le fichier ne modifie **aucune image ni aucun lien de variante**.
+
+⚠️ **Impossible à tester en rendu réel** : `mynivashop.com` est refusé par la
+politique réseau de l'environnement (403 sur le CONNECT). Vérification faite sur
+les fichiers et les données, pas sur la page. À faire confirmer par Badr.
+
+À poser sur le gilet quand ses fichiers mannequins seront nommés pareil
+(préfixe à passer en paramètre).
+
+## 6 quater. Audit Opus du 05/08 sur la fiche Gilet — correctifs appliqués
+
+Section **26** ajoutée à `niva-theme.css` (58 526 o) :
+- `.nvd__media img{max-height:none}` — le cadre 4/5 du diptyque laissait une bande
+  de sable de 281 px sous chaque photo (image plafonnée à 56vh) ;
+- `.nvs-num` **retiré du rythme vertical** (§20) et sa hauteur verrouillée dans
+  `niva-chiffres.liquid` — c'est un bandeau fin, il héritait de 104 px de marge ;
+- `.nvs-cmp__note` et `.nvn__note` rendus à Instrument Sans — le joker
+  `[class*="__note"]` de la §19 les tirait en Jost ;
+- trois **coutures** de sections de même fond (`.nve`→`.nvs-maison`,
+  `.nvp`→`.nve`, `.nvs-rev`→`.nvs-faq`, avec suppression du filet pour la FAQ) ;
+- cinq libellés sortis du gris sable (3,47:1) vers `--nv-t2` (10,75:1) ;
+- le **cadrage inline** de la section Bénéfice fonctionne enfin : le
+  `object-position:center!important` de la §21 le battait, il ne s'applique plus
+  aux images de cette section.
+
+`niva-avis.liquid` : `.nvs-rev__badge:empty` et `.nvs-rev__variant:empty` masqués
+(petit rectangle beige vide après chaque prénom, 8 px de marge fantôme sur 34 des
+35 avis).
+
+**Non corrigés volontairement** (arbitrage de Badr) : les 6 images de section sont
+en 1:1 dans des cadres 3/2 et 4/5 → 20 à 37 % rognés ; deux photos d'avis sont en
+paysage dans des cadres portrait ; les étoiles ocre sont à 2,87:1 mais c'est la
+couleur de la charte ; 4 teintes de service hors charte (`--nv-piste` et cie).
+
 ## 7. Points signalés à Badr et non tranchés
 
 - **34 faux avis** sur la page du polo LIVE (5 textes identiques sous des noms différents)
