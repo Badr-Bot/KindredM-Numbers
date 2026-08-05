@@ -253,6 +253,29 @@ terre       #9C5B34   (urgence / rupture uniquement)
 
 ---
 
+## 5 bis. Le Gilet Sully — page refondue le 05/08 (thème V2)
+
+**Faits produit confirmés par Badr** : c'est un **gilet de costume** (sans manches,
+boutonné, se porte sur une chemise). Angle de vente retenu : **le confort grande
+taille**, en continuité du polo. 6 coloris (Noir intense, Bleu nuit, Gris anthracite,
+Marron Oxford, Vert olive, Rouge bordeaux), **S → 5XL**, 79,99 €.
+
+Page passée de 9 à **19 sections** : main enrichi (16 blocs : sur-titre, ligne
+S–5XL, encadré promesse, moyens de paiement, livraison estimée, **barre collante
+qui suit le prix du pack**) · chiffres · marquee · 3 bénéfices (boutonnage /
+position assise / emmanchure) · **nuancier des 6 teintes** · ligne noire ·
+comparatif · parti pris réécrit gilet · **éditorial** · maison · engagements ·
+FAQ 8 questions · **diptyque** (vestiaire + guide des tailles) · rappel final ·
+journal · produits associés · avis Judge.me (**il était `disabled: true`, réactivé**).
+
+⚠️ **Aucun avis inventé sur cette page** (contrairement au polo) : les témoignages
+viennent uniquement de Judge.me. Ne pas y ajouter de citations fabriquées.
+
+⚠️ **Claims à faire confirmer par Badr avant publication** : matière/composition,
+présence d'une doublure, de poches, d'une sangle de réglage au dos. Rien de tout
+cela n'est affirmé dans le texte actuel — la copie parle uniquement de coupe,
+de tailles, de coloris et de service, tous vérifiables.
+
 ## 6. Nommage — VALIDÉ ET APPLIQUÉ le 05/08
 
 La **collection** = *Nivafit* (la coupe ajustée). Chaque **pièce** porte un nom de rue
