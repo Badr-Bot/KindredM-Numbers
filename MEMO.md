@@ -47,7 +47,7 @@
 - Next.js/Supabase/Vercel, branche `claude/kindredm-dashboard-setup-epbxha` (= défaut), auto-deploy. Proxy bloque vercel.app → jamais vérifiable en direct d'ici.
 - Marqueurs de rattrapage (incrementalSync.ts) : `full_recompute_version` (calcul seul, pas d'API) · `full_resync_version` (re-scan Shopify complet — v7 = taxe forfait 3€/colis + grille caleçon, 04/08) · `meta_resync_version`. La synchro rapide 7 j tourne TOUJOURS d'abord.
 - **Facture fournisseur = vérité terrain** : la facture Panda Dropshipping (COGS + taxe réels) fait foi sur nos grilles/hypothèses. Toujours comparer une facture reçue aux grilles engine.ts avant de la valider — a déjà révélé 2 erreurs de modèle (04/08 : taxe forfait, caleçon par pays).
-- Onglet Aujourd'hui : cartes par produit Gilet vs Polo (spend Polo = tout sauf LANCASTER, UNMAPPED inclus).
+- Onglet Aujourd'hui : cartes par produit Gilet vs Polo — Gilet mesuré (line items + campagnes LANCASTER), Polo = Global − Gilet sur CHAQUE composant (CA/spend/COGS/taxe/frais, pas seulement le spend depuis 05/08) pour garantir Gilet+Polo = Global au centime, y compris sur le Net.
 - Mapping campagne→marché : ESP→ES, GE→DE, FR→FR, UK/CANADA/EUROPE/AUS/WORLDWIDE/ANG→UK, **sinon FR par défaut** (29/07). Override manuel prime.
 - **Routine 23h05 Paris** (trig_01VoaeW4pHFecyw3fHwTMxUn, cron 0 21 * * * UTC — décaler à l'heure d'hiver fin octobre) : rapport ROAS 3 j par campagne + verdicts protocole Master → Slack (canal type « décision »). Recommande, n'exécute JAMAIS.
 

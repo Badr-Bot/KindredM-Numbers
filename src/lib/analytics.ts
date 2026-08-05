@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
+import type { Totals } from "./data";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -377,26 +378,29 @@ function toCard(
   label: string,
   emoji: string,
   bucket: ReturnType<typeof emptyBucket>,
-  spendCents: number
+  spendCents: number,
+  feesCents: number
 ): ProductSplitCard {
-  const feesCents = feesCentsForCa(bucket.caCents);
   const netCents = bucket.caCents - spendCents - bucket.cogsCents - bucket.taxCents - feesCents;
   return { key, label, emoji, spendCents, feesCents, netCents, ...bucket };
 }
 
 /**
- * `globalSpendCents` = spend GLOBAL déjà calculé pour ce jour (daily_aggregates,
- * même source que le reste de l'onglet Aujourd'hui — voir getTodayView). Le
- * split Gilet/Polo doit toujours sommer exactement à ce total : on ne re-somme
- * PAS le spend depuis meta_spend (table resynchronisée à un rythme différent
- * de daily_aggregates, donc temporairement désynchronisée en cours de journée
- * — constaté 04/08, Gilet+Polo dépassait le Global de ~86€). Seule la part
- * Gilet (Lancaster) est lue depuis meta_spend ; la part Polo = Global − Gilet,
- * garantissant la somme par construction.
+ * `global` = totaux GLOBAL déjà calculés pour ce jour (daily_aggregates, même
+ * source que le reste de l'onglet Aujourd'hui — voir getTodayView). Le split
+ * Gilet/Polo doit toujours sommer EXACTEMENT à ces totaux, composant par
+ * composant (CA/spend/COGS/taxe/frais) : on ne re-somme AUCUN composant Polo
+ * depuis une requête indépendante (la table `orders` peut être désynchronisée
+ * de `daily_aggregates` en cours de journée — constaté 04/08 sur le spend,
+ * ~86€ d'écart ; constaté 05/08 sur le CA/COGS/taxe, ~1€ d'écart net qui
+ * cassait Gilet+Polo ≠ Global). Seule la part Gilet (Lancaster) est mesurée
+ * (line items pour le CA/COGS/taxe, campagnes meta_spend pour le spend) ;
+ * la part Polo = Global − Gilet pour CHAQUE composant, garantissant la somme
+ * par construction (Net inclus, par linéarité).
  */
 export async function getProductSplitForDay(
   day: string,
-  globalSpendCents: number
+  global: Totals
 ): Promise<ProductSplitCard[]> {
   const supabase = createSupabaseServerClient();
 
@@ -427,28 +431,50 @@ export async function getProductSplitForDay(
   if (orders.length === 0) return [];
 
   const gilet = emptyBucket();
-  const polo = emptyBucket();
   for (const o of orders) {
     const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
-    const b = isGilet ? gilet : polo;
-    b.orders += 1;
-    b.caCents += o.total_cents - o.refunded_cents;
-    b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
-    b.taxCents += o.tax_eu_cents;
+    if (!isGilet) continue;
+    gilet.orders += 1;
+    gilet.caCents += o.total_cents - o.refunded_cents;
+    gilet.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
+    gilet.taxCents += o.tax_eu_cents;
   }
+
+  // Clamp de chaque composant Gilet au Global correspondant : si `orders`
+  // est temporairement désynchronisée de `daily_aggregates` (re-scan en
+  // cours, remboursement pas encore propagé, etc.), on ne veut jamais un
+  // composant Polo négatif. Polo = Global − Gilet pour CHAQUE composant.
+  const clampToGlobal = (giletValue: number, globalValue: number) =>
+    Math.min(giletValue, Math.max(globalValue, 0));
+
+  const giletOrders = clampToGlobal(gilet.orders, global.orders);
+  const poloOrders = Math.max(global.orders - giletOrders, 0);
+
+  const giletCaCents = clampToGlobal(gilet.caCents, global.caCents);
+  const poloCaCents = Math.max(global.caCents - giletCaCents, 0);
+
+  const giletCogsCents = clampToGlobal(gilet.cogsCents, global.cogsCents);
+  const poloCogsCents = Math.max(global.cogsCents - giletCogsCents, 0);
+
+  const giletTaxCents = clampToGlobal(gilet.taxCents, global.taxCents);
+  const poloTaxCents = Math.max(global.taxCents - giletTaxCents, 0);
 
   const spend = spendError ? [] : (spendRows ?? []);
   const giletSpendCentsRaw = spend
     .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(GILET_CAMPAIGN_KEYWORD))
     .reduce((s, r) => s + (r.spend_cents as number), 0);
-  // Clampé au Global : si meta_spend est temporairement en avance sur
-  // daily_aggregates, on ne veut jamais un Polo négatif.
-  const giletSpendCents = Math.min(giletSpendCentsRaw, Math.max(globalSpendCents, 0));
-  const poloSpendCents = Math.max(globalSpendCents - giletSpendCents, 0);
+  const giletSpendCents = clampToGlobal(giletSpendCentsRaw, global.spendCents);
+  const poloSpendCents = Math.max(global.spendCents - giletSpendCents, 0);
+
+  // Frais : calculés une fois sur le CA Gilet, puis Polo = Global − Gilet —
+  // jamais feesCentsForCa(poloCaCents) séparément (l'arrondi indépendant des
+  // deux calculs ne sommerait pas forcément exactement au frais Global).
+  const giletFeesCents = clampToGlobal(feesCentsForCa(giletCaCents), global.feesCents);
+  const poloFeesCents = Math.max(global.feesCents - giletFeesCents, 0);
 
   return [
-    toCard("GILET", "Gilet", "🎽", gilet, giletSpendCents),
-    toCard("POLO", "Polo", "👕", polo, poloSpendCents),
+    toCard("GILET", "Gilet", "🎽", { orders: giletOrders, caCents: giletCaCents, cogsCents: giletCogsCents, taxCents: giletTaxCents }, giletSpendCents, giletFeesCents),
+    toCard("POLO", "Polo", "👕", { orders: poloOrders, caCents: poloCaCents, cogsCents: poloCogsCents, taxCents: poloTaxCents }, poloSpendCents, poloFeesCents),
   ];
 }
 

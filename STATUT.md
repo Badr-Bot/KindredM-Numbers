@@ -434,6 +434,33 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   créa (`adsDaily`, comme l'onglet Créas) et l'agrégation se fait côté
   client sur [from, to] — zéro appel serveur au changement de période.
 
+## Mise à jour 05/08 — bug Gilet+Polo ≠ Global sur le Net (composants CA/COGS/taxe)
+
+- Badr (screenshot Aujourd'hui) : « y a un souci au niveau du net, la somme
+  des trois c'est pas ce qui est affiché ». Vérifié : marchés (ES+UK+DE+FR)
+  sommaient bien au Global, mais Gilet+Polo non (31€+101€=132€ affiché vs
+  132,69€ Global — écart réel, pas juste un arrondi d'affichage).
+- Cause : `getProductSplitForDay` (analytics.ts) ne recevait QUE le spend
+  Global en paramètre (fix du 04/08). Le CA/COGS/taxe, eux, étaient encore
+  RE-SOMMÉS depuis la table `orders` en requête live, indépendamment de
+  `daily_aggregates` (source du Global/marchés) — les deux peuvent diverger
+  légèrement en cours de journée (resync pas encore propagée, remboursement,
+  etc.), exactement le même type de désync déjà trouvé sur le spend le 04/08
+  mais qui n'avait été corrigé QUE pour ce composant-là.
+- Fix : `getProductSplitForDay(day, global: Totals)` prend maintenant les
+  totaux Global complets (CA/spend/COGS/taxe/frais/commandes), pas juste le
+  spend. Gilet reste mesuré depuis `orders`/`meta_spend` (seule source pour
+  isoler le produit), mais Polo = Global − Gilet pour CHAQUE composant
+  (clampé ≥ 0 comme le spend). Les frais Polo aussi = Global.frais −
+  Gilet.frais (jamais recalculés séparément sur poloCaCents, pour éviter un
+  écart d'arrondi entre les deux calculs indépendants). Net = CA−spend−COGS
+  −taxe−frais par carte ; comme chaque composant somme exactement au Global
+  par construction, le Net somme exactement aussi (linéarité). 42/42 tests
+  toujours verts, tsc clean.
+- Fichiers : `src/lib/analytics.ts` (`getProductSplitForDay`), `src/app/page.tsx`
+  (appel mis à jour : passe `view.cards[0].totals` au lieu de
+  `.totals.spendCents`).
+
 ## Mise à jour 05/08 — attribution Polo : correction partielle (contrairement au Gilet)
 
 - Badr, après la correction Gilet/Lancaster : « Les autres corrige les aussi »
