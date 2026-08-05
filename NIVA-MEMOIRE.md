@@ -22,6 +22,13 @@ Dernière mise à jour : 2026-08-05
 5. Adresse e-mail unique : **contact@mynivashop.com**. L'autre (myniva@outlook.com) doit disparaître.
 6. Un **agent de vérification** doit repasser derrière chaque lot de demandes et forcer
    la correction jusqu'au résultat attendu.
+7. **Tout renommage de produit Shopify casse le dashboard Kindred** : le moteur mappe
+   les ventes par TITRE EXACT (`products_map` dans Supabase, fail loudly). Erreur vécue
+   le 05/08 : le renommage « Le Gilet Sully » a fait sortir le gilet du compteur en
+   pleine journée (« Lancaster » = les créas Meta du Gilet). Avant tout renommage :
+   mettre à jour `src/lib/discover.ts` sur la branche
+   `claude/kindredm-dashboard-setup-epbxha`, puis faire faire à Badr
+   Découvrir → valider → backfill dans /admin du dashboard.
 
 ---
 
