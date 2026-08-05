@@ -10,9 +10,13 @@ Dernière mise à jour : 2026-08-05
 
 ## 1. Règles absolues (données par Badr)
 
-0. **Je ne génère PLUS d'images. Badr les fait lui-même.** (05/08 : « ne me fait
-   plus d'image je le ferais seul ».) Je peux poser des images existantes dans des
-   sections, jamais en créer.
+0. **Je ne touche PLUS aux images. Badr les génère et les importe lui-même.**
+   (05/08 : « ne me fait plus d'image je le ferais seul » puis « pour les images
+   touche a rien, c'est moi qui va tout faire ».) Je ne génère rien, et je ne
+   réassigne pas d'image existante sans qu'il me le demande explicitement.
+0 bis. **Pas de Judge.me.** Retiré des 9 templates produit le 05/08 sur sa demande
+   (« enlève judge de tous les produits ») : les avis passent par la section figée
+   NIVA · Avis clients, pas par une app. La section `apps` reste en place, vide.
 1. **Aucune suppression, aucun retrait, aucune désactivation sans permission explicite.**
    (S'applique aux sections, textes, images, blocs, produits, pages.)
 2. Le **polo est prioritaire** sur tout le reste.
