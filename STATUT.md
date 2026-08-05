@@ -434,6 +434,38 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   créa (`adsDaily`, comme l'onglet Créas) et l'agrégation se fait côté
   client sur [from, to] — zéro appel serveur au changement de période.
 
+## Mise à jour 05/08 — attribution Polo : correction partielle (contrairement au Gilet)
+
+- Badr, après la correction Gilet/Lancaster : « Les autres corrige les aussi »
+  (appliquer la même rigueur aux campagnes Polo).
+- Contrairement au Gilet (1 seule campagne → correction certaine à 100 %), le
+  Polo tourne sur 3 campagnes actives en parallèle (FRTEST/WORLD/ZOMBIE) : le
+  raccourci « 1 commande produit X = 1 campagne » ne marche pas.
+- Vérification manuelle sur les 59 commandes Polo du 04/08 (requêtes GraphQL
+  Shopify `customerJourneySummary.firstVisit`/`lastVisit`, comparées aux achats
+  auto-déclarés Meta par campagne) :
+  - Méthode actuelle (lastVisit UTM seul) : FRTEST 15, WORLD 16, ZOMBIE 11
+    (total 42) vs Meta 18/21/14 (total 53) — écart de 11 commandes.
+  - Fallback sur firstVisit **seulement si lastVisit est entièrement vide ET
+    firstVisit pointe vers une campagne active** : récupère 3 commandes
+    (2 FRTEST, 1 WORLD) → FRTEST 17/18 (94 %), WORLD 17/21 (81 %), ZOMBIE
+    11/14 (79 %). Écart réduit à 8 commandes (au lieu de 11).
+  - ~12/59 commandes = vrai multi-touch (2 campagnes Polo actives différentes
+    cliquées avant achat) — normal, pas un bug, on garde le last-touch.
+  - Le reste du solde « organique » (14/59) est un mélange organique réel +
+    commandes touchées uniquement par une vieille campagne maintenant en pause
+    (CBO-POLO-WORLDWIDE-FR du 21/06, CBO3-TESTING-FR-POLO du 26/07) —
+    non récupérables.
+- **Cette correction Polo est une estimation (79-94 % de match), pas une
+  certitude comme le Gilet (100 %, vérifié 3/3)** — à toujours présenter comme
+  telle à Badr.
+- Pas de changement dans le code du dashboard (`analytics.ts`/`engine.ts`) :
+  l'attribution UTM par campagne Shopify n'est utilisée que pour les calculs
+  manuels/le rapport Slack 23h, pas dans `daily_aggregates` (la table des
+  créas gagnantes utilise directement les données Meta par annonce, pas les
+  UTM Shopify). Mise à jour appliquée dans MEMO.md (§ Faits vérifiés) et dans
+  le prompt de la routine Slack 23h05 (`trig_01VoaeW4pHFecyw3fHwTMxUn`).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
