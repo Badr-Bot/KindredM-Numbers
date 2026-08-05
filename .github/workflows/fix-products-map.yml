@@ -14,6 +14,13 @@ name: Fix products map (rebranding 05/08)
 
 on:
   workflow_dispatch: {}
+  # Le connecteur GitHub de la session n'a pas le droit de dispatch (403) :
+  # le push de ce fichier (ou du fichier declencheur) lance le job.
+  push:
+    branches: ["claude/kindredm-dashboard-setup-epbxha"]
+    paths:
+      - ".github/workflows/fix-products-map.yml"
+      - ".github/fix-map-trigger"
 
 jobs:
   fix:
