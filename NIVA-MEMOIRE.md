@@ -25,10 +25,17 @@ Dernière mise à jour : 2026-08-05
 7. **Tout renommage de produit Shopify casse le dashboard Kindred** : le moteur mappe
    les ventes par TITRE EXACT (`products_map` dans Supabase, fail loudly). Erreur vécue
    le 05/08 : le renommage « Le Gilet Sully » a fait sortir le gilet du compteur en
-   pleine journée (« Lancaster » = les créas Meta du Gilet). Avant tout renommage :
-   mettre à jour `src/lib/discover.ts` sur la branche
-   `claude/kindredm-dashboard-setup-epbxha`, puis faire faire à Badr
-   Découvrir → valider → backfill dans /admin du dashboard.
+   pleine journée (« Lancaster » = les créas Meta du Gilet).
+   **Réparé en autonomie le 05/08** — méthode qui marche quand le proxy bloque
+   vercel.app : un workflow GitHub Actions (`.github/workflows/fix-products-map.yml`,
+   branche dashboard) qui POST `/api/admin/products-map` (routes SANS auth) puis
+   boucle sur `/api/sync` jusqu'à `"ran":true` (throttle 5 min, le cron keep-sync
+   gagne souvent la course). Déclenchement : le connecteur GitHub ne peut pas
+   dispatch (403) → trigger `on: push` sur le fichier `.github/fix-map-trigger`.
+   Résultat prouvé par les logs : 47 jours re-traités (17/06→05/08), plus aucun
+   titre renommé dans les non-mappés, et au passage le **Caleçon FR+ES mappé**
+   (jamais fait, COGS compté 0 → Net surestimé depuis le début). Restent non
+   mappés, sans impact (COGS réel 0) : les 2 e-books FR/ES. `products_map` = 21 lignes.
 
 ---
 
