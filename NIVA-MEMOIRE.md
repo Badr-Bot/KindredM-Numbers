@@ -396,6 +396,44 @@ en 1:1 dans des cadres 3/2 et 4/5 → 20 à 37 % rognés ; deux photos d'avis so
 paysage dans des cadres portrait ; les étoiles ocre sont à 2,87:1 mais c'est la
 couleur de la charte ; 4 teintes de service hors charte (`--nv-piste` et cie).
 
+## 6 quinquies. État des thèmes au 05/08 23:00 — À RELIRE EN PREMIER
+
+**« NIVA — Maison V2 » (`197928550774`) est désormais PUBLIÉ** (rôle MAIN).
+Badr l'a activé lui-même. L'ancien « V1 (brouillon) » a été supprimé.
+**« NIVA — Maison V3 » (`197936087414`)** est la copie de travail non publiée,
+créée par Badr à 22:53 — c'est là que va tout nouveau correctif. Il l'activera.
+
+Piège de lecture : la taille d'un gabarit BAISSE après un envoi (polo : 50 057 →
+43 663) parce que Shopify recompresse le JSON. Ce n'est **pas** une perte de
+contenu — vérifier la structure (15 sections, 19 blocs), jamais les octets.
+
+**Deuxième boutique.** Le connecteur Shopify bascule entre deux boutiques :
+`Niva` / `mynivashop.com` (EUR, plan Shopify) et `NIRA US` / `mynirastore.com`
+(USD, plan Basic, `kyzvuj-vx.myshopify.com`) — une boutique de compléments dont
+le thème est un export de mynivashop, d'où des noms de fichiers identiques.
+**Toujours appeler `get-shop-info` avant d'agir.** `switch-shop` révoque le jeton
+et impose une réautorisation par Badr.
+Travail fait côté NIRA US : copie « NIRA US — optimisation 05/08 »
+(`207583510877`) avec `minimum-scale=1` (le dézoom au pincement, sa vraie
+plainte), le script du bundle recadré (il observait `document.body` entier sur
+toutes les pages) et un `max-width:100%` d'assurance sur les médias de section.
+Un audit a établi qu'il n'y a **aucun débordement horizontal** dans ce thème.
+
+## 6 sexies. Le verrou de galerie — 2e version (le timing)
+
+La 1re version greffait `setActiveMedia` sur l'**objet** galerie. Or au moment où
+le script s'exécute, `<media-gallery>` n'est pas encore « réveillé » par le
+navigateur : la greffe échouait et les rattrapages différés (400/1200 ms)
+arrivaient **après** que le thème ait fait basculer l'image d'accueil vers celle
+de la variante. D'où la plainte « la première image bascule vers la deuxième ».
+
+Correctif : greffer sur le **prototype** de la classe, via
+`customElements.whenDefined('media-gallery')`. La greffe est alors en place avant
+le moindre appel. Effet de bord heureux : les vignettes ont été liées à la
+méthode d'origine **au moment de la construction**, donc elles ne passent pas par
+la greffe et restent cliquables même avant le premier clic sur une couleur.
+Poussé sur V3 uniquement (7 387 o). À retester après publication.
+
 ## 7. Points signalés à Badr et non tranchés
 
 - **34 faux avis** sur la page du polo LIVE (5 textes identiques sous des noms différents)
