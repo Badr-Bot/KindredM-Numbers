@@ -40,7 +40,9 @@ jobs:
             {"store":"FR","title_pattern":"Le Gilet Sully","product_key":"GILET","unit_group":"upsell"},
             {"store":"FR","title_pattern":"Le Pantalon Rivoli","product_key":"DRESS_TROUSERS","unit_group":"upsell"},
             {"store":"FR","title_pattern":"La Chemise Turenne","product_key":"SHORT_SLEEVE_DRESS_SHIRT","unit_group":"upsell"},
-            {"store":"FR","title_pattern":"Le Short Cassini","product_key":"CHINO_SHORTS","unit_group":"upsell"}
+            {"store":"FR","title_pattern":"Le Short Cassini","product_key":"CHINO_SHORTS","unit_group":"upsell"},
+            {"store":"FR","title_pattern":"Nivafit — Caleçon Ultra Extensible","product_key":"CALECON","unit_group":"upsell"},
+            {"store":"ES","title_pattern":"Nivafit — Calzoncillo Ultraelástico","product_key":"CALECON","unit_group":"upsell"}
           ]}'
           OUT=$(curl -sS --max-time 60 -w "\nHTTP:%{http_code}" \
             -X POST -H "Content-Type: application/json" \
