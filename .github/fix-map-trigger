@@ -1,6 +1,3 @@
-Relance 06/08 : verifier que les migrations 0012 (marche Canada) et 0013
-(frais Shopify reels) sont bien appliquees en base.
-Preuves attendues dans la sortie de /api/sync :
- - AUCUN avertissement "Marche Canada pas encore autorise"
- - AUCUN avertissement "Frais Shopify indisponibles"
- - resync v9 qui demarre (frais reels sur tout l'historique)
+Relance 06/08 (16h) : le dashboard affiche 27 commandes / 1 682 EUR alors que
+Shopify en compte 39 / 2 414 EUR. Forcer un passage de synchro pour rattraper
+le jour en cours, et charger le mapping E-Book (494 alertes a eteindre).
