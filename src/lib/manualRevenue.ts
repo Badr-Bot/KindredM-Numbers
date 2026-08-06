@@ -86,6 +86,35 @@ export function buildManualRevenueEntry(input: {
  * absente/illisible (base fraîche, environnement de test), on renvoie zéro
  * recette manuelle plutôt que de faire échouer tout le calcul du net.
  */
+// ---------------------------------------------------------------------------
+// ENTRÉES EMBARQUÉES DANS LE CODE — canal de secours (06/08 au soir).
+// Le canal normal (runner GitHub → POST /api/admin/manual-revenue) s'est mis
+// à être ANNULÉ par GitHub après 15 min de file (« All jobs were cancelled »,
+// deux fois dans la journée) : les ventes NIRA annoncées par Badr n'arrivaient
+// jamais en base. Vercel, lui, déploie à chaque push sans passer par Actions :
+// ces entrées voyagent donc avec le code et sont lues par la synchro sans
+// dépendre d'aucun runner.
+// Règle de fusion : pour un même (jour, produit), la saisie la plus récente
+// (savedAt) gagne — un seed plus frais corrige une vieille entrée API, et une
+// correction API postérieure bat le seed. Jamais d'addition entre les deux.
+// ---------------------------------------------------------------------------
+const SEED_ENTRIES: ManualRevenueEntry[] = [
+  {
+    day: "2026-08-06",
+    market: "CA",
+    productKey: "NIRA_BURN",
+    currency: "USD",
+    caCents: 12697, // 45,67 + 81,30 $
+    cogsCents: 3555, // 13,29 + 22,26 $
+    rateToEur: 0.8666262241, // 1 EUR = 1,1539 USD (taux fourni par Badr)
+    caEurCents: 11004,
+    cogsEurCents: 3081,
+    orders: 2,
+    note: "Seed embarqué (file GitHub en panne le 06/08)",
+    savedAt: "2026-08-06T17:00:00.000Z",
+  },
+];
+
 export async function readManualRevenue(supabase: SupabaseClient): Promise<ManualRevenueEntry[]> {
   try {
     const { data, error } = await supabase
@@ -93,11 +122,31 @@ export async function readManualRevenue(supabase: SupabaseClient): Promise<Manua
       .select("value")
       .eq("key", MANUAL_REVENUE_KEY)
       .maybeSingle();
-    if (error || !data?.value) return [];
-    const parsed = JSON.parse(data.value as string);
-    return Array.isArray(parsed) ? (parsed as ManualRevenueEntry[]) : [];
+    const fromDb: ManualRevenueEntry[] = (() => {
+      if (error || !data?.value) return [];
+      try {
+        const parsed = JSON.parse(data.value as string);
+        return Array.isArray(parsed) ? (parsed as ManualRevenueEntry[]) : [];
+      } catch {
+        return [];
+      }
+    })();
+    // Fusion par (jour, produit) : la saisie la plus RÉCENTE (savedAt) gagne.
+    // « La base prime toujours » aurait bloqué ce seed : la 1re vente seule
+    // (45,67 $) était déjà en base via le run de midi, et aurait masqué le
+    // cumul complet à 2 ventes. À l'inverse, une correction API postérieure
+    // au seed le battra naturellement par sa date.
+    const byKey = new Map<string, ManualRevenueEntry>();
+    for (const e of [...SEED_ENTRIES, ...fromDb]) {
+      const k = `${e.day}|${e.productKey}`;
+      const cur = byKey.get(k);
+      if (!cur || (e.savedAt ?? "") > (cur.savedAt ?? "")) byKey.set(k, e);
+    }
+    return [...byKey.values()].sort((a, b) =>
+      a.day === b.day ? a.productKey.localeCompare(b.productKey) : a.day.localeCompare(b.day)
+    );
   } catch {
-    return [];
+    return [...SEED_ENTRIES];
   }
 }
 
