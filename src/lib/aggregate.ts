@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { computeDailyAggregate, type Market } from "./engine";
+import { computeDailyAggregate, fallbackShopifyFeeCents, type Market } from "./engine";
 import { MARKETS } from "./markets";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
@@ -30,6 +30,12 @@ interface OrderAggInput {
   cogs_product_cents: number;
   cogs_upsells_cents: number;
   tax_eu_cents: number;
+  // Frais Shopify réels (migration 0013). null = commande pas encore
+  // re-scannée → repli sur l'ancien 3 %, jamais 0 (qui gonflerait le net).
+  fee_total_cents?: number | null;
+  fee_processing_cents?: number | null;
+  fee_fx_cents?: number | null;
+  fee_other_cents?: number | null;
 }
 
 interface SpendAggInput {
@@ -83,11 +89,20 @@ export async function recomputeDailyAggregatesForDays(
   // des lignes reviennent en double (constaté 20/07 : jour compté 2×, CA et
   // commandes exactement doublés). Ceinture + bretelles : tri par clé unique
   // ET déduplication en mémoire.
+  // Migration 0013 (frais réels par commande) : probe avant de demander les
+  // colonnes, même filet que 0009/0010/0011 — une colonne absente ferait
+  // échouer toute la requête et donc tout le recalcul.
+  const { error: feeProbeError } = await supabase.from("orders").select("fee_total_cents").limit(1);
+  const hasRealFees = !feeProbeError;
+  const orderCols =
+    "id, day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents" +
+    (hasRealFees ? ", fee_total_cents, fee_processing_cents, fee_fx_cents, fee_other_cents" : "");
+
   const [ordersRaw, spendRaw] = await Promise.all([
     fetchAllPages<OrderAggInput & { id: number }>((from, to) =>
       supabase
         .from("orders")
-        .select("id, day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
+        .select(orderCols)
         .gte("day", minDay)
         .lte("day", maxDay)
         .in("store", markets)
@@ -133,6 +148,12 @@ export async function recomputeDailyAggregatesForDays(
     taxCents: number;
     refundedCents: number;
     spendCents: number;
+    shopifyFeeCents: number;
+    feeProcessingCents: number;
+    feeFxCents: number;
+    feeOtherCents: number;
+    /** true si au moins une commande du jour n'a pas encore ses frais réels. */
+    feesEstimated: boolean;
   };
   const key = (day: string, market: string) => `${day}|${market}`;
   const buckets = new Map<string, Bucket>();
@@ -145,6 +166,11 @@ export async function recomputeDailyAggregatesForDays(
     taxCents: 0,
     refundedCents: 0,
     spendCents: 0,
+    shopifyFeeCents: 0,
+    feeProcessingCents: 0,
+    feeFxCents: 0,
+    feeOtherCents: 0,
+    feesEstimated: false,
   });
 
   // Initialise tous les (jour, marché) demandés à zéro, pour bien écraser
@@ -165,6 +191,18 @@ export async function recomputeDailyAggregatesForDays(
     b.cogsUpsellsCents += o.cogs_upsells_cents;
     b.taxCents += o.tax_eu_cents;
     b.refundedCents += o.refunded_cents;
+    // Frais Shopify : réels si lus, sinon repli 3 % SUR CETTE COMMANDE (et non
+    // sur le jour entier) — une journée à moitié re-scannée reste juste.
+    const orderCa = o.total_cents - o.refunded_cents;
+    if (typeof o.fee_total_cents === "number") {
+      b.shopifyFeeCents += o.fee_total_cents;
+      b.feeProcessingCents += o.fee_processing_cents ?? 0;
+      b.feeFxCents += o.fee_fx_cents ?? 0;
+      b.feeOtherCents += o.fee_other_cents ?? 0;
+    } else {
+      b.shopifyFeeCents += fallbackShopifyFeeCents(orderCa);
+      b.feesEstimated = true;
+    }
   }
   for (const s of spendRows ?? []) {
     const b = buckets.get(key(s.day, s.market));
@@ -204,6 +242,7 @@ export async function recomputeDailyAggregatesForDays(
       spendCents: b.spendCents,
       cogsCents: b.cogsCents,
       taxCents: b.taxCents,
+      shopifyFeeCents: b.shopifyFeeCents,
     });
     return {
       day,
@@ -218,6 +257,13 @@ export async function recomputeDailyAggregatesForDays(
       refunded_cents: b.refundedCents,
       ...(hasCogsSplit
         ? { cogs_product_cents: b.cogsProductCents, cogs_upsells_cents: b.cogsUpsellsCents }
+        : {}),
+      ...(hasRealFees
+        ? {
+            fee_processing_cents: b.feeProcessingCents,
+            fee_fx_cents: b.feeFxCents,
+            fee_other_cents: b.feeOtherCents,
+          }
         : {}),
     };
   });

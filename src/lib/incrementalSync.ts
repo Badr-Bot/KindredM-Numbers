@@ -8,6 +8,7 @@ import {
   totalPriceShopCents,
   orderAcquisitionFields,
   acquisitionColumnsReady,
+  realFeeColumnsReady,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -23,6 +24,7 @@ import {
 import { toParisDay, todayParisDay, addDaysToDay } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
 import { upsertSpendRows, CA_MIGRATION_WARNING, type SpendRowForWrite } from "./spendWrite";
+import { fetchOrderFees, type OrderFees } from "./shopifyFees";
 
 export interface IncrementalSyncResult {
   ran: boolean;
@@ -65,9 +67,33 @@ export async function runIncrementalSync(
   // cours » interminable à chaque visite.
   const ORDER_CHUNK = 250;
   const hasAcqColumns = await acquisitionColumnsReady(supabase);
+  const hasFeeColumns = await realFeeColumnsReady(supabase);
   for (const config of configs) {
     try {
       const token = await resolveAccessToken(config);
+      // Frais Shopify RÉELS du store sur la fenêtre re-scannée : UNE requête
+      // GraphQL par tranche de 250 commandes, au lieu d'un appel par commande.
+      // Best effort : si ça échoue, les commandes restent enregistrées et le
+      // net retombe sur l'ancienne estimation 3 % (jamais zéro).
+      let feesByOrderId = new Map<string, OrderFees>();
+      if (hasFeeColumns) {
+        try {
+          const r = await fetchOrderFees(config, token, rescanFromDay, today);
+          feesByOrderId = r.byOrderId;
+          if (r.unknownTypes.size > 0) {
+            warnings.push(
+              `Frais Shopify ${config.market} : type(s) inconnu(s) ${[...r.unknownTypes].join(", ")} — comptés en « autres », à vérifier.`
+            );
+          }
+          if (r.sawRefundFees) {
+            warnings.push(
+              `Frais Shopify ${config.market} : des transactions REFUND portent des frais — suivis à part, PAS encore déduits (à valider).`
+            );
+          }
+        } catch (err) {
+          warnings.push(`Frais Shopify ${config.market} indisponibles (repli 3 %) : ${(err as Error).message}`);
+        }
+      }
       const rows: Record<string, unknown>[] = [];
       for await (const order of iterateOrders(config, { updatedAtMin: updatedAtMinIso })) {
         const day = toParisDay(order.created_at);
@@ -118,6 +144,18 @@ export async function runIncrementalSync(
           tax_eu_cents: taxCents,
           updated_at_utc: order.updated_at,
           ...(hasAcqColumns ? orderAcquisitionFields(order) : {}),
+          ...(hasFeeColumns && feesByOrderId.has(String(order.id))
+            ? (() => {
+                const f = feesByOrderId.get(String(order.id))!;
+                return {
+                  fee_processing_cents: f.processingCents,
+                  fee_fx_cents: f.fxCents,
+                  fee_other_cents: f.otherCents,
+                  fee_total_cents: f.totalCents,
+                  fee_refund_cents: f.refundFeeCents,
+                };
+              })()
+            : {}),
         });
       }
       for (let i = 0; i < rows.length; i += ORDER_CHUNK) {
@@ -356,7 +394,13 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // tout l'historique EU (surtout les commandes multi-produits, sur-taxées
 // par l'ancienne règle) doit être re-scanné. Le re-scan tourne en étapes
 // après la synchro rapide (jamais bloquant).
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-05-calecon-mappe-rebranding-v8";
+// v9 (06/08) : frais Shopify RÉELS lus par commande (migration 0013) au lieu
+// du forfait 3 % du CA — mesuré 6,54 % en vrai sur le store FR, soit ~4 000 €
+// par mois de bénéfice qui n'existait pas. fee_total_cents est figé par
+// commande au moment de la synchro : seul un re-scan complet l'applique à
+// l'historique. Tant qu'une commande n'est pas re-scannée elle garde le repli
+// 3 % (comportement d'avant), donc la bascule est progressive et jamais fausse.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-06-frais-shopify-reels-v9";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

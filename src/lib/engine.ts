@@ -359,6 +359,32 @@ export function euTaxCents(shippingCountry: string, day: string, hasItems: boole
 export const FEES_RATE = 0.04;
 export const FEES_BREAKDOWN_RATES = { tva: 0.055, shopify: 0.03, autres: 0.01 } as const;
 
+// 06/08 : les frais Shopify ne sont plus estimés, ils sont LUS par commande
+// (shopifyFees.ts). Mesuré sur 50 commandes réelles du store FR : 6,54 % du CA
+// (4,67 % traitement + 1,87 % change) contre 3 % modélisés — 2,2× trop bas.
+// Le taux varie par commande selon la carte (2,70 / 3,70 / 4,30 / 4,99 %
+// observés le même mois), donc aucune moyenne n'est utilisable.
+//
+// Seul le poste « autres » (1 %) reste forfaitaire. La TVA 5,5 % n'est
+// toujours PAS une dépense (provisionnée à part, décision du 27/07).
+export const OTHER_FEES_RATE = 0.01;
+/** Repli tant que les frais réels d'une commande ne sont pas encore lus. */
+export const SHOPIFY_FEES_FALLBACK_RATE = 0.03;
+
+export function otherFeesCentsForCa(caCents: number): number {
+  return Math.round(caCents * OTHER_FEES_RATE);
+}
+
+/** Repli à l'ancien taux : garantit qu'une commande pas encore re-scannée
+ * garde exactement le comportement d'avant (3 % + 1 % = 4 %), plutôt que de
+ * tomber à zéro et de gonfler le net pendant la transition. */
+export function fallbackShopifyFeeCents(caCents: number): number {
+  return Math.round(caCents * SHOPIFY_FEES_FALLBACK_RATE);
+}
+
+/** @deprecated Estimation forfaitaire 4 %. Conservée pour les repères
+ * (seuils par produit, cartes) là où le détail par commande n'est pas
+ * disponible ; le net, lui, passe par computeDailyAggregate. */
 export function feesCentsForCa(caCents: number): number {
   return Math.round(caCents * FEES_RATE);
 }
@@ -514,6 +540,8 @@ export interface DailyAggregateInput {
   spendCents: number;
   cogsCents: number; // cogsProduct + cogsUpsells, sommé sur la journée
   taxCents: number; // sommé sur la journée
+  /** Frais Shopify réels du jour (null/absent = pas encore lus → repli 3 %). */
+  shopifyFeeCents?: number | null;
 }
 
 export interface DailyAggregate extends DailyAggregateInput {
@@ -521,9 +549,18 @@ export interface DailyAggregate extends DailyAggregateInput {
   netCents: number;
 }
 
-/** net(jour, marché) = CA − spend − COGS − taxeUE − frais(4%) — §4.7 */
+/**
+ * net(jour, marché) = CA − spend − COGS − taxeUE − frais.
+ *
+ * `shopifyFeeCents` = frais Shopify RÉELS du jour, sommés depuis les commandes
+ * (shopifyFees.ts). Omis/null → repli sur l'ancienne estimation 3 %, ce qui
+ * reproduit exactement le comportement d'avant le 06/08 : les jours pas encore
+ * re-scannés ne bougent pas d'un centime, et bascule­ront au vrai chiffre au
+ * passage du re-scan.
+ */
 export function computeDailyAggregate(input: DailyAggregateInput): DailyAggregate {
-  const feesCents = feesCentsForCa(input.caCents);
+  const shopifyFeeCents = input.shopifyFeeCents ?? fallbackShopifyFeeCents(input.caCents);
+  const feesCents = shopifyFeeCents + otherFeesCentsForCa(input.caCents);
   const netCents =
     input.caCents - input.spendCents - input.cogsCents - input.taxCents - feesCents;
   return { ...input, feesCents, netCents };

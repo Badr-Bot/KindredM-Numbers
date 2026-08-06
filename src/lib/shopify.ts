@@ -138,6 +138,14 @@ export async function acquisitionColumnsReady(
   return !error;
 }
 
+/** Colonnes de frais réels (migration 0013) présentes ? */
+export async function realFeeColumnsReady(
+  supabase: import("@supabase/supabase-js").SupabaseClient
+): Promise<boolean> {
+  const { error } = await supabase.from("orders").select("fee_total_cents").limit(1);
+  return !error;
+}
+
 /** Champs acquisition/réachat d'une commande, prêts pour l'upsert. */
 export function orderAcquisitionFields(order: ShopifyOrder): Record<string, unknown> {
   return {
