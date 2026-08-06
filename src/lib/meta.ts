@@ -331,6 +331,31 @@ export function mapCampaignToMarket(campaignName: string): Market | "UNMAPPED" {
   return "FR";
 }
 
+// ---------------------------------------------------------------------------
+// Campagnes EXCLUES du calcul (Badr, 05/08) — leur spend est réel mais leur CA
+// n'est PAS mesurable ici : elles vendent un produit dont les commandes ne
+// remontent pas dans les boutiques Shopify branchées au dashboard (pas de
+// token). Compter la dépense sans la recette fausserait le net à la baisse et
+// tous les ROAS/marges qui en découlent. On les sort donc entièrement du
+// calcul plutôt que d'afficher un chiffre faux (convention §0 : jamais de
+// chiffre faux, on le dit).
+//
+// NIRA : exclue à partir du 05/08 (jour de son lancement) et rétroactivement.
+// À RETIRER de cette liste le jour où le CA NIRA est branché — Badr veut
+// alors réintégrer CA **et** spend ensemble, jamais l'un sans l'autre.
+const EXCLUDED_CAMPAIGN_KEYWORDS = ["NIRA"];
+
+/**
+ * true si la campagne doit être ignorée dans tous les agrégats (spend, ROAS,
+ * marges, journal, analyse). Comparaison sur le NOM (insensible à la casse) :
+ * couvre aussi les futures campagnes du même produit (« CBO 2 - NIRA … »)
+ * sans avoir à lister chaque id.
+ */
+export function isExcludedCampaign(campaignName: string | null | undefined): boolean {
+  const name = (campaignName ?? "").toUpperCase();
+  return EXCLUDED_CAMPAIGN_KEYWORDS.some((k) => name.includes(k));
+}
+
 export type CampaignOverrides = Map<string, Market>;
 
 /**

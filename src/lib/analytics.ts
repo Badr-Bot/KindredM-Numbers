@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
+import { isExcludedCampaign } from "./meta";
 import type { Totals } from "./data";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
@@ -104,6 +105,9 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
     }
     const rows = (data ?? []) as RawInsight[];
     for (const r of rows) {
+      // Campagne au CA non mesurable (NIRA) : écartée partout, sinon son spend
+      // gonfle les CPA/ROAS de l'onglet sans recette en face.
+      if (isExcludedCampaign(r.campaign_name)) continue;
       insights.push({
         day: String(r.day),
         market: r.market,
@@ -140,6 +144,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
     if (error) break; // même cause que missingTables, déjà signalée
     const rows = data ?? [];
     for (const r of rows) {
+      if (isExcludedCampaign(r.campaign_name)) continue;
       adsDaily.push({
         day: r.day,
         adId: r.ad_id,
@@ -272,6 +277,7 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
     }
     const rows = data ?? [];
     for (const r of rows) {
+      if (isExcludedCampaign(r.campaign_name)) continue;
       const m = metaByAd.get(r.ad_id) ?? {
         adId: r.ad_id,
         adName: r.ad_name ?? r.ad_id,

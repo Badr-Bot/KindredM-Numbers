@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { computeDailyAggregate, type Market } from "./engine";
+import { isExcludedCampaign } from "./meta";
 
 const ALL_MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
 
@@ -87,16 +88,16 @@ export async function recomputeDailyAggregatesForDays(
         .order("id", { ascending: true })
         .range(from, to) as unknown as PromiseLike<{ data: (OrderAggInput & { id: number })[] | null; error: { message: string } | null }>
     ),
-    fetchAllPages<SpendAggInput & { campaign_id: string }>((from, to) =>
+    fetchAllPages<SpendAggInput & { campaign_id: string; campaign_name: string | null }>((from, to) =>
       supabase
         .from("meta_spend")
-        .select("day, market, campaign_id, spend_cents")
+        .select("day, market, campaign_id, campaign_name, spend_cents")
         .gte("day", minDay)
         .lte("day", maxDay)
         .in("market", [...markets, UNMAPPED_MARKET])
         .order("day", { ascending: true })
         .order("campaign_id", { ascending: true })
-        .range(from, to) as unknown as PromiseLike<{ data: (SpendAggInput & { campaign_id: string })[] | null; error: { message: string } | null }>
+        .range(from, to) as unknown as PromiseLike<{ data: (SpendAggInput & { campaign_id: string; campaign_name: string | null })[] | null; error: { message: string } | null }>
     ),
   ]);
   const seenOrderIds = new Set<number>();
@@ -107,6 +108,10 @@ export async function recomputeDailyAggregatesForDays(
   });
   const seenSpendKeys = new Set<string>();
   const spendRows = spendRaw.filter((s) => {
+    // Campagnes dont le CA n'est pas mesurable ici (NIRA, 05/08) : leur spend
+    // est écarté du net, sinon on déduirait une dépense sans jamais compter la
+    // recette en face. Voir isExcludedCampaign (meta.ts).
+    if (isExcludedCampaign(s.campaign_name)) return false;
     const k = `${s.day}|${s.campaign_id}`;
     if (seenSpendKeys.has(k)) return false;
     seenSpendKeys.add(k);

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "./supabase";
 import { addDaysToDay, todayParisDay } from "./time";
+import { isExcludedCampaign } from "./meta";
 
 // 📓 Journal de bord — voir migration 0006. Les événements manuels viennent
 // de l'UI (/api/journal) ; les auto sont détectés ici depuis meta_spend
@@ -74,6 +75,9 @@ export async function detectCampaignEvents(supabase: SupabaseClient): Promise<vo
     const byCampaign = new Map<string, { name: string; byDay: Map<string, number> }>();
     const daysWithData = new Set<string>();
     for (const r of data) {
+      // Campagne écartée du calcul (NIRA) : pas d'événement journal non plus,
+      // sinon on commente une campagne absente de tous les chiffres.
+      if (isExcludedCampaign(r.campaign_name as string | null)) continue;
       const day = String(r.day);
       daysWithData.add(day);
       const c = byCampaign.get(r.campaign_id as string) ?? {

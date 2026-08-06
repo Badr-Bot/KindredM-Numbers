@@ -52,6 +52,11 @@
 - Mapping campagne→marché : ESP→ES, GE→DE, FR→FR, UK/CANADA/EUROPE/AUS/WORLDWIDE/ANG→UK, **sinon FR par défaut** (29/07). Override manuel prime.
 - **Routine 23h05 Paris** (trig_01VoaeW4pHFecyw3fHwTMxUn, cron 0 21 * * * UTC — décaler à l'heure d'hiver fin octobre) : rapport ROAS 3 j par campagne + verdicts protocole Master → Slack (canal type « décision »). Recommande, n'exécute JAMAIS.
 
+## Campagnes exclues du calcul
+- **NIRA : spend TOTALEMENT exclu** (Badr, 05/08) — son CA ne remonte pas dans les boutiques Shopify branchées (pas de token), donc compter sa dépense sans sa recette faussait le net à la baisse et tous les ROAS/marges. Exclue rétroactivement (depuis son lancement le 05/08) du net, de l'onglet Analyse, des créas et du journal.
+- Mécanique : `isExcludedCampaign()` dans `meta.ts`, filtre par NOM (couvre les futures « CBO 2 - NIRA … »). Appliqué dans `aggregate.ts` (net), `analytics.ts` (insights + créas), `journal.ts` (événements).
+- **À l'ajout du CA NIRA** : retirer "NIRA" de `EXCLUDED_CAMPAIGN_KEYWORDS` et rebumper `REQUIRED_RECOMPUTE_VERSION`. Badr veut réintégrer **CA + spend ENSEMBLE**, jamais l'un sans l'autre.
+
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
 - Le moteur mappe par **titre EXACT** (products_map) : tout renommage Shopify sort les ventes du comptage tant que le nouveau titre n'est pas chargé. Réflexe à avoir à CHAQUE renommage : ajouter la ligne dans products_map + bumper `REQUIRED_FULL_RESYNC_VERSION`.
