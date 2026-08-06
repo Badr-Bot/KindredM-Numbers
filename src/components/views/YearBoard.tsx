@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { DayAgg, Totals } from "@/lib/data";
-import { feesBreakdownForCa, marginPct, roas } from "@/lib/engine";
+import { marginPct, roas } from "@/lib/engine";
 import { MARKET_META, MARKETS, type MarketTab } from "@/lib/markets";
 import {
   formatDayShort,
@@ -69,7 +69,7 @@ export function YearBoard({
     return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
   }, [dayData]);
 
-  // 👥 Net par associé (règle par boutique) + 🧾 TVA cumulée
+  // 👥 Net par associé (règle par boutique)
   const partners = useMemo(() => {
     let adnane = 0;
     let badr = 0;
@@ -89,14 +89,11 @@ export function YearBoard({
         }
       }
     }
-    let tvaCents = 0;
-    for (const r of dayData.GLOBAL) tvaCents += feesBreakdownForCa(r.caCents).tvaCents;
     return {
       adnane: Math.round(adnane),
       badr: Math.round(badr),
       soloNet,
       sharedNet,
-      tvaCents,
     };
   }, [dayData]);
 
@@ -188,7 +185,7 @@ export function YearBoard({
         </div>
       </section>
 
-      {/* 👥 Associés + 🧾 TVA */}
+      {/* 👥 Associés */}
       <div className="grid gap-3 sm:grid-cols-2">
         <section className="rounded-lg border border-line bg-panel/40 p-3.5">
           <div className="mb-2 text-sm font-semibold">
@@ -252,14 +249,6 @@ export function YearBoard({
           <p className="mt-2 border-t border-line-soft pt-1.5 text-[10px] text-ink-faint tnum">
             Période solo Adnane : {formatEurSigned0(partners.soloNet)} · période partagée :{" "}
             {formatEurSigned0(partners.sharedNet)} (50/50 par boutique)
-          </p>
-        </section>
-        <section className="rounded-lg border border-amber/30 bg-amber/[0.04] p-3.5">
-          <div className="mb-1 text-sm font-semibold">🧾 TVA cumulée · à provisionner</div>
-          <div className="text-2xl font-bold tnum text-amber lg:text-3xl">{formatEur0(partners.tvaCents)}</div>
-          <p className="mt-1.5 text-[10.5px] text-ink-faint">
-            5,5 % du CA depuis le début. PAS déduite du net affiché (le net l&apos;inclut) —
-            c&apos;est le montant à mettre de côté toi-même pour la payer plus tard.
           </p>
         </section>
       </div>
