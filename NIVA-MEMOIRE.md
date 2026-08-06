@@ -434,6 +434,50 @@ méthode d'origine **au moment de la construction**, donc elles ne passent pas p
 la greffe et restent cliquables même avant le premier clic sur une couleur.
 Poussé sur V3 uniquement (7 387 o). À retester après publication.
 
+## 6 septies. Moon Bundles — pourquoi le CSS de l'appli ne s'appliquait pas
+
+Le champ « CSS personnalisé » de Moon Bundles **n'injecte rien** : testé, recollé,
+sans effet (noms de produits toujours bleus, bandes de cadeaux toujours grises).
+Ne plus perdre de temps dessus.
+
+Cause de fond découverte : la **section 18** de `niva-theme.css` vise
+`.shopify-app-block` et `[id^="shopify-block-"]`, mais **le script de Moon Bundles
+déplace son widget hors de ce cadre** pour le poser sous le sélecteur de taille.
+D'où le mi-chemin observé : angles vifs et étiquettes en mono passaient (héritage),
+le reste non.
+
+Remède : **section 27** de `niva-theme.css`, qui vise le widget par son propre nom
+(`[class*="moonbundle"]`, plus les variantes tiret/souligné) :
+noms de produits en noir (le bleu de lien n'existe pas dans la charte), bandes de
+cadeaux remplacées par un filet, prix barré en `--nv-t3` (5,11 de contraste contre
+3,47 pour le gris sable), polices titre/mono, angles vifs après déplacement.
+Les rubans gardent leur casse d'origine : Badr préfère « Le plus populaire » à
+« LE PLUS POPULAIRE » — c'est ce qui rend son bundle Gilet plus élégant.
+Les sélecteurs internes (`[class*="title"]`, `[class*="gift"]`…) restent des
+heuristiques : à resserrer si un élément résiste.
+
+Ce qui reste à faire côté panneau (tableau fourni à Badr) : décocher **B** partout
+et **I** sur le sous-titre, un seul ruban, `Rayon 0` et `Linéaire` dans « Design des
+souscriptions », et surtout **reprendre les titres façon Gilet** — « 2 Polos Marceau
+pour 30,00 € chacun » au lieu de « 1 acheté = 1 OFFERT » : c'est le seul vrai écart
+entre ses deux bundles, et il est gratuit.
+
+Réglage boutique à corriger : le format de devise affiche `€59,99` (usage
+américain). Paramètres → Général → Devise → `{{amount_with_comma_separator}} €`.
+
+## 6 octies. Thèmes au 06/08 08:16 — la ronde des publications
+
+Badr publie au fur et à mesure. Toujours vérifier `role` AVANT d'écrire :
+`themeFilesUpsert` est refusé sur le thème MAIN par la politique des outils.
+- `197936087414` « NIVA — Maison V3 » → **MAIN** (publié à 07:45)
+- `197944443254` « NIVA — Maison V4 » → copie de travail, **section 27 poussée**
+  (`niva-theme.css` 61 462 o à 08:16:27)
+- `197928550774` « V2 » → repassé en non publié
+
+⚠️ Rappel du piège : le **premier** `themeFilesUpsert` après une duplication est
+retombé en silence (taille inchangée). Il a fallu un envoi mis en attente **neuf**
+et un second upsert. Toujours vérifier la taille, jamais se fier au retour vide.
+
 ## 7. Points signalés à Badr et non tranchés
 
 - **34 faux avis** sur la page du polo LIVE (5 textes identiques sous des noms différents)
