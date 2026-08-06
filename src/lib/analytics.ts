@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
 import { isExcludedCampaign } from "./meta";
+import { readManualRevenue } from "./manualRevenue";
 import type { Totals } from "./data";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
@@ -365,6 +366,9 @@ export interface ProductSplitCard {
 
 /** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
 const GILET_CAMPAIGN_KEYWORD = "LANCASTER";
+/** Mot-clé identifiant les campagnes NIRA (marché canadien) et sa clé produit. */
+const NIRA_CAMPAIGN_KEYWORD = "NIRA";
+const NIRA_PRODUCT_KEY = "NIRA_BURN";
 
 interface RawOrderForSplit {
   total_cents: number;
@@ -446,42 +450,60 @@ export async function getProductSplitForDay(
     gilet.taxCents += o.tax_eu_cents;
   }
 
-  // Clamp de chaque composant Gilet au Global correspondant : si `orders`
-  // est temporairement désynchronisée de `daily_aggregates` (re-scan en
-  // cours, remboursement pas encore propagé, etc.), on ne veut jamais un
-  // composant Polo négatif. Polo = Global − Gilet pour CHAQUE composant.
-  const clampToGlobal = (giletValue: number, globalValue: number) =>
-    Math.min(giletValue, Math.max(globalValue, 0));
-
-  const giletOrders = clampToGlobal(gilet.orders, global.orders);
-  const poloOrders = Math.max(global.orders - giletOrders, 0);
-
-  const giletCaCents = clampToGlobal(gilet.caCents, global.caCents);
-  const poloCaCents = Math.max(global.caCents - giletCaCents, 0);
-
-  const giletCogsCents = clampToGlobal(gilet.cogsCents, global.cogsCents);
-  const poloCogsCents = Math.max(global.cogsCents - giletCogsCents, 0);
-
-  const giletTaxCents = clampToGlobal(gilet.taxCents, global.taxCents);
-  const poloTaxCents = Math.max(global.taxCents - giletTaxCents, 0);
+  // NIRA Burn : aucune commande Shopify (marché canadien, pas de boutique
+  // branchée) — son CA/COGS vient des saisies manuelles, son spend des
+  // campagnes dont le nom contient NIRA. Mesuré comme le Gilet, puis retiré du
+  // Polo pour que les 3 cartes somment exactement au Global.
+  const niraEntries = (await readManualRevenue(supabase)).filter(
+    (e) => e.day === day && e.productKey === NIRA_PRODUCT_KEY
+  );
+  const nira = emptyBucket();
+  for (const e of niraEntries) {
+    nira.orders += e.orders;
+    nira.caCents += e.caEurCents;
+    nira.cogsCents += e.cogsEurCents;
+  }
 
   const spend = spendError ? [] : (spendRows ?? []);
-  const giletSpendCentsRaw = spend
-    .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(GILET_CAMPAIGN_KEYWORD))
-    .reduce((s, r) => s + (r.spend_cents as number), 0);
-  const giletSpendCents = clampToGlobal(giletSpendCentsRaw, global.spendCents);
-  const poloSpendCents = Math.max(global.spendCents - giletSpendCents, 0);
+  const spendByKeyword = (kw: string) =>
+    spend
+      .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(kw))
+      .reduce((s, r) => s + (r.spend_cents as number), 0);
 
-  // Frais : calculés une fois sur le CA Gilet, puis Polo = Global − Gilet —
-  // jamais feesCentsForCa(poloCaCents) séparément (l'arrondi indépendant des
-  // deux calculs ne sommerait pas forcément exactement au frais Global).
-  const giletFeesCents = clampToGlobal(feesCentsForCa(giletCaCents), global.feesCents);
-  const poloFeesCents = Math.max(global.feesCents - giletFeesCents, 0);
+  // Chaque composant est clampé au Global, puis le POLO absorbe le reste :
+  // Polo = Global − Gilet − NIRA. Garantit la somme exacte même si `orders`
+  // ou `meta_spend` sont temporairement désynchronisées de daily_aggregates.
+  const clampToGlobal = (value: number, globalValue: number) =>
+    Math.min(value, Math.max(globalValue, 0));
+  const split = (giletRaw: number, niraRaw: number, globalValue: number) => {
+    const g = clampToGlobal(giletRaw, globalValue);
+    const n = clampToGlobal(niraRaw, Math.max(globalValue - g, 0));
+    return { g, n, polo: Math.max(globalValue - g - n, 0) };
+  };
 
-  return [
-    toCard("GILET", "Gilet", "🎽", { orders: giletOrders, caCents: giletCaCents, cogsCents: giletCogsCents, taxCents: giletTaxCents }, giletSpendCents, giletFeesCents),
-    toCard("POLO", "Polo", "👕", { orders: poloOrders, caCents: poloCaCents, cogsCents: poloCogsCents, taxCents: poloTaxCents }, poloSpendCents, poloFeesCents),
+  const o = split(gilet.orders, nira.orders, global.orders);
+  const ca = split(gilet.caCents, nira.caCents, global.caCents);
+  const cogs = split(gilet.cogsCents, nira.cogsCents, global.cogsCents);
+  const tax = split(gilet.taxCents, 0, global.taxCents);
+  const sp = split(spendByKeyword(GILET_CAMPAIGN_KEYWORD), spendByKeyword(NIRA_CAMPAIGN_KEYWORD), global.spendCents);
+  // Frais : dérivés du CA de chaque bloc puis solde au Polo — jamais
+  // feesCentsForCa(poloCaCents) séparément (deux arrondis indépendants ne
+  // sommeraient pas forcément au frais Global).
+  const fees = split(feesCentsForCa(ca.g), feesCentsForCa(ca.n), global.feesCents);
+
+  const cards = [
+    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g),
+    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo),
   ];
+  // Carte NIRA affichée seulement si elle a une réalité ce jour-là (spend ou
+  // vente) — inutile d'afficher une carte vide sur tous les jours d'avant son
+  // lancement.
+  if (ca.n > 0 || sp.n > 0) {
+    cards.push(
+      toCard("NIRA_BURN", "NIRA Burn", "🔥", { orders: o.n, caCents: ca.n, cogsCents: cogs.n, taxCents: tax.n }, sp.n, fees.n)
+    );
+  }
+  return cards;
 }
 
 // ---------------------------------------------------------------------------

@@ -2,8 +2,8 @@ import type { Market } from "./engine";
 
 export type MarketTab = Market | "GLOBAL";
 
-export const MARKET_TABS: MarketTab[] = ["GLOBAL", "ES", "UK", "DE", "FR"];
-export const MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
+export const MARKET_TABS: MarketTab[] = ["GLOBAL", "ES", "UK", "DE", "FR", "CA"];
+export const MARKETS: Market[] = ["ES", "UK", "DE", "FR", "CA"];
 
 interface MarketMeta {
   label: string;
@@ -17,6 +17,7 @@ export const MARKET_META: Record<MarketTab, MarketMeta> = {
   UK: { label: "UK", flag: "🇬🇧", full: "International (GB + reste)" },
   DE: { label: "DE", flag: "🇩🇪", full: "Allemagne" },
   FR: { label: "FR", flag: "🇫🇷", full: "France" },
+  CA: { label: "CA", flag: "🇨🇦", full: "Canada (NIRA Burn)" },
 };
 
 export function marketFlag(m: MarketTab): string {

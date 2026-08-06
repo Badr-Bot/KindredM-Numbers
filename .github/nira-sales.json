@@ -1,0 +1,13 @@
+[
+  {
+    "day": "2026-08-06",
+    "market": "CA",
+    "productKey": "NIRA_BURN",
+    "currency": "USD",
+    "caCents": 4567,
+    "cogsCents": 1329,
+    "rateToEur": 0.8666262241,
+    "orders": 1,
+    "note": "Annonce Badr 06/08. Taux fourni : 1 EUR = 1,1539 USD."
+  }
+]

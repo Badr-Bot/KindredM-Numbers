@@ -52,6 +52,7 @@ async function fetchTodaySnapshotUncached(): Promise<TodaySnapshot> {
     UK: emptyAccumulator(),
     DE: emptyAccumulator(),
     FR: emptyAccumulator(),
+    CA: emptyAccumulator(),
   };
 
   for (const config of configs) {
@@ -88,7 +89,7 @@ async function fetchTodaySnapshotUncached(): Promise<TodaySnapshot> {
   }
 
   const spendRows = await fetchMetaSpend(today, today);
-  const spendByMarket: Record<Market, number> = { ES: 0, UK: 0, DE: 0, FR: 0 };
+  const spendByMarket: Record<Market, number> = { ES: 0, UK: 0, DE: 0, FR: 0, CA: 0 };
   for (const row of spendRows) {
     const market = mapCampaignToMarket(row.campaignName);
     if (market === "UNMAPPED") continue;

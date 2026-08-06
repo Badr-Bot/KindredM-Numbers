@@ -320,6 +320,10 @@ export async function fetchMetaSpend(sinceDay: string, untilDay: string): Promis
 // affectation manuelle dans l'UI (jamais agrégé silencieusement dans un marché).
 export function mapCampaignToMarket(campaignName: string): Market | "UNMAPPED" {
   const name = campaignName.toUpperCase();
+  // NIRA = marché canadien (Badr, 06/08). Testé AVANT les autres motifs : le
+  // nom "CBO - NIRA - TESTING" ne porte aucun indice pays, il tomberait sinon
+  // dans le défaut FR et gonflerait la France du spend d'un produit canadien.
+  if (name.includes("NIRA")) return "CA";
   if (name.includes("ESP")) return "ES";
   if (name.includes("GE")) return "DE";
   if (name.includes("FR")) return "FR";

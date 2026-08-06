@@ -463,6 +463,7 @@ export async function getTodayView(): Promise<TodayView> {
     UK: { ...EMPTY_TOTALS },
     DE: { ...EMPTY_TOTALS },
     FR: { ...EMPTY_TOTALS },
+    CA: { ...EMPTY_TOTALS },
   });
 
   if (mode === "unconfigured") {

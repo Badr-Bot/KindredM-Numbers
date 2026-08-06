@@ -1,0 +1,49 @@
+name: Recettes saisies a la main (NIRA)
+
+# Le dashboard Vercel n'est pas joignable depuis l'environnement de Claude
+# (proxy) : ce runner joue le POST a sa place. Source de verite = le fichier
+# .github/nira-sales.json, versionne, donc chaque vente annoncee par Badr
+# laisse une trace auditable dans l'historique git.
+#
+# Idempotent : l'API ecrase l'entree d'un (jour, produit) au lieu de
+# l'additionner — relancer ce workflow ne double jamais un chiffre d'affaires.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["claude/kindredm-dashboard-setup-epbxha"]
+    paths:
+      - ".github/nira-sales.json"
+      - ".github/workflows/manual-revenue.yml"
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Attendre que la route soit deployee, puis envoyer chaque vente
+        run: |
+          set -e
+          BASE=https://kindred-m-numbers.vercel.app/api/admin/manual-revenue
+          # Vercel peut ne pas avoir fini de deployer la route : on reessaie.
+          for i in 1 2 3 4 5 6 7 8; do
+            CODE=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 60 "$BASE" || echo 000)
+            echo "tentative $i : GET $CODE"
+            [ "$CODE" = "200" ] && break
+            sleep 30
+          done
+          [ "$CODE" = "200" ] || { echo "ECHEC : route indisponible apres 8 tentatives"; exit 1; }
+
+          jq -c '.[]' .github/nira-sales.json | while read -r ROW; do
+            echo "--- envoi : $ROW"
+            OUT=$(curl -sS --max-time 60 -w "\nHTTP:%{http_code}" \
+              -X POST -H "Content-Type: application/json" -d "$ROW" "$BASE")
+            echo "$OUT"
+            echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC sur cette ligne"; exit 1; }
+          done
+
+      - name: Preuve — relire ce qui est enregistre
+        run: |
+          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
+            https://kindred-m-numbers.vercel.app/api/admin/manual-revenue

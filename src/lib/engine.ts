@@ -6,7 +6,9 @@
  * l'exige explicitement (frais 4%, formule hors-grille).
  */
 
-export type Market = "ES" | "UK" | "DE" | "FR";
+// CA = marché canadien (NIRA Burn, 06/08) : pas de boutique Shopify branchée,
+// CA/COGS saisis à la main (manualRevenue.ts), spend Meta via API.
+export type Market = "ES" | "UK" | "DE" | "FR" | "CA";
 
 // ---------------------------------------------------------------------------
 // §5 — Classification des commandes par line items

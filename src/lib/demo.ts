@@ -13,8 +13,10 @@ import type { Chargeback, ChargebackStatus, DailyRow } from "./data";
 export const DEMO_TODAY = "2026-07-06";
 export const DEMO_START = "2026-06-04";
 
+// Le mode démo ne simule PAS le Canada : NIRA Burn n'a pas de boutique
+// Shopify, ses ventes sont saisies à la main (rien à générer).
 const MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
-const MARKET_COUNTRY: Record<Market, string> = { ES: "ES", UK: "GB", DE: "DE", FR: "FR" };
+const MARKET_COUNTRY: Record<Market, string> = { ES: "ES", UK: "GB", DE: "DE", FR: "FR", CA: "CA" };
 
 // Profil par marché : volume typique de commandes/jour et bande de ROAS visée.
 const MARKET_PROFILE: Record<Market, { baseOrders: number; roasLow: number; roasHigh: number }> = {
@@ -22,6 +24,7 @@ const MARKET_PROFILE: Record<Market, { baseOrders: number; roasLow: number; roas
   UK: { baseOrders: 5, roasLow: 1.5, roasHigh: 2.6 },
   DE: { baseOrders: 5, roasLow: 1.8, roasHigh: 3.4 },
   FR: { baseOrders: 4, roasLow: 1.6, roasHigh: 2.9 },
+  CA: { baseOrders: 0, roasLow: 0, roasHigh: 0 },
 };
 
 // Prix de vente typiques par bundle (centimes).
