@@ -23,6 +23,7 @@ import {
 } from "./engine";
 import { toParisDay, todayParisDay, listParisDays } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
+import { upsertSpendRows, type SpendRowForWrite } from "./spendWrite";
 import { BACKFILL_SINCE_ISO } from "./discover";
 
 const ORDERS_SINCE_DAY = "2026-06-04";
@@ -157,9 +158,11 @@ export async function backfillMetaSpend(
       spend_cents: row.spendCents,
     };
   });
+  // Même filet que la synchro : market='CA' refusé (migration 0012 absente)
+  // rebascule sur UNMAPPED au lieu de faire échouer tout le backfill.
   for (let i = 0; i < spendUpserts.length; i += CHUNK) {
-    const { error } = await supabase.from("meta_spend").upsert(spendUpserts.slice(i, i + CHUNK));
-    if (error) throw error;
+    const res = await upsertSpendRows(supabase, spendUpserts.slice(i, i + CHUNK) as SpendRowForWrite[]);
+    if (res.error) throw new Error(res.error);
   }
 
   // Historique complet des métriques avancées (Analyse) — best effort : les

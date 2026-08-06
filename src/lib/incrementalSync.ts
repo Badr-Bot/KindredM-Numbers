@@ -22,6 +22,7 @@ import {
 } from "./engine";
 import { toParisDay, todayParisDay, addDaysToDay } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
+import { upsertSpendRows, CA_MIGRATION_WARNING, type SpendRowForWrite } from "./spendWrite";
 
 export interface IncrementalSyncResult {
   ran: boolean;
@@ -192,9 +193,16 @@ export async function runIncrementalSync(
         thruplays: row.thruplays,
       });
     }
+    // Écriture protégée : une ligne market='CA' refusée par la contrainte
+    // (migration 0012 pas encore collée) ferait sinon rejeter TOUT le lot,
+    // et l'erreur n'était pas relue → spend perdu en silence.
+    let caDowngraded = false;
     for (let i = 0; i < spendUpserts.length; i += CHUNK) {
-      await supabase.from("meta_spend").upsert(spendUpserts.slice(i, i + CHUNK));
+      const res = await upsertSpendRows(supabase, spendUpserts.slice(i, i + CHUNK) as SpendRowForWrite[]);
+      if (res.downgradedToUnmapped) caDowngraded = true;
+      if (res.error) warnings.push(`Spend Meta partiellement non enregistré : ${res.error}`);
     }
+    if (caDowngraded) warnings.push(CA_MIGRATION_WARNING);
     for (let i = 0; i < insightUpserts.length; i += CHUNK) {
       await supabase.from("meta_insights").upsert(insightUpserts.slice(i, i + CHUNK));
     }
