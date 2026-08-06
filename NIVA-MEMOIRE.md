@@ -478,6 +478,32 @@ Badr publie au fur et à mesure. Toujours vérifier `role` AVANT d'écrire :
 retombé en silence (taille inchangée). Il a fallu un envoi mis en attente **neuf**
 et un second upsert. Toujours vérifier la taille, jamais se fier au retour vide.
 
+## 6 nonies. Remplacer SmartSize (400 €/mois) — `sections/niva-tailles.liquid`
+
+**SmartSize ne range RIEN dans Shopify** : aucun métachamp produit, aucun
+métaobjet (vérifié). Ses barèmes vivent sur ses serveurs. ⚠️ **Badr doit exporter
+ou capturer son barème AVANT de résilier**, sinon tout est à remesurer.
+
+Section maison poussée sur V4 (17 431 o) : modale à deux onglets.
+- **Trouver ma taille** — deux chemins : (1) l'acheteur connaît son tour de
+  poitrine → lecture exacte du tableau ; (2) il ne le connaît pas → estimation
+  depuis taille + poids + morphologie, **annoncée comme une estimation**.
+  Formule : `poitrine ≈ (coef_poids × kg) + (coef_taille × cm) + constante`,
+  défauts 0,55 / 0,45 / −20 → 105 cm pour 180 cm/80 kg. Morphologie : −4 / 0 / +5.
+  Tous réglables dans l'éditeur, **à calibrer sur les retours réels**.
+  Règle maison reprise de la page Guide des tailles : si le tour de taille dépasse
+  le tour de poitrine, on monte d'une taille (c'est le ventre qui commande).
+- **Le tableau** — un bloc par taille (nom, poitrine min/max, taille min/max,
+  repère), donc un barème différent par gabarit produit.
+- S'ouvre toute seule au clic sur « Guide des tailles » ou « Trouver ma taille »
+  de la fiche : aucun gabarit à modifier. Ne rend rien tant qu'aucune taille
+  n'est saisie.
+
+⚠️ **PIÈGE DÉCOUVERT** : `themeFilesUpsert` a refusé ce fichier **deux fois en
+silence** (aucune erreur, fichier absent). Cause : les réglages `range` à **pas
+décimal** (`"step":0.05`). Shopify rejette le schéma sans le dire. Remplacés par
+des champs `text`/`number`. **Ne jamais utiliser de `step` décimal dans un schéma.**
+
 ## 7. Points signalés à Badr et non tranchés
 
 - **34 faux avis** sur la page du polo LIVE (5 textes identiques sous des noms différents)

@@ -1,0 +1,318 @@
+{% render 'niva-tokens' %}
+{%- comment -%}
+  NIVA — Guide des tailles + recommandation. Remplace SmartSize.
+
+  Deux chemins pour l'acheteur, parce qu'ils ne se valent pas :
+  1. il connait son tour de poitrine -> on lit le tableau, c'est exact ;
+  2. il ne le connait pas -> on l'estime a partir de sa taille, de son poids
+     et de sa morphologie, et on le DIT clairement. Une estimation presentee
+     comme une certitude, c'est un retour de plus.
+
+  La regle « entre deux tailles » reprend celle de la page Guide des tailles :
+  sur le haut du corps, si le tour de taille depasse le tour de poitrine,
+  c'est le ventre qui decide, on monte d'une taille.
+
+  Les coefficients de l'estimation sont des reglages : ils se calibrent avec
+  les retours reels, ils ne sont pas graves dans le marbre.
+
+  La section ne rend RIEN tant qu'aucune taille n'est saisie.
+{%- endcomment -%}
+
+{%- assign nb = section.blocks.size -%}
+{%- if nb > 0 -%}
+<div class="nvt2" id="nvt2-{{ section.id }}" hidden>
+  <div class="nvt2__voile" data-nvt2-fermer></div>
+  <div class="nvt2__boite" role="dialog" aria-modal="true" aria-label="{{ section.settings.titre | escape }}">
+    <button class="nvt2__x" type="button" data-nvt2-fermer aria-label="Fermer">&times;</button>
+
+    <div class="nvt2__kicker">{{ section.settings.kicker }}</div>
+    <h2 class="nvt2__titre">{{ section.settings.titre }}</h2>
+
+    <div class="nvt2__onglets" role="tablist">
+      <button class="nvt2__ong is-on" type="button" data-nvt2-ong="trouver" role="tab">Trouver ma taille</button>
+      <button class="nvt2__ong" type="button" data-nvt2-ong="tableau" role="tab">Le tableau</button>
+    </div>
+
+    {%- comment -%} ---------- 1. RECOMMANDATION ---------- {%- endcomment -%}
+    <div class="nvt2__vue is-on" data-nvt2-vue="trouver">
+      <div class="nvt2__choix">
+        <button class="nvt2__mode is-on" type="button" data-nvt2-mode="mesure">Je connais mon tour de poitrine</button>
+        <button class="nvt2__mode" type="button" data-nvt2-mode="estime">Je ne le connais pas</button>
+      </div>
+
+      <div class="nvt2__form is-on" data-nvt2-form="mesure">
+        <label class="nvt2__lab">Tour de poitrine <span>cm</span>
+          <input class="nvt2__in" type="number" inputmode="numeric" min="70" max="180" data-nvt2-poitrine placeholder="—">
+        </label>
+        <label class="nvt2__lab">Tour de taille <span>cm · facultatif</span>
+          <input class="nvt2__in" type="number" inputmode="numeric" min="60" max="180" data-nvt2-ventre placeholder="—">
+        </label>
+      </div>
+
+      <div class="nvt2__form" data-nvt2-form="estime">
+        <div class="nvt2__duo">
+          <label class="nvt2__lab">Taille <span>cm</span>
+            <input class="nvt2__in" type="number" inputmode="numeric" min="140" max="215" data-nvt2-hauteur placeholder="—">
+          </label>
+          <label class="nvt2__lab">Poids <span>kg</span>
+            <input class="nvt2__in" type="number" inputmode="numeric" min="40" max="200" data-nvt2-poids placeholder="—">
+          </label>
+        </div>
+        <div class="nvt2__lab">Morphologie</div>
+        <div class="nvt2__morpho">
+          <button class="nvt2__m" type="button" data-nvt2-morpho="-{{ section.settings.ajust_fine | default: 4 }}">Plutôt fine</button>
+          <button class="nvt2__m is-on" type="button" data-nvt2-morpho="0">Normale</button>
+          <button class="nvt2__m" type="button" data-nvt2-morpho="{{ section.settings.ajust_forte | default: 5 }}">Plutôt forte</button>
+        </div>
+      </div>
+
+      <button class="nvt2__go" type="button" data-nvt2-calc>Voir ma taille</button>
+
+      <div class="nvt2__res" data-nvt2-res hidden>
+        <div class="nvt2__res-lab" data-nvt2-res-lab></div>
+        <div class="nvt2__res-taille" data-nvt2-res-taille></div>
+        <p class="nvt2__res-txt" data-nvt2-res-txt></p>
+      </div>
+    </div>
+
+    {%- comment -%} ---------- 2. TABLEAU ---------- {%- endcomment -%}
+    <div class="nvt2__vue" data-nvt2-vue="tableau">
+      <div class="nvt2__scroll">
+        <table class="nvt2__tab">
+          <thead>
+            <tr>
+              <th>Taille</th>
+              <th>Poitrine</th>
+              <th>Taille</th>
+              {%- if section.settings.montrer_note -%}<th>Repère</th>{%- endif -%}
+            </tr>
+          </thead>
+          <tbody>
+            {%- for b in section.blocks -%}
+              <tr {{ b.shopify_attributes }}>
+                <td class="nvt2__t-nom">{{ b.settings.nom }}</td>
+                <td>{{ b.settings.poitrine_min }} – {{ b.settings.poitrine_max }} cm</td>
+                <td>{{ b.settings.ventre_min }} – {{ b.settings.ventre_max }} cm</td>
+                {%- if section.settings.montrer_note -%}<td class="nvt2__t-note">{{ b.settings.note }}</td>{%- endif -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+      {%- if section.settings.mention != blank -%}
+        <p class="nvt2__mention">{{ section.settings.mention }}</p>
+      {%- endif -%}
+      <a class="nvt2__lien" href="/pages/guide-des-tailles">Comment prendre ses mesures</a>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" data-nvt2-data="{{ section.id }}">
+{
+ "tailles":[
+  {%- for b in section.blocks -%}
+   {"nom":{{ b.settings.nom | json }},
+    "pMin":{{ b.settings.poitrine_min | default: 0 }},
+    "pMax":{{ b.settings.poitrine_max | default: 0 }},
+    "vMin":{{ b.settings.ventre_min | default: 0 }},
+    "vMax":{{ b.settings.ventre_max | default: 0 }}}{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+ ],
+ "coefPoids":{{ section.settings.coef_poids | default: 0.55 | plus: 0 }},
+ "coefTaille":{{ section.settings.coef_taille | default: 0.45 | plus: 0 }},
+ "constante":{{ section.settings.constante | default: -20 | plus: 0 }}
+}
+</script>
+
+<script>
+(function(){
+  var racine = document.getElementById('nvt2-{{ section.id }}');
+  if(!racine) return;
+  var data;
+  try { data = JSON.parse(document.querySelector('[data-nvt2-data="{{ section.id }}"]').textContent); }
+  catch(e){ return; }
+  if(!data.tailles.length) return;
+
+  /* ---- ouverture : on capte les liens existants de la fiche produit,
+     pour ne pas avoir a modifier le gabarit. ---- */
+  function ouvrir(e){ if(e){e.preventDefault();} racine.hidden = false; document.body.style.overflow='hidden'; }
+  function fermer(){ racine.hidden = true; document.body.style.overflow=''; }
+
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a,button,[data-nv-tailles]');
+    if(!a) return;
+    if(racine.contains(a)) return;
+    var href = (a.getAttribute('href')||'');
+    var txt  = (a.textContent||'').trim().toLowerCase();
+    if(a.hasAttribute('data-nv-tailles') ||
+       href.indexOf('guide-des-tailles') > -1 ||
+       txt === 'guide des tailles' || txt === 'trouver ma taille'){
+      ouvrir(e);
+    }
+  }, true);
+
+  racine.querySelectorAll('[data-nvt2-fermer]').forEach(function(b){ b.addEventListener('click', fermer); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !racine.hidden) fermer(); });
+
+  /* ---- onglets et modes ---- */
+  function bascule(groupe, attr, valeur, cible){
+    racine.querySelectorAll('['+attr+']').forEach(function(el){
+      el.classList.toggle('is-on', el.getAttribute(attr) === valeur);
+    });
+    racine.querySelectorAll('['+cible+']').forEach(function(el){
+      el.classList.toggle('is-on', el.getAttribute(cible) === valeur);
+    });
+  }
+  racine.querySelectorAll('[data-nvt2-ong]').forEach(function(b){
+    b.addEventListener('click', function(){ bascule(0,'data-nvt2-ong', b.getAttribute('data-nvt2-ong'), 'data-nvt2-vue'); });
+  });
+  racine.querySelectorAll('[data-nvt2-mode]').forEach(function(b){
+    b.addEventListener('click', function(){ bascule(0,'data-nvt2-mode', b.getAttribute('data-nvt2-mode'), 'data-nvt2-form'); });
+  });
+  var ajust = 0;
+  racine.querySelectorAll('[data-nvt2-morpho]').forEach(function(b){
+    b.addEventListener('click', function(){
+      racine.querySelectorAll('[data-nvt2-morpho]').forEach(function(o){ o.classList.remove('is-on'); });
+      b.classList.add('is-on');
+      ajust = parseFloat(b.getAttribute('data-nvt2-morpho')) || 0;
+    });
+  });
+
+  /* ---- le calcul ---- */
+  function valeur(sel){ var el = racine.querySelector(sel); var v = el ? parseFloat(el.value) : NaN; return isNaN(v) ? null : v; }
+
+  function tailleSelon(poitrine){
+    var t = data.tailles;
+    for (var i = 0; i < t.length; i++){ if(poitrine >= t[i].pMin && poitrine <= t[i].pMax) return i; }
+    if(poitrine < t[0].pMin) return 0;              /* plus fin que la plus petite */
+    return t.length - 1;                             /* plus fort que la plus grande */
+  }
+
+  function afficher(indice, exact, note){
+    var bloc = racine.querySelector('[data-nvt2-res]');
+    racine.querySelector('[data-nvt2-res-lab]').textContent = exact ? 'D’APRÈS VOS MESURES' : 'ESTIMATION';
+    racine.querySelector('[data-nvt2-res-taille]').textContent = data.tailles[indice].nom;
+    racine.querySelector('[data-nvt2-res-txt]').textContent = note;
+    bloc.hidden = false;
+    bloc.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+
+  racine.querySelector('[data-nvt2-calc]').addEventListener('click', function(){
+    var modeMesure = racine.querySelector('[data-nvt2-form="mesure"]').classList.contains('is-on');
+
+    if(modeMesure){
+      var p = valeur('[data-nvt2-poitrine]');
+      if(p === null){ afficher(0, false, 'Indiquez votre tour de poitrine en centimètres.'); return; }
+      var i = tailleSelon(p);
+      var v = valeur('[data-nvt2-ventre]');
+      var note = 'Votre tour de poitrine tombe dans cette taille.';
+      /* Regle de la maison : sur le haut du corps, c'est le ventre qui decide. */
+      if(v !== null && v > p && i < data.tailles.length - 1){
+        i = i + 1;
+        note = 'Votre tour de taille dépasse votre tour de poitrine : on monte d’une taille. C’est le ventre qui commande, pas les épaules.';
+      }
+      afficher(i, true, note);
+      return;
+    }
+
+    var h = valeur('[data-nvt2-hauteur]'), kg = valeur('[data-nvt2-poids]');
+    if(h === null || kg === null){ afficher(0, false, 'Indiquez votre taille et votre poids.'); return; }
+    var estime = (data.coefPoids * kg) + (data.coefTaille * h) + data.constante + ajust;
+    var j = tailleSelon(estime);
+    afficher(j, false,
+      'Estimation à partir de votre taille, de votre poids et de votre morphologie — tour de poitrine calculé à environ ' +
+      Math.round(estime) + ' cm. Si vous hésitez, mesurez-vous : c’est cinq minutes et c’est exact.');
+  });
+})();
+</script>
+
+<style>
+  .nvt2{position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;}
+  .nvt2[hidden]{display:none;}
+  .nvt2__voile{position:absolute;inset:0;background:rgba(21,21,21,.55);}
+  .nvt2__boite{position:relative;background:var(--nv-ivoire);border:1px solid var(--nv-filet-fort);
+    width:100%;max-width:560px;max-height:92vh;overflow-y:auto;padding:26px 20px 24px;}
+  .nvt2__x{position:absolute;top:8px;right:12px;background:none;border:0;font-size:26px;line-height:1;
+    color:var(--nv-t2);cursor:pointer;padding:4px 8px;}
+  .nvt2__kicker{font-family:var(--nv-mono)!important;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--nv-t3);}
+  .nvt2__titre{font-family:var(--nv-titre)!important;font-weight:300;font-size:24px;color:var(--nv-noir);margin:8px 0 18px;}
+  .nvt2__onglets{display:flex;gap:0;border-bottom:1px solid var(--nv-filet);margin-bottom:20px;}
+  .nvt2__ong{flex:1;background:none;border:0;border-bottom:2px solid transparent;padding:10px 4px;cursor:pointer;
+    font-family:var(--nv-mono)!important;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--nv-t3);}
+  .nvt2__ong.is-on{color:var(--nv-noir);border-bottom-color:var(--nv-noir);}
+  .nvt2__vue{display:none;}
+  .nvt2__vue.is-on{display:block;}
+  .nvt2__choix{display:flex;gap:8px;margin-bottom:16px;}
+  .nvt2__mode{flex:1;background:var(--nv-ivoire);border:1px solid var(--nv-filet-fort);padding:9px 8px;cursor:pointer;
+    font-family:var(--nv-sans);font-size:12px;color:var(--nv-t2);line-height:1.3;}
+  .nvt2__mode.is-on{border-color:var(--nv-noir);background:var(--nv-sable-pale);color:var(--nv-noir);}
+  .nvt2__form{display:none;}
+  .nvt2__form.is-on{display:block;}
+  .nvt2__duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .nvt2__lab{display:block;font-family:var(--nv-mono)!important;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--nv-t3);margin-bottom:12px;}
+  .nvt2__lab span{opacity:.7;text-transform:none;letter-spacing:.04em;}
+  .nvt2__in{display:block;width:100%;margin-top:6px;padding:11px 12px;border:1px solid var(--nv-filet-fort);
+    background:#fff;border-radius:0;font-family:var(--nv-titre)!important;font-size:17px;color:var(--nv-noir);}
+  .nvt2__in:focus{outline:none;border-color:var(--nv-noir);}
+  .nvt2__morpho{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;}
+  .nvt2__m{background:var(--nv-ivoire);border:1px solid var(--nv-filet-fort);padding:9px 4px;cursor:pointer;
+    font-family:var(--nv-sans);font-size:12px;color:var(--nv-t2);}
+  .nvt2__m.is-on{border-color:var(--nv-noir);background:var(--nv-sable-pale);color:var(--nv-noir);}
+  .nvt2__go{width:100%;margin-top:18px;background:var(--nv-noir);color:var(--nv-ivoire);border:0;border-radius:0;
+    min-height:52px;cursor:pointer;font-family:var(--nv-mono)!important;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+  .nvt2__go:hover{background:var(--nv-noir-survol);}
+  .nvt2__res{margin-top:20px;border-top:1px solid var(--nv-filet);padding-top:18px;text-align:center;}
+  .nvt2__res-lab{font-family:var(--nv-mono)!important;font-size:9px;letter-spacing:.18em;color:var(--nv-t3);}
+  .nvt2__res-taille{font-family:var(--nv-titre)!important;font-weight:300;font-size:44px;line-height:1;color:var(--nv-noir);margin:8px 0 10px;}
+  .nvt2__res-txt{font-family:var(--nv-sans);font-size:13px;line-height:1.6;color:var(--nv-t2);margin:0;}
+  .nvt2__scroll{overflow-x:auto;}
+  .nvt2__tab{width:100%;border-collapse:collapse;font-family:var(--nv-sans);font-size:13px;color:var(--nv-t2);}
+  .nvt2__tab th{font-family:var(--nv-mono)!important;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--nv-t3);text-align:left;padding:0 10px 8px 0;border-bottom:1px solid var(--nv-filet-fort);white-space:nowrap;}
+  .nvt2__tab td{padding:11px 10px 11px 0;border-bottom:1px solid var(--nv-filet);white-space:nowrap;}
+  .nvt2__t-nom{font-family:var(--nv-titre)!important;font-size:15px;color:var(--nv-noir);}
+  .nvt2__t-note{white-space:normal;font-size:12px;color:var(--nv-t3);}
+  .nvt2__mention{font-family:var(--nv-sans);font-size:12px;color:var(--nv-t3);margin:14px 0 0;line-height:1.6;}
+  .nvt2__lien{display:inline-block;margin-top:14px;font-family:var(--nv-mono)!important;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--nv-noir);border-bottom:1px solid var(--nv-noir);
+    padding-bottom:3px;text-decoration:none;}
+  @media (min-width:750px){
+    .nvt2{align-items:center;}
+    .nvt2__boite{padding:34px 32px 30px;}
+    .nvt2__titre{font-size:30px;}
+  }
+</style>
+
+{%- endif -%}
+{% schema %}
+{
+  "name": "NIVA · Guide des tailles",
+  "settings": [
+    {"type":"paragraph","content":"Remplace l'application SmartSize. S'ouvre automatiquement au clic sur « Guide des tailles » ou « Trouver ma taille » de la fiche produit. Tant qu'aucune taille n'est ajoutée, rien ne s'affiche."},
+    {"type":"text","id":"kicker","label":"Sur-titre","default":"LA BONNE TAILLE"},
+    {"type":"text","id":"titre","label":"Titre","default":"Elle se mesure, elle ne se devine pas."},
+    {"type":"textarea","id":"mention","label":"Mention sous le tableau","default":"Mesures prises sur le corps, en sous-vêtements, mètre à plat sans serrer."},
+    {"type":"checkbox","id":"montrer_note","label":"Afficher la colonne Repère","default":true},
+    {"type":"header","content":"Estimation sans mètre ruban"},
+    {"type":"paragraph","content":"Tour de poitrine estimé = (coefficient poids × poids) + (coefficient taille × taille) + constante. Les valeurs par défaut donnent 105 cm pour 180 cm / 80 kg. À recalibrer avec vos retours réels."},
+    {"type":"text","id":"coef_poids","label":"Coefficient poids","default":"0.55"},
+    {"type":"text","id":"coef_taille","label":"Coefficient taille","default":"0.45"},
+    {"type":"text","id":"constante","label":"Constante","default":"-20"},
+    {"type":"number","id":"ajust_fine","label":"Retrait morphologie fine (cm)","default":4},
+    {"type":"number","id":"ajust_forte","label":"Ajout morphologie forte (cm)","default":5}
+  ],
+  "blocks": [
+    {"type":"taille","name":"Taille","settings":[
+      {"type":"text","id":"nom","label":"Nom de la taille","default":"M"},
+      {"type":"number","id":"poitrine_min","label":"Tour de poitrine — de (cm)"},
+      {"type":"number","id":"poitrine_max","label":"Tour de poitrine — à (cm)"},
+      {"type":"number","id":"ventre_min","label":"Tour de taille — de (cm)"},
+      {"type":"number","id":"ventre_max","label":"Tour de taille — à (cm)"},
+      {"type":"text","id":"note","label":"Repère (facultatif)"}
+    ]}
+  ],
+  "max_blocks": 12,
+  "presets": [{"name":"NIVA · Guide des tailles"}]
+}
+{% endschema %}
