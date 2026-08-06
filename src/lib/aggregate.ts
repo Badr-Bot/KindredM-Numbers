@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { computeDailyAggregate, type Market } from "./engine";
 import { isExcludedCampaign } from "./meta";
+import { readManualRevenue } from "./manualRevenue";
 
 const ALL_MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
 
@@ -164,6 +165,20 @@ export async function recomputeDailyAggregatesForDays(
     const b = buckets.get(key(s.day, s.market));
     if (!b) continue;
     b.spendCents += s.spend_cents;
+  }
+
+  // Recettes saisies à la main (NIRA : pas de boutique Shopify branchée, CA et
+  // COGS annoncés par Badr). Converties en EUR à la saisie, au taux figé dans
+  // l'entrée — voir manualRevenue.ts. Ajoutées au même (jour, marché) que le
+  // spend de leur campagne, pour que le total GLOBAL reste juste.
+  const manualEntries = await readManualRevenue(supabase);
+  for (const m of manualEntries) {
+    const b = buckets.get(key(m.day, m.market));
+    if (!b) continue; // hors de la plage recalculée
+    b.orders += m.orders;
+    b.caCents += m.caEurCents;
+    b.cogsCents += m.cogsEurCents;
+    b.cogsProductCents += m.cogsEurCents;
   }
 
   // Répartition polo/upsells du COGS (affichage Dépenses uniquement — le
