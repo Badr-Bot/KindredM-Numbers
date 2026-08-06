@@ -1,3 +1,5 @@
-Relance 06/08 (16h) : le dashboard affiche 27 commandes / 1 682 EUR alors que
-Shopify en compte 39 / 2 414 EUR. Forcer un passage de synchro pour rattraper
-le jour en cours, et charger le mapping E-Book (494 alertes a eteindre).
+Verification 06/08 (fin de journee) : Badr annonce les migrations 0012 + 0013
+appliquees. Preuves attendues dans la sortie de /api/sync :
+ - AUCUN "Frais Shopify reels NON lus" -> migration 0013 active
+ - AUCUN "Marche Canada pas encore autorise" -> migration 0012 active
+ - resync v9 qui demarre (vrais frais sur l'historique)
