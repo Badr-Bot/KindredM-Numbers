@@ -89,7 +89,15 @@ export async function runIncrementalSync(
       let feesByOrderId = new Map<string, OrderFees>();
       if (hasFeeColumns) {
         try {
-          const r = await fetchOrderFees(config, token, rescanFromDay, today);
+          // Fenêtre COURTE (J-2 → J) et non les 7 jours du rescan : la lecture
+          // des frais pagine 250 commandes par requête avec 550 ms d'attente,
+          // ce qui allongeait une fonction déjà proche de sa limite de temps.
+          // Si elle est tuée, AUCUNE commande n'est écrite et le CA se fige —
+          // exactement le symptôme constaté le 06/08 (27 cmd affichées contre
+          // 39 réelles). Les jours plus anciens reçoivent leurs frais via le
+          // re-scan complet, qui tourne en étapes sans bloquer le jour courant.
+          const feesFromDay = addDaysToDay(today, -2);
+          const r = await fetchOrderFees(config, token, feesFromDay, today);
           feesByOrderId = r.byOrderId;
           if (r.unknownTypes.size > 0) {
             warnings.push(
