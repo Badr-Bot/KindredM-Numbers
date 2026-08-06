@@ -1,9 +1,14 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { computeDailyAggregate, type Market } from "./engine";
+import { MARKETS } from "./markets";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
 
-const ALL_MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
+// Dérivé de MARKETS (markets.ts) et non recopié : la liste avait divergé à
+// l'ajout du Canada (06/08) — CA existait dans le type et l'UI mais pas ici,
+// donc aucun bucket n'était créé pour lui et TOUT le spend NIRA (comme les
+// recettes manuelles) était silencieusement jeté du total GLOBAL.
+const ALL_MARKETS: Market[] = [...MARKETS];
 
 // Un spend Meta dont la campagne n'est pas encore reconnue (nom qui ne
 // contient ni FR/ESP/GE/UK ni les synonymes usuels, ex. campagne "WORLD"
@@ -223,11 +228,42 @@ export async function recomputeDailyAggregatesForDays(
   // pas collée — un rejet sur ce lot ne doit jamais faire échouer le
   // recalcul des VRAIS marchés (régression bien pire que le bug qu'il corrige).
   const CHUNK = 500;
-  const knownRows = rows.filter((r) => r.market !== UNMAPPED_MARKET);
+  // Le Canada est isolé comme UNMAPPED : sa valeur n'est acceptée qu'une fois
+  // la migration 0012 collée. Laissé dans le lot principal, son rejet ferait
+  // échouer TOUT le recalcul (un upsert = une instruction) et figerait le
+  // dashboard entier — jamais acceptable pour un marché marginal.
+  const knownRows = rows.filter((r) => r.market !== UNMAPPED_MARKET && r.market !== "CA");
+  const caRows = rows.filter((r) => r.market === "CA");
   const unmappedRows = rows.filter((r) => r.market === UNMAPPED_MARKET);
   for (let i = 0; i < knownRows.length; i += CHUNK) {
     const { error } = await supabase.from("daily_aggregates").upsert(knownRows.slice(i, i + CHUNK));
     if (error) throw error;
+  }
+
+  // Canada : tenté d'abord ; si la contrainte le refuse, ses montants sont
+  // REVERSÉS dans la ligne UNMAPPED du même jour. Le total GLOBAL reste donc
+  // exact au centime (UNMAPPED y est compté), seule la ventilation par pays
+  // attend le SQL. Sans ce report, le spend NIRA disparaîtrait du net.
+  let caRejected = false;
+  if (caRows.length > 0) {
+    const { error } = await supabase.from("daily_aggregates").upsert(caRows);
+    if (error) caRejected = true;
+  }
+  if (caRejected) {
+    const NUMERIC_FIELDS = [
+      "orders", "ca_cents", "spend_cents", "cogs_cents", "tax_cents",
+      "fees_cents", "net_cents", "refunded_cents", "cogs_product_cents", "cogs_upsells_cents",
+    ] as const;
+    const unmappedByDay = new Map(unmappedRows.map((r) => [r.day, r as Record<string, unknown>]));
+    for (const ca of caRows) {
+      const target = unmappedByDay.get(ca.day);
+      if (!target) continue; // une ligne UNMAPPED existe toujours (initialisée plus haut)
+      for (const f of NUMERIC_FIELDS) {
+        const add = (ca as Record<string, unknown>)[f];
+        if (typeof add !== "number") continue;
+        target[f] = ((target[f] as number) ?? 0) + add;
+      }
+    }
   }
   for (let i = 0; i < unmappedRows.length; i += CHUNK) {
     await supabase.from("daily_aggregates").upsert(unmappedRows.slice(i, i + CHUNK));
