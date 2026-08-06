@@ -321,12 +321,12 @@ const THROTTLE_MS = 5 * 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
-// v8 (05/08) : le spend des campagnes NIRA sort du calcul (leur CA n'est pas
-// mesurable ici — voir isExcludedCampaign dans meta.ts). Recalcul SEUL, sans
-// appel API : les lignes meta_spend restent en base intactes, elles sont juste
-// écartées de la somme. Rebumper le jour où le CA NIRA est branché, pour
-// réintégrer CA + spend ensemble.
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-05-exclusion-nira-v8";
+// v9 (06/08) : le spend NIRA REVIENT dans le calcul (Badr : « plus adapté à la
+// réalité »), son CA étant désormais saisi à la main à chaque vente. Recalcul
+// SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
+// elles étaient seulement écartées de la somme — il suffit de re-sommer.
+// v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-06-nira-spend-reintegre-v9";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —

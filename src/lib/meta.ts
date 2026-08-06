@@ -340,10 +340,12 @@ export function mapCampaignToMarket(campaignName: string): Market | "UNMAPPED" {
 // calcul plutôt que d'afficher un chiffre faux (convention §0 : jamais de
 // chiffre faux, on le dit).
 //
-// NIRA : exclue à partir du 05/08 (jour de son lancement) et rétroactivement.
-// À RETIRER de cette liste le jour où le CA NIRA est branché — Badr veut
-// alors réintégrer CA **et** spend ensemble, jamais l'un sans l'autre.
-const EXCLUDED_CAMPAIGN_KEYWORDS = ["NIRA"];
+// 05/08 : NIRA exclue (spend réel, CA non mesurable → net faussé à la baisse).
+// 06/08 : Badr REMET le spend NIRA (« pour que ça soit plus adapté à la
+// réalité ») et fournit désormais le CA à la main à chaque vente. La liste est
+// donc vide — plus aucune campagne n'est écartée. Le mécanisme reste en place :
+// il suffit d'y remettre un mot-clé si le cas se represente.
+const EXCLUDED_CAMPAIGN_KEYWORDS: string[] = [];
 
 /**
  * true si la campagne doit être ignorée dans tous les agrégats (spend, ROAS,
