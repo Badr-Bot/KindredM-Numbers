@@ -14,16 +14,21 @@ import {
   formatRoas,
 } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
+import {
+  badrShareFor,
+  fillYearMonths,
+  monthlySharesFrom,
+  type DailyNetByMarket,
+} from "@/lib/associates";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
   taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
 };
 
-// 👥 Associés : Adnane a lancé seul ; Badr est entré à 50/50 par boutique —
-// ES/UK/DE dès le 20/06/2026, FR dès le 14/07/2026 (précision Badr 19/07).
-const PARTNER_START_FR = "2026-07-14";
-const PARTNER_START_OTHERS = "2026-06-20";
+// 👥 Associés : la règle de répartition vit dans lib/associates.ts (source
+// unique). Elle était recopiée ici en dur — deux endroits à corriger au
+// moindre changement de date d'entrée, donc deux chiffres qui divergent.
 
 function addTo(acc: Totals, r: DayAgg): Totals {
   acc.orders += r.orders;
@@ -71,14 +76,15 @@ export function YearBoard({
     let soloNet = 0;
     let sharedNet = 0;
     for (const m of MARKETS) {
-      const start = m === "FR" ? PARTNER_START_FR : PARTNER_START_OTHERS;
       for (const r of dayData[m]) {
-        if (r.day < start) {
+        const share = badrShareFor(m, r.day);
+        if (share === 0) {
           adnane += r.netCents;
           soloNet += r.netCents;
         } else {
-          adnane += r.netCents / 2;
-          badr += r.netCents / 2;
+          const badrPart = r.netCents * share;
+          badr += badrPart;
+          adnane += r.netCents - badrPart;
           sharedNet += r.netCents;
         }
       }
@@ -93,6 +99,19 @@ export function YearBoard({
       tvaCents,
     };
   }, [dayData]);
+
+  // 👥 Part de chacun MOIS PAR MOIS (demande Badr 06/08 : « des cartes par
+  // mois pour savoir chaque mois combien j'ai fait »). Réparti jour par jour
+  // et par boutique AVANT de cumuler : en juin et juillet la date d'entrée de
+  // Badr tombe en plein milieu du mois, répartir un total mensuel déjà agrégé
+  // donnerait un chiffre faux pour les deux.
+  const monthlyShares = useMemo(() => {
+    const flat: DailyNetByMarket[] = [];
+    for (const m of MARKETS) {
+      for (const r of dayData[m]) flat.push({ day: r.day, market: m, netCents: r.netCents });
+    }
+    return fillYearMonths(year, monthlySharesFrom(flat));
+  }, [dayData, year]);
 
   const { monthRows, annual } = useMemo(() => {
     const byMonth = new Map<string, Totals>();
@@ -172,6 +191,49 @@ export function YearBoard({
       {/* 👥 Associés + 🧾 TVA */}
       <div className="grid gap-3 sm:grid-cols-2">
         <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+          <div className="mb-2 text-sm font-semibold">
+            👥 Part de chacun, mois par mois <span className="text-[10px] font-normal text-ink-faint">({year})</span>
+          </div>
+          <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {monthlyShares.map((m) => {
+              const vide = m.netCents === 0 && m.badrCents === 0 && m.adnaneCents === 0;
+              return (
+                <div
+                  key={m.yearMonth}
+                  className={`rounded-lg border border-hair p-2 ${vide ? "opacity-40" : ""}`}
+                >
+                  <div className="mb-1 flex items-baseline justify-between">
+                    <span className="text-[11px] uppercase text-ink-faint">
+                      {formatMonthShort(m.yearMonth)}
+                    </span>
+                    <span
+                      className={`tnum text-[11px] ${m.netCents >= 0 ? "text-ink-faint" : "text-red"}`}
+                    >
+                      {formatEurSigned0(m.netCents)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-ink-faint">🟠 Badr</span>
+                    <b className={`tnum ${m.badrCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                      {formatEurSigned0(m.badrCents)}
+                    </b>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-ink-faint">🔵 Adnane</span>
+                    <b className={`tnum ${m.adnaneCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                      {formatEurSigned0(m.adnaneCents)}
+                    </b>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="mb-3 text-[10px] leading-snug text-ink-faint">
+            Part du résultat (ce que chacun a gagné), pas un salaire versé — un mois
+            peut être positif sans qu&apos;un euro soit sorti de la société. Réparti jour
+            par jour et par boutique : 100 % Adnane avant son entrée, 50/50 ensuite.
+          </p>
+
           <div className="mb-2 text-sm font-semibold">👥 Net par associé</div>
           <ul className="flex flex-col gap-1.5 text-[12px]">
             <li className="flex items-baseline justify-between">
