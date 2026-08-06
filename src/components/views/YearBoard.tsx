@@ -107,8 +107,14 @@ export function YearBoard({
     for (const m of MARKETS) {
       for (const r of dayData[m]) flat.push({ day: r.day, market: m, netCents: r.netCents });
     }
-    return fillYearMonths(year, monthlySharesFrom(flat));
-  }, [dayData, year]);
+    // Bornes : jamais avant le lancement, jamais après le dernier jour connu
+    // des données (et non l'horloge du navigateur, qui peut être décalée).
+    const lastKnownDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
+    return fillYearMonths(year, monthlySharesFrom(flat), {
+      minYm: historyStart.slice(0, 7),
+      maxYm: lastKnownDay ? lastKnownDay.slice(0, 7) : undefined,
+    });
+  }, [dayData, year, historyStart]);
 
   const { monthRows, annual } = useMemo(() => {
     const byMonth = new Map<string, Totals>();
@@ -199,25 +205,27 @@ export function YearBoard({
                   key={m.yearMonth}
                   className={`rounded-lg border border-hair p-2 ${vide ? "opacity-40" : ""}`}
                 >
-                  <div className="mb-1 flex items-baseline justify-between">
-                    <span className="text-[11px] uppercase text-ink-faint">
+                  <div className="mb-1.5">
+                    <div className="truncate text-[11px] uppercase leading-tight text-ink-faint">
                       {formatMonthShort(m.yearMonth)}
-                    </span>
-                    <span
-                      className={`tnum text-[11px] ${m.netCents >= 0 ? "text-ink-faint" : "text-red"}`}
+                    </div>
+                    <div
+                      className={`tnum whitespace-nowrap text-sm font-semibold leading-tight ${
+                        m.netCents >= 0 ? "text-ink" : "text-red"
+                      }`}
                     >
                       {formatEurSigned0(m.netCents)}
-                    </span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-ink-faint">🟠 Badr</span>
-                    <b className={`tnum ${m.badrCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  <div className="flex items-center justify-between gap-1 text-xs">
+                    <span className="whitespace-nowrap text-ink-faint">🟠 Badr</span>
+                    <b className={`tnum whitespace-nowrap ${m.badrCents >= 0 ? "text-phosphor" : "text-red"}`}>
                       {formatEurSigned0(m.badrCents)}
                     </b>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-ink-faint">🔵 Adnane</span>
-                    <b className={`tnum ${m.adnaneCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  <div className="flex items-center justify-between gap-1 text-xs">
+                    <span className="whitespace-nowrap text-ink-faint">🔵 Adnane</span>
+                    <b className={`tnum whitespace-nowrap ${m.adnaneCents >= 0 ? "text-phosphor" : "text-red"}`}>
                       {formatEurSigned0(m.adnaneCents)}
                     </b>
                   </div>

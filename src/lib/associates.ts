@@ -87,12 +87,27 @@ export function monthlySharesFrom(rows: DailyNetByMarket[]): MonthlyShare[] {
   return [...byMonth.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
 }
 
-/** Tous les mois d'une année civile, y compris ceux sans activité (0 €). */
-export function fillYearMonths(year: string, shares: MonthlyShare[]): MonthlyShare[] {
+/**
+ * Mois d'une année civile à afficher, bornés à la période qui a un sens :
+ * jamais avant le lancement de l'activité, jamais après le mois en cours.
+ * Afficher les 12 mois remplissait la grille de cartes vides — dont des mois
+ * FUTURS à 0 €, ce qui n'a aucun sens (remarque Badr 06/08).
+ *
+ * Un mois dans la fenêtre mais sans vente reste affiché à 0 : c'est une
+ * information (« ce mois-là on n'a rien fait »), contrairement à un mois
+ * qui n'existe pas encore.
+ */
+export function fillYearMonths(
+  year: string,
+  shares: MonthlyShare[],
+  bounds?: { minYm?: string; maxYm?: string }
+): MonthlyShare[] {
   const byYm = new Map(shares.map((s) => [s.yearMonth, s]));
   const out: MonthlyShare[] = [];
   for (let m = 1; m <= 12; m++) {
     const ym = `${year}-${String(m).padStart(2, "0")}`;
+    if (bounds?.minYm && ym < bounds.minYm) continue;
+    if (bounds?.maxYm && ym > bounds.maxYm) continue;
     out.push(byYm.get(ym) ?? { yearMonth: ym, netCents: 0, badrCents: 0, adnaneCents: 0 });
   }
   return out;
