@@ -68,6 +68,17 @@ export async function runIncrementalSync(
   const ORDER_CHUNK = 250;
   const hasAcqColumns = await acquisitionColumnsReady(supabase);
   const hasFeeColumns = await realFeeColumnsReady(supabase);
+  // Angle mort corrigé le 06/08 : quand les colonnes manquaient, la lecture des
+  // frais réels était sautée SANS RIEN DIRE — impossible de distinguer « tout
+  // va bien » de « la migration n'est pas passée ». Un repli silencieux sur
+  // l'ancien 3 % est exactement le genre d'erreur qui dort pendant des mois.
+  if (!hasFeeColumns) {
+    warnings.push(
+      "⚠️ Frais Shopify réels NON lus : la migration 0013 n'est pas appliquée en base. " +
+        "Le net retombe sur l'ancienne estimation 3 % — mesuré 6,54 % en réalité, donc " +
+        "le bénéfice affiché est TROP OPTIMISTE d'environ 3,5 % du CA."
+    );
+  }
   for (const config of configs) {
     try {
       const token = await resolveAccessToken(config);
