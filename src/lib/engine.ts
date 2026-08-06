@@ -297,6 +297,12 @@ export function upsellCogsCents(
   if (qty <= 0) return 0;
   if (productKey === "GILET") return giletCogsCents(country, qty);
   if (productKey === "CALECON") return caleconCogsCents(country, qty);
+  // E-Book : numérique, coût réellement nul. SANS ce garde-fou, la clé passe
+  // le contrôle ci-dessous (elle est dans UPSELL_PRODUCT_KEYS) puis va
+  // chercher une grille qui n'existe pas → TypeError → le STORE ENTIER était
+  // sauté par la synchro (« FR ignoré », constaté 06/08 : plus aucune commande
+  // FR/ES enregistrée). Test de régression ajouté le même jour.
+  if (productKey === "EBOOK") return 0;
   if (!UPSELL_PRODUCT_KEYS.includes(productKey as UpsellProductKey)) {
     throw new UnmappedProductError(country, `upsell inconnu: ${productKey}`);
   }

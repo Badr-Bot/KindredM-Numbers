@@ -144,6 +144,18 @@ describe("CALECON — grille par pays (Badr, 04/08, déduite de la facture Panda
   });
 });
 
+describe("EBOOK — numérique, coût nul (régression 06/08)", () => {
+  // Le 06/08, EBOOK était dans UPSELL_PRODUCT_KEYS sans coût défini : le
+  // moteur levait TypeError (grille inexistante) et la synchro SAUTAIT LE
+  // STORE ENTIER (« FR ignoré » — plus aucune commande FR/ES enregistrée).
+  // Ce test garantit qu'une clé numérique renvoie 0 au lieu de planter.
+  it("renvoie 0 pour toute quantité et tout pays, sans lever", () => {
+    expect(upsellCogsCents("EBOOK", "FR", 1)).toBe(0);
+    expect(upsellCogsCents("EBOOK", "ES", 2)).toBe(0);
+    expect(upsellCogsCents("EBOOK", "US", 7)).toBe(0);
+  });
+});
+
 describe("Taxe UE — forfait 3€/colis (révision Badr 04/08, ex-« 3€/produit distinct »)", () => {
   it("3 € par commande UE non vide, peu importe le nombre ou le type de produits dedans", () => {
     // 4 polos seuls = 3 €
