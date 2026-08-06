@@ -109,12 +109,11 @@ export function YearBoard({
     }
     // Bornes : jamais avant le lancement, jamais après le dernier jour connu
     // des données (et non l'horloge du navigateur, qui peut être décalée).
-    const lastKnownDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
-    return fillYearMonths(year, monthlySharesFrom(flat), {
-      minYm: historyStart.slice(0, 7),
-      maxYm: lastKnownDay ? lastKnownDay.slice(0, 7) : undefined,
-    });
-  }, [dayData, year, historyStart]);
+    // Badr veut les 12 mois affichés (06/08) : le problème n'était pas les
+    // mois vides mais la mise en page — carte trop étroite et moitié droite
+    // inutilisée. Aucune borne, donc.
+    return fillYearMonths(year, monthlySharesFrom(flat));
+  }, [dayData, year]);
 
   const { monthRows, annual } = useMemo(() => {
     const byMonth = new Map<string, Totals>();
@@ -191,41 +190,43 @@ export function YearBoard({
         </div>
       </section>
 
-      {/* 👥 Associés */}
-      <div className="grid gap-3 sm:grid-cols-2">
+      {/* 👥 Associés — pleine largeur : la grille à 2 colonnes datait du bloc
+          TVA affiché à droite, retiré le 06/08. Sans lui, la moitié droite
+          restait vide. */}
+      <div className="grid gap-3">
         <section className="rounded-lg border border-line bg-panel/40 p-3.5">
           <div className="mb-2 text-sm font-semibold">
             👥 Part de chacun, mois par mois <span className="text-[10px] font-normal text-ink-faint">({year})</span>
           </div>
-          <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {monthlyShares.map((m) => {
               const vide = m.netCents === 0 && m.badrCents === 0 && m.adnaneCents === 0;
               return (
                 <div
                   key={m.yearMonth}
-                  className={`rounded-lg border border-hair p-2 ${vide ? "opacity-40" : ""}`}
+                  className={`min-w-0 rounded-lg border border-hair p-2 ${vide ? "opacity-40" : ""}`}
                 >
                   <div className="mb-1.5">
                     <div className="truncate text-[11px] uppercase leading-tight text-ink-faint">
                       {formatMonthShort(m.yearMonth)}
                     </div>
                     <div
-                      className={`tnum whitespace-nowrap text-sm font-semibold leading-tight ${
+                      className={`tnum truncate text-sm font-semibold leading-tight ${
                         m.netCents >= 0 ? "text-ink" : "text-red"
                       }`}
                     >
                       {formatEurSigned0(m.netCents)}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between gap-1 text-xs">
-                    <span className="whitespace-nowrap text-ink-faint">🟠 Badr</span>
-                    <b className={`tnum whitespace-nowrap ${m.badrCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  <div className="flex min-w-0 items-center justify-between gap-1 text-[11px]">
+                    <span className="truncate text-ink-faint">🟠 Badr</span>
+                    <b className={`tnum shrink-0 ${m.badrCents >= 0 ? "text-phosphor" : "text-red"}`}>
                       {formatEurSigned0(m.badrCents)}
                     </b>
                   </div>
-                  <div className="flex items-center justify-between gap-1 text-xs">
-                    <span className="whitespace-nowrap text-ink-faint">🔵 Adnane</span>
-                    <b className={`tnum whitespace-nowrap ${m.adnaneCents >= 0 ? "text-phosphor" : "text-red"}`}>
+                  <div className="flex min-w-0 items-center justify-between gap-1 text-[11px]">
+                    <span className="truncate text-ink-faint">🔵 Adnane</span>
+                    <b className={`tnum shrink-0 ${m.adnaneCents >= 0 ? "text-phosphor" : "text-red"}`}>
                       {formatEurSigned0(m.adnaneCents)}
                     </b>
                   </div>
