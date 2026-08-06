@@ -32,21 +32,27 @@ jobs:
           curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
             https://kindred-m-numbers.vercel.app/api/admin/env-check || true
 
-      - name: 2. Charger le mapping des nouveaux titres (store FR)
+      - name: 2. Charger le mapping des titres (nouveaux noms + E-Book)
         run: |
           set -e
-          BODY='{"rows":[
+          # Heredoc et non chaine entre quotes simples : le titre FR contient
+          # une apostrophe ("L'art de sublimer...") qui casserait le shell.
+          cat > /tmp/rows.json <<'JSON'
+          {"rows":[
             {"store":"FR","title_pattern":"Le Polo Marceau","product_key":"POLO","unit_group":"polo"},
             {"store":"FR","title_pattern":"Le Gilet Sully","product_key":"GILET","unit_group":"upsell"},
             {"store":"FR","title_pattern":"Le Pantalon Rivoli","product_key":"DRESS_TROUSERS","unit_group":"upsell"},
             {"store":"FR","title_pattern":"La Chemise Turenne","product_key":"SHORT_SLEEVE_DRESS_SHIRT","unit_group":"upsell"},
             {"store":"FR","title_pattern":"Le Short Cassini","product_key":"CHINO_SHORTS","unit_group":"upsell"},
             {"store":"FR","title_pattern":"Nivafit — Caleçon Ultra Extensible","product_key":"CALECON","unit_group":"upsell"},
-            {"store":"ES","title_pattern":"Nivafit — Calzoncillo Ultraelástico","product_key":"CALECON","unit_group":"upsell"}
-          ]}'
+            {"store":"ES","title_pattern":"Nivafit — Calzoncillo Ultraelástico","product_key":"CALECON","unit_group":"upsell"},
+            {"store":"FR","title_pattern":"E-Book : L'art de sublimer sa carrure et de maîtriser son style","product_key":"EBOOK","unit_group":"upsell"},
+            {"store":"ES","title_pattern":"E-Book: El arte de realzar tu figura y dominar tu estilo","product_key":"EBOOK","unit_group":"upsell"}
+          ]}
+          JSON
           OUT=$(curl -sS --max-time 60 -w "\nHTTP:%{http_code}" \
             -X POST -H "Content-Type: application/json" \
-            -d "$BODY" \
+            --data-binary @/tmp/rows.json \
             https://kindred-m-numbers.vercel.app/api/admin/products-map)
           echo "$OUT"
           echo "$OUT" | grep -q 'HTTP:200' || { echo "ECHEC: upsert products_map refuse"; exit 1; }

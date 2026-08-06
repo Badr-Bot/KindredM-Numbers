@@ -148,13 +148,20 @@ export const UPSELL_PRODUCT_KEYS = [
   "LONG_SLEEVE_DRESS_SHIRT",
   "GILET",
   "CALECON",
+  // E-Book : produit NUMÉRIQUE, coût de revient réellement nul. Il était
+  // absent du mapping, donc traité comme « produit inconnu » : 494 commandes
+  // (478 FR + 16 ES) remontaient en alerte « COGS incomplet » à chaque
+  // synchro, ce qui noyait les vraies alertes. Le mapper à 0 € ne change AUCUN
+  // chiffre (la taxe UE est un forfait par commande, pas par produit) — ça
+  // rend juste le 0 € assumé au lieu d'accidentel.
+  "EBOOK",
 ] as const;
 export type UpsellProductKey = (typeof UPSELL_PRODUCT_KEYS)[number];
 
 // Le Gilet (paliers 1/2/3 + grille DDP propre) et le Caleçon (forfait à la
 // pièce) ont chacun leur logique — jamais mélangés à UPSELL_GRID_CENTS pour ne
 // prendre aucun risque sur les 5 upsells déjà validés au centime.
-type StandardUpsellKey = Exclude<UpsellProductKey, "GILET" | "CALECON">;
+type StandardUpsellKey = Exclude<UpsellProductKey, "GILET" | "CALECON" | "EBOOK">;
 
 const UPSELL_GRID_CENTS: Record<StandardUpsellKey, Record<string, Record<UpsellTier, number>>> = {
   SHORT_SLEEVE_DRESS_SHIRT: {

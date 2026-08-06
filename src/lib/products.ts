@@ -24,7 +24,8 @@ export const PRODUCTS: ProductDef[] = [
   { key: "CHINO_SHORTS", label: "Short chino", emoji: "🩳", kind: "upsell" },
   { key: "COMPRESSION_TANK_TOP", label: "Débardeur", emoji: "🎽", kind: "upsell" },
   { key: "CALECON", label: "Caleçon", emoji: "🩲", kind: "upsell" },
-  // NIRA Burn (booster, marché US, lancé 05/08) : produit d'appel à part
+  { key: "EBOOK", label: "E-Book", emoji: "📘", kind: "upsell" },
+  // NIRA Burn (booster, marché CANADIEN, lancé 05/08) : produit d'appel à part
   // entière, PAS un upsell du polo. Ses ventes ne passent pas par les
   // boutiques Shopify branchées ici — CA et COGS saisis à la main (voir
   // manualRevenue.ts), seul le spend Meta arrive par l'API.

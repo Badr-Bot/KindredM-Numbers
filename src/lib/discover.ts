@@ -14,6 +14,7 @@ export const BACKFILL_SINCE_ISO = "2026-06-04T00:00:00+02:00";
 const KNOWN_UPSELL_PATTERNS: Record<string, RegExp[]> = {
   GILET: [/gilet/i, /sully/i, /\bvest\b/i, /weste/i, /chaleco/i],
   CALECON: [/cale[cç]on/i, /boxer/i, /unterhose/i, /calzoncillo/i],
+  EBOOK: [/e-?book/i, /\bebook\b/i],
   SHORT_SLEEVE_DRESS_SHIRT: [
     /short.?sleeve.*shirt/i,
     /chemise.*manches?\s*courtes?/i,
