@@ -1,4 +1,6 @@
-Relance 05/08 23h40 : forcer un passage de synchro apres
- - resync v8 (COGS calecon sur tout l'historique + rebranding rues parisiennes)
- - recompute v8 (exclusion du spend NIRA)
-Objectif : prouver que les nouveaux marqueurs sont bien appliques.
+Relance 06/08 : verifier que les migrations 0012 (marche Canada) et 0013
+(frais Shopify reels) sont bien appliquees en base.
+Preuves attendues dans la sortie de /api/sync :
+ - AUCUN avertissement "Marche Canada pas encore autorise"
+ - AUCUN avertissement "Frais Shopify indisponibles"
+ - resync v9 qui demarre (frais reels sur tout l'historique)
