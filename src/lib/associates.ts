@@ -1,4 +1,5 @@
 import type { Market } from "./engine";
+import { badrFixedShareFor, fixedCostsCentsForDay } from "./subscriptions";
 
 // ---------------------------------------------------------------------------
 // Répartition du résultat entre associés (Badr, 06/08).
@@ -85,6 +86,29 @@ export function monthlySharesFrom(rows: DailyNetByMarket[]): MonthlyShare[] {
     byMonth.set(ym, cur);
   }
   return [...byMonth.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
+}
+
+/**
+ * Déduit les CHARGES FIXES (abonnements/équipe, 08/08) des parts mensuelles,
+ * jour par jour : 100 % Adnane avant le 14/07, 50/50 ensuite (règle Badr
+ * « comme d'hab », distincte du partage par boutique — les charges sont
+ * transverses). `days` = tous les jours calendaires de la période, y compris
+ * ceux sans vente : un abonnement se paie aussi les jours à 0 commande.
+ */
+export function applyFixedCharges(shares: MonthlyShare[], days: string[]): MonthlyShare[] {
+  const byYm = new Map(shares.map((s) => [s.yearMonth, { ...s }]));
+  for (const day of days) {
+    const fixed = fixedCostsCentsForDay(day);
+    if (fixed === 0) continue;
+    const ym = day.slice(0, 7);
+    const cur = byYm.get(ym) ?? { yearMonth: ym, netCents: 0, badrCents: 0, adnaneCents: 0 };
+    const badrPart = Math.round(fixed * badrFixedShareFor(day));
+    cur.netCents -= fixed;
+    cur.badrCents -= badrPart;
+    cur.adnaneCents -= fixed - badrPart; // solde exact : somme au centime
+    byYm.set(ym, cur);
+  }
+  return [...byYm.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
 }
 
 /**

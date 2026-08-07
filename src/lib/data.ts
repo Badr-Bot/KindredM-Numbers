@@ -12,6 +12,7 @@ import {
 import { cache as reactCache } from "react";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
+import { fixedCostsCentsForDay } from "./subscriptions";
 
 export type DataMode = "demo" | "live" | "unconfigured";
 
@@ -309,6 +310,10 @@ export interface TodayView {
   cards: TodayMarketCard[]; // GLOBAL en tête puis ES/UK/DE/FR
   pace: PaceReference;
   acquisition: AcquisitionToday | null;
+  /** Charges fixes du jour (abonnements/équipe, 08/08) — déjà déduites du
+   * net GLOBAL ci-dessus, exposées pour l'affichage. Les cartes marché et
+   * produit restent HORS charges (elles somment au global avant charges). */
+  fixedCostsCents: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -418,12 +423,20 @@ async function computePaceReference(today: string): Promise<PaceReference> {
   const from = addDaysToDay(today, -7);
   const rows = await fetchDailyRows(from, yesterday);
   const yRows = rows.filter((r) => r.day === yesterday);
-  const yesterdayNetCents = yRows.reduce((s, r) => s + r.netCents, 0);
+  const yesterdayNetCents = yRows.reduce((s, r) => s + r.netCents, 0) - fixedCostsCentsForDay(yesterday);
   const yesterdayCaCents = yRows.reduce((s, r) => s + r.caCents, 0);
   const dayCount = new Set(rows.map((r) => r.day)).size || 1;
-  const avg7NetCents = Math.round(rows.reduce((s, r) => s + r.netCents, 0) / dayCount);
+  const fixed7 = listParisDays(from, yesterday).reduce((s, d) => s + fixedCostsCentsForDay(d), 0);
+  const avg7NetCents = Math.round((rows.reduce((s, r) => s + r.netCents, 0) - fixed7) / dayCount);
   const avg7CaCents = Math.round(rows.reduce((s, r) => s + r.caCents, 0) / dayCount);
   return { yesterdayNetCents, yesterdayCaCents, avg7NetCents, avg7CaCents };
+}
+
+/** Déduit les charges fixes du jour du NET d'un totals GLOBAL (jamais les
+ * marchés : les charges sont transverses, les ventiler par pays serait
+ * arbitraire — même doctrine que le spend UNMAPPED). */
+function minusFixedCosts(t: Totals, day: string): Totals {
+  return { ...t, netCents: t.netCents - fixedCostsCentsForDay(day) };
 }
 
 function cardsFromTotals(
@@ -475,6 +488,7 @@ export async function getTodayView(): Promise<TodayView> {
       cards: cardsFromTotals(emptyPerMarket(), thresholds),
       pace,
       acquisition: null,
+      fixedCostsCents: 0,
     };
   }
 
@@ -487,9 +501,10 @@ export async function getTodayView(): Promise<TodayView> {
       day,
       fetchedAt: new Date().toISOString(),
       fromAggregates: false,
-      cards: cardsFromTotals(perMarket, thresholds, sumRows(rows)),
+      cards: cardsFromTotals(perMarket, thresholds, minusFixedCosts(sumRows(rows), day)),
       pace,
       acquisition: null,
+      fixedCostsCents: fixedCostsCentsForDay(day),
     };
   }
 
@@ -507,9 +522,10 @@ export async function getTodayView(): Promise<TodayView> {
     day,
     fetchedAt: new Date().toISOString(),
     fromAggregates: false,
-    cards: cardsFromTotals(perMarket, thresholds, sumRows(rows)),
+    cards: cardsFromTotals(perMarket, thresholds, minusFixedCosts(sumRows(rows), day)),
     pace,
     acquisition: await getTodayAcquisition(day),
+    fixedCostsCents: fixedCostsCentsForDay(day),
   };
 }
 
@@ -539,7 +555,9 @@ export async function getDayLines(
 
   let cumul = 0;
   return listParisDays(startDay, endDay).map((day) => {
-    const t: Totals = byDayMap.get(day) ?? { ...EMPTY_TOTALS };
+    let t: Totals = byDayMap.get(day) ?? { ...EMPTY_TOTALS };
+    // Charges fixes : GLOBAL uniquement (transverses, jamais par pays).
+    if (tab === "GLOBAL") t = minusFixedCosts(t, day);
     cumul += t.netCents;
     const m = deriveMetrics(t, thresholds);
     return {
@@ -600,7 +618,7 @@ export async function getTabDayData(
 ): Promise<Record<MarketTab, DayAgg[]>> {
   const rows = await fetchDailyRows(start, end);
   const result = {} as Record<MarketTab, DayAgg[]>;
-  result.GLOBAL = collapseByDay(rows);
+  result.GLOBAL = collapseByDay(rows).map((d) => ({ ...d, ...minusFixedCosts(d, d.day) }));
   for (const m of MARKETS) {
     result[m] = collapseByDay(rows.filter((r) => r.market === m));
   }

@@ -1,0 +1,124 @@
+// ---------------------------------------------------------------------------
+// CHARGES FIXES MENSUELLES (abonnements + équipe) — source : PDF d'Adnane
+// transmis par Badr le 08/08 (« Les abonnements.pdf »).
+//
+// Règles décidées par Badr (08/08) :
+//   • Déduites du NET global, réparties PAR JOUR (mensuel ÷ 30,44).
+//   • Partage associés : 100 % Adnane avant le 14/07, 50/50 à partir du
+//     14/07 INCLUS — règle « comme d'hab », appliquée jour par jour.
+//   • Affichées dans l'onglet Année : liste, coût par mois, par jour, par an.
+//
+// Conventions :
+//   • USD converti au taux fourni par Badr (1 € = 1,1539 $), FIGÉ ici — pas
+//     de taux flottant, pas de surprise. Montant € = source de vérité.
+//   • startDay = date de début de facturation. Faute de dates précises dans
+//     le PDF, DÉFAUT = début de l'activité (04/06) — approximation SIGNALÉE
+//     à Badr le 08/08, à affiner s'il donne les vraies dates.
+//   • endDay = null tant que l'abonnement court. Résilier un abonnement =
+//     poser endDay, JAMAIS supprimer la ligne (l'historique doit continuer
+//     de porter ce qui a été réellement payé).
+//
+// En attente de Badr (jamais inventé, 08/08) :
+//   • Jeremy / Seif « 1500 $ + % » : le fixe est compté, le % NON (assiette
+//     et taux inconnus).
+//   • Google Ads : spend VARIABLE, pas un abonnement — sera branché comme le
+//     spend Meta (dépense réelle par jour) quand Badr confirme le compte.
+//   • « Prorata emailing » : interprétation à préciser — Klaviyo compté
+//     plein tarif en attendant.
+//   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
+//     facturé, pas encore compté.
+//   • CWILL : les « frais d'utilisation » variables ne sont pas comptés
+//     (montant inconnu), seul l'abonnement l'est.
+// ---------------------------------------------------------------------------
+
+export const USD_TO_EUR = 1 / 1.1539;
+
+/** Jours moyens par mois (365,25 ÷ 12) — pour l'étalement quotidien. */
+export const DAYS_PER_MONTH = 30.44;
+
+export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT";
+
+export interface Subscription {
+  label: string;
+  category: SubscriptionCategory;
+  /** Montant mensuel dans la devise d'origine. Négatif = crédit. */
+  amount: number;
+  currency: "EUR" | "USD";
+  /** Premier jour facturé (YYYY-MM-DD, Paris). */
+  startDay: string;
+  /** Dernier jour facturé, null = en cours. */
+  endDay: string | null;
+  note?: string;
+}
+
+const START_DEFAULT = "2026-06-04"; // début d'activité — approximation signalée
+
+export const SUBSCRIPTIONS: Subscription[] = [
+  // Équipe (prestataires mensuels)
+  { label: "Jeremy (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission NON compté (taux/assiette inconnus — question posée à Badr 08/08)" },
+  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission NON compté (idem Jeremy)" },
+  { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // Apps Shopify (boutique FR)
+  { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "⚠️ Adnane : « URGENT à enlever » — compté tant qu'il n'est pas résilié (287 €/mois d'économie à la clé). Montant réel payé via Slash (249 $ affichés + taxes)." },
+  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
+  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  // Outils
+  { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 150, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "« Prorata » évoqué par Badr — plein tarif en attendant sa précision" },
+  { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Claude Badr (20 €) pas encore sur la CB → pas compté" },
+  { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // Crédit
+  { label: "Crédit d'abonnement (apps)", category: "CREDIT", amount: -88, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "« 88 € en crédit donc on ne les paie pas normalement » (Adnane)" },
+];
+
+export function monthlyEurCents(s: Subscription): number {
+  const eur = s.currency === "USD" ? s.amount * USD_TO_EUR : s.amount;
+  return Math.round(eur * 100);
+}
+
+/** Coût quotidien d'un abonnement, en centimes d'euro. */
+export function dailyEurCents(s: Subscription): number {
+  return Math.round(monthlyEurCents(s) / DAYS_PER_MONTH);
+}
+
+function isActiveOn(s: Subscription, day: string): boolean {
+  if (day < s.startDay) return false;
+  if (s.endDay && day > s.endDay) return false;
+  return true;
+}
+
+/** Charges fixes totales d'un jour donné (centimes d'euro). */
+export function fixedCostsCentsForDay(day: string): number {
+  let total = 0;
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) total += dailyEurCents(s);
+  return total;
+}
+
+/** Totaux courants (abonnements actifs aujourd'hui) pour l'affichage Année. */
+export function subscriptionTotals(day: string): {
+  monthlyCents: number;
+  dailyCents: number;
+  yearlyCents: number;
+} {
+  let monthly = 0;
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) monthly += monthlyEurCents(s);
+  return {
+    monthlyCents: monthly,
+    dailyCents: Math.round(monthly / DAYS_PER_MONTH),
+    yearlyCents: monthly * 12,
+  };
+}
+
+/**
+ * Part de Badr sur les charges fixes d'un jour : 0 avant le 14/07, 50 %
+ * ensuite (14/07 INCLUS) — règle « comme d'hab » de Badr (08/08). Adnane
+ * porte toujours le solde exact.
+ */
+export const CHARGES_SPLIT_START = "2026-07-14";
+export function badrFixedShareFor(day: string): number {
+  return day >= CHARGES_SPLIT_START ? 0.5 : 0;
+}

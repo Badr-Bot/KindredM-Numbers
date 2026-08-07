@@ -68,6 +68,12 @@
 - Produit testé SANS boutique Shopify branchée : CA/COGS saisis à la main (manualRevenue.ts, clé produit à ajouter dans TESTING_PRODUCT_KEYS d'analytics.ts).
 - **NIRA (test 05→07/08, Canada) : ARRÊTÉ le 07/08** — campagne active mise en pause via l'API Meta sur demande Badr, produit jugé non rentable (~508 € de spend, 110 € de CA, net ≈ −430 €). **Historique CONSERVÉ** : argent réellement dépensé, l'effacer aurait gonflé le bénéfice — la carte Testing s'efface seule les jours sans spend ni vente. Le mot-clé NIRA reste dans TESTING_CAMPAIGN_KEYWORDS et le mapping NIRA→CA reste en place pour l'historique.
 
+## Charges fixes mensuelles (08/08, PDF Adnane)
+- Liste dans `subscriptions.ts` (source unique) : équipe (Jeremy/Seif 1500 $ fixes chacun + Monteur 650 $ + Marwa 300 €), apps Shopify (SmartSize 287,49 € « URGENT à enlever » — compté tant que non résilié, CWILL, Moon Bundles), outils (WeTracked, Klaviyo, Higgsfield ×2, Eleven ×2, Claude Adnane, Vmake, Workspace), crédit −88 €. Total ≈ 4 225 €/mois ≈ 139 €/jour ≈ 50 700 €/an. USD au taux figé 1,1539.
+- **Déduites du NET GLOBAL uniquement**, étalées par jour (mensuel ÷ 30,44), depuis le 04/06 (dates de début réelles inconnues — approximation signalée). Cartes pays et produit HORS charges (elles somment au global avant charges) — affiché explicitement dans le Live.
+- **Partage charges : 100 % Adnane avant le 14/07, 50/50 dès le 14/07 inclus** (règle Badr, distincte du partage par boutique) — appliqué jour par jour, tous les jours calendaires (un abonnement se paie aussi les jours sans vente).
+- En attente Badr : % de commission Jeremy/Seif (fixe seul compté) · Google Ads = spend variable à brancher en réel (jamais un forfait) · précision « prorata emailing » (Klaviyo plein tarif en attendant) · Claude Badr 20 € pas encore sur CB → pas compté · vraies dates de début des abonnements.
+
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
 - Le moteur mappe par **titre EXACT** (products_map) : tout renommage Shopify sort les ventes du comptage tant que le nouveau titre n'est pas chargé. Réflexe à avoir à CHAQUE renommage : ajouter la ligne dans products_map + bumper `REQUIRED_FULL_RESYNC_VERSION`.

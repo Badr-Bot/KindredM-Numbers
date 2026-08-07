@@ -15,11 +15,20 @@ import {
 } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import {
+  applyFixedCharges,
   badrShareFor,
   fillYearMonths,
   monthlySharesFrom,
   type DailyNetByMarket,
 } from "@/lib/associates";
+import { listParisDays } from "@/lib/time";
+import {
+  badrFixedShareFor,
+  fixedCostsCentsForDay,
+  monthlyEurCents,
+  SUBSCRIPTIONS,
+  subscriptionTotals,
+} from "@/lib/subscriptions";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
@@ -57,6 +66,7 @@ export function YearBoard({
   const [year, setYear] = useState<string>(years[years.length - 1] ?? "");
 
   const rows = dayData[tab];
+  const historyEnd = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), historyStart);
 
   // 🏁 Depuis le début : totaux par marché toutes périodes confondues —
   // « combien chaque pays a rapporté depuis le lancement » en un écran.
@@ -89,6 +99,19 @@ export function YearBoard({
         }
       }
     }
+    // Charges fixes (08/08) : transverses — 100 % Adnane avant le 14/07,
+    // 50/50 ensuite, sur TOUS les jours calendaires (un abonnement se paie
+    // aussi les jours sans vente). Même règle que les cartes mensuelles.
+    const lastDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
+    if (lastDay) {
+      for (const day of listParisDays("2026-06-04", lastDay)) {
+        const fixed = fixedCostsCentsForDay(day);
+        if (!fixed) continue;
+        const bp = fixed * badrFixedShareFor(day);
+        badr -= bp;
+        adnane -= fixed - bp;
+      }
+    }
     return {
       adnane: Math.round(adnane),
       badr: Math.round(badr),
@@ -107,13 +130,15 @@ export function YearBoard({
     for (const m of MARKETS) {
       for (const r of dayData[m]) flat.push({ day: r.day, market: m, netCents: r.netCents });
     }
-    // Bornes : jamais avant le lancement, jamais après le dernier jour connu
-    // des données (et non l'horloge du navigateur, qui peut être décalée).
-    // Badr veut les 12 mois affichés (06/08) : le problème n'était pas les
-    // mois vides mais la mise en page — carte trop étroite et moitié droite
-    // inutilisée. Aucune borne, donc.
-    return fillYearMonths(year, monthlySharesFrom(flat));
-  }, [dayData, year]);
+    // Badr veut les 12 mois affichés (06/08) — aucune borne. Charges fixes
+    // (08/08) appliquées jour par jour sur TOUS les jours calendaires (un
+    // abonnement se paie aussi les jours sans vente) : 100 % Adnane avant le
+    // 14/07, 50/50 ensuite.
+    const withCharges = historyEnd > historyStart
+      ? applyFixedCharges(monthlySharesFrom(flat), listParisDays(historyStart, historyEnd))
+      : monthlySharesFrom(flat);
+    return fillYearMonths(year, withCharges);
+  }, [dayData, year, historyStart, historyEnd]);
 
   const { monthRows, annual } = useMemo(() => {
     const byMonth = new Map<string, Totals>();
@@ -261,6 +286,63 @@ export function YearBoard({
           </p>
         </section>
       </div>
+
+      {/* 💳 Abonnements & charges fixes (source : PDF Adnane, 08/08) */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-1 text-sm font-semibold">💳 Abonnements & charges fixes</div>
+        {(() => {
+          const t = subscriptionTotals(historyEnd);
+          return (
+            <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.monthlyCents)}</b> / mois</span>
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.dailyCents)}</b> / jour</span>
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.yearlyCents)}</b> / an</span>
+            </div>
+          );
+        })()}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[420px] text-left text-xs">
+            <thead>
+              <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
+                <th className="py-1 pr-2">Poste</th>
+                <th className="py-1 pr-2">Type</th>
+                <th className="py-1 pr-2 text-right">€ / mois</th>
+                <th className="py-1 pr-2 text-right">€ / jour</th>
+                <th className="py-1 text-right">€ / an</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...SUBSCRIPTIONS]
+                .sort((a, b) => monthlyEurCents(b) - monthlyEurCents(a))
+                .map((sub) => {
+                  const m = monthlyEurCents(sub);
+                  const alerte = sub.note?.includes("URGENT");
+                  return (
+                    <tr key={sub.label} className="border-b border-hair/50">
+                      <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
+                        {sub.label}
+                        {alerte && " ⚠️"}
+                      </td>
+                      <td className="py-1 pr-2 text-ink-faint">
+                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit" }[sub.category]}
+                      </td>
+                      <td className={`tnum py-1 pr-2 text-right ${m < 0 ? "text-phosphor" : ""}`}>{formatEurSigned0(m).replace("+", "")}</td>
+                      <td className="tnum py-1 pr-2 text-right text-ink-faint">{(m / 3044).toFixed(2).replace(".", ",")}</td>
+                      <td className="tnum py-1 text-right text-ink-faint">{formatEurSigned0(m * 12).replace("+", "")}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
+          Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
+          les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
+          avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
+          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, % de commission
+          en attente. Google Ads : spend variable, sera branché en réel (pas un forfait).
+        </p>
+      </section>
 
       <MarketTabs active={tab} onChange={setTab} />
 

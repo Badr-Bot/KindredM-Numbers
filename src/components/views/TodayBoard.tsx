@@ -63,6 +63,13 @@ export function TodayBoard({
 
   return (
     <div className="flex flex-col gap-4">
+      {view.fixedCostsCents > 0 && (
+        <p className="mb-2 text-[10.5px] text-ink-faint">
+          💳 Charges fixes du jour (abonnements/équipe) déjà déduites du net global :{" "}
+          <b className="tnum">−{(view.fixedCostsCents / 100).toFixed(2).replace(".", ",")} €</b>
+          {" "}· détail dans l&apos;onglet Année. Cartes pays/produit hors charges.
+        </p>
+      )}
       {unmappedSpendCents > 0 && (
         <a
           href="/controle"
