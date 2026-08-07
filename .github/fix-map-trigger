@@ -1,3 +1,3 @@
-Diagnostic 07/08 : lire les lignes daily_aggregates du jour — le net FR
-affiche ~-168 EUR la ou le recalcul manuel des 6 memes commandes donne ~-26.
-Identifier le poste gonfle (COGS ? taxe ? frais ? spend ?).
+Verif du fix devise (07/08) : apres re-scan J-2, la ligne FR du 07/08 doit
+retomber a ~48 EUR de frais (etait 190 EUR : frais TH/CA comptes comme EUR).
+Le dump day-aggregates du step 4bis fait foi.
