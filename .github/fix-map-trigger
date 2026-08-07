@@ -1,4 +1,4 @@
-Relance IMMEDIATE 06/08 (~18h50) apres le fix du garde-fou EBOOK (1ac546e) :
- - reingerer les commandes FR/ES sautees ("FR ignore" TypeError)
- - verdict migration 0012 (Canada) apres confirmation Badr
- - verdict migration 0013 (frais reels) — deja OK au passage precedent
+Verification 07/08 matin : Badr voit "100 EUR de spend non classe" (campagne
+NIRA du 07/08) alors que la 0012 est censee etre passee, et les seuils
+restent a 1,60 (resync v9 des frais pas visible). Lire les warnings du
+passage de synchro pour verdict definitif 0012 + 0013.
