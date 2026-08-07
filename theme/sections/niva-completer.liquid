@@ -1,0 +1,223 @@
+{% render 'niva-tokens' %}
+{%- comment -%}
+  NIVA — « Compléter la tenue ». Ajout au panier SUR PLACE.
+
+  Difference avec la section Selection : celle-la envoie vers la fiche produit,
+  donc elle fait SORTIR le client d'un achat en cours. Ici on ajoute sans
+  quitter la page — c'est la seule version qui fasse monter le panier moyen.
+
+  A poser APRES le bouton d'achat, jamais avant : avant, elle concurrence la
+  decision sur la piece principale et disperse.
+
+  Deux ou trois pieces au maximum. Au-dela, ce n'est plus une suggestion,
+  c'est un catalogue, et le client ne choisit plus rien.
+{%- endcomment -%}
+
+{%- assign pieces = section.settings.pieces -%}
+{%- if pieces != blank and pieces.size > 0 -%}
+<div class="nvc" style="background:{{ section.settings.bg }}">
+  <div class="nvc__inner">
+    {% if section.settings.kicker != blank %}<div class="nvc__kicker">{{ section.settings.kicker }}</div>{% endif %}
+    {% if section.settings.titre != blank %}<h2 class="nvc__titre">{{ section.settings.titre }}</h2>{% endif %}
+
+    <div class="nvc__liste">
+      {%- for p in pieces limit: section.settings.nombre -%}
+        {%- if p.available -%}
+        <div class="nvc__carte" data-nvc-carte>
+
+          <div class="nvc__vis">
+            {%- if p.featured_media -%}
+              <img src="{{ p.featured_media | image_url: width: 300 }}"
+                   srcset="{{ p.featured_media | image_url: width: 200 }} 200w, {{ p.featured_media | image_url: width: 400 }} 400w"
+                   sizes="120px" width="{{ p.featured_media.width }}" height="{{ p.featured_media.height }}"
+                   alt="{{ p.featured_media.alt | default: p.title | escape }}" loading="lazy" decoding="async">
+            {%- endif -%}
+          </div>
+
+          <div class="nvc__corps">
+            <a class="nvc__nom" href="{{ p.url }}">{{ p.title }}</a>
+            <div class="nvc__prix" data-nvc-prix>{{ p.price | money }}</div>
+
+            {%- comment -%}
+              Un menu par option. Le variant est resolu en JS a partir de la
+              combinaison choisie : c'est ce qui permet d'ajouter sans quitter
+              la page, meme pour une piece a 54 declinaisons.
+            {%- endcomment -%}
+            {%- unless p.has_only_default_variant -%}
+              <div class="nvc__opts">
+                {%- for opt in p.options_with_values -%}
+                  <label class="nvc__opt">
+                    <span>{{ opt.name }}</span>
+                    <select data-nvc-opt="{{ forloop.index0 }}">
+                      {%- for v in opt.values -%}<option value="{{ v | escape }}">{{ v }}</option>{%- endfor -%}
+                    </select>
+                  </label>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+            <button class="nvc__btn" type="button" data-nvc-add>{{ section.settings.bouton }}</button>
+            <div class="nvc__etat" data-nvc-etat hidden></div>
+          </div>
+
+          <script type="application/json" data-nvc-variants>
+            [{%- for v in p.variants -%}
+              {"id":{{ v.id }},"o":{{ v.options | json }},"p":{{ v.price }},"d":{{ v.available }}}
+              {%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}]
+          </script>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var section = document.currentScript.closest('.shopify-section') || document;
+
+  function argent(centimes){
+    try { return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'{{ shop.currency }}'}).format(centimes/100); }
+    catch(e){ return (centimes/100).toFixed(2) + ' €'; }
+  }
+
+  section.querySelectorAll('[data-nvc-carte]').forEach(function(carte){
+    var variants;
+    try { variants = JSON.parse(carte.querySelector('[data-nvc-variants]').textContent); }
+    catch(e){ return; }
+    if(!variants.length) return;
+
+    var selects = Array.prototype.slice.call(carte.querySelectorAll('[data-nvc-opt]'));
+    var bouton  = carte.querySelector('[data-nvc-add]');
+    var prix    = carte.querySelector('[data-nvc-prix]');
+    var etat    = carte.querySelector('[data-nvc-etat]');
+    var libelle = bouton.textContent;
+
+    function courant(){
+      if(!selects.length) return variants[0];
+      var choix = selects.map(function(s){ return s.value; });
+      for (var i = 0; i < variants.length; i++){
+        var ok = true;
+        for (var j = 0; j < choix.length; j++){ if(variants[i].o[j] !== choix[j]){ ok = false; break; } }
+        if(ok) return variants[i];
+      }
+      return null;
+    }
+
+    function rafraichir(){
+      var v = courant();
+      if(!v){ bouton.disabled = true; bouton.textContent = 'Indisponible'; return; }
+      prix.textContent = argent(v.p);
+      bouton.disabled = !v.d;
+      bouton.textContent = v.d ? libelle : 'Épuisé';
+    }
+    selects.forEach(function(s){ s.addEventListener('change', rafraichir); });
+    rafraichir();
+
+    bouton.addEventListener('click', function(){
+      var v = courant();
+      if(!v || !v.d) return;
+      bouton.disabled = true;
+      bouton.textContent = 'Ajout…';
+
+      fetch('/cart/add.js', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/javascript'},
+        body: JSON.stringify({
+          items:[{id: v.id, quantity: 1}],
+          sections: 'cart-drawer,cart-icon-bubble',
+          sections_url: window.location.pathname
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if(res.status){ throw new Error(res.description || res.message); }
+
+        /* On rafraichit le panier du theme, sans recharger la page. */
+        var tiroir = document.querySelector('cart-drawer');
+        if(tiroir && typeof tiroir.renderContents === 'function'){
+          tiroir.renderContents(res);
+        } else if(res.sections){
+          var bulle = document.getElementById('cart-icon-bubble');
+          if(bulle && res.sections['cart-icon-bubble']){
+            var tmp = document.createElement('div');
+            tmp.innerHTML = res.sections['cart-icon-bubble'];
+            var neuf = tmp.querySelector('#cart-icon-bubble');
+            if(neuf) bulle.innerHTML = neuf.innerHTML;
+          }
+        }
+
+        bouton.textContent = 'Ajouté';
+        etat.hidden = false;
+        etat.textContent = 'Ajouté au panier.';
+        setTimeout(function(){
+          bouton.textContent = libelle;
+          bouton.disabled = false;
+          etat.hidden = true;
+        }, 2600);
+      })
+      .catch(function(err){
+        bouton.textContent = libelle;
+        bouton.disabled = false;
+        etat.hidden = false;
+        etat.textContent = 'Ajout impossible. Réessayez.';
+      });
+    });
+  });
+})();
+</script>
+
+<style>
+  .nvc{padding:28px 18px;}
+  .nvc__inner{max-width:760px;margin:0 auto;}
+  .nvc__kicker{font-family:var(--nv-mono)!important;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--nv-t3);}
+  .nvc__titre{font-family:var(--nv-titre)!important;font-weight:300;font-size:22px;line-height:1.25;color:var(--nv-noir);margin:8px 0 18px;}
+  .nvc__liste{display:flex;flex-direction:column;gap:12px;}
+  .nvc__carte{display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:start;
+    background:var(--nv-ivoire);border:1px solid var(--nv-filet);padding:12px;}
+  .nvc__vis{border:1px solid var(--nv-filet);background:var(--nv-sable-pale);overflow:hidden;
+    position:relative;padding-top:118%;}
+  .nvc__vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block;}
+  .nvc__nom{display:block;font-family:var(--nv-titre)!important;font-weight:300;font-size:15px;line-height:1.3;
+    color:var(--nv-noir);text-decoration:none;}
+  .nvc__prix{font-family:var(--nv-sans);font-size:13px;color:var(--nv-t2);margin-top:4px;}
+  .nvc__opts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .nvc__opt{flex:1 1 110px;min-width:0;font-family:var(--nv-mono)!important;font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--nv-t3);}
+  .nvc__opt select{display:block;width:100%;margin-top:4px;padding:8px 26px 8px 9px;border:1px solid var(--nv-filet-fort);
+    background:#fff url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23151515' fill='none' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 9px center/9px;
+    border-radius:0;-webkit-appearance:none;appearance:none;
+    font-family:var(--nv-sans);font-size:12.5px;color:var(--nv-noir);text-transform:none;letter-spacing:0;}
+  .nvc__opt select:focus{outline:none;border-color:var(--nv-noir);}
+  .nvc__btn{width:100%;margin-top:12px;min-height:44px;background:var(--nv-noir);color:var(--nv-ivoire);border:0;
+    border-radius:0;cursor:pointer;font-family:var(--nv-mono)!important;font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+  .nvc__btn:hover{background:var(--nv-noir-survol);}
+  .nvc__btn[disabled]{background:var(--nv-gris-sable);cursor:default;}
+  .nvc__etat{font-family:var(--nv-mono)!important;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--nv-t2);margin-top:8px;text-align:center;}
+  @media (min-width:750px){
+    .nvc{padding:40px 24px;}
+    .nvc__titre{font-size:26px;}
+    .nvc__carte{grid-template-columns:124px 1fr;gap:18px;padding:14px;}
+    .nvc__nom{font-size:17px;}
+    .nvc__btn{width:auto;min-width:200px;padding:0 24px;}
+    .nvc__etat{text-align:left;}
+  }
+</style>
+{%- endif -%}
+{% schema %}
+{
+  "name": "NIVA · Compléter",
+  "settings": [
+    {"type":"paragraph","content":"À poser APRÈS le bouton d'achat. Le client ajoute la pièce sans quitter la page — c'est ce qui fait monter le panier moyen. Deux ou trois pièces au maximum."},
+    {"type":"text","id":"kicker","label":"Sur-titre","default":"POUR ALLER AVEC"},
+    {"type":"text","id":"titre","label":"Titre","default":"Compléter la tenue."},
+    {"type":"product_list","id":"pieces","label":"Pièces proposées","limit":4},
+    {"type":"range","id":"nombre","label":"Nombre affiché","min":1,"max":4,"step":1,"default":2},
+    {"type":"text","id":"bouton","label":"Texte du bouton","default":"Ajouter au panier"},
+    {"type":"color","id":"bg","label":"Fond","default":"#F7F3EB"}
+  ],
+  "presets": [{"name":"NIVA · Compléter"}]
+}
+{% endschema %}

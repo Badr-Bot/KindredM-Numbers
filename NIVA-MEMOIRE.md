@@ -524,3 +524,31 @@ des champs `text`/`number`. **Ne jamais utiliser de `step` décimal dans un sch�
   est vide (nouvelle session).
 - Un template produit JSON commence par un commentaire `/* ... */` :
   il faut le retirer avant `json.loads` et le remettre avant l'envoi.
+
+## 6 decies. Étoiles sous le titre + « Compléter la tenue » (07/08, V4)
+
+Arbitrage de Badr après analyse de la fiche True Classic :
+- **NON** au déplacement du bundle dans le configurateur (leur vrai levier d'AOV :
+  chez eux la quantité est une variante au même rang que la taille, pré-réglée sur
+  le 6-Pack ; le prix unitaire `21,66 €/item` sert de cadre mental). Refusé.
+- **NON** aux titres d'offres avec prix unitaire. Refusé.
+- **OUI** aux étoiles sous le titre, renvoyant vers ses avis — « c'est pas grave
+  s'il y a que 35 ».
+- **OUI** au « Compléter la tenue » après le bouton d'achat.
+- **Compte à rebours conservé** : décision assumée, ne plus y revenir.
+
+`custom_liquid_etoiles` (polo, note 4,8) / `nv_etoiles` (gilet, 4,7) insérés juste
+après `title`. **Le nombre d'avis n'est pas écrit en dur** : il est compté en JS
+sur `.nvs-rev__card` réellement présentes. Il ne peut donc ni mentir ni se périmer.
+Clic → défilement doux vers `.nvs-rev`.
+
+`sections/niva-completer.liquid` (10 375 o) : ajout au panier **sur place**, via
+`/cart/add.js` avec `sections: cart-drawer,cart-icon-bubble` puis
+`cartDrawer.renderContents(res)` — le client ne quitte jamais la page. Un menu par
+option, variante résolue en JS (marche même à 54 déclinaisons). Posée juste après
+`main` sur les deux fiches : polo → Gilet + Pantalon ; gilet → Polo + Pantalon.
+Différence avec `niva-selection` : celle-ci envoie vers la fiche produit (elle fait
+sortir d'un achat en cours), celle-là ajoute. Les deux coexistent, à arbitrer.
+
+Vérifié sur V4 : polo 16 sections / 20 blocs, gilet 22 / 17, avis 6 et 35 intacts,
+UGC 3 et 3 intacts.
