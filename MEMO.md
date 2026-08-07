@@ -57,6 +57,12 @@
 - Mécanique : `isExcludedCampaign()` dans `meta.ts`, filtre par NOM (couvre les futures « CBO 2 - NIRA … »). Appliqué dans `aggregate.ts` (net), `analytics.ts` (insights + créas), `journal.ts` (événements).
 - **À l'ajout du CA NIRA** : retirer "NIRA" de `EXCLUDED_CAMPAIGN_KEYWORDS` et rebumper `REQUIRED_RECOMPUTE_VERSION`. Badr veut réintégrer **CA + spend ENSEMBLE**, jamais l'un sans l'autre.
 
+## Frais Shopify réels (06-07/08)
+- **Plus aucun taux estimé** : frais LUS par commande via GraphQL (`transactions.fees[]`, shopifyFees.ts). Mesuré : ~6,5 % du CA (traitement 2,70-4,99 % selon carte + change 1,5-3 % car LLC US) + 1 % « autres » conservé. L'ancien 3 % cachait ~4 000 €/mois de coûts.
+- **PIÈGE DEVISE (07/08, ~140 €/j de frais fantômes)** : sur une commande payée en devise étrangère (TH/CA/...), `fees[].amount` arrive dans la devise de la TRANSACTION, pas en devise boutique — 100 THB comptés 100 €. Conversion par ratio shopMoney÷presentmentMoney de la transaction. Tout échantillon de validation doit inclure des commandes NON-EUR.
+- Frais réels écrits sur J-2→J à chaque synchro (fenêtre courte : la lecture paginée dans le chemin critique gelait le CA, vu le 06/08). Jours plus anciens : repli 3 % par commande tant que non re-scannés.
+- **Sonde de diagnostic** : `GET /api/admin/day-aggregates?day=YYYY-MM-DD` (read-only) — lignes brutes + contrôle d'identité net=CA−spend−COGS−taxe−frais. Appelée par le workflow fix-products-map (step 4bis). C'est elle qui a trouvé le piège devise. En cas de « chiffres bizarres » : la lire AVANT de spéculer.
+
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
 - Le moteur mappe par **titre EXACT** (products_map) : tout renommage Shopify sort les ventes du comptage tant que le nouveau titre n'est pas chargé. Réflexe à avoir à CHAQUE renommage : ajouter la ligne dans products_map + bumper `REQUIRED_FULL_RESYNC_VERSION`.
