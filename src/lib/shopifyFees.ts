@@ -38,13 +38,18 @@ export interface FeesFetchResult {
   sawRefundFees: boolean;
 }
 
+interface GqlMoney {
+  amount: string;
+  currencyCode: string;
+}
 interface GqlFee {
   type: string | null;
-  amount: { amount: string } | null;
+  amount: (GqlMoney & { currencyCode?: string }) | null;
 }
 interface GqlTransaction {
   kind: string | null;
   status: string | null;
+  amountSet: { shopMoney: GqlMoney | null; presentmentMoney: GqlMoney | null } | null;
   fees: GqlFee[] | null;
 }
 interface GqlOrderNode {
@@ -57,7 +62,14 @@ const QUERY = `query Fees($query: String!, $cursor: String) {
     pageInfo { hasNextPage endCursor }
     edges { node {
       legacyResourceId
-      transactions(first: 10) { kind status fees { type amount { amount } } }
+      transactions(first: 10) {
+        kind status
+        amountSet {
+          shopMoney { amount currencyCode }
+          presentmentMoney { amount currencyCode }
+        }
+        fees { type amount { amount currencyCode } }
+      }
     } }
   }
 }`;
@@ -124,12 +136,37 @@ export async function fetchOrderFees(
     if (!orders) break;
 
     for (const { node } of orders.edges) {
-      const acc = byOrderId.get(node.legacyResourceId) ?? emptyFees();
+      // Valeur FRAÎCHE à chaque rencontre (jamais accumulée sur l'existant) :
+      // si la pagination livre deux fois la même commande — pages décalées par
+      // une commande arrivée pendant la lecture, même instabilité que le bug
+      // du 20/07 — accumuler doublerait ses frais en silence.
+      const acc = emptyFees();
       for (const t of node.transactions ?? []) {
         if (t.status !== "SUCCESS") continue; // règle 1
         const isRefund = t.kind === "REFUND";
+        // PIÈGE DEVISE (trouvé le 07/08, ~140 €/jour de frais fantômes) : sur
+        // une commande payée dans une devise étrangère (client TH/CA/…),
+        // `fees[].amount` est renvoyé dans la DEVISE DE LA TRANSACTION, pas en
+        // devise boutique — 100 THB de frais (~2,60 €) étaient comptés 100 €.
+        // L'échantillon de validation initial (50 commandes) était 100 % EUR,
+        // le piège y était invisible. Conversion via le ratio de la
+        // transaction elle-même (shopMoney ÷ presentmentMoney) : exact, aucun
+        // taux externe. Ratio indisponible → frais IGNORÉ + à défaut le
+        // repli 3 % s'applique, jamais un montant dans la mauvaise devise.
+        const shopCur = t.amountSet?.shopMoney?.currencyCode;
+        const presAmt = Number(t.amountSet?.presentmentMoney?.amount ?? "");
+        const shopAmt = Number(t.amountSet?.shopMoney?.amount ?? "");
+        const fxRatio =
+          Number.isFinite(presAmt) && presAmt > 0 && Number.isFinite(shopAmt) && shopAmt > 0
+            ? shopAmt / presAmt
+            : null;
         for (const f of t.fees ?? []) {
-          const cents = toCents(f.amount?.amount);
+          const feeCur = f.amount?.currencyCode;
+          let cents = toCents(f.amount?.amount);
+          if (cents !== 0 && feeCur && shopCur && feeCur !== shopCur) {
+            if (fxRatio === null) continue; // pas de ratio fiable → repli 3 %
+            cents = Math.round(cents * fxRatio);
+          }
           if (cents === 0) continue;
           if (isRefund) {
             acc.refundFeeCents += cents;
