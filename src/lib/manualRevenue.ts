@@ -113,6 +113,24 @@ const SEED_ENTRIES: ManualRevenueEntry[] = [
     note: "Seed embarqué (file GitHub en panne le 06/08)",
     savedAt: "2026-08-06T17:00:00.000Z",
   },
+  {
+    day: "2026-08-07",
+    market: "CA",
+    productKey: "NIRA_BURN",
+    currency: "USD",
+    caCents: 11874, // vente annoncée par Badr le 07/08 après-midi
+    // COGS NON communiqué pour cette vente — 0 assumé et SIGNALÉ (jamais
+    // inventé). Le net NIRA du 07/08 est optimiste d'environ ce COGS (~34 $
+    // si le ratio des ventes précédentes se répète). À compléter dès que
+    // Badr le donne.
+    cogsCents: 0,
+    rateToEur: 0.8666262241,
+    caEurCents: 10290,
+    cogsEurCents: 0,
+    orders: 1,
+    note: "Vente 118,74 $ du 07/08 (Badr). COGS à compléter.",
+    savedAt: "2026-08-07T21:10:00.000Z",
+  },
 ];
 
 export async function readManualRevenue(supabase: SupabaseClient): Promise<ManualRevenueEntry[]> {
