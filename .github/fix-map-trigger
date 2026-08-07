@@ -1,3 +1,5 @@
-Verif du fix devise (07/08) : apres re-scan J-2, la ligne FR du 07/08 doit
-retomber a ~48 EUR de frais (etait 190 EUR : frais TH/CA comptes comme EUR).
-Le dump day-aggregates du step 4bis fait foi.
+Verification 07/08 (~08h20) : Badr vient de coller la migration 0012 (marche
+Canada). Preuves attendues :
+ - AUCUN avertissement "Marche Canada pas encore autorise"
+ - une ligne market=CA dans le dump day-aggregates du jour, portant le spend
+   NIRA (~105 EUR) qui etait parque en UNMAPPED
