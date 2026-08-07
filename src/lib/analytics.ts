@@ -366,9 +366,20 @@ export interface ProductSplitCard {
 
 /** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
 const GILET_CAMPAIGN_KEYWORD = "LANCASTER";
-/** Mot-clé identifiant les campagnes NIRA (marché canadien) et sa clé produit. */
-const NIRA_CAMPAIGN_KEYWORD = "NIRA";
-const NIRA_PRODUCT_KEY = "NIRA_BURN";
+// ---------------------------------------------------------------------------
+// PRODUITS EN TEST (convention Badr, 07/08) — « on met un truc spécifique dans
+// les campagnes et tu le mets à part ». Toute campagne dont le nom contient un
+// de ces mots-clés est un TEST PRODUIT : son spend sort du calcul Polo/Gilet
+// et atterrit dans la carte 🧪 Testing, avec le CA saisi à la main
+// (manualRevenue) si le produit n'a pas de boutique Shopify branchée.
+// Mot-clé convenu pour les prochains tests : « PRODTEST » dans le nom de
+// campagne — rien d'autre à faire, la carte se crée seule. (« TESTING » seul
+// est inutilisable : toutes les campagnes du compte le portent déjà.)
+// NIRA reste listé pour l'HISTORIQUE (test du 05-07/08, campagnes coupées) :
+// l'argent dépensé était réel, il reste dans les livres.
+const TESTING_CAMPAIGN_KEYWORDS = ["NIRA", "PRODTEST"];
+/** Clés produit (manualRevenue/products.ts) rattachées à la carte Testing. */
+const TESTING_PRODUCT_KEYS = new Set(["NIRA_BURN"]);
 
 interface RawOrderForSplit {
   total_cents: number;
@@ -455,7 +466,7 @@ export async function getProductSplitForDay(
   // campagnes dont le nom contient NIRA. Mesuré comme le Gilet, puis retiré du
   // Polo pour que les 3 cartes somment exactement au Global.
   const niraEntries = (await readManualRevenue(supabase)).filter(
-    (e) => e.day === day && e.productKey === NIRA_PRODUCT_KEY
+    (e) => e.day === day && TESTING_PRODUCT_KEYS.has(e.productKey)
   );
   const nira = emptyBucket();
   for (const e of niraEntries) {
@@ -465,9 +476,12 @@ export async function getProductSplitForDay(
   }
 
   const spend = spendError ? [] : (spendRows ?? []);
-  const spendByKeyword = (kw: string) =>
+  const spendByKeywords = (kws: string[]) =>
     spend
-      .filter((r) => ((r.campaign_name as string) ?? "").toUpperCase().includes(kw))
+      .filter((r) => {
+        const name = ((r.campaign_name as string) ?? "").toUpperCase();
+        return kws.some((k) => name.includes(k));
+      })
       .reduce((s, r) => s + (r.spend_cents as number), 0);
 
   // Chaque composant est clampé au Global, puis le POLO absorbe le reste :
@@ -485,7 +499,7 @@ export async function getProductSplitForDay(
   const ca = split(gilet.caCents, nira.caCents, global.caCents);
   const cogs = split(gilet.cogsCents, nira.cogsCents, global.cogsCents);
   const tax = split(gilet.taxCents, 0, global.taxCents);
-  const sp = split(spendByKeyword(GILET_CAMPAIGN_KEYWORD), spendByKeyword(NIRA_CAMPAIGN_KEYWORD), global.spendCents);
+  const sp = split(spendByKeywords([GILET_CAMPAIGN_KEYWORD]), spendByKeywords(TESTING_CAMPAIGN_KEYWORDS), global.spendCents);
   // Frais : dérivés du CA de chaque bloc puis solde au Polo — jamais
   // feesCentsForCa(poloCaCents) séparément (deux arrondis indépendants ne
   // sommeraient pas forcément au frais Global).
@@ -500,7 +514,7 @@ export async function getProductSplitForDay(
   // lancement.
   if (ca.n > 0 || sp.n > 0) {
     cards.push(
-      toCard("NIRA_BURN", "NIRA Burn", "🔥", { orders: o.n, caCents: ca.n, cogsCents: cogs.n, taxCents: tax.n }, sp.n, fees.n)
+      toCard("TESTING", "Testing", "🧪", { orders: o.n, caCents: ca.n, cogsCents: cogs.n, taxCents: tax.n }, sp.n, fees.n)
     );
   }
   return cards;

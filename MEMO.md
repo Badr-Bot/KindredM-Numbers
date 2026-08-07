@@ -63,6 +63,11 @@
 - Frais réels écrits sur J-2→J à chaque synchro (fenêtre courte : la lecture paginée dans le chemin critique gelait le CA, vu le 06/08). Jours plus anciens : repli 3 % par commande tant que non re-scannés.
 - **Sonde de diagnostic** : `GET /api/admin/day-aggregates?day=YYYY-MM-DD` (read-only) — lignes brutes + contrôle d'identité net=CA−spend−COGS−taxe−frais. Appelée par le workflow fix-products-map (step 4bis). C'est elle qui a trouvé le piège devise. En cas de « chiffres bizarres » : la lire AVANT de spéculer.
 
+## Produits en TEST (convention Badr, 07/08)
+- **Mot-clé « PRODTEST » dans le nom de campagne** = produit en test → son spend sort automatiquement du calcul Polo/Gilet et atterrit dans la carte **🧪 Testing** de l'onglet Aujourd'hui. Rien d'autre à faire côté Badr. (« TESTING » seul est inutilisable comme marqueur : toutes les campagnes du compte le portent déjà.)
+- Produit testé SANS boutique Shopify branchée : CA/COGS saisis à la main (manualRevenue.ts, clé produit à ajouter dans TESTING_PRODUCT_KEYS d'analytics.ts).
+- **NIRA (test 05→07/08, Canada) : ARRÊTÉ le 07/08** — campagne active mise en pause via l'API Meta sur demande Badr, produit jugé non rentable (~508 € de spend, 110 € de CA, net ≈ −430 €). **Historique CONSERVÉ** : argent réellement dépensé, l'effacer aurait gonflé le bénéfice — la carte Testing s'efface seule les jours sans spend ni vente. Le mot-clé NIRA reste dans TESTING_CAMPAIGN_KEYWORDS et le mapping NIRA→CA reste en place pour l'historique.
+
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
 - Le moteur mappe par **titre EXACT** (products_map) : tout renommage Shopify sort les ventes du comptage tant que le nouveau titre n'est pas chargé. Réflexe à avoir à CHAQUE renommage : ajouter la ligne dans products_map + bumper `REQUIRED_FULL_RESYNC_VERSION`.
