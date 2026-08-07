@@ -18,13 +18,14 @@
 //     poser endDay, JAMAIS supprimer la ligne (l'historique doit continuer
 //     de porter ce qui a été réellement payé).
 //
-// En attente de Badr (jamais inventé, 08/08) :
-//   • Jeremy / Seif « 1500 $ + % » : le fixe est compté, le % NON (assiette
-//     et taux inconnus).
-//   • Google Ads : spend VARIABLE, pas un abonnement — sera branché comme le
-//     spend Meta (dépense réelle par jour) quand Badr confirme le compte.
-//   • « Prorata emailing » : interprétation à préciser — Klaviyo compté
-//     plein tarif en attendant.
+// Réponses de Badr (08/08 au soir) :
+//   • Jeremy / Seif : « oublie la commission pour le moment » → fixe seul,
+//     décision actée (plus une question ouverte).
+//   • Google Ads : « non, pas pour le moment » → rien à brancher.
+//   • « Prorata » = Jeremy, Seif (et Google) ont COMMENCÉ RÉCEMMENT → leurs
+//     vraies dates de début sont à poser dès que Badr les donne (en attendant
+//     ils comptent depuis START_DEFAULT, ce qui SURESTIME les charges).
+// Encore en attente de Badr (jamais inventé) :
 //   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
 //     facturé, pas encore compté.
 //   • CWILL : les « frais d'utilisation » variables ne sont pas comptés
@@ -55,8 +56,8 @@ const START_DEFAULT = "2026-06-04"; // début d'activité — approximation sign
 
 export const SUBSCRIPTIONS: Subscription[] = [
   // Équipe (prestataires mensuels)
-  { label: "Jeremy (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission NON compté (taux/assiette inconnus — question posée à Badr 08/08)" },
-  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission NON compté (idem Jeremy)" },
+  { label: "Jeremy (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission oublié pour le moment (Badr 08/08). Commencé « récemment » — vraie date de début en attente, compté depuis le 04/06 en attendant (surestime)." },
+  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Idem Jeremy : % oublié pour le moment, vraie date de début en attente." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Apps Shopify (boutique FR)

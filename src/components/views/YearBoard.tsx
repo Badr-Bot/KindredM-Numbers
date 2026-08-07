@@ -339,8 +339,9 @@ export function YearBoard({
           Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
           les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
           avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
-          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, % de commission
-          en attente. Google Ads : spend variable, sera branché en réel (pas un forfait).
+          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
+          pour le moment (Badr 08/08) — leurs vraies dates de début restent à poser.
+          Google Ads : non compté (« pas pour le moment »).
         </p>
       </section>
 
