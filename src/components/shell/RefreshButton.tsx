@@ -15,9 +15,9 @@ export function RefreshButton({ fetchedAt }: { fetchedAt: string }) {
     setBusy(true);
     play("beep");
     try {
-      // Déclenche une vraie synchro (throttlée côté serveur à 1×/5 min) :
-      // si les données ont plus de 5 min, elles se rafraîchissent vraiment.
-      await fetch("/api/sync", { method: "POST" });
+      // force=1 : clic humain → passage réel si les données ont plus de 60 s
+      // (l'automatique reste throttlé à 5 min, voir incrementalSync.ts).
+      await fetch("/api/sync?force=1", { method: "POST" });
     } catch {
       // en démo / non configuré, reste inoffensif
     }

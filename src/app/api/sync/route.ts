@@ -14,9 +14,12 @@ export const maxDuration = 300;
  * côté serveur (voir runThrottledIncrementalSync), donc peut être appelée
  * sans risque à chaque visite.
  */
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    const result = await runThrottledIncrementalSync();
+    // force=1 : clic manuel sur « Actualiser » — throttle réduit à 60 s
+    // (l'appel automatique LiveSync reste à 5 min).
+    const force = new URL(request.url).searchParams.get("force") === "1";
+    const result = await runThrottledIncrementalSync(force);
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     return NextResponse.json({ ok: false, reason: (err as Error).message }, { status: 500 });

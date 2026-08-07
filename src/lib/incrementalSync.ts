@@ -366,6 +366,11 @@ export async function runIncrementalSync(
 
 const THROTTLE_KEY = "last_incremental_sync_at";
 const THROTTLE_MS = 5 * 60 * 1000;
+// Clic manuel sur « Actualiser » (07/08, Badr : « ça ne s'actualise pas assez
+// vite ») : fenêtre réduite à 60 s. Un humain qui clique attend du frais
+// MAINTENANT ; 60 s suffisent à protéger Shopify/Meta d'un double-clic, et
+// l'automatique (LiveSync) reste à 5 min pour ne pas marteler les API.
+const FORCE_THROTTLE_MS = 60 * 1000;
 
 // Marqueur de « migration de données » auto-appliquée. À chaque correction
 // de bug qui fausse des données déjà en base (ex : devise de remboursement
@@ -437,7 +442,7 @@ const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
  * si un recalcul complet est requis (voir REQUIRED_FULL_RESYNC_VERSION),
  * auquel cas le throttle est ignoré pour ne pas retarder la correction.
  */
-export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResult> {
+export async function runThrottledIncrementalSync(force = false): Promise<IncrementalSyncResult> {
   const supabase = createSupabaseServerClient();
 
   const [{ data: marker }, { data: ordersMarker }, { data: metaMarker }, { data: recomputeMarker }] =
@@ -455,7 +460,7 @@ export async function runThrottledIncrementalSync(): Promise<IncrementalSyncResu
   if (
     !needsMaintenance &&
     marker?.value === "done" &&
-    Date.now() - new Date(marker.updated_at as string).getTime() < THROTTLE_MS
+    Date.now() - new Date(marker.updated_at as string).getTime() < (force ? FORCE_THROTTLE_MS : THROTTLE_MS)
   ) {
     return { ran: false };
   }
