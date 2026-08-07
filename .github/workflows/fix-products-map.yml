@@ -75,6 +75,14 @@ jobs:
           done
           echo "AVERTISSEMENT : que des passages throttles — le cron a synchronise entre-temps (voir ses runs)."
 
+      - name: 4bis. Diagnostic — lignes daily_aggregates du jour et de la veille
+        run: |
+          for D in $(date -u +%F) $(date -u -d "yesterday" +%F); do
+            echo "=== $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D" || true
+            echo
+          done
+
       - name: 4. Preuve — compteur products_map
         run: |
           curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \

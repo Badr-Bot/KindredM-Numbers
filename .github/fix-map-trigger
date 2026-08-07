@@ -1,4 +1,3 @@
-Verification 07/08 matin : Badr voit "100 EUR de spend non classe" (campagne
-NIRA du 07/08) alors que la 0012 est censee etre passee, et les seuils
-restent a 1,60 (resync v9 des frais pas visible). Lire les warnings du
-passage de synchro pour verdict definitif 0012 + 0013.
+Diagnostic 07/08 : lire les lignes daily_aggregates du jour — le net FR
+affiche ~-168 EUR la ou le recalcul manuel des 6 memes commandes donne ~-26.
+Identifier le poste gonfle (COGS ? taxe ? frais ? spend ?).
