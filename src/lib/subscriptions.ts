@@ -105,8 +105,11 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  // Crédit
-  { label: "Crédit d'abonnement (apps)", category: "CREDIT", amount: -88, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "« 88 € en crédit donc on ne les paie pas normalement » (Adnane)" },
+  // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
+  // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify
+  // lui-même) — un poste qu'on ne compte pas du tout ici — jamais les apps
+  // listées ci-dessus. L'appliquer en remise sur les apps aurait sous-compté
+  // les charges de ~88 €/mois pour de mauvaises raisons.
 ];
 
 export function monthlyEurCents(s: Subscription): number {

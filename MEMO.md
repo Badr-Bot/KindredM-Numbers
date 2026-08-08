@@ -82,7 +82,23 @@
 - **Avance 1 000 € Badr → Adnane le 21/06** : transfert, ne touche jamais le net.
 - **Claude Badr : UN SEUL abonnement à 100 €/mois depuis le 15/07.** Piège de vocabulaire : « le 1er / le 2e abonnement » chez Badr = les FACTURES mensuelles successives — compté 2 abonnements (200 €/mois) par erreur le 08/08, corrigé sur sa remarque le jour même. **Seule la 1re facture (15/07, 100 €) est sortie de sa poche** — dès la 2e (08/08) la CARTE LLC paie → son compteur d'avances Claude reste à 100 € (sauf nouvelle facture perso annoncée). Le tracé « Entre associés » compte les FACTURES réelles (SUB_PAYMENTS), jamais un cumul théorique — un cumul accru depuis le 04/06 affichait 217 € vs 100 € réellement payés, corrigé sur remarque de Badr.
 - **Hushed (Adnane) : 7,99 €/mois.** Payé perso par Adnane juillet + août (2 mois, 15,98 € tracés dans SUB_PAYMENTS), carte LLC à partir de septembre (3e mois) — même schéma que Claude Badr. Mois de départ juillet assumé (cohérent avec « depuis 2 mois » dit le 08/08), signalé.
+- **Solde net appliqué (08/08)** : `badrNetLedgerCentsForDay` (associateLedger.ts) + `applyAssociateLedger` (associates.ts) font remonter le solde entre associés dans les cartes mensuelles/annuelles de l'onglet Année, sur la VRAIE date de chaque avance (jamais un mois choisi au hasard) — ne touche jamais `netCents` (société), seulement le partage Badr/Adnane. Ne pas confondre avec `applyFixedCharges` (partage normal des charges, déjà correct, distinct du solde d'avance).
+- **Crédit −88 €/mois retiré (08/08)** : Badr a clarifié qu'il ne finance QUE l'abonnement Shopify de base (pas les apps listées ici) → l'appliquer en remise sur les apps aurait sous-compté les charges à tort.
+- **Floxy (proxy, 7 $/mois, depuis 08/2026) et Master Ecom/Skool (249 $/mois, depuis 26/07)** ajoutés — tous deux payés directement par la carte LLC (aucune avance perso à tracer).
 - Question posée : qui paie les autres abonnements pour tracer leur côté pareil.
+
+## Onglet Dépenses — réorganisation (08/08)
+- Abonnements & charges fixes + Entre associés ont DÉMÉNAGÉ depuis l'onglet Année (qui reste concentré sur le bilan/parts mensuelles). Rangement demandé par Badr, « minimum d'onglet ».
+- `buildExpenseBreakdown` (data.ts) : le split fictif « Shopify 3 % / Autres 1 % » (reliquat d'avant les vrais frais Shopify) est retiré → un seul poste « Frais Shopify réels » au pourcentage RÉEL calculé (jamais figé). Bug repéré par Badr le 08/08.
+- **Nouveau : CA par canal** (donut Google/Meta/direct/autres, `getAcquisitionForRange` dans data.ts, route `/api/acquisition-summary`) + **carte Klaviyo** (CA attribué aux campagnes email uniquement, jamais les flows/BIENVENUE15, `lib/klaviyo.ts` + route `/api/klaviyo/summary`) — les deux sont des mesures INDÉPENDANTES, jamais additionnées (une vente email peut apparaître « Direct » côté Shopify).
+- **Clé Klaviyo** : Badr l'a donnée en chat (`pk_SWVS8q_...`) — JAMAIS commitée dans le code (fuiterait dans l'historique Git). Lue via `process.env.KLAVIYO_API_KEY`, à ajouter dans Vercel. Le réseau sortant de cette session de code n'a pas accès à `a.klaviyo.com` (politique de l'environnement) → l'intégration n'a JAMAIS été testée en conditions réelles, le premier vrai test se fait au déploiement. En cas d'erreur/schéma inattendu la fonction lève une exception explicite plutôt que de renvoyer un chiffre inventé.
+- Section « 💡 Pistes d'économies » ajoutée (SmartSize, Moon Bundles, Jeremy/Seif).
+
+## Historique Shopify depuis le 21 mai (08/08)
+- **HISTORY_START passe de 2026-06-04 à 2026-05-21** (« l'ecom a démarré à partir du 21 mai », Badr) — data.ts, backfillRun.ts (ORDERS_SINCE_DAY), discover.ts (BACKFILL_SINCE_ISO), incrementalSync.ts (fenêtre de recompute).
+- Le spend Meta REST à 04/06 (vérifié séparément le 15/07, pas de raison de croire qu'il existe plus tôt — pas changé sans confirmation de Badr).
+- `REQUIRED_FULL_RESYNC_VERSION` bump → v10, déclenche un re-téléchargement complet des commandes Shopify au prochain sync pour aller chercher le 21/05→03/06 jamais téléchargé.
+- ⚠️ Question ouverte pour Badr : les ABONNEMENTS (subscriptions.ts, `START_DEFAULT` = 04/06 par défaut) ont-ils aussi démarré le 21/05, ou vraiment le 04/06 ? Pas changé sans confirmation — ne pas supposer.
 
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
