@@ -1,9 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { isSoundEnabled, playSound, setSoundEnabled, unlockAudio } from "./sound";
-
-type SoundName = "boot" | "tick" | "beep" | "cash" | "error" | "tab";
+import { isSoundEnabled, playSound, setSoundEnabled, unlockAudio, type SoundName } from "./sound";
 
 interface SoundContextValue {
   enabled: boolean;

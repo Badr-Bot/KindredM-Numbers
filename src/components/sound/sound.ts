@@ -3,7 +3,17 @@
 // coupable via le toggle 🔊. Rien ne joue tant que l'utilisateur n'a pas
 // interagi (politique autoplay des navigateurs).
 
-type SoundName = "boot" | "tick" | "beep" | "cash" | "error" | "tab";
+export type SoundName =
+  | "boot"
+  | "tick"
+  | "beep"
+  | "cash"
+  | "error"
+  | "tab"
+  | "celebrate"
+  | "statusYellow"
+  | "statusRed"
+  | "refreshDone";
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
@@ -106,6 +116,27 @@ export function playSound(name: SoundName): void {
       // deux notes descendantes douces, jamais un buzz strident
       tone(c, { type: "sine", from: 392, start: t, duration: 0.14, gain: 0.1 });
       tone(c, { type: "sine", from: 294, start: t + 0.12, duration: 0.2, gain: 0.1 });
+      break;
+    case "celebrate":
+      // arpège 4 notes + « sparkle » aigu discret — pour un net ≥ cible, plus
+      // riche que "cash" (réservé aux petits succès type refresh)
+      tone(c, { type: "sine", from: 523, start: t, duration: 0.11, gain: 0.06 });
+      tone(c, { type: "sine", from: 659, start: t + 0.09, duration: 0.11, gain: 0.065 });
+      tone(c, { type: "sine", from: 784, start: t + 0.18, duration: 0.14, gain: 0.07 });
+      tone(c, { type: "triangle", from: 1047, start: t + 0.3, duration: 0.35, gain: 0.05 });
+      tone(c, { type: "sine", from: 1568, start: t + 0.32, duration: 0.2, gain: 0.02 });
+      break;
+    case "statusYellow":
+      // deux notes proches, neutres — « en approche de la cible »
+      tone(c, { type: "sine", from: 494, start: t, duration: 0.12, gain: 0.05 });
+      tone(c, { type: "sine", from: 554, start: t + 0.1, duration: 0.16, gain: 0.05 });
+      break;
+    case "statusRed":
+      // une seule note grave et douce — signale sans alarmer
+      tone(c, { type: "sine", from: 262, start: t, duration: 0.22, gain: 0.07, attack: 0.02 });
+      break;
+    case "refreshDone":
+      tone(c, { type: "sine", from: 700, to: 900, start: t, duration: 0.09, gain: 0.05 });
       break;
   }
 }

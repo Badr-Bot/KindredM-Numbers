@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SoundProvider } from "@/components/sound/SoundProvider";
 import { BootOverlay } from "@/components/fx/BootOverlay";
@@ -8,18 +8,22 @@ import { BottomNav } from "@/components/shell/BottomNav";
 import { LiveSync } from "@/components/shell/LiveSync";
 import { getDataMode } from "@/lib/data";
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Weft · Terminal financier",
+  title: "Weft · Pilotage financier",
   description: "P&L réel des marchés — CA, spend, gain net, ROAS.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070a08",
+  themeColor: "#f4f5f7",
   width: "device-width",
   initialScale: 1,
 };
@@ -31,7 +35,7 @@ export default function RootLayout({
 }>) {
   const mode = getDataMode();
   return (
-    <html lang="fr" className={`${geistMono.variable} h-full antialiased`}>
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <SoundProvider>
           <BootOverlay />

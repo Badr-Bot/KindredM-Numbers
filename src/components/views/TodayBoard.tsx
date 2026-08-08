@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { TodayView } from "@/lib/data";
 import type { ProductSplitCard } from "@/lib/analytics";
 import { MARKET_META } from "@/lib/markets";
@@ -15,6 +15,7 @@ import {
   netTierClass,
 } from "@/lib/format";
 import { CountUp } from "../fx/CountUp";
+import { Confetti } from "../fx/Confetti";
 import { StatusPill, statusText } from "../shell/StatusPill";
 import { useSound } from "../sound/SoundProvider";
 
@@ -30,16 +31,38 @@ export function TodayBoard({
   const { play } = useSound();
   const global = view.cards[0];
   const markets = view.cards.slice(1);
+  const [celebrate, setCelebrate] = useState(false);
+  // Si le BootOverlay va s'afficher (1ère page de la session), on attend
+  // qu'il ait fini de disparaître avant de fêter le net — sinon la
+  // célébration se joue cachée derrière l'overlay encore en train de
+  // s'effacer (voir BootOverlay.tsx, même clé sessionStorage).
+  const [rewardDelayMs] = useState(() => {
+    if (typeof window === "undefined") return 700;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const alreadyBooted = window.sessionStorage.getItem("niva:booted") === "1";
+    return alreadyBooted || reduce ? 700 : 1700;
+  });
 
   useEffect(() => {
-    // petite récompense sonore si la journée est dans le vert
+    // récompense sonore + visuelle propre au statut du jour : cible atteinte
+    // = célébration (son + confettis), sinon un signal discret, jamais un
+    // buzz — le rouge reste doux (une seule note grave), pas une alarme.
+    const timers: ReturnType<typeof setTimeout>[] = [];
     if (global.metrics.status === "green" && global.totals.netCents > 0) {
-      const id = setTimeout(() => play("cash"), 700);
-      return () => clearTimeout(id);
+      timers.push(
+        setTimeout(() => {
+          play("celebrate");
+          setCelebrate(true);
+          timers.push(setTimeout(() => setCelebrate(false), 950));
+        }, rewardDelayMs)
+      );
+    } else if (global.metrics.status === "yellow") {
+      timers.push(setTimeout(() => play("statusYellow"), rewardDelayMs));
+    } else if (global.metrics.status === "red") {
+      timers.push(setTimeout(() => play("statusRed"), rewardDelayMs));
     }
-  }, [global.metrics.status, global.totals.netCents, play]);
-
-  const netPos = global.totals.netCents >= 0;
+    return () => timers.forEach(clearTimeout);
+  }, [global.metrics.status, global.totals.netCents, play, rewardDelayMs]);
 
   // Rythme du jour : projection fin de journée = net actuel / fraction de la
   // journée écoulée (heure Europe/Paris), comparée à hier et à la moyenne 7 j.
@@ -93,18 +116,19 @@ export function TodayBoard({
         </a>
       )}
       {/* Héros : gain net global */}
-      <section className="rise-in overflow-hidden rounded-xl border border-line bg-panel/60 p-5 lg:p-8">
+      <section className="card-shadow card-interactive rise-in relative overflow-hidden rounded-2xl border border-line bg-panel p-5 lg:p-8">
+        {celebrate && <Confetti />}
         <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-[0.15em] text-ink-dim lg:text-sm">
+          <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-ink-dim lg:text-sm">
             {MARKET_META.GLOBAL.flag} Gain net · aujourd&apos;hui
           </span>
           <StatusPill status={global.metrics.status} roasLabel={formatRoas(global.metrics.roas)} />
         </div>
 
         <div
-          className={`mt-2 text-[clamp(3.25rem,14vw,7.5rem)] font-bold leading-none tnum ${netTierClass(
+          className={`mt-2 text-[clamp(3.25rem,14vw,7.5rem)] font-black tracking-tight leading-none tnum ${netTierClass(
             global.totals.netCents
-          )} ${netPos ? "glow-net-pos" : "glow-net-neg"}`}
+          )}`}
         >
           <CountUp value={global.totals.netCents / 100} format={(n) => formatEurSigned(Math.round(n * 100))} />
         </div>
@@ -146,7 +170,7 @@ export function TodayBoard({
 
       {/* 🧭 D'où viennent les ventes du jour (source + récurrents) */}
       {view.acquisition && (
-        <section className="rise-in rounded-lg border border-line bg-panel/40 p-3.5">
+        <section className="card-shadow card-interactive rise-in rounded-xl border border-line bg-panel p-3.5">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
               🧭 Sources des ventes du jour
@@ -167,7 +191,7 @@ export function TodayBoard({
           ) : (
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {view.acquisition.sources.map((s) => (
-                <div key={s.key} className="rounded border border-line-soft bg-terminal/50 px-2.5 py-2 text-center">
+                <div key={s.key} className="rounded-lg border border-line-soft bg-terminal-2 px-2.5 py-2 text-center">
                   <div className="text-[10px] uppercase tracking-wide text-ink-faint">
                     <span aria-hidden>{s.emoji}</span> {s.label}
                   </div>
@@ -193,7 +217,7 @@ export function TodayBoard({
           return (
             <section
               key={card.market}
-              className="rise-in rounded-lg border border-line bg-panel/40 p-3.5 lg:p-5"
+              className="card-shadow card-interactive rise-in rounded-xl border border-line bg-panel p-3.5 lg:p-5"
               style={{ animationDelay: `${80 + i * 60}ms` }}
             >
               <div className="flex items-center justify-between">
@@ -202,7 +226,7 @@ export function TodayBoard({
                 </span>
                 <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
               </div>
-              <div className={`mt-2 text-2xl font-bold leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
+              <div className={`mt-2 text-2xl font-black tracking-tight leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
                 <CountUp
                   value={card.totals.netCents / 100}
                   format={(n) => formatEurSigned0(Math.round(n * 100))}
@@ -237,7 +261,7 @@ export function TodayBoard({
  * getProductSplitForDay). */
 function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
   return (
-    <section className="rounded-lg border border-line bg-panel/40 p-3.5 lg:p-5">
+    <section className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5 lg:p-5">
       <div className="mb-2.5 flex items-baseline justify-between">
         <span className="text-sm font-semibold lg:text-base">🏷️ Par produit</span>
         <span className="text-[9.5px] text-ink-faint">upsells inclus dans leur produit principal</span>
@@ -247,14 +271,14 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
           const roas = c.spendCents > 0 ? c.caCents / c.spendCents : null;
           const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
           return (
-            <div key={c.key} className="rounded-lg border border-line-soft bg-terminal/40 p-3">
+            <div key={c.key} className="rounded-lg border border-line-soft bg-terminal-2 p-3">
               <div className="flex items-center justify-between">
                 <span className="text-[12.5px] font-semibold">
                   <span aria-hidden>{c.emoji}</span> {c.label}
                 </span>
                 <span className="text-[10px] text-ink-faint tnum">{formatInt(c.orders)} cmd</span>
               </div>
-              <div className={`mt-1.5 text-xl font-bold leading-none tnum lg:text-2xl ${netTierClass(c.netCents)}`}>
+              <div className={`mt-1.5 text-xl font-black tracking-tight leading-none tnum lg:text-2xl ${netTierClass(c.netCents)}`}>
                 {formatEurSigned0(c.netCents)}
               </div>
               <dl className="mt-2 grid grid-cols-2 gap-1 text-center text-[10.5px]">
@@ -274,8 +298,8 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dt className="text-[10px] uppercase tracking-wide text-ink-faint lg:text-xs">{label}</dt>
-      <dd className="text-sm font-semibold tnum lg:text-2xl">{value}</dd>
+      <dt className="text-[10px] font-medium uppercase tracking-wide text-ink-faint lg:text-xs">{label}</dt>
+      <dd className="text-sm font-bold tnum lg:text-2xl">{value}</dd>
     </div>
   );
 }

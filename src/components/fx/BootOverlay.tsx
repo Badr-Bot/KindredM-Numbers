@@ -3,30 +3,28 @@
 import { useEffect, useState } from "react";
 import { useSound } from "../sound/SoundProvider";
 
-const LINES = [
-  "WEFT // FINANCIAL TERMINAL",
-  "> init engine ......... ok",
-  "> load aggregates ..... ok",
-  "> markets ES UK DE FR . ok",
-  "> ready.",
-];
+const LINES = ["WEFT", "Marchés ES · UK · DE · FR", "Chiffres à jour."];
 
 /** Séquence de boot terminal, une seule fois par session (sessionStorage). */
 export function BootOverlay() {
-  const [show, setShow] = useState(false);
+  // Décidée une seule fois à l'état initial (lecture seule, pas d'écriture)
+  // — contrairement à une relecture de sessionStorage dans l'effet, cette
+  // valeur reste stable même si React (StrictMode, dev) rejoue l'effet
+  // mount→cleanup→mount : sinon la 2e passe se relit "déjà booté" (écrit par
+  // la 1re) et n'reprogramme jamais le timer de fermeture → overlay bloqué.
+  const [shouldBoot] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const alreadyBooted = window.sessionStorage.getItem("niva:booted") === "1";
+    return !alreadyBooted && !reduce;
+  });
+  const [show, setShow] = useState(shouldBoot);
   const [visibleLines, setVisibleLines] = useState(0);
   const { play } = useSound();
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const alreadyBooted = window.sessionStorage.getItem("niva:booted") === "1";
-    if (alreadyBooted || reduce) return;
-
+    if (!shouldBoot) return;
     window.sessionStorage.setItem("niva:booted", "1");
-    // Déclenche la séquence de boot une seule fois par session (dépend de
-    // sessionStorage + reduced-motion, indisponibles en SSR).
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShow(true);
     play("boot");
 
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -41,26 +39,29 @@ export function BootOverlay() {
     timers.push(setTimeout(() => setShow(false), 1550));
 
     return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shouldBoot, play]);
 
   if (!show) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-terminal"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-2 bg-ink"
       style={{ animation: "boot-out 1.6s ease-in forwards" }}
       aria-hidden
     >
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-phosphor/20 to-transparent"
-        style={{ animation: "scan-sweep 1.4s ease-in-out" }}
-      />
-      <pre className="text-[11px] leading-relaxed text-phosphor sm:text-sm">
-        {LINES.slice(0, visibleLines).map((line, i) => (
-          <div key={i}>{line}</div>
+      <span
+        className="text-lg font-bold tracking-[0.2em] text-phosphor-brand rise-in"
+        style={{ opacity: visibleLines > 0 ? 1 : 0 }}
+      >
+        {LINES[0]}
+      </span>
+      <div className="text-[11px] leading-relaxed text-white/50">
+        {LINES.slice(1, visibleLines).map((line, i) => (
+          <div key={i} className="rise-in text-center">
+            {line}
+          </div>
         ))}
-      </pre>
+      </div>
     </div>
   );
 }
