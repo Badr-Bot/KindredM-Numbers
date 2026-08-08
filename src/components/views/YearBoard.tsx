@@ -114,7 +114,7 @@ export function YearBoard({
     // aussi les jours sans vente). Même règle que les cartes mensuelles.
     const lastDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
     if (lastDay) {
-      for (const day of listParisDays("2026-06-04", lastDay)) {
+      for (const day of listParisDays(historyStart, lastDay)) {
         const fixed = fixedCostsCentsForDay(day);
         if (fixed) {
           // Règle par date pour les abonnements, règle propre pour les frais
@@ -141,7 +141,7 @@ export function YearBoard({
       soloNet,
       sharedNet,
     };
-  }, [dayData]);
+  }, [dayData, historyStart]);
 
   // 👥 Part de chacun MOIS PAR MOIS (demande Badr 06/08 : « des cartes par
   // mois pour savoir chaque mois combien j'ai fait »). Réparti jour par jour

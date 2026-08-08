@@ -26,9 +26,12 @@ import { recomputeDailyAggregatesForDays } from "./aggregate";
 import { upsertSpendRows, type SpendRowForWrite } from "./spendWrite";
 import { BACKFILL_SINCE_ISO } from "./discover";
 
-const ORDERS_SINCE_DAY = "2026-06-04";
-// Aligné sur le début des ventes (04/06) — le spec §7.4 disait 21/06 mais du
-// spend réel existe dès le 04/06 (vérifié sur le compte, demande de Badr 15/07).
+// « L'ecom a démarré à partir du 21 mai » (Badr 08/08, corrige le 04/06
+// précédent) — les commandes Shopify remontent jusque-là.
+const ORDERS_SINCE_DAY = "2026-05-21";
+// Le spend Meta, lui, reste vérifié à partir du 04/06 (demande Badr 15/07) —
+// pas de raison de croire qu'il existe plus tôt tant que ce n'est pas
+// confirmé ; à corriger si Badr donne une date de lancement pub différente.
 const META_SINCE_DAY = "2026-06-04";
 
 export interface BackfillResult {

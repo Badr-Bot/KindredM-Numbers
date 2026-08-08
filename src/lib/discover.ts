@@ -1,7 +1,8 @@
 import { getShopifyStoreConfigs, iterateOrders } from "./shopify";
 import { UPSELL_PRODUCT_KEYS } from "./engine";
 
-export const BACKFILL_SINCE_ISO = "2026-06-04T00:00:00+02:00";
+// « L'ecom a démarré à partir du 21 mai » (Badr 08/08, corrige le 04/06 précédent).
+export const BACKFILL_SINCE_ISO = "2026-05-21T00:00:00+02:00";
 
 // Titres localisés par store (EN/FR/DE/ES) — observés sur les vraies
 // boutiques. L'ordre des clés compte : les motifs les plus spécifiques

@@ -424,7 +424,10 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // commande au moment de la synchro : seul un re-scan complet l'applique à
 // l'historique. Tant qu'une commande n'est pas re-scannée elle garde le repli
 // 3 % (comportement d'avant), donc la bascule est progressive et jamais fausse.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-06-frais-shopify-reels-v9";
+// v10 (08/08) : ORDERS_SINCE_DAY passe du 04/06 au 21/05 (« l'ecom a démarré
+// à partir du 21 mai », Badr) — va chercher les commandes Shopify du
+// 21/05 au 03/06 qui n'avaient jamais été téléchargées.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-08-historique-21-mai-v10";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
@@ -502,7 +505,8 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
 
   const warnings = [...(result.warnings ?? [])];
   const { listParisDays } = await import("./time");
-  const allDays = listParisDays("2026-06-04", todayParisDay());
+  const { HISTORY_START } = await import("./data");
+  const allDays = listParisDays(HISTORY_START, todayParisDay());
 
   try {
     if (needsRecompute) {

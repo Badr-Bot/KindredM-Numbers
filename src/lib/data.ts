@@ -17,7 +17,11 @@ import { fixedCostsCentsForDay } from "./subscriptions";
 export type DataMode = "demo" | "live" | "unconfigured";
 
 /** Premier jour d'activité (§1) — borne basse de l'historique. */
-export const HISTORY_START = "2026-06-04";
+// 21/05 : « l'ecom a démarré à partir du 21 mai » (Badr 08/08) — corrigé
+// depuis le 04/06 précédent. Déclenche un re-téléchargement complet des
+// commandes Shopify (voir REQUIRED_FULL_RESYNC_VERSION, incrementalSync.ts)
+// pour aller chercher les commandes du 21/05 au 03/06 qui manquaient.
+export const HISTORY_START = "2026-05-21";
 
 export interface DailyRow {
   day: string;
@@ -418,6 +422,64 @@ async function getTodayAcquisition(day: string): Promise<AcquisitionToday | null
   }
 }
 
+/**
+ * Même logique que getTodayAcquisition mais sur une PÉRIODE (mois/année) —
+ * pour la question de Badr (08/08) : « quel canal rapporte combien ». Pas de
+ * détection des clients récurrents ici (coûterait une requête énorme sur un
+ * an) — uniquement la répartition CA/commandes par source.
+ */
+export async function getAcquisitionForRange(
+  fromDay: string,
+  toDay: string
+): Promise<AcquisitionToday | null> {
+  if (getDataMode() !== "live") return null;
+  try {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("orders")
+      .select("total_cents, refunded_cents, source_name, referring_site, landing_site")
+      .gte("day", fromDay)
+      .lte("day", toDay);
+    if (error || !data || data.length === 0) return null;
+
+    const base = { orders: 0, caCents: 0 };
+    const buckets: Record<AcquisitionSource["key"], { orders: number; caCents: number }> = {
+      meta: { ...base },
+      google: { ...base },
+      direct: { ...base },
+      autre: { ...base },
+    };
+    const pending = data.every(
+      (o) => o.source_name == null && o.referring_site == null && o.landing_site == null
+    );
+    for (const o of data) {
+      const net = (o.total_cents as number) - ((o.refunded_cents as number) ?? 0);
+      const key = classifyOrderSource(o);
+      buckets[key].orders += 1;
+      buckets[key].caCents += net;
+    }
+    const META_LABELS: Record<AcquisitionSource["key"], { label: string; emoji: string }> = {
+      meta: { label: "Meta", emoji: "📣" },
+      google: { label: "Google", emoji: "🔎" },
+      direct: { label: "Direct", emoji: "🚪" },
+      autre: { label: "Autres", emoji: "❔" },
+    };
+    return {
+      sources: (Object.keys(buckets) as AcquisitionSource["key"][]).map((k) => ({
+        key: k,
+        ...META_LABELS[k],
+        ...buckets[k],
+      })),
+      repeatOrders: 0,
+      repeatCaCents: 0,
+      pending,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function computePaceReference(today: string): Promise<PaceReference> {
   const yesterday = addDaysToDay(today, -1);
   const from = addDaysToDay(today, -7);
@@ -767,9 +829,14 @@ export interface ExpenseBreakdown {
 }
 
 /**
- * Décomposition du CA en postes (§6.5). Les frais 4 % sont éclatés en
- * Shopify 3 % / Autres 1 %. Le COGS est présenté polo vs upsells ; cette
- * structure accueillera d'autres produits sans changement d'UI.
+ * Décomposition du CA en postes (§6.5). Les frais Shopify sont UN SEUL poste
+ * au pourcentage RÉEL (calculé, jamais figé) — corrigé le 08/08 : avant, ce
+ * poste était éclaté en deux lignes à pourcentage FIXE (« Shopify 3 % » /
+ * « Autres 1 % »), un reliquat d'avant le branchement des vrais frais
+ * Shopify par commande (shopifyFees.ts) qui tournent en réalité entre 5 et
+ * 9 % selon la part de commandes hors zone euro. Le COGS est présenté polo
+ * vs upsells ; cette structure accueillera d'autres produits sans
+ * changement d'UI.
  *
  * Révision Badr 27/07/2026 : la TVA 5,5 % n'apparaît plus ici comme poste
  * déduit — ce n'est pas une vraie dépense (argent collecté pour l'État,
@@ -780,10 +847,6 @@ export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
   const ca = t.caCents;
   const w = (c: number) => (ca > 0 ? c / ca : 0);
 
-  // Frais éclatés proportionnellement (3 / 1 sur 4).
-  const shopify = Math.round(ca * 0.03);
-  const autres = t.feesCents - shopify;
-
   // Repli tant que la migration 0010 (+ son resync auto) n'est pas encore
   // appliquée : tout le COGS reste affiché sous "polo" plutôt que de perdre
   // silencieusement la part upsells (comportement identique à avant ce correctif).
@@ -791,15 +854,26 @@ export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
   const poloCents = hasCogsSplit ? t.cogsProductCents : t.cogsCents;
   const upsellCents = hasCogsSplit ? t.cogsUpsellsCents : 0;
 
+  // Un seul poste « frais » = t.feesCents (frais Shopify RÉELS commande par
+  // commande + 1 % autres, engine.ts). Avant le 08/08 ce poste était éclaté
+  // en deux lignes à pourcentage FIXE (« Shopify 3 % » / « Autres 1 %ᵄ ») —
+  // un reliquat d'avant le branchement des vrais frais Shopify (qui tournent
+  // en réalité entre 5 et 9 % selon les commandes hors zone euro). Le
+  // pourcentage affiché est maintenant calculé en vrai (w()), jamais figé.
+  const feesLabel = `Frais Shopify réels (${formatFeesPctLabel(w(t.feesCents))})`;
+
   const slices: ExpenseSlice[] = [
     { key: "spend", label: "Spend Meta", emoji: "📣", cents: t.spendCents, weight: w(t.spendCents), kind: "spend" },
     { key: "cogs_polo", label: "COGS polo", emoji: "👕", cents: poloCents, weight: w(poloCents), kind: "cogs" },
     { key: "cogs_upsells", label: "COGS upsells", emoji: "🧦", cents: upsellCents, weight: w(upsellCents), kind: "cogs" },
     { key: "tax", label: "Taxe UE", emoji: "🇪🇺", cents: t.taxCents, weight: w(t.taxCents), kind: "tax" },
-    { key: "shopify", label: "Shopify 3 %", emoji: "🛒", cents: shopify, weight: w(shopify), kind: "fee" },
-    { key: "autres", label: "Autres 1 %", emoji: "⚙️", cents: autres, weight: w(autres), kind: "fee" },
+    { key: "shopify", label: feesLabel, emoji: "🛒", cents: t.feesCents, weight: w(t.feesCents), kind: "fee" },
     { key: "net", label: "Gain net", emoji: "💰", cents: t.netCents, weight: w(t.netCents), kind: "net" },
   ];
 
   return { caCents: ca, slices, netCents: t.netCents };
+}
+
+function formatFeesPctLabel(weight: number): string {
+  return `${(weight * 100).toFixed(1).replace(".", ",")} %`;
 }
