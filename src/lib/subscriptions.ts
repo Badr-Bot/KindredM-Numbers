@@ -29,8 +29,9 @@
 //     par élimination, puisque Badr a précisé ensuite que SON Claude est à
 //     100 €. Interprétation SIGNALÉE à Badr, à corriger s'il voulait autre
 //     chose.
-//   • Claude Badr : 100 €/mois, payé PERSONNELLEMENT par Badr → compté dans
-//     les charges ET tracé dans « Entre associés » (associateLedger.ts).
+//   • Claude Badr : DEUX abonnements de 100 €/mois, payés PERSONNELLEMENT par
+//     Badr → comptés dans les charges ET tracés en factures réelles dans
+//     « Entre associés » (associateLedger.ts).
 // Encore en attente de Badr (jamais inventé) :
 //   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
 //     facturé, pas encore compté.
@@ -83,7 +84,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: START_DEFAULT, endDay: null, paidBy: "BADR", note: "100 €/mois payé personnellement par Badr (08/08) — tracé dans « Entre associés ». Date de début inconnue → 04/06 par défaut, à confirmer." },
+  // Claude Badr : DEUX abonnements (précision Badr 08/08). Le 1er n'a facturé
+  // qu'UNE fois (« j'ai payé 100 € pour le 1er ») → il ne peut pas courir
+  // depuis le 04/06 (ça aurait fait 3 factures) : démarré ~un mois avant le
+  // 08/08 — approximation COHÉRENTE avec le payé réel, date exacte à
+  // confirmer. Le 2e est intégré à partir du jour où Badr l'a demandé
+  // (montant assumé identique, à confirmer).
+  { label: "Claude (Badr) — abo 1", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-08", endDay: null, paidBy: "BADR", note: "1 facture de 100 € payée à ce jour (Badr 08/08) — date de facturation exacte à confirmer. Tracé dans « Entre associés »." },
+  { label: "Claude (Badr) — abo 2", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-08-08", endDay: null, paidBy: "BADR", note: "2e abonnement intégré le 08/08 (montant assumé = 100 € comme le 1er, à confirmer)." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
@@ -119,23 +127,11 @@ export function fixedCostsCentsForDay(day: string): number {
   return total;
 }
 
-/**
- * Cumul de ce que `payer` a sorti de SA poche en abonnements récurrents entre
- * deux jours inclus (ex. le Claude 100 €/mois de Badr) — pour le tracé
- * « Entre associés ». Jour par jour, même arrondi que la déduction du net.
- */
-export function recurringOutlayCents(payer: "BADR" | "ADNANE", fromDay: string, toDay: string): number {
-  const subs = SUBSCRIPTIONS.filter((s) => s.paidBy === payer);
-  if (subs.length === 0) return 0;
-  let total = 0;
-  const d = new Date(`${fromDay}T12:00:00Z`);
-  for (let day = fromDay; day <= toDay; ) {
-    for (const s of subs) if (isActiveOn(s, day)) total += dailyEurCents(s);
-    d.setUTCDate(d.getUTCDate() + 1);
-    day = d.toISOString().slice(0, 10);
-  }
-  return total;
-}
+// NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit
+// PAS de l'étalement quotidien (qui est une convention comptable) — il vit en
+// FACTURES réelles dans associateLedger.ts (SUB_PAYMENTS). Un cumul accru
+// depuis le 04/06 affichait 217 € alors que Badr n'avait payé que 100 € :
+// corrigé le 08/08 sur sa remarque.
 
 /** Totaux courants (abonnements actifs aujourd'hui) pour l'affichage Année. */
 export function subscriptionTotals(day: string): {

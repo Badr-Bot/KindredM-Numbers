@@ -79,7 +79,7 @@
 - Source unique : `associateLedger.ts` + champ `paidBy` de subscriptions.ts. Affiché dans Année, section 🤝. Règle : ce que l'un paie de sa poche pour la société lui est dû au règlement ; les transferts entre eux sont HORS P&L.
 - **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). À cette date la règle charges = 100 % Adnane → dû à Badr au règlement (sauf décision 50/50 pour la LLC — question posée).
 - **Avance 1 000 € Badr → Adnane** (date à préciser) : transfert, ne touche jamais le net.
-- **Claude Badr 100 €/mois payé perso** : compté dans les charges + crédité à Badr dans le tracé (cumul jour par jour). Début inconnu → 04/06 par défaut, à confirmer.
+- **Claude Badr : DEUX abonnements à 100 €/mois payés perso** (précision 08/08). Abo 1 : 1 seule facture payée (100 €) → démarré ~08/07 (approximation cohérente avec le payé réel, date exacte à confirmer). Abo 2 : intégré au 08/08 (montant assumé 100 €, à confirmer). Le tracé « Entre associés » compte les FACTURES réelles (SUB_PAYMENTS), jamais un cumul théorique — un cumul accru depuis le 04/06 affichait 217 € vs 100 € réellement payés, corrigé sur remarque de Badr.
 - Question posée : qui paie les autres abonnements (Adnane ?) pour tracer son côté pareil.
 
 ## Rebranding « rues parisiennes » (05/08)

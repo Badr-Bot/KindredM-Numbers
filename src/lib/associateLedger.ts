@@ -68,6 +68,37 @@ export const TRANSFERS: AssociateTransfer[] = [
   },
 ];
 
+export interface SubPayment {
+  payer: Payer;
+  label: string;
+  eurCents: number;
+  /** Date de la facture — null si Badr ne l'a pas (encore) donnée. */
+  day: string | null;
+  note?: string;
+}
+
+/**
+ * FACTURES réellement payées de sa poche pour des abonnements de la société.
+ * Ce n'est PAS une charge en plus (l'étalement quotidien de subscriptions.ts
+ * couvre déjà le P&L) : c'est le compteur de ce qui est DÛ au payeur au
+ * règlement. On enregistre les factures réelles, jamais un cumul théorique.
+ */
+export const SUB_PAYMENTS: SubPayment[] = [
+  {
+    payer: "BADR",
+    label: "Claude — 1er abonnement (1 facture)",
+    eurCents: 10000,
+    day: null,
+    note: "« J'ai payé 100 € pour le 1er abonnement » (Badr 08/08) — date de facture à préciser. Prochaines factures à ajouter au fil de l'eau.",
+  },
+];
+
+export function subPaymentsTotalCentsBy(payer: Payer): number {
+  let total = 0;
+  for (const p of SUB_PAYMENTS) if (p.payer === payer) total += p.eurCents;
+  return total;
+}
+
 /** Frais ponctuels d'un jour donné (centimes d'euro) — entre dans le net global. */
 export function oneOffCostsCentsForDay(day: string): number {
   let total = 0;

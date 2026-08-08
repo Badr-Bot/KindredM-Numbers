@@ -26,13 +26,14 @@ import {
   badrFixedShareFor,
   fixedCostsCentsForDay,
   monthlyEurCents,
-  recurringOutlayCents,
   SUBSCRIPTIONS,
   subscriptionTotals,
 } from "@/lib/subscriptions";
 import {
   ONE_OFF_COSTS,
   oneOffTotalCentsBy,
+  SUB_PAYMENTS,
+  subPaymentsTotalCentsBy,
   TRANSFERS,
   transfersTotalCentsFrom,
 } from "@/lib/associateLedger";
@@ -356,9 +357,8 @@ export function YearBoard({
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
         <div className="mb-1 text-sm font-semibold">🤝 Entre associés — ce que chacun a avancé</div>
         {(() => {
-          const claudeBadrCents = recurringOutlayCents("BADR", historyStart, historyEnd);
           const badrTotal =
-            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + claudeBadrCents;
+            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + subPaymentsTotalCentsBy("BADR");
           return (
             <>
               <div className="mb-2 text-[13px]">
@@ -396,14 +396,16 @@ export function YearBoard({
                         <td className="tnum py-1 text-right">{formatEur0(t.eurCents)}</td>
                       </tr>
                     ))}
-                    <tr className="border-b border-hair/50">
-                      <td className="py-1 pr-2 tnum">depuis 04/06</td>
-                      <td className="py-1 pr-2">
-                        Claude 100 €/mois <span className="text-ink-faint">(cumul à ce jour — début à confirmer)</span>
-                      </td>
-                      <td className="py-1 pr-2">🟠 Badr</td>
-                      <td className="tnum py-1 text-right">{formatEur0(claudeBadrCents)}</td>
-                    </tr>
+                    {SUB_PAYMENTS.map((p, i) => (
+                      <tr key={`subpay-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{p.day ? formatDayShort(p.day) : "date ?"}</td>
+                        <td className="py-1 pr-2">
+                          {p.label} <span className="text-ink-faint">(facture réelle)</span>
+                        </td>
+                        <td className="py-1 pr-2">{p.payer === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(p.eurCents)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -414,9 +416,11 @@ export function YearBoard({
           Les frais LLC sont déduits du net global le 21/06. Règle de partage des charges à cette
           date (100 % Adnane avant le 14/07) : ils sont à la charge d&apos;Adnane mais payés par Badr
           → dû à Badr au règlement (sauf si vous décidez 50/50 pour la LLC — dites-le). L&apos;avance
-          de 1 000 € est un transfert entre vous : hors bénéfice, à solder au règlement. Le Claude
-          de Badr est compté dans les charges ET crédité ici puisqu&apos;il le paie de sa poche.
-          Côté Adnane : dites-moi qui paie les autres abonnements pour tracer son côté pareil.
+          de 1 000 € est un transfert entre vous : hors bénéfice, à solder au règlement. Les deux
+          Claude de Badr (100 €/mois chacun) sont comptés dans les charges, et chaque facture
+          réellement payée par Badr est créditée ici — 1 facture à ce jour, les suivantes
+          s&apos;ajouteront. Côté Adnane : dites-moi qui paie les autres abonnements pour tracer
+          son côté pareil.
         </p>
       </section>
 
