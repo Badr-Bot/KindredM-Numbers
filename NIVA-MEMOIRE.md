@@ -603,3 +603,36 @@ ruban — c'est aussi ce que fait SmartSize.
 `niva_selection` (« Le reste du vestiaire ») **tout en bas**, dernier bloc visible —
 il sert à ceux qui n'ont pas acheté ; `nv_tailles` en dernier dans l'ordre (c'est une
 modale, elle ne dessine rien dans le flux).
+
+## 6 terdecies. Barèmes fournisseur → mesures du corps (08/08, V4)
+
+Badr a fourni **4 planches fournisseur**. Deux étaient mal étiquetées par lui :
+- **ZT218** (Shoulder / Chest / Length / Sleeve) = un HAUT manches courtes → **Le Polo Marceau**
+- **DK7221** (Crotch Length / Total Length / Waist / Hip) = **Le Short Cassini**
+- planche « chemises » (Shoulder / Length / Bra / Waist / manches L et C) = **Chemise Turenne**
+  ET, sur décision de Badr, **Le Gilet Sully**
+- planche caleçon (A/B/C/D) = **le Caleçon**
+
+**LA DÉCOUVERTE** : la planche caleçon donne la correspondance **écrite par le
+fournisseur lui-même** — `CHN M = EUR S`, `CHN L = EUR M`, `CHN XL = EUR L`,
+`CHN 2XL = EUR XL`. **Décalage d'exactement une taille**, confirmé à la source.
+L'intuition de Badr était juste, ce n'est plus une supposition.
+
+⚠️ **Ces planches donnent des mesures de VÊTEMENT, pas de corps.** Saisir 102 cm en
+S ferait choisir un S à un homme de 102 cm de poitrine → invendable. Aisance retirée :
+- **Polo : 10 cm** (maille extensible bi-sens, porté à même la peau)
+- **Gilet : 14 cm** — il se porte **sur une chemise**, qui mange déjà 3 à 4 cm.
+  Un gilet trop juste ne se boutonne pas : on erre large, jamais serré.
+
+Valeurs posées (poitrine du client, cm) :
+- **Polo** S 84-92 · M 92-96 · L 96-101 · XL 101-106 · 2XL 106-111 · 3XL 111-116 ·
+  4XL 116-122 · 5XL 122-126 · 6XL 126-132 (tour de taille laissé vide, ZT218 n'en donne pas)
+- **Gilet** S 88-96 · M 96-100 · L 100-104 · XL 104-108 · 2XL 108-112 · 3XL 112-116 ·
+  4XL 116-120 · 5XL 120-124, **avec** tour de taille 82-90 → 114-118 (la planche le donne)
+
+Reste à faire : mêmes barèmes pour Chemise, Short et Caleçon (leurs gabarits n'ont
+pas encore la section). **Décision non tranchée** : garder les étiquettes du
+fournisseur (un Français en L prend XL, voire 2XL sur les chemises) ou renommer les
+variantes. Renommer = données produit = **en ligne immédiatement** + casse
+l'attribution du tableau de bord (règle 7). Mon avis : garder les étiquettes cette
+saison, le guide fait le travail.
