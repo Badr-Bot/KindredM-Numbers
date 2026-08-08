@@ -22,6 +22,17 @@
 
 export type Payer = "BADR" | "ADNANE";
 
+/**
+ * Part de Badr sur les charges fixes d'un jour : 0 avant le 14/07, 50 %
+ * ensuite (14/07 INCLUS) — règle « comme d'hab » de Badr (08/08). Adnane
+ * porte toujours le solde exact. Vit ici (pas dans subscriptions.ts) pour
+ * éviter un import circulaire avec les fonctions de solde ci-dessous.
+ */
+export const CHARGES_SPLIT_START = "2026-07-14";
+export function badrFixedShareFor(day: string): number {
+  return day >= CHARGES_SPLIT_START ? 0.5 : 0;
+}
+
 export interface OneOffCost {
   /** Jour Europe/Paris où l'argent est sorti (YYYY-MM-DD). */
   day: string;
@@ -121,6 +132,40 @@ export function subPaymentsTotalCentsBy(payer: Payer): number {
   let total = 0;
   for (const p of SUB_PAYMENTS) if (p.payer === payer) total += p.eurCents;
   return total;
+}
+
+/**
+ * SOLDE NET du jour : combien Adnane doit à Badr (positif) ou l'inverse
+ * (négatif), en centimes — pour faire remonter les avances dans les totaux
+ * « combien d'argent m'appartient » (demande Badr 08/08), sans compter deux
+ * fois la part de charge que chacun porte déjà normalement (déjà correcte
+ * via applyFixedCharges/badrFixedCostsCentsForDay). Seule la part de l'AUTRE,
+ * avancée en cash, est due — jamais le montant brut payé.
+ *
+ * Chaque avance est comptée sur SA vraie date (21/06 pour LLC + transfert,
+ * 15/07 et 08/08 pour Claude/Hushed) : le solde annuel/mensuel de chacun se
+ * corrige automatiquement dans le bon mois, sans choix arbitraire.
+ */
+export function badrNetLedgerCentsForDay(day: string): number {
+  let net = 0;
+  for (const c of ONE_OFF_COSTS) {
+    if (c.day !== day) continue;
+    // Part de l'AUTRE (celle que le payeur a avancée pour lui) — jamais la sienne.
+    const otherShareCents =
+      c.paidBy === "BADR" ? Math.round(c.eurCents * (1 - c.badrShare)) : Math.round(c.eurCents * c.badrShare);
+    net += c.paidBy === "BADR" ? otherShareCents : -otherShareCents;
+  }
+  for (const t of TRANSFERS) {
+    if (t.day !== day) continue;
+    net += t.from === "BADR" ? t.eurCents : -t.eurCents;
+  }
+  for (const p of SUB_PAYMENTS) {
+    if (p.day !== day) continue;
+    const badrShare = badrFixedShareFor(day);
+    const otherShareCents = p.payer === "BADR" ? Math.round(p.eurCents * (1 - badrShare)) : Math.round(p.eurCents * badrShare);
+    net += p.payer === "BADR" ? otherShareCents : -otherShareCents;
+  }
+  return net;
 }
 
 /** Frais ponctuels d'un jour donné (centimes d'euro) — entre dans le net global. */

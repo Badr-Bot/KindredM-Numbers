@@ -38,7 +38,8 @@
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
 
-import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
+import { badrFixedShareFor, oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
+export { badrFixedShareFor, CHARGES_SPLIT_START } from "./associateLedger";
 
 export const USD_TO_EUR = 1 / 1.1539;
 
@@ -98,6 +99,10 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // après le 14/07 → partagé 50/50 naturellement par la règle par date.
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: null, note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
+  // Floxy (proxy résidentiel) : payé DIRECTEMENT par la carte LLC dès le
+  // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
+  { label: "Floxy (proxy)", category: "OUTIL", amount: 7, currency: "USD", startDay: "2026-08-01", endDay: null, note: "Démarré en août, payé par la carte LLC dès le départ (Badr 08/08)." },
+  { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Crédit
@@ -165,12 +170,3 @@ export function subscriptionTotals(day: string): {
   };
 }
 
-/**
- * Part de Badr sur les charges fixes d'un jour : 0 avant le 14/07, 50 %
- * ensuite (14/07 INCLUS) — règle « comme d'hab » de Badr (08/08). Adnane
- * porte toujours le solde exact.
- */
-export const CHARGES_SPLIT_START = "2026-07-14";
-export function badrFixedShareFor(day: string): number {
-  return day >= CHARGES_SPLIT_START ? 0.5 : 0;
-}

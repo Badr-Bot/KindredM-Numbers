@@ -1,5 +1,6 @@
 import type { Market } from "./engine";
 import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "./subscriptions";
+import { badrNetLedgerCentsForDay } from "./associateLedger";
 
 // ---------------------------------------------------------------------------
 // Répartition du résultat entre associés (Badr, 06/08).
@@ -108,6 +109,28 @@ export function applyFixedCharges(shares: MonthlyShare[], days: string[]): Month
     cur.netCents -= fixed;
     cur.badrCents -= badrPart;
     cur.adnaneCents -= fixed - badrPart; // solde exact : somme au centime
+    byYm.set(ym, cur);
+  }
+  return [...byYm.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
+}
+
+/**
+ * Fait remonter le SOLDE ENTRE ASSOCIÉS (associateLedger.ts) dans les parts
+ * mensuelles — demande Badr 08/08 : « je sais combien d'argent nous
+ * appartient dans le compte ». Ne touche JAMAIS `netCents` (le bénéfice de la
+ * société ne bouge pas, ce n'est pas une charge) : seul le partage entre Badr
+ * et Adnane se décale, du montant qu'Adnane lui doit (ou l'inverse). Chaque
+ * avance est appliquée sur SA vraie date — pas de choix arbitraire de mois.
+ */
+export function applyAssociateLedger(shares: MonthlyShare[], days: string[]): MonthlyShare[] {
+  const byYm = new Map(shares.map((s) => [s.yearMonth, { ...s }]));
+  for (const day of days) {
+    const owedToBadr = badrNetLedgerCentsForDay(day);
+    if (owedToBadr === 0) continue;
+    const ym = day.slice(0, 7);
+    const cur = byYm.get(ym) ?? { yearMonth: ym, netCents: 0, badrCents: 0, adnaneCents: 0 };
+    cur.badrCents += owedToBadr;
+    cur.adnaneCents -= owedToBadr;
     byYm.set(ym, cur);
   }
   return [...byYm.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));

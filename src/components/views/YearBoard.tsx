@@ -15,12 +15,14 @@ import {
 } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import {
+  applyAssociateLedger,
   applyFixedCharges,
   badrShareFor,
   fillYearMonths,
   monthlySharesFrom,
   type DailyNetByMarket,
 } from "@/lib/associates";
+import { badrNetLedgerCentsForDay } from "@/lib/associateLedger";
 import { listParisDays } from "@/lib/time";
 import {
   badrFixedCostsCentsForDay,
@@ -114,12 +116,23 @@ export function YearBoard({
     if (lastDay) {
       for (const day of listParisDays("2026-06-04", lastDay)) {
         const fixed = fixedCostsCentsForDay(day);
-        if (!fixed) continue;
-        // Règle par date pour les abonnements, règle propre pour les frais
-        // ponctuels (LLC 50/50) — même calcul que les cartes mensuelles.
-        const bp = badrFixedCostsCentsForDay(day);
-        badr -= bp;
-        adnane -= fixed - bp;
+        if (fixed) {
+          // Règle par date pour les abonnements, règle propre pour les frais
+          // ponctuels (LLC 50/50) — même calcul que les cartes mensuelles.
+          const bp = badrFixedCostsCentsForDay(day);
+          badr -= bp;
+          adnane -= fixed - bp;
+        }
+        // Solde entre associés (08/08) : ce qu'Adnane doit à Badr (ou
+        // l'inverse) sur les avances — ne touche pas le net société, juste
+        // le partage entre les deux. Calculé hors du `if (fixed)` : une
+        // avance (ex. le transfert de 1 000 €) peut tomber un jour sans
+        // charge active.
+        const owed = badrNetLedgerCentsForDay(day);
+        if (owed) {
+          badr += owed;
+          adnane -= owed;
+        }
       }
     }
     return {
@@ -144,9 +157,15 @@ export function YearBoard({
     // (08/08) appliquées jour par jour sur TOUS les jours calendaires (un
     // abonnement se paie aussi les jours sans vente) : 100 % Adnane avant le
     // 14/07, 50/50 ensuite.
-    const withCharges = historyEnd > historyStart
-      ? applyFixedCharges(monthlySharesFrom(flat), listParisDays(historyStart, historyEnd))
-      : monthlySharesFrom(flat);
+    let withCharges = monthlySharesFrom(flat);
+    if (historyEnd > historyStart) {
+      const allDays = listParisDays(historyStart, historyEnd);
+      withCharges = applyFixedCharges(withCharges, allDays);
+      // Solde entre associés (08/08) : fait remonter les avances (LLC,
+      // Claude, Hushed, transferts) dans le mois où elles sont VRAIMENT
+      // tombées — ne touche jamais le net société.
+      withCharges = applyAssociateLedger(withCharges, allDays);
+    }
     return fillYearMonths(year, withCharges);
   }, [dayData, year, historyStart, historyEnd]);
 
@@ -422,14 +441,17 @@ export function YearBoard({
         <p className="mt-2 text-[10px] leading-snug text-ink-faint">
           Les frais LLC sont déduits du net global le 21/06 et partagés <b>50/50</b> (décision
           Badr : la LLC a servi à lancer le 14/07) — payés en entier par Badr, sa moitié est à
-          sa charge, l&apos;autre moitié (259,16 €) lui est due au règlement. L&apos;avance de
+          sa charge, l&apos;autre moitié (259,18 €) lui est due au règlement. L&apos;avance de
           1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
           Le Claude de Badr (100 €/mois depuis le 15/07) est compté dans les charges ; seule la
           1re facture (15/07) est sortie de sa poche et créditée ici — depuis la 2e (08/08) la
           carte LLC paie, donc ce compteur ne bouge plus. Le Hushed d&apos;Adnane (7,99 €/mois) :
           les 2 premiers mois (juillet, août) sont sortis de sa poche et crédités ici — à partir
           de septembre la carte LLC prend le relais. Dites-moi si d&apos;autres abonnements sont
-          payés perso pour les tracer pareil.
+          payés perso pour les tracer pareil. <b>Ce solde est déjà intégré</b> aux cartes « combien
+          j&apos;ai gagné » ci-dessus et au total depuis le début — chaque avance corrige le mois où
+          elle est vraiment tombée (juin pour la LLC et le transfert, juillet/août pour Claude et
+          Hushed), jamais un mois choisi au hasard.
         </p>
       </section>
 
