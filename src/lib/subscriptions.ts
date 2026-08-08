@@ -12,8 +12,8 @@
 //   • USD converti au taux fourni par Badr (1 € = 1,1539 $), FIGÉ ici — pas
 //     de taux flottant, pas de surprise. Montant € = source de vérité.
 //   • startDay = date de début de facturation. Faute de dates précises dans
-//     le PDF, DÉFAUT = début de l'activité (04/06) — approximation SIGNALÉE
-//     à Badr le 08/08, à affiner s'il donne les vraies dates.
+//     le PDF, DÉFAUT = début de l'activité (21/05 — Badr confirmé le 08/08 :
+//     « les abonnements ont commencé depuis le début », sauf WeTracked).
 //   • endDay = null tant que l'abonnement court. Résilier un abonnement =
 //     poser endDay, JAMAIS supprimer la ligne (l'historique doit continuer
 //     de porter ce qui a été réellement payé).
@@ -31,9 +31,13 @@
 //   • Claude Badr : UN abonnement de 100 €/mois (depuis le 15/07). Seule la
 //     1re facture est perso — tracée dans « Entre associés » ; à partir de la
 //     2e (08/08) la CARTE LLC paie (charge société directe, rien à tracer).
+//   • « Les abonnements ont commencé depuis le début, sauf WeTracked.io » →
+//     START_DEFAULT passe de 04/06 à 21/05 (aligné sur HISTORY_START/le
+//     vrai début d'activité). WeTracked reste sur l'ancien 04/06 en
+//     attendant sa vraie date — SIGNALÉ, pas une vraie date confirmée.
 // Encore en attente de Badr (jamais inventé) :
-//   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
-//     facturé, pas encore compté.
+//   • WeTracked : date de départ réelle (démarré APRÈS les autres, mais
+//     04/06 reste une approximation, pas une date donnée).
 //   • CWILL : les « frais d'utilisation » variables ne sont pas comptés
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
@@ -66,7 +70,10 @@ export interface Subscription {
   note?: string;
 }
 
-const START_DEFAULT = "2026-06-04"; // début d'activité — approximation signalée
+const START_DEFAULT = "2026-05-21"; // début d'activité (Badr 08/08 : « depuis le début »)
+// WeTracked a démarré APRÈS les autres (Badr 08/08) — vraie date inconnue,
+// l'ancien défaut (04/06) reste comme approximation SIGNALÉE en attendant.
+const WETRACKED_START = "2026-06-04";
 
 export const SUBSCRIPTIONS: Subscription[] = [
   // Équipe (prestataires mensuels)
@@ -79,7 +86,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
   { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // Outils
-  { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
   { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "25 €/mois fixé par Badr le 08/08 (« tu la mets à 25 € » — compris comme le prorata emailing, au lieu du plein tarif 150 $). À corriger si ce n'était pas ça." },
   // Hushed : payé PERSONNELLEMENT par Adnane depuis ~2 mois (juillet + août),
   // puis par la CARTE LLC à partir du 3e mois (septembre) — même schéma que

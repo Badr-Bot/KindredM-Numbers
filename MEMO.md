@@ -96,9 +96,9 @@
 
 ## Historique Shopify depuis le 21 mai (08/08)
 - **HISTORY_START passe de 2026-06-04 à 2026-05-21** (« l'ecom a démarré à partir du 21 mai », Badr) — data.ts, backfillRun.ts (ORDERS_SINCE_DAY), discover.ts (BACKFILL_SINCE_ISO), incrementalSync.ts (fenêtre de recompute).
-- Le spend Meta REST à 04/06 (vérifié séparément le 15/07, pas de raison de croire qu'il existe plus tôt — pas changé sans confirmation de Badr).
 - `REQUIRED_FULL_RESYNC_VERSION` bump → v10, déclenche un re-téléchargement complet des commandes Shopify au prochain sync pour aller chercher le 21/05→03/06 jamais téléchargé.
-- ⚠️ Question ouverte pour Badr : les ABONNEMENTS (subscriptions.ts, `START_DEFAULT` = 04/06 par défaut) ont-ils aussi démarré le 21/05, ou vraiment le 04/06 ? Pas changé sans confirmation — ne pas supposer.
+- **Réponse Badr (08/08) : les abonnements ont AUSSI commencé « depuis le début »**, sauf WeTracked (démarré après, vraie date inconnue). `START_DEFAULT` passe à 21/05 dans subscriptions.ts ; WeTracked garde l'ancien 04/06 en approximation signalée, en attendant sa vraie date.
+- **⚠️ Spend Meta AVANT le 04/06 : trouvé réel, remonte au moins à mars** (vérifié via l'API Meta le 08/08) : ~2 188 € en mars, ~1 700 € début avril, spend quasi continu ensuite jusqu'au 21/05. META_SINCE_DAY (backfillRun.ts) **PAS changé** — trop d'argent et d'incertitude (campagnes de test ? pré-lancement ?) pour l'intégrer sans confirmation explicite de Badr sur ce que représente ce spend et depuis quelle date réelle le compter.
 
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.
