@@ -4,10 +4,11 @@
 > au format le plus dense possible. Mis à jour à chaque changement de règle.
 > Historique détaillé → STATUT.md. Spec complète → NIVA_DASHBOARD_SPEC.md.
 
-## 🎯 Prochaine étape (08/08 soir) : LE THÈME
+## 🎯 Prochaine étape (08/08 soir → en cours) : LE THÈME
 Toute la logique métier/données est réglée pour l'instant (rien en attente
-côté calculs, tout ci-dessous est déjà en prod). Badr veut maintenant une
-**refonte visuelle** — c'est la seule tâche ouverte.
+côté calculs, tout ci-dessous est déjà en prod). Badr veut une **refonte
+visuelle** — c'est la seule tâche ouverte. **Prototype en cours de
+validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 
 - **Référence donnée par Badr** : capture d'écran de « Floxy » (dashboard
   proxy) — style SaaS clair, sidebar noire épurée, cartes blanches à coins
@@ -15,18 +16,39 @@ côté calculs, tout ci-dessous est déjà en prod). Badr veut maintenant une
 - **Ce qu'il a dit textuellement** : « ton style ça se voit que c'est
   Claude, je veux un style cool stylé et classe... propose des trucs avec
   des effets sonores et visuels, je veux un truc qui vend, pour que les
-  gens kiffent ». Inspiration Floxy, pas copie conforme — il attend une
-  proposition, pas un clone.
-- **État actuel du style** (`globals.css`, thème « Direction B · Shonen
-  Impact ») : dashboard SOMBRE façon terminal — fond quasi-noir violine
-  (`--color-terminal: #0b0a10`), accent or/amber (`--color-phosphor:
-  #ffc61a`), police mono (Geist Mono), tuiles bordées `bg-panel/40`. Une
-  bascule vers un thème clair façon Floxy est un changement profond (touche
-  quasiment chaque composant) — à valider par capture avant de généraliser,
-  pas à l'aveugle.
-- **Son déjà en place** : `components/sound/SoundProvider.tsx` + `useSound()`
-  — sons existants : `tab`, `beep`, `boot`, `cash`, `error`, `tick`, déjà
-  câblés sur les clics d'onglets/actions — étoffer plutôt que réinventer.
+  gens kiffent ». Inspiration Floxy, pas copie conforme — une proposition,
+  pas un clone.
+- **Nouveau thème « Direction C · Clair, sobre, fintech » (globals.css,
+  08/08)** : fond blanc cassé (`--color-terminal: #f4f5f7`), cartes
+  blanches pleines + ombre douce (`.card-shadow`, plus d'opacité genre
+  `bg-panel/40` qui ne fonctionnait qu'sur fond sombre), positif = vert
+  (`--color-phosphor: #16a34a`, conforme à la réf Floxy), rouge = négatif,
+  **or gardé en accent secondaire** (`--color-phosphor-brand`, logo/badges/
+  alertes uniquement — validé par Badr, pas tout misé sur le vert). Police
+  Geist Sans (plus mono), gros chiffres en `font-black` très contrasté vs
+  labels plus légers (validé par Badr : « sans-serif + gras marqué »). Noms
+  de tokens gardés stables (terminal/panel/ink/phosphor/amber/red/cyan)
+  pour propager sans retoucher chaque composant, comme les thèmes d'avant.
+- **Prototype construit** : Header, BottomNav (devient une pill flottante
+  noire en bas — traduction mobile du « sidebar noire » Floxy), layout,
+  page Aujourd'hui (TodayBoard) entièrement restylés. Le reste de l'app
+  (Mois/Analyse/Créas/Année/Dépenses/Admin + composants partagés type
+  EmptyState/DataError/loading) hérite déjà des nouvelles couleurs via les
+  tokens mais garde les anciennes bordures/opacités « fond sombre » tant
+  que non retouché — à généraliser après feu vert Badr.
+- **Effets ajoutés (validé par Badr, réponses du 08/08)** : cartes avec
+  léger lift au survol/tap (`.card-interactive`), confettis + son
+  `celebrate` (arpège 4 notes) quand le net du jour ≥ cible, sons distincts
+  `statusYellow`/`statusRed` (doux, jamais une alarme) et `refreshDone`.
+  BootOverlay gardé sombre (splash de ~1,5 s) comme moment de transition
+  avant de révéler le dashboard clair.
+- **Bug trouvé et corrigé au passage** : BootOverlay pouvait rester bloqué
+  à l'écran en dev (`next dev`, React Strict Mode double-invoque l'effet
+  mount→cleanup→mount ; la 2e passe relisait sessionStorage déjà écrit par
+  la 1re et ne reprogrammait jamais le timer de fermeture). Fix : la
+  décision « faut-il booter » est calculée une seule fois (lazy state), pas
+  relue dans l'effet à chaque passe. N'affectait pas la prod (`next build`
+  n'a pas ce double-invoke), mais bloquait aussi mes captures d'écran.
 - **Nom déjà changé en Weft** (08/08) : Header, BootOverlay, `<title>`,
   auth realm. `NIVA_DEMO`/`NIVAFIT` restent en interne (non visibles),
   jamais touchés.

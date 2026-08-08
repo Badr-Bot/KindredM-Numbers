@@ -1,70 +1,74 @@
 @import "tailwindcss";
 
 /* ============================================================
-   NIVA — Direction B · Shonen Impact
-   Énergie manga assumée : encre quasi noire, contours francs (planche
-   BD), or/victoire = positif, cramoisi = danger, bleu électrique =
-   accent froid. Les noms de tokens (phosphor/red/amber/cyan) sont
-   restés stables depuis Terminal Noir — seules leurs valeurs changent —
-   pour que toute la palette se propage sans retoucher chaque composant.
-   Dark-only assumé (§9).
+   WEFT — Direction C · Clair, sobre, fintech
+   Inspiration : Floxy (SaaS clair, sidebar noire, cartes blanches à
+   coins arrondis, badges verts) — proposition, pas une copie conforme.
+   Fond quasi-blanc, cartes blanches à ombre douce (plus de bordures BD
+   ni de transparence type "terminal sombre"), positif = vert, négatif
+   = rouge, or = accent de marque (logo, mise en avant), typo sans-serif.
+   Les noms de tokens (terminal/panel/ink/phosphor/amber/red/cyan)
+   restent stables depuis les thèmes précédents — seules leurs valeurs
+   changent — pour que la palette se propage sans retoucher chaque
+   composant. Dark-only reste hors scope (§9 spec, inchangé) : light-only
+   assumé ici, symétrique.
    ============================================================ */
 
 @theme {
-  --color-terminal: #0b0a10;
-  --color-terminal-2: #100e17;
-  --color-panel: #17141f;
-  --color-line: #322c42;
-  --color-line-soft: #211d2c;
-  --color-ink: #f6f1fb;
-  --color-ink-dim: #a89fc0;
-  --color-ink-faint: #6c6482;
-  /* « or de victoire » — remplace le vert phosphore, reste le positif */
-  --color-phosphor: #ffc61a;
-  --color-amber: #ff7a29;
-  --color-red: #ff2d55;
+  --color-terminal: #f4f5f7;
+  --color-terminal-2: #eceef1;
+  --color-panel: #ffffff;
+  --color-line: #e3e5ea;
+  --color-line-soft: #edeef2;
+  --color-ink: #14161c;
+  --color-ink-dim: #6b7280;
+  --color-ink-faint: #9aa1ac;
+  /* accent de marque « or » — logo, mises en avant, jamais le statut positif */
+  --color-phosphor-brand: #c8932f;
+  /* positif = vert (référence Floxy, badges verts) */
+  --color-phosphor: #16a34a;
+  --color-amber: #d97706;
+  --color-red: #dc2626;
   /* data-viz / accent froid — distinct des couleurs de statut ROAS */
-  --color-cyan: #2fd8ff;
+  --color-cyan: #2563eb;
 
-  /* Paliers de net (Badr, 04/08, révisé sur demande — vraies teintes
-     distinctes par palier de 500 €, pas un dégradé mono-teinte). Négatif =
-     --color-red. Positif : 5 teintes qui montent en température le long du
-     cercle chromatique (chaud → froid), en réutilisant les 3 tokens déjà
-     établis (amber/phosphor/cyan-like) + 3 nouvelles pour combler. Chaque
-     paire ADJACENTE validée (skill dataviz, six-checks) : CVD ΔE ok, seule
-     paire hors-cible = amber↔red (14,0 vs seuil 15, déjà existants tous les
-     deux) — acceptable car le signe +/− du montant sert déjà de 2e canal. */
-  --color-net-1: #ff7a29; /* 0 - 500 €      (= amber) */
-  --color-net-2: #ffc61a; /* 500 - 1000 €   (= phosphor) */
-  --color-net-3: #41dca5; /* 1000 - 1500 €  (émeraude, nouveau) */
-  --color-net-4: #29c9fa; /* 1500 - 2000 €  (azur, nouveau) */
-  --color-net-5: #8483ff; /* ≥ 2000 €       (indigo, nouveau) */
+  /* Paliers de net (5 teintes séquentielles vert → sarcelle, lisibles sur
+     fond blanc). Négatif = --color-red. À revalider (six-checks CVD)
+     avant généralisation finale — cohérent visuellement pour le prototype. */
+  --color-net-1: #65a30d; /* 0 - 500 €      (lime) */
+  --color-net-2: #16a34a; /* 500 - 1000 €   (vert) */
+  --color-net-3: #059669; /* 1000 - 1500 €  (émeraude) */
+  --color-net-4: #0d9488; /* 1500 - 2000 €  (sarcelle) */
+  --color-net-5: #0e7490; /* ≥ 2000 €       (cyan profond) */
 
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     var(--font-geist-mono), ui-monospace, "SF Mono", "Menlo", "Consolas",
     monospace;
-  --font-sans: var(--font-mono);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   background: var(--color-terminal);
 }
 
 body {
   background: var(--color-terminal);
   color: var(--color-ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* trame demi-teinte façon papier manga, très discrète */
-  background-image: radial-gradient(rgba(246, 241, 251, 0.02) 1px, transparent 1px);
-  background-size: 3px 3px;
 }
 
-/* Bordures franches façon planche BD — ne touche que les contours pleins
-   (panels/boutons/cartes), pas les fins séparateurs de tableaux (border-b/-t). */
+/* cartes/panels : plus de bordures épaisses façon BD, une bordure fine +
+   une ombre douce suffisent pour la définition "carte blanche" façon SaaS */
 .border {
-  border-width: 2px;
+  border-width: 1px;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(20, 22, 28, 0.04), 0 8px 24px -12px rgba(20, 22, 28, 0.12);
 }
 
 /* chiffres alignés partout (tableaux denses) */
@@ -72,7 +76,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* barre de focus visible au clavier, cohérente terminal */
+/* barre de focus visible au clavier */
 :focus-visible {
   outline: 2px solid var(--color-phosphor);
   outline-offset: 2px;
@@ -96,41 +100,19 @@ body {
   }
 }
 
-@keyframes glow-pulse {
-  0%,
-  100% {
-    text-shadow: 0 0 18px rgba(51, 255, 156, 0.35), 0 0 4px rgba(51, 255, 156, 0.25);
-  }
-  50% {
-    text-shadow: 0 0 30px rgba(51, 255, 156, 0.6), 0 0 8px rgba(51, 255, 156, 0.4);
-  }
-}
-
-@keyframes glow-pulse-red {
-  0%,
-  100% {
-    text-shadow: 0 0 18px rgba(255, 92, 92, 0.32), 0 0 4px rgba(255, 92, 92, 0.22);
-  }
-  50% {
-    text-shadow: 0 0 30px rgba(255, 92, 92, 0.55), 0 0 8px rgba(255, 92, 92, 0.35);
-  }
-}
-
-@keyframes scan-sweep {
+@keyframes live-pulse {
   0% {
-    transform: translateY(-100%);
-    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45);
   }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
+  70% {
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
   }
   100% {
-    transform: translateY(1200%);
-    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
   }
+}
+.live-pulse {
+  animation: live-pulse 2.2s ease-out infinite;
 }
 
 @keyframes boot-out {
@@ -164,30 +146,36 @@ body {
   }
 }
 
-@keyframes flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
-  }
-  94% {
-    opacity: 0.72;
-  }
-  96% {
-    opacity: 1;
-  }
-}
-
-.glow-net-pos {
-  animation: glow-pulse 3.2s ease-in-out infinite;
-}
-.glow-net-neg {
-  animation: glow-pulse-red 3.2s ease-in-out infinite;
-}
 .rise-in {
   animation: rise-in 0.5s ease-out both;
+}
+
+/* cartes : légère élévation au survol/tap — hors "boutons" (déjà gérés
+   globalement plus bas), purement décoratif sur les tuiles du dashboard */
+.card-interactive {
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+}
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(20, 22, 28, 0.05), 0 16px 32px -14px rgba(20, 22, 28, 0.18);
+}
+.card-interactive:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* salve de confettis pour un net ≥ cible (voir Confetti.tsx) */
+@keyframes confetti-burst {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(200deg);
+    opacity: 0;
+  }
+}
+.confetti-piece {
+  animation: confetti-burst 0.9s cubic-bezier(0.2, 0.8, 0.3, 1) both;
 }
 
 /* ---- Navigation fluide ---- */
@@ -205,7 +193,7 @@ body {
   animation: page-enter 0.24s ease-out both;
 }
 
-/* squelettes de chargement : vague dorée discrète */
+/* squelettes de chargement : vague discrète */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -218,7 +206,7 @@ body {
   background-image: linear-gradient(
     100deg,
     transparent 30%,
-    rgba(255, 198, 26, 0.06) 50%,
+    rgba(20, 22, 28, 0.05) 50%,
     transparent 70%
   );
   background-size: 200% 100%;
@@ -232,7 +220,7 @@ a:active {
 }
 button,
 a {
-  transition: transform 0.08s ease-out;
+  transition: transform 0.08s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
