@@ -16,6 +16,8 @@ import {
 } from "@/lib/format";
 import { CountUp } from "../fx/CountUp";
 import { Confetti } from "../fx/Confetti";
+import { Reveal } from "../fx/Reveal";
+import { useHoverSound } from "../fx/useHoverSound";
 import { StatusPill, statusText } from "../shell/StatusPill";
 import { useSound } from "../sound/SoundProvider";
 
@@ -29,6 +31,7 @@ export function TodayBoard({
   productSplit?: ProductSplitCard[];
 }) {
   const { play } = useSound();
+  const hoverSound = useHoverSound();
   const global = view.cards[0];
   const markets = view.cards.slice(1);
   const [celebrate, setCelebrate] = useState(false);
@@ -116,7 +119,10 @@ export function TodayBoard({
         </a>
       )}
       {/* Héros : gain net global */}
-      <section className="card-shadow card-interactive rise-in relative overflow-hidden rounded-2xl border border-line bg-panel p-5 lg:p-8">
+      <section
+        onMouseEnter={hoverSound}
+        className="card-shadow card-interactive rise-in relative overflow-hidden rounded-2xl border border-line bg-panel p-5 lg:p-8"
+      >
         {celebrate && <Confetti />}
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-ink-dim lg:text-sm">
@@ -170,7 +176,8 @@ export function TodayBoard({
 
       {/* 🧭 D'où viennent les ventes du jour (source + récurrents) */}
       {view.acquisition && (
-        <section className="card-shadow card-interactive rise-in rounded-xl border border-line bg-panel p-3.5">
+        <Reveal>
+        <section onMouseEnter={hoverSound} className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
               🧭 Sources des ventes du jour
@@ -208,6 +215,7 @@ export function TodayBoard({
             « gratuites » (pas de spend), elles gonflent le ROAS global.
           </p>
         </section>
+        </Reveal>
       )}
 
       {/* Cartes par marché — 2 colonnes sur mobile, 4 en ligne sur ordinateur */}
@@ -215,30 +223,31 @@ export function TodayBoard({
         {markets.map((card, i) => {
           const meta = MARKET_META[card.market];
           return (
-            <section
-              key={card.market}
-              className="card-shadow card-interactive rise-in rounded-xl border border-line bg-panel p-3.5 lg:p-5"
-              style={{ animationDelay: `${80 + i * 60}ms` }}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold lg:text-base">
-                  <span aria-hidden>{meta.flag}</span> {meta.label}
-                </span>
-                <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
-              </div>
-              <div className={`mt-2 text-2xl font-black tracking-tight leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
-                <CountUp
-                  value={card.totals.netCents / 100}
-                  format={(n) => formatEurSigned0(Math.round(n * 100))}
-                  durationMs={800}
-                />
-              </div>
-              <dl className="mt-2.5 grid grid-cols-3 gap-1 text-center text-[10.5px] lg:mt-4 lg:text-xs">
-                <MiniMetric label="CA" value={formatEur0(card.totals.caCents)} />
-                <MiniMetric label="Spend" value={formatEur0(card.totals.spendCents)} />
-                <MiniMetric label="Cmd" value={formatInt(card.totals.orders)} />
-              </dl>
-            </section>
+            <Reveal key={card.market} delayMs={i * 60}>
+              <section
+                onMouseEnter={hoverSound}
+                className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5 lg:p-5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold lg:text-base">
+                    <span aria-hidden>{meta.flag}</span> {meta.label}
+                  </span>
+                  <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
+                </div>
+                <div className={`mt-2 text-2xl font-black tracking-tight leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
+                  <CountUp
+                    value={card.totals.netCents / 100}
+                    format={(n) => formatEurSigned0(Math.round(n * 100))}
+                    durationMs={800}
+                  />
+                </div>
+                <dl className="mt-2.5 grid grid-cols-3 gap-1 text-center text-[10.5px] lg:mt-4 lg:text-xs">
+                  <MiniMetric label="CA" value={formatEur0(card.totals.caCents)} />
+                  <MiniMetric label="Spend" value={formatEur0(card.totals.spendCents)} />
+                  <MiniMetric label="Cmd" value={formatInt(card.totals.orders)} />
+                </dl>
+              </section>
+            </Reveal>
           );
         })}
       </div>
@@ -260,8 +269,10 @@ export function TodayBoard({
  * spend du Polo = tout ce qui n'est pas une campagne Gilet (voir
  * getProductSplitForDay). */
 function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
+  const hoverSound = useHoverSound();
   return (
-    <section className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5 lg:p-5">
+    <Reveal>
+    <section onMouseEnter={hoverSound} className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5 lg:p-5">
       <div className="mb-2.5 flex items-baseline justify-between">
         <span className="text-sm font-semibold lg:text-base">🏷️ Par produit</span>
         <span className="text-[9.5px] text-ink-faint">upsells inclus dans leur produit principal</span>
@@ -292,6 +303,7 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
         })}
       </div>
     </section>
+    </Reveal>
   );
 }
 
