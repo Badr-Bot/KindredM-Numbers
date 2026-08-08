@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSound } from "../sound/SoundProvider";
 
 const LINES = [
-  "NIVA // FINANCIAL TERMINAL",
+  "WEFT // FINANCIAL TERMINAL",
   "> init engine ......... ok",
   "> load aggregates ..... ok",
   "> markets ES UK DE FR . ok",

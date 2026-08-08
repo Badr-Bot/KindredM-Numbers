@@ -142,9 +142,12 @@ export function ExpenseBoard({
   );
   const channelCaTotal = channelDonutData.reduce((s, c) => s + c.caCents, 0);
 
-  // 📧 CA email (Klaviyo, campagnes seulement — jamais les flows/BIENVENUE15)
+  // 📧 CA email (Klaviyo, campagnes seulement — jamais les flows ni les
+  // campagnes « bienvenue »)
   const [klaviyo, setKlaviyo] = useState<
-    { attributedRevenueCents: number; conversions: number; campaignsCount: number } | { error: string } | "loading"
+    | { attributedRevenueCents: number; conversions: number; campaignsCount: number; excludedCampaignNames: string[] }
+    | { error: string }
+    | "loading"
   >("loading");
   useEffect(() => {
     let cancelled = false;
@@ -553,12 +556,19 @@ export function ExpenseBoard({
                     {klaviyo.conversions} commande{klaviyo.conversions > 1 ? "s" : ""} ·{" "}
                     {klaviyo.campaignsCount} campagne{klaviyo.campaignsCount > 1 ? "s" : ""}
                   </div>
+                  {klaviyo.excludedCampaignNames.length > 0 && (
+                    <div className="mt-1 text-[9.5px] text-ink-faint">
+                      Exclues (bienvenue) : {klaviyo.excludedCampaignNames.join(", ")}
+                    </div>
+                  )}
                 </>
               )}
               <p className="mt-2 text-[9.5px] text-ink-faint">
-                Jamais les flows automatiques (donc jamais le mail de bienvenue/BIENVENUE15) — seulement
-                le travail de campagnes de Jeremy. Mesure indépendante du donut à gauche : ne pas
-                additionner les deux (une vente email peut aussi apparaître en « Direct » côté Shopify).
+                Jamais les flows automatiques, jamais une campagne dont le nom contient « bienvenue »
+                (n&apos;importe qui atterrissant sur le site peut avoir ce code, ce n&apos;est pas un
+                geste de Jeremy) — seulement ses vraies campagnes. Mesure indépendante du donut à
+                gauche : ne pas additionner les deux (une vente email peut aussi apparaître en
+                « Direct » côté Shopify).
               </p>
             </div>
           </div>

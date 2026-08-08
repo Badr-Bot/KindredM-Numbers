@@ -92,7 +92,6 @@ export default async function ControlPage() {
         subtitle="Remboursements & rétrofacturations — tout maîtriser"
       />
       <ControlBoard
-        mode={mode}
         dayData={result.dayData}
         chargebacks={result.chargebacks}
         months={result.months}

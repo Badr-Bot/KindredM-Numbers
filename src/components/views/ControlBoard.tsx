@@ -1,10 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import type { Chargeback, DataMode, DayAgg } from "@/lib/data";
-import type { Market } from "@/lib/engine";
-import { MARKET_META, MARKETS, type MarketTab } from "@/lib/markets";
+import type { Chargeback, DayAgg } from "@/lib/data";
+import { MARKET_META, type MarketTab } from "@/lib/markets";
 import {
   formatDayShort,
   formatEur0,
@@ -34,20 +32,17 @@ function prevMonth(ym: string): string {
 }
 
 export function ControlBoard({
-  mode,
   dayData,
   chargebacks,
   months,
   years,
 }: {
-  mode: DataMode;
   dayData: Record<MarketTab, DayAgg[]>;
   chargebacks: Chargeback[];
   months: string[];
   years: string[];
 }) {
   const { play } = useSound();
-  const router = useRouter();
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
   const [gran, setGran] = useState<Granularity>("month");
   const [monthIdx, setMonthIdx] = useState(months.length - 1);
@@ -220,11 +215,14 @@ export function ControlBoard({
         )}
       </section>
 
-      <ChargebackForm mode={mode} onSaved={() => router.refresh()} />
-
-      <p className="text-center text-[10px] text-ink-faint">
+      <p className="text-center text-[10px] leading-snug text-ink-faint">
         Le « net ajusté » ne modifie pas le net validé au centime : c&apos;est un calque de contrôle. Les
-        remboursements sont déjà dans le net ; les litiges perdus + frais s&apos;en déduisent en plus.
+        remboursements sont déjà dans le net (lus automatiquement depuis Shopify, rien à saisir).{" "}
+        <b>Les rétrofacturations ne sont pas encore automatiques</b> — Shopify demande une permission
+        supplémentaire (<code>read_shopify_payments_disputes</code>) pas encore accordée à l&apos;app. Le
+        formulaire de saisie manuelle a été retiré (08/08, sur demande de Badr) plutôt que de compter sur
+        une saisie qui n&apos;arrivera pas — à réactiver en automatique dès que la permission est ajoutée
+        côté Shopify.
       </p>
     </div>
   );
@@ -236,135 +234,5 @@ function Stat({ label, value, valueClass = "" }: { label: string; value: string;
       <span className="text-[9px] uppercase tracking-wide text-ink-faint">{label}</span>
       <span className={`text-sm font-bold tnum ${valueClass}`}>{value}</span>
     </div>
-  );
-}
-
-function ChargebackForm({ mode, onSaved }: { mode: DataMode; onSaved: () => void }) {
-  const { play } = useSound();
-  const isDemo = mode !== "live";
-  const [open, setOpen] = useState(false);
-  const [day, setDay] = useState("");
-  const [market, setMarket] = useState<Market>("ES");
-  const [amount, setAmount] = useState("");
-  const [fee, setFee] = useState("15");
-  const [status, setStatus] = useState<Chargeback["status"]>("open");
-  const [orderName, setOrderName] = useState("");
-  const [reason, setReason] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
-
-  const submit = async () => {
-    setBusy(true);
-    setMsg(null);
-    play("beep");
-    try {
-      const res = await fetch("/api/chargebacks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          day,
-          market,
-          amountCents: Math.round(parseFloat(amount.replace(",", ".")) * 100),
-          feeCents: Math.round(parseFloat((fee || "0").replace(",", ".")) * 100),
-          status,
-          orderName: orderName || null,
-          reason: reason || null,
-        }),
-      });
-      const json = await res.json();
-      if (json.ok) {
-        setMsg("Litige enregistré.");
-        setAmount("");
-        setOrderName("");
-        setReason("");
-        onSaved();
-      } else {
-        setMsg(json.reason ?? "Échec de l'enregistrement.");
-      }
-    } catch {
-      setMsg("Erreur réseau.");
-    }
-    setBusy(false);
-  };
-
-  return (
-    <section className="rounded-lg border border-line bg-panel/40 p-3.5">
-      <button
-        onClick={() => {
-          play("tick");
-          setOpen((o) => !o);
-        }}
-        className="flex w-full items-center justify-between text-sm font-semibold"
-        aria-expanded={open}
-      >
-        <span>➕ Logger une rétrofacturation</span>
-        <span className="text-ink-dim">{open ? "▲" : "▼"}</span>
-      </button>
-
-      {open && (
-        <div className="mt-3 flex flex-col gap-2">
-          {isDemo && (
-            <p className="rounded border border-amber/30 bg-amber/[0.05] p-2 text-[10.5px] text-amber">
-              Mode démo : la saisie n&apos;est pas persistée. Elle fonctionnera en mode réel (Supabase).
-            </p>
-          )}
-          <div className="grid grid-cols-2 gap-2">
-            <Field label="Date">
-              <input type="date" value={day} onChange={(e) => setDay(e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Marché">
-              <select value={market} onChange={(e) => setMarket(e.target.value as Market)} className={inputCls}>
-                {MARKETS.map((m) => (
-                  <option key={m} value={m}>
-                    {MARKET_META[m].flag} {m}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Montant (€)">
-              <input inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="59,99" className={inputCls} />
-            </Field>
-            <Field label="Frais (€)">
-              <input inputMode="decimal" value={fee} onChange={(e) => setFee(e.target.value)} placeholder="15" className={inputCls} />
-            </Field>
-            <Field label="Statut">
-              <select value={status} onChange={(e) => setStatus(e.target.value as Chargeback["status"])} className={inputCls}>
-                <option value="open">⏳ En cours</option>
-                <option value="won">✅ Gagné</option>
-                <option value="lost">❌ Perdu</option>
-              </select>
-            </Field>
-            <Field label="Commande (opt.)">
-              <input value={orderName} onChange={(e) => setOrderName(e.target.value)} placeholder="#1042" className={inputCls} />
-            </Field>
-          </div>
-          <Field label="Motif (opt.)">
-            <input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Transaction non reconnue" className={inputCls} />
-          </Field>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={submit}
-              disabled={busy || !day || !amount}
-              className="rounded border border-phosphor/60 bg-phosphor/10 px-3 py-1.5 text-xs font-semibold text-phosphor transition-colors hover:bg-phosphor/20 disabled:opacity-40"
-            >
-              {busy ? "…" : "Enregistrer"}
-            </button>
-            {msg && <span className="text-[10.5px] text-ink-dim">{msg}</span>}
-          </div>
-        </div>
-      )}
-    </section>
-  );
-}
-
-const inputCls =
-  "w-full rounded border border-line bg-terminal px-2 py-1.5 text-[12px] text-ink outline-none focus:border-phosphor";
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="flex flex-col gap-1">
-      <span className="text-[9px] uppercase tracking-wide text-ink-faint">{label}</span>
-      {children}
-    </label>
   );
 }

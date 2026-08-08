@@ -64,11 +64,23 @@ export function TodayBoard({
   return (
     <div className="flex flex-col gap-4">
       {view.fixedCostsCents > 0 && (
-        <p className="mb-2 text-[10.5px] text-ink-faint">
-          💳 Charges fixes du jour (abonnements/équipe) déjà déduites du net global :{" "}
-          <b className="tnum">−{(view.fixedCostsCents / 100).toFixed(2).replace(".", ",")} €</b>
-          {" "}· détail dans l&apos;onglet Année. Cartes pays/produit hors charges.
-        </p>
+        <a
+          href="/depenses"
+          className="flex items-center justify-between rounded-lg border border-amber/30 bg-amber/[0.06] px-3.5 py-2.5 transition hover:bg-amber/[0.1]"
+        >
+          <span className="flex items-center gap-2">
+            <span aria-hidden className="text-lg">💳</span>
+            <span className="flex flex-col">
+              <span className="text-[11px] font-semibold text-ink">Charges fixes du jour</span>
+              <span className="text-[9.5px] text-ink-faint">
+                Abonnements/équipe, déjà déduites du net global · détail dans Dépenses →
+              </span>
+            </span>
+          </span>
+          <span className="tnum text-lg font-bold text-amber">
+            −{formatEur0(view.fixedCostsCents)}
+          </span>
+        </a>
       )}
       {unmappedSpendCents > 0 && (
         <a

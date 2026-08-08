@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NIVA · Terminal financier",
-  description: "P&L réel des marchés NIVAFIT — CA, spend, gain net, ROAS.",
+  title: "Weft · Terminal financier",
+  description: "P&L réel des marchés — CA, spend, gain net, ROAS.",
 };
 
 export const viewport: Viewport = {

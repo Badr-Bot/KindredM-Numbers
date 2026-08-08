@@ -29,7 +29,7 @@ export function proxy(request: NextRequest) {
 
   return new NextResponse("Authentification requise.", {
     status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="NIVA Dashboard"' },
+    headers: { "WWW-Authenticate": 'Basic realm="Weft Dashboard"' },
   });
 }
 

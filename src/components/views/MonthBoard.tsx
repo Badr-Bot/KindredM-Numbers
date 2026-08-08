@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { DayLine, Totals } from "@/lib/data";
+import type { Chargeback, DayLine, Totals } from "@/lib/data";
 import { marginPct, roas } from "@/lib/engine";
 import type { MarketTab } from "@/lib/markets";
 import {
@@ -51,10 +51,12 @@ function prevMonth(ym: string): string {
 
 export function MonthBoard({
   dayLines,
+  chargebacks = [],
   months,
   today,
 }: {
   dayLines: Record<MarketTab, DayLine[]>;
+  chargebacks?: Chargeback[];
   months: string[];
   today: string;
 }) {
@@ -69,6 +71,18 @@ export function MonthBoard({
   const totals = useMemo(() => sum(monthDays), [monthDays]);
   const prevTotals = useMemo(() => sum(rows.filter((r) => r.day.startsWith(prevMonth(month)))), [rows, month]);
   const totalNet = totals.netCents;
+
+  // ↩︎⚖️ Remboursements + rétrofacturations en % du CA brut — demande Badr
+  // 08/08 (« affiché quelque part » dans le Mois, plus de saisie manuelle).
+  const refundChargebackStat = useMemo(() => {
+    const cbInMonth = chargebacks.filter(
+      (c) => c.day.startsWith(month) && (tab === "GLOBAL" || c.market === tab)
+    );
+    const cbCents = cbInMonth.filter((c) => c.status !== "won").reduce((s, c) => s + c.amountCents + c.feeCents, 0);
+    const grossCents = totals.caCents + totals.refundedCents;
+    const takenCents = totals.refundedCents + cbCents;
+    return { takenCents, grossCents, pct: grossCents > 0 ? takenCents / grossCents : 0 };
+  }, [chargebacks, month, tab, totals.caCents, totals.refundedCents]);
 
   // Projection fin de mois (mois en cours uniquement) : net cumulé / jours
   // écoulés × jours du mois. Simple règle de trois, pas de la voyance.
@@ -122,6 +136,18 @@ export function MonthBoard({
         <Tile label="ROAS" value={formatRoas(roas(totals.caCents, totals.spendCents))} />
         <Tile label="Cmd" value={formatInt(totals.orders)} delta={delta(totals.orders, prevTotals.orders)} />
       </div>
+
+      {refundChargebackStat.grossCents > 0 && (
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-panel/40 px-3 py-2 text-[11px]">
+          <span className="uppercase tracking-wide text-ink-faint">↩︎⚖️ Remboursements + rétrofacturations</span>
+          <span className={`tnum font-semibold ${refundChargebackStat.pct > 0.03 ? "text-red" : "text-ink"}`}>
+            {formatPct(refundChargebackStat.pct)}
+          </span>
+          <span className="text-ink-dim tnum">
+            −{formatEur0(refundChargebackStat.takenCents)} sur {formatEur0(refundChargebackStat.grossCents)} de CA brut
+          </span>
+        </div>
+      )}
 
       {projection && (
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-phosphor/25 bg-phosphor/[0.04] px-3 py-2 text-[11px]">

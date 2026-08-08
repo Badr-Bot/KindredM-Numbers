@@ -17,7 +17,7 @@ export function Header({ mode }: { mode: DataMode }) {
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-2.5 lg:max-w-6xl lg:px-8">
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold tracking-[0.2em] text-phosphor">
-            NIVA
+            WEFT
             <Cursor />
           </span>
           {badge && (
