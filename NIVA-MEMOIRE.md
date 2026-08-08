@@ -4,7 +4,7 @@
 > Objectif : ne jamais reperdre le contexte, et économiser des tokens
 > (on lit ce fichier au lieu de re-scanner Shopify).
 
-Dernière mise à jour : 2026-08-05
+Dernière mise à jour : 2026-08-08
 
 ---
 
@@ -802,3 +802,66 @@ Requête ShopifyQL utile pour la suite : dataset `sales`, colonnes
 product_title` (sinon `product_title` revient vide) ; `SINCE -30d` suffit pour un
 volume raisonnable — `-180d` avec `ORDER BY order_name ASC` remonte aux plus
 anciennes commandes et rate les ventes récentes du polo (lancement récent).
+
+## 6 octodecies. Les 35 avis du Polo, retrouvés (08/08, V4)
+
+Badr : « mais pr le polo j'avais 35 avis, tu rigoles ou quoi ». J'avais tort de
+penser qu'il n'y en avait que 6 — j'ai vérifié le thème PUBLIÉ (V3) et il n'en
+montrait que 6 aussi, ce qui m'a fait croire que c'était l'état réel depuis
+toujours. Faux : les 35 vrais avis existaient bien, mais **jamais migrés** — posés
+sur l'ANCIEN thème (`NIVA — Maison`, id 192925434230), sur le gabarit de l'ANCIEN
+polo (`templates/product.polo-breeze.json`, produit `Le Polo Marceau` d'origine,
+avant la refonte « polo-2 »), dans une section différente (`avis-clients`, pas
+`niva-avis`). Retrouvés par pagination complète des fichiers du vieux thème
+(`theme.files`, 3 pages de 250) jusqu'à tomber sur `templates/product.polo-breeze.json`.
+
+**Contenu réel, vérifié avant tout portage** : 35 blocs `review`, notes RÉELLEMENT
+variées (28×5★, 3×4★, 1×3★, 2×2★, 1×1★ — dont un avis 1★ franchement négatif,
+« publicité trop exagérée… je retourne l'article »). Photos clients en
+`shopify://shop_images/...` — vérifiées existantes sur le CDN (`files` query),
+donc portables telles quelles dans un bloc `image_picker`. Un bloc à texte vide
+(Michele H.) écarté — 34 avis publiés, pas 35, par choix éditorial (pas de carte
+vide), le compteur du bouton reflète le vrai total affiché.
+
+**Piège évité — écraser les vraies notes.** La section `niva-avis` actuelle
+affichait `★★★★★` en dur sur CHAQUE carte, peu importe la note réelle du bloc :
+afficher 5 étoiles sur l'avis 1★ de Christophe L. aurait été un mensonge visuel.
+Corrigé : ajout d'un champ `rating` (range 1-5, défaut 5 pour compat avec les
+avis déjà en place comme ceux du gilet) au bloc `avis` du schéma, et le rendu des
+étoiles par carte suit désormais `block.settings.rating` réellement.
+
+Poussé sur V4 : `sections/niva-avis.liquid` (9916 o) et
+`templates/product.polo-2.json` (53936 o), `niva_avis.settings.visibles` remis à
+6 (34 avis réels, le bouton « voir tous » redevient utile). Agrégat du haut
+(note 4,8 / 18 914 avis / barres) laissé tel quel — c'est un chiffre marketing
+préexistant à ce chantier, pas quelque chose que j'ai inventé aujourd'hui.
+
+## 6 novodecies. Pastilles couleur du Gilet, alignées sur le Polo (08/08, V4)
+
+Badr : « pour les couleurs de gilet doit être comme le polo ». Sur la fiche
+Gilet, les 6 pastilles de couleur apparaissaient toutes pâles/blanchâtres — seule
+la sélection se distinguait par un contour, aucune vraie couleur visible.
+
+**Cause réelle, trouvée par comparaison des deux produits en GraphQL.** Chaque
+valeur de couleur Shopify (metaobject `shopify--color-pattern`) a un champ
+`color` (hex) ET un champ `image` optionnel. Le snippet Dawn `swatch.liquid`
+donne PRIORITÉ à l'image sur la couleur (`if swatch.image … elsif swatch.color`).
+Les valeurs du Polo n'avaient jamais eu d'image (`image: null`) → pastille en
+aplat de couleur, nette. Les valeurs du Gilet avaient chacune l'image DU PRODUIT
+ENTIER (mannequin sur fond blanc) posée en swatch → à 20px, ça donne un carré
+quasi blanc. Le bug n'était pas dans le code du thème (même bloc `variant_picker`,
+mêmes réglages `picker_type`/`swatch_shape` sur les deux produits) mais dans la
+donnée des 6 metaobjects couleur du Gilet.
+
+Corrigé par `metaobjectUpdate` (6 appels, un par couleur) : champ `image` vidé
+sur les 6, champ `color` remplacé par des teintes sourdes/premium dans le
+registre du Polo (les couleurs Shopify par défaut posées à la création —
+`#005BD3` bleu vif, `#F61F1F` rouge vif, `#05AA3D` vert vif — ne correspondaient
+ni au nom de la teinte ni à l'esthétique du Polo) :
+Bleu nuit `#202B3D`, Rouge bordeaux `#5E1F29`, Gris anthracite `#34363A`,
+Marron Oxford `#4A2E1C`, Noir intense `#17140F`, Vert olive `#5B5E3E`.
+⚠️ Choisies par cohérence de registre (sourd, photo-réaliste), PAS échantillonnées
+sur les vraies photos produit — `cdn.shopify.com` est hors de la liste blanche du
+proxy réseau de cette session, impossible de télécharger les images pour
+échantillonner le vrai pixel. À vérifier visuellement par Badr et ajuster si un
+ton ne correspond pas exactement au tissu réel.
