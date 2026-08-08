@@ -1184,3 +1184,52 @@ Si Badr valide ce premier passage sur Polo + Gilet, la même passe reste à
 faire sur le reste du site (accueil, collections, La Maison, FAQ générale,
 Le Journal) — pas encore fait, chantier volontairement scindé en deux pour
 qu'il puisse juger le ton avant d'y passer plus de temps.
+
+## 7 zéro. Réécriture luxe étendue à tout le catalogue (08/08, V6)
+
+Badr, après avoir validé le ton sur Polo/Gilet : « j'enlèverai le countdown
+[lui-même] et je te laisse faire les modifs comme les vraies maisons de
+luxe, et ça pour tous les produits ». Passe étendue aux 6 produits restants :
+Débardeur Compression, La Chemise Turenne, Chemise Turenne MC, Pantalon
+Rivoli, Short Cassini, Caleçon.
+
+**Découverte utile : ces 6 fiches partagent un socle de texte générique
+quasi identique** (mêmes sections `engagements`/`partipris`/`maison`/`faq`,
+mêmes phrases sur l'emmanchure/la longueur de pan/la maille, adaptées « vêtement
+standard » plutôt que par pièce). Une seule série de réécritures
+(`maison.body`, `partipris.intro` + 4 points, `tab_taille`, `faq` q1 à q5)
+réutilisée telle quelle sur les 5 fiches qui ont cette structure ; le
+Caleçon n'a ni `tab_taille` ni `partipris` (à raison — le langage
+« emmanchure »/« longueur de pan » ne s'applique pas à un sous-vêtement),
+donc seuls `maison.body` et les FAQ génériques (livraison, retour) y sont
+touchés. Le script a vérifié section par section quels blocs existaient
+avant d'écrire, plutôt que d'appliquer aveuglément le même patch partout.
+
+**Piège trouvé et corrigé en cours de route : espaces insécables (`\xa0`).**
+En retapant à la main le contenu du Débardeur (première fiche de cette
+série) pour construire un fichier de référence, plusieurs `\xa0` (espace
+insécable, invisible à l'œil, utilisé en typographie française avant `:` et
+`?`) ont été remplacés par des espaces normales sans que je m'en rende
+compte — le rendu visuel est identique, donc rien ne le signalait. Détecté
+en comparant programmatiquement (`json` diff) le fichier retapé à la
+vraie réponse de l'API sur la fiche suivante (Chemise Turenne) : les deux
+étaient identiques UNE FOIS les `\xa0` normalisés, prouvant qu'aucun texte
+n'avait été altéré sur le fond — seule la typographie de quelques
+ponctuations avait glissé silencieusement. **Corrigé pour la suite : plus
+aucune retranscription à la main.** Chaque fiche est désormais chargée
+depuis la vraie réponse API (forcée en fichier via un fetch groupé avec un
+gros fichier bouclier pour dépasser le seuil d'auto-sauvegarde), puis seuls
+les champs prévus sont réécrits par affectation directe — jamais de
+retype — et un diff champ-par-champ vérifie qu'aucun autre champ n'a bougé
+avant de pousser. Le Débardeur et la Chemise Turenne (les deux fiches
+faites avant ce correctif) ont donc plusieurs `\xa0` silencieusement
+normalisés en espaces classiques dans quelques phrases annexes — invisible
+à l'écran, mentionné ici par souci d'exactitude, pas une vraie régression.
+
+Poussé et vérifié sur V6 (`job`+`size`/`updatedAt`) : `adhd-planner.json`
+(14907 o), `bellutia-v1.json`, `chemise-manche-courte.json` (17985 o),
+`pantalon-extensible.json` (14918 o), `short-extensible.json` (17378 o),
+`calecon.json` (10043 o). Les 8 produits physiques du catalogue portent
+maintenant le même ton ; seul l'E-Book (gabarit produit par défaut, pas de
+template dédié) n'a pas été traité — catégorie différente, pas encore
+demandé.
