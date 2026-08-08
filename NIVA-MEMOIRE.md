@@ -986,3 +986,25 @@ Piège de la session précédente reconfirmé une fois de plus sur ce push :
 section passaient dans le MÊME appel — reconfirme que le silencieux-échec
 touche un fichier à la fois, pas le lot entier. Deuxième essai isolé sur ce
 seul fichier : accepté (65304 o, horodaté).
+
+## 6 trevicies. Bancontact retiré, Compléter centré sur PC (08/08, V4)
+
+Deux retours rapides de Badr :
+1. « enlève le dernier logo de carte, psk en version mobile ça revient à la
+   ligne » — le bandeau de moyens de paiement (bloc `custom_liquid_pay` sur le
+   polo, `nv_pay` sur le gilet, sous le bouton d'achat) affiche 6 icônes ; sur
+   mobile la 6ᵉ (Bancontact — un moyen de paiement belge, hors sujet pour la
+   boutique) retombait seule sur sa propre ligne. Le `<li>` Bancontact retiré
+   du HTML des DEUX blocs, sur les deux produits — reste AMEX, Apple Pay,
+   Mastercard, PayPal, Visa (5 icônes, tiennent sur une ligne).
+2. « pour le compléter le look sur PC, les produits doivent être centrés » —
+   `sections/niva-completer-v2.liquid` avait `.nvc__inner{max-width:none}`,
+   contrairement au reste du site qui contient son contenu dans une colonne
+   centrée (`niva-avis`, `niva-tailles`…). Ajouté `max-width:1400px;margin:0
+   auto` à partir de 1400px d'écran, plus `justify-content:center` sur la
+   liste de cartes dès 750px pour qu'elle se centre si jamais toutes les
+   pièces tiennent sans avoir besoin de défiler.
+
+Poussé et vérifié (`job` + `size`/`updatedAt`) : `niva-completer-v2.liquid`
+(16915 o), `product.polo-2.json` (64166 o), `product.gilet-niva.json`
+(56198 o).
