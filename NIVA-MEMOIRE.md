@@ -942,3 +942,47 @@ Vérifié avec `job { id done }` + `size`/`updatedAt` avant de considérer le
 push acquis (leçon de l'entrée précédente) : `niva-description.liquid` (3227 o),
 `niva-completer-v2.liquid` (11335 o), `product.polo-2.json` (53934 o),
 `product.gilet-niva.json` (44480 o) — tous horodatés au moment du push.
+
+## 6 duovicies. Compléter la tenue — classement manuel, flèches, alignement (08/08, V4)
+
+Trois retours de Badr sur la vraie section qui vient d'être posée :
+1. « ça me donne pas le choix de classer mes produits, genre le premier
+   deuxième de la liste etc » — le menu déroulant de tri (nouveautés, prix…)
+   ne suffisait pas, il veut choisir la position EXACTE de chaque pièce.
+2. « c'est bien de mettre des flèches de scroll ».
+3. Sur une capture des 8 cartes du scroll : « le bouton ajout au panier
+   couleur etc doit être au même niveau partout, ça doit avoir un bon
+   visuel, on maison niva premium ».
+
+**Classement manuel.** Remplacé `collections.all.products` par un réglage
+`product_list` (« Pièces proposées ») dans le panneau de la section : Badr
+ajoute/retire/glisse ses produits directement dans l'éditeur de thème, dans
+l'ordre qu'il veut — c'est littéralement le classement. Réglages par défaut
+remplis avec les 9 produits actifs du catalogue (dans l'ordre catalogue), pour
+ne rien casser tant qu'il n'y touche pas. Le menu « Tri automatique » reste en
+option pour écraser cet ordre par un calcul (nouveautés/prix/alpha) si besoin,
+mais « Manuel » respecte tel quel l'ordre du réglage.
+
+**Flèches de scroll.** Deux boutons ronds (◀ ▶) posés en overlay de part et
+d'autre de la liste, `scrollBy({left, behavior:'smooth'})` sur deux largeurs
+de carte par clic, s'estompent automatiquement en début/fin de liste (écoute
+de `scroll` + comparaison `scrollLeft`/`scrollWidth`). Masquées sous 750px : le
+doigt swipe déjà nativement sur mobile, les flèches n'y servent à rien.
+
+**Alignement des boutons.** Cause trouvée sur la capture : l'ordre des options
+variait d'une fiche à l'autre (Couleur puis Taille sur la plupart des pièces,
+Taille puis Couleur sur le Débardeur) — ça décale la hauteur du bouton
+« Ajouter au panier » d'une carte à l'autre. Corrigé à deux niveaux :
+- Liquid : Couleur toujours rendue avant Taille (peu importe l'ordre réel des
+  options sur la fiche produit d'origine), toute option restante ensuite.
+- CSS : `.nvc__carte` en colonne flex, `.nvc__btn{margin-top:auto}` — le
+  bouton tombe systématiquement en bas de carte, quel que soit le nombre de
+  lignes de menus déroulants au-dessus. Bordure/ombre légère au survol pour
+  un rendu plus soigné.
+
+Piège de la session précédente reconfirmé une fois de plus sur ce push :
+`product.polo-2.json` a silencieusement échoué au premier essai (job
+`done:true`, taille inchangée) alors que `product.gilet-niva.json` et la
+section passaient dans le MÊME appel — reconfirme que le silencieux-échec
+touche un fichier à la fois, pas le lot entier. Deuxième essai isolé sur ce
+seul fichier : accepté (65304 o, horodaté).
