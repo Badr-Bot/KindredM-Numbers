@@ -112,15 +112,20 @@
           </svg>
         {%- endif -%}
         <ol class="nvt2__reperes">
-          <li><b>1</b> Poitrine — sous les aisselles, à l'endroit le plus fort</li>
-          <li><b>2</b> Ventre — à l'endroit le plus large, sans rentrer le ventre</li>
+          {%- if section.settings.type_piece == 'bas' -%}
+            <li><b>1</b> Tour de taille — à l'endroit où le vêtement se porte</li>
+            <li><b>2</b> Bassin — au plus fort des hanches</li>
+          {%- else -%}
+            <li><b>1</b> Poitrine — sous les aisselles, à l'endroit le plus fort</li>
+            <li><b>2</b> Ventre — à l'endroit le plus large, sans rentrer le ventre</li>
+          {%- endif -%}
         </ol>
       </div>
       <div class="nvt2__duo">
-        <label class="nvt2__lab">Poitrine <span>cm</span>
+        <label class="nvt2__lab">{{ section.settings.mesure1 | default: "Poitrine" }} <span>cm</span>
           <input class="nvt2__in" type="number" inputmode="numeric" min="70" max="180" data-nvt2-poitrine placeholder="—">
         </label>
-        <label class="nvt2__lab">Ventre <span>cm</span>
+        <label class="nvt2__lab">{{ section.settings.mesure2 | default: "Ventre" }} <span>cm</span>
           <input class="nvt2__in" type="number" inputmode="numeric" min="60" max="180" data-nvt2-ventre placeholder="—">
         </label>
       </div>
@@ -136,7 +141,7 @@
     <div class="nvt2__vue" data-nvt2-vue="tableau">
       <div class="nvt2__scroll">
         <table class="nvt2__tab">
-          <thead><tr><th>Taille</th><th>Poitrine</th><th>Ventre</th></tr></thead>
+          <thead><tr><th>Taille</th><th>{{ section.settings.mesure1 | default: "Poitrine" }}</th><th>{{ section.settings.mesure2 | default: "Ventre" }}</th></tr></thead>
           <tbody>
             {%- for b in section.blocks -%}
               <tr {{ b.shopify_attributes }}>
@@ -171,7 +176,8 @@
  "ecart":{{ section.settings.ecart_ventre | default: 16 }},
  "plat":{{ section.settings.ajust_plat | default: -6 }},
  "fort":{{ section.settings.ajust_fort | default: 20 }},
- "marge":{{ section.settings.marge_ventre | default: -2 }}
+ "marge":{{ section.settings.marge_ventre | default: -2 }},
+ "bas":{% if section.settings.type_piece == "bas" %}true{% else %}false{% endif %}
 }
 </script>
 
@@ -238,11 +244,11 @@
     } else if(r.retenue === D.tailles.length - 1 && poitrine > t.pMax){
       phrase = 'Vous êtes au-delà de notre plus grande taille. Écrivez-nous, on regarde ensemble.';
     } else {
-      phrase = 'Ajusté aux épaules, libre sur le ventre.';
+      phrase = D.bas ? 'Il tient à la taille sans serrer.' : 'Ajusté aux épaules, libre sur le ventre.';
     }
     if(estime){
-      phrase += ' Estimation d’après votre taille, votre poids et votre silhouette — poitrine calculée à environ ' +
-                Math.round(poitrine) + ' cm.';
+      phrase += ' Estimation d’après votre taille, votre poids et votre silhouette — ' +
+                (D.bas ? 'tour de taille' : 'poitrine') + ' calculé à environ ' + Math.round(poitrine) + ' cm.';
     }
     racine.querySelector('[data-nvt2-'+cible+'-txt]').textContent = phrase;
   }
@@ -258,7 +264,11 @@
     racine.querySelector('[data-nvt2-vp]').textContent = kg + ' kg';
     var poitrine = (D.cP * kg) + (D.cT * h) + D.k;
     var ventre = poitrine - D.ecart + ajust;
-    afficher('res', null, poitrine, ventre, true);
+    /* Sur un bas de corps, la poitrine ne veut rien dire : c'est le tour de
+       taille qui commande, seul. On lui passe donc le ventre en mesure
+       principale, sans seconde contrainte. */
+    if(D.bas){ afficher('res', null, ventre, null, true); }
+    else { afficher('res', null, poitrine, ventre, true); }
   }
   jH.addEventListener('input', estimer);
   jP.addEventListener('input', estimer);
@@ -377,6 +387,11 @@
     {"type":"text","id":"titre","label":"Titre","default":"Trois réglages, et c'est réglé."},
     {"type":"textarea","id":"mention","label":"Mention sous le tableau","default":"Mesures prises sur le corps, mètre à plat, sans serrer et sans rentrer le ventre."},
     {"type":"image_picker","id":"visuel","label":"Visuel des mesures (facultatif)"},
+    {"type":"select","id":"type_piece","label":"Nature de la pièce","default":"haut",
+     "options":[{"value":"haut","label":"Haut du corps (polo, chemise, gilet)"},
+                {"value":"bas","label":"Bas du corps (short, pantalon, caleçon)"}]},
+    {"type":"text","id":"mesure1","label":"Nom de la mesure principale","default":"Poitrine"},
+    {"type":"text","id":"mesure2","label":"Nom de la seconde mesure","default":"Ventre"},
     {"type":"header","content":"Estimation — poitrine"},
     {"type":"paragraph","content":"Poitrine estimée = (coef poids × kg) + (coef taille × cm) + constante. Les valeurs par défaut donnent 105 cm pour 180 cm / 80 kg."},
     {"type":"text","id":"coef_poids","label":"Coefficient poids","default":"0.55"},

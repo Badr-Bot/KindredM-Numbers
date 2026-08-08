@@ -672,3 +672,44 @@ simuler le moteur sur des profils réels avant de le croire.
 Reste à faire : Chemise, Short, Caleçon. **Question ouverte** : le Gilet est-il
 décalé comme le polo, ou non décalé comme les upsells ? Son barème actuel suppose
 NON décalé.
+
+## 6 quindecies. Vérification « pas une tente » + les 4 barèmes (08/08, V4)
+
+**Le test qui tranche, c'est la LARGEUR D'ÉPAULES, pas la poitrine.** Un polo peut
+avoir 13 cm d'aisance à la poitrine et bien tomber ; s'il a 3 cm de trop aux épaules,
+la couture glisse sur le bras → effet tente. Le ZT218 donne cette colonne, on s'en sert.
+
+Résultat mesuré (épaules du corps ≈ 0,245×taille + 0,03×poids) :
+| Profil | aisance 10 | épaules | aisance 8 | épaules |
+|---|---|---|---|---|
+| 175/80 ordinaire | L, +13 cm | **+2,7 cm** | M, +8 cm | **+1,2 cm** |
+| 180/85 ordinaire | XL, +13 cm | **+2,9 cm** | L, +8 cm | **+1,4 cm** |
+→ **Aisance polo ramenée de 10 à 8 cm.** À 8, la couture tombe sur l'épaule.
+Sur les profils au ventre marqué, l'épaule dépasse de 4 à 6 cm : c'est **inhérent au
+produit** (gradation uniforme du fournisseur), pas un défaut du moteur — couvrir le
+ventre impose de prendre les épaules qui viennent avec.
+
+**Section étendue aux bas de corps** : réglages `type_piece` (haut/bas), `mesure1`,
+`mesure2`. Sur un bas, c'est le **tour de taille** qui pilote, seul — la poitrine n'y
+veut rien dire. Les libellés du tableau et des champs suivent les réglages.
+
+**Les quatre barèmes posés** (mesures du CORPS, cm) :
+- **Polo** (ZT218, décalé, aisance 8) : S 88-98 · M 98-103 · L 103-108 · XL 108-113 ·
+  2XL 113-118 · 3XL 118-124 · 4XL 124-128 · 5XL 128-134 · 6XL 134-140
+- **Chemise MC** (planche 2, NON décalée, aisance 10, poitrine + ventre) :
+  40 88-96 · 41 96-100 · 42 100-104 · 43 104-108 · 44 108-112 · 45 112-116 ·
+  46 116-120 · 47 120-124 · 48 124-128
+- **Short** (DK7221, tour de taille, ceinture élastique → −2 cm) : S 74-84 · M 84-88 ·
+  L 88-94 · XL 94-98 · 2XL 98-104 · 3XL 104-108 · 4XL 108-112, + bassin
+- **Caleçon** (planche CHN M→4XL = EUR S→3XL, mesure A ×2 + 18 cm d'élasticité) :
+  S 72-84 · M 84-88 · L 88-92 · XL 92-96 · 2XL 96-100 · 3XL 100-104
+  ⚠️ **Le moins sûr des quatre** : l'allongement d'un élastique s'estime, il ne se lit
+  pas sur une planche. À recalibrer aux premiers retours.
+
+⚠️ **Action restante pour Badr** : le Caleçon n'a pas de `templateSuffix`. Le gabarit
+`templates/product.calecon.json` existe sur V4 ; il faudra assigner le modèle
+« calecon » au produit **après publication de V4** (donnée produit = immédiate, et le
+thème en ligne n'a pas encore ce gabarit).
+
+**Question toujours ouverte** : le Gilet est-il décalé d'un cran comme le polo, ou non
+décalé comme les upsells ? Son barème actuel suppose NON décalé.
