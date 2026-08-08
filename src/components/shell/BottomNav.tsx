@@ -11,8 +11,10 @@ const ITEMS = [
   { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
-  { href: "/controle", label: "Contrôle", emoji: "🛡️" },
 ];
+// /controle existe toujours (affectation d'une campagne Meta toute neuve à
+// un marché, lien direct depuis le bandeau ⚠️ du Live) mais n'est plus dans
+// la barre — retiré le 08/08 (Badr : « l'onglet Contrôle sert à rien »).
 
 export function BottomNav() {
   const pathname = usePathname();

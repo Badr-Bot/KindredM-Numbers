@@ -819,7 +819,7 @@ export interface ExpenseSlice {
   cents: number;
   /** part du CA (0..1) */
   weight: number;
-  kind: "spend" | "cogs" | "tax" | "fee" | "net";
+  kind: "spend" | "cogs" | "tax" | "fee" | "charges" | "net";
 }
 
 export interface ExpenseBreakdown {
@@ -842,8 +842,15 @@ export interface ExpenseBreakdown {
  * déduit — ce n'est pas une vraie dépense (argent collecté pour l'État,
  * pas pour nous), elle est désormais incluse dans "Gain net" et suivie à
  * part pour la provision (voir 🧾 TVA cumulée, onglet Année).
+ *
+ * `fixedCostsCents` (08/08, Badr) : sur l'onglet GLOBAL, `t.netCents` a déjà
+ * les charges fixes (abonnements/équipe) soustraites en silence — sans ce
+ * paramètre, elles disparaissaient du donut sans jamais apparaître nulle
+ * part (repéré par Badr : « les charges ne sont pas dans le macaron »).
+ * Passer 0 (par défaut) sur les onglets par marché/produit, qui restent
+ * hors charges comme partout ailleurs dans le dashboard.
  */
-export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
+export function buildExpenseBreakdown(t: Totals, fixedCostsCents = 0): ExpenseBreakdown {
   const ca = t.caCents;
   const w = (c: number) => (ca > 0 ? c / ca : 0);
 
@@ -868,6 +875,7 @@ export function buildExpenseBreakdown(t: Totals): ExpenseBreakdown {
     { key: "cogs_upsells", label: "COGS upsells", emoji: "🧦", cents: upsellCents, weight: w(upsellCents), kind: "cogs" },
     { key: "tax", label: "Taxe UE", emoji: "🇪🇺", cents: t.taxCents, weight: w(t.taxCents), kind: "tax" },
     { key: "shopify", label: feesLabel, emoji: "🛒", cents: t.feesCents, weight: w(t.feesCents), kind: "fee" },
+    { key: "charges", label: "Charges fixes", emoji: "💳", cents: fixedCostsCents, weight: w(fixedCostsCents), kind: "charges" },
     { key: "net", label: "Gain net", emoji: "💰", cents: t.netCents, weight: w(t.netCents), kind: "net" },
   ];
 

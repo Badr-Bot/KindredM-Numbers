@@ -89,8 +89,7 @@ export function TodayBoard({
         >
           ⚠️ {formatEur0(unmappedSpendCents)} de spend Meta pas encore classé
           aujourd&apos;hui (nouvelle campagne pas reconnue) — déjà compté dans le
-          total ci-dessous, mais pas encore réparti par marché. Assigne-la dans
-          Contrôle →
+          total ci-dessous, mais pas encore réparti par marché. Assigne-la →
         </a>
       )}
       {/* Héros : gain net global */}

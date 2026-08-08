@@ -7,7 +7,8 @@ import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
-import { SUBSCRIPTIONS, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import { SUBSCRIPTIONS, fixedCostsCentsForDay, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import { listParisDays } from "@/lib/time";
 import {
   ONE_OFF_COSTS,
   SUB_PAYMENTS,
@@ -36,6 +37,7 @@ const SLICE_COLORS: Record<string, string> = {
   tva: "#ffc266",
   shopify: "#e0a35f",
   autres: "#6f8a78",
+  charges: "#c084fc",
   net: "#33ff9c",
 };
 
@@ -102,23 +104,45 @@ export function ExpenseBoard({
   const totals = useMemo(() => sumForPrefix(rows, period), [rows, period]);
   const prevTotals = useMemo(() => sumForPrefix(rows, prevPeriod), [rows, prevPeriod]);
 
-  const breakdown = useMemo(() => buildExpenseBreakdown(totals), [totals]);
-  const prevBreakdown = useMemo(() => buildExpenseBreakdown(prevTotals), [prevTotals]);
-
-  const donutData = breakdown.slices.filter((s) => s.cents > 0);
-  const treemapData: TreemapNode[] = breakdown.slices
-    .filter((s) => s.cents > 0)
-    .map((s) => ({ name: `${s.emoji} ${s.label}`, size: s.cents, fill: SLICE_COLORS[s.key] }));
-
-  // 📡 CA par canal (Google/Meta/direct/autres) — « comme on arrive à
-  // visualiser facilement si Google ou Klaviyo sont intéressants » (Badr
-  // 08/08). Bornes réelles de la période sélectionnée.
+  // 📡 Bornes réelles de la période sélectionnée (calculées avant le
+  // breakdown : les charges fixes en ont besoin pour sommer jour par jour).
   const [periodStart, periodEnd] = useMemo<[string, string]>(() => {
     if (gran === "year") return [`${period}-01-01`, `${period}-12-31`];
     const [y, m] = period.split("-").map(Number);
     const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
     return [`${period}-01`, `${period}-${String(last).padStart(2, "0")}`];
   }, [gran, period]);
+  const [prevPeriodStart, prevPeriodEnd] = useMemo<[string, string]>(() => {
+    if (gran === "year") return [`${prevPeriod}-01-01`, `${prevPeriod}-12-31`];
+    const [y, m] = prevPeriod.split("-").map(Number);
+    const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    return [`${prevPeriod}-01`, `${prevPeriod}-${String(last).padStart(2, "0")}`];
+  }, [gran, prevPeriod]);
+
+  // Charges fixes de la période — GLOBAL uniquement (hors charges partout
+  // ailleurs dans le dashboard pour les onglets par marché/produit). Sans ce
+  // calcul elles disparaissaient du donut : `t.netCents` les a déjà
+  // soustraites en silence sur l'onglet GLOBAL (repéré par Badr 08/08).
+  const periodFixedCostsCents = useMemo(
+    () => (tab === "GLOBAL" ? listParisDays(periodStart, periodEnd).reduce((s, d) => s + fixedCostsCentsForDay(d), 0) : 0),
+    [tab, periodStart, periodEnd]
+  );
+  const prevPeriodFixedCostsCents = useMemo(
+    () =>
+      tab === "GLOBAL" ? listParisDays(prevPeriodStart, prevPeriodEnd).reduce((s, d) => s + fixedCostsCentsForDay(d), 0) : 0,
+    [tab, prevPeriodStart, prevPeriodEnd]
+  );
+
+  const breakdown = useMemo(() => buildExpenseBreakdown(totals, periodFixedCostsCents), [totals, periodFixedCostsCents]);
+  const prevBreakdown = useMemo(
+    () => buildExpenseBreakdown(prevTotals, prevPeriodFixedCostsCents),
+    [prevTotals, prevPeriodFixedCostsCents]
+  );
+
+  const donutData = breakdown.slices.filter((s) => s.cents > 0);
+  const treemapData: TreemapNode[] = breakdown.slices
+    .filter((s) => s.cents > 0)
+    .map((s) => ({ name: `${s.emoji} ${s.label}`, size: s.cents, fill: SLICE_COLORS[s.key] }));
 
   const [acquisition, setAcquisition] = useState<AcquisitionToday | null | "loading">("loading");
   useEffect(() => {
