@@ -101,6 +101,20 @@ export const SUB_PAYMENTS: SubPayment[] = [
     day: "2026-07-15",
     note: "« J'ai payé 100 € pour le 1er abonnement » — facture du 15/07 (Badr 08/08). Factures suivantes sur la CARTE LLC → ce compteur reste à 100 €, rien d'autre à ajouter.",
   },
+  {
+    payer: "ADNANE",
+    label: "Hushed — juillet",
+    eurCents: 799,
+    day: "2026-07-08",
+    note: "« Adnane paye lui-même depuis 2 mois » (Badr 08/08) — date approximative. À partir de septembre (3e mois), la carte LLC prend le relais.",
+  },
+  {
+    payer: "ADNANE",
+    label: "Hushed — août",
+    eurCents: 799,
+    day: "2026-08-08",
+    note: "2e mois payé perso par Adnane — date approximative.",
+  },
 ];
 
 export function subPaymentsTotalCentsBy(payer: Payer): number {

@@ -361,10 +361,15 @@ export function YearBoard({
         {(() => {
           const badrTotal =
             oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + subPaymentsTotalCentsBy("BADR");
+          const adnaneTotal =
+            oneOffTotalCentsBy("ADNANE") + transfersTotalCentsFrom("ADNANE") + subPaymentsTotalCentsBy("ADNANE");
           return (
             <>
-              <div className="mb-2 text-[13px]">
-                Avancé par 🟠 Badr à ce jour : <b className="tnum text-amber">{formatEur0(badrTotal)}</b>
+              <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
+                <span>Avancé par 🟠 Badr à ce jour : <b className="tnum text-amber">{formatEur0(badrTotal)}</b></span>
+                {adnaneTotal > 0 && (
+                  <span>Avancé par 🔵 Adnane à ce jour : <b className="tnum text-amber">{formatEur0(adnaneTotal)}</b></span>
+                )}
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[420px] text-left text-xs">
@@ -421,8 +426,10 @@ export function YearBoard({
           1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
           Le Claude de Badr (100 €/mois depuis le 15/07) est compté dans les charges ; seule la
           1re facture (15/07) est sortie de sa poche et créditée ici — depuis la 2e (08/08) la
-          carte LLC paie, donc ce compteur ne bouge plus. Côté Adnane : dites-moi qui paie les
-          autres abonnements pour tracer son côté pareil.
+          carte LLC paie, donc ce compteur ne bouge plus. Le Hushed d&apos;Adnane (7,99 €/mois) :
+          les 2 premiers mois (juillet, août) sont sortis de sa poche et crédités ici — à partir
+          de septembre la carte LLC prend le relais. Dites-moi si d&apos;autres abonnements sont
+          payés perso pour les tracer pareil.
         </p>
       </section>
 

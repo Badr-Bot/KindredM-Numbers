@@ -81,7 +81,8 @@
 - **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). **Partage 50/50** (décision Badr : « ça nous a servi pour lancer le 14/07 ») — chaque frais ponctuel porte SA règle (`badrShare`), indépendante de la règle par date. Badr a tout payé → 259,17 € lui sont dus au règlement.
 - **Avance 1 000 € Badr → Adnane le 21/06** : transfert, ne touche jamais le net.
 - **Claude Badr : UN SEUL abonnement à 100 €/mois depuis le 15/07.** Piège de vocabulaire : « le 1er / le 2e abonnement » chez Badr = les FACTURES mensuelles successives — compté 2 abonnements (200 €/mois) par erreur le 08/08, corrigé sur sa remarque le jour même. **Seule la 1re facture (15/07, 100 €) est sortie de sa poche** — dès la 2e (08/08) la CARTE LLC paie → son compteur d'avances Claude reste à 100 € (sauf nouvelle facture perso annoncée). Le tracé « Entre associés » compte les FACTURES réelles (SUB_PAYMENTS), jamais un cumul théorique — un cumul accru depuis le 04/06 affichait 217 € vs 100 € réellement payés, corrigé sur remarque de Badr.
-- Question posée : qui paie les autres abonnements (Adnane ?) pour tracer son côté pareil.
+- **Hushed (Adnane) : 7,99 €/mois.** Payé perso par Adnane juillet + août (2 mois, 15,98 € tracés dans SUB_PAYMENTS), carte LLC à partir de septembre (3e mois) — même schéma que Claude Badr. Mois de départ juillet assumé (cohérent avec « depuis 2 mois » dit le 08/08), signalé.
+- Question posée : qui paie les autres abonnements pour tracer leur côté pareil.
 
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.

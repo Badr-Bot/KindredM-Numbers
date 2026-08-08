@@ -80,6 +80,13 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "25 €/mois fixé par Badr le 08/08 (« tu la mets à 25 € » — compris comme le prorata emailing, au lieu du plein tarif 150 $). À corriger si ce n'était pas ça." },
+  // Hushed : payé PERSONNELLEMENT par Adnane depuis ~2 mois (juillet + août),
+  // puis par la CARTE LLC à partir du 3e mois (septembre) — même schéma que
+  // le Claude de Badr. Les 2 premiers mois sont tracés en avance dans
+  // « Entre associés » (associateLedger.ts), le reste est une charge société
+  // directe. Mois de départ exact non donné → juillet assumé (cohérent avec
+  // « depuis 2 mois » dit le 08/08 et « 3e mois = septembre »), signalé.
+  { label: "Hushed (Adnane)", category: "OUTIL", amount: 7.99, currency: "EUR", startDay: "2026-07-01", endDay: null, note: "Payé perso par Adnane en juillet + août (2 mois), carte LLC à partir de septembre (Badr 08/08). Mois de départ approximatif." },
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
