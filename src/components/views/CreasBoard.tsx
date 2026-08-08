@@ -483,7 +483,7 @@ export function CreasBoard({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex min-w-0 flex-col gap-4">
       {/* Filtres : période + campagne + tri */}
       <div className="flex flex-wrap items-center gap-2">
         {(["7", "14", "30", "all", "custom"] as Preset[]).map((p) => (
@@ -731,7 +731,7 @@ function CreaCard({
           : "border-line bg-panel/40";
 
   return (
-    <div className={`rounded-lg border p-3 ${shell}`}>
+    <div className={`min-w-0 rounded-lg border p-3 ${shell}`}>
       <div className="mb-1.5 flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="truncate text-[12.5px] font-semibold text-ink">{row.adName}</div>
@@ -1043,7 +1043,7 @@ function CampaignTables({
   }, [rows, sortCol, dir]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex min-w-0 flex-col gap-2">
       <div className="flex flex-wrap items-baseline gap-x-2">
         <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-dim">
           📋 Tableau par campagne
@@ -1059,7 +1059,7 @@ function CampaignTables({
         const roas = spend > 0 ? ca / spend : null;
         const cpa = purchases > 0 ? Math.round(spend / purchases) : null;
         return (
-          <details key={campaignName} open className="rounded-lg border border-line bg-panel/40">
+          <details key={campaignName} open className="min-w-0 rounded-lg border border-line bg-panel/40">
             <summary className="cursor-pointer list-none p-2.5">
               <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
                 <span className="text-[11.5px] font-semibold text-ink">{campaignName}</span>

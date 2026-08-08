@@ -32,14 +32,18 @@
   /* data-viz / accent froid — distinct des couleurs de statut ROAS */
   --color-cyan: #2563eb;
 
-  /* Paliers de net (5 teintes séquentielles vert → sarcelle, lisibles sur
-     fond blanc). Négatif = --color-red. À revalider (six-checks CVD)
-     avant généralisation finale — cohérent visuellement pour le prototype. */
+  /* Paliers de net (5 teintes nettement distinctes, lisibles sur fond blanc)
+     — v1 (vert→émeraude→sarcelle) était un dégradé trop proche d'une teinte
+     à l'autre, illisible (signalé par Badr : 500-1000€ et 1000-1500€ se
+     confondaient). Écart de teinte large à chaque palier (lime → vert →
+     cyan → bleu → violet, ~50-60° sur le cercle chromatique entre voisins)
+     plutôt qu'un dégradé mono-teinte. Négatif = --color-red. À revalider
+     (six-checks CVD) avant généralisation finale. */
   --color-net-1: #65a30d; /* 0 - 500 €      (lime) */
   --color-net-2: #16a34a; /* 500 - 1000 €   (vert) */
-  --color-net-3: #059669; /* 1000 - 1500 €  (émeraude) */
-  --color-net-4: #0d9488; /* 1500 - 2000 €  (sarcelle) */
-  --color-net-5: #0e7490; /* ≥ 2000 €       (cyan profond) */
+  --color-net-3: #0891b2; /* 1000 - 1500 €  (cyan) */
+  --color-net-4: #2563eb; /* 1500 - 2000 €  (bleu) */
+  --color-net-5: #7c3aed; /* ≥ 2000 €       (violet) */
 
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
