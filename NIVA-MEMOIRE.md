@@ -759,3 +759,46 @@ sans guide renseigné.
 **Caleçon** : `templateSuffix` = `calecon` assigné (fait par moi, le 08/08).
 Le gabarit n'existe que sur V4 ; tant que V4 n'est pas publié, Shopify retombe sur
 le gabarit produit par défaut — sans erreur.
+
+## 6 septendecies. Livraison simplifiée, Compléter en scroll juste sous le bouton (08/08)
+
+**Ligne de règle permanente, retirée.** Badr : « je la trouve bizarre, un truc plus
+clair genre Amazon, sinon on l'enlève ». Retirée (option qu'il proposait). Le
+bandeau ne montre plus que 2 lignes : l'état dynamique (Expédié aujourd'hui /
+demain / lundi…) et la fenêtre d'arrivée. Fenêtre passée à **6-8 jours ouvrés**
+(après un aller-retour 5-9 → 7-11 → 5-11 → 6-8, toujours dans `niva-livraison.liquid`).
+
+**Deuxième « livraison » en double, trouvée et neutralisée.** Un bloc `custom_liquid`
+antérieur à ce chantier (`custom_liquid_ship` sur le polo, `nv_ship` sur le gilet,
+commentaire d'origine « V1.1 ») affichait sa PROPRE estimation
+« ⇢ Livraison estimée : J+8 – J+10 » en jours **calendaires** fixes, en parallèle du
+bandeau `niva-livraison`. D'où la contradiction visible à l'écran. Vidé (pas
+supprimé — réversible), une note explique pourquoi.
+
+**« Compléter la tenue » repositionnée et repensée**, sur demande explicite de
+Badr : *« il faut proposer des produits en scroll juste après le bouton d'ajout au
+panier »*. Déplacée de juste-avant-le-rappel à **juste après `main`** (2ᵉ section de
+la page, sous tout le bloc titre/prix/achat/description). Affichage passé de liste
+verticale à **défilement horizontal** (`overflow-x:auto`, `scroll-snap-type:x
+proximity`, cartes 168 px mobile / 200 px desktop).
+
+**Analyse réelle des ventes croisées (ShopifyQL, dataset `sales`) — piège trouvé.**
+Sur 135 commandes du polo (30 j) : E-Book present 92 %, Caleçon 19 %. Sur 48
+commandes du gilet : E-Book 42 %, Caleçon 15 %, Chemise Turenne 8 % (4 commandes,
+signal trop faible). **Aucune trace de Polo+Gilet ni de Pantalon acheté avec l'un
+ou l'autre — contredit ma curation manuelle initiale.**
+⚠️ **Ces chiffres sont piégés : l'E-Book et le Caleçon sont les CADEAUX PROGRESSIFS
+de Moon Bundles** (offerts gratuitement aux paliers 3-4 « achetés = offerts »), pas
+des achats volontaires. Ils apparaissent dans presque chaque commande qui atteint
+ce palier — ce n'est pas un signal de goût, c'est la plomberie du bundle. Les
+compter comme « meilleurs combos » ferait recommander en payant ce qui est déjà
+offert plus bas sur la même page. **Ne jamais lire du ShopifyQL brut sans vérifier
+si les produits qui ressortent sont des cadeaux de bundle.**
+Curation gardée telle quelle (raisonnement vestimentaire, pas data) :
+polo → Gilet, Pantalon, Chemise ; gilet → Polo, Pantalon, Chemise.
+
+Requête ShopifyQL utile pour la suite : dataset `sales`, colonnes
+`order_name, product_title, net_items_sold`, nécessite `GROUP BY order_name,
+product_title` (sinon `product_title` revient vide) ; `SINCE -30d` suffit pour un
+volume raisonnable — `-180d` avec `ORDER BY order_name ASC` remonte aux plus
+anciennes commandes et rate les ventes récentes du polo (lancement récent).
