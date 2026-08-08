@@ -13,6 +13,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ ok: false, reason: "paramètre ?day=YYYY-MM-DD requis" }, { status: 400 });
   }
   const supabase = createSupabaseServerClient();
+
+  // ?raw=orders : lit la table orders BRUTE (pas daily_aggregates) pour ce
+  // jour — diagnostic 08/08 : un backfill déclarait des commandes écrites
+  // (ordersByStore) mais daily_aggregates restait vide pour certains jours ;
+  // ce mode isole si le problème est à l'écriture (orders) ou au recalcul
+  // (daily_aggregates).
+  if (request.nextUrl.searchParams.get("raw") === "orders") {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("id, day, store, order_name, created_at_utc, total_cents")
+      .eq("day", day)
+      .order("store", { ascending: true });
+    if (error) return NextResponse.json({ ok: false, reason: error.message }, { status: 500 });
+    return NextResponse.json({ ok: true, day, count: data?.length ?? 0, rows: data });
+  }
+
   const { data, error } = await supabase
     .from("daily_aggregates")
     .select("*")

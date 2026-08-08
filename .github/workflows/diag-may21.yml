@@ -23,14 +23,18 @@ jobs:
           curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
             https://kindred-m-numbers.vercel.app/api/admin/env-check || true
 
-      - name: 2. Backfill complet direct (pas de throttle, contrairement a /api/sync)
+      - name: 2. Diagnostic - table orders BRUTE pour 21/05 (isole ecriture vs recalcul)
         run: |
-          # /api/sync est throttle a 1 passage/5 min (le cron keep-sync.yml
-          # tourne deja en tache de fond et gagnait la course : 4 tentatives,
-          # 4x "ran":false). /api/admin/backfill n'a AUCUN throttle et lance
-          # runFullBackfill() direct, qui lit ORDERS_SINCE_DAY (2026-05-21) --
-          # c'est le bon outil pour un rattrapage historique ponctuel.
-          curl -sS --max-time 295 -X POST https://kindred-m-numbers.vercel.app/api/admin/backfill
+          # Le backfill precedent (run #2) a rapporte FR:4407 commandes
+          # ecrites SANS erreur, et Shopify confirme (verifie en direct) que
+          # la commande #1175 existe bien le 21/05 -- mais daily_aggregates
+          # restait a 0 ce jour-la. Ce mode ?raw=orders lit la table orders
+          # elle-meme pour savoir si l'ecriture ou le recalcul est en cause.
+          for D in 2026-05-21 2026-05-25 2026-06-01; do
+            echo "=== orders bruts $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D&raw=orders" || true
+            echo
+          done
 
       - name: 3. Diagnostic - lignes daily_aggregates 21/05 -> 04/06
         run: |
