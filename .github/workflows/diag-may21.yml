@@ -24,20 +24,24 @@ jobs:
           curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
             https://kindred-m-numbers.vercel.app/api/admin/env-check || true
 
-      - name: 2. Diagnostic - table orders BRUTE pour 21/05 (isole ecriture vs recalcul)
+      - name: 2. Backfill avec diagnostic min/max jour (warnings)
         run: |
-          # Le backfill precedent (run #2) a rapporte FR:4407 commandes
-          # ecrites SANS erreur, et Shopify confirme (verifie en direct) que
-          # la commande #1175 existe bien le 21/05 -- mais daily_aggregates
-          # restait a 0 ce jour-la. Ce mode ?raw=orders lit la table orders
-          # elle-meme pour savoir si l'ecriture ou le recalcul est en cause.
+          # ?raw=orders a confirme : count=0 dans la table orders pour le
+          # 21/05, 25/05, 01/06 malgre un backfill "reussi sans erreur" et
+          # 128 vraies commandes confirmees via Shopify GraphQL sur cette
+          # fenetre. Ce backfill trace maintenant minDay/maxDay reellement
+          # parcourus par store (voir DIAG dans warnings, backfillRun.ts).
+          curl -sS --max-time 295 -X POST https://kindred-m-numbers.vercel.app/api/admin/backfill
+
+      - name: 3. Diagnostic - table orders BRUTE pour 21/05
+        run: |
           for D in 2026-05-21 2026-05-25 2026-06-01; do
             echo "=== orders bruts $D ==="
             curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D&raw=orders" || true
             echo
           done
 
-      - name: 3. Diagnostic - lignes daily_aggregates 21/05 -> 04/06
+      - name: 4. Diagnostic - lignes daily_aggregates 21/05 -> 04/06
         run: |
           for D in 2026-05-21 2026-05-25 2026-05-29 2026-06-01 2026-06-03 2026-06-04; do
             echo "=== $D ==="
