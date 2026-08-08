@@ -391,12 +391,16 @@ const FORCE_THROTTLE_MS = 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
+// v10 (08/08) : comblement manuel du CA FR du 21/05→03/06 (manualRevenue.ts,
+// GAP_FILL_MAI_JUIN) — Shopify orders.json ne remonte pas au-delà de 60 j
+// sans le scope read_all_orders. Recalcul SEUL (les entrées voyagent avec le
+// code, aucun appel API requis pour les faire apparaître).
 // v9 (06/08) : le spend NIRA REVIENT dans le calcul (Badr : « plus adapté à la
 // réalité »), son CA étant désormais saisi à la main à chaque vente. Recalcul
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-06-nira-spend-reintegre-v9";
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-08-comblement-21mai-v10";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —

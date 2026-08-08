@@ -66,19 +66,8 @@ export async function backfillOrders(
       const rows: Record<string, unknown>[] = [];
       const unknownTitles = new Set<string>();
       let skippedOrders = 0;
-      // DIAGNOSTIC TEMPORAIRE (08/08) : le backfill rapportait un succès sans
-      // erreur mais les commandes du 21/05 au 03/06 n'atterrissaient jamais
-      // dans `orders` malgré ORDERS_SINCE_DAY/BACKFILL_SINCE_ISO à jour —
-      // ces compteurs, renvoyés dans warnings, montrent EXACTEMENT ce que
-      // iterateOrders a réellement parcouru (à retirer une fois la cause trouvée).
-      let minDayFetched = "9999-99-99";
-      let maxDayFetched = "0000-00-00";
-      let fetchedCount = 0;
       for await (const order of iterateOrders(config, { createdAtMin: BACKFILL_SINCE_ISO })) {
         const day = toParisDay(order.created_at);
-        fetchedCount += 1;
-        if (day < minDayFetched) minDayFetched = day;
-        if (day > maxDayFetched) maxDayFetched = day;
         const shippingCountry = order.shipping_address?.country_code ?? config.market;
 
         // Version TOLÉRANTE : un produit inconnu ne fait perdre NI la commande
@@ -138,10 +127,6 @@ export async function backfillOrders(
         .from("sync_state")
         .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
       ordersByStore[config.market] = rows.length;
-      // DIAGNOSTIC TEMPORAIRE (08/08, à retirer) :
-      warnings.push(
-        `DIAG ${config.market} : createdAtMin=${BACKFILL_SINCE_ISO} · fetchedCount=${fetchedCount} · rows.length=${rows.length} · minDay=${minDayFetched} · maxDay=${maxDayFetched}`
-      );
       if (skippedOrders > 0) {
         warnings.push(
           `${config.market} : ${skippedOrders} commande(s) enregistrée(s) avec un COGS INCOMPLET (compté 0 € pour le produit manquant → Net trop optimiste). À mapper sur /admin : ${[...unknownTitles].join(" · ")}`

@@ -98,7 +98,57 @@ export function buildManualRevenueEntry(input: {
 // (savedAt) gagne — un seed plus frais corrige une vieille entrée API, et une
 // correction API postérieure bat le seed. Jamais d'addition entre les deux.
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// COMBLEMENT 21/05→03/06 (08/08) — le backfill Shopify ne peut PAS aller
+// chercher ces commandes automatiquement : l'API REST orders.json de
+// Shopify ne renvoie jamais de commande de plus de 60 jours sans le scope
+// protégé `read_all_orders` (non accordé) — confirmé via diagnostic
+// (minDay fetché = 2026-06-09, exactement 60 j avant le test du 08/08, voir
+// MEMO.md "Historique Shopify depuis le 21 mai"). Le 04/06 et après ont de
+// vraies données (scope pas nécessaire, <60 j) — fenêtre ci-dessous exclut
+// donc le 04/06.
+// Chiffre fourni par Badr le 08/08 : CA total FR de la période = 8 338 €,
+// réparti ÉGALEMENT sur les 14 jours (répartition explicitement demandée
+// par Badr, pas un calcul jour par jour). COGS/taxe UE/frais Shopify NON
+// calculés faute de détail par commande — Net de ces jours légèrement
+// SURESTIMÉ en conséquence, signalé ici et dans MEMO.md. Nombre de
+// commandes/jour inconnu (Badr n'a donné que le total) → orders=0.
+// À jeter dès que le scope read_all_orders est accordé + backfill relancé.
+// ---------------------------------------------------------------------------
+const GAP_FILL_MAI_JUIN: ManualRevenueEntry[] = (
+  [
+    ["2026-05-21", 59558],
+    ["2026-05-22", 59558],
+    ["2026-05-23", 59557],
+    ["2026-05-24", 59557],
+    ["2026-05-25", 59557],
+    ["2026-05-26", 59557],
+    ["2026-05-27", 59557],
+    ["2026-05-28", 59557],
+    ["2026-05-29", 59557],
+    ["2026-05-30", 59557],
+    ["2026-05-31", 59557],
+    ["2026-06-01", 59557],
+    ["2026-06-02", 59557],
+    ["2026-06-03", 59557],
+  ] as const
+).map(([day, caCents]) => ({
+  day,
+  market: "FR",
+  productKey: "GAP_MAI_JUIN",
+  currency: "EUR",
+  caCents,
+  cogsCents: 0,
+  rateToEur: 1,
+  caEurCents: caCents,
+  cogsEurCents: 0,
+  orders: 0,
+  note: "CA total période (8 338 €, Badr 08/08) réparti également sur 14 j — COGS/taxe/frais non calculés (Net optimiste). Voir MEMO.md.",
+  savedAt: "2026-08-08T22:00:00.000Z",
+}));
+
 const SEED_ENTRIES: ManualRevenueEntry[] = [
+  ...GAP_FILL_MAI_JUIN,
   {
     day: "2026-08-06",
     market: "CA",
