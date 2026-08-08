@@ -865,3 +865,41 @@ sur les vraies photos produit — `cdn.shopify.com` est hors de la liste blanche
 proxy réseau de cette session, impossible de télécharger les images pour
 échantillonner le vrai pixel. À vérifier visuellement par Badr et ajuster si un
 ton ne correspond pas exactement au tissu réel.
+
+## 6 vicies. « Compléter la tenue » inline, poussé (08/08, V4)
+
+Le nouveau bloc `snippets/niva-completer-inline.liquid` (tout le catalogue en
+scroll horizontal, ajout au panier sur place, posé juste avant `description`)
+est maintenant réellement en ligne sur le Polo et le Gilet — pas juste écrit
+localement comme avant la coupure de contexte.
+
+**Classement des produits dans le scroll**, sur demande de Badr (« donne-moi le
+choix du classement dans liquid ») : une seule variable en tête de fichier,
+`nv_completer_tri`, valeur par défaut `'manuel'` (= l'ordre de la collection
+« Tous les produits » dans Admin, aucun calcul). Autres valeurs possibles en
+changeant cette ligne : `'nouveaute'`, `'prix_croissant'`, `'prix_decroissant'`,
+`'alpha'`, `'alpha_inverse'`.
+
+**Piège trouvé en poussant : Shopify rejette EN SILENCE un template JSON si
+`order[]` ne contient plus une clé encore présente dans `sections{}`.**
+Mon premier essai retirait `niva_completer`/`completer` de `order[]` en gardant
+la section définie (pour rester réversible, comme d'habitude) — `themeFilesUpsert`
+répondait sans la moindre `userError`, un `job` se créait et passait à `done:
+true`, mais le fichier sur le thème ne changeait ni de taille ni de date. Trois
+tentatives identiques, même résultat : ce n'est pas le bug d'échec intermittent
+déjà documenté (celui-là se corrige en refaisant un upload), c'est un vrai rejet
+de validation, juste jamais renvoyé comme erreur par l'API.
+Diagnostic confirmé par un test isolé : la même modif SANS toucher `order[]`
+passait instantanément (taille et date à jour).
+**Retenir pour la suite : ne jamais retirer une clé de `order[]` en laissant sa
+définition dans `sections{}`.** Pour neutraliser une section sans la supprimer,
+vider un réglage qui commande son propre garde-fou Liquid à la place — ici
+`sections.niva_completer.settings.pieces` (et `sections.completer.settings.pieces`
+côté gilet) remis à `[]`, section déjà écrite pour ne rien afficher si `pieces`
+est vide (`{%- if pieces != blank and pieces.size > 0 -%}`). `order[]` et les
+clés de `sections{}` n'ont plus bougé du tout sur ce deuxième essai — accepté
+immédiatement.
+**Autre enseignement : demander le champ `job { id done }` sur `themeFilesUpsert`
+et le sonder avant de faire confiance à un push.** Sans lui, rien ne distingue un
+vrai succès d'un rejet silencieux — la seule vérité est de comparer `size`/
+`updatedAt` du fichier avant/après, ce qui a permis de repérer le problème ici.
