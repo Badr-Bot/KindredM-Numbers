@@ -1008,3 +1008,16 @@ Deux retours rapides de Badr :
 Poussé et vérifié (`job` + `size`/`updatedAt`) : `niva-completer-v2.liquid`
 (16915 o), `product.polo-2.json` (64166 o), `product.gilet-niva.json`
 (56198 o).
+
+**Régression immédiate, corrigée dans la foulée.** Badr : « premier produit
+coupé, version ordinateur ». Cause : `justify-content:center` posé sur
+`.nvc__liste` (le conteneur `overflow-x:auto` du scroll) pour centrer le cas
+où toutes les cartes tiennent sans défiler — sauf que sur un flex row qui
+DÉBORDE (le cas normal, 9 pièces), centrer décale le début du contenu dans le
+négatif, et `scrollLeft` ne peut pas descendre sous 0 : la première carte
+devient inatteignable, tronquée en permanence. **Leçon : ne jamais combiner
+`justify-content:center` avec `overflow-x:auto` sur un conteneur qui peut
+déborder** — ça centre la ligne entière, pas seulement les cartes visibles.
+Retiré ; le centrage de la section sur PC reste assuré par `.nvc__inner{
+max-width:1400px;margin:0 auto}` seul, qui ne touche pas au scroll interne.
+Poussé et vérifié : `niva-completer-v2.liquid` (16666 o).
