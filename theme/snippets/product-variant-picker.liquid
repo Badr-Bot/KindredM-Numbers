@@ -1,0 +1,142 @@
+{% comment %}
+  Renders product variant-picker
+
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  Usage:
+  {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+{% endcomment %}
+{%- unless product.has_only_default_variant -%}
+  <variant-selects
+    id="variant-selects-{{ section.id }}"
+    data-section="{{ section.id }}"
+    {{ block.shopify_attributes }}
+  >
+    {%- for option in product.options_with_values -%}
+      {%- liquid
+  assign swatch_count = option.values | map: 'swatch' | compact | size
+  assign picker_type = block.settings.picker_type
+
+  if option.name == 'Taille' or option.name == 'Size'
+    assign picker_type = 'dropdown'
+  elsif swatch_count > 0 and block.settings.swatch_shape != 'none'
+    if block.settings.picker_type == 'dropdown'
+      assign picker_type = 'swatch_dropdown'
+    else
+      assign picker_type = 'swatch'
+    endif
+  endif
+-%}
+      {%- if picker_type == 'swatch' -%}
+        <fieldset class="js product-form__input product-form__input--swatch">
+          <legend class="form__label">
+            {{ option.name }}:
+            <span data-selected-value>
+              {{- option.selected_value -}}
+            </span>
+          </legend>
+          {% render 'product-variant-options',
+            product: product,
+            option: option,
+            block: block,
+            picker_type: picker_type
+          %}
+        </fieldset>
+      {%- elsif picker_type == 'button' -%}
+        <fieldset class="js product-form__input product-form__input--pill">
+          <legend class="form__label">{{ option.name }}</legend>
+          {% render 'product-variant-options',
+            product: product,
+            option: option,
+            block: block,
+            picker_type: picker_type
+          %}
+        </fieldset>
+      {%- else -%}
+        <div class="product-form__input product-form__input--dropdown">
+          <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+            {{ option.name }}
+          </label>
+          <div class="select">
+            {%- if picker_type == 'swatch_dropdown' -%}
+              <span
+                data-selected-value
+                class="dropdown-swatch"
+              >
+                {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
+              </span>
+            {%- endif -%}
+            <select
+              id="Option-{{ section.id }}-{{ forloop.index0 }}"
+              class="select__select"
+              name="options[{{ option.name | escape }}]"
+              form="{{ product_form_id }}"
+            >
+              {% render 'product-variant-options',
+                product: product,
+                option: option,
+                block: block,
+                picker_type: picker_type
+              %}
+            </select>
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Le bouton du guide des tailles, juste sous le selecteur de TAILLE — le
+        seul endroit ou il sert : au moment exact de l'hesitation.
+        Il etait pose par SmartSize ; en desactivant l'application, la porte
+        d'entree a disparu avec elle. Celle-ci est a nous.
+        Il n'apparait que si la section NIVA · Guide des tailles est sur la page :
+        `[data-nvt2-data]` n'existe que quand elle est posee ET renseignee.
+        Aucun risque de bouton qui n'ouvre rien.
+      {%- endcomment -%}
+      {%- if option.name == 'Taille' or option.name == 'Size' -%}
+        <button type="button" class="nv-taille-btn" data-nv-tailles hidden>
+          <span class="nv-taille-btn__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.4">
+              <rect x="1" y="3" width="22" height="10"/>
+              <path d="M5 3v4M9 3v3M13 3v4M17 3v3"/>
+            </svg>
+          </span>
+          Trouver ma taille
+        </button>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <script type="application/json" data-selected-variant>
+      {{ product.selected_or_first_available_variant | json }}
+    </script>
+  </variant-selects>
+
+  <style>
+    .nv-taille-btn{display:flex;align-items:center;justify-content:center;gap:9px;
+      width:100%;margin:10px 0 4px;min-height:46px;padding:0 14px;cursor:pointer;
+      background:var(--nv-sable-pale,#F7F3EB);border:1px solid var(--nv-noir,#151515);border-radius:0;
+      font-family:var(--nv-mono,monospace)!important;font-size:11px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--nv-noir,#151515);}
+    .nv-taille-btn:hover{background:var(--nv-noir,#151515);color:var(--nv-ivoire,#FAF9F6);}
+    .nv-taille-btn[hidden]{display:none;}
+    .nv-taille-btn__ico svg{width:22px;height:15px;display:block;}
+  </style>
+  <script>
+    /* On ne montre le bouton que si le guide est reellement sur la page. */
+    (function(){
+      function verifier(){
+        if(!document.querySelector('[data-nvt2-data]')) return false;
+        document.querySelectorAll('.nv-taille-btn').forEach(function(b){ b.hidden = false; });
+        return true;
+      }
+      if(!verifier()){
+        document.addEventListener('DOMContentLoaded', verifier);
+        setTimeout(verifier, 600);
+      }
+    })();
+  </script>
+{%- endunless -%}

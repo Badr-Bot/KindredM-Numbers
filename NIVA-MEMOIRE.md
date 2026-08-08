@@ -737,3 +737,25 @@ S 90-100 / 84-94 · M 100-104 / 94-98 · L 104-108 / 98-102 · XL 108-112 / 102-
 **Règle de méthode à garder** : ne jamais fixer une aisance au jugé. La planche
 fournisseur donne la largeur d'épaules — c'est elle qui dit si le vêtement tombe ou
 s'il flotte, pas la poitrine. Simuler 4 profils avant de valider.
+
+## 6 septdecies. Bouton du guide + total des avis (08/08, V4)
+
+**Le total des avis, corrigé.** Mon bloc étoiles comptait les cartes affichées
+(6 sur le polo) au lieu du total. Il lit désormais `.nvs-rev__total` et
+`.nvs-rev__note` **dans la section Avis de la page** : une seule source de vérité,
+on change le total dans la section Avis et l'en-tête suit. Repli sur le comptage
+des cartes seulement si la section d'avis n'est pas sur la page.
+
+**Le bouton « Trouver ma taille ».** Les liens « Guide des tailles » /
+« Trouver ma taille » étaient posés par **SmartSize** : en la désactivant, Badr a
+perdu la porte d'entrée du guide. Bouton maison ajouté dans
+`snippets/product-variant-picker.liquid` — donc **sur toutes les fiches produit**,
+et **juste sous le sélecteur de TAILLE**, au moment exact de l'hésitation.
+Fond sable, filet noir, pleine largeur, icône mètre ruban, mono majuscules.
+Sécurité : il est `hidden` par défaut et ne s'affiche que si `[data-nvt2-data]`
+existe dans la page — donc **jamais de bouton qui n'ouvre rien** sur une fiche
+sans guide renseigné.
+
+**Caleçon** : `templateSuffix` = `calecon` assigné (fait par moi, le 08/08).
+Le gabarit n'existe que sur V4 ; tant que V4 n'est pas publié, Shopify retombe sur
+le gabarit produit par défaut — sans erreur.
