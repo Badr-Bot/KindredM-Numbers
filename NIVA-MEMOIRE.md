@@ -636,3 +636,39 @@ fournisseur (un Français en L prend XL, voire 2XL sur les chemises) ou renommer
 variantes. Renommer = données produit = **en ligne immédiatement** + casse
 l'attribution du tableau de bord (règle 7). Mon avis : garder les étiquettes cette
 saison, le guide fait le travail.
+
+## 6 quaterdecies. Le recommandeur de taille — version curseurs (08/08, V4)
+
+**INFORMATION CAPITALE donnée par Badr** : sur **le polo**, les étiquettes ont
+**déjà été décalées d'un cran**. Son S = le M du fournisseur, son M = le L, etc.
+La planche ZT218 a 10 tailles (S→7XL), le polo en a 9 : le S a été supprimé.
+**Les upsells (chemise, short, caleçon) n'ont PAS été décalés.**
+
+Barème polo recalculé sur ce décalage (poitrine du client, aisance 10 cm) :
+S 88-96 · M 96-101 · L 101-106 · XL 106-111 · 2XL 111-116 · 3XL 116-122 ·
+4XL 122-126 · 5XL 126-132 · 6XL 132-138.
+→ Il colle presque exactement à la norme européenne (L = 100-106). **Sur le polo,
+un Français qui fait du L prend un L.** Le décalage de Badr était le bon.
+
+**Le moteur, refondu.** Trois curseurs (taille, poids, silhouette : ventre plat /
+ordinaire / ventre marqué, avec pictogrammes dessinés en code), résultat en direct,
+sans bouton. Le vrai apport : **DEUX contraintes au lieu d'une.**
+```
+poitrine = (0,55 × kg) + (0,45 × cm) − 20
+ventre   = poitrine − 16 + ajustement (plat −6 · ordinaire 0 · marqué +20)
+une taille convient si  poitrine ≤ capacité  ET  ventre ≤ capacité − marge (−2)
+```
+Sans la contrainte de ventre, un homme au ventre marqué reçoit la taille de ses
+épaules et le polo moule le ventre → retour. Vérifié par simulation :
+175/95 ventre marqué → XL sur la poitrine seule, **2XL retenue** ; 180/110 marqué →
+3XL sur la poitrine seule, **4XL retenue**. Le message le dit au client :
+« C'est votre ventre qui commande, pas vos épaules. »
+
+⚠️ **Piège corrigé en cours de route** : avec `ajust_fort +12` et `marge +3`, le
+ventre ne pouvait JAMAIS faire monter d'une taille (waist = chest − 4 restait
+toujours sous le plafond). Il a fallu `+20` et une marge **négative** (−2). Toujours
+simuler le moteur sur des profils réels avant de le croire.
+
+Reste à faire : Chemise, Short, Caleçon. **Question ouverte** : le Gilet est-il
+décalé comme le polo, ou non décalé comme les upsells ? Son barème actuel suppose
+NON décalé.
