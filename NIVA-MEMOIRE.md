@@ -713,3 +713,27 @@ thème en ligne n'a pas encore ce gabarit).
 
 **Question toujours ouverte** : le Gilet est-il décalé d'un cran comme le polo, ou non
 décalé comme les upsells ? Son barème actuel suppose NON décalé.
+
+## 6 sexdecies. Gilet — confirmé NON décalé, et aisance corrigée (08/08)
+
+Badr confirme : **seul le polo a été décalé d'un cran.** Gilet, chemise, short et
+caleçon gardent les étiquettes du fournisseur.
+
+**Erreur de raisonnement corrigée sur le gilet.** J'avais mis 14 cm d'aisance en
+comptant l'épaisseur de la chemise portée dessous. Faux : cette épaisseur est **déjà
+dans la planche** — 110 cm de vêtement pour un torse de 100, le fournisseur l'a prévue.
+Vérifié aux épaules (la planche 2 donne la colonne) :
+| Profil | aisance 14 | aisance 10 |
+|---|---|---|
+| 175/80 ordinaire | L, épaules **+3,5 cm** | M, épaules **+2,1 cm** |
+| 180/85 ordinaire | XL, épaules **+3,4 cm** | L, épaules **+2,1 cm** |
+Sur un gilet, +3,5 cm à l'épaule = emmanchure qui bâille. **Ramené à 10 cm.**
+
+Barème gilet final (poitrine / ventre du client, cm) :
+S 90-100 / 84-94 · M 100-104 / 94-98 · L 104-108 / 98-102 · XL 108-112 / 102-106 ·
+2XL 112-116 / 106-110 · 3XL 116-120 / 110-114 · 4XL 120-124 / 114-118 ·
+5XL 124-128 / 118-122.
+
+**Règle de méthode à garder** : ne jamais fixer une aisance au jugé. La planche
+fournisseur donne la largeur d'épaules — c'est elle qui dit si le vêtement tombe ou
+s'il flotte, pas la poitrine. Simuler 4 profils avant de valider.
