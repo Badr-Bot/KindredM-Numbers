@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, Treemap } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { buildExpenseBreakdown, type AcquisitionToday, type DayAgg, type ExpenseSlice, type Totals } from "@/lib/data";
 import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
@@ -74,13 +74,6 @@ function prevMonth(ym: string): string {
 
 type Granularity = "month" | "year";
 
-interface TreemapNode {
-  name: string;
-  size: number;
-  fill: string;
-  [key: string]: string | number;
-}
-
 export function ExpenseBoard({
   dayData,
   months,
@@ -140,9 +133,6 @@ export function ExpenseBoard({
   );
 
   const donutData = breakdown.slices.filter((s) => s.cents > 0);
-  const treemapData: TreemapNode[] = breakdown.slices
-    .filter((s) => s.cents > 0)
-    .map((s) => ({ name: `${s.emoji} ${s.label}`, size: s.cents, fill: SLICE_COLORS[s.key] }));
 
   const [acquisition, setAcquisition] = useState<AcquisitionToday | null | "loading">("loading");
   useEffect(() => {
@@ -481,22 +471,6 @@ export function ExpenseBoard({
             </div>
           </div>
 
-          {/* Treemap (vue carrés) */}
-          <div className="rounded-lg border border-line bg-panel/40 p-2">
-            <div className="mb-1 px-1 text-[9px] uppercase tracking-wide text-ink-faint">Vue carrés</div>
-            <div className="h-40 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <Treemap
-                  data={treemapData}
-                  dataKey="size"
-                  stroke="#f4f5f7"
-                  content={<TreemapCell />}
-                  isAnimationActive={false}
-                />
-              </ResponsiveContainer>
-            </div>
-          </div>
-
           {/* 📡 CA par canal — quel levier (Google/Meta/direct/Klaviyo) rapporte
               vraiment (demande Badr 08/08). Le donut vient des données de
               tracking Shopify (Google/Meta/direct) ; Klaviyo est affiché à
@@ -681,34 +655,3 @@ function SliceTooltip({
   );
 }
 
-interface TreemapCellProps {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  name?: string;
-  fill?: string;
-}
-
-function TreemapCell({ x = 0, y = 0, width = 0, height = 0, name = "", fill = "#333" }: TreemapCellProps) {
-  const show = width > 54 && height > 22;
-  // Étiquette bornée à sa propre case (clipPath) : sans ça, un libellé long
-  // ("Frais Shopify réels (5,3 %)") déborde en SVG — pas de wrap ni de
-  // troncature automatique — et devient illisible sur la case voisine.
-  const clipId = `treemap-clip-${x}-${y}-${width}-${height}`;
-  return (
-    <g>
-      <rect x={x} y={y} width={width} height={height} fill={fill} fillOpacity={0.85} stroke="#f4f5f7" strokeWidth={2} />
-      {show && (
-        <>
-          <clipPath id={clipId}>
-            <rect x={x + 4} y={y} width={Math.max(width - 8, 0)} height={height} />
-          </clipPath>
-          <text x={x + 6} y={y + 16} fill="#14161c" fontSize={10} fontWeight={700} clipPath={`url(#${clipId})`}>
-            {name}
-          </text>
-        </>
-      )}
-    </g>
-  );
-}

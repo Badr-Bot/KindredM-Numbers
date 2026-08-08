@@ -43,15 +43,28 @@ function authHeaders(): Record<string, string> {
   };
 }
 
-/** Trouve l'ID interne (opaque, propre à chaque compte) de la métrique « Placed Order ». */
+/**
+ * Trouve l'ID interne (opaque, propre à chaque compte) de la métrique
+ * « Placed Order ». L'API Klaviyo /metrics/ ne permet PAS de filtrer par
+ * `name` (erreur 400 constatée en prod le 08/08 : « 'name' is not a
+ * filterable field... champs filtrables : integration.category,
+ * integration.name ») — on liste donc toutes les métriques (peu nombreuses,
+ * pagination suivie par sécurité) et on cherche le nom côté client.
+ */
 async function findPlacedOrderMetricId(): Promise<string> {
-  const url = `${KLAVIYO_BASE}/metrics/?filter=${encodeURIComponent("equals(name,\"Placed Order\")")}`;
-  const res = await fetch(url, { headers: authHeaders() });
-  if (!res.ok) throw new Error(`Klaviyo /metrics ${res.status}: ${await res.text()}`);
-  const body = (await res.json()) as { data?: Array<{ id: string }> };
-  const id = body.data?.[0]?.id;
-  if (!id) throw new Error("Klaviyo : métrique « Placed Order » introuvable sur ce compte.");
-  return id;
+  let url: string | null = `${KLAVIYO_BASE}/metrics/`;
+  while (url) {
+    const res: Response = await fetch(url, { headers: authHeaders() });
+    if (!res.ok) throw new Error(`Klaviyo /metrics ${res.status}: ${await res.text()}`);
+    const body = (await res.json()) as {
+      data?: Array<{ id: string; attributes?: { name?: string } }>;
+      links?: { next?: string | null };
+    };
+    const found = body.data?.find((m) => m.attributes?.name === "Placed Order");
+    if (found) return found.id;
+    url = body.links?.next ?? null;
+  }
+  throw new Error("Klaviyo : métrique « Placed Order » introuvable sur ce compte.");
 }
 
 /**
