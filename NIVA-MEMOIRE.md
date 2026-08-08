@@ -1082,3 +1082,30 @@ tombait alors à tort sur « Indisponible » (fond gris), ce que Badr a lu comme
 index d'option via `data-nvc-opt`, et la comparaison utilise cet index —
 plus jamais la position DOM. Poussé sur V5 et vérifié :
 `niva-completer-v2.liquid` (17115 o).
+
+## 6 sexvicies. Bouton « Ajouter au panier » beige sur le Gilet (08/08, V5)
+
+Badr : « le bouton ajouter au panier du gilet n'est pas en noir, toujours
+beige, je le veux comme le polo ». Impossible de charger la boutique en
+direct pour vérifier visuellement (`mynivashop.com` hors liste blanche du
+proxy réseau de la session) — diagnostic fait entièrement à la lecture du
+code.
+
+**Cause réelle, trouvée dans `snippets/buy-buttons.liquid` (Dawn natif) :**
+```
+class="product-form__submit button button--full-width
+  {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+```
+Le bouton « Ajouter au panier » prend la classe `button--primary` (noir,
+plein) SEULEMENT si le paiement express (Shop Pay/Apple Pay) est DÉSACTIVÉ
+sur le bloc `buy_buttons` ; sinon il devient `button--secondary` (style
+creux/clair). Vérifié : `buy_buttons.settings.show_dynamic_checkout` valait
+`true` sur le Gilet et `false` sur le Polo — c'est tout l'écart. La règle CSS
+`!important` posée plus tôt dans le projet pour forcer le noir
+(`.product-form__submit.button--primary{background:var(--nv-noir)!important}`)
+ne visait que le style primary, donc ratait le bouton du Gilet en secondary.
+
+Corrigé au plus simple, exactement comme demandé (« comme le polo ») :
+`show_dynamic_checkout` repassé à `false` sur `buy_buttons` du Gilet
+uniquement — pas touché au CSS global, pas touché au Polo. Poussé sur V5 et
+vérifié : `product.gilet-niva.json` (58464 o).
