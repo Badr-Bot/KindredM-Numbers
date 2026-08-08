@@ -1,12 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, Treemap } from "recharts";
-import { buildExpenseBreakdown, type DayAgg, type ExpenseSlice, type Totals } from "@/lib/data";
+import { buildExpenseBreakdown, type AcquisitionToday, type DayAgg, type ExpenseSlice, type Totals } from "@/lib/data";
 import type { MarketTab } from "@/lib/markets";
-import { formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
+import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
+import { SUBSCRIPTIONS, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import {
+  ONE_OFF_COSTS,
+  SUB_PAYMENTS,
+  TRANSFERS,
+  oneOffTotalCentsBy,
+  subPaymentsTotalCentsBy,
+  transfersTotalCentsFrom,
+} from "@/lib/associateLedger";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
@@ -28,6 +37,13 @@ const SLICE_COLORS: Record<string, string> = {
   shopify: "#e0a35f",
   autres: "#6f8a78",
   net: "#33ff9c",
+};
+
+const CHANNEL_COLORS: Record<string, string> = {
+  meta: "#5b8cff",
+  google: "#ffc61a",
+  direct: "#2fd8ff",
+  autre: "#6f8a78",
 };
 
 function sumForPrefix(rows: DayAgg[], prefix: string): Totals {
@@ -73,6 +89,7 @@ export function ExpenseBoard({
   years: string[];
 }) {
   const { play } = useSound();
+  const historyEnd = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), months[0] ?? "");
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
   const [gran, setGran] = useState<Granularity>("month");
   const [monthIdx, setMonthIdx] = useState(months.length - 1);
@@ -92,6 +109,57 @@ export function ExpenseBoard({
   const treemapData: TreemapNode[] = breakdown.slices
     .filter((s) => s.cents > 0)
     .map((s) => ({ name: `${s.emoji} ${s.label}`, size: s.cents, fill: SLICE_COLORS[s.key] }));
+
+  // 📡 CA par canal (Google/Meta/direct/autres) — « comme on arrive à
+  // visualiser facilement si Google ou Klaviyo sont intéressants » (Badr
+  // 08/08). Bornes réelles de la période sélectionnée.
+  const [periodStart, periodEnd] = useMemo<[string, string]>(() => {
+    if (gran === "year") return [`${period}-01-01`, `${period}-12-31`];
+    const [y, m] = period.split("-").map(Number);
+    const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    return [`${period}-01`, `${period}-${String(last).padStart(2, "0")}`];
+  }, [gran, period]);
+
+  const [acquisition, setAcquisition] = useState<AcquisitionToday | null | "loading">("loading");
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/acquisition-summary?from=${periodStart}&to=${periodEnd}`)
+      .then((r) => r.json())
+      .then((body) => {
+        if (!cancelled) setAcquisition(body.acquisition ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setAcquisition(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [periodStart, periodEnd]);
+
+  const channelDonutData = useMemo(
+    () => (acquisition && acquisition !== "loading" ? acquisition.sources.filter((s) => s.caCents > 0) : []),
+    [acquisition]
+  );
+  const channelCaTotal = channelDonutData.reduce((s, c) => s + c.caCents, 0);
+
+  // 📧 CA email (Klaviyo, campagnes seulement — jamais les flows/BIENVENUE15)
+  const [klaviyo, setKlaviyo] = useState<
+    { attributedRevenueCents: number; conversions: number; campaignsCount: number } | { error: string } | "loading"
+  >("loading");
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/klaviyo/summary?since=${periodStart}&until=${periodEnd}`)
+      .then((r) => r.json())
+      .then((body) => {
+        if (!cancelled) setKlaviyo(body.error ? { error: body.error } : body.revenue);
+      })
+      .catch(() => {
+        if (!cancelled) setKlaviyo({ error: "Appel réseau Klaviyo impossible." });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [periodStart, periodEnd]);
 
   // §6.5 — encart « À optimiser » : 3 postes de coût les plus lourds en % du CA
   const prevWeights = new Map(prevBreakdown.slices.map((s) => [s.key, s.weight]));
@@ -150,6 +218,172 @@ export function ExpenseBoard({
           </button>
         </div>
       </div>
+
+      {/* 💳 Abonnements & charges fixes (source : PDF Adnane, 08/08 — déménagé
+          depuis l'onglet Année le 08/08 pour tout ranger au même endroit) */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-1 text-sm font-semibold">💳 Abonnements & charges fixes</div>
+        {(() => {
+          const t = subscriptionTotals(historyEnd);
+          return (
+            <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.monthlyCents)}</b> / mois</span>
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.dailyCents)}</b> / jour</span>
+              <span>≈ <b className="tnum text-amber">{formatEur0(t.yearlyCents)}</b> / an</span>
+            </div>
+          );
+        })()}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[420px] text-left text-xs">
+            <thead>
+              <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
+                <th className="py-1 pr-2">Poste</th>
+                <th className="py-1 pr-2">Type</th>
+                <th className="py-1 pr-2 text-right">€ / mois</th>
+                <th className="py-1 pr-2 text-right">€ / jour</th>
+                <th className="py-1 text-right">€ / an</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...SUBSCRIPTIONS]
+                .sort((a, b) => monthlyEurCents(b) - monthlyEurCents(a))
+                .map((sub) => {
+                  const m = monthlyEurCents(sub);
+                  const alerte = sub.note?.includes("URGENT");
+                  return (
+                    <tr key={sub.label} className="border-b border-hair/50">
+                      <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
+                        {sub.label}
+                        {alerte && " ⚠️"}
+                      </td>
+                      <td className="py-1 pr-2 text-ink-faint">
+                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit" }[sub.category]}
+                      </td>
+                      <td className={`tnum py-1 pr-2 text-right ${m < 0 ? "text-phosphor" : ""}`}>{formatEurSigned0(m).replace("+", "")}</td>
+                      <td className="tnum py-1 pr-2 text-right text-ink-faint">{(m / 3044).toFixed(2).replace(".", ",")}</td>
+                      <td className="tnum py-1 text-right text-ink-faint">{formatEurSigned0(m * 12).replace("+", "")}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
+          Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
+          les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
+          avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
+          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
+          pour le moment (Badr 08/08) — comptés depuis leurs vraies dates (Seif 15/07,
+          Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
+        </p>
+      </section>
+
+      {/* 🤝 Entre associés — « tout doit être tracé et clair » (Badr 08/08) */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-1 text-sm font-semibold">🤝 Entre associés — ce que chacun a avancé</div>
+        {(() => {
+          const badrTotal =
+            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + subPaymentsTotalCentsBy("BADR");
+          const adnaneTotal =
+            oneOffTotalCentsBy("ADNANE") + transfersTotalCentsFrom("ADNANE") + subPaymentsTotalCentsBy("ADNANE");
+          return (
+            <>
+              <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
+                <span>Avancé par 🟠 Badr à ce jour : <b className="tnum text-amber">{formatEur0(badrTotal)}</b></span>
+                {adnaneTotal > 0 && (
+                  <span>Avancé par 🔵 Adnane à ce jour : <b className="tnum text-amber">{formatEur0(adnaneTotal)}</b></span>
+                )}
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[420px] text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
+                      <th className="py-1 pr-2">Date</th>
+                      <th className="py-1 pr-2">Quoi</th>
+                      <th className="py-1 pr-2">Payé par</th>
+                      <th className="py-1 text-right">Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ONE_OFF_COSTS.map((c, i) => (
+                      <tr key={`oneoff-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{formatDayShort(c.day)}</td>
+                        <td className="py-1 pr-2">
+                          {c.label}
+                          {c.original && <span className="text-ink-faint"> ({c.original})</span>}
+                        </td>
+                        <td className="py-1 pr-2">{c.paidBy === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(c.eurCents)}</td>
+                      </tr>
+                    ))}
+                    {TRANSFERS.map((t, i) => (
+                      <tr key={`transfer-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{t.day ? formatDayShort(t.day) : "date ?"}</td>
+                        <td className="py-1 pr-2">
+                          {t.label} <span className="text-ink-faint">(transfert, hors charges)</span>
+                        </td>
+                        <td className="py-1 pr-2">{t.from === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(t.eurCents)}</td>
+                      </tr>
+                    ))}
+                    {SUB_PAYMENTS.map((p, i) => (
+                      <tr key={`subpay-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{p.day ? formatDayShort(p.day) : "date ?"}</td>
+                        <td className="py-1 pr-2">
+                          {p.label} <span className="text-ink-faint">(facture réelle)</span>
+                        </td>
+                        <td className="py-1 pr-2">{p.payer === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(p.eurCents)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          );
+        })()}
+        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
+          Les frais LLC sont déduits du net global le 21/06 et partagés <b>50/50</b> (décision
+          Badr : la LLC a servi à lancer le 14/07) — payés en entier par Badr, sa moitié est à
+          sa charge, l&apos;autre moitié (259,18 €) lui est due au règlement. L&apos;avance de
+          1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
+          Le Claude de Badr (100 €/mois depuis le 15/07) est compté dans les charges ; seule la
+          1re facture (15/07) est sortie de sa poche et créditée ici — depuis la 2e (08/08) la
+          carte LLC paie, donc ce compteur ne bouge plus. Le Hushed d&apos;Adnane (7,99 €/mois) :
+          les 2 premiers mois (juillet, août) sont sortis de sa poche et crédités ici — à partir
+          de septembre la carte LLC prend le relais. Dites-moi si d&apos;autres abonnements sont
+          payés perso pour les tracer pareil. <b>Ce solde est déjà intégré</b> aux cartes « combien
+          j&apos;ai gagné » de l&apos;onglet Année et au total depuis le début — chaque avance
+          corrige le mois où elle est vraiment tombée (juin pour la LLC et le transfert,
+          juillet/août pour Claude et Hushed), jamais un mois choisi au hasard.
+        </p>
+      </section>
+
+      {/* 🎯 Pistes d'économies — demande Badr 08/08 : « propose des trucs pour alléger les coûts » */}
+      <section className="rounded-lg border border-amber/30 bg-amber/[0.04] p-3.5">
+        <div className="mb-2 text-[11px] font-semibold text-amber">💡 Pistes d&apos;économies</div>
+        <ul className="flex flex-col gap-2 text-[11.5px] leading-snug">
+          <li>
+            <b className="text-red">SmartSize (287,49 €/mois)</b> — Adnane dit « urgent à enlever ».
+            Économie immédiate à la résiliation, ~3 450 €/an.
+          </li>
+          <li>
+            <b>Moon Bundles (≈ 52 €/mois, plan Premium)</b> — downgrader au plan Essential (≈13 €/mois)
+            ou Free s&apos;il ne sert qu&apos;à des bundles simples, ou passer à l&apos;app native
+            Shopify Bundles (gratuite, gère les bundles à prix fixe et multipacks).
+          </li>
+          <li>
+            <b>Crédit d&apos;abonnement (−88 €/mois)</b> — Adnane dit qu&apos;il ne finance que
+            l&apos;abonnement Shopify lui-même (pas les apps) : décompté ici du même montant tant que
+            confirmé actif ; à retirer si Shopify l&apos;a épuisé.
+          </li>
+          <li>
+            <b>Jeremy / Seif (2 600 €/mois à eux deux)</b> — le poste le plus lourd (58 % des charges).
+            Une fois un mois complet de recul (fin août), comparer le CA qu&apos;ils rapportent
+            (campagnes Klaviyo ci-dessus pour Jeremy) à leur coût pour juger s&apos;ils se paient.
+          </li>
+        </ul>
+      </section>
 
       <MarketTabs active={tab} onChange={setTab} />
 
@@ -236,6 +470,99 @@ export function ExpenseBoard({
             </div>
           </div>
 
+          {/* 📡 CA par canal — quel levier (Google/Meta/direct/Klaviyo) rapporte
+              vraiment (demande Badr 08/08). Le donut vient des données de
+              tracking Shopify (Google/Meta/direct) ; Klaviyo est affiché à
+              part car ce n'est pas la même mesure (attribution email propre à
+              Klaviyo, jamais recoupée avec le donut pour ne pas compter deux
+              fois une même vente). */}
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="relative rounded-lg border border-line bg-panel/40 p-2">
+              <div className="mb-1 px-1 text-[9px] uppercase tracking-wide text-ink-faint">
+                📡 CA par canal (tracking Shopify)
+              </div>
+              {acquisition === "loading" ? (
+                <p className="p-4 text-center text-[10.5px] text-ink-faint">Chargement…</p>
+              ) : channelDonutData.length === 0 ? (
+                <p className="p-4 text-center text-[10.5px] text-ink-faint">
+                  Pas de données de source sur cette période.
+                </p>
+              ) : (
+                <>
+                  <div className="h-44 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={channelDonutData}
+                          dataKey="caCents"
+                          nameKey="label"
+                          innerRadius="55%"
+                          outerRadius="85%"
+                          paddingAngle={1.5}
+                          stroke="#070a08"
+                          strokeWidth={1.5}
+                        >
+                          {channelDonutData.map((s) => (
+                            <Cell key={s.key} fill={CHANNEL_COLORS[s.key] ?? "#6f8a78"} />
+                          ))}
+                        </Pie>
+                        <Tooltip content={<ChannelTooltip total={channelCaTotal} />} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <ul className="flex flex-col gap-1 px-1 pb-1 text-[11px]">
+                    {channelDonutData
+                      .sort((a, b) => b.caCents - a.caCents)
+                      .map((s) => (
+                        <li key={s.key} className="flex items-center justify-between">
+                          <span className="flex items-center gap-1.5">
+                            <span
+                              className="h-2.5 w-2.5 rounded-sm"
+                              style={{ background: CHANNEL_COLORS[s.key] ?? "#6f8a78" }}
+                            />
+                            <span aria-hidden>{s.emoji}</span> {s.label}
+                          </span>
+                          <span className="tnum text-ink-dim">
+                            {formatEur0(s.caCents)} · {formatPct(channelCaTotal ? s.caCents / channelCaTotal : null)}
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                </>
+              )}
+            </div>
+
+            <div className="rounded-lg border border-line bg-panel/40 p-3">
+              <div className="mb-1.5 text-[9px] uppercase tracking-wide text-ink-faint">
+                📧 CA email (Klaviyo, campagnes seulement)
+              </div>
+              {klaviyo === "loading" ? (
+                <p className="text-[10.5px] text-ink-faint">Chargement…</p>
+              ) : "error" in klaviyo ? (
+                <p className="text-[10.5px] leading-snug text-ink-faint">
+                  ⚠️ {klaviyo.error.includes("KLAVIYO_API_KEY")
+                    ? "Clé Klaviyo pas encore ajoutée dans Vercel."
+                    : `Klaviyo indisponible : ${klaviyo.error}`}
+                </p>
+              ) : (
+                <>
+                  <div className="text-xl font-bold tnum text-phosphor lg:text-2xl">
+                    {formatEur0(klaviyo.attributedRevenueCents)}
+                  </div>
+                  <div className="mt-1 text-[10.5px] text-ink-dim tnum">
+                    {klaviyo.conversions} commande{klaviyo.conversions > 1 ? "s" : ""} ·{" "}
+                    {klaviyo.campaignsCount} campagne{klaviyo.campaignsCount > 1 ? "s" : ""}
+                  </div>
+                </>
+              )}
+              <p className="mt-2 text-[9.5px] text-ink-faint">
+                Jamais les flows automatiques (donc jamais le mail de bienvenue/BIENVENUE15) — seulement
+                le travail de campagnes de Jeremy. Mesure indépendante du donut à gauche : ne pas
+                additionner les deux (une vente email peut aussi apparaître en « Direct » côté Shopify).
+              </p>
+            </div>
+          </div>
+
           {/* 🎯 À optimiser */}
           <div className="rounded-lg border border-amber/30 bg-amber/[0.04] p-3">
             <div className="mb-2 text-[11px] font-semibold text-amber">🎯 À optimiser · 3 postes les plus lourds</div>
@@ -270,6 +597,29 @@ export function ExpenseBoard({
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+function ChannelTooltip({
+  active,
+  payload,
+  total,
+}: {
+  active?: boolean;
+  payload?: Array<{ payload: { key: string; label: string; emoji: string; caCents: number; orders: number } }>;
+  total: number;
+}) {
+  if (!active || !payload?.length) return null;
+  const s = payload[0].payload;
+  return (
+    <div className="rounded border border-line bg-terminal/95 px-2.5 py-1.5 text-[11px] shadow-lg">
+      <div className="font-semibold text-ink">
+        {s.emoji} {s.label}
+      </div>
+      <div className="tnum text-ink-dim">
+        {formatEur0(s.caCents)} · {formatPct(total ? s.caCents / total : null)} · {s.orders} cmd
+      </div>
     </div>
   );
 }

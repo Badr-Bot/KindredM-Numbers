@@ -24,21 +24,7 @@ import {
 } from "@/lib/associates";
 import { badrNetLedgerCentsForDay } from "@/lib/associateLedger";
 import { listParisDays } from "@/lib/time";
-import {
-  badrFixedCostsCentsForDay,
-  fixedCostsCentsForDay,
-  monthlyEurCents,
-  SUBSCRIPTIONS,
-  subscriptionTotals,
-} from "@/lib/subscriptions";
-import {
-  ONE_OFF_COSTS,
-  oneOffTotalCentsBy,
-  SUB_PAYMENTS,
-  subPaymentsTotalCentsBy,
-  TRANSFERS,
-  transfersTotalCentsFrom,
-} from "@/lib/associateLedger";
+import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "@/lib/subscriptions";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
@@ -316,144 +302,10 @@ export function YearBoard({
         </section>
       </div>
 
-      {/* 💳 Abonnements & charges fixes (source : PDF Adnane, 08/08) */}
-      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
-        <div className="mb-1 text-sm font-semibold">💳 Abonnements & charges fixes</div>
-        {(() => {
-          const t = subscriptionTotals(historyEnd);
-          return (
-            <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
-              <span>≈ <b className="tnum text-amber">{formatEur0(t.monthlyCents)}</b> / mois</span>
-              <span>≈ <b className="tnum text-amber">{formatEur0(t.dailyCents)}</b> / jour</span>
-              <span>≈ <b className="tnum text-amber">{formatEur0(t.yearlyCents)}</b> / an</span>
-            </div>
-          );
-        })()}
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[420px] text-left text-xs">
-            <thead>
-              <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
-                <th className="py-1 pr-2">Poste</th>
-                <th className="py-1 pr-2">Type</th>
-                <th className="py-1 pr-2 text-right">€ / mois</th>
-                <th className="py-1 pr-2 text-right">€ / jour</th>
-                <th className="py-1 text-right">€ / an</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...SUBSCRIPTIONS]
-                .sort((a, b) => monthlyEurCents(b) - monthlyEurCents(a))
-                .map((sub) => {
-                  const m = monthlyEurCents(sub);
-                  const alerte = sub.note?.includes("URGENT");
-                  return (
-                    <tr key={sub.label} className="border-b border-hair/50">
-                      <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
-                        {sub.label}
-                        {alerte && " ⚠️"}
-                      </td>
-                      <td className="py-1 pr-2 text-ink-faint">
-                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit" }[sub.category]}
-                      </td>
-                      <td className={`tnum py-1 pr-2 text-right ${m < 0 ? "text-phosphor" : ""}`}>{formatEurSigned0(m).replace("+", "")}</td>
-                      <td className="tnum py-1 pr-2 text-right text-ink-faint">{(m / 3044).toFixed(2).replace(".", ",")}</td>
-                      <td className="tnum py-1 text-right text-ink-faint">{formatEurSigned0(m * 12).replace("+", "")}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
-          Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
-          les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
-          avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
-          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
-          pour le moment (Badr 08/08) — comptés depuis leurs vraies dates (Seif 15/07,
-          Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
-        </p>
-      </section>
-
-      {/* 🤝 Entre associés — « tout doit être tracé et clair » (Badr 08/08) */}
-      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
-        <div className="mb-1 text-sm font-semibold">🤝 Entre associés — ce que chacun a avancé</div>
-        {(() => {
-          const badrTotal =
-            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + subPaymentsTotalCentsBy("BADR");
-          const adnaneTotal =
-            oneOffTotalCentsBy("ADNANE") + transfersTotalCentsFrom("ADNANE") + subPaymentsTotalCentsBy("ADNANE");
-          return (
-            <>
-              <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
-                <span>Avancé par 🟠 Badr à ce jour : <b className="tnum text-amber">{formatEur0(badrTotal)}</b></span>
-                {adnaneTotal > 0 && (
-                  <span>Avancé par 🔵 Adnane à ce jour : <b className="tnum text-amber">{formatEur0(adnaneTotal)}</b></span>
-                )}
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[420px] text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
-                      <th className="py-1 pr-2">Date</th>
-                      <th className="py-1 pr-2">Quoi</th>
-                      <th className="py-1 pr-2">Payé par</th>
-                      <th className="py-1 text-right">Montant</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ONE_OFF_COSTS.map((c, i) => (
-                      <tr key={`oneoff-${i}`} className="border-b border-hair/50">
-                        <td className="py-1 pr-2 tnum">{formatDayShort(c.day)}</td>
-                        <td className="py-1 pr-2">
-                          {c.label}
-                          {c.original && <span className="text-ink-faint"> ({c.original})</span>}
-                        </td>
-                        <td className="py-1 pr-2">{c.paidBy === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
-                        <td className="tnum py-1 text-right">{formatEur0(c.eurCents)}</td>
-                      </tr>
-                    ))}
-                    {TRANSFERS.map((t, i) => (
-                      <tr key={`transfer-${i}`} className="border-b border-hair/50">
-                        <td className="py-1 pr-2 tnum">{t.day ? formatDayShort(t.day) : "date ?"}</td>
-                        <td className="py-1 pr-2">
-                          {t.label} <span className="text-ink-faint">(transfert, hors charges)</span>
-                        </td>
-                        <td className="py-1 pr-2">{t.from === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
-                        <td className="tnum py-1 text-right">{formatEur0(t.eurCents)}</td>
-                      </tr>
-                    ))}
-                    {SUB_PAYMENTS.map((p, i) => (
-                      <tr key={`subpay-${i}`} className="border-b border-hair/50">
-                        <td className="py-1 pr-2 tnum">{p.day ? formatDayShort(p.day) : "date ?"}</td>
-                        <td className="py-1 pr-2">
-                          {p.label} <span className="text-ink-faint">(facture réelle)</span>
-                        </td>
-                        <td className="py-1 pr-2">{p.payer === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
-                        <td className="tnum py-1 text-right">{formatEur0(p.eurCents)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          );
-        })()}
-        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
-          Les frais LLC sont déduits du net global le 21/06 et partagés <b>50/50</b> (décision
-          Badr : la LLC a servi à lancer le 14/07) — payés en entier par Badr, sa moitié est à
-          sa charge, l&apos;autre moitié (259,18 €) lui est due au règlement. L&apos;avance de
-          1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
-          Le Claude de Badr (100 €/mois depuis le 15/07) est compté dans les charges ; seule la
-          1re facture (15/07) est sortie de sa poche et créditée ici — depuis la 2e (08/08) la
-          carte LLC paie, donc ce compteur ne bouge plus. Le Hushed d&apos;Adnane (7,99 €/mois) :
-          les 2 premiers mois (juillet, août) sont sortis de sa poche et crédités ici — à partir
-          de septembre la carte LLC prend le relais. Dites-moi si d&apos;autres abonnements sont
-          payés perso pour les tracer pareil. <b>Ce solde est déjà intégré</b> aux cartes « combien
-          j&apos;ai gagné » ci-dessus et au total depuis le début — chaque avance corrige le mois où
-          elle est vraiment tombée (juin pour la LLC et le transfert, juillet/août pour Claude et
-          Hushed), jamais un mois choisi au hasard.
-        </p>
-      </section>
+      {/* 💳 Abonnements & 🤝 Entre associés ont déménagé dans l'onglet Dépenses
+          (08/08, « il faut bien ranger l'Année ») — le détail vit là-bas,
+          à côté du reste des coûts. Le solde entre associés reste intégré
+          aux chiffres ci-dessus, juste son détail change d'onglet. */}
 
       <MarketTabs active={tab} onChange={setTab} />
 
