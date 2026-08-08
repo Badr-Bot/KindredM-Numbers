@@ -552,3 +552,30 @@ sortir d'un achat en cours), celle-là ajoute. Les deux coexistent, à arbitrer.
 
 Vérifié sur V4 : polo 16 sections / 20 blocs, gilet 22 / 17, avis 6 et 35 intacts,
 UGC 3 et 3 intacts.
+
+## 6 undecies. Dates de livraison + échange offert (08/08, V4)
+
+**Décision de Badr** : « Le reste du vestiaire » (`niva-selection`) est jugé
+redondant → **retiré des deux fiches**, avec son accord explicite. Il ne reste que
+« Compléter la tenue », **descendue en fin de page**, juste avant le rappel d'achat.
+Consigne de ton : *« tes mots doivent être inspirés de la maison NIVA »* — phrases
+courtes, affirmatives, aucune esbroufe.
+
+`snippets/niva-livraison.liquid` (4 892 o), greffé dans **`snippets/buy-buttons.liquid`**
+(6 290 o) — donc rendu sur **toutes** les fiches produit d'un coup, y compris celles
+à venir, sans toucher à un seul gabarit. Trois lignes sous le bouton :
+1. « Commandé avant 14 h : expédié aujourd'hui. » (sinon « Expédié demain. » ou
+   « Expédié lundi. »)
+2. « Chez vous entre le vendredi 14 et le jeudi 20 août. »
+3. « Mauvaise taille : l'échange est offert. » ← **promesse commerciale validée par
+   Badr le 08/08, à tenir en SAV.**
+
+Calcul : heure de la **boutique** (epoch + décalage passés en Liquid, arithmétique
+en JS) — un client à Montréal ne doit pas lire une date décalée. Jours ouvrés
+uniquement, samedi et dimanche sautés pour l'expédition comme pour la fourchette.
+Réglages en tête du snippet : `heure_limite` 14, `delai_min` 5, `delai_max` 9.
+Le texte écrit en dur dans le HTML est la version de secours si le JS ne tourne pas.
+Vérifié par simulation : vendredi 10 h → expédié vendredi, livré 14→20 août ;
+vendredi 18 h et week-end → expédié lundi, livré 17→21 août.
+
+**Refusé par Badr** : le paiement en plusieurs fois (« j'aime pas l'usure »).

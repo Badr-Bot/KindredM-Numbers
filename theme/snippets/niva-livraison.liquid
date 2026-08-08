@@ -1,0 +1,116 @@
+{%- comment -%}
+  NIVA — la date de livraison, sous le bouton d'achat.
+
+  Un delai fait calculer ; une date fait se projeter. « 5 a 9 jours ouvres »
+  oblige le client a sortir un calendrier ; « chez vous entre le mardi 12 et le
+  lundi 18 aout » se lit sans effort.
+
+  Rendu par snippets/buy-buttons.liquid : il arrive donc sur TOUTES les fiches
+  produit d'un coup, sans toucher a un seul gabarit.
+
+  Le texte ecrit dans le HTML est la version de secours : si le JavaScript ne
+  s'execute pas, le client lit une phrase juste, pas une phrase vide.
+
+  Reglages, modifiables ici ou passes au render :
+    heure_limite : heure de cloture des expeditions (heure de la boutique)
+    delai_min / delai_max : fourchette en JOURS OUVRES apres expedition
+{%- endcomment -%}
+
+{%- liquid
+  assign heure_limite = heure_limite | default: 14
+  assign delai_min = delai_min | default: 5
+  assign delai_max = delai_max | default: 9
+-%}
+
+<div
+  class="nvliv"
+  data-nv-livraison
+  data-epoch="{{ 'now' | date: '%s' }}"
+  data-decalage="{{ 'now' | date: '%z' }}"
+  data-limite="{{ heure_limite }}"
+  data-min="{{ delai_min }}"
+  data-max="{{ delai_max }}"
+>
+  <p class="nvliv__l" data-nv-expedition>Préparé et expédié sous 24 h.</p>
+  <p class="nvliv__l nvliv__l--fort" data-nv-arrivee>Livraison en {{ delai_min }} à {{ delai_max }} jours ouvrés.</p>
+  <p class="nvliv__l nvliv__l--gris">Mauvaise taille : l'échange est offert.</p>
+</div>
+
+<script>
+(function(){
+  var cadre = document.querySelector('[data-nv-livraison]');
+  if(!cadre) return;
+
+  var JOURS = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  var MOIS  = ['janvier','février','mars','avril','mai','juin',
+               'juillet','août','septembre','octobre','novembre','décembre'];
+
+  /* On raisonne a l'heure de la BOUTIQUE, pas a celle du visiteur : un client
+     a Montreal ne doit pas lire une date d'expedition decalee d'un jour. */
+  var epoch = parseInt(cadre.dataset.epoch, 10);
+  var dec   = (cadre.dataset.decalage || '+0000').trim();
+  var signe = dec.charAt(0) === '-' ? -1 : 1;
+  var decMin = signe * (parseInt(dec.substr(1,2),10) * 60 + parseInt(dec.substr(3,2),10));
+  if(isNaN(epoch) || isNaN(decMin)) return;
+
+  /* Date « flottante » calee sur le fuseau de la boutique. */
+  var boutique = new Date((epoch + decMin * 60) * 1000);
+  var limite = parseInt(cadre.dataset.limite,10);
+  var dMin = parseInt(cadre.dataset.min,10);
+  var dMax = parseInt(cadre.dataset.max,10);
+
+  function ouvre(d){ var j = d.getUTCDay(); return j !== 0 && j !== 6; }
+  function jourSuivant(d){ var n = new Date(d.getTime()); n.setUTCDate(n.getUTCDate()+1); return n; }
+  function prochainOuvre(d){ var n = new Date(d.getTime()); while(!ouvre(n)) n = jourSuivant(n); return n; }
+  function ajouterOuvres(d, n){
+    var r = new Date(d.getTime());
+    for (var i = 0; i < n; i++){ do { r = jourSuivant(r); } while(!ouvre(r)); }
+    return r;
+  }
+
+  /* Expedition : aujourd'hui si on est un jour ouvre et avant l'heure limite. */
+  var aujourdhui = new Date(Date.UTC(boutique.getUTCFullYear(), boutique.getUTCMonth(), boutique.getUTCDate()));
+  var avantLimite = boutique.getUTCHours() < limite;
+  var expedition = (ouvre(aujourdhui) && avantLimite) ? aujourdhui : prochainOuvre(jourSuivant(aujourdhui));
+
+  var tot = ajouterOuvres(expedition, dMin);
+  var tard = ajouterOuvres(expedition, dMax);
+
+  function jourMois(d){ return JOURS[d.getUTCDay()] + ' ' + d.getUTCDate(); }
+
+  var arrivee;
+  if(tot.getUTCMonth() === tard.getUTCMonth()){
+    arrivee = 'Chez vous entre le ' + jourMois(tot) + ' et le ' + jourMois(tard) + ' ' + MOIS[tard.getUTCMonth()] + '.';
+  } else {
+    arrivee = 'Chez vous entre le ' + jourMois(tot) + ' ' + MOIS[tot.getUTCMonth()] +
+              ' et le ' + jourMois(tard) + ' ' + MOIS[tard.getUTCMonth()] + '.';
+  }
+
+  var texteExp;
+  if(expedition.getTime() === aujourdhui.getTime()){
+    texteExp = 'Commandé avant ' + limite + ' h : expédié aujourd’hui.';
+  } else {
+    var demain = jourSuivant(aujourdhui);
+    texteExp = (expedition.getTime() === demain.getTime())
+      ? 'Expédié demain.'
+      : 'Expédié ' + JOURS[expedition.getUTCDay()] + '.';
+  }
+
+  cadre.querySelector('[data-nv-expedition]').textContent = texteExp;
+  cadre.querySelector('[data-nv-arrivee]').textContent = arrivee;
+})();
+</script>
+
+<style>
+  .nvliv{margin:14px 0 0;padding:13px 14px;background:var(--nv-sable-pale,#F7F3EB);
+    border:1px solid var(--nv-filet,#E4DED2);}
+  .nvliv__l{font-family:var(--nv-sans,sans-serif);font-size:12.5px;line-height:1.55;
+    color:var(--nv-t2,#3D3A35);margin:0;}
+  .nvliv__l--fort{color:var(--nv-noir,#151515);margin-top:3px;}
+  .nvliv__l--gris{color:var(--nv-t3,#6E6A63);margin-top:6px;padding-top:6px;
+    border-top:1px solid var(--nv-filet,#E4DED2);}
+  @media (min-width:768px){
+    .nvliv{padding:15px 16px;}
+    .nvliv__l{font-size:13.5px;}
+  }
+</style>
