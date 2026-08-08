@@ -23,5 +23,9 @@ export async function GET() {
       looksLikePlaceholder: /^\(.*\)$/.test(value?.trim() ?? ""),
     };
   });
-  return NextResponse.json({ ok: true, status });
+  // Marqueur de commit deployé (rempli automatiquement par Vercel) — pour
+  // savoir avec certitude quel code tourne vraiment avant de retester
+  // (08/08 : plusieurs diagnostics avaient tourné contre un déploi pas
+  // encore à jour, faisant perdre du temps à deviner).
+  return NextResponse.json({ ok: true, status, deployedCommit: process.env.VERCEL_GIT_COMMIT_SHA ?? null });
 }
