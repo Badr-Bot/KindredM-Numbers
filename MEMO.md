@@ -1,8 +1,38 @@
-# MEMO — contexte compact NIVA (à lire en 1er, évite de re-dériver)
+# MEMO — contexte compact Weft (ex-NIVA) (à lire en 1er, évite de re-dériver)
 
 > Fichier de travail pour Claude : toutes les règles métier et faits vérifiés,
 > au format le plus dense possible. Mis à jour à chaque changement de règle.
 > Historique détaillé → STATUT.md. Spec complète → NIVA_DASHBOARD_SPEC.md.
+
+## 🎯 Prochaine étape (08/08 soir) : LE THÈME
+Toute la logique métier/données est réglée pour l'instant (rien en attente
+côté calculs, tout ci-dessous est déjà en prod). Badr veut maintenant une
+**refonte visuelle** — c'est la seule tâche ouverte.
+
+- **Référence donnée par Badr** : capture d'écran de « Floxy » (dashboard
+  proxy) — style SaaS clair, sidebar noire épurée, cartes blanches à coins
+  arrondis, badges verts, typo sans-serif propre, très pro/fintech.
+- **Ce qu'il a dit textuellement** : « ton style ça se voit que c'est
+  Claude, je veux un style cool stylé et classe... propose des trucs avec
+  des effets sonores et visuels, je veux un truc qui vend, pour que les
+  gens kiffent ». Inspiration Floxy, pas copie conforme — il attend une
+  proposition, pas un clone.
+- **État actuel du style** (`globals.css`, thème « Direction B · Shonen
+  Impact ») : dashboard SOMBRE façon terminal — fond quasi-noir violine
+  (`--color-terminal: #0b0a10`), accent or/amber (`--color-phosphor:
+  #ffc61a`), police mono (Geist Mono), tuiles bordées `bg-panel/40`. Une
+  bascule vers un thème clair façon Floxy est un changement profond (touche
+  quasiment chaque composant) — à valider par capture avant de généraliser,
+  pas à l'aveugle.
+- **Son déjà en place** : `components/sound/SoundProvider.tsx` + `useSound()`
+  — sons existants : `tab`, `beep`, `boot`, `cash`, `error`, `tick`, déjà
+  câblés sur les clics d'onglets/actions — étoffer plutôt que réinventer.
+- **Nom déjà changé en Weft** (08/08) : Header, BootOverlay, `<title>`,
+  auth realm. `NIVA_DEMO`/`NIVAFIT` restent en interne (non visibles),
+  jamais touchés.
+- Rien d'autre en attente de Badr sauf : COGS de la vente NIRA du 07/08
+  (118,74 $), qui paie les autres abonnements (Adnane), la question du
+  spend Meta avant le 04/06 (voir plus bas) — aucun ne bloque le thème.
 
 ## Business
 - Kindred LLC / marque Niva (mynivashop.com). 4 stores Shopify ES/UK/DE/FR (FR ≈ 90 % du volume). Compte Meta : act_919559773962419.
