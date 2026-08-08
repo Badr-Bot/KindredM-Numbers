@@ -1,3 +1,4 @@
+# Re-declenche (12:21) : le run precedent a verifie AVANT la fin du deploy Vercel.
 name: Diagnostic backfill 21/05
 
 # Verifie si le backfill Shopify du 21/05 au 03/06 (declenche par le bump de
