@@ -1109,3 +1109,14 @@ Corrigé au plus simple, exactement comme demandé (« comme le polo ») :
 `show_dynamic_checkout` repassé à `false` sur `buy_buttons` du Gilet
 uniquement — pas touché au CSS global, pas touché au Polo. Poussé sur V5 et
 vérifié : `product.gilet-niva.json` (58464 o).
+
+## 6 septvicies. « Grandes tailles » retiré du bandeau (08/08, V5)
+
+Badr : « pk tu mets grandes tailles dans le bandeau en haut ??? c'est nul,
+t'as déjà vu Louis Vuitton mettre ça ?? ». Juste — une maison premium ne vend
+pas sa gamme de tailles comme argument marketing en tête de site, ça sonne
+fonctionnel/grande-distribution, pas maison de luxe. Retiré des 3 jeux de la
+bande défilante dans `sections/header-group.json` (bloc `niva_bandeau`,
+global — touche tout le site, pas seulement les fiches produit) : reste
+Livraison offerte · 30 jours pour changer d'avis · Paiement sécurisé.
+Poussé sur V5 et vérifié : `header-group.json` (2566 o).
