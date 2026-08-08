@@ -1021,3 +1021,31 @@ déborder** — ça centre la ligne entière, pas seulement les cartes visibles.
 Retiré ; le centrage de la section sur PC reste assuré par `.nvc__inner{
 max-width:1400px;margin:0 auto}` seul, qui ne touche pas au scroll interne.
 Poussé et vérifié : `niva-completer-v2.liquid` (16666 o).
+
+## 6 quatervicies. Fausse alerte suppression + vrai trou comblé : Description du Gilet (08/08, V4)
+
+Badr, en colère sur une capture du Gilet montrant l'accordéon débuter direct
+par « Trouver sa taille » : « t'as supprimé description ou je rêve ». Vérifié
+avant de répondre (jamais répondre sans preuve sur une accusation de
+suppression) :
+- `descriptionHtml` (champ natif Shopify) est **vide depuis toujours** sur le
+  Polo ET le Gilet — vérifié par requête directe sur les deux produits.
+  Aucune mutation sur ce champ nulle part dans la session.
+- Sur le Polo, le vrai texte descriptif vit dans un onglet accordéon dédié
+  intitulé « Description » (contenu réel sur la coupe, l'emmanchure, etc.) —
+  confirmé intact et à sa place dans `niva_description.block_order` après le
+  déplacement de tout à l'heure.
+- Sur le Gilet, cet onglet « Description » **n'a jamais existé** — seulement
+  Trouver sa taille / Livraison & retours / Entretien, tous les trois
+  présents et dans le bon ordre. Rien de supprimé, un vrai trou de contenu
+  pré-existant, pas une régression de ce chantier.
+
+Badr a ensuite demandé un vrai texte de description pour le Gilet, comme le
+Polo. Rédigé dans le même ton maison, en réutilisant des faits DÉJÀ établis
+et affichés ailleurs sur la fiche (les pastilles de l'image héros : « le
+boutonnage ne bâille pas », « la pointe couvre la ceinture », « l'emmanchure
+laisse la chemise à plat »), rien d'inventé : nouvel onglet
+`collapsible_tab_description` (icône clipboard, même famille que le Polo),
+inséré juste après le bloc `description` natif (vide) et avant « Trouver sa
+taille », dans `templates/product.gilet-niva.json` uniquement. Poussé et
+vérifié : `product.gilet-niva.json` (58562 o).
