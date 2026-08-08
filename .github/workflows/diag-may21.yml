@@ -1,0 +1,50 @@
+# Re-declenche (12:21) : le run precedent a verifie AVANT la fin du deploy Vercel.
+name: Diagnostic backfill 21/05
+
+# Verifie si le backfill Shopify du 21/05 au 03/06 (declenche par le bump de
+# REQUIRED_FULL_RESYNC_VERSION du 08/08) a bien tourne. keep-sync.yml appelle
+# deja /api/sync toutes les 5 min automatiquement (aucune action requise
+# normalement) - ce workflow force quelques passages de plus puis lit
+# directement les lignes daily_aggregates de la fenetre concernee pour
+# prouver (ou infirmer) que les commandes sont bien la.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["claude/kindredm-dashboard-setup-epbxha"]
+    paths:
+      - ".github/workflows/diag-may21.yml"
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Sante de l'app
+        run: |
+          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
+            https://kindred-m-numbers.vercel.app/api/admin/env-check || true
+
+      - name: 2. Backfill avec diagnostic min/max jour (warnings)
+        run: |
+          # ?raw=orders a confirme : count=0 dans la table orders pour le
+          # 21/05, 25/05, 01/06 malgre un backfill "reussi sans erreur" et
+          # 128 vraies commandes confirmees via Shopify GraphQL sur cette
+          # fenetre. Ce backfill trace maintenant minDay/maxDay reellement
+          # parcourus par store (voir DIAG dans warnings, backfillRun.ts).
+          curl -sS --max-time 295 -X POST https://kindred-m-numbers.vercel.app/api/admin/backfill
+
+      - name: 3. Diagnostic - table orders BRUTE pour 21/05
+        run: |
+          for D in 2026-05-21 2026-05-25 2026-06-01; do
+            echo "=== orders bruts $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D&raw=orders" || true
+            echo
+          done
+
+      - name: 4. Diagnostic - lignes daily_aggregates 21/05 -> 04/06
+        run: |
+          for D in 2026-05-21 2026-05-25 2026-05-29 2026-06-01 2026-06-03 2026-06-04; do
+            echo "=== $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D" || true
+            echo
+          done
