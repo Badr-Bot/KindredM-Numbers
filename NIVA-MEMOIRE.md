@@ -1120,3 +1120,67 @@ bande défilante dans `sections/header-group.json` (bloc `niva_bandeau`,
 global — touche tout le site, pas seulement les fiches produit) : reste
 Livraison offerte · 30 jours pour changer d'avis · Paiement sécurisé.
 Poussé sur V5 et vérifié : `header-group.json` (2566 o).
+
+## 6 huitvicies. ⚠️ V5 EST PASSÉE EN LIGNE À SON TOUR — travail désormais sur V6 (08/08)
+
+Rebelote : en poussant la correction du bouton beige, `themeFilesUpsert` sur
+V5 a été refusé pour la même raison que V4 plus tôt (« targets the live/
+published theme »). Badr a publié V5 pendant que j'écrivais la passe de
+réécriture des textes. Confirmé par `themes(first:20)` : V5
+(`198033310070`) est maintenant `MAIN`, V4 repassée `UNPUBLISHED`.
+
+**Nouvelle copie de travail : `NIVA — Maison V6`, id `198038487414`,
+UNPUBLISHED**, créée par `themeDuplicate(id: V5)`. Toutes les corrections de
+V5 (bug de correspondance de variante, bouton du Gilet, retrait de
+« Grandes tailles ») sont donc déjà en ligne pour de vrai — bonne nouvelle,
+rien à repousser. **Cible tout push à partir de maintenant : V6.**
+
+## 6 neuvicies. Passe de réécriture — ton maison de luxe (08/08, V6)
+
+Badr : « avant t'avais un super style, tu parlais du tombé parfait etc, pk
+t'as tt changé » puis, après clarification, la vraie demande : améliorer le
+style d'écriture sur tout le site dans un registre maison de luxe (LV,
+Hermès) — textes ET titres, sans toucher aux sections/photos/mise en page,
+sans renommer les produits (mapping Kindred).
+
+Constat en auditant le contenu réel (Polo + Gilet, tous les champs texte hors
+avis clients) : la voix de marque déjà en place est en réalité déjà assez
+proche de ce registre — précise, sensorielle par endroits (« LE TOMBÉ,
+D'ABORD » existait déjà dans le bandeau défilant du Polo, « Une obsession :
+le tombé. » dans La Maison du Gilet), plutôt du COS/Hermès sobre que du
+grande-distribution. La demande de Badr, c'est donc une élévation de
+vocabulaire et de rythme, pas une refonte de fond.
+
+**Méthode utilisée pour ne rien casser** : chaque remplacement de texte est
+vérifié par une assertion Python (`assert cur == old`) contre le contenu EXACT
+lu sur le thème juste avant d'écrire la nouvelle valeur — aucune supposition,
+aucun risque d'écraser le mauvais champ ou une version déjà modifiée.
+
+**Champs laissés intacts, volontairement** : les avis clients (`niva_avis`/
+`avis`, jamais touchés — ce sont de vrais témoignages, on ne reformule pas
+les mots d'un client), les citations attribuées (`niva_cit`, même raison),
+les cellules du tableau comparatif (lisibilité d'abord), les micro-libellés
+fonctionnels (boutons, en-têtes de colonnes, labels de mesure), les réglages
+techniques.
+
+**Champs réécrits (titres + corps de texte à forte voix de marque)** :
+- Polo : kicker/titre du bloc Compléter, les 4 onglets de Description
+  (Description, Guide des tailles, Livraison, Retours), titre + corps de
+  ben1/ben2/ben3, le corps de La Maison, les 8 réponses de la FAQ.
+- Gilet : mêmes catégories + note du Nuancier, intro et les 4 corps du Parti
+  pris, le corps de l'Éditorial, le texte v1 du Diptyque.
+
+Exemple de la nature du changement (Polo, bloc « L'emmanchure ») :
+- Avant : « quand vous levez le bras, la pièce ne se soulève pas »
+- Après : « vous levez le bras, la pièce reste à sa place »
+Même fait, verbe plus direct, rythme plus resserré — l'esprit demandé.
+
+Poussé sur V6 et vérifié (`job`+`size`/`updatedAt`) : `product.polo-2.json`
+(53761 o), `product.gilet-niva.json` (58472 o). Structure vérifiée intacte
+après coup (34/35 avis, pièces du Compléter, `block_order` de `main`,
+réglage `show_dynamic_checkout` du Gilet) — seul le texte a changé.
+
+Si Badr valide ce premier passage sur Polo + Gilet, la même passe reste à
+faire sur le reste du site (accueil, collections, La Maison, FAQ générale,
+Le Journal) — pas encore fait, chantier volontairement scindé en deux pour
+qu'il puisse juger le ton avant d'y passer plus de temps.
