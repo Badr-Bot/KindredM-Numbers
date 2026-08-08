@@ -1049,3 +1049,36 @@ laisse la chemise à plat »), rien d'inventé : nouvel onglet
 inséré juste après le bloc `description` natif (vide) et avant « Trouver sa
 taille », dans `templates/product.gilet-niva.json` uniquement. Poussé et
 vérifié : `product.gilet-niva.json` (58562 o).
+
+## 6 quinvicies. ⚠️ V4 EST PASSÉE EN LIGNE — travail désormais sur V5 (08/08)
+
+**Changement d'état majeur.** `NIVA — Maison V4` (id 197944443254), sur laquelle
+tout ce chantier a été fait depuis le début, est maintenant le thème **MAIN**
+(publié) — Badr l'a mise en ligne lui-même. L'ancienne V3 (autrefois MAIN) est
+repassée UNPUBLISHED. Repéré quand `themeFilesUpsert` sur V4 a été refusé par
+la politique de sécurité de l'outil (« targets the live/published theme »,
+message explicite). Confirmé par `themes(first:20){ nodes{ id name role } }`.
+
+C'est cohérent avec le message de Badr (« tu peux dupliquer le thème actuel
+et ensuite tu me fais... ») : il savait déjà que V4 était en ligne et donnait
+le feu vert pour dupliquer avant de continuer — exactement la règle établie
+depuis le début du projet (jamais écrire sur le thème publié).
+
+**Nouvelle copie de travail : `NIVA — Maison V5`, id `198033310070`,
+UNPUBLISHED** — créée par `themeDuplicate(id: V4)`. **À partir de maintenant,
+tout push doit cibler V5, pas V4.** V4 est le site réel que voient les
+clients ; Badr publiera V5 lui-même quand il sera prêt.
+
+**Bug corrigé sur V5 dans la foulée** (c'est ce qui a révélé le changement
+d'état) : Badr signalait des produits « indisponible » dans Compléter la
+tenue qui ne devraient pas l'être, et demandait le bouton « ajout au panier »
+en noir. Cause réelle — un bug introduit par MOI lors du fix d'alignement des
+boutons (entrée précédente) : Couleur s'affiche toujours en premier
+visuellement, mais le JS de correspondance de variante comparait encore
+`variants[i].o[j]` à `choix[j]` par simple position DOM — faux dès qu'un
+produit a Taille en option 1 réelle (le Débardeur, le Caleçon). Le bouton
+tombait alors à tort sur « Indisponible » (fond gris), ce que Badr a lu comme
+« le bouton n'est pas noir ». Corrigé : chaque `<select>` porte son vrai
+index d'option via `data-nvc-opt`, et la comparaison utilise cet index —
+plus jamais la position DOM. Poussé sur V5 et vérifié :
+`niva-completer-v2.liquid` (17115 o).
