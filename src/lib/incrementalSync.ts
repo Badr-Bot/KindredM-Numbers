@@ -431,7 +431,10 @@ const REQUIRED_FULL_RESYNC_VERSION = "2026-08-08-historique-21-mai-v10";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
-const REQUIRED_META_RESYNC_VERSION = "2026-07-25-creas-tab-v7";
+// v8 (08/08) : META_SINCE_DAY passe du 04/06 au 21/05 (Badr : « n'oublie pas
+// aussi le spend meta... en face » du rattrapage commandes) — va chercher le
+// spend Meta du 21/05 au 03/06 jamais téléchargé.
+const REQUIRED_META_RESYNC_VERSION = "2026-08-08-spend-21-mai-v8";
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 // (l'ancien marqueur d'étape "full_resync_stage" n'est plus utilisé : chaque

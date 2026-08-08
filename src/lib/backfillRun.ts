@@ -29,10 +29,14 @@ import { BACKFILL_SINCE_ISO } from "./discover";
 // « L'ecom a démarré à partir du 21 mai » (Badr 08/08, corrige le 04/06
 // précédent) — les commandes Shopify remontent jusque-là.
 const ORDERS_SINCE_DAY = "2026-05-21";
-// Le spend Meta, lui, reste vérifié à partir du 04/06 (demande Badr 15/07) —
-// pas de raison de croire qu'il existe plus tôt tant que ce n'est pas
-// confirmé ; à corriger si Badr donne une date de lancement pub différente.
-const META_SINCE_DAY = "2026-06-04";
+// Aligné sur ORDERS_SINCE_DAY (Badr 08/08 : « n'oublie pas aussi le spend
+// meta et le cogs en face » en confirmant le rattrapage 21/05→04/06). Le
+// COGS n'a rien à changer séparément : il est calculé PAR COMMANDE à
+// l'écriture (cogs_product_cents/cogs_upsells_cents), donc déjà inclus dès
+// que la commande elle-même est écrite. Le spend AVANT le 21/05 (trouvé réel
+// en mars/avril, ~2 188 €/mois de mars, 08/08) reste une question séparée,
+// non confirmée par Badr — pas touché ici.
+const META_SINCE_DAY = "2026-05-21";
 
 export interface BackfillResult {
   ordersByStore: Record<string, number>;
