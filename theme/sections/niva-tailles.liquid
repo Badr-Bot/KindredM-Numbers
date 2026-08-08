@@ -36,11 +36,11 @@
     {%- comment -%} ---------- 1. RECOMMANDATION ---------- {%- endcomment -%}
     <div class="nvt2__vue is-on" data-nvt2-vue="trouver">
       <div class="nvt2__choix">
-        <button class="nvt2__mode is-on" type="button" data-nvt2-mode="mesure">Je connais mon tour de poitrine</button>
-        <button class="nvt2__mode" type="button" data-nvt2-mode="estime">Je ne le connais pas</button>
+        <button class="nvt2__mode is-on" type="button" data-nvt2-mode="estime">Ma taille et mon poids</button>
+        <button class="nvt2__mode" type="button" data-nvt2-mode="mesure">Je connais mes mesures</button>
       </div>
 
-      <div class="nvt2__form is-on" data-nvt2-form="mesure">
+      <div class="nvt2__form" data-nvt2-form="mesure">
         <div class="nvt2__visuel">
           {%- if section.settings.visuel != blank -%}
             <img src="{{ section.settings.visuel | image_url: width: 420 }}"
@@ -85,7 +85,7 @@
         </label>
       </div>
 
-      <div class="nvt2__form" data-nvt2-form="estime">
+      <div class="nvt2__form is-on" data-nvt2-form="estime">
         <div class="nvt2__duo">
           <label class="nvt2__lab">Taille <span>cm</span>
             <input class="nvt2__in" type="number" inputmode="numeric" min="140" max="215" data-nvt2-hauteur placeholder="—">

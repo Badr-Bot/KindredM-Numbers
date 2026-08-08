@@ -579,3 +579,27 @@ Vérifié par simulation : vendredi 10 h → expédié vendredi, livré 14→20 
 vendredi 18 h et week-end → expédié lundi, livré 17→21 août.
 
 **Refusé par Badr** : le paiement en plusieurs fois (« j'aime pas l'usure »).
+
+## 6 duodecies. Tableau des tailles pré-rempli + emplacements (08/08, V4)
+
+**Base européenne sourcée** (tour de poitrine, cm), posée en bloc sur les deux
+fiches — S 90-94 · M 94-100 · L 100-106 · XL 106-112 · 2XL 112-118 · 3XL 118-124 ·
+4XL 124-130 · 5XL 130-136 · 6XL 136-142. Polo = 9 tailles (S→6XL), Gilet = 8 (S→5XL).
+Sources : witt.fr, men-of-style.fr, size-factory. **⚠️ C'est une base de marché, PAS
+le barème du produit** : chaque marque décale d'une demi-taille à une taille, et la
+coupe NIVAFIT est volontairement non standard. À confronter au barème SmartSize ou
+à celui du fournisseur avant publication, sinon les retours montent au lieu de baisser.
+
+Le **tour de taille est laissé vide volontairement** : il n'entre pas dans le calcul
+(la recommandation se fait sur la poitrine seule ; la règle « ventre > poitrine →
+monter d'une taille » compare les deux mesures DU CLIENT, pas la table). Colonne
+purement informative — `montrer_note` désactivé pour ne pas afficher de vide.
+
+**Chemin par défaut inversé** : « Ma taille et mon poids » est désormais l'onglet
+ouvert, « Je connais mes mesures » en second. Neuf clients sur dix n'ont pas de mètre
+ruban — c'est aussi ce que fait SmartSize.
+
+**Emplacements arrêtés avec Badr** : `niva_completer` avant le rappel d'achat ;
+`niva_selection` (« Le reste du vestiaire ») **tout en bas**, dernier bloc visible —
+il sert à ceux qui n'ont pas acheté ; `nv_tailles` en dernier dans l'ordre (c'est une
+modale, elle ne dessine rien dans le flux).
