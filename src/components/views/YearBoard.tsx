@@ -419,9 +419,9 @@ export function YearBoard({
           Badr : la LLC a servi à lancer le 14/07) — payés en entier par Badr, sa moitié est à
           sa charge, l&apos;autre moitié (259,16 €) lui est due au règlement. L&apos;avance de
           1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
-          Les deux Claude de Badr (100 €/mois chacun, depuis le 15/07) sont comptés dans les
-          charges, et chaque facture réellement payée par Badr est créditée ici — 1 facture à ce
-          jour, les suivantes s&apos;ajouteront. Côté Adnane : dites-moi qui paie les autres
+          Les deux Claude de Badr (100 €/mois chacun) sont comptés dans les charges ; seule la
+          1re facture (15/07) est sortie de sa poche et créditée ici — depuis le 08/08 la carte
+          LLC paie, donc ce compteur ne bouge plus. Côté Adnane : dites-moi qui paie les autres
           abonnements pour tracer son côté pareil.
         </p>
       </section>

@@ -99,7 +99,7 @@ export const SUB_PAYMENTS: SubPayment[] = [
     label: "Claude — 1er abonnement (1 facture)",
     eurCents: 10000,
     day: "2026-07-15",
-    note: "« J'ai payé 100 € pour le 1er abonnement » — payé depuis le 15/07 (Badr 08/08). Prochaines factures à ajouter au fil de l'eau.",
+    note: "« J'ai payé 100 € pour le 1er abonnement » — facture du 15/07 (Badr 08/08). Factures suivantes sur la CARTE LLC → ce compteur reste à 100 €, rien d'autre à ajouter.",
   },
 ];
 
