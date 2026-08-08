@@ -3,3 +3,7 @@ Canada). Preuves attendues :
  - AUCUN avertissement "Marche Canada pas encore autorise"
  - une ligne market=CA dans le dump day-aggregates du jour, portant le spend
    NIRA (~105 EUR) qui etait parque en UNMAPPED
+
+Re-declenchement 08/08 23h08 Paris : routine rapport ROAS quotidien, besoin
+du dump day-aggregates du 07/08 (hier, jour complet) pour la section
+Controle du rapport Slack.
