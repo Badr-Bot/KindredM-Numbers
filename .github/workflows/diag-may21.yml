@@ -19,10 +19,21 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Sante de l'app
+      - name: 1. Attendre que le deploy soit a jour (deployedCommit)
         run: |
-          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
-            https://kindred-m-numbers.vercel.app/api/admin/env-check || true
+          # Chaque test precedent risquait de taper un deploy pas encore a
+          # jour (Vercel prend 1-3 min a builder) : on boucle jusqu'a voir
+          # CE commit (ou l'avoir depasse) au lieu de deviner.
+          for i in $(seq 1 20); do
+            OUT=$(curl -sS --max-time 30 https://kindred-m-numbers.vercel.app/api/admin/env-check || true)
+            DEPLOYED=$(echo "$OUT" | grep -o '"deployedCommit":"[a-f0-9]*"' | cut -d'"' -f4)
+            echo "tentative $i : deployedCommit=$DEPLOYED (attendu ${{ github.sha }})"
+            if [ "$DEPLOYED" = "${{ github.sha }}" ]; then
+              echo "=== DEPLOY A JOUR ==="
+              break
+            fi
+            sleep 15
+          done
 
       - name: 2. Backfill avec diagnostic min/max jour (warnings)
         run: |
