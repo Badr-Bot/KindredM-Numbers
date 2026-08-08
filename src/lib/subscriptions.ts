@@ -82,7 +82,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Apps Shopify (boutique FR)
-  { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "⚠️ Adnane : « URGENT à enlever » — compté tant qu'il n'est pas résilié (287 €/mois d'économie à la clé). Montant réel payé via Slash (249 $ affichés + taxes)." },
+  { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
   { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // Outils

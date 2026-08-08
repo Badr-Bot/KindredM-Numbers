@@ -298,10 +298,10 @@ export function ExpenseBoard({
         <p className="mt-2 text-[10px] leading-snug text-ink-faint">
           Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
           les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
-          avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
-          compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
-          pour le moment (Badr 08/08) — comptés depuis leurs vraies dates (Seif 15/07,
-          Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
+          avant le 14/07, 50/50 ensuite. SmartSize : résilié le 08/08 (Badr) — compté
+          jusqu&apos;au 08/08 inclus, plus de charge à partir du 09/08. Jeremy/Seif : fixe seul,
+          commission oubliée pour le moment (Badr 08/08) — comptés depuis leurs vraies
+          dates (Seif 15/07, Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
         </p>
       </section>
 
@@ -391,8 +391,8 @@ export function ExpenseBoard({
         <div className="mb-2 text-[11px] font-semibold text-amber">💡 Pistes d&apos;économies</div>
         <ul className="flex flex-col gap-2 text-[11.5px] leading-snug">
           <li>
-            <b className="text-red">SmartSize (287,49 €/mois)</b> — Adnane dit « urgent à enlever ».
-            Économie immédiate à la résiliation, ~3 450 €/an.
+            <b className="text-phosphor">SmartSize (287,49 €/mois)</b> — résilié le 08/08 (Badr).
+            ~3 450 €/an économisés à partir du 09/08.
           </li>
           <li>
             <b>Moon Bundles (≈ 52 €/mois, plan Premium)</b> — downgrader au plan Essential (≈13 €/mois)
