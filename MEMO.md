@@ -72,7 +72,15 @@
 - Liste dans `subscriptions.ts` (source unique) : équipe (Jeremy/Seif 1500 $ fixes chacun + Monteur 650 $ + Marwa 300 €), apps Shopify (SmartSize 287,49 € « URGENT à enlever » — compté tant que non résilié, CWILL, Moon Bundles), outils (WeTracked, Klaviyo, Higgsfield ×2, Eleven ×2, Claude Adnane, Vmake, Workspace), crédit −88 €. Total ≈ 4 225 €/mois ≈ 139 €/jour ≈ 50 700 €/an. USD au taux figé 1,1539.
 - **Déduites du NET GLOBAL uniquement**, étalées par jour (mensuel ÷ 30,44), depuis le 04/06 (dates de début réelles inconnues — approximation signalée). Cartes pays et produit HORS charges (elles somment au global avant charges) — affiché explicitement dans le Live.
 - **Partage charges : 100 % Adnane avant le 14/07, 50/50 dès le 14/07 inclus** (règle Badr, distincte du partage par boutique) — appliqué jour par jour, tous les jours calendaires (un abonnement se paie aussi les jours sans vente).
-- En attente Badr : % de commission Jeremy/Seif (fixe seul compté) · Google Ads = spend variable à brancher en réel (jamais un forfait) · précision « prorata emailing » (Klaviyo plein tarif en attendant) · Claude Badr 20 € pas encore sur CB → pas compté · vraies dates de début des abonnements.
+- Réponses Badr (08/08 soir) : commission Jeremy/Seif **oubliée pour le moment** · Google Ads **non, pas pour le moment** · Klaviyo fixé à **25 €/mois** (« tu la mets à 25 € », compris comme le prorata emailing — interprétation SIGNALÉE) · **Claude Badr 100 €/mois** ajouté (payé perso par Badr) · TrendTrack 25 € ajouté. Total ≈ 4 245 €/mois.
+- **« Prorata » = Jeremy/Seif (et Google) ont commencé RÉCEMMENT** → comptés depuis le 04/06 en attendant leurs vraies dates = charges SURESTIMÉES (~2 600 €/mois de décalage par mois d'écart). Relancer Badr pour les dates.
+
+## Entre associés — tracé (08/08)
+- Source unique : `associateLedger.ts` + champ `paidBy` de subscriptions.ts. Affiché dans Année, section 🤝. Règle : ce que l'un paie de sa poche pour la société lui est dû au règlement ; les transferts entre eux sont HORS P&L.
+- **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). À cette date la règle charges = 100 % Adnane → dû à Badr au règlement (sauf décision 50/50 pour la LLC — question posée).
+- **Avance 1 000 € Badr → Adnane** (date à préciser) : transfert, ne touche jamais le net.
+- **Claude Badr 100 €/mois payé perso** : compté dans les charges + crédité à Badr dans le tracé (cumul jour par jour). Début inconnu → 04/06 par défaut, à confirmer.
+- Question posée : qui paie les autres abonnements (Adnane ?) pour tracer son côté pareil.
 
 ## Rebranding « rues parisiennes » (05/08)
 - Titres Shopify FR renommés : **Le Polo Marceau** (POLO) · **Le Gilet Sully** (GILET) · **La Chemise Turenne** (SHORT_SLEEVE) · **Le Pantalon Rivoli** (DRESS_TROUSERS) · **Le Short Cassini** (CHINO_SHORTS). Mêmes produits, mêmes grilles COGS — seuls les titres changent.

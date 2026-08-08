@@ -25,12 +25,20 @@
 //   • « Prorata » = Jeremy, Seif (et Google) ont COMMENCÉ RÉCEMMENT → leurs
 //     vraies dates de début sont à poser dès que Badr les donne (en attendant
 //     ils comptent depuis START_DEFAULT, ce qui SURESTIME les charges).
+//   • « Tu la mets à 25 € » : compris comme KLAVIYO (emailing) à 25 €/mois —
+//     par élimination, puisque Badr a précisé ensuite que SON Claude est à
+//     100 €. Interprétation SIGNALÉE à Badr, à corriger s'il voulait autre
+//     chose.
+//   • Claude Badr : 100 €/mois, payé PERSONNELLEMENT par Badr → compté dans
+//     les charges ET tracé dans « Entre associés » (associateLedger.ts).
 // Encore en attente de Badr (jamais inventé) :
 //   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
 //     facturé, pas encore compté.
 //   • CWILL : les « frais d'utilisation » variables ne sont pas comptés
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
+
+import { oneOffCostsCentsForDay } from "./associateLedger";
 
 export const USD_TO_EUR = 1 / 1.1539;
 
@@ -49,6 +57,11 @@ export interface Subscription {
   startDay: string;
   /** Dernier jour facturé, null = en cours. */
   endDay: string | null;
+  /**
+   * Qui paie de sa poche — seulement quand c'est SÛR. Sert au tracé « Entre
+   * associés » : ce que l'un avance pour la société lui est dû au règlement.
+   */
+  paidBy?: "BADR" | "ADNANE";
   note?: string;
 }
 
@@ -66,10 +79,11 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: START_DEFAULT, endDay: null },
-  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 150, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "« Prorata » évoqué par Badr — plein tarif en attendant sa précision" },
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "25 €/mois fixé par Badr le 08/08 (« tu la mets à 25 € » — compris comme le prorata emailing, au lieu du plein tarif 150 $). À corriger si ce n'était pas ça." },
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Claude Badr (20 €) pas encore sur la CB → pas compté" },
+  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: START_DEFAULT, endDay: null, paidBy: "BADR", note: "100 €/mois payé personnellement par Badr (08/08) — tracé dans « Entre associés ». Date de début inconnue → 04/06 par défaut, à confirmer." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
@@ -93,10 +107,33 @@ function isActiveOn(s: Subscription, day: string): boolean {
   return true;
 }
 
-/** Charges fixes totales d'un jour donné (centimes d'euro). */
+/**
+ * Charges fixes totales d'un jour donné (centimes d'euro) : abonnements
+ * étalés + frais PONCTUELS tombés ce jour-là (ex. création LLC le 21/06) —
+ * ces derniers pèsent sur leur vrai jour, pas étalés, parce que c'est là que
+ * l'argent est réellement sorti.
+ */
 export function fixedCostsCentsForDay(day: string): number {
-  let total = 0;
+  let total = oneOffCostsCentsForDay(day);
   for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) total += dailyEurCents(s);
+  return total;
+}
+
+/**
+ * Cumul de ce que `payer` a sorti de SA poche en abonnements récurrents entre
+ * deux jours inclus (ex. le Claude 100 €/mois de Badr) — pour le tracé
+ * « Entre associés ». Jour par jour, même arrondi que la déduction du net.
+ */
+export function recurringOutlayCents(payer: "BADR" | "ADNANE", fromDay: string, toDay: string): number {
+  const subs = SUBSCRIPTIONS.filter((s) => s.paidBy === payer);
+  if (subs.length === 0) return 0;
+  let total = 0;
+  const d = new Date(`${fromDay}T12:00:00Z`);
+  for (let day = fromDay; day <= toDay; ) {
+    for (const s of subs) if (isActiveOn(s, day)) total += dailyEurCents(s);
+    d.setUTCDate(d.getUTCDate() + 1);
+    day = d.toISOString().slice(0, 10);
+  }
   return total;
 }
 

@@ -26,9 +26,16 @@ import {
   badrFixedShareFor,
   fixedCostsCentsForDay,
   monthlyEurCents,
+  recurringOutlayCents,
   SUBSCRIPTIONS,
   subscriptionTotals,
 } from "@/lib/subscriptions";
+import {
+  ONE_OFF_COSTS,
+  oneOffTotalCentsBy,
+  TRANSFERS,
+  transfersTotalCentsFrom,
+} from "@/lib/associateLedger";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
@@ -342,6 +349,74 @@ export function YearBoard({
           compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
           pour le moment (Badr 08/08) — leurs vraies dates de début restent à poser.
           Google Ads : non compté (« pas pour le moment »).
+        </p>
+      </section>
+
+      {/* 🤝 Entre associés — « tout doit être tracé et clair » (Badr 08/08) */}
+      <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+        <div className="mb-1 text-sm font-semibold">🤝 Entre associés — ce que chacun a avancé</div>
+        {(() => {
+          const claudeBadrCents = recurringOutlayCents("BADR", historyStart, historyEnd);
+          const badrTotal =
+            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + claudeBadrCents;
+          return (
+            <>
+              <div className="mb-2 text-[13px]">
+                Avancé par 🟠 Badr à ce jour : <b className="tnum text-amber">{formatEur0(badrTotal)}</b>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[420px] text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-hair text-[10px] uppercase text-ink-faint">
+                      <th className="py-1 pr-2">Date</th>
+                      <th className="py-1 pr-2">Quoi</th>
+                      <th className="py-1 pr-2">Payé par</th>
+                      <th className="py-1 text-right">Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ONE_OFF_COSTS.map((c, i) => (
+                      <tr key={`oneoff-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{formatDayShort(c.day)}</td>
+                        <td className="py-1 pr-2">
+                          {c.label}
+                          {c.original && <span className="text-ink-faint"> ({c.original})</span>}
+                        </td>
+                        <td className="py-1 pr-2">{c.paidBy === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(c.eurCents)}</td>
+                      </tr>
+                    ))}
+                    {TRANSFERS.map((t, i) => (
+                      <tr key={`transfer-${i}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum">{t.day ? formatDayShort(t.day) : "date ?"}</td>
+                        <td className="py-1 pr-2">
+                          {t.label} <span className="text-ink-faint">(transfert, hors charges)</span>
+                        </td>
+                        <td className="py-1 pr-2">{t.from === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">{formatEur0(t.eurCents)}</td>
+                      </tr>
+                    ))}
+                    <tr className="border-b border-hair/50">
+                      <td className="py-1 pr-2 tnum">depuis 04/06</td>
+                      <td className="py-1 pr-2">
+                        Claude 100 €/mois <span className="text-ink-faint">(cumul à ce jour — début à confirmer)</span>
+                      </td>
+                      <td className="py-1 pr-2">🟠 Badr</td>
+                      <td className="tnum py-1 text-right">{formatEur0(claudeBadrCents)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
+          );
+        })()}
+        <p className="mt-2 text-[10px] leading-snug text-ink-faint">
+          Les frais LLC sont déduits du net global le 21/06. Règle de partage des charges à cette
+          date (100 % Adnane avant le 14/07) : ils sont à la charge d&apos;Adnane mais payés par Badr
+          → dû à Badr au règlement (sauf si vous décidez 50/50 pour la LLC — dites-le). L&apos;avance
+          de 1 000 € est un transfert entre vous : hors bénéfice, à solder au règlement. Le Claude
+          de Badr est compté dans les charges ET crédité ici puisqu&apos;il le paie de sa poche.
+          Côté Adnane : dites-moi qui paie les autres abonnements pour tracer son côté pareil.
         </p>
       </section>
 
