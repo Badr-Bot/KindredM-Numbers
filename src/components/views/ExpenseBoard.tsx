@@ -489,7 +489,7 @@ export function ExpenseBoard({
                 <Treemap
                   data={treemapData}
                   dataKey="size"
-                  stroke="#070a08"
+                  stroke="#f4f5f7"
                   content={<TreemapCell />}
                   isAnimationActive={false}
                 />
@@ -692,13 +692,22 @@ interface TreemapCellProps {
 
 function TreemapCell({ x = 0, y = 0, width = 0, height = 0, name = "", fill = "#333" }: TreemapCellProps) {
   const show = width > 54 && height > 22;
+  // Étiquette bornée à sa propre case (clipPath) : sans ça, un libellé long
+  // ("Frais Shopify réels (5,3 %)") déborde en SVG — pas de wrap ni de
+  // troncature automatique — et devient illisible sur la case voisine.
+  const clipId = `treemap-clip-${x}-${y}-${width}-${height}`;
   return (
     <g>
-      <rect x={x} y={y} width={width} height={height} fill={fill} fillOpacity={0.85} stroke="#070a08" strokeWidth={2} />
+      <rect x={x} y={y} width={width} height={height} fill={fill} fillOpacity={0.85} stroke="#f4f5f7" strokeWidth={2} />
       {show && (
-        <text x={x + 6} y={y + 16} fill="#070a08" fontSize={10} fontWeight={700}>
-          {name}
-        </text>
+        <>
+          <clipPath id={clipId}>
+            <rect x={x + 4} y={y} width={Math.max(width - 8, 0)} height={height} />
+          </clipPath>
+          <text x={x + 6} y={y + 16} fill="#14161c" fontSize={10} fontWeight={700} clipPath={`url(#${clipId})`}>
+            {name}
+          </text>
+        </>
       )}
     </g>
   );
