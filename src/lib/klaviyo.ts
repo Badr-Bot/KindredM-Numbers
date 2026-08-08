@@ -158,3 +158,117 @@ export async function fetchKlaviyoCampaignRevenue(
     excludedCampaignNames: [...excludedIds].map((id) => campaignNames.get(id) ?? id),
   };
 }
+
+// ---------------------------------------------------------------------------
+// Listing brut (page /klaviyo, 08/08) — page à part, PAS dans la navigation
+// principale (demande Badr : ne pas polluer le dashboard, un lien séparé
+// suffit). Simple lecture, aucune agrégation de CA ici : juste « qu'est-ce
+// qui existe et dans quel état », campagnes ET flows.
+//
+// Même avertissement que plus haut : jamais testé contre l'API réelle (pas
+// d'accès réseau depuis cette session de code). Noms de champs/tri basés sur
+// la doc Klaviyo (revision 2024-10-15) — à vérifier au premier chargement en
+// prod, une éventuelle erreur 400 le dira explicitement (pas de valeur
+// inventée en repli).
+// ---------------------------------------------------------------------------
+
+export interface KlaviyoCampaignListItem {
+  id: string;
+  name: string;
+  status: string;
+  archived: boolean;
+  scheduledAt: string | null;
+  sendTime: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
+/** Toutes les campagnes (par défaut email), triées des plus récentes aux plus anciennes. */
+export async function listAllCampaigns(channel: "email" | "sms" = "email"): Promise<KlaviyoCampaignListItem[]> {
+  const items: KlaviyoCampaignListItem[] = [];
+  const filter = encodeURIComponent(`equals(messages.channel,'${channel}')`);
+  let url: string | null =
+    `${KLAVIYO_BASE}/campaigns/?filter=${filter}&sort=-created_at` +
+    `&fields[campaign]=name,status,archived,created_at,scheduled_at,send_time,updated_at`;
+  while (url) {
+    const res: Response = await fetch(url, { headers: authHeaders() });
+    if (!res.ok) throw new Error(`Klaviyo /campaigns ${res.status}: ${await res.text()}`);
+    const body = (await res.json()) as {
+      data?: Array<{
+        id: string;
+        attributes?: {
+          name?: string;
+          status?: string;
+          archived?: boolean;
+          created_at?: string;
+          scheduled_at?: string;
+          send_time?: string;
+          updated_at?: string;
+        };
+      }>;
+      links?: { next?: string | null };
+    };
+    for (const c of body.data ?? []) {
+      items.push({
+        id: c.id,
+        name: c.attributes?.name ?? "(sans nom)",
+        status: c.attributes?.status ?? "?",
+        archived: c.attributes?.archived ?? false,
+        scheduledAt: c.attributes?.scheduled_at ?? null,
+        sendTime: c.attributes?.send_time ?? null,
+        createdAt: c.attributes?.created_at ?? null,
+        updatedAt: c.attributes?.updated_at ?? null,
+      });
+    }
+    url = body.links?.next ?? null;
+  }
+  return items;
+}
+
+export interface KlaviyoFlowListItem {
+  id: string;
+  name: string;
+  status: string;
+  archived: boolean;
+  triggerType: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
+/** Tous les flows (email de bienvenue, panier abandonné, post-achat…), triés des plus récents aux plus anciens. */
+export async function listAllFlows(): Promise<KlaviyoFlowListItem[]> {
+  const items: KlaviyoFlowListItem[] = [];
+  let url: string | null =
+    `${KLAVIYO_BASE}/flows/?sort=-created&fields[flow]=name,status,archived,trigger_type,created,updated`;
+  while (url) {
+    const res: Response = await fetch(url, { headers: authHeaders() });
+    if (!res.ok) throw new Error(`Klaviyo /flows ${res.status}: ${await res.text()}`);
+    const body = (await res.json()) as {
+      data?: Array<{
+        id: string;
+        attributes?: {
+          name?: string;
+          status?: string;
+          archived?: boolean;
+          trigger_type?: string;
+          created?: string;
+          updated?: string;
+        };
+      }>;
+      links?: { next?: string | null };
+    };
+    for (const f of body.data ?? []) {
+      items.push({
+        id: f.id,
+        name: f.attributes?.name ?? "(sans nom)",
+        status: f.attributes?.status ?? "?",
+        archived: f.attributes?.archived ?? false,
+        triggerType: f.attributes?.trigger_type ?? null,
+        createdAt: f.attributes?.created ?? null,
+        updatedAt: f.attributes?.updated ?? null,
+      });
+    }
+    url = body.links?.next ?? null;
+  }
+  return items;
+}
