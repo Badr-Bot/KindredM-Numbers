@@ -903,3 +903,42 @@ immédiatement.
 et le sonder avant de faire confiance à un push.** Sans lui, rien ne distingue un
 vrai succès d'un rejet silencieux — la seule vérité est de comparer `size`/
 `updatedAt` du fichier avant/après, ce qui a permis de repérer le problème ici.
+
+## 6 unvicies. « Compléter la tenue » refait en vraie section (08/08, V4)
+
+Badr, sur le premier essai (bloc `custom_liquid` caché dans `main`, classement
+réglable seulement en éditant le fichier Liquid) : « pas satisfait » — il veut
+une **vraie section**, avec ses réglages dans l'éditeur de thème, dont un menu
+déroulant pour classer ses produits lui-même. J'ai expliqué la contrainte
+Shopify (une section ne peut se poser qu'au-dessus ou en-dessous de TOUTE la
+section produit, jamais au milieu — donc « juste avant description » et
+« vraie section » sont incompatibles tels quels) et proposé deux options ; sa
+réponse : « la section descriptif, sépare-la en deux, et intègre la nouvelle
+section ». Autrement dit : sortir la description de `main-product` pour que la
+nouvelle section puisse s'intercaler à la place exacte voulue.
+
+**Fait.** Deux nouvelles sections, remplaçant le bloc `custom_liquid` de
+tout à l'heure :
+- `sections/niva-description.liquid` — reprend le rendu natif Dawn (accordéon
+  `<details>/<summary>`, `icon-accordion`, `icon-caret.svg` — aucun CSS/JS
+  nouveau, tout existe déjà dans le thème) pour les blocs `description` et
+  `collapsible_tab` qui vivaient avant dans `main`. Contenu réel repris tel
+  quel (rien de réécrit) : sur le polo, Description / Guide des tailles /
+  Livraison & expédition / Retours et échanges ; sur le gilet, Trouver sa
+  taille / Livraison & retours / Entretien.
+- `sections/niva-completer-v2.liquid` — vraie section (remplace le bloc), même
+  contenu que la version précédente (tout le catalogue, scroll horizontal,
+  ajout au panier sur place) mais avec un vrai réglage `select` **« Classement
+  des produits »** dans le panneau de la section : Manuel / Nouveautés / Prix
+  croissant / Prix décroissant / Alphabétique A→Z / Z→A. Badr choisit dans
+  l'éditeur, sans toucher au code.
+
+`order[]` des deux templates : `main` → `niva_completer2` → `niva_description`
+→ (reste de la page inchangé). Ancienne section `niva_completer`/`completer`
+retirée — cette fois de `order[]` ET `sections{}` EN MÊME TEMPS (contrairement
+au duplicate de livraison plus haut, ici la clé est remplacée par une vraie
+section, donc plus besoin de la garder orpheline pour rester réversible).
+Vérifié avec `job { id done }` + `size`/`updatedAt` avant de considérer le
+push acquis (leçon de l'entrée précédente) : `niva-description.liquid` (3227 o),
+`niva-completer-v2.liquid` (11335 o), `product.polo-2.json` (53934 o),
+`product.gilet-niva.json` (44480 o) — tous horodatés au moment du push.
