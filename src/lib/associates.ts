@@ -1,5 +1,5 @@
 import type { Market } from "./engine";
-import { badrFixedShareFor, fixedCostsCentsForDay } from "./subscriptions";
+import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "./subscriptions";
 
 // ---------------------------------------------------------------------------
 // Répartition du résultat entre associés (Badr, 06/08).
@@ -102,7 +102,9 @@ export function applyFixedCharges(shares: MonthlyShare[], days: string[]): Month
     if (fixed === 0) continue;
     const ym = day.slice(0, 7);
     const cur = byYm.get(ym) ?? { yearMonth: ym, netCents: 0, badrCents: 0, adnaneCents: 0 };
-    const badrPart = Math.round(fixed * badrFixedShareFor(day));
+    // Part de Badr : règle par date pour les abonnements, règle PROPRE pour
+    // les frais ponctuels (ex. LLC 50/50 le 21/06 malgré l'avant-14/07).
+    const badrPart = badrFixedCostsCentsForDay(day);
     cur.netCents -= fixed;
     cur.badrCents -= badrPart;
     cur.adnaneCents -= fixed - badrPart; // solde exact : somme au centime

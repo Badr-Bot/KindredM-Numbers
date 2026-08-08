@@ -16,6 +16,7 @@ import {
 } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { statusText } from "../shell/StatusPill";
+import { fixedCostsCentsForDay } from "@/lib/subscriptions";
 import { useSound } from "../sound/SoundProvider";
 import { DailyBarLineChart, type ChartPoint } from "./DailyBarLineChart";
 
@@ -157,6 +158,7 @@ export function MonthBoard({
               <Th className="text-right">Spend</Th>
               <Th className="hidden text-right sm:table-cell">COGS+tx</Th>
               <Th className="hidden text-right sm:table-cell">Frais</Th>
+              {tab === "GLOBAL" && <Th className="text-right">Charges</Th>}
               <Th className="text-right">Net</Th>
               <Th className="hidden text-right sm:table-cell">Marge</Th>
               <Th className="text-right">ROAS</Th>
@@ -184,6 +186,11 @@ export function MonthBoard({
                     {l.caCents ? formatEur0(l.cogsCents + l.taxCents) : "—"}
                   </Td>
                   <Td className="hidden text-right text-ink-dim sm:table-cell">{l.caCents ? formatEur0(l.feesCents) : "—"}</Td>
+                  {tab === "GLOBAL" && (
+                    <Td className="text-right text-amber/80">
+                      {fixedCostsCentsForDay(l.day) ? formatEur0(fixedCostsCentsForDay(l.day)) : "—"}
+                    </Td>
+                  )}
                   <Td className={`text-right font-semibold ${empty ? "" : netTierClass(l.netCents)}`}>
                     {l.caCents || l.spendCents ? formatEurSigned0(l.netCents) : "—"}
                   </Td>
@@ -206,6 +213,11 @@ export function MonthBoard({
               <Td className="text-right text-ink-dim">{formatEur0(totals.spendCents)}</Td>
               <Td className="hidden text-right text-ink-dim sm:table-cell">{formatEur0(totals.cogsCents + totals.taxCents)}</Td>
               <Td className="hidden text-right text-ink-dim sm:table-cell">{formatEur0(totals.feesCents)}</Td>
+              {tab === "GLOBAL" && (
+                <Td className="text-right text-amber/80">
+                  {formatEur0(monthDays.reduce((a, l) => a + fixedCostsCentsForDay(l.day), 0))}
+                </Td>
+              )}
               <Td className={`text-right ${totalNet >= 0 ? "text-phosphor" : "text-red"}`}>{formatEurSigned0(totalNet)}</Td>
               <Td className="hidden text-right sm:table-cell"></Td>
               <Td className="text-right"></Td>
@@ -217,7 +229,8 @@ export function MonthBoard({
       <p className="text-center text-[10.5px] text-ink-faint">
         ⚡ jour en cours — mis à jour à chaque synchro (peut avoir quelques minutes de retard sur le
         Live, qui interroge Shopify à la seconde) · Net & ROAS colorés selon les seuils dynamiques
-        (14 j) · Cumul depuis le début
+        (14 j) · Cumul depuis le début · Charges (onglet Global) = abonnements/équipe étalés par
+        jour + frais ponctuels (ex. LLC le 21/06), déjà déduites du Net
       </p>
     </div>
   );

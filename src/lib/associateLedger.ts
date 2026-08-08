@@ -5,9 +5,10 @@
 // Deux choses distinctes vivent ici, à ne jamais mélanger :
 //
 //   1. FRAIS PONCTUELS de la société (ex. création de la LLC) : de vraies
-//      charges, déduites du net GLOBAL le jour où l'argent est sorti, et
-//      partagées avec la même règle que les charges fixes (100 % Adnane avant
-//      le 14/07, 50/50 ensuite). Quand celui qui a PAYÉ n'est pas celui qui
+//      charges, déduites du net GLOBAL le jour où l'argent est sorti. Chaque
+//      frais porte SA règle de partage (`badrShare`, décidée par Badr) — la
+//      LLC est 50/50 par décision explicite, indépendamment de la règle par
+//      date des charges fixes. Quand celui qui a PAYÉ n'est pas celui qui
 //      PORTE la charge, l'écart est un dû entre associés — c'est exactement ce
 //      que la section « Entre associés » de l'onglet Année rend visible.
 //
@@ -30,6 +31,13 @@ export interface OneOffCost {
   /** Montant d'origine tel qu'affiché par la banque, pour la traçabilité. */
   original?: string;
   paidBy: Payer;
+  /**
+   * Part de Badr sur CE frais (0 à 1) — chaque frais ponctuel porte SA règle,
+   * décidée par Badr, au lieu d'hériter de la règle par date des charges
+   * fixes. Ex. LLC : 50/50 alors qu'au 21/06 la règle par date aurait tout mis
+   * sur Adnane.
+   */
+  badrShare: number;
   note?: string;
 }
 
@@ -40,10 +48,12 @@ export interface OneOffCost {
  * sont pas des débits). Si d'autres lignes existent sous la capture, Badr
  * les envoie et on les ajoute.
  */
+// LLC partagée 50/50 : « ça nous a servi pour lancer le 14/07 » (Badr 08/08) —
+// dérogation explicite à la règle par date (100 % Adnane avant le 14/07).
 export const ONE_OFF_COSTS: OneOffCost[] = [
-  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 28456, original: "325 $", paidBy: "BADR" },
-  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 12433, original: "142 $", paidBy: "BADR" },
-  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 10945, original: "125 $", paidBy: "BADR" },
+  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 28456, original: "325 $", paidBy: "BADR", badrShare: 0.5 },
+  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 12433, original: "142 $", paidBy: "BADR", badrShare: 0.5 },
+  { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 10945, original: "125 $", paidBy: "BADR", badrShare: 0.5 },
 ];
 
 export interface AssociateTransfer {
@@ -62,9 +72,9 @@ export const TRANSFERS: AssociateTransfer[] = [
     from: "BADR",
     to: "ADNANE",
     eurCents: 100000,
-    day: null,
+    day: "2026-06-21",
     label: "Avance versée à Adnane",
-    note: "« J'ai déjà avancé 1 000 € que j'ai donné à Adnane » (Badr 08/08) — date à préciser",
+    note: "« J'ai déjà avancé 1 000 € que j'ai donné à Adnane » (Badr 08/08) — versée le 21/06 (précision Badr)",
   },
 ];
 
@@ -88,8 +98,8 @@ export const SUB_PAYMENTS: SubPayment[] = [
     payer: "BADR",
     label: "Claude — 1er abonnement (1 facture)",
     eurCents: 10000,
-    day: null,
-    note: "« J'ai payé 100 € pour le 1er abonnement » (Badr 08/08) — date de facture à préciser. Prochaines factures à ajouter au fil de l'eau.",
+    day: "2026-07-15",
+    note: "« J'ai payé 100 € pour le 1er abonnement » — payé depuis le 15/07 (Badr 08/08). Prochaines factures à ajouter au fil de l'eau.",
   },
 ];
 
@@ -103,6 +113,13 @@ export function subPaymentsTotalCentsBy(payer: Payer): number {
 export function oneOffCostsCentsForDay(day: string): number {
   let total = 0;
   for (const c of ONE_OFF_COSTS) if (c.day === day) total += c.eurCents;
+  return total;
+}
+
+/** Part de Badr sur les frais ponctuels d'un jour (règle propre à chaque frais). */
+export function oneOffBadrShareCentsForDay(day: string): number {
+  let total = 0;
+  for (const c of ONE_OFF_COSTS) if (c.day === day) total += Math.round(c.eurCents * c.badrShare);
   return total;
 }
 

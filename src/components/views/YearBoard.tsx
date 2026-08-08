@@ -23,7 +23,7 @@ import {
 } from "@/lib/associates";
 import { listParisDays } from "@/lib/time";
 import {
-  badrFixedShareFor,
+  badrFixedCostsCentsForDay,
   fixedCostsCentsForDay,
   monthlyEurCents,
   SUBSCRIPTIONS,
@@ -115,7 +115,9 @@ export function YearBoard({
       for (const day of listParisDays("2026-06-04", lastDay)) {
         const fixed = fixedCostsCentsForDay(day);
         if (!fixed) continue;
-        const bp = fixed * badrFixedShareFor(day);
+        // Règle par date pour les abonnements, règle propre pour les frais
+        // ponctuels (LLC 50/50) — même calcul que les cartes mensuelles.
+        const bp = badrFixedCostsCentsForDay(day);
         badr -= bp;
         adnane -= fixed - bp;
       }
@@ -348,8 +350,8 @@ export function YearBoard({
           les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
           avant le 14/07, 50/50 ensuite. ⚠️ SmartSize : « urgent à enlever » (Adnane) —
           compté tant qu&apos;il n&apos;est pas résilié. Jeremy/Seif : fixe seul, commission oubliée
-          pour le moment (Badr 08/08) — leurs vraies dates de début restent à poser.
-          Google Ads : non compté (« pas pour le moment »).
+          pour le moment (Badr 08/08) — comptés depuis leurs vraies dates (Seif 15/07,
+          Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
         </p>
       </section>
 
@@ -413,14 +415,14 @@ export function YearBoard({
           );
         })()}
         <p className="mt-2 text-[10px] leading-snug text-ink-faint">
-          Les frais LLC sont déduits du net global le 21/06. Règle de partage des charges à cette
-          date (100 % Adnane avant le 14/07) : ils sont à la charge d&apos;Adnane mais payés par Badr
-          → dû à Badr au règlement (sauf si vous décidez 50/50 pour la LLC — dites-le). L&apos;avance
-          de 1 000 € est un transfert entre vous : hors bénéfice, à solder au règlement. Les deux
-          Claude de Badr (100 €/mois chacun) sont comptés dans les charges, et chaque facture
-          réellement payée par Badr est créditée ici — 1 facture à ce jour, les suivantes
-          s&apos;ajouteront. Côté Adnane : dites-moi qui paie les autres abonnements pour tracer
-          son côté pareil.
+          Les frais LLC sont déduits du net global le 21/06 et partagés <b>50/50</b> (décision
+          Badr : la LLC a servi à lancer le 14/07) — payés en entier par Badr, sa moitié est à
+          sa charge, l&apos;autre moitié (259,16 €) lui est due au règlement. L&apos;avance de
+          1 000 € du 21/06 est un transfert entre vous : hors bénéfice, à solder au règlement.
+          Les deux Claude de Badr (100 €/mois chacun, depuis le 15/07) sont comptés dans les
+          charges, et chaque facture réellement payée par Badr est créditée ici — 1 facture à ce
+          jour, les suivantes s&apos;ajouteront. Côté Adnane : dites-moi qui paie les autres
+          abonnements pour tracer son côté pareil.
         </p>
       </section>
 

@@ -73,13 +73,14 @@
 - **Déduites du NET GLOBAL uniquement**, étalées par jour (mensuel ÷ 30,44), depuis le 04/06 (dates de début réelles inconnues — approximation signalée). Cartes pays et produit HORS charges (elles somment au global avant charges) — affiché explicitement dans le Live.
 - **Partage charges : 100 % Adnane avant le 14/07, 50/50 dès le 14/07 inclus** (règle Badr, distincte du partage par boutique) — appliqué jour par jour, tous les jours calendaires (un abonnement se paie aussi les jours sans vente).
 - Réponses Badr (08/08 soir) : commission Jeremy/Seif **oubliée pour le moment** · Google Ads **non, pas pour le moment** · Klaviyo fixé à **25 €/mois** (« tu la mets à 25 € », compris comme le prorata emailing — interprétation SIGNALÉE) · **Claude Badr 100 €/mois** ajouté (payé perso par Badr) · TrendTrack 25 € ajouté. Total ≈ 4 245 €/mois.
-- **« Prorata » = Jeremy/Seif (et Google) ont commencé RÉCEMMENT** → comptés depuis le 04/06 en attendant leurs vraies dates = charges SURESTIMÉES (~2 600 €/mois de décalage par mois d'écart). Relancer Badr pour les dates.
+- **Dates réelles (Badr 08/08 soir) : Seif 15/07 · Jeremy (= l'« emailing » du prorata) 16/07 · Claude Badr abo 1 15/07, abo 2 08/08.** Le reste (Monteur, Marwa, apps, outils) reste au défaut 04/06 — approximation toujours signalée.
+- **Colonne « Charges » ajoutée au tableau jour par jour de l'onglet Mois** (Global uniquement) + Σ mois : abonnements étalés + frais ponctuels, déjà déduits du Net affiché.
 
 ## Entre associés — tracé (08/08)
 - Source unique : `associateLedger.ts` + champ `paidBy` de subscriptions.ts. Affiché dans Année, section 🤝. Règle : ce que l'un paie de sa poche pour la société lui est dû au règlement ; les transferts entre eux sont HORS P&L.
-- **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). À cette date la règle charges = 100 % Adnane → dû à Badr au règlement (sauf décision 50/50 pour la LLC — question posée).
-- **Avance 1 000 € Badr → Adnane** (date à préciser) : transfert, ne touche jamais le net.
-- **Claude Badr : DEUX abonnements à 100 €/mois payés perso** (précision 08/08). Abo 1 : 1 seule facture payée (100 €) → démarré ~08/07 (approximation cohérente avec le payé réel, date exacte à confirmer). Abo 2 : intégré au 08/08 (montant assumé 100 €, à confirmer). Le tracé « Entre associés » compte les FACTURES réelles (SUB_PAYMENTS), jamais un cumul théorique — un cumul accru depuis le 04/06 affichait 217 € vs 100 € réellement payés, corrigé sur remarque de Badr.
+- **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). **Partage 50/50** (décision Badr : « ça nous a servi pour lancer le 14/07 ») — chaque frais ponctuel porte SA règle (`badrShare`), indépendante de la règle par date. Badr a tout payé → 259,17 € lui sont dus au règlement.
+- **Avance 1 000 € Badr → Adnane le 21/06** : transfert, ne touche jamais le net.
+- **Claude Badr : DEUX abonnements à 100 €/mois payés perso.** Abo 1 : payé depuis le 15/07 (date Badr), 1 facture. Abo 2 : intégré au 08/08 (montant assumé 100 €, à confirmer). Le tracé « Entre associés » compte les FACTURES réelles (SUB_PAYMENTS), jamais un cumul théorique — un cumul accru depuis le 04/06 affichait 217 € vs 100 € réellement payés, corrigé sur remarque de Badr.
 - Question posée : qui paie les autres abonnements (Adnane ?) pour tracer son côté pareil.
 
 ## Rebranding « rues parisiennes » (05/08)

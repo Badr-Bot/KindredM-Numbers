@@ -22,9 +22,8 @@
 //   • Jeremy / Seif : « oublie la commission pour le moment » → fixe seul,
 //     décision actée (plus une question ouverte).
 //   • Google Ads : « non, pas pour le moment » → rien à brancher.
-//   • « Prorata » = Jeremy, Seif (et Google) ont COMMENCÉ RÉCEMMENT → leurs
-//     vraies dates de début sont à poser dès que Badr les donne (en attendant
-//     ils comptent depuis START_DEFAULT, ce qui SURESTIME les charges).
+//   • « Prorata » = Jeremy, Seif (et Google) ont commencé récemment → dates
+//     réelles données par Badr : Seif 15/07, Jeremy (emailing) 16/07.
 //   • « Tu la mets à 25 € » : compris comme KLAVIYO (emailing) à 25 €/mois —
 //     par élimination, puisque Badr a précisé ensuite que SON Claude est à
 //     100 €. Interprétation SIGNALÉE à Badr, à corriger s'il voulait autre
@@ -39,7 +38,7 @@
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
 
-import { oneOffCostsCentsForDay } from "./associateLedger";
+import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
 
 export const USD_TO_EUR = 1 / 1.1539;
 
@@ -70,8 +69,8 @@ const START_DEFAULT = "2026-06-04"; // début d'activité — approximation sign
 
 export const SUBSCRIPTIONS: Subscription[] = [
   // Équipe (prestataires mensuels)
-  { label: "Jeremy (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "% de commission oublié pour le moment (Badr 08/08). Commencé « récemment » — vraie date de début en attente, compté depuis le 04/06 en attendant (surestime)." },
-  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Idem Jeremy : % oublié pour le moment, vraie date de début en attente." },
+  { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-16", endDay: null, note: "Commencé le 16/07 (Badr 08/08) — c'est lui l'« emailing » du prorata. % de commission oublié pour le moment." },
+  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, note: "Commencé le 15/07 (Badr 08/08). % de commission oublié pour le moment." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Apps Shopify (boutique FR)
@@ -84,13 +83,12 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  // Claude Badr : DEUX abonnements (précision Badr 08/08). Le 1er n'a facturé
-  // qu'UNE fois (« j'ai payé 100 € pour le 1er ») → il ne peut pas courir
-  // depuis le 04/06 (ça aurait fait 3 factures) : démarré ~un mois avant le
-  // 08/08 — approximation COHÉRENTE avec le payé réel, date exacte à
-  // confirmer. Le 2e est intégré à partir du jour où Badr l'a demandé
-  // (montant assumé identique, à confirmer).
-  { label: "Claude (Badr) — abo 1", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-08", endDay: null, paidBy: "BADR", note: "1 facture de 100 € payée à ce jour (Badr 08/08) — date de facturation exacte à confirmer. Tracé dans « Entre associés »." },
+  // Claude Badr : DEUX abonnements de 100 € (précision Badr 08/08). Le 1er
+  // est payé depuis le 15/07 (date donnée par Badr, 1 facture à ce jour), le
+  // 2e est intégré à partir du jour où Badr l'a demandé (montant assumé
+  // identique, à confirmer). Démarrés après le 14/07 → partagés 50/50
+  // naturellement par la règle par date (« charge prise équitablement »).
+  { label: "Claude (Badr) — abo 1", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: null, paidBy: "BADR", note: "Payé depuis le 15/07 (Badr 08/08), 1 facture de 100 € à ce jour. Tracé dans « Entre associés »." },
   { label: "Claude (Badr) — abo 2", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-08-08", endDay: null, paidBy: "BADR", note: "2e abonnement intégré le 08/08 (montant assumé = 100 € comme le 1er, à confirmer)." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
@@ -125,6 +123,18 @@ export function fixedCostsCentsForDay(day: string): number {
   let total = oneOffCostsCentsForDay(day);
   for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) total += dailyEurCents(s);
   return total;
+}
+
+/**
+ * Part de BADR sur les charges fixes d'un jour : abonnements selon la règle
+ * par date (badrFixedShareFor), frais ponctuels selon LEUR règle propre (ex.
+ * LLC 50/50 le 21/06, décision Badr). Adnane = fixedCostsCentsForDay − ceci,
+ * pour sommer au centime.
+ */
+export function badrFixedCostsCentsForDay(day: string): number {
+  let subs = 0;
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) subs += dailyEurCents(s);
+  return Math.round(subs * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit
