@@ -28,9 +28,9 @@
 //     par élimination, puisque Badr a précisé ensuite que SON Claude est à
 //     100 €. Interprétation SIGNALÉE à Badr, à corriger s'il voulait autre
 //     chose.
-//   • Claude Badr : DEUX abonnements de 100 €/mois. Seule la 1re facture
-//     (15/07) est perso — tracée dans « Entre associés » ; à partir du 08/08
-//     tout est payé par la CARTE LLC (charge société directe, rien à tracer).
+//   • Claude Badr : UN abonnement de 100 €/mois (depuis le 15/07). Seule la
+//     1re facture est perso — tracée dans « Entre associés » ; à partir de la
+//     2e (08/08) la CARTE LLC paie (charge société directe, rien à tracer).
 // Encore en attente de Badr (jamais inventé) :
 //   • Claude Badr (20 €) : « à mettre sur CB » d'après Adnane → pas encore
 //     facturé, pas encore compté.
@@ -83,13 +83,13 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  // Claude Badr : DEUX abonnements de 100 € (précisions Badr 08/08). Seule la
-  // 1re facture du 15/07 est sortie de la poche de Badr (tracée en avance dans
-  // associateLedger) — à partir du 08/08 tout passe par la CARTE LLC, donc
-  // plus rien ne s'ajoute à son compteur perso. Démarrés après le 14/07 →
-  // partagés 50/50 naturellement par la règle par date.
-  { label: "Claude (Badr) — abo 1", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: null, note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes sur la carte LLC (Badr 08/08)." },
-  { label: "Claude (Badr) — abo 2", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-08-08", endDay: null, note: "2e abonnement, payé par la carte LLC dès le départ (montant assumé = 100 € comme le 1er, à confirmer)." },
+  // Claude Badr : UN SEUL abonnement à 100 €/mois depuis le 15/07. « Le 1er /
+  // le 2e » dans les messages de Badr = les FACTURES mensuelles successives,
+  // pas deux abonnements — compté deux fois par erreur le 08/08, corrigé sur
+  // sa remarque le jour même. 1re facture (15/07) payée perso (tracée en
+  // avance dans associateLedger), les suivantes sur la CARTE LLC. Démarré
+  // après le 14/07 → partagé 50/50 naturellement par la règle par date.
+  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: null, note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
