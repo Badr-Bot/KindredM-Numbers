@@ -175,18 +175,19 @@ export function MonthBoard({
       {/* Listing jour par jour du mois sélectionné — fusionné depuis l'ancien
           onglet « 14 jours », colonnes complètes + cumul depuis le début. */}
       <div className="overflow-x-auto rounded-lg border border-line">
-        <table className="w-full min-w-[400px] border-collapse text-[11.5px] sm:min-w-[600px] lg:text-sm">
+        <table className="w-full min-w-[560px] border-collapse text-[11.5px] sm:min-w-[720px] lg:text-sm">
           <thead>
             <tr className="border-b border-line bg-panel/60 text-[10px] uppercase tracking-wide text-ink-dim">
               <Th className="sticky left-0 bg-panel/95 text-left">Jour</Th>
               <Th className="text-right">Cmd</Th>
               <Th className="text-right">CA</Th>
               <Th className="text-right">Spend</Th>
-              <Th className="hidden text-right sm:table-cell">COGS+tx</Th>
-              <Th className="hidden text-right sm:table-cell">Frais</Th>
+              <Th className="text-right">COGS</Th>
+              <Th className="text-right">Taxe</Th>
+              <Th className="text-right">Frais</Th>
               {tab === "GLOBAL" && <Th className="text-right">Charges</Th>}
               <Th className="text-right">Net</Th>
-              <Th className="hidden text-right sm:table-cell">Marge</Th>
+              <Th className="text-right">Marge</Th>
               <Th className="text-right">ROAS</Th>
               <Th className="text-right">Cumul</Th>
             </tr>
@@ -208,10 +209,9 @@ export function MonthBoard({
                   <Td className="text-right text-ink-dim">{l.orders || "—"}</Td>
                   <Td className="text-right">{l.caCents ? formatEur0(l.caCents) : "—"}</Td>
                   <Td className="text-right text-ink-dim">{l.spendCents ? formatEur0(l.spendCents) : "—"}</Td>
-                  <Td className="hidden text-right text-ink-dim sm:table-cell">
-                    {l.caCents ? formatEur0(l.cogsCents + l.taxCents) : "—"}
-                  </Td>
-                  <Td className="hidden text-right text-ink-dim sm:table-cell">{l.caCents ? formatEur0(l.feesCents) : "—"}</Td>
+                  <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.cogsCents) : "—"}</Td>
+                  <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.taxCents) : "—"}</Td>
+                  <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.feesCents) : "—"}</Td>
                   {tab === "GLOBAL" && (
                     <Td className="text-right text-amber/80">
                       {fixedCostsCentsForDay(l.day) ? formatEur0(fixedCostsCentsForDay(l.day)) : "—"}
@@ -220,7 +220,7 @@ export function MonthBoard({
                   <Td className={`text-right font-semibold ${empty ? "" : netTierClass(l.netCents)}`}>
                     {l.caCents || l.spendCents ? formatEurSigned0(l.netCents) : "—"}
                   </Td>
-                  <Td className="hidden text-right text-ink-dim sm:table-cell">{l.caCents ? formatPct(l.marginPct) : "—"}</Td>
+                  <Td className="text-right text-ink-dim">{l.caCents ? formatPct(l.marginPct) : "—"}</Td>
                   <Td className={`text-right ${empty ? "" : statusText(l.status)}`}>
                     {l.spendCents ? formatRoas(l.roas) : "—"}
                   </Td>
@@ -237,15 +237,16 @@ export function MonthBoard({
               <Td className="text-right text-ink-dim">{totals.orders}</Td>
               <Td className="text-right">{formatEur0(totals.caCents)}</Td>
               <Td className="text-right text-ink-dim">{formatEur0(totals.spendCents)}</Td>
-              <Td className="hidden text-right text-ink-dim sm:table-cell">{formatEur0(totals.cogsCents + totals.taxCents)}</Td>
-              <Td className="hidden text-right text-ink-dim sm:table-cell">{formatEur0(totals.feesCents)}</Td>
+              <Td className="text-right text-ink-dim">{formatEur0(totals.cogsCents)}</Td>
+              <Td className="text-right text-ink-dim">{formatEur0(totals.taxCents)}</Td>
+              <Td className="text-right text-ink-dim">{formatEur0(totals.feesCents)}</Td>
               {tab === "GLOBAL" && (
                 <Td className="text-right text-amber/80">
                   {formatEur0(monthDays.reduce((a, l) => a + fixedCostsCentsForDay(l.day), 0))}
                 </Td>
               )}
               <Td className={`text-right ${totalNet >= 0 ? "text-phosphor" : "text-red"}`}>{formatEurSigned0(totalNet)}</Td>
-              <Td className="hidden text-right sm:table-cell"></Td>
+              <Td className="text-right text-ink-dim">{formatPct(marginPct(totals.netCents, totals.caCents))}</Td>
               <Td className="text-right"></Td>
               <Td className="text-right"></Td>
             </tr>
