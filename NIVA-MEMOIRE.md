@@ -1233,3 +1233,37 @@ Poussé et vérifié sur V6 (`job`+`size`/`updatedAt`) : `adhd-planner.json`
 maintenant le même ton ; seul l'E-Book (gabarit produit par défaut, pas de
 template dédié) n'a pas été traité — catégorie différente, pas encore
 demandé.
+
+## 7 une. ⚠️ Le fix JS du variant matching avait disparu du site en ligne (09/08)
+
+Badr, capture à l'appui : Débardeur et Caleçon toujours en « Indisponible »
+dans Compléter la tenue, malgré le fix poussé sur V5 la veille et confirmé à
+l'époque (job done + taille + date correspondantes). Vérifié en direct côté
+Shopify (produits) : les deux ont bien tous leurs variants
+`availableForSale: true`, stock élevé — ce n'est PAS un problème de stock,
+c'est bien le bug de correspondance de variante qui est revenu.
+
+**Relu le contenu COMPLET du fichier live (`sections/niva-completer-v2.liquid`
+sur V5, le thème MAIN actuel) plutôt que de me fier à la taille comme la
+veille : la fonction `courant()` y est bien l'ancienne version bugguée**
+(correspondance par ordre du DOM, pas par position réelle de l'option).
+Vérifié aussi sur V6 (copie de travail actuelle) : même chose, bug present.
+Cause exacte de la disparition non élucidée — le job de la veille avait
+pourtant confirmé taille et date correspondant au fix. Peut-être un push
+concurrent qui a écrasé le fichier dans la même fenêtre de quelques secondes,
+sans que je le voie. **Leçon retenue : pour un fichier déjà « corrigé » une
+fois, revérifier le contenu réel avant de considérer le problème clos,
+pas seulement `size`/`updatedAt`** — la taille peut correspondre par
+coïncidence si un autre contenu de taille proche l'a remplacé entre-temps
+(pas le cas ici, mais je ne prends plus ce raccourci).
+
+Re-appliqué sur V6 et, cette fois, **revérifié en relisant le fichier
+entier après coup** (pas seulement `size`) : la fonction `courant()`
+contient bien `pos = parseInt(selects[s].dataset.nvcOpt, 10)`. Confirmé noir
+sur blanc, pas par déduction. `niva-completer-v2.liquid` (17113 o) sur V6.
+
+⚠️ **Ce correctif n'est PAS encore en ligne** — V5 (actuellement publié) a
+toujours le bug ; il faut publier V6 pour que Débardeur et Caleçon
+redeviennent achetables dans Compléter la tenue. V6 contient aussi toute la
+réécriture des textes (Polo, Gilet, et les 6 autres produits) : publier V6
+règle les deux sujets d'un coup.
