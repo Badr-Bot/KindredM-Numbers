@@ -391,6 +391,12 @@ const FORCE_THROTTLE_MS = 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
+// v12 (12/08) : comblement 21/05→03/06 reconstruit depuis les VRAIES
+// commandes (Badr : « sur mai y'a 20 % de marge nette, tes COGS ne sont pas
+// bons »). L'ancien forfait portait un CA à plat avec COGS/frais à ZÉRO :
+// ~2 164 € de COGS et ~165 € de frais jamais déduits, et un CA surévalué de
+// ~999 € (04/06 double-compté + remboursements). Recalcul SEUL : les entrées
+// voyagent avec le code (manualRevenue.ts), aucun appel API requis.
 // v11 (12/08) : forfait « autres 1 % » SUPPRIMÉ du poste Frais (Badr : « ça
 // ne correspond à rien, je veux les vrais frais ») — feesCents = frais
 // Shopify réels (ou repli 3 %) uniquement. Recalcul SEUL : les frais par
@@ -404,7 +410,7 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-frais-sans-forfait-autres-v11";
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-comblement-mai-vraies-commandes-v12";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —

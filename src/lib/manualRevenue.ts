@@ -37,6 +37,15 @@ export interface ManualRevenueEntry {
   /** Montants convertis, EUR en centimes — figés à la saisie. */
   caEurCents: number;
   cogsEurCents: number;
+  /**
+   * Frais de paiement RÉELS de la période, EUR centimes (12/08). Absent =
+   * frais inconnus → aucun frais compté pour cette entrée (cas NIRA, vendu
+   * hors Shopify : inventer un taux serait pire que de l'assumer à 0, mais le
+   * net de ces jours est optimiste de ce montant).
+   */
+  feesEurCents?: number;
+  /** Taxe UE réelle, EUR centimes. Absent = 0 (avant le 01/07 elle n'existe pas). */
+  taxEurCents?: number;
   orders: number;
   note?: string;
   savedAt: string;
@@ -99,52 +108,73 @@ export function buildManualRevenueEntry(input: {
 // correction API postérieure bat le seed. Jamais d'addition entre les deux.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-// COMBLEMENT 21/05→03/06 (08/08) — le backfill Shopify ne peut PAS aller
-// chercher ces commandes automatiquement : l'API REST orders.json de
-// Shopify ne renvoie jamais de commande de plus de 60 jours sans le scope
-// protégé `read_all_orders` (non accordé) — confirmé via diagnostic
-// (minDay fetché = 2026-06-09, exactement 60 j avant le test du 08/08, voir
-// MEMO.md "Historique Shopify depuis le 21 mai"). Le 04/06 et après ont de
-// vraies données (scope pas nécessaire, <60 j) — fenêtre ci-dessous exclut
-// donc le 04/06.
-// Chiffre fourni par Badr le 08/08 : CA total FR de la période = 8 338 €,
-// réparti ÉGALEMENT sur les 14 jours (répartition explicitement demandée
-// par Badr, pas un calcul jour par jour). COGS/taxe UE/frais Shopify NON
-// calculés faute de détail par commande — Net de ces jours légèrement
-// SURESTIMÉ en conséquence, signalé ici et dans MEMO.md. Nombre de
-// commandes/jour inconnu (Badr n'a donné que le total) → orders=0.
+// COMBLEMENT 21/05→03/06 — VRAIES COMMANDES (12/08, remplace le forfait plat
+// du 08/08).
+//
+// Le backfill Shopify de l'app ne peut PAS aller chercher ces commandes :
+// l'API ne renvoie rien au-delà de 60 jours sans le scope protégé
+// `read_all_orders` (non accordé) — confirmé par diagnostic le 08/08.
+// Le 04/06 et après ont de vraies données (<60 j à l'époque) : la fenêtre
+// ci-dessous s'arrête donc au 03/06.
+//
+// POURQUOI CETTE CORRECTION (Badr 12/08 : « sur mai y'a 20 % de marge nette,
+// donc tes COGS ne sont pas bons ») — il avait raison, et la cause était plus
+// large que le COGS. L'ancienne version reposait sur un total annoncé de
+// 8 338 € réparti ÉGALEMENT sur 14 jours, avec COGS/taxe/frais à ZÉRO :
+//   1. COGS 0 → ~2 164 € de coût produit jamais déduit (29,5 % du CA) ;
+//   2. frais 0 → ~165 € de frais de paiement jamais déduits (2,25 %) ;
+//   3. le total 8 338 € lui-même était FAUX : il comptait le 04/06
+//      (899,87 €, DÉJÀ compté en vrai dans la base → double comptage) et
+//      n'enlevait pas les remboursements (99,98 €). Vérification :
+//      7 338,82 (réel net) + 99,98 (remb.) + 899,87 (04/06) = 8 338,67 €.
+//   4. la répartition à plat écrasait la réalité (21/05 = 2 commandes /
+//      99,98 € contre 01/06 = 19 commandes / 1 289,80 €).
+//
+// Les valeurs ci-dessous sont calculées à partir des 115 vraies commandes de
+// la période, exportées depuis la connexion Shopify de Badr (qui, elle, a
+// l'historique complet) et conservées dans
+// `__tests__/fixtures/mayGapOrders.json`. Les COGS passent par les GRILLES DU
+// MOTEUR (poloCogsCents / upsellCogsCents), pas par un ratio moyen : le test
+// `mayGapFill.test.ts` recalcule tout et échoue si un seul centime bouge.
+// Taxe UE = 0 : la règle des 3 €/colis ne s'applique qu'à partir du 01/07.
+// Frais = frais RÉELS lus sur les transactions (100 % processing_fee en mai,
+// aucun frais de change à l'époque).
+//
 // À jeter dès que le scope read_all_orders est accordé + backfill relancé.
 // ---------------------------------------------------------------------------
-const GAP_FILL_MAI_JUIN: ManualRevenueEntry[] = (
+export const GAP_FILL_MAI_JUIN: ManualRevenueEntry[] = (
   [
-    ["2026-05-21", 59558],
-    ["2026-05-22", 59558],
-    ["2026-05-23", 59557],
-    ["2026-05-24", 59557],
-    ["2026-05-25", 59557],
-    ["2026-05-26", 59557],
-    ["2026-05-27", 59557],
-    ["2026-05-28", 59557],
-    ["2026-05-29", 59557],
-    ["2026-05-30", 59557],
-    ["2026-05-31", 59557],
-    ["2026-06-01", 59557],
-    ["2026-06-02", 59557],
-    ["2026-06-03", 59557],
+    // [jour, CA net remb., COGS, frais réels, commandes]
+    ["2026-05-21", 9998, 3012, 200, 2],
+    ["2026-05-22", 38992, 12991, 860, 8],
+    ["2026-05-23", 7999, 2899, 267, 1],
+    ["2026-05-24", 45992, 14621, 865, 7],
+    ["2026-05-25", 63989, 20199, 1517, 11],
+    ["2026-05-26", 38994, 12769, 815, 6],
+    ["2026-05-27", 74988, 25797, 1685, 13],
+    ["2026-05-28", 48992, 16027, 1015, 8],
+    ["2026-05-29", 40993, 12534, 1005, 6],
+    ["2026-05-30", 50992, 13218, 1383, 8],
+    ["2026-05-31", 20997, 5911, 390, 3],
+    ["2026-06-01", 128980, 34337, 2858, 19],
+    ["2026-06-02", 71989, 19252, 1543, 11],
+    ["2026-06-03", 89987, 22871, 2140, 12],
   ] as const
-).map(([day, caCents]) => ({
+).map(([day, caCents, cogsCents, feesCents, orders]) => ({
   day,
   market: "FR",
   productKey: "GAP_MAI_JUIN",
   currency: "EUR",
   caCents,
-  cogsCents: 0,
+  cogsCents,
   rateToEur: 1,
   caEurCents: caCents,
-  cogsEurCents: 0,
-  orders: 0,
-  note: "CA total période (8 338 €, Badr 08/08) réparti également sur 14 j — COGS/taxe/frais non calculés (Net optimiste). Voir MEMO.md.",
-  savedAt: "2026-08-08T22:00:00.000Z",
+  cogsEurCents: cogsCents,
+  feesEurCents: feesCents,
+  taxEurCents: 0,
+  orders,
+  note: "Vraies commandes Shopify (115 sur la période), COGS via les grilles du moteur. Remplace le forfait 8 338 €/14 j du 08/08. Voir mayGapFill.test.ts.",
+  savedAt: "2026-08-12T14:00:00.000Z",
 }));
 
 const SEED_ENTRIES: ManualRevenueEntry[] = [
