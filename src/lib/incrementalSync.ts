@@ -391,6 +391,10 @@ const FORCE_THROTTLE_MS = 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
+// v11 (12/08) : forfait « autres 1 % » SUPPRIMÉ du poste Frais (Badr : « ça
+// ne correspond à rien, je veux les vrais frais ») — feesCents = frais
+// Shopify réels (ou repli 3 %) uniquement. Recalcul SEUL : les frais par
+// commande sont déjà en base, seule la formule d'agrégation change.
 // v10 (08/08) : comblement manuel du CA FR du 21/05→03/06 (manualRevenue.ts,
 // GAP_FILL_MAI_JUIN) — Shopify orders.json ne remonte pas au-delà de 60 j
 // sans le scope read_all_orders. Recalcul SEUL (les entrées voyagent avec le
@@ -400,7 +404,7 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-08-comblement-21mai-v10";
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-frais-sans-forfait-autres-v11";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —

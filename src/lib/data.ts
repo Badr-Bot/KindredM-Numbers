@@ -862,11 +862,13 @@ export function buildExpenseBreakdown(t: Totals, fixedCostsCents = 0): ExpenseBr
   const upsellCents = hasCogsSplit ? t.cogsUpsellsCents : 0;
 
   // Un seul poste « frais » = t.feesCents (frais Shopify RÉELS commande par
-  // commande + 1 % autres, engine.ts). Avant le 08/08 ce poste était éclaté
-  // en deux lignes à pourcentage FIXE (« Shopify 3 % » / « Autres 1 %ᵄ ») —
-  // un reliquat d'avant le branchement des vrais frais Shopify (qui tournent
-  // en réalité entre 5 et 9 % selon les commandes hors zone euro). Le
-  // pourcentage affiché est maintenant calculé en vrai (w()), jamais figé.
+  // commande, engine.ts — le forfait « autres 1 % » a été supprimé le 12/08
+  // sur demande Badr : « ça ne correspond à rien, je veux les vrais frais »).
+  // Avant le 08/08 ce poste était éclaté en deux lignes à pourcentage FIXE
+  // (« Shopify 3 % » / « Autres 1 %ᵄ ») — un reliquat d'avant le branchement
+  // des vrais frais Shopify (qui tournent en réalité entre 5 et 8 % selon la
+  // part carte/PayPal). Le pourcentage affiché est calculé en vrai (w()),
+  // jamais figé.
   const feesLabel = `Frais Shopify réels (${formatFeesPctLabel(w(t.feesCents))})`;
 
   const slices: ExpenseSlice[] = [

@@ -25,6 +25,9 @@ import {
  * le 04/08 (taxe UE : forfait 3€/colis au lieu de 3€/produit distinct) —
  * dans ces 4 fixtures (1 seul type de produit par commande), le montant ne
  * change pas, seul le raisonnement (calculé via `true`, pas un compteur).
+ * feesCents/netCents re-mis à jour le 12/08 : forfait « autres 1 % »
+ * supprimé (Badr : « je veux les vrais frais ») — sans frais réels fournis,
+ * ces fixtures tombent sur le repli 3 % seul (ex-4 %).
  */
 describe("Fixtures §8 — validation au centime", () => {
   it("Fixture 1 — ES · 2026-07-04 : 8 cmd toutes 2pcs (dest. ES)", () => {
@@ -39,8 +42,8 @@ describe("Fixtures §8 — validation au centime", () => {
     expect(taxCents).toBe(2400);
 
     const agg = computeDailyAggregate({ orders, caCents, spendCents, cogsCents, taxCents });
-    expect(agg.feesCents).toBe(1920);
-    expect(agg.netCents).toBe(13349);
+    expect(agg.feesCents).toBe(1440);
+    expect(agg.netCents).toBe(13829);
     expect(Math.round(roas(caCents, spendCents)! * 100) / 100).toBe(2.6);
   });
 
@@ -54,8 +57,8 @@ describe("Fixtures §8 — validation au centime", () => {
     expect(taxCents).toBe(2100);
 
     const agg = computeDailyAggregate({ orders: 7, caCents, spendCents, cogsCents, taxCents });
-    expect(agg.feesCents).toBe(1800);
-    expect(agg.netCents).toBe(-91);
+    expect(agg.feesCents).toBe(1350);
+    expect(agg.netCents).toBe(359);
   });
 
   it("Fixture 3 — UK · 2026-07-03 : 1 cmd 2pcs (dest. GB), GB hors UE → pas de taxe", () => {
@@ -69,8 +72,8 @@ describe("Fixtures §8 — validation au centime", () => {
     expect(taxCents).toBe(0);
 
     const agg = computeDailyAggregate({ orders: 1, caCents, spendCents, cogsCents, taxCents });
-    expect(agg.feesCents).toBe(231);
-    expect(agg.netCents).toBe(-13);
+    expect(agg.feesCents).toBe(173);
+    expect(agg.netCents).toBe(45);
   });
 
   it("Fixture 4 — DE · 2026-07-01 : 2× 2pcs + 2× 4pcs", () => {
@@ -83,8 +86,8 @@ describe("Fixtures §8 — validation au centime", () => {
     expect(taxCents).toBe(1200);
 
     const agg = computeDailyAggregate({ orders: 4, caCents, spendCents, cogsCents, taxCents });
-    expect(agg.feesCents).toBe(1200);
-    expect(agg.netCents).toBe(12728);
+    expect(agg.feesCents).toBe(900);
+    expect(agg.netCents).toBe(13028);
   });
 });
 
@@ -259,15 +262,17 @@ describe("Classification par line items (§4.1) — jamais par prix total", () =
   });
 });
 
-describe("Frais 4% — arrondi à l'agrégat, pas par commande", () => {
-  it("round(CA_jour × 0,04), pas la somme des arrondis par commande", () => {
-    // 13 commandes identiques à 59.99€ (5999 cents) : la somme des arrondis
-    // par commande (13×240=3120) diffère de l'arrondi sur l'agrégat (3119).
+describe("Frais 3 % (repli) — arrondi à l'agrégat, pas par commande", () => {
+  it("round(CA_jour × 0,03), pas la somme des arrondis par commande", () => {
+    // 17 commandes identiques à 59.99€ (5999 cents) : la somme des arrondis
+    // par commande (17×180=3060) diffère de l'arrondi sur l'agrégat (3059).
     // Le spec (fixture 1) valide l'agrégat : c'est la seule méthode correcte.
-    const perOrderRoundedSum = 13 * Math.round(5999 * 0.04);
-    const aggregateRounded = feesCentsForCa(13 * 5999);
-    expect(aggregateRounded).toBe(3119);
-    expect(perOrderRoundedSum).toBe(3120);
+    // (Taux passé de 4 % à 3 % le 12/08 — forfait « autres 1 % » supprimé —
+    // et 13→17 commandes : à 3 % l'écart d'arrondi n'apparaissait plus à 13.)
+    const perOrderRoundedSum = 17 * Math.round(5999 * 0.03);
+    const aggregateRounded = feesCentsForCa(17 * 5999);
+    expect(aggregateRounded).toBe(3059);
+    expect(perOrderRoundedSum).toBe(3060);
     expect(aggregateRounded).not.toBe(perOrderRoundedSum);
   });
 });

@@ -358,67 +358,46 @@ export function euTaxCents(shippingCountry: string, day: string, hasItems: boole
 }
 
 // ---------------------------------------------------------------------------
-// §4.5 — Frais : 4% du CA (calculé sur l'agrégat jour/marché, jamais commande
-// par commande — voir daily_aggregates, seule table qui porte fees_cents).
+// §4.5 — Frais : les frais Shopify RÉELS, rien d'autre (calculés sur
+// l'agrégat jour/marché — voir daily_aggregates, seule table qui porte
+// fees_cents).
 //
-// Révision Badr 27/07/2026 : la TVA 5,5% n'est PLUS déduite du net — c'est de
-// l'argent collecté pour le compte de l'État, pas une vraie dépense. Elle
-// reste calculée à part (feesBreakdownForCa/tvaCents) pour savoir combien
-// provisionner, mais ne réduit plus le net affiché. Frais réels = Shopify
-// 3% + Autres 1% = 4%. Recalculée sur tout l'historique (voir
+// Révision Badr 12/08/2026 : le forfait « autres 1 % » est SUPPRIMÉ (« ça ne
+// correspond à rien, je veux les vrais frais »). Le poste Frais = uniquement
+// les frais lus par commande (shopifyFees.ts), repli 3 % pour les commandes
+// pas encore re-scannées. Recalculé sur tout l'historique (voir
 // REQUIRED_RECOMPUTE_VERSION dans incrementalSync.ts).
-// ---------------------------------------------------------------------------
-
-export const FEES_RATE = 0.04;
-export const FEES_BREAKDOWN_RATES = { tva: 0.055, shopify: 0.03, autres: 0.01 } as const;
-
+//
+// Révision Badr 27/07/2026 (toujours valable) : la TVA 5,5 % n'est PAS une
+// dépense — argent collecté pour l'État, provisionné à part, jamais déduite
+// du net.
+//
 // 06/08 : les frais Shopify ne sont plus estimés, ils sont LUS par commande
 // (shopifyFees.ts). Mesuré sur 50 commandes réelles du store FR : 6,54 % du CA
 // (4,67 % traitement + 1,87 % change) contre 3 % modélisés — 2,2× trop bas.
 // Le taux varie par commande selon la carte (2,70 / 3,70 / 4,30 / 4,99 %
 // observés le même mois), donc aucune moyenne n'est utilisable.
-//
-// Seul le poste « autres » (1 %) reste forfaitaire. La TVA 5,5 % n'est
-// toujours PAS une dépense (provisionnée à part, décision du 27/07).
-export const OTHER_FEES_RATE = 0.01;
+// ---------------------------------------------------------------------------
+
 /** Repli tant que les frais réels d'une commande ne sont pas encore lus. */
 export const SHOPIFY_FEES_FALLBACK_RATE = 0.03;
-
-export function otherFeesCentsForCa(caCents: number): number {
-  return Math.round(caCents * OTHER_FEES_RATE);
-}
+// Estimation pour les repères (seuils par produit, cartes) là où le détail
+// par commande n'existe pas. Était 4 % (3 % Shopify + 1 % « autres ») jusqu'à
+// la suppression du forfait autres le 12/08 — alignée sur le repli depuis.
+export const FEES_RATE = SHOPIFY_FEES_FALLBACK_RATE;
 
 /** Repli à l'ancien taux : garantit qu'une commande pas encore re-scannée
- * garde exactement le comportement d'avant (3 % + 1 % = 4 %), plutôt que de
- * tomber à zéro et de gonfler le net pendant la transition. */
+ * garde exactement le comportement d'avant (3 %), plutôt que de tomber à
+ * zéro et de gonfler le net pendant la transition. */
 export function fallbackShopifyFeeCents(caCents: number): number {
   return Math.round(caCents * SHOPIFY_FEES_FALLBACK_RATE);
 }
 
-/** @deprecated Estimation forfaitaire 4 %. Conservée pour les repères
- * (seuils par produit, cartes) là où le détail par commande n'est pas
- * disponible ; le net, lui, passe par computeDailyAggregate. */
+/** @deprecated Estimation forfaitaire. Conservée pour les repères (seuils
+ * par produit, cartes) là où le détail par commande n'est pas disponible ;
+ * le net, lui, passe par computeDailyAggregate. */
 export function feesCentsForCa(caCents: number): number {
   return Math.round(caCents * FEES_RATE);
-}
-
-export interface FeesBreakdown {
-  tvaCents: number;
-  shopifyCents: number;
-  autresCents: number;
-}
-
-/**
- * TVA à provisionner (5,5% du CA) — informatif uniquement, PAS déduite du
- * net (voir révision 27/07 ci-dessus). Arrondis indépendants : shopify+autres
- * peut différer de feesCentsForCa() de 1 centime.
- */
-export function feesBreakdownForCa(caCents: number): FeesBreakdown {
-  return {
-    tvaCents: Math.round(caCents * FEES_BREAKDOWN_RATES.tva),
-    shopifyCents: Math.round(caCents * FEES_BREAKDOWN_RATES.shopify),
-    autresCents: Math.round(caCents * FEES_BREAKDOWN_RATES.autres),
-  };
 }
 
 // ---------------------------------------------------------------------------
@@ -570,10 +549,12 @@ export interface DailyAggregate extends DailyAggregateInput {
  * reproduit exactement le comportement d'avant le 06/08 : les jours pas encore
  * re-scannés ne bougent pas d'un centime, et bascule­ront au vrai chiffre au
  * passage du re-scan.
+ *
+ * 12/08 (Badr) : le forfait « autres 1 % » n'est PLUS ajouté — le poste Frais
+ * ne contient que les frais Shopify (réels ou repli).
  */
 export function computeDailyAggregate(input: DailyAggregateInput): DailyAggregate {
-  const shopifyFeeCents = input.shopifyFeeCents ?? fallbackShopifyFeeCents(input.caCents);
-  const feesCents = shopifyFeeCents + otherFeesCentsForCa(input.caCents);
+  const feesCents = input.shopifyFeeCents ?? fallbackShopifyFeeCents(input.caCents);
   const netCents =
     input.caCents - input.spendCents - input.cogsCents - input.taxCents - feesCents;
   return { ...input, feesCents, netCents };
