@@ -222,6 +222,16 @@ export async function recomputeDailyAggregatesForDays(
     b.caCents += m.caEurCents;
     b.cogsCents += m.cogsEurCents;
     b.cogsProductCents += m.cogsEurCents;
+    // Frais/taxe réels quand l'entrée les porte (comblement 21/05→03/06,
+    // reconstruit depuis les vraies commandes le 12/08). Absents = 0 : c'est
+    // le cas NIRA, vendu hors Shopify, dont les frais ne sont pas mesurables —
+    // le net de ces jours-là reste optimiste d'autant, jamais un taux inventé.
+    b.taxCents += m.taxEurCents ?? 0;
+    b.shopifyFeeCents += m.feesEurCents ?? 0;
+    // En mai les frais étaient 100 % `processing_fee` (aucun frais de change
+    // avant le passage en LLC US) — vérifié sur l'export des 115 commandes,
+    // donc la ventilation reste exacte et somme bien au total.
+    b.feeProcessingCents += m.feesEurCents ?? 0;
   }
 
   // Répartition polo/upsells du COGS (affichage Dépenses uniquement — le
