@@ -379,6 +379,94 @@ et tout le reste devient secondaire.
 
 ---
 
+## 5 bis. L'outillage : ce qui existe déjà et qu'il faut installer
+
+Vérifié le 12/08/2026 en interrogeant le registre de plugins/MCP réel + les dépôts
+GitHub un par un (étoiles, activité, modèle éco, ce qu'ils touchent).
+Critère de tri : **est-ce que je laisserais ce repo écrire sur un compte pub qui
+dépense des milliers d'euros ?**
+
+### Tier A — officiel, gratuit, à installer cette semaine
+
+| Outil | Ce que ça fait | Pourquoi pour toi |
+|---|---|---|
+| **Shopify AI Toolkit** — `Shopify/Shopify-AI-Toolkit`, officiel, MIT (avril 2026)<br>`claude plugin install shopify-ai-toolkit@claude-plugins-official` | MCP officiel Shopify : docs, schémas GraphQL, validation Liquid/GraphQL, exécution store via CLI | Exactement ce que tu avais prévu pour la refonte de la landing Nivafit. Officiel = pas de risque. |
+| **`Shopify/liquid-skills`** — plugin officiel Claude Code | Maîtrise Liquid, objets/tags/filtres, standards de thème (BEM, design tokens, accessibilité) | Le thème Dawn du store FR, la section avis custom, les bandeaux marquee traduits |
+| **Meta Ads CLI officiel** — `pip install meta-ads-cli` (publié par Meta le 29/04/2026, Python 3.12+)<br>+ **Meta Ads MCP officiel** (`mcp.facebook.com/ads`, OAuth Business, gratuit en beta, 29 tools) | Wrappe la Marketing API en exécutable : campagnes, ad sets, ads, créas, catalogues, insights | Remplace les appels API artisanaux de la routine 23h05. **OAuth Business standard : pas de Developer App à faire reviewer, pas de token système qui traîne dans une variable d'env.** C'est le point qui le rend supérieur à tous les MCP tiers. |
+
+### Tier B — le vrai gisement : deux repos à piller
+
+**`TheMattBerman/meta-ads-kit`** — 291 ⭐, 6 skills :
+`meta-ads` (reporting), **`ad-creative-monitor` (détection de fatigue créative
+avant qu'elle tue le ROAS)**, `budget-optimizer`, `ad-copy-generator`,
+`ad-upload` (PAUSED-only + dry-run obligatoire), **`pixel-capi` (audit du Pixel
+et de la Conversions API, test des events serveur)**.
+
+Il tourne sur OpenClaw — que je te déconseille. **Mais les skills sont des
+fichiers markdown.** On prend `ad-creative-monitor` et `pixel-capi`, on les porte
+en skills Claude Code branchés sur le CLI officiel : ~30 min de travail. Et
+`pixel-capi` t'intéresse directement — tu paies WeTracked, tu perds des UTM sur
+une partie des commandes, et tu n'as jamais audité ton setup Pixel/CAPI. Une
+partie de ton bruit d'attribution vient peut-être de là.
+
+**`brandu-mos/konquest-meta-ads-mcp`** — 42 ⭐, MIT, 57 tools publics.
+Il fait **l'application dure des conventions de nommage avant toute écriture
+API**, plus un journal d'exécution avec rollback, du rate limiting, et des
+niveaux sandbox/standard/production.
+
+C'est littéralement le chantier n°2 de ce plan, déjà codé. À lire absolument
+comme référence d'implémentation. Attention : modèle open-core (41 tools de plus
+en payant), donc l'installer t'expose à une pression commerciale — je
+recommande de **lire le code, pas de s'y attacher**.
+
+### Tier C — pour la production créative
+
+- **`higgsfield-skills`** (pixelab-ch / higgsfield-ai) — 15 skills, dont
+  `higgsfield-ecommerce-ad` (routé vers `marketing_studio_video`) et
+  `higgsfield-fashion-lookbook` (routé vers `cinematic_studio_video_v2`).
+  Install par `install.sh` vers `~/.claude/skills/`. **Nécessite le MCP
+  Higgsfield — que tu as déjà connecté.** Seulement 2 ⭐, mais c'est du markdown
+  de prompt : ça ne touche ni ton argent ni tes données. Coût du risque ≈ 0,
+  gain = des prompts structurés au lieu d'improvisés.
+- **Competitor Ad Intelligence** (skill de `github/awesome-copilot`) — scrape la
+  Meta/Google Ad Library, décompose hooks, angles et offres des concurrents,
+  produit un teardown. Tu copies déjà Breeze pour le Gilet : ça systématise le
+  travail d'angles. **Réserve** : le scraping direct de l'Ad Library est devenu
+  peu fiable (anti-bot Meta) ; la variante par recherche web fonctionne mieux.
+
+### Tier D — vérifié, et à ne PAS installer
+
+| Outil | Verdict |
+|---|---|
+| `serkanhaslak/meta-mcp` (77 tools, CRUD complet Meta) | **9 ⭐.** Un dépôt à 9 étoiles ne devrait jamais avoir `ads_management` sur un compte qui dépense des milliers d'euros par mois. Le ratio pouvoir/relecture est mauvais. |
+| `lamorim-net/openads-ai` | 2 ⭐, 1 fork. Non. |
+| `composio-community/support-skills` (45 skills SAV) | 18 ⭐, et surtout **dépend d'un compte Composio** et cible Gorgias/Zendesk/Intercom. Une dépendance et un abonnement de plus. Les prompts sont bons à lire, l'installation non. |
+| `wiebekaai/ecommerce-skills` | 1 ⭐, 2 commits, fait pour un meetup. Non. |
+| `jeremylongshore/claude-code-plugins-plus-skills` (471 plugins, 3 069 skills) | Ferme à contenu. Le volume n'est pas un signal de qualité. |
+
+### Déjà dans ton catalogue, pas encore activés
+
+- **Adspirer** (91 tools : Google, Meta, TikTok, LinkedIn) — disponible dans ton
+  catalogue de plugins claude.ai, non installé. Pas maintenant, mais c'est le
+  bon outil le jour du chantier 10 (diversification) : un seul plugin pour les
+  quatre régies.
+- **Customer Support** et **Marketing** (marketplace knowledge-work) — génériques,
+  calibrés support B2B SaaS (Intercom, Guru, HubSpot). Peu adaptés à un SAV
+  e-commerce en français. À ignorer.
+- **Klaviyo et Gmail sont déjà connectés** en MCP : rien à chercher ailleurs pour
+  les chantiers 3 et 5.
+
+### Ce qui n'existe pas sur étagère
+
+Personne ne vend la brique qui te manque vraiment : **la taxonomie créa croisée
+avec ton schéma Supabase, tes grilles COGS et ton protocole Master.**
+`meta-ads-kit` fait de la fatigue créative générique. `konquest` fait le nommage.
+Aucun des deux ne connaît ton ROAS réel corrigé par UTM, ni la distinction
+Polo/Gilet, ni tes seuils par produit. Ce croisement-là, c'est du code à écrire —
+c'est le chantier 1, et c'est précisément pour ça qu'il vaut le plus.
+
+---
+
 ## 6. Une remarque de fond
 
 Ta mémoire liste 5 projets en parallèle (Niva, Silix France, Beaumont Paris,
