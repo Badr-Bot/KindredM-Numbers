@@ -439,6 +439,17 @@ const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // aussi le spend meta... en face » du rattrapage commandes) — va chercher le
 // spend Meta du 21/05 au 03/06 jamais téléchargé.
 const REQUIRED_META_RESYNC_VERSION = "2026-08-08-spend-21-mai-v8";
+
+const FEES_BACKFILL_VERSION_KEY = "fees_backfill_version";
+// v1 (12/08, Badr : « je veux voir dans l'onglet Mois les VRAIES valeurs de
+// frais ») : les frais réels n'avaient JAMAIS été relus sur l'historique —
+// fetchOrderFees ne tournait que sur J-2→J, donc tout jour antérieur à début
+// août restait au repli 3 % + 1 % dans l'onglet Mois. Cette étape relit les
+// frais par commande sur tout l'historique accessible (fenêtre 60 j de l'API
+// sans le scope read_all_orders — les plus anciennes gardent le repli,
+// signalé en warning), UN store par appel, puis recalcule les agrégats.
+const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-12-frais-reels-historique-v1";
+
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 // (l'ancien marqueur d'étape "full_resync_stage" n'est plus utilisé : chaque
@@ -455,17 +466,24 @@ const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
 export async function runThrottledIncrementalSync(force = false): Promise<IncrementalSyncResult> {
   const supabase = createSupabaseServerClient();
 
-  const [{ data: marker }, { data: ordersMarker }, { data: metaMarker }, { data: recomputeMarker }] =
-    await Promise.all([
-      supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
-      supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
-      supabase.from("app_state").select("value").eq("key", META_RESYNC_VERSION_KEY).maybeSingle(),
-      supabase.from("app_state").select("value").eq("key", RECOMPUTE_VERSION_KEY).maybeSingle(),
-    ]);
+  const [
+    { data: marker },
+    { data: ordersMarker },
+    { data: metaMarker },
+    { data: recomputeMarker },
+    { data: feesMarker },
+  ] = await Promise.all([
+    supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
+    supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
+    supabase.from("app_state").select("value").eq("key", META_RESYNC_VERSION_KEY).maybeSingle(),
+    supabase.from("app_state").select("value").eq("key", RECOMPUTE_VERSION_KEY).maybeSingle(),
+    supabase.from("app_state").select("value").eq("key", FEES_BACKFILL_VERSION_KEY).maybeSingle(),
+  ]);
   const needsOrdersResync = ordersMarker?.value !== REQUIRED_FULL_RESYNC_VERSION;
   const needsMetaResync = metaMarker?.value !== REQUIRED_META_RESYNC_VERSION;
   const needsRecompute = recomputeMarker?.value !== REQUIRED_RECOMPUTE_VERSION;
-  const needsMaintenance = needsOrdersResync || needsMetaResync || needsRecompute;
+  const needsFeesBackfill = feesMarker?.value !== REQUIRED_FEES_BACKFILL_VERSION;
+  const needsMaintenance = needsOrdersResync || needsMetaResync || needsRecompute || needsFeesBackfill;
 
   if (
     !needsMaintenance &&
@@ -514,6 +532,7 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
   const { listParisDays } = await import("./time");
   const { HISTORY_START } = await import("./data");
   const allDays = listParisDays(HISTORY_START, todayParisDay());
+  let feesBackfillStillRunning = false;
 
   try {
     if (needsRecompute) {
@@ -536,7 +555,7 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
         value: REQUIRED_META_RESYNC_VERSION,
         updated_at: new Date().toISOString(),
       });
-    } else {
+    } else if (needsOrdersResync) {
       // Le plus lourd, et le plus rare : re-téléchargement de l'historique
       // Shopify complet.
       const { backfillOrders } = await import("./backfillRun");
@@ -548,6 +567,26 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
         value: REQUIRED_FULL_RESYNC_VERSION,
         updated_at: new Date().toISOString(),
       });
+    } else {
+      // Frais Shopify réels sur l'historique — UN store par appel (le client
+      // rappelle /api/sync tant que moreWork=true). EN DERNIER dans la
+      // chaîne : après un re-téléchargement de commandes, le scan couvre
+      // aussi les lignes fraîchement écrites.
+      const { backfillOrderFeesOneStore, FEES_BACKFILL_PROGRESS_KEY } = await import("./backfillRun");
+      const res = await backfillOrderFeesOneStore(supabase);
+      warnings.push(...res.warnings);
+      if (res.done) {
+        await recomputeDailyAggregatesForDays(supabase, allDays);
+        await supabase.from("app_state").upsert({
+          key: FEES_BACKFILL_VERSION_KEY,
+          value: REQUIRED_FEES_BACKFILL_VERSION,
+          updated_at: new Date().toISOString(),
+        });
+        // Progression nettoyée : un futur v2 repartira de zéro proprement.
+        await supabase.from("app_state").delete().eq("key", FEES_BACKFILL_PROGRESS_KEY);
+      } else {
+        feesBackfillStillRunning = true;
+      }
     }
   } catch (err) {
     warnings.push(`Rattrapage historique interrompu : ${(err as Error).message}`);
@@ -559,8 +598,12 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
       .upsert({ key: RESYNC_LOCK_KEY, value: "released", updated_at: new Date(0).toISOString() });
   }
 
-  // Reste-t-il du travail après cette étape ?
-  const stillPending =
-    (needsRecompute && (needsMetaResync || needsOrdersResync)) || (needsMetaResync && needsOrdersResync);
+  // Reste-t-il du travail après cette étape ? (une seule étape tourne par
+  // appel : s'il restait plus d'une étape en attente, ou si le rattrapage
+  // des frais n'a pas fini tous ses stores, le client doit rappeler.)
+  const pendingBefore = [needsRecompute, needsMetaResync, needsOrdersResync, needsFeesBackfill].filter(
+    Boolean
+  ).length;
+  const stillPending = pendingBefore > 1 || feesBackfillStillRunning;
   return { ...result, warnings, moreWork: stillPending };
 }
