@@ -174,7 +174,14 @@ export async function fetchOrderFees(
             continue; // règle 3 : jamais déduit tant que non validé
           }
           if (f.type === "processing_fee") acc.processingCents += cents;
-          else if (f.type === "foreign_exchange_fee") acc.fxCents += cents;
+          // `international_currency_payout_fee` = le 1 % de conversion du plan
+          // Advanced (passage 08/08) : il REMPLACE `foreign_exchange_fee`
+          // (1,5 %) sur les paiements carte Shopify Payments. Même nature
+          // (coût de change EUR→USD de la LLC), donc même colonne — sinon la
+          // ventilation affichait « change 0 » + un faux poste « autres ».
+          // PayPal garde `foreign_exchange_fee` à 3 %, non couvert par le plan.
+          else if (f.type === "foreign_exchange_fee" || f.type === "international_currency_payout_fee")
+            acc.fxCents += cents;
           else {
             acc.otherCents += cents;
             if (f.type) unknownTypes.add(f.type);

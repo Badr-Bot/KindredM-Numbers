@@ -266,8 +266,9 @@ describe("Pipeline zéro clic — bout en bout sur services simulés", () => {
       spend_cents: 18427,
       cogs_cents: 11896,
       tax_cents: 2400,
-      fees_cents: 1920,
-      net_cents: 13349,
+      // 12/08 : forfait « autres 1 % » supprimé — repli 3 % seul (ex-1920/13349).
+      fees_cents: 1440,
+      net_cents: 13829,
       refunded_cents: 0,
     });
 

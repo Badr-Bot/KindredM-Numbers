@@ -8,6 +8,7 @@ import {
   totalPriceShopCents,
   orderAcquisitionFields,
   acquisitionColumnsReady,
+  realFeeColumnsReady,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -25,6 +26,7 @@ import { toParisDay, todayParisDay, listParisDays } from "./time";
 import { recomputeDailyAggregatesForDays } from "./aggregate";
 import { upsertSpendRows, type SpendRowForWrite } from "./spendWrite";
 import { BACKFILL_SINCE_ISO } from "./discover";
+import { fetchOrderFees } from "./shopifyFees";
 
 // « L'ecom a démarré à partir du 21 mai » (Badr 08/08, corrige le 04/06
 // précédent) — les commandes Shopify remontent jusque-là.
@@ -140,6 +142,124 @@ export async function backfillOrders(
     }
   }
   return { ordersByStore, warnings };
+}
+
+// ---------------------------------------------------------------------------
+// Frais Shopify RÉELS sur tout l'historique (Badr, 12/08 : « je veux voir dans
+// l'onglet Mois les VRAIES valeurs de frais pour savoir exactement combien je
+// gagne »).
+//
+// Le re-scan complet des commandes (backfillOrders) n'a JAMAIS relu les frais :
+// fetchOrderFees n'était appelé que sur la fenêtre J-2→J de la synchro. Donc
+// tout jour antérieur à début août restait au repli 3 % + 1 % dans l'onglet
+// Mois — une estimation, pas la réalité (~5-8 % mesurés selon carte/PayPal).
+//
+// UN store par appel (même logique que les autres rattrapages : jamais
+// dépasser la limite de temps de la fonction ; le client rappelle /api/sync
+// tant que moreWork=true). La progression vit dans app_state pour survivre
+// entre les appels.
+//
+// Limite connue : sans le scope read_all_orders, Shopify ne renvoie pas les
+// commandes de plus de 60 jours — celles-là gardent le repli 3 % (signalé en
+// warning avec le compte exact, jamais en silence).
+// ---------------------------------------------------------------------------
+
+export const FEES_BACKFILL_PROGRESS_KEY = "fees_backfill_done_stores";
+
+export async function backfillOrderFeesOneStore(
+  supabase: SupabaseClient
+): Promise<{ done: boolean; warnings: string[] }> {
+  const configs = getShopifyStoreConfigs();
+  const warnings: string[] = [];
+
+  // Migration 0013 pas encore appliquée → rien à écrire. done=true : le
+  // marqueur de version se pose et l'étape ne boucle pas dessus (done=false
+  // ferait marteler /api/sync pour toujours). Si ça arrive, appliquer la
+  // migration PUIS rebumper REQUIRED_FEES_BACKFILL_VERSION. En prod ce cas
+  // est théorique : les frais réels s'écrivent chaque jour depuis le 06/08.
+  if (!(await realFeeColumnsReady(supabase))) {
+    return {
+      done: true,
+      warnings: ["Frais réels historiques : colonnes fee_* absentes (migration 0013 à appliquer) — rattrapage sauté, rebumper la version après migration."],
+    };
+  }
+
+  const { data: progress } = await supabase
+    .from("app_state")
+    .select("value")
+    .eq("key", FEES_BACKFILL_PROGRESS_KEY)
+    .maybeSingle();
+  const doneStores = new Set<string>(progress?.value ? JSON.parse(progress.value as string) : []);
+
+  const config = configs.find((c) => !doneStores.has(c.market));
+  if (!config) return { done: true, warnings };
+
+  try {
+    const token = await resolveAccessToken(config);
+    const today = todayParisDay();
+    const r = await fetchOrderFees(config, token, ORDERS_SINCE_DAY, today);
+    if (r.unknownTypes.size > 0) {
+      warnings.push(
+        `Frais Shopify ${config.market} (historique) : type(s) inconnu(s) ${[...r.unknownTypes].join(", ")} — comptés en « autres », à vérifier.`
+      );
+    }
+
+    // Uniquement les commandes DÉJÀ en base : un upsert d'un id absent
+    // tenterait un INSERT sans les colonnes NOT NULL (store, day…) et ferait
+    // échouer tout le lot.
+    const ids: string[] = [];
+    for (let from = 0; ; from += 1000) {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("id")
+        .eq("store", config.market)
+        .order("id")
+        .range(from, from + 999);
+      if (error) throw error;
+      for (const row of data ?? []) ids.push(String(row.id));
+      if (!data || data.length < 1000) break;
+    }
+
+    const rows = ids
+      .filter((id) => r.byOrderId.has(id))
+      .map((id) => {
+        const f = r.byOrderId.get(id)!;
+        return {
+          id: Number(id),
+          fee_processing_cents: f.processingCents,
+          fee_fx_cents: f.fxCents,
+          fee_other_cents: f.otherCents,
+          fee_total_cents: f.totalCents,
+          fee_refund_cents: f.refundFeeCents,
+        };
+      });
+    const CHUNK = 250;
+    for (let i = 0; i < rows.length; i += CHUNK) {
+      const { error } = await supabase.from("orders").upsert(rows.slice(i, i + CHUNK));
+      if (error) throw error;
+    }
+
+    const missed = ids.length - rows.length;
+    if (missed > 0) {
+      warnings.push(
+        `Frais Shopify ${config.market} (historique) : ${missed} commande(s) hors de la fenêtre 60 j de l'API (scope read_all_orders absent) — repli 3 % conservé pour elles.`
+      );
+    }
+  } catch (err) {
+    // Mode partiel, comme backfillOrders : un store en échec est signalé et
+    // passé — sinon la chaîne de rattrapage bouclerait dessus pour toujours.
+    // Rebumper REQUIRED_FEES_BACKFILL_VERSION relancera tout une fois réparé.
+    warnings.push(`Frais Shopify ${config.market} (historique) ignoré : ${(err as Error).message}`);
+  }
+
+  doneStores.add(config.market);
+  await supabase.from("app_state").upsert({
+    key: FEES_BACKFILL_PROGRESS_KEY,
+    value: JSON.stringify([...doneStores]),
+    updated_at: new Date().toISOString(),
+  });
+
+  return { done: configs.every((c) => doneStores.has(c.market)), warnings };
 }
 
 export async function backfillMetaSpend(
