@@ -177,41 +177,74 @@ export const GAP_FILL_MAI_JUIN: ManualRevenueEntry[] = (
   savedAt: "2026-08-12T14:00:00.000Z",
 }));
 
-const SEED_ENTRIES: ManualRevenueEntry[] = [
-  ...GAP_FILL_MAI_JUIN,
-  {
-    day: "2026-08-06",
-    market: "CA",
-    productKey: "NIRA_BURN",
-    currency: "USD",
-    caCents: 12697, // 45,67 + 81,30 $
-    cogsCents: 3555, // 13,29 + 22,26 $
-    rateToEur: 0.8666262241, // 1 EUR = 1,1539 USD (taux fourni par Badr)
-    caEurCents: 11004,
-    cogsEurCents: 3081,
-    orders: 2,
-    note: "Seed embarqué (file GitHub en panne le 06/08)",
-    savedAt: "2026-08-06T17:00:00.000Z",
-  },
-  {
-    day: "2026-08-07",
-    market: "CA",
-    productKey: "NIRA_BURN",
-    currency: "USD",
-    caCents: 11874, // vente annoncée par Badr le 07/08 après-midi
-    // COGS NON communiqué pour cette vente — 0 assumé et SIGNALÉ (jamais
-    // inventé). Le net NIRA du 07/08 est optimiste d'environ ce COGS (~34 $
-    // si le ratio des ventes précédentes se répète). À compléter dès que
-    // Badr le donne.
-    cogsCents: 0,
-    rateToEur: 0.8666262241,
-    caEurCents: 10290,
-    cogsEurCents: 0,
-    orders: 1,
-    note: "Vente 118,74 $ du 07/08 (Badr). COGS à compléter.",
-    savedAt: "2026-08-07T21:10:00.000Z",
-  },
-];
+// ---------------------------------------------------------------------------
+// NIRA (Canada, USD) — recalé sur l'EXPORT DES TRANSACTIONS (Badr, 12/08).
+//
+// Les entrées précédentes venaient de ventes annoncées oralement au fil de
+// l'eau (06 et 07/08) ; l'export CSV des transactions les remplace, il fait
+// foi. Ne PAS additionner les deux : 3 des 4 commandes de l'export étaient
+// déjà comptées (à un centime près), les ré-ajouter aurait double-compté
+// ~246 $. La fusion par (jour, produit) + `savedAt` le plus récent s'en
+// charge : ces entrées écrasent les anciennes.
+//
+// Détail de l'export (seules les transactions status=success comptent — même
+// règle que shopifyFees.ts : #1004 porte DEUX tentatives en échec le 06/08
+// avant de passer le 09/08, les compter aurait triplé cette commande) :
+//   #1001  45,67 $  06/08 06:03  success
+//   #1002  81,29 $  06/08 17:14  success   (compté 81,30 avant — corrigé)
+//   #1003 118,75 $  07/08 10:51  success   (compté 118,74 avant — corrigé)
+//   #1004  81,30 $  commande du 06/08 12:08, encaissée le 09/08 05:37
+//
+// JOUR DE #1004 : imputée au 06/08, jour où la COMMANDE a été passée, pas au
+// 09/08 où le paiement a fini par passer. C'est la convention de tout le
+// dashboard (`day = toParisDay(order.created_at)`) et la seule qui garde le
+// ROAS juste : c'est le spend du 06/08 qui a généré cette vente. À basculer
+// sur la date d'encaissement si Badr préfère un suivi trésorerie.
+//
+// TAXE = 0 : destination Canada, hors UE (confirmé par Badr le 12/08) — la
+// règle des 3 €/colis ne s'applique qu'à l'UE.
+//
+// COGS : connus pour #1001 (13,29 $) et #1002 (22,26 $) seulement. NON
+// communiqués pour #1003 et #1004 → comptés 0 et SIGNALÉS (jamais inventés,
+// même si #1004 a le même montant que #1002 : une déduction n'est pas une
+// mesure). Le net NIRA de ces deux ventes est optimiste d'autant.
+//
+// FRAIS : absents de l'export (colonnes Amount/Status uniquement) et la
+// boutique NIRA n'est pas branchée à l'API du dashboard → non comptés, net
+// optimiste de ~3-5 % de ces montants. À compléter si Badr exporte les frais.
+//
+// TAUX : celui fourni par Badr le 06/08 (1 EUR = 1,1539 USD), appliqué aux
+// quatre commandes — elles tiennent sur 4 jours, l'écart de change y est
+// négligeable (<1 %, soit <0,80 € sur le total). Aucun taux inventé : si
+// Badr donne le montant EUR réellement crédité, on le remplace.
+// ---------------------------------------------------------------------------
+const NIRA_RATE_TO_EUR = 0.8666262241; // 1 EUR = 1,1539 USD (fourni par Badr)
+
+export const NIRA_ENTRIES: ManualRevenueEntry[] = (
+  [
+    // [jour, CA $ cents, COGS $ cents, commandes, détail]
+    ["2026-08-06", 20826, 3555, 3, "#1001 45,67 + #1002 81,29 + #1004 81,30 $ (COGS connu pour #1001/#1002 seulement)"],
+    ["2026-08-07", 11875, 0, 1, "#1003 118,75 $ — COGS à compléter"],
+  ] as const
+).map(([day, caCents, cogsCents, orders, detail]) => ({
+  day,
+  market: "CA",
+  productKey: "NIRA_BURN",
+  currency: "USD",
+  caCents,
+  cogsCents,
+  rateToEur: NIRA_RATE_TO_EUR,
+  // Conversion calculée, jamais recopiée à la main (une des deux anciennes
+  // entrées était fausse d'un centime pour cette raison).
+  caEurCents: Math.round(caCents * NIRA_RATE_TO_EUR),
+  cogsEurCents: Math.round(cogsCents * NIRA_RATE_TO_EUR),
+  taxEurCents: 0, // Canada = hors UE
+  orders,
+  note: `Export transactions Shopify du 12/08 (transactions success uniquement). ${detail}`,
+  savedAt: "2026-08-12T15:00:00.000Z",
+}));
+
+const SEED_ENTRIES: ManualRevenueEntry[] = [...GAP_FILL_MAI_JUIN, ...NIRA_ENTRIES];
 
 export async function readManualRevenue(supabase: SupabaseClient): Promise<ManualRevenueEntry[]> {
   try {
