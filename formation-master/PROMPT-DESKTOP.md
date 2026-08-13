@@ -21,7 +21,9 @@ python3 --version    # ou `python --version` sur Windows
 ```
 
 Sur Windows, si `python3` n'existe pas mais `python` oui, utilise `python` dans
-toutes les commandes qui suivent. Si `winget` est disponible, c'est le plus
+toutes les commandes qui suivent. Si le chemin de travail contient des espaces
+(ex. `D:\formation Master ecom`), **mets tous les chemins entre guillemets** —
+sinon git, npm et python échouent avec des erreurs qui n'ont rien à voir. Si `winget` est disponible, c'est le plus
 simple : `winget install Git.Git`, `winget install OpenJS.NodeJS.LTS`,
 `winget install Python.Python.3.12`. Ferme et rouvre le terminal après, sinon
 les commandes ne sont pas encore dans le PATH.
