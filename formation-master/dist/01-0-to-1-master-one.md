@@ -5,7 +5,7 @@ _Transcriptions de la formation MASTER. Source unique de vérité._
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 01 : Tour du Skool
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 01
 ======================================================================
 
@@ -56,16 +56,36 @@ Le skool, c'est bien plus qu'une formation, c'est un écosystème. La vraie plus
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue à tous, welcome to our master. Si vous êtes nouveau, normalement vous avez déjà vu une vidéo qui explique en détail les fonctionnalités du school. Si ce n'est pas le cas, regardez cette vidéo, ça va grandement vous aider. Je commence tout de suite déjà par vous dire la première chose la plus importante, c'est de regarder ce module ici introduction.
+
+[00:23] Il faut absolument voir ce module introduction pour que vous sachiez comment le school fonctionne. Si vous êtes un débutant, vous n'avez pas encore 500€ par jour ou un cadet, on a Master Foundation qui a été demandé par beaucoup de débutants qui arrivent et qui va vous montrer et tape par étape comment faire vos un cadet avec des tutoriels tout simples, tout de A à Z et tape par étape.
+
+[00:51] Donc ça ce sera vraiment pour vous si vous ne scalez pas encore. Je tiens à informer que le module introduction il ne faut vraiment pas le passer parce qu'une des plus values du school c'est vraiment le groupe WhatsApp. On a trois groupes à l'heure actuelle, on a School Community où il y a tout le monde, ceux qui scale comme des débutants. On a aussi Master Plus, on a Master Advanced.
+
+[01:15] Et on va avoir un nouveau groupe qui sera dédié à tous les débutants qui veulent scalez. Ce sera juste des échanges constructifs pour faire passer le plus possible de personnes à Master Plus où c'est que les personnes font minimum un cadet. Je rappelle que ça c'est des groupes qui sont inclus dans le school et simplement vous devez juste chiffrer pour y accéder.
+
+[01:38] Et d'ailleurs petite nouveauté, on va faire des calls avec Master Plus. Tous les membres, il y aura des calls à peu près une fois par mois. Et pareil avec Anne Venseth, dont l'on l'a déjà fait auparavant, les calls vont revenir. Et simplement, c'est ça qu'il faut savoir sur les groupes WhatsApp. Et honnêtement la plus value des groupes WhatsApp est Insign.
+
+[01:59] Donc vraiment rejoignez les groupes WhatsApp. Et ensuite juste suivez ce qu'on vous partage ici dans la classe room. Et honnêtement Master Foundation, si vous êtes débutant, ça va être banger pour vous aussi. On aura vraiment tout à l'intérieur. Une nouvelle partie sur le mindset. Et tout de A à Z pour chiffrer, même Shopify, on a les tutoriels que vous avez beaucoup demandé.
+
+[02:25] On a des setups aussi Meta, Comment Lancer, etc. Donc il y aura tout sur passer de 0 à 1 cadet. Et aussi niveau IA, on a mis à jour avec Manus IA. Donc la nouvelle IA qui vous permet de créer des centaines de statiques en quelques minutes, c'est dedans. Mais je dirais si vous êtes débutant, regardez principalement Master Foundation.
+
+[02:49] Et ensuite, furez à mesure des vidéos à l'intérieur. On vous dit d'aller dans les autres classes ou pas, d'aller regarder dans les autres modules ou pas. Ok. Et si vous êtes déjà intermédiaire ou avancé, et bien là vous savez très bien où regarder pour avoir de la value. Par exemple, vous voulez structurer au mieux votre équipe, vous allez regarder ce module et absolument tout il est absolument banger.
+
+[03:11] Ou alors vous avez votre brand, vous voulez ajouter Google Ads, vous pouvez regarder ici Google Ads, ça va grandement vous aider. Conceintement les prochains lives qu'on a, on va avoir le live avec Matteo et moi samedi prochain. Si c'est correct, si c'est pas le cas, on vous tiendra au courant sur WhatsApp et sur Skool.
+
+[03:32] Mais c'est le calendrier ici, comme vous le voyez, là c'est tous les jours les événements qu'il y a. On a tous les jours des produits tradards, on a live débutant avec Leni, on a live thématique. Donc la thématique de la semaine prochaine c'est sur le sourcing. Donc on aura un expert, un agent qui est en Chine qui va tout vous expliquer sur le sourcing.
+
+[03:56] Et le dimanche, tous les dimanches on aura la creative inside. Donc ça c'est les choses principales à savoir. Et vraiment rejoignez le groupe WhatsApp, présentez-vous et welcome à tous.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 02 : Pourquoi l'E-commerce & Dropshipping
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 02
 ======================================================================
 
@@ -124,16 +144,62 @@ Le dropshipping n'est pas une fin en soi, c'est une porte d'entrée. Les personn
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Si vous avez déjà fait beaucoup de chiffres, vous pouvez passer à la prochaine vidéo. Et même si vous avez déjà fait vos premiers chiffres, c'est juste une vidéo qui vous explique les bases du e-commerce. Quand on commence l'e-commerce, il y a quelque chose à savoir. C'est qu'on a le choix de faire une vidéo de plus en plus. Et c'est un peu plus important. Et c'est un peu plus important. Et c'est un peu plus important.
+
+[00:22] Et c'est un peu plus important. Et c'est un peu plus important. Et c'est un peu plus important. Alors, on a le choix de faire du dropshipping ou de créer une marque qu'on débute. Nous, ce qu'on recommande, c'est de commencer en dropshipping dans 90% des cas, ok? Parce que le dropshipping offre une simplicité monstre
+
+[00:46] où c'est que vous simplement, vous devez trouver un produit. Ensuite, avec ce produit-là, vous allez identifier quel est votre avatar. Donc un avatar c'est le client exact qu'est ce qui fait qu'il est quels sont ces problématiques etc. Ensuite qu'on a ça qui est lock-in et bien l'idée c'est de trouver un fournisseur de
+
+[01:11] qualité qu'on peut trouver en Chine avec les différents partenaires qu'on vous propose dans le school. Vous trouvez votre partenaire qui va livrer le produit. Il n'y a pas de stock à faire la différence d'une marque. Ok en dropshipping il n'y a pas de stock à faire. Vous allez pouvoir simplement ensuite créer votre site par rapport aux personages et
+
+[01:34] à vos concurrents qui chiffrent plus. Ensuite vous allez faire des publicités par rapport à vos personages et les recommandations de vos concurrents de qu'est ce que eux ont déjà fait et comment vous pouvez être différent. Ensuite une fois que vous faites des ventes votre fournisseur va directement livrer le client. Une fois que simplement vous faites des ventes et que le client est livré il va vous rester
+
+[02:00] une marge. Il va vous rester une différence parce que vous allez vendre votre produit à 40 euros, votre produit vous coûte 10, 10 euros, 15 euros, votre publicité va vous coûter 10, 10 euros et ensuite il reste une marge. Avec cette marge vous allez pouvoir répéter le process. C'est comme ça qu'on fait plusieurs millions de chiffres d'affaires grâce au e-commerce
+
+[02:23] en commençant avec le dropshipping. Et la plupart des personnes que vous voyez sur les réseaux sociaux qui ont une marque ils ont commencé en dropshipping. Donc en fait le dropshipping ça ne vous enferme pas à rester en dropshipping. Quand vous commencez en dropshipping c'est juste la méthode de logistique. Le fait de ne pas avoir de stock. Si vous avez du stock c'est déjà plus du dropshipping.
+
+[02:43] Donc c'est juste le fait de ne pas avoir de stock. Mais très rapidement on vous conseille de faire du stock et de passer en marque. Si c'est un projet qui est sérieux, si le projet a quelque chose à faire sur le long terme c'est intéressant de le pousser assez rapidement. Et on a des partenaires de logistique, on a des fournisseurs de trios de qualité qu'on partage à l'intérieur du school.
+
+[03:04] Mais voilà comment fonctionne le dropshipping. Et c'est ce qu'on vous recommande de faire quand on débute. Quand vous n'avez pas encore fait vos premiers euros en ligne, c'est la chose à faire. Et si on compare le fait de commencer en dropshipping ou en marque, c'est très simple. En dropshipping il n'y a pas besoin de stock à faire. L'investissement est très faible, le risque très faible. C'est juste le risque que vous prenez, c'est le temps que vous passez à faire votre boutique et vos ades.
+
+[03:29] Et le budget investi en ades. La vitesse, vous pouvez vous lancer en quelques jours seulement. Une marque ça va prendre un peu plus de temps. Les marges sont au niveau des marges. Bon les deux c'est la même chose en réalité. Parce que j'ai dit ce marque est correct mais en réalité les deux sont la même chose. Si vous avez une marque, vous pouvez faire plus de stock.
+
+[03:50] Et par conséquent le prix par produit est plus bas. Il y a aussi plus de lois à respecter, plus de taxes etc. Vous devez être rigelos un peu plus. Donc ça c'est qu'il vaut au niveau des marges. Au niveau du long terme. Quand vous avez une marque, c'est là où qui est Banger. C'est là où on va parler de revalorisation.
+
+[04:12] On va parler de clients qui rachètent chez vous. Si vous avez la possibilité dès le départ de commencer un dropshipping avec un produit de qualité. Et en plus qui se rachètent très rapidement. Vous pouvez le passer en marque très rapidement. Vous pouvez en faire du stock, mettre le logo un peu partout sur votre produit. Et le transitionner en marque.
+
+[04:33] Ce qu'on aime beaucoup avec le dropshipping c'est qu'on peut être rapide. Et dans le business il faut être rapide. Ceux qui gagnent le plus sont rapides. Aujourd'hui là je suis en partenariat avec des personnes. On avait l'idée d'un produit. Le jour même il a été lancé. Et ça c'est la puissance de l'IA, de la communauté qu'on a. Et simplement quand vous êtes débutant surtout. Vous avez un avantage clé.
+
+[04:54] C'est la rapidité d'exucution. Et la rapidité de faire des gros mouvements. En profitez-en. Aujourd'hui on vous fait croire que vous avez besoin de centaines de formations. De coaching. On peut le finir et surtout des vidéos qui durent des centaines d'heures. Vous allez voir qu'ici c'est différent. Le module master one d'ailleurs.
+
+[05:15] Il n'y a pas de temps d'heures que ça. Il y a tout ce que vous devez savoir pour faire vos premiers cadets. Et même vos premiers 10 cadets devant. Et même 30 cadets. Mais c'est conçu pour que vous regardez la data. Et vous passez à l'action rapidement. La plus enge de votre shipping. Pourriez vous motiver à exécuter. A vraiment prendre au sérieux ce qu'on vous partage.
+
+[05:36] Quoi de mieux de vous montrer les résultats des autres personnes. Qui sont absolument bangers. Ici je pense que Matteo l'a déjà partagé. Mais on peut voir qu'on a différents groupes WhatsApp. Comme je vous l'ai déjà expliqué. On a master one. Qui est un nouveau groupe WhatsApp. Où il y a des centaines de membres qui viennent de rejoindre. A la sortie du module master one. Et l'idée c'est de passer de zéro à un cadet.
+
+[05:57] Comme je vous ai expliqué. Et le but c'est de passer dans master plus. Le groupe WhatsApp master plus. Ou c'est qu'à l'intérieur vous êtes obligé de faire un cadet. On vérifie strictement. Si vous faites ce chiffre. Et on update constamment. Et si vous faites un cadet. Vous pouvez être approuvé dans ce groupe. De personnes qui chiffrent.
+
+[06:18] Dans ce groupe de personnes. Ou c'est qu'on centraise. Et à l'intérieur il y a plus de 142 membres. 142 membres sur à peu près 500 membres. Qu'on est dans le school. C'est un pourcentage qui est très très très élevé. Et encore il y a beaucoup de personnes. Qui chiffrent, qui rejoignent. Et qui ne vous voulent même pas WhatsApp. Et ensuite on a.
+
+[06:39] Ou c'est master advents. Ou c'est qu'il y a 66 membres. Là à l'heure actuelle. Il y en a bien plus. Qui font minimum 250 000 dollars par mois. Ok c'est des chiffres qui sont. Approuvés, validés. Et ils doivent faire minimum. Et ils chiffrent là sur une période de 3 mois. Ok. Donc il y a de l'argent qui est en train d'être fait. Avec les strategies master.
+
+[07:01] Et vous avez tout. Ce qu'il faut en main. La seule différence entre. Ces personnes là et vous. C'est qu'ils ont passé plus de temps. À l'action. Ils ont fait plus d'action. Ils ont eu plus de feedback. Et avec ces feedbacks. Ils sont simplement améliorés. Et simplement ils ont ce qu'il est.
+
+[07:22] Il n'y a pas besoin de passer des centaines d'heures à se former. Aujourd'hui avec l'IA même. Vous pouvez lui poser la question sur tout. Les commerces. Ça peut pas être compliqué quand on débute. Vous pouvez même être perdu avec tous les modules que vous avez. Mais restez focus. Regardez. Ce qu'on vous partage dans master 1. Et je suis sûr que vous allez passer à master plus. Et vous pouvoir chiffrer même bien plus.
+
+[07:43] Et même. Simplement passer à advents. Et ensuite parler de revente de marque. De revente de boutiques. Personnellement là. Ce qui m'excite aussi. En e-commerce. C'est. D'avoir. Des dizaines de marques sous gestion. D'avoir de liquidity. Et. Tout ça. Ça commence avec ma première vente. Mes premiers 1KD. En 2017-2018.
+
+[08:04] Et. Les commerces peuvent changer de vie. Donc c'était pour vous motiver. Expliquer comment les commerces fonctionnent. Expliquer au débutant. Que c'est réel. Donc. Passer à l'action. Regardez les vidéos du module master 1. Ça va grandement vous aider. Et si vous avez d'ailleurs des questions. Ou. Ou vous voulez des choses qu'on ajoute. Dans le module master 1. N'hésitez pas.
+
+[08:25] À. Mettre sur school. Ok. Feedback master 1. On aimerait ajouter ça. Ça. Et avec les équipes. On ajoutera ça. Merci beaucoup. À bientôt.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 03 : Par où commencer ? Chemin recommandé
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 03
 ======================================================================
 
@@ -181,16 +247,52 @@ Le vrai levier, c'est l'action. Pas la quantité d'informations consommées. Ceu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo très importante. Si vous êtes débutant et peut-être même que vous vous sentez perdu aujourd'hui en 2026, ça peut être le cas parce que de l'information il en a partout. Vous pouvez trouver des bonnes informations et des stratégies à suivre de partout. Et même vous rentrez peut-être dans notre communauté, vous rentrez dans le school et vous voyez des modules de partout, des stratégies à droite, des stratégies à gauche, des lives etc.
+
+[00:22] Alors, vous faire attention parce que quand on veut commencer à chiffrer et qu'on n'a jamais chiffré, le but c'est de se lancer rapidement pour ensuite étérer sur ce que vous avez fait. Et pour ça, on a créé justement le module 1. Le module 1 il est là semblant pour vous aider à passer de 0 à 1 cadet. Et pour ça
+
+[00:44] il n'y a pas besoin de passer par 30 ou 40 stratégies. Il faut juste suivre une méthode. Pour ça qu'on a créé ce module, il suffira simplement de suivre dans le bon ordre ce qu'on a mis. Ok? Et souvent ça commence par l'état d'esprit, par le mindset, par la communauté. Déjà ça vous donne les fixes, déjà ça vous donne les bases. Donc c'est pour ça qu'on l'a mis. Ok?
+
+[01:04] J'aimerais mentionner aussi un point. C'est que on n'a pas besoin de tout comprendre pour commencer à chiffrer. Honnêtement j'ai vu de mes propres yeux avec et sans mon aide des centaines et des centaines de personnes faire leurs premiers chiffres. Et ce qu'ils ont au commun
+
+[01:25] c'est qu'ils sont rapides, surtout quand on est débutants, ils sont rapides à capter juste ce qu'il faut et lancer et tester. Et une fois qu'on teste en fait il y a quelque chose de magique où c'est que on a à 100% des cas on a des résultats. On n'a pas forcément énormément de ventes ou pas forcément on n'est pas forcément rentable au début mais on a du feedback. Et avec ce feedback là
+
+[01:48] on sait ce qu'on va faire. Et aujourd'hui même avec l'IA on a une aide qui est vraiment overboosté et qui peut vous aider et taparait-à-pou quand on se lance. Ok? Il y avait une phrase que j'aimais beaucoup c'était quand on n'est pas prêt de sauter c'est le bon moment de sauter.
+
+[02:10] Je sais plus qu'il disait ça mais ça c'est vraiment en fait c'est ça. Et dans le business un peu sans ce qui chiffre le plus ils n'attendent pas que tout soit aligné pour commencer et ça c'est le plus important vraiment. Vous avez trouvé un produit qui est pépite, qui est banger. Vous avez analysé votre personnat, vous savez à qui vous vendez. Ok? Boom! Vous avez une idée des créatives que vous voulez. Ok? Boom! On va faire la LP. Ok? On lance, on teste
+
+[02:34] et on y terre. Ok? Ça c'est comment on chiffre? Ensuite c'est ce que j'ai expliqué. Concrètement vous apprenez donc il y a des parties dans les modules il y a aussi des choses super importantes dans les lives qui sont mentionnées. On a les lives par niveau, on a les lives de débutants. C'est que c'est important pour vous d'y accéder parce que
+
+[02:57] simplement il y aura des questions que vous même aurez et ensuite vous avez directement la solution devant vous donc c'est banger. Et aussi chaque personne qui participe au live il faut savoir qu'on a quelque chose qui s'appelle les quick wins. Ou c'est que avant de poser sa question on est obligé de partager un quick win. Et ces quick wins là sont extrêmement valuable. On a dans notre groupe master
+
+[03:22] le groupe WhatsApp plus et le groupe WhatsApp Advanced. Et dans les Advanced ils mentionnent qu'une des raisons qui resteront presque à vie dans la communauté c'est justement ces calls et ces quick wins sur le terrain que chacun apporte. Et du coup c'est super important de participer au live pour apprendre les choses qui sont tout le temps à jour parce que
+
+[03:44] on aura des quick wins qui viennent de la droite et à gauche et on ne les aura pas tout le temps dans les modules. C'est pour ça que c'est important simplement d'être à jour. Donc être à jour, apprendre aussi de ce qu'on a mis dans les modules. Ensuite chercher les produits Puppies, chercher les créatives banger, créer en suivant les tutoriels pas à pas,
+
+[04:04] tester via meta tiktok mais principalement meta ce qu'on vous recommande dans ce module 1. Ensuite analyser et ensuite en fonction des analyses itérées et recommencer. Et c'est comme ça qu'on va viser les incadés. Et vraiment incadés c'est pas si loin que ça. Si vous avez jamais fait c'est vraiment ça va arriver. Ok donc pensez pas tout de suite à 100 cadets
+
+[04:26] mais pensez à incadés et dites-vous dans votre tête que c'est atteindable des centaines et des centaines de personnes le font et que dans le monde du e-commerce incadés c'est des miettes. Honnêtement c'est des miettes et vous allez le faire, vous allez réussir. Donc ce qu'on a mentionné c'est que
+
+[04:50] regardez une vidéo, même si c'est mindset faites ce qu'on vous dit à l'intérieur. Parce que si on vous l'a mis c'est pas pour vous faire perdre du temps et c'est pas l'aporéen. Ok on pourrait faire des vidéos de 20 heures on pourrait vous donner 300 heures de formation. Mais honnêtement c'est pas ça qui va vous aider aujourd'hui en 2026
+
+[05:13] avec l'IA etc tout va un peu plus vite. Et il n'y a pas besoin de temps d'heure de formation. L'idée c'est d'avoir une data apprendre l'appliquer et ensuite passer à la suite. Et si par exemple dans les vidéos sur le mindset on vous donne des choses à faire honnêtement faites-le.
+
+[05:34] On a des coaches pas seulement e-commerce avec matéo on a des personnes qui nous accompagnent sur aussi le mindset, l'état d'esprit etc et c'est des choses qu'on paye très cher ce qu'on vous partage. Il y a une règle d'or ici c'est qu'une information sans action ça vous donne zéro résultat. Vous pouvez regarder tous les modules, vous pouvez regarder toutes les autres formations, vous pouvez regarder toutes les vidéos youtube que vous voulez.
+
+[05:54] Si en fait il n'y a pas d'action, il n'y a pas d'input qui est fait si vous ne faites rien et bien il n'y a rien qui se passe. Alors que si vous avez un peu d'information vous passez à l'action vous avez de quoi travailler. Le but c'est pas de savoir c'est de faire. Ok c'est ce que en fait nous sur notre podcast avec matéo il existe parce qu'on est tout le temps en action.
+
+[06:16] On est tout le temps tout le temps en action et nous on vous donne l'information de nos actions. Ok c'est pour ça que ça plaît. Donc ça c'est ce que je viens de vous mentionner. Ne soyez pas perdu simplement faites step by step et si vous avez des questions l'idée c'est d'être débrouillard parce qu'aujourd'hui avec l'IA vous avez tout à votre disposition mais si vraiment vous avez des questions et que vous trouvez pas vos réponses
+
+[06:39] utilisez la communauté school donc faites un poste bien smart pour que les personnes puissent vous répondre. Et si c'est quelque chose de rapide vous savez que les personnes pourraient avoir une réponse rapidement ok utilisez le groupe WhatsApp et tout ça c'est la...
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 04 : Tour du Module ONE
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 04
 ======================================================================
 
@@ -243,16 +345,60 @@ Les personnes qui chiffrent sur le long terme ne suivent pas mille méthodes dif
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc au niveau du module master one vous êtes ici ensuite il y a le groupe whatsapp super important à rejoindre pour être avec des personnes qui sont au même niveau que vous ça va vous faire avancer cinq fois plus vite ensuite super important module mindset vraiment regarder en entier et à la fin de chaque module ici il y aura une page redirection ici il n'y a pas encore il y aura une page redirection qui va vous rediriger sur le module complet
+
+[00:25] de la thématique en question par exemple ici mindset bah boum on va vous rediriger aussi ici mindset et productivité si vous voulez plus de choses à ce niveau-là mais c'est pas nécessaire pour faire vos premiers incadets et c'est pour ça qu'on a fait qu'on a séparé ça ok mais par exemple si vous voulez vraiment pousser la chose que admettons vous avez fait même plus qu'un cadet bah boum regardez là dedans parce qu'il y a aussi mes hacks à moins sur
+
+[00:46] éviter les distractions il ya la tracking list qu'on fait avec matéo etc donc super important et ça peut vous aider un maximum ensuite on a comprendre le e-commerce des vidéos toutes simples pour que vous ayez les fondamentaux du e-com ensuite pareil avoir l'état d'esprit d'un millionnaire super important même pour faire vos premiers incadets
+
+[01:07] ensuite ici organisation super super super important les affirmations honnêtement c'est un glitch et ça peut aider beaucoup si vous n'avez jamais chiffré ça peut changer votre subconscient et votre subconscient il va être attaché
+
+[01:27] aux choses qui vous aident à faire du chiffre ensuite module 5 comprendre les chiffres du e-commerce simplement quelques vidéos toutes simples qui vous expliquent comment être rentable sur un produit comment les chiffres du e-commerce fonctionnent parce qu'en réalité c'est très mathématique l'e-commerce et ça vous aidera grandement regardez vraiment ces vidéos là elles sont
+
+[01:50] honnêtement primordiales et à mes débuts je dois dire que j'avais rapidement fait plus que un cadet mais j'avais pas suivi ces choses à la perfection et il y avait des journées où je scalais alors qu'il fallait peut-être pas donc regardez bien ces vidéos ici très important
+
+[02:10] ensuite on a produit master ici c'est les vidéos essentielles pour faire vos premiers incadets honnêtement il n'y a pas besoin d'avoir plus d'infos si vous voulez plus d'infos on a pareil module product et research et à l'intérieur même je vous partage ma quelle marché j'ai chiffré le plus dessus on a fait le plus de chiffres et pas mal d'autres petites astuces et pour faire vos premiers incadets
+
+[02:37] faites en Europe prenez ce qu'on vous dit ici et vous allez ensuite ici on a module simple sur les créatives pour que vous puissiez comprendre une fois que vous avez trouvé votre produit qui prince et bien comprendre dans quel angle vous avez vous allez utiliser ce produit pour printer parce que peut-être même que vous allez voir
+
+[03:00] un angle marketing à un concurrent fait mais quand on faisant des recherches sur votre client quand vous récupérez de la data sur votre personnel vous allez peut-être voir que vous allez le vendre autrement donc c'est assez important de voir le module créatif une fois que vous avez trouvé votre produit pour ensuite
+
+[03:22] faire votre l'engin page et votre marketing ok ensuite comment créer votre l'engin page on a tutoriel Shopify de az qui arrive on a aussi d'ailleurs un thème qu'on va vous partager que je vais mettre ici en dessous on aura un thème offert
+
+[03:45] qu'on a partagé à beaucoup de personnes déjà et qui convertit très bien très important pour le thème donc le thème je peux faire pour ceux qui savent pas si en fait quand vous avez votre boutique il y a un certain design qui apparaît et le design il peut être préfet ok et c'est ce qu'on appelle un thème parce que en réalité n'importe le thème que vous avez si vous passez des heures à éditer le code vous pouvez avoir n'importe quel site
+
+[04:09] mais en ayant un thème déjà préinscrit préfet ça vous fait gagner beaucoup de temps donc ici en bas d'ailleurs je vais mettre le thème on va l'appeler master pro et très important c'est de le renommé quand vous l'importez sur votre boutique ok pour l'importer c'est très simple suffit d'aller dans boutique thème et vous importez le thème qu'on vous donne
+
+[04:31] donc soit vous faites ça soit utiliser le thème shrine qui est très bien et qu'on vous recommande dans la vidéo et le thème que on va vous partager gratuitement il a été inspiré à du thème shrine ensuite on aura des vidéos aussi sur lia comment créer votre boutique avec lia mais honnêtement si c'est votre première boutique ou si vous n'avez pas encore fait vos premiers incadés faites votre boutique à la main
+
+[04:57] de votre côté en suivant les tutoriels et et vraiment apprenez à faire ça parce que ensuite quand vous allez utiliser lia et bien vous allez l'utiliser de manière beaucoup plus efficiente et vous avez ça vous allez vous allez savoir pourquoi l'utiliser et comment ok et peut-être même que vous allez commencer à chiffrer et ensuite vous allez
+
+[05:19] engager un développeur qui utilisera lia votre place ok donc c'est même pas le plus important à ce niveau là d'ailleurs je dois me mentionner au niveau de la boutique dans quelques semaines quelques mois Shopify est censé faire une collaboration avec Claude et on pourra faire des boutiques en imprimant donc
+
+[05:40] ça c'est quelque chose à savoir ensuite meta ad ici on a le setup minimum viable pour faire incadé on aura aussi une vidéo qui va arriver sur comment ne pas être bloqué etc et à tout qui arrive juste ici les setups qu'on recommande ici ici dans le paix d'ad on a aussi remis le cadre en marketing pour savoir quoi modifier en fonction de vos premiers résultats et
+
+[06:04] ici important une fois que vous commencez à chiffrer à comment gérer vos premières ventes ok peut-être quoi modifier sur la boutique en fonction des résultats commence qu'il est pour passer par exemple de 200 euros à incadé par exemple une fois que vous atteignez les incadés ici on a des vidéos vraiment bien faites par l'enni qui vous aidera à
+
+[06:25] recruter vos premiers virtuels assistant par exemple pour un savez solide le sav c'est le service après vente c'est une fois que vous faites vos premières vente qu'il y a des commandes qui arrivent va falloir répondre aux clients va falloir être dans les e-mail pour résoudre les problématiques que les clients ont et ça c'est chronophage ok et on vous explique bah comment déléguer ça simplement ici
+
+[06:46] il n'y a pas besoin d'avoir plus de data pour commencer ensuite on a pas mal de vidéos qui sont en train d'être filmés on avait pas mal d'intervenants au moyen orient et il y a eu une situation qui a un peu freiné la mise en place de toutes ces vidéos notamment sur les setups en france comment commencer à vendre comment être entrepreneur en france les setups
+
+[07:09] légales etc et si oui ou non vous devez faire llc aux us llp aux uk etc on a ça qui arrive d'ici on a ça qui devrait être arrivé au moment où vous voyez cette vidéo et ensuite on a simplement des bonus qui vont apparaître juste ici donc honnêtement pour passer de 0 à 1 cadet il y a absolument tout ici en plus de la communauté
+
+[07:33] et en plus des lives que vous pouvez suivre avec lénie ça va vraiment vous aider énormément c'est pour moi le meilleur endroit pour passer de 0 à 1 cadet et il n'y aura pas besoin de suivre des centaines de stratégies ou des dizaines de stratégies juste suivez ce qu'on vous recommande parce que on vous a recommandé des choses avec le taux de réussite le plus élevé on a vu des centaines et des centaines de personnes chiffrées
+
+[07:57] et ceux qui chiffrent sur le long terme ont toujours un plan précis et en l'occurrence c'est le plan qu'on vous recommande qui est bien simplement de prendre un produit ensuite comprendre pourquoi ce produit marche comprendre le personnel faire les créatives et pas vendre juste un produit pour vendre un produit ok à mes débuts j'avais beaucoup fait d'argent juste
+
+[08:18] avec des chaussures toute simple etc juste avec des images et en fait on apprend pas vraiment un lit commercial on peut chiffrer un peu mais vous n'allez pas comprendre sur chiffré sur le long terme alors que là on vous montre tout ça de A à Z
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 05 : Groupe Whatsapp ONE
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 05
 ======================================================================
 
@@ -323,16 +469,24 @@ Le vrai levier en e-commerce, ce n'est pas juste la technique, c'est l'environne
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo très importante pour le module Master One. Donc dans le module Master One, l'idée c'est de vous faire passer de 0 à 1 CAD. Donc 1 CAD, ça signifie 1 000 euros par jour, de vente, de chiffre d'affaires. C'est un palis symbolique en e-commerce quand on débute. Et l'idée c'est que l'écosystème master, un des points vraiment très important, c'est
+
+[00:24] la communauté. Et donc on avait créé différents groupes WhatsApp comme School, Community, où il y a ce qui scale et il y a les débutants. On a Master Plus, où les personnes doivent faire au minimum 1000 euros par jour. On a Master Adventsed, où les personnes font minimum 250 000 par mois consécutifs pour y accéder. Et ces deux groupes d'ailleurs, ils sont vraiment banger. Chaque mois il y a des calls qui sont faits et on s'apporte de la value entre membres.
+
+[00:49] Et c'est en temps réel ce qui se passe sur le terrain. Honnêtement c'est vraiment super valuable. Donc on s'était dit que on va faire un groupe en plus, Master One, pour justement vous motiver à aller dans le groupe Master Plus pour pouvoir simplement connecter avec des personnes qui chiffrent aussi. Le but c'est de passer de zéro à chiffrer pour connecter avec des personnes qui chiffrent
+
+[01:10] peut-être même encore plus parce que c'est comme ça qu'on va encore plus vite. Pour y accéder, simplement, il y a un lien qui est juste ici en dessous. Très important sur le formulaire ici, l'email, ça doit être impérativement le même email que votre email school, sinon la demande va pas passer. Et aussi, c'est important que ça doit être le bon numéro WhatsApp.
+
+[01:34] Le numéro que vous mettez dans le formes, ça doit être le WhatsApp que vous avez utilisé pour vous inscrire. Donc voilà. C'est tout. Rejenez le groupe WhatsApp. A bientôt.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 06 : Le secret de la motivation
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 06
 ======================================================================
 
@@ -378,16 +532,70 @@ La réussite dans ce skool, comme dans la vie, n'est pas toi contre les autres. 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans le module Motivation & Mindset. Le but de ce module, ça va être simplement de juste vous changer les câblages que vous avez dans votre cerveau, de avoir juste un shift qui va vous permettre de changer vos devis. Et pour ça, j'aimerais juste mettre une vidéo en intro. Putain de vie ! T'attends quoi ? T'attends de crever, t'attends d'arriver sur tous les deux butains pour changer ta putain de vie en en 2026 putain !
+
+[00:33] Donc voilà, petite vidéo que j'ai bien aimé, j'ai bien aimé ce qu'il dit et je pense que ça a raison avec pas mal de monde, c'est que change ta vie. Si tu es ici, aujourd'hui c'est parce que certainement que tu veux changer ta vie, parce qu'il y a quelque chose en toi qui refuse de rester au sec tué. Et c'est exactement pour ça qu'on a fait le school. C'est pour permettre à des gens comme toi qui veulent changer, d'avoir les outils pour changer.
+
+[01:01] Mais pour ça il y a des choses à faire. Et ce que tu vas voir ici dans ce school, ce que tu vas voir ici dans ce module qui est spécifique pour ceux qui commencent, tu vas le voir nulle part ailleurs. Parce que c'est pas quelque chose qu'on apprend en e-commerce, c'est quelque chose qu'on apprend avec de la PNL, avec des outils qui permettent de changer la vie des personnes. Et moi j'ai eu la chance d'avoir fait une formation en PNL,
+
+[01:24] moi j'ai eu la chance d'avoir pu avoir un entourage et d'avoir pris des coachings en hypnose, des coachings personnels qui m'a permis de pouvoir t'aider un minimum sur cette partie là. Donc toi ce que tu as simplement besoin de faire c'est juste de suivre ce qu'on m'a dit aujourd'hui durant ces vidéos et tu pourras changer ta vie.
+
+[01:48] Donc ce qui est très important c'est que tu te rappelles pourquoi tu as réjoint le school. Il y a bien une raison, il y a bien quelque chose qui t'as vraiment motivé et il faut toujours que tu gardes cette chose en toi et regarde cette chose en tête pour continuer, pour garder la motivation et je te parle juste de la motivation.
+
+[02:09] Et un autre point important c'est que tes résultats actuels ne sont pas ton potentiel. Je m'explique, qui tu es aujourd'hui ne définis pas qui sais que tu pourras être. Parce que n'importe quel grand star, n'importe quelle personne a succès avant était personne. Simplement eux ils ont eu la vision de voir qui sait qui pouvait être et moi c'est ce que je te demande aujourd'hui c'est que tu es rentré dans ce school pour une raison et il faut que tu définisses qui sais que tu veux être et te baser toutes tes actions par rapport à cette personne là.
+
+[02:43] T'es plus cette personne là, tu veux changer ta vie tu ne vas plus être qui t'est actuellement. Il y a plein de choses que tu vas arrêter de faire naturellement mais pour ça tu dois donner une boussoie, pour ça tu dois donner un plan et ce plan c'est qui sais que tu vas être. Donc c'est logique tes résultats actuels ne sont pas ton potentiel. Parce que ce que tu vas faire demain après demain après sera ce qui va te donner tes résultats futurs.
+
+[03:10] Donc aujourd'hui si tu commences sonicom, si tu es déjà avancé sonicom tes résultats que tu as actuellement c'est juste le reflet de ton système actuel. Et puis nous on va te donner le bon système. Il y a un point très important c'est que la motivation est un sujet très controversé. Beaucoup de personnes travaillent avec la motivation d'autres ne disent travailler sans motivation.
+
+[03:35] La réalité c'est qu'en fait la motivation ça ne change pas une vie mais il y a deux types de motivation et une à une qui va être beaucoup plus facile que d'autres. Donc il y a la première type de motivation c'est la motivation de push c'est ce qu'utilise 90% des personnes. C'est quand tu avances parce que tu souffres pas c'est ta peur ok c'est tu fuis, tu cours parce qu'il y a de la douleur, parce qu'il y a de la peur, parce que tu es en colère, parce qu'il y a des obligations, parce que tu veux prouver.
+
+[04:02] En fait c'est toutes les motivations externes et ça dans la plupart des livres de développement personnel des gourots il vous motive avec ça ok. Prouve vos autres sortes de métro-boulot d'eau d'eau deviens-ci deviens ça.
+
+[04:23] Le problème c'est que cette motivation qu'on appelle push elle n'est pas bonne, enfin c'est pas la meilleure, ça peut être bien pour avoir des petits pics ok. Mais c'est pas celle qui va te permettre de tenir sur le bon terme, je t'expliquerai juste après. La deuxième type de motivation c'est le pull en gros c'est quelque chose qui va venir te tirer, qui va venir ta tirer.
+
+[04:50] C'est ça qui te fait le véto, ça qui te fait rester tard au travail, ça qui te fait continuer même quand c'est dur. C'est quelque chose en fait qui va être plus fort que toi et en fait ça va être ici ça va dépendre de toi, là ça va pas dépendre de toi, c'est-à-dire que automatiquement tu vas continuer. Et ça c'est lié à la vision, à la contribution, à l'identité, à l'impel intérieur. Par exemple moi qu'est-ce qui me motive à faire tout ça, à faire ce school, à vous donner autant alors que, alors qu'on est-ce-qu'en-être en terme rien que d'argent je gagne beaucoup plus à côté.
+
+[05:19] Et en terme de temps et d'énergie je donne beaucoup dans le school. Là il faut préparer ces vidéos, ça demande d'un motivation mais qu'est-ce qui me donne cette motivation ? Simplement j'ai un fort désir de contribution. Pour ceux qui me connaissent ils savent que si je fais tout ça, si je donne autant, même gratuitement, c'est parce qu'en fait j'ai l'impression d'avoir un devoir.
+
+[05:40] Je sais pas comment expliquer, j'ai l'impression d'avoir un devoir, de faire les choses à fond, d'avoir, de débloquer des résultats. Et une fois que j'ai des blocs, de partager le process. Et ça c'est pour ça que c'est quelque chose qu'on ne pourra pas m'enlever toute ma vie, je vais contribuer. C'est pour ça que avant j'étais coach personnel et que maintenant j'ai commencé à les commerces et pas tout de suite j'ai commencé à aider mais dès que j'ai commencé à avoir des résultats, j'ai senti que je devais aider.
+
+[06:05] Ça c'est en appel ça la pouls motivation. Pour résumer le push c'est quand ça va être basé sur la fuite, sur la peur et la volonté. Et la volonté ça s'épuise. On a tous des jauges à volonté durant une journée et plus on va utiliser la volonté plus ça va venir s'épuiser.
+
+[06:29] Donc on peut pas se baser sur la volonté, ça marche pas. C'est ce que les autres vont vous vendre mais ça marche pas. Et pareil, la fuite, la peur ça va pas marcher éternellement. Donc si tu avances pour éviter quelque chose, tu vas venir dépendre de ton état émotionnel et la fatigue égale l'abandon. Parce que dès que ça va être fatigué, dès que tu auras des moments durs, tu arriveras plus. Tu seras fatigué émotionnellement et ça sera pas constant.
+
+[06:53] Donc si tu avances uniquement parce que tu dois, je te garantis t'abandonneras. Et dans les trois piliers que je vous avais appris, il y a avoir les bonnes informations au niveau système, appliquer ces bons systèmes et ne pas abandonner. Que ça. Et là, on est sur comment tu vas pas abandonner. Là je te donne le secret sur comment tu ne vas pas abandonner. Et simplement parce que tu vas pas utiliser le type de motivation classique.
+
+[07:16] Tu vas utiliser un autre type de motivation. Et pareil, la discipline basée sur la douleur, ça se finit toujours par casser. C'est pas faisable. C'est pas faisable. Donc moi ce que je veux que tu intègres, et sur quoi tu vas venir te faire attirer, c'est sur la motivation pool.
+
+[07:38] Tu vas avancer parce que quelque chose t'attire. C'est basé sur l'attraction. Donc tu vas avancer vers quelque chose. Donc c'est pour ça qu'il faut que tu aies une vision, il faut que tu aies une vision claire de qui tu veux être. C'est comme un taxi. Tu donnes juste la destination et il va t'emmener à la destination. Mais il faut que tu aies une vision claire. Il faut que tu aies une vision claire de ton identité futur.
+
+[08:01] Il faut que tu aies un désir aussi. Ok ? C'est-à-dire que avoir et de motiver par les voitures, ça peut être un désir qui attire des personnes. Mais le problème, c'est que ça va vite descendre, parce que c'est pas le vrai désir. C'est pour ça que vous avez certainement vu sur les réseaux, sur ma communication, etc. Je ne montre pas ma richesse, je ne montre pas mes voitures, je ne montre rien.
+
+[08:23] Parce que ça ne me correspond pas et ça ne va pas vous attirer le bon désir. Ok ? De montrer la voiture, ça va vous motiver superficiellement. Mais si vous voulez une belle voiture, c'est pas juste la voiture. C'est parce que vous voulez peut-être vous sentir riche. C'est peut-être vous voulez sentir que vous avez réussi. Pourquoi ? Parce que peut-être, dessous cette envie d'avoir une voiture,
+
+[08:44] de sentir que vous avez réussi, peut-être que vous voulez vous prouver. Pourquoi ? Peut-être que vous avez juste, je ne sais pas, manqué d'amour quand vous êtes petit. Et vous voulez du coup prouver que vous pouvez avoir de l'amour. Je ne sais pas. Mais il y a des sous-couches comme ça, de désir. Et si je vous donne la première couche, c'est ce que tout le monde va faire, mais ça ne va pas vous motiver de manière viscérale. Donc c'est pour ça que je vous demande de comprendre
+
+[09:06] pourquoi vous êtes ici et de descendre. Le pourquoi du pourquoi. Vous êtes ici pour gagner votre liberté financière. Pourquoi ? Pour pouvoir voyager. Pourquoi ? Pour sentir les pourquoi. Et vraiment de comprendre vous-même. Ici, le game, pour réussir, c'est pas vous contre les autres, c'est vous contre vous-même.
+
+[09:27] Et de juste vous comprendre vous-même, de juste être honnête avec vous-même, c'est ce qui vous fera réussir. Et c'est pour ça que je dis les choses cachent. Et c'est pour ça que je dis même des choses qui ne sont pas sexies. Et c'est pour ça que je n'ai pas des centaines de milliers d'abonnés. Parce que je ne dis pas ce que vous voulez entendre. Je dis la vérité. Et la vérité doit raisonner. Et ce que je veux, c'est que je vous donne la vérité telle qu'elle est,
+
+[09:49] pour que vous ayez aussi honnête avec vous-même. Ok ? Et moi je ne peux pas avoir commission de vous aider en étant honnête avec moi-même. Je pourrais avoir beaucoup plus d'abonnés en faisant comme les autres, en montrant des voitures maraîcheses, en faisant m'irroiter des choses. Mais c'est pas moi. Et je veux attirer une bonne personne et je veux que ce school soit basé de bonne personne. Donc si t'es là aujourd'hui,
+
+[10:11] c'est que t'es certainement une bonne personne. T'es une bonne personne. Et moi je te demande de changer ta vie. Donc tout ça, ça va créer de l'endurance. Et même dans les moments difficiles, il y aura des moments difficiles. Il y en aura tout le temps. Il faut être conscient. La vie s'est faite de moment d'y... en vagues. La vie s'est faite de moment difficile.
+
+[10:32] Mais quand tu as une vision, quand tu vas venir être attiré, eh bien c'est juste que tu continues. C'est comme si tu avais un chemin et que tu savais que tu allais la destination. T'es obligatoire. C'est obligatoire. Et qu'il va pleuvoir. Et qu'il va falloir monter des montagnes et descendre. Et il y a des moments où tu vas venir descendre sur un vélo. Dans le soleil ça va être sympa. Et des moments il va falloir monter
+
+[10:54] et dans la paix il va pleuvoir. C'est tout. Mais quand tu sais que tu dois aller là-bas, c'est une obligation. Tu le feras. Et c'est ce qui fera que dans quelques années, tu seras extrêmement loin. Parce que simplement, t'aurais compris ça. Donc la volonté te fait commencer. Ta vision te fait continuer.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 07 : Le contrat qui changera ta vie
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 07
 ======================================================================
 
@@ -440,9 +648,51 @@ Les résultats ne viennent pas de la théorie, mais de l'exécution. Ce skool a 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo très très importante, vraiment très très importante, soit bien attentif parce que ce qu'on va faire dans cette vidéo va être décisif pour ton succès si après. Donc pour te rappeler ici on te motif entre reprogrammes. Ici on te donne pas juste des coups de bouche d'émotionnel, ok ? On te donne des vrais systèmes qui marchent et qui sont réplicables.
+
+[00:22] Et à partir de maintenant, t'auras plus d'excuse de ne pas savoir, t'auras plus d'excuse de pas avoir les systèmes. T'auras plus d'excuse que d'être des problèmes parce que dans ce school tu vas avoir les bons systèmes qui vont être mis à jour et tu vas surtout être entouré. Tu auras juste à rester dans le school, à avancer, à faire et tu auras des résultats parce que si tu as des problèmes, il y a des lives.
+
+[00:44] Parce que si tu as des problèmes, il y aura des gens qui pourront t'aider, ok ? Nico et moi on est là pour vous, on va dire, pour vous aider mais le plus gros et la plus grande force de ce school c'est la qualité des gens qui auraient dedans. Et la qualité des gens qui aient dedans actuellement est déjà insigne. Alors j'imagine pas dans quelques mois et dans quelques années parce que le school ça ira loin.
+
+[01:06] Parce que comme on a construit ce school, personne pourra faire mieux. Parce qu'on a construit ce school non pas pour l'argent, vous l'avez senti et tout le monde le sait mais on l'a construit pour vraiment vous donner des résultats. On a fait des choses avec amour et on fait les choses avec le coeur et ça, ça se sent et ça personne pourra le faire. Il y a des autres gens qui ont créé des schools mais c'est pas pareil et c'est comme quand on crée une marque.
+
+[01:27] Si vous créez une marque pour prouver, si vous créez une marque pour faire de l'argent, les clients, la marque n'ira pas au même stade que celui qui crée la marque par amour et qui baigne tout dans l'amour. Et ça j'appelle ça la recette italienne parce que les grand-mères italiennes, elles arrivent à faire des nourritures qui sont,
+
+[01:48] on ne s'aurait pas expliqué tellement bon, il y a quelque chose en plus. Et c'est simplement parce qu'elles donnent de l'amour quand elles cuisinent. Et c'est prouvé, je pense que vous avez déjà entendu l'expérience du sachet de riz, du bocodri, vous mettez deux bocodri, chaque jour un vous donnez de l'amour, vous donnez des messages gentils et à l'autre vous donnez des messages méchants. Vous dites juste des paroles méchantes, vous avez vite voir que un riz va rester en très bonne santé beaucoup plus longtemps que l'autre et l'autre va vite moinsir.
+
+[02:15] Ok c'est prouvé, c'est simplement nos paroles ont une action. Donc maintenant t'as plus d'excuse, t'es bien entouré. Ce qui vient ensuite va te demander une chose simple, tu vas prendre une décision et tu vas faire quelque chose. Ok, c'est ce qu'on va voir dans le prochain slide.
+
+[02:35] Ce que je vais te demander de faire aujourd'hui maintenant, c'est que tu vas venir signer un contrat. Ok ce contrat là, qu'est ce qu'il va définir ? C'est pour toi, c'est pas pour nous parce que c'est très bien que nous on ne promet rien. On est les seuls qui promettent rien du tout mais par contre on a massive résultat parce que simplement on arrive peut-être à faire chifter les personnes.
+
+[02:59] Et ce que j'aimerais que tu fasses, c'est que tu fasses un contrat, je te montrerai juste après comment. Et sur ce contrat là tu vas venir t'engager à suivre le school jusqu'au bout, ok ? Appliquer ce qu'on te demande mais même sans juger. T'appliques. Tu vas venir arrêter de consommer sans exécuter, c'est-à-dire tout ce que tu suis, tu exécutes.
+
+[03:20] Tu vas venir finir ce que tu commences et tu vas venir comprendre que si le school d'avis, tu vas la réussir si t'appliques. Il y a aussi un lien de l'exécution, pas de la théorie, personne ne peut faire le travail à ta place. Donc je vais te montrer qu'est-ce que tu vas faire. Tu vas prendre une feuille, incarné.
+
+[03:41] Idealement moi ce que je conseillerais c'est... je vais montrer le lien incarné. Ok, ça c'est moi j'ai acheté un beau livre, ok ? qui est assez cher pour simplement noter dedans dans des belles feuilles avec un beau silo, des contrats que je fais avec moi-même.
+
+[04:03] Tu peux le faire numériquement mais ce que pour moi ce qui serait le mieux c'est que tu le fasses sur une feuille parce que quand t'écris c'est le seul moment c'est que t'es pleinement présent et ça active les émissifères de cerveau donc je te conseille de le faire sur papier. Tu prends un beau silo, ok ? Tu t'achètes un beau silo ou tu es écrit avec un silo que tu as maintenant peu importe. Compose déjà ce que tu as maintenant mais par la suite achète un beau silo.
+
+[04:27] Tu vas simplement venir dater et signer. Alors attends je résume. Tu vas venir écrire en silence contrats je m'engage à et ensuite tu vas venir mettre en quoi tu t'engages. Donc à devenir la personne que je veux devenir, à gagner ma liberté, à pour mes proches, pour ma famille, pour ceux qui comptent sur moi.
+
+[04:52] En gros tu vas venir t'engager à ce que tu vas faire. A suivre le school jusqu'au bout, à appliquer tout ce qu'on me demande, à tout appliquer et répéter je sais pas pendant plusieurs mois.
+
+[05:13] Et je choisis deux et là tu vas mettre prendre la responsabilité de mes résultats, remplacer des exuces par l'action, continuer même quand la motivation baisse. Et là tu vas mettre tous les contres de ce qui pourrait en fait t'empêcher de réussir. Donc là ce qui est très important c'est que tu réfléchis. Ok, qu'est-ce qui pourrait te freiner ? Peut-être, ce qui pourrait te freiner c'est je sais pas de être instable.
+
+[05:36] Ok, donc peut-être tu penses que tu vas commencer et arrêter. Tu choisis et tu vas venir noter noir sur blanc que tu vas venir travailler chaque semaine. Quoi qu'il en coûte tu vas venir travailler même 30 minutes par jour, chaque jour. Et ce contrat là il sera avec toi même. Il ne sera pas avec nous, il sera avec toi même. Et ce que je veux que tu notes aussi à la fin c'est qu'à partir d'aujourd'hui je change ma vie.
+
+[05:59] Et ça c'est un contrat que tu vas faire avec toi même. Tu vas venir mettre la date et tu vas signer. Et c'est très important que tu prends le temps d'écrire, ce que tu vas écrire. Tu prends le temps de consentiser et tu vas venir data et signer ton contrat. Et ça tu vas aller venir regarder avec toi dans le lieu où tu travailles. Et tu vas venir le regarder régulièrement. Et tu vas te rappeler que tu as fait un contrat avec toi même.
+
+[06:21] Et ça tu peux pas l'envoyer. Parce que toute ta vie tu vas venir la passer avec toi même. Donc ce contrat là c'est le contrat que tu vas faire avec toi. Donc pour te résumer tu vas venir prendre une feuille. Maintenant tu vas venir mettre la date. Et tu vas venir écrire. Moi, Matteo en signant ce contrat je m'engage à devenir quoi.
+
+[06:48] Et à qu'est-ce que tu vas faire ? Pas besoin de mettre tes objectifs ok ? Je veux juste que tu mettes ton désir. Ok ? C'est-à-dire que tu veux gagner ta liberté. Tu t'engages à gagner ta liberté. S'il y a plein de personnes, enfin il y a des, un nombre illimité de personnes qui gagnent sa liberté c'est que c'est possible ok ? Donc je veux pas que tu crois maintenant encore que tu crois pas que tu veux gagner ta liberté. Je veux te démontrer ensuite le nombre de personnes qui ont gagné leur liberté.
+
+[07:12] C'est là actuellement, si tu crois pas c'est juste que tu es dans un écosystème c'est que tu es entouré de personnes qui te montrent que c'est pas possible. Mais moi je te dis que c'est possible. Donc je veux que tu écrives tes désirs ok ? Pas besoin de noter tes objectifs. Je veux pas que tu notes je m'engage à gagner 50 000 déchiffes d'affaires par jour ok ? Je veux simplement que tu t'engages à devenir la personne que tu veux devenir. À tout faire pour gagner ta liberté.
+
+[07:34] À tout faire pour rendre fierté proche par exemple. Et ensuite tu vas mettre je choisis de, et là tu vas dire maintenant de prendre mes responsabilités. Maintenant de peut-être me lever tôt. Maintenant de continuer même quand la motivation baisse ok ? Donc prends le temps de réfléchir tes désirs et qu'est ce que tu vas faire pour atteindre ses désirs.
+
+[07:56] Et à la fin tu vas mettre à partir d'aujourd'hui je change ma vie et tu dates et tu cies.
 
 
 

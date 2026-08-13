@@ -1,22 +1,22 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**581 leçons au total · 0 complètes (0 %)**
+**624 leçons au total · 50 complètes (8 %)**
 
 
 ## 0 to 1 : MASTER ONE
 
-82 leçons · 0 complètes · 82 partielles
+82 leçons · 7 complètes · 75 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Tour du Skool](transcriptions/0-to-1-master-one\01-tour-du-skool.md) | 4:12 | partiel |
-| 🟡 | 2 | [Pourquoi l'E-commerce & Dropshipping](transcriptions/0-to-1-master-one\02-pourquoi-l-e-commerce-dropshipping.md) | 12:24 | partiel |
-| 🟡 | 3 | [Par où commencer ? Chemin recommandé](transcriptions/0-to-1-master-one\03-par-ou-commencer-chemin-recommande.md) | 21:40 | partiel |
-| 🟡 | 4 | [Tour du Module ONE](transcriptions/0-to-1-master-one\04-tour-du-module-one.md) | 21:40 | partiel |
-| 🟡 | 5 | [Groupe Whatsapp ONE](transcriptions/0-to-1-master-one\05-groupe-whatsapp-one.md) | 1:49 | partiel |
-| 🟡 | 6 | [Le secret de la motivation](transcriptions/0-to-1-master-one\06-le-secret-de-la-motivation.md) | — | partiel |
-| 🟡 | 7 | [Le contrat qui changera ta vie](transcriptions/0-to-1-master-one\07-le-contrat-qui-changera-ta-vie.md) | — | partiel |
+| ✅ | 1 | [Tour du Skool](transcriptions/0-to-1-master-one\01-tour-du-skool.md) | 4:12 | complet |
+| ✅ | 2 | [Pourquoi l'E-commerce & Dropshipping](transcriptions/0-to-1-master-one\02-pourquoi-l-e-commerce-dropshipping.md) | 12:24 | complet |
+| ✅ | 3 | [Par où commencer ? Chemin recommandé](transcriptions/0-to-1-master-one\03-par-ou-commencer-chemin-recommande.md) | 21:40 | complet |
+| ✅ | 4 | [Tour du Module ONE](transcriptions/0-to-1-master-one\04-tour-du-module-one.md) | 21:40 | complet |
+| ✅ | 5 | [Groupe Whatsapp ONE](transcriptions/0-to-1-master-one\05-groupe-whatsapp-one.md) | 1:49 | complet |
+| ✅ | 6 | [Le secret de la motivation](transcriptions/0-to-1-master-one\06-le-secret-de-la-motivation.md) | 11:13 | complet |
+| ✅ | 7 | [Le contrat qui changera ta vie](transcriptions/0-to-1-master-one\07-le-contrat-qui-changera-ta-vie.md) | 7:59 | complet |
 | 🟡 | 8 | [Le plan pour créer ta nouvelle vie](transcriptions/0-to-1-master-one\08-le-plan-pour-creer-ta-nouvelle-vie.md) | — | partiel |
 | 🟡 | 9 | [Preuve que c’est possible](transcriptions/0-to-1-master-one\09-preuve-que-c-est-possible.md) | 5:24 | partiel |
 | 🟡 | 10 | [Ton plan pour réussir](transcriptions/0-to-1-master-one\10-ton-plan-pour-reussir.md) | — | partiel |
@@ -697,6 +697,56 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | 🟡 | 16 | [QUICK WINS - JUIN 2026](transcriptions/quick-wins\16-quick-wins-juin-2026.md) | — | partiel |
 | 🟡 | 17 | [QUICK WINS - JUILLET 2026](transcriptions/quick-wins\17-quick-wins-juillet-2026.md) | — | partiel |
 | 🟡 | 18 | [QUICK WINS - AOÛT 2026](transcriptions/quick-wins\18-quick-wins-aout-2026.md) | — | partiel |
+
+## RESSOURCES NOTION
+
+43 leçons · 43 complètes · 0 partielles
+
+| | # | Leçon | Durée | Statut |
+|-|---|-------|-------|--------|
+| ✅ | 1 | [MODULE MANUS AI - MASTER](transcriptions/ressources-notion\01-module-manus-ai-master.md) | — | complet |
+| ✅ | 2 | [ADS Cartoon IA - Génération via Skill Claude Code](transcriptions/ressources-notion\02-ads-cartoon-ia-generation-via-skill-claude-code.md) | — | complet |
+| ✅ | 3 | [🎬 Skill AI Ads Modulable - Génération via Claude Code](transcriptions/ressources-notion\03-skill-ai-ads-modulable-generation-via-claude-code.md) | — | complet |
+| ✅ | 4 | [Skill Native Ads Copy - Image ↔ Copy via Claude Code](transcriptions/ressources-notion\04-skill-native-ads-copy-image-copy-via-claude.md) | — | complet |
+| ✅ | 5 | [Raw Talking Heads & Statiques Animés - Seedance 2.5 & Minimax H3](transcriptions/ressources-notion\05-raw-talking-heads-statiques-animes-seedance-2-5.md) | — | complet |
+| ✅ | 6 | [New Etnie Funnel Testing](transcriptions/ressources-notion\06-new-etnie-funnel-testing.md) | — | complet |
+| ✅ | 7 | [La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des](transcriptions/ressources-notion\07-la-methode-en-4-phases-et-12-questions.md) | — | complet |
+| ✅ | 8 | [Official Apology Statement' Framework](transcriptions/ressources-notion\08-official-apology-statement-framework.md) | — | complet |
+| ✅ | 9 | [Créative Tips, Repliquer format organic en ads](transcriptions/ressources-notion\09-creative-tips-repliquer-format-organic-en-ads.md) | — | complet |
+| ✅ | 10 | [MASTER COPY MINING SOP](transcriptions/ressources-notion\10-master-copy-mining-sop.md) | — | complet |
+| ✅ | 11 | [Stratégie des Ads Controversées (Process)](transcriptions/ressources-notion\11-strategie-des-ads-controversees-process.md) | — | complet |
+| ✅ | 12 | [Analyser son compte avec CMPR](transcriptions/ressources-notion\12-analyser-son-compte-avec-cmpr.md) | — | complet |
+| ✅ | 13 | [Native Static Ads IA Cloning PROMPT](transcriptions/ressources-notion\13-native-static-ads-ia-cloning-prompt.md) | — | complet |
+| ✅ | 14 | [Discredit](transcriptions/ressources-notion\14-discredit.md) | — | complet |
+| ✅ | 15 | [Le principe du contournement (Bypass Principle)](transcriptions/ressources-notion\15-le-principe-du-contournement-bypass-principle.md) | — | complet |
+| ✅ | 16 | [UGLY Taste / Look / Live Test](transcriptions/ressources-notion\16-ugly-taste-look-live-test.md) | — | complet |
+| ✅ | 17 | [[Creative Insight] Tourner 1 Ads winneuse en 10 winning itération](transcriptions/ressources-notion\17-creative-insight-tourner-1-ads-winneuse-en-10.md) | — | complet |
+| ✅ | 18 | [Jetter la pierre au villain (tips de film)](transcriptions/ressources-notion\18-jetter-la-pierre-au-villain-tips-de-film.md) | — | complet |
+| ✅ | 19 | [Publicités statiques natives (Long Ad Copy)](transcriptions/ressources-notion\19-publicites-statiques-natives-long-ad-copy.md) | — | complet |
+| ✅ | 20 | [Comment créer 108 ads qui convertissent](transcriptions/ressources-notion\20-comment-creer-108-ads-qui-convertissent.md) | — | complet |
+| ✅ | 21 | [Narrative Ads](transcriptions/ressources-notion\21-narrative-ads.md) | — | complet |
+| ✅ | 22 | [Curiosity + Reverse Psychology](transcriptions/ressources-notion\22-curiosity-reverse-psychology.md) | — | complet |
+| ✅ | 23 | [Coca Cola Analyse #Hack Psychologique](transcriptions/ressources-notion\23-coca-cola-analyse-hack-psychologique.md) | — | complet |
+| ✅ | 24 | [AI REVIEW MINING PROMPT](transcriptions/ressources-notion\24-ai-review-mining-prompt.md) | — | complet |
+| ✅ | 25 | [8 Hooks Visuels Irrésistibles pour Stopper le Scroll sur Meta Ads](transcriptions/ressources-notion\25-8-hooks-visuels-irresistibles-pour-stopper-le-scroll.md) | — | complet |
+| ✅ | 26 | [Creative Strategy Playbook - cheat Sheet](transcriptions/ressources-notion\26-creative-strategy-playbook-cheat-sheet.md) | — | complet |
+| ✅ | 27 | [Creative Insight Loss Aversion](transcriptions/ressources-notion\27-creative-insight-loss-aversion.md) | — | complet |
+| ✅ | 28 | [[Creative Insight] Itération des statics](transcriptions/ressources-notion\28-creative-insight-iteration-des-statics.md) | — | complet |
+| ✅ | 29 | [SOP – Utiliser avis client pour créer idée de Ads](transcriptions/ressources-notion\29-sop-utiliser-avis-client-pour-creer-idee-de.md) | — | complet |
+| ✅ | 30 | [Analyse Bangers Ads - Flytex](transcriptions/ressources-notion\30-analyse-bangers-ads-flytex.md) | — | complet |
+| ✅ | 31 | [Créer new Hooks qui cassent le cerveau](transcriptions/ressources-notion\31-creer-new-hooks-qui-cassent-le-cerveau.md) | — | complet |
+| ✅ | 32 | [“10 Copywriting Tips KILLER” pour rendre tes headlines ultra percutantes](transcriptions/ressources-notion\32-10-copywriting-tips-killer-pour-rendre-tes-headlines.md) | — | complet |
+| ✅ | 33 | [190 Psychological Hooks based on the 21 Proven Frameworks for Winning Headlines](transcriptions/ressources-notion\33-190-psychological-hooks-based-on-the-21-proven.md) | — | complet |
+| ✅ | 34 | [MASTER \| Ressources Module SAV](transcriptions/ressources-notion\34-master-ressources-module-sav.md) | — | complet |
+| ✅ | 35 | [Playbook - Les Créatives](transcriptions/ressources-notion\35-playbook-les-creatives.md) | — | complet |
+| ✅ | 36 | [Comment Atteindre N'importe Quel Objectif & 37x Plus Vite (Retour d’expérience)](transcriptions/ressources-notion\36-comment-atteindre-n-importe-quel-objectif-37x-plus.md) | — | complet |
+| ✅ | 37 | [Comment Créer une Bid Cap Inflated 10-100k/day](transcriptions/ressources-notion\37-comment-creer-une-bid-cap-inflated-10-100k.md) | — | complet |
+| ✅ | 38 | [Comment Scaler en 2025 Sur Meta - PLAYBOOK COMPLET](transcriptions/ressources-notion\38-comment-scaler-en-2025-sur-meta-playbook-complet.md) | — | complet |
+| ✅ | 42 | [Guide : ElevenLabs V3 (alpha)](transcriptions/ressources-notion\42-guide-elevenlabs-v3-alpha.md) | — | complet |
+| ✅ | 43 | [Creative Insight — ChatGPT Image 2](transcriptions/ressources-notion\43-creative-insight-chatgpt-image-2.md) | — | complet |
+| ✅ | 45 | [Quick Win — Changer l’approche psychologique de ton ads](transcriptions/ressources-notion\45-quick-win-changer-l-approche-psychologique-de-ton.md) | — | complet |
+| ✅ | 46 | [La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des](transcriptions/ressources-notion\46-la-methode-en-4-phases-et-12-questions.md) | — | complet |
+| ✅ | 50 | [[PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)](transcriptions/ressources-notion\50-prompt-creez-des-headlines-qui-convertissent-pattern-break.md) | — | complet |
 
 ## RÉUSSIR SON Q4
 

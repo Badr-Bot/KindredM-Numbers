@@ -6,13 +6,13 @@ il ne faut jamais répondre à sa place.
 
 ## 0 to 1 : MASTER ONE
 
-- 🟡 **01 — Tour du Skool** · 4:12
-- 🟡 **02 — Pourquoi l'E-commerce & Dropshipping** · 12:24
-- 🟡 **03 — Par où commencer ? Chemin recommandé** · 21:40
-- 🟡 **04 — Tour du Module ONE** · 21:40
-- 🟡 **05 — Groupe Whatsapp ONE** · 1:49
-- 🟡 **06 — Le secret de la motivation** 
-- 🟡 **07 — Le contrat qui changera ta vie** 
+- ✅ **01 — Tour du Skool** · 4:12
+- ✅ **02 — Pourquoi l'E-commerce & Dropshipping** · 12:24
+- ✅ **03 — Par où commencer ? Chemin recommandé** · 21:40
+- ✅ **04 — Tour du Module ONE** · 21:40
+- ✅ **05 — Groupe Whatsapp ONE** · 1:49
+- ✅ **06 — Le secret de la motivation** · 11:13
+- ✅ **07 — Le contrat qui changera ta vie** · 7:59
 - 🟡 **08 — Le plan pour créer ta nouvelle vie** 
 - 🟡 **09 — Preuve que c’est possible** · 5:24
 - 🟡 **10 — Ton plan pour réussir** 
@@ -625,6 +625,52 @@ il ne faut jamais répondre à sa place.
 - 🟡 **16 — QUICK WINS - JUIN 2026** 
 - 🟡 **17 — QUICK WINS - JUILLET 2026** 
 - 🟡 **18 — QUICK WINS - AOÛT 2026** 
+
+## RESSOURCES NOTION
+
+- ✅ **01 — MODULE MANUS AI - MASTER** 
+- ✅ **02 — ADS Cartoon IA - Génération via Skill Claude Code** 
+- ✅ **03 — 🎬 Skill AI Ads Modulable - Génération via Claude Code** 
+- ✅ **04 — Skill Native Ads Copy - Image ↔ Copy via Claude Code** 
+- ✅ **05 — Raw Talking Heads & Statiques Animés - Seedance 2.5 & Minimax H3** 
+- ✅ **06 — New Etnie Funnel Testing** 
+- ✅ **07 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des** 
+- ✅ **08 — Official Apology Statement' Framework** 
+- ✅ **09 — Créative Tips, Repliquer format organic en ads** 
+- ✅ **10 — MASTER COPY MINING SOP** 
+- ✅ **11 — Stratégie des Ads Controversées (Process)** 
+- ✅ **12 — Analyser son compte avec CMPR** 
+- ✅ **13 — Native Static Ads IA Cloning PROMPT** 
+- ✅ **14 — Discredit** 
+- ✅ **15 — Le principe du contournement (Bypass Principle)** 
+- ✅ **16 — UGLY Taste / Look / Live Test** 
+- ✅ **17 — [Creative Insight] Tourner 1 Ads winneuse en 10 winning itération** 
+- ✅ **18 — Jetter la pierre au villain (tips de film)** 
+- ✅ **19 — Publicités statiques natives (Long Ad Copy)** 
+- ✅ **20 — Comment créer 108 ads qui convertissent** 
+- ✅ **21 — Narrative Ads** 
+- ✅ **22 — Curiosity + Reverse Psychology** 
+- ✅ **23 — Coca Cola Analyse #Hack Psychologique** 
+- ✅ **24 — AI REVIEW MINING PROMPT** 
+- ✅ **25 — 8 Hooks Visuels Irrésistibles pour Stopper le Scroll sur Meta Ads** 
+- ✅ **26 — Creative Strategy Playbook - cheat Sheet** 
+- ✅ **27 — Creative Insight Loss Aversion** 
+- ✅ **28 — [Creative Insight] Itération des statics** 
+- ✅ **29 — SOP – Utiliser avis client pour créer idée de Ads** 
+- ✅ **30 — Analyse Bangers Ads - Flytex** 
+- ✅ **31 — Créer new Hooks qui cassent le cerveau** 
+- ✅ **32 — “10 Copywriting Tips KILLER” pour rendre tes headlines ultra percutantes** 
+- ✅ **33 — 190 Psychological Hooks based on the 21 Proven Frameworks for Winning Headlines** 
+- ✅ **34 — MASTER | Ressources Module SAV** 
+- ✅ **35 — Playbook - Les Créatives** 
+- ✅ **36 — Comment Atteindre N'importe Quel Objectif & 37x Plus Vite (Retour d’expérience)** 
+- ✅ **37 — Comment Créer une Bid Cap Inflated 10-100k/day** 
+- ✅ **38 — Comment Scaler en 2025 Sur Meta - PLAYBOOK COMPLET** 
+- ✅ **42 — Guide : ElevenLabs V3 (alpha)** 
+- ✅ **43 — Creative Insight — ChatGPT Image 2** 
+- ✅ **45 — Quick Win — Changer l’approche psychologique de ton ads** 
+- ✅ **46 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des** 
+- ✅ **50 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)** 
 
 ## RÉUSSIR SON Q4
 
