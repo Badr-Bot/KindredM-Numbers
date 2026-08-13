@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeRoasReport, parseUtmCampaign } from "../roasReport";
+import { computeRoasReport, decideCampaign, parseUtmCampaign } from "../roasReport";
 
 /**
  * Rapport de perf par campagne (12/08) — Badr : « le rapport ROAS sur Slack
@@ -141,5 +141,49 @@ describe("computeRoasReport", () => {
     expect(r.totals.mer).toBeNull();
     expect(r.totals.roasMetaGlobal).toBeNull();
     expect(r.campaigns).toEqual([]);
+  });
+});
+
+/**
+ * Décision scale/descale — protocole Master appliqué au ROAS META
+ * (Badr 13/08 : « il faudra se fier à Meta, j'ai WeTracked »).
+ */
+describe("decideCampaign — protocole Master", () => {
+  const polo = { breakEven: 1.68, target: 2.25 };
+
+  it("SCALE au palier du budget quand le ROAS dépasse la cible", () => {
+    const petit = decideCampaign({ ...polo, roas: 3.2, dailyBudgetCents: 15500, frequency: 1.5 });
+    expect(petit).toMatchObject({ decision: "SCALE", pct: 25 }); // <200 €/j
+    expect(decideCampaign({ ...polo, roas: 3.3, dailyBudgetCents: 28400, frequency: 1.56 }).pct).toBe(20);
+    expect(decideCampaign({ ...polo, roas: 3.0, dailyBudgetCents: 80000, frequency: 1.5 }).pct).toBe(15);
+    expect(decideCampaign({ ...polo, roas: 3.0, dailyBudgetCents: 200000, frequency: 1.5 }).pct).toBe(10);
+  });
+
+  it("la fréquence ≥ 2 met un VETO sur le scale, sans déclencher de descale", () => {
+    // Cas réel du 13/08 : ZOMBIE à 3,22× mais fréquence 2,52.
+    const d = decideCampaign({ ...polo, roas: 3.22, dailyBudgetCents: 15500, frequency: 2.52 });
+    expect(d.decision).toBe("HOLD");
+    expect(d.pct).toBe(0);
+    expect(d.blockedByHealth).toBe(true);
+    expect(d.reason).toContain("créas");
+  });
+
+  it("HOLD entre rentabilité et cible", () => {
+    // Cas réel du 13/08 : FR-TESTING à 1,80× en ROAS Meta.
+    const d = decideCampaign({ ...polo, roas: 1.8, dailyBudgetCents: 55200, frequency: 1.97 });
+    expect(d).toMatchObject({ decision: "HOLD", pct: 0, blockedByHealth: false });
+  });
+
+  it("DESCALE par palier de gravité sous la rentabilité", () => {
+    expect(decideCampaign({ ...polo, roas: 1.6, dailyBudgetCents: 50000, frequency: 1.5 }).pct).toBe(-15); // 95 % du BE
+    expect(decideCampaign({ ...polo, roas: 1.42, dailyBudgetCents: 50000, frequency: 1.5 }).pct).toBe(-20); // 85 %
+    expect(decideCampaign({ ...polo, roas: 1.0, dailyBudgetCents: 50000, frequency: 1.5 }).pct).toBe(-30); // 60 %
+  });
+
+  it("sans spend : aucune décision, jamais de division par zéro", () => {
+    expect(decideCampaign({ ...polo, roas: null, dailyBudgetCents: 0, frequency: null })).toMatchObject({
+      decision: "HOLD",
+      pct: 0,
+    });
   });
 });

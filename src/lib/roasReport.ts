@@ -238,6 +238,92 @@ export function computeRoasReport(input: {
   };
 }
 
+// ---------------------------------------------------------------------------
+// DÉCISION SCALE / HOLD / DESCALE — protocole Master (MEMO), appliqué au
+// ROAS META (Badr, 13/08 : « il faudra se fier à Meta, j'ai WeTracked donc
+// Meta doit être bon »).
+//
+// Pourquoi Meta et pas l'UTM : WeTracked envoie les conversions en
+// server-side (CAPI), donc Meta reçoit les achats même quand le navigateur
+// bloque le pixel. Sa COUVERTURE est donc bonne. Ce qu'il faut garder en
+// tête : ça corrige la COLLECTE, pas le MODÈLE d'attribution — Meta compte
+// toujours le view-through (vu sans clic) et impute au jour du clic. D'où le
+// garde-fou : le MER, lui, ne dépend d'aucune attribution.
+//
+// Le ROAS UTM reste calculé et affiché comme contre-mesure : quand les deux
+// convergent, la décision est sûre ; quand Meta est très au-dessus, on le dit.
+// ---------------------------------------------------------------------------
+
+export type Decision = "SCALE" | "HOLD" | "DESCALE";
+
+export interface CampaignDecision {
+  decision: Decision;
+  /** Variation de budget en % (positive = scale, négative = descale, 0 = hold). */
+  pct: number;
+  reason: string;
+  /** true = le ROAS justifierait un scale mais la santé le bloque. */
+  blockedByHealth: boolean;
+}
+
+/**
+ * Protocole Master (MEMO, validé Badr 03/08) :
+ *  • SCALE si moy ≥ cible ET santé OK (fréquence < 2). Palier selon le budget
+ *    quotidien : <200 €/j +25 % · 200-600 +20 % · 600-1500 +15 % · >1500 +10 %.
+ *  • HOLD si BE ≤ moy < cible.
+ *  • DESCALE si moy < BE : ≥90 % du BE −15 % · ≥80 % −20 % · <80 % −30 %.
+ * La fréquence est un VETO sur le scale, jamais un motif de descale : une
+ * audience saturée ne se soigne pas en coupant le budget mais en changeant
+ * les créas.
+ */
+export function decideCampaign(input: {
+  roas: number | null;
+  breakEven: number;
+  target: number;
+  dailyBudgetCents: number;
+  frequency: number | null;
+}): CampaignDecision {
+  const { roas, breakEven, target, dailyBudgetCents, frequency } = input;
+  if (roas === null) {
+    return { decision: "HOLD", pct: 0, reason: "pas de spend sur la période", blockedByHealth: false };
+  }
+  const freqKo = frequency !== null && frequency >= 2;
+
+  if (roas >= target) {
+    if (freqKo) {
+      return {
+        decision: "HOLD",
+        pct: 0,
+        reason: `ROAS ${roas.toFixed(2)}× au-dessus de la cible MAIS fréquence ${frequency!.toFixed(2)} ≥ 2 — audience saturée : nouvelles créas AVANT budget`,
+        blockedByHealth: true,
+      };
+    }
+    const b = dailyBudgetCents / 100;
+    const pct = b < 200 ? 25 : b < 600 ? 20 : b < 1500 ? 15 : 10;
+    return {
+      decision: "SCALE",
+      pct,
+      reason: `ROAS ${roas.toFixed(2)}× ≥ cible ${target.toFixed(2)}×, fréquence OK`,
+      blockedByHealth: false,
+    };
+  }
+  if (roas >= breakEven) {
+    return {
+      decision: "HOLD",
+      pct: 0,
+      reason: `ROAS ${roas.toFixed(2)}× entre rentabilité (${breakEven.toFixed(2)}×) et cible (${target.toFixed(2)}×) — ne rien toucher 5-7 j`,
+      blockedByHealth: false,
+    };
+  }
+  const ratio = roas / breakEven;
+  const pct = ratio >= 0.9 ? 15 : ratio >= 0.8 ? 20 : 30;
+  return {
+    decision: "DESCALE",
+    pct: -pct,
+    reason: `ROAS ${roas.toFixed(2)}× sous la rentabilité (${(ratio * 100).toFixed(0)} % du BE)`,
+    blockedByHealth: false,
+  };
+}
+
 const eur = (c: number) => `${(c / 100).toFixed(2)} €`;
 const x = (r: number | null) => (r === null ? "—" : `${r.toFixed(2)}×`);
 
