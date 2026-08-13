@@ -43,3 +43,7 @@ products_map.draft.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python (scripts formation-master)
+__pycache__/
+*.pyc
