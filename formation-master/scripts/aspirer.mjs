@@ -23,8 +23,11 @@ import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
+import { fileURLToPath } from "node:url";
 
-const ICI = path.dirname(new URL(import.meta.url).pathname);
+// fileURLToPath : sur Windows, `new URL(...).pathname` donne « /D:/… » et
+// path.resolve produit alors un chemin invalide.
+const ICI = path.dirname(fileURLToPath(import.meta.url));
 const RACINE = path.resolve(ICI, "..");
 const CAPTURE = path.join(RACINE, ".capture");
 const PROFIL = path.join(RACINE, ".skool-profile");
@@ -124,13 +127,35 @@ async function main() {
   await page.goto(DEPART, { waitUntil: "domcontentloaded", timeout: 60000 }).catch(() => {});
   await dormir(2500);
 
-  if (!page.url().includes("/classroom")) {
+  /* Attente de connexion SANS demander d'appuyer sur Entrée : le script tourne
+     ici en tâche de fond, personne ne peut taper dans son terminal. On sonde la
+     page jusqu'à ce que le classroom soit réellement affiché. */
+  async function classroomPret() {
+    if (!page.url().includes("/classroom")) return false;
+    const n = await page
+      .evaluate(() => document.querySelectorAll('a[href*="/classroom"]').length)
+      .catch(() => 0);
+    return n > 0;
+  }
+
+  if (!(await classroomPret())) {
     log("\n⚠️  Pas encore connecté à Skool.");
-    log("   Connecte-toi dans la fenêtre qui vient de s'ouvrir, va sur le classroom,");
-    log("   puis reviens ici.\n");
-    await attendreEntree("   Appuie sur Entrée quand tu es sur le classroom… ");
-    await page.goto(DEPART, { waitUntil: "domcontentloaded" }).catch(() => {});
-    await dormir(2000);
+    log("   Connecte-toi dans la fenêtre qui vient de s'ouvrir, va sur le classroom.");
+    log("   Le script repart tout seul dès qu'il voit le classroom (15 min max).\n");
+    const limite = Date.now() + 15 * 60 * 1000;
+    let dernier = "";
+    while (Date.now() < limite) {
+      await dormir(4000);
+      if (await classroomPret()) break;
+      const u = page.url();
+      if (u !== dernier) { dernier = u; log("   … page actuelle : " + u.slice(0, 90)); }
+    }
+    if (!(await classroomPret())) {
+      log("\n❌ Toujours pas connecté après 15 min — j'arrête là.");
+      await ctx.close();
+      process.exit(2);
+    }
+    log("✅ Connecté, je reprends.\n");
   }
 
   // ── 1. Recenser toutes les URLs à visiter ───────────────────────────────
