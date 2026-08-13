@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { niraCogsUsdCents } from "./engine";
 
 // ---------------------------------------------------------------------------
 // Recettes saisies À LA MAIN (Badr, 06/08) — pour les produits dont les
@@ -204,45 +205,78 @@ export const GAP_FILL_MAI_JUIN: ManualRevenueEntry[] = (
 // TAXE = 0 : destination Canada, hors UE (confirmé par Badr le 12/08) — la
 // règle des 3 €/colis ne s'applique qu'à l'UE.
 //
-// COGS : connus pour #1001 (13,29 $) et #1002 (22,26 $) seulement. NON
-// communiqués pour #1003 et #1004 → comptés 0 et SIGNALÉS (jamais inventés,
-// même si #1004 a le même montant que #1002 : une déduction n'est pas une
-// mesure). Le net NIRA de ces deux ventes est optimiste d'autant.
+// COGS : calculés depuis le devis Panda Dropshipping (grille officielle
+// `niraCogsUsdCents`, engine.ts) fourni par Badr le 12/08 — plus aucun COGS
+// annoncé à la main, plus aucun 0 assumé. La grille confirme d'ailleurs les
+// deux montants déjà connus (1 pack Canada = 13,29 $, 2 packs = 22,26 $),
+// ce qui valide le raccord avec les anciennes saisies.
 //
-// FRAIS : absents de l'export (colonnes Amount/Status uniquement) et la
-// boutique NIRA n'est pas branchée à l'API du dashboard → non comptés, net
-// optimiste de ~3-5 % de ces montants. À compléter si Badr exporte les frais.
+// FRAIS : 6 % du CA (Badr, 12/08 — « compte 6 % »). L'export ne porte pas les
+// frais et la boutique NIRA n'est pas branchée à l'API du dashboard : c'est
+// donc le seul taux modélisé qui subsiste, assumé et donné par Badr, pas
+// déduit d'un calcul.
 //
-// TAUX : celui fourni par Badr le 06/08 (1 EUR = 1,1539 USD), appliqué aux
-// quatre commandes — elles tiennent sur 4 jours, l'écart de change y est
-// négligeable (<1 %, soit <0,80 € sur le total). Aucun taux inventé : si
-// Badr donne le montant EUR réellement crédité, on le remplace.
+// TAUX DE CHANGE : celui fourni par Badr le 06/08 (1 EUR = 1,1539 USD),
+// appliqué aux quatre commandes — elles tiennent sur 4 jours, l'écart de
+// change y est négligeable (<1 %, soit <0,80 € sur le total). Aucun taux
+// inventé : si Badr donne le montant EUR réellement crédité, on le remplace.
 // ---------------------------------------------------------------------------
 const NIRA_RATE_TO_EUR = 0.8666262241; // 1 EUR = 1,1539 USD (fourni par Badr)
+/** Frais de paiement NIRA : 6 % du CA (Badr, 12/08). */
+const NIRA_FEES_RATE = 0.06;
 
-export const NIRA_ENTRIES: ManualRevenueEntry[] = (
-  [
-    // [jour, CA $ cents, COGS $ cents, commandes, détail]
-    ["2026-08-06", 20826, 3555, 3, "#1001 45,67 + #1002 81,29 + #1004 81,30 $ (COGS connu pour #1001/#1002 seulement)"],
-    ["2026-08-07", 11875, 0, 1, "#1003 118,75 $ — COGS à compléter"],
-  ] as const
-).map(([day, caCents, cogsCents, orders, detail]) => ({
-  day,
-  market: "CA",
-  productKey: "NIRA_BURN",
-  currency: "USD",
-  caCents,
-  cogsCents,
-  rateToEur: NIRA_RATE_TO_EUR,
-  // Conversion calculée, jamais recopiée à la main (une des deux anciennes
-  // entrées était fausse d'un centime pour cette raison).
-  caEurCents: Math.round(caCents * NIRA_RATE_TO_EUR),
-  cogsEurCents: Math.round(cogsCents * NIRA_RATE_TO_EUR),
-  taxEurCents: 0, // Canada = hors UE
-  orders,
-  note: `Export transactions Shopify du 12/08 (transactions success uniquement). ${detail}`,
-  savedAt: "2026-08-12T15:00:00.000Z",
-}));
+/**
+ * Une ligne PAR COMMANDE (et non par jour) : c'est le nombre de packs qui
+ * détermine le COGS, il se perdrait dans un total journalier. L'agrégation
+ * par jour se fait juste en dessous — l'inverse serait impossible.
+ *
+ * ⚠️ `packs` de #1003 (118,75 $) DÉDUIT du prix, pas lu sur la commande :
+ * l'export ne porte que les montants, et la boutique NIRA n'est pas
+ * accessible par l'API. L'échelle de prix observée (1 pack 45,67 $ →
+ * 2 packs 81,29 $ → 118,75 $) progresse d'environ +36 $ par pack, ce qui
+ * situe 118,75 $ au palier 3 packs. À corriger si Badr confirme un autre
+ * bundle : c'est la SEULE valeur de ce bloc qui ne vient pas d'une source
+ * directe (écart 3↔4 packs = 8,77 $ de COGS).
+ */
+const NIRA_ORDERS = [
+  // [jour, commande, CA $ cents, pays, packs]
+  ["2026-08-06", "#1001", 4567, "CA", 1],
+  ["2026-08-06", "#1002", 8129, "CA", 2],
+  ["2026-08-06", "#1004", 8130, "CA", 2], // encaissée le 09/08, commandée le 06
+  ["2026-08-07", "#1003", 11875, "CA", 3], // packs déduits du prix, voir ci-dessus
+] as const;
+
+export const NIRA_ENTRIES: ManualRevenueEntry[] = [
+  ...new Set(NIRA_ORDERS.map(([day]) => day)),
+].map((day) => {
+  const dayOrders = NIRA_ORDERS.filter((o) => o[0] === day);
+  const caCents = dayOrders.reduce((t, [, , ca]) => t + ca, 0);
+  const cogsCents = dayOrders.reduce(
+    (t, [, , , country, packs]) => t + niraCogsUsdCents(country, packs),
+    0
+  );
+  const feesCents = Math.round(caCents * NIRA_FEES_RATE);
+  return {
+    day,
+    market: "CA",
+    productKey: "NIRA_BURN",
+    currency: "USD",
+    caCents,
+    cogsCents,
+    rateToEur: NIRA_RATE_TO_EUR,
+    // Conversions calculées, jamais recopiées à la main (une des deux
+    // anciennes entrées était fausse d'un centime pour cette raison).
+    caEurCents: Math.round(caCents * NIRA_RATE_TO_EUR),
+    cogsEurCents: Math.round(cogsCents * NIRA_RATE_TO_EUR),
+    feesEurCents: Math.round(feesCents * NIRA_RATE_TO_EUR),
+    taxEurCents: 0, // Canada = hors UE
+    orders: dayOrders.length,
+    note: `Export transactions Shopify du 12/08 (success uniquement) : ${dayOrders
+      .map(([, name, ca, , packs]) => `${name} ${(ca / 100).toFixed(2)} $ (${packs}p)`)
+      .join(" + ")}. COGS = devis Panda, frais 6 %.`,
+    savedAt: "2026-08-12T16:00:00.000Z",
+  };
+});
 
 const SEED_ENTRIES: ManualRevenueEntry[] = [...GAP_FILL_MAI_JUIN, ...NIRA_ENTRIES];
 

@@ -316,6 +316,59 @@ export function upsellCogsCents(
 }
 
 // ---------------------------------------------------------------------------
+// §4.3 bis — COGS NIRA « Thermogenic Support » (devis Panda Dropshipping,
+// fourni par Badr le 12/08).
+//
+// ⚠️ EN DOLLARS, contrairement à TOUTES les autres grilles de ce fichier qui
+// sont en EUR : le produit est acheté et vendu en USD (boutique Canada/US).
+// D'où le suffixe `UsdCents` dans le nom — la conversion en EUR se fait au
+// taux figé de l'entrée (manualRevenue.ts), jamais ici.
+//
+// Total = coût produit + livraison, tel que devisé (les deux lignes du devis
+// sont additionnées : elles partent ensemble dans le même colis).
+// Le produit n'a PAS de boutique Shopify branchée au dashboard : ses ventes
+// arrivent par saisie manuelle, et cette grille remplace le « COGS annoncé
+// à chaque vente » — désormais seul le nombre de packs est à donner.
+// ---------------------------------------------------------------------------
+
+export type NiraPackTier = 1 | 2 | 3 | 4;
+
+const NIRA_GRID_USD_CENTS: Record<string, Record<NiraPackTier, number>> = {
+  US: { 1: 1476, 2: 2391, 3: 3455, 4: 4517 },
+  GB: { 1: 1126, 2: 1883, 3: 2641, 4: 3398 },
+  CA: { 1: 1329, 2: 2226, 3: 3103, 4: 3980 },
+  AU: { 1: 1380, 2: 1712, 3: 2044, 4: 2375 },
+};
+
+/**
+ * COGS NIRA en CENTS USD pour `packs` packs livrés dans `country` (ISO-2).
+ *
+ * Au-delà de 4 packs : même règle d'extrapolation que le polo (coût marginal
+ * du dernier palier connu), pour ne jamais renvoyer 0 sur un gros panier.
+ * Pays hors devis (le devis ne couvre que US/GB/CA/AU) : on prend le plus
+ * cher des pays devisés + la surcharge conservatrice habituelle, plutôt que
+ * d'inventer un tarif ou de compter 0 — même convention que les autres
+ * grilles (§4.2/§4.3).
+ */
+export function niraCogsUsdCents(country: string, packs: number): number {
+  if (packs <= 0) return 0;
+  const grid = NIRA_GRID_USD_CENTS[country.toUpperCase()];
+  const tier = Math.min(packs, 4) as NiraPackTier;
+  const value = grid
+    ? grid[tier]
+    : Math.max(...Object.values(NIRA_GRID_USD_CENTS).map((g) => g[tier])) +
+      NON_LISTED_SURCHARGE_CENTS;
+  if (packs <= 4) return value;
+  // >4 packs : coût marginal 3→4 packs appliqué aux packs supplémentaires.
+  const g4 = grid ? grid[4] : value;
+  const g3 = grid
+    ? grid[3]
+    : Math.max(...Object.values(NIRA_GRID_USD_CENTS).map((g) => g[3])) +
+      NON_LISTED_SURCHARGE_CENTS;
+  return Math.round(g4 + (g4 - g3) * (packs - 4));
+}
+
+// ---------------------------------------------------------------------------
 // §4.4 — Taxe UE (règle révisée par Badr le 04/08/2026, forfait par colis)
 //   • 3,00 € FORFAITAIRE PAR COLIS expédié en UE — indépendant du nombre ou
 //     du type de produits dedans (frais de douane/traitement, pas une taxe
