@@ -391,6 +391,10 @@ const FORCE_THROTTLE_MS = 60 * 1000;
 //   • meta      : re-télécharge tout l'historique Meta. À bumper quand une
 //     métrique Meta est ajoutée.
 const RECOMPUTE_VERSION_KEY = "full_recompute_version";
+// v13 (12/08) : NIRA recalé sur l'export des transactions (4 commandes
+// réussies au lieu de 3 annoncées oralement, montants exacts au centime,
+// #1004 imputée à son jour de commande et ses 2 tentatives en échec exclues).
+// Recalcul SEUL : les entrées voyagent avec le code (manualRevenue.ts).
 // v12 (12/08) : comblement 21/05→03/06 reconstruit depuis les VRAIES
 // commandes (Badr : « sur mai y'a 20 % de marge nette, tes COGS ne sont pas
 // bons »). L'ancien forfait portait un CA à plat avec COGS/frais à ZÉRO :
@@ -410,7 +414,7 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-comblement-mai-vraies-commandes-v12";
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-nira-export-transactions-v13";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —
