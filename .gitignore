@@ -47,3 +47,7 @@ next-env.d.ts
 # Python (scripts formation-master)
 __pycache__/
 *.pyc
+
+# formation-master : captures locales et profil navigateur
+formation-master/.capture/
+formation-master/.skool-profile/
