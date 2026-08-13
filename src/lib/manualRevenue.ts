@@ -230,20 +230,19 @@ const NIRA_FEES_RATE = 0.06;
  * détermine le COGS, il se perdrait dans un total journalier. L'agrégation
  * par jour se fait juste en dessous — l'inverse serait impossible.
  *
- * ⚠️ `packs` de #1003 (118,75 $) DÉDUIT du prix, pas lu sur la commande :
- * l'export ne porte que les montants, et la boutique NIRA n'est pas
- * accessible par l'API. L'échelle de prix observée (1 pack 45,67 $ →
- * 2 packs 81,29 $ → 118,75 $) progresse d'environ +36 $ par pack, ce qui
- * situe 118,75 $ au palier 3 packs. À corriger si Badr confirme un autre
- * bundle : c'est la SEULE valeur de ce bloc qui ne vient pas d'une source
- * directe (écart 3↔4 packs = 8,77 $ de COGS).
+ * Les `packs` de #1003 (118,75 $) avaient d'abord été DÉDUITS du prix —
+ * l'export ne porte que les montants et la boutique NIRA n'est pas accessible
+ * par l'API — puis **confirmés par Badr le 12/08 : 3 packs**. Plus aucune
+ * valeur de ce bloc ne repose sur une déduction. (Pour mémoire, la déduction
+ * venait de l'échelle 45,67 / 81,29 / 118,75 $, ~+36 $ par pack ; elle est
+ * tombée juste, mais c'est la confirmation qui fait foi.)
  */
 const NIRA_ORDERS = [
   // [jour, commande, CA $ cents, pays, packs]
   ["2026-08-06", "#1001", 4567, "CA", 1],
   ["2026-08-06", "#1002", 8129, "CA", 2],
   ["2026-08-06", "#1004", 8130, "CA", 2], // encaissée le 09/08, commandée le 06
-  ["2026-08-07", "#1003", 11875, "CA", 3], // packs déduits du prix, voir ci-dessus
+  ["2026-08-07", "#1003", 11875, "CA", 3], // 3 packs confirmés par Badr le 12/08
 ] as const;
 
 export const NIRA_ENTRIES: ManualRevenueEntry[] = [
