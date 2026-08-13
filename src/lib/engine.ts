@@ -663,8 +663,29 @@ export function marginPct(netCents: number, caCents: number): number | null {
 }
 
 /** ROAS réel = CA Shopify / spend Meta. null si spend = 0 (jamais le ROAS rapporté par Meta). */
-export function roas(caCents: number, spendCents: number): number | null {
+/**
+ * MER (Marketing Efficiency Ratio) = CA TOTAL ÷ spend TOTAL.
+ *
+ * ⚠️ Renommé le 12/08 (Badr : « c'est pas un ROAS mais un MER »). Il avait
+ * raison et le mauvais nom était trompeur :
+ *  • MER  = tout le CA (pub + organique + direct + e-mail + récurrents) ÷ spend.
+ *    Mesure l'efficacité GLOBALE de la boutique. C'est ce que le dashboard
+ *    affiche partout, et c'est à lui que se comparent les seuils de
+ *    rentabilité dérivés de la marge de contribution (`roasBreakEven`,
+ *    `roasTarget15` — noms historiques, mais bien des seuils de MER).
+ *  • ROAS = CA attribué à la pub ÷ spend. Toujours PLUS BAS que le MER, et
+ *    dépend de la source d'attribution (Meta, ou UTM Shopify).
+ * Les confondre fait juger une campagne sur un chiffre qui inclut des ventes
+ * qu'elle n'a pas générées.
+ */
+export function mer(caCents: number, spendCents: number): number | null {
   return spendCents > 0 ? caCents / spendCents : null;
+}
+
+/** ROAS = CA attribué à la pub ÷ spend. Même formule, sens différent : ce qui
+ *  change est le NUMÉRATEUR (CA attribué, jamais le CA total). */
+export function roasFromAttributed(attributedCaCents: number, spendCents: number): number | null {
+  return spendCents > 0 ? attributedCaCents / spendCents : null;
 }
 
 /** CM (marge de contribution, avant pub) = (CA − COGS − taxe − frais) / CA */

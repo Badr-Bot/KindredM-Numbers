@@ -1,7 +1,7 @@
 import {
   contributionMargin,
   marginPct,
-  roas,
+  mer,
   roasBreakEven,
   roasStatus,
   roasTarget15,
@@ -271,17 +271,17 @@ export async function computeThresholds(endDay: string): Promise<Record<MarketTa
 
 export interface DerivedMetrics {
   marginPct: number | null;
-  roas: number | null;
+  mer: number | null;
   status: RoasStatus;
 }
 
 export function deriveMetrics(t: Totals, thresholds: Thresholds): DerivedMetrics {
-  const r = roas(t.caCents, t.spendCents);
+  const r = mer(t.caCents, t.spendCents);
   const be = thresholds.breakEven ?? Infinity;
   const target = thresholds.target ?? Infinity;
   return {
     marginPct: marginPct(t.netCents, t.caCents),
-    roas: r,
+    mer: r,
     status: roasStatus(r, be, target),
   };
 }
@@ -600,7 +600,7 @@ export interface DayLine extends Totals {
   isToday: boolean;
   cumulNetCents: number;
   marginPct: number | null;
-  roas: number | null;
+  mer: number | null;
   status: RoasStatus;
 }
 
@@ -628,7 +628,7 @@ export async function getDayLines(
       isToday: day === today,
       cumulNetCents: cumul,
       marginPct: m.marginPct,
-      roas: m.roas,
+      mer: m.mer,
       status: m.status,
     };
   });

@@ -8,7 +8,7 @@ import {
   euTaxCents,
   feesCentsForCa,
   poloCogsCents,
-  roas,
+  mer,
   UnmappedProductError,
   upsellCogsCents,
 } from "../engine";
@@ -44,7 +44,7 @@ describe("Fixtures §8 — validation au centime", () => {
     const agg = computeDailyAggregate({ orders, caCents, spendCents, cogsCents, taxCents });
     expect(agg.feesCents).toBe(1440);
     expect(agg.netCents).toBe(13829);
-    expect(Math.round(roas(caCents, spendCents)! * 100) / 100).toBe(2.6);
+    expect(Math.round(mer(caCents, spendCents)! * 100) / 100).toBe(2.6);
   });
 
   it("Fixture 2 — ES · 2026-07-03 : 6× 2pcs + 1× 4pcs", () => {

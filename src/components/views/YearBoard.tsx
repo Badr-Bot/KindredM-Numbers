@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { DayAgg, Totals } from "@/lib/data";
-import { marginPct, roas } from "@/lib/engine";
+import { marginPct, mer } from "@/lib/engine";
 import { MARKET_META, MARKETS, type MarketTab } from "@/lib/markets";
 import {
   formatDayShort,
@@ -335,7 +335,7 @@ export function YearBoard({
               <th className="hidden px-2.5 py-2 text-right font-semibold sm:table-cell">Frais</th>
               <th className="px-2.5 py-2 text-right font-semibold">Net</th>
               <th className="hidden px-2.5 py-2 text-right font-semibold sm:table-cell">Marge</th>
-              <th className="px-2.5 py-2 text-right font-semibold">ROAS</th>
+              <th className="px-2.5 py-2 text-right font-semibold">MER</th>
             </tr>
           </thead>
           <tbody className="tnum">
@@ -351,7 +351,7 @@ export function YearBoard({
                   {formatEurSigned0(r.netCents)}
                 </td>
                 <td className="hidden px-2.5 py-1.5 text-right text-ink-dim sm:table-cell">{formatPct(marginPct(r.netCents, r.caCents))}</td>
-                <td className="px-2.5 py-1.5 text-right text-ink-dim">{formatRoas(roas(r.caCents, r.spendCents))}</td>
+                <td className="px-2.5 py-1.5 text-right text-ink-dim">{formatRoas(mer(r.caCents, r.spendCents))}</td>
               </tr>
             ))}
           </tbody>
@@ -367,7 +367,7 @@ export function YearBoard({
                 {formatEurSigned0(annual.netCents)}
               </td>
               <td className="hidden px-2.5 py-2 text-right text-ink-dim sm:table-cell">{formatPct(marginPct(annual.netCents, annual.caCents))}</td>
-              <td className="px-2.5 py-2 text-right text-ink-dim">{formatRoas(roas(annual.caCents, annual.spendCents))}</td>
+              <td className="px-2.5 py-2 text-right text-ink-dim">{formatRoas(mer(annual.caCents, annual.spendCents))}</td>
             </tr>
           </tfoot>
         </table>
