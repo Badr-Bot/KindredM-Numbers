@@ -8,6 +8,24 @@ et colle tout ce qui est entre les deux lignes.
 Tu vas aspirer une formation Skool et en faire une base de connaissance. Tout
 l'outillage existe déjà, ne le réécris pas.
 
+## 0. Vérifier les prérequis
+
+L'utilisateur n'est pas développeur : ne lui demande pas d'installer quoi que ce
+soit lui-même. Vérifie, installe ce qui manque, et explique en une ligne ce que
+tu fais.
+
+```bash
+git --version        # Git for Windows : https://git-scm.com/downloads/win
+node --version       # Node.js 22+     : https://nodejs.org  (requis par Playwright)
+python3 --version    # ou `python --version` sur Windows
+```
+
+Sur Windows, si `python3` n'existe pas mais `python` oui, utilise `python` dans
+toutes les commandes qui suivent. Si `winget` est disponible, c'est le plus
+simple : `winget install Git.Git`, `winget install OpenJS.NodeJS.LTS`,
+`winget install Python.Python.3.12`. Ferme et rouvre le terminal après, sinon
+les commandes ne sont pas encore dans le PATH.
+
 ## 1. Récupérer le dépôt
 
 ```bash
