@@ -173,6 +173,7 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Crédit −88 €/mois retiré (08/08)** : Badr a clarifié qu'il ne finance QUE l'abonnement Shopify de base (pas les apps listées ici) → l'appliquer en remise sur les apps aurait sous-compté les charges à tort.
 - **Floxy (proxy, 7 $/mois, depuis 08/2026) et Master Ecom/Skool (249 $/mois, depuis 26/07)** ajoutés — tous deux payés directement par la carte LLC (aucune avance perso à tracer).
 - Question posée : qui paie les autres abonnements pour tracer leur côté pareil.
+- **Jeremy emailing corrigé (13/08, Badr)** : **1 500 € et non 1 500 $** — la saisie du 08/08 en USD affichait ~1 300 € après conversion, c'est l'écart que Badr a repéré. Et **arrêté fin août** : `endDay 2026-08-31` (inclus), plus compté à partir du 01/09. Ligne conservée pour l'historique (règle : on ne supprime jamais, on pose endDay). Effet : +6,55 €/j de charges jusqu'au 31/08 (49,28 €/j au lieu de 42,72), puis −49,28 €/j dès le 01/09.
 
 ## Onglet Dépenses — réorganisation (08/08)
 - Abonnements & charges fixes + Entre associés ont DÉMÉNAGÉ depuis l'onglet Année (qui reste concentré sur le bilan/parts mensuelles). Rangement demandé par Badr, « minimum d'onglet ».
