@@ -411,6 +411,46 @@ export function euTaxCents(shippingCountry: string, day: string, hasItems: boole
 }
 
 // ---------------------------------------------------------------------------
+// §4.4 bis — Coûts fixes PAR COMMANDE : packaging + carte de remerciement
+// (annoncés par Badr le 12/08, PAS ENCORE ACTIFS — il donnera la date).
+//
+// ⚠️ INACTIF tant que `PER_ORDER_EXTRAS_START_DATE` vaut null : la fonction
+// renvoie 0, donc aucun chiffre du dashboard ne bouge aujourd'hui. Activer =
+// poser la date ici (une seule ligne), puis bumper REQUIRED_RECOMPUTE_VERSION
+// pour que les jours concernés se recalculent.
+//
+// Date gérée comme la taxe UE (EU_TAX_START_DATE) : coût appliqué à partir du
+// jour d'entrée en vigueur INCLUS, jamais rétroactivement — les commandes
+// d'avant n'ont réellement pas supporté ce coût, les charger ferait mentir
+// l'historique.
+//
+// PAR COMMANDE (un colis = un packaging + une carte), pas par produit :
+// même logique que le forfait 3 €/colis de la taxe UE.
+// ---------------------------------------------------------------------------
+
+export const PACKAGING_COST_CENTS = 35; // 0,35 €
+export const THANKS_CARD_COST_CENTS = 3; // 0,03 €
+export const PER_ORDER_EXTRAS_CENTS = PACKAGING_COST_CENTS + THANKS_CARD_COST_CENTS; // 0,38 €
+
+/**
+ * Jour d'entrée en vigueur (YYYY-MM-DD, Europe/Paris), INCLUS.
+ * `null` = pas encore actif — Badr doit fournir la date.
+ */
+export const PER_ORDER_EXTRAS_START_DATE: string | null = null;
+
+/**
+ * Coût packaging + carte de remerciement d'une commande, en centimes.
+ * 0 tant que la date n'est pas fixée, avant cette date, ou si la commande
+ * est vide (aucun colis expédié → aucun packaging consommé).
+ */
+export function perOrderExtrasCents(day: string, hasItems: boolean): number {
+  if (PER_ORDER_EXTRAS_START_DATE === null) return 0;
+  if (day < PER_ORDER_EXTRAS_START_DATE) return 0;
+  if (!hasItems) return 0;
+  return PER_ORDER_EXTRAS_CENTS;
+}
+
+// ---------------------------------------------------------------------------
 // §4.5 — Frais : les frais Shopify RÉELS, rien d'autre (calculés sur
 // l'agrégat jour/marché — voir daily_aggregates, seule table qui porte
 // fees_cents).
