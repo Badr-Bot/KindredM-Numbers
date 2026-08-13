@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { NIRA_ENTRIES } from "../manualRevenue";
+import { niraCogsUsdCents } from "../engine";
 
 /**
  * NIRA (Canada, USD) — recalé sur l'export des transactions du 12/08.
@@ -43,10 +44,46 @@ describe("NIRA — export transactions du 12/08", () => {
     expect(total((e) => e.caEurCents)).toBe(28339); // 283,39 €
   });
 
-  it("les COGS et frais non communiqués restent à 0 — signalés, jamais inventés", () => {
-    // COGS connus : #1001 13,29 + #1002 22,26 = 35,55 $. #1003 et #1004 : 0.
-    expect(total((e) => e.cogsCents)).toBe(3555);
-    // Frais absents de l'export → aucune valeur inventée.
-    expect(NIRA_ENTRIES.every((e) => e.feesEurCents === undefined)).toBe(true);
+  it("COGS calculés depuis le devis Panda, pas annoncés à la main", () => {
+    // 06/08 : 1 pack (13,29) + 2 packs (22,26) + 2 packs (22,26) = 57,81 $
+    const j6 = NIRA_ENTRIES.find((e) => e.day === "2026-08-06")!;
+    expect(j6.cogsCents).toBe(1329 + 2226 + 2226);
+    // 07/08 : #1003 = 3 packs Canada = 31,03 $ (packs déduits du prix)
+    const j7 = NIRA_ENTRIES.find((e) => e.day === "2026-08-07")!;
+    expect(j7.cogsCents).toBe(niraCogsUsdCents("CA", 3));
+    expect(j7.cogsCents).toBe(3103);
+    // La grille recoupe exactement les 2 COGS connus avant le devis — c'est
+    // ce raccord qui valide qu'on lit la bonne ligne du tableau.
+    expect(niraCogsUsdCents("CA", 1)).toBe(1329);
+    expect(niraCogsUsdCents("CA", 2)).toBe(2226);
+  });
+
+  it("applique 6 % de frais sur le CA (taux donné par Badr)", () => {
+    for (const e of NIRA_ENTRIES) {
+      const fraisUsd = Math.round(e.caCents * 0.06);
+      expect(e.feesEurCents).toBe(Math.round(fraisUsd * e.rateToEur));
+    }
+  });
+});
+
+describe("Grille COGS NIRA (devis Panda Dropshipping, USD)", () => {
+  it("reprend le devis au centime : produit + livraison, par pays", () => {
+    expect(niraCogsUsdCents("US", 1)).toBe(1476); // 3,10 + 11,66
+    expect(niraCogsUsdCents("US", 4)).toBe(4517); // 12,41 + 32,76
+    expect(niraCogsUsdCents("GB", 2)).toBe(1883); // 6,20 + 12,63
+    expect(niraCogsUsdCents("CA", 4)).toBe(3980); // 12,41 + 27,39
+    expect(niraCogsUsdCents("AU", 3)).toBe(2044); // 9,31 + 11,13
+  });
+
+  it("pays hors devis = le plus cher des pays devisés + surcharge prudente", () => {
+    // Le devis ne couvre que US/GB/CA/AU. Un 5e pays ne doit jamais coûter 0.
+    expect(niraCogsUsdCents("FR", 1)).toBe(1476 + 150); // max(1 pack) = USA
+    expect(niraCogsUsdCents("DE", 2)).toBe(2391 + 150);
+  });
+
+  it("au-delà de 4 packs : extrapolation par le coût marginal 3→4", () => {
+    // Canada : 4p = 3980, 3p = 3103 → 5p = 3980 + 877
+    expect(niraCogsUsdCents("CA", 5)).toBe(3980 + (3980 - 3103));
+    expect(niraCogsUsdCents("CA", 0)).toBe(0);
   });
 });
