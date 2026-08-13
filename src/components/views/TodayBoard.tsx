@@ -128,7 +128,7 @@ export function TodayBoard({
           <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-ink-dim lg:text-sm">
             {MARKET_META.GLOBAL.flag} Gain net · aujourd&apos;hui
           </span>
-          <StatusPill status={global.metrics.status} roasLabel={formatRoas(global.metrics.roas)} />
+          <StatusPill status={global.metrics.status} merLabel={formatRoas(global.metrics.mer)} />
         </div>
 
         <div
@@ -168,7 +168,7 @@ export function TodayBoard({
 
         {global.thresholds.breakEven !== null && (
           <p className="mt-2 text-[10.5px] text-ink-faint">
-            Seuils ROAS (14 j) · rentabilité {formatRoasBare(global.thresholds.breakEven)}
+            Seuils MER (14 j) · rentabilité {formatRoasBare(global.thresholds.breakEven)}
             {global.thresholds.target !== null && <> · cible {formatRoasBare(global.thresholds.target)}</>}
           </p>
         )}
@@ -232,7 +232,7 @@ export function TodayBoard({
                   <span className="text-sm font-semibold lg:text-base">
                     <span aria-hidden>{meta.flag}</span> {meta.label}
                   </span>
-                  <StatusPill status={card.metrics.status} roasLabel={formatRoas(card.metrics.roas)} />
+                  <StatusPill status={card.metrics.status} merLabel={formatRoas(card.metrics.mer)} />
                 </div>
                 <div className={`mt-2 text-2xl font-black tracking-tight leading-none tnum lg:text-4xl ${netTierClass(card.totals.netCents)}`}>
                   <CountUp
@@ -279,7 +279,13 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
       </div>
       <div className="grid grid-cols-2 gap-3">
         {cards.map((c) => {
-          const roas = c.spendCents > 0 ? c.caCents / c.spendCents : null;
+          // MER = CA TOTAL ÷ spend (inclut organique/direct/e-mail) — mesure
+          // l'efficacité globale. ROAS Meta = CA que META s'attribue ÷ spend —
+          // mesure la pub seule et sous-estime le jour même (attribution, se
+          // corrige en 24-72 h). Les deux affichés côte à côte depuis le 12/08
+          // (Badr) : l'un sans l'autre pousse à des décisions fausses.
+          const merValue = c.spendCents > 0 ? c.caCents / c.spendCents : null;
+          const roasMeta = c.spendCents > 0 ? c.metaPurchaseValueCents / c.spendCents : null;
           const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
           return (
             <div key={c.key} className="rounded-lg border border-line-soft bg-terminal-2 p-3">
@@ -295,8 +301,11 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
               <dl className="mt-2 grid grid-cols-2 gap-1 text-center text-[10.5px]">
                 <MiniMetric label="CA" value={formatEur0(c.caCents)} />
                 <MiniMetric label="Spend" value={formatEur0(c.spendCents)} />
-                <MiniMetric label="ROAS" value={roas !== null ? formatRoas(roas) : "—"} />
-                <MiniMetric label="Marge" value={margePct !== null ? formatPct(margePct) : "—"} />
+                <MiniMetric label="MER" value={merValue !== null ? formatRoas(merValue) : "—"} />
+                <MiniMetric label="ROAS Meta" value={roasMeta !== null ? formatRoas(roasMeta) : "—"} />
+                <div className="col-span-2">
+                  <MiniMetric label="Marge" value={margePct !== null ? formatPct(margePct) : "—"} />
+                </div>
               </dl>
             </div>
           );

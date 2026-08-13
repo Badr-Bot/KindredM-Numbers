@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Chargeback, DayLine, Totals } from "@/lib/data";
-import { marginPct, roas } from "@/lib/engine";
+import { marginPct, mer } from "@/lib/engine";
 import type { MarketTab } from "@/lib/markets";
 import {
   formatDayShort,
@@ -133,7 +133,7 @@ export function MonthBoard({
         />
         <Tile label="Marge" value={formatPct(marginPct(totals.netCents, totals.caCents))} />
         <Tile label="Spend" value={formatEur0(totals.spendCents)} delta={delta(totals.spendCents, prevTotals.spendCents, true)} />
-        <Tile label="ROAS" value={formatRoas(roas(totals.caCents, totals.spendCents))} />
+        <Tile label="MER" value={formatRoas(mer(totals.caCents, totals.spendCents))} />
         <Tile label="Cmd" value={formatInt(totals.orders)} delta={delta(totals.orders, prevTotals.orders)} />
       </div>
 
@@ -188,7 +188,7 @@ export function MonthBoard({
               {tab === "GLOBAL" && <Th className="text-right">Charges</Th>}
               <Th className="text-right">Net</Th>
               <Th className="text-right">Marge</Th>
-              <Th className="text-right">ROAS</Th>
+              <Th className="text-right">MER</Th>
               <Th className="text-right">Cumul</Th>
             </tr>
           </thead>
@@ -222,7 +222,7 @@ export function MonthBoard({
                   </Td>
                   <Td className="text-right text-ink-dim">{l.caCents ? formatPct(l.marginPct) : "—"}</Td>
                   <Td className={`text-right ${empty ? "" : statusText(l.status)}`}>
-                    {l.spendCents ? formatRoas(l.roas) : "—"}
+                    {l.spendCents ? formatRoas(l.mer) : "—"}
                   </Td>
                   <Td className={`text-right font-medium ${l.cumulNetCents >= 0 ? "text-ink" : "text-red"}`}>
                     {formatEurSigned0(l.cumulNetCents)}

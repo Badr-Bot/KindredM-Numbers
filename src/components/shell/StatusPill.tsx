@@ -14,14 +14,14 @@ export function StatusDot({ status }: { status: RoasStatus }) {
   return <span aria-hidden>{CONFIG[status].dot}</span>;
 }
 
-export function StatusPill({ status, roasLabel }: { status: RoasStatus; roasLabel: string }) {
+export function StatusPill({ status, merLabel }: { status: RoasStatus; merLabel: string }) {
   const c = CONFIG[status];
   return (
     <span
       className={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-medium tnum ${c.ring} ${c.text}`}
     >
       <span aria-hidden>{c.dot}</span>
-      {roasLabel}
+      {merLabel}
     </span>
   );
 }

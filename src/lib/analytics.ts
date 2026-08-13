@@ -362,6 +362,17 @@ export interface ProductSplitCard {
   taxCents: number;
   feesCents: number;
   netCents: number;
+  /**
+   * Valeur d'achat telle que META l'attribue à ce produit (12/08). Sert au
+   * ROAS Meta, à ne PAS confondre avec le MER (= caCents / spendCents) :
+   *  • MER = CA TOTAL ÷ spend total — inclut l'organique, le direct, l'e-mail,
+   *    les récurrents. Mesure l'efficacité globale de la boutique.
+   *  • ROAS Meta = CA que Meta s'attribue ÷ spend. Mesure la performance de
+   *    la pub seule, et SOUS-ESTIME le jour même (délai d'attribution, se
+   *    corrige en 24-72 h — voir MEMO).
+   * Les deux sont utiles, mais ne se comparent pas aux mêmes seuils.
+   */
+  metaPurchaseValueCents: number;
 }
 
 /** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
@@ -400,10 +411,11 @@ function toCard(
   emoji: string,
   bucket: ReturnType<typeof emptyBucket>,
   spendCents: number,
-  feesCents: number
+  feesCents: number,
+  metaPurchaseValueCents: number
 ): ProductSplitCard {
   const netCents = bucket.caCents - spendCents - bucket.cogsCents - bucket.taxCents - feesCents;
-  return { key, label, emoji, spendCents, feesCents, netCents, ...bucket };
+  return { key, label, emoji, spendCents, feesCents, netCents, metaPurchaseValueCents, ...bucket };
 }
 
 /**
@@ -425,9 +437,17 @@ export async function getProductSplitForDay(
 ): Promise<ProductSplitCard[]> {
   const supabase = createSupabaseServerClient();
 
-  const [{ data: mapRows, error: mapError }, { data: spendRows, error: spendError }] = await Promise.all([
+  const [
+    { data: mapRows, error: mapError },
+    { data: spendRows, error: spendError },
+    { data: insightRows, error: insightError },
+  ] = await Promise.all([
     supabase.from("products_map").select("title_pattern").eq("product_key", "GILET"),
     supabase.from("meta_spend").select("campaign_name, spend_cents").eq("day", day),
+    // Valeur d'achat attribuée par Meta, pour le ROAS Meta par produit (12/08).
+    // Table issue d'une migration ultérieure : son absence ne casse rien, elle
+    // laisse juste le ROAS Meta à 0 (le MER, lui, reste calculé).
+    supabase.from("meta_insights").select("campaign_name, purchase_value_cents").eq("day", day),
   ]);
   if (mapError) return [];
   const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
@@ -484,6 +504,19 @@ export async function getProductSplitForDay(
       })
       .reduce((s, r) => s + (r.spend_cents as number), 0);
 
+  // Valeur attribuée par Meta, découpée EXACTEMENT comme le spend (mêmes
+  // mots-clés de campagne) : sans ça, un ROAS Meta par produit rapporterait
+  // une recette et une dépense qui ne parlent pas des mêmes campagnes.
+  const metaValues = insightError ? [] : (insightRows ?? []);
+  const metaValueByKeywords = (kws: string[]) =>
+    metaValues
+      .filter((r) => {
+        const name = ((r.campaign_name as string) ?? "").toUpperCase();
+        return kws.some((k) => name.includes(k));
+      })
+      .reduce((s, r) => s + ((r.purchase_value_cents as number) ?? 0), 0);
+  const metaValueTotal = metaValues.reduce((s, r) => s + ((r.purchase_value_cents as number) ?? 0), 0);
+
   // Chaque composant est clampé au Global, puis le POLO absorbe le reste :
   // Polo = Global − Gilet − NIRA. Garantit la somme exacte même si `orders`
   // ou `meta_spend` sont temporairement désynchronisées de daily_aggregates.
@@ -504,17 +537,22 @@ export async function getProductSplitForDay(
   // feesCentsForCa(poloCaCents) séparément (deux arrondis indépendants ne
   // sommeraient pas forcément au frais Global).
   const fees = split(feesCentsForCa(ca.g), feesCentsForCa(ca.n), global.feesCents);
+  const mv = split(
+    metaValueByKeywords([GILET_CAMPAIGN_KEYWORD]),
+    metaValueByKeywords(TESTING_CAMPAIGN_KEYWORDS),
+    metaValueTotal
+  );
 
   const cards = [
-    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g),
-    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo),
+    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g),
+    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo, mv.polo),
   ];
   // Carte NIRA affichée seulement si elle a une réalité ce jour-là (spend ou
   // vente) — inutile d'afficher une carte vide sur tous les jours d'avant son
   // lancement.
   if (ca.n > 0 || sp.n > 0) {
     cards.push(
-      toCard("TESTING", "Testing", "🧪", { orders: o.n, caCents: ca.n, cogsCents: cogs.n, taxCents: tax.n }, sp.n, fees.n)
+      toCard("TESTING", "Testing", "🧪", { orders: o.n, caCents: ca.n, cogsCents: cogs.n, taxCents: tax.n }, sp.n, fees.n, mv.n)
     );
   }
   return cards;
