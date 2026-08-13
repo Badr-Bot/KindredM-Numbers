@@ -13,20 +13,20 @@ il ne faut jamais répondre à sa place.
 - ✅ **05 — Groupe Whatsapp ONE** · 1:49
 - ✅ **06 — Le secret de la motivation** · 11:13
 - ✅ **07 — Le contrat qui changera ta vie** · 7:59
-- 🟡 **08 — Le plan pour créer ta nouvelle vie** 
-- 🟡 **09 — Preuve que c’est possible** · 5:24
-- 🟡 **10 — Ton plan pour réussir** 
-- 🟡 **11 — Règles surprenantes pour réussir sa vie** 
-- 🟡 **12 — Budget, timing et focus : à quoi t’attendre** 
-- 🟡 **13 — Pourquoi Master marche (1% du marché)** 
-- 🟡 **14 — Outils IA pour aller 10x plus vite** · 27:03
-- 🟡 **15 — Le modèle : Pain→Produit→Pub→Vente→Livraison** 
-- 🟡 **16 — Mindset: les secrets pour une réussite MASSIVE** 
-- 🟡 **17 — Contrer ce qui fait échouer/abandonner un débutant** 
+- ✅ **08 — Le plan pour créer ta nouvelle vie** · 8:19
+- ✅ **09 — Preuve que c’est possible** · 5:24
+- ✅ **10 — Ton plan pour réussir** · 16:06
+- ✅ **11 — Règles surprenantes pour réussir sa vie** · 11:58
+- ✅ **12 — Budget, timing et focus : à quoi t’attendre** · 5:24
+- ✅ **13 — Pourquoi Master marche (1% du marché)** · 10:09
+- ✅ **14 — Outils IA pour aller 10x plus vite** · 27:03
+- ✅ **15 — Le modèle : Pain→Produit→Pub→Vente→Livraison** · 8:58
+- ✅ **16 — Mindset: les secrets pour une réussite MASSIVE** · 6:03
+- ✅ **17 — Contrer ce qui fait échouer/abandonner un débutant** · 5:47
 - 🟡 **18 — Module organisation - A lire** 
-- 🟡 **19 — Comment devenir quelqu'un d'ULTRA organisé** 
-- 🟡 **20 — Organiser ses tâches avec Asana et ClickUp** 
-- 🟡 **21 — Comment créer des habitudes qui changent votre vie** 
+- ✅ **19 — Comment devenir quelqu'un d'ULTRA organisé** · 20:27
+- ✅ **20 — Organiser ses tâches avec Asana et ClickUp** · 18:09
+- ✅ **21 — Comment créer des habitudes qui changent votre vie** · 30:31
 - 🟡 **22 — Exercices pratiques — Affirmation audio** 
 - 🟡 **23 — Métriques & erreurs fatales** 
 - 🟡 **24 — Units economics / contributions Margin** 

@@ -1,12 +1,12 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 50 complètes (8 %)**
+**624 leçons au total · 63 complètes (10 %)**
 
 
 ## 0 to 1 : MASTER ONE
 
-82 leçons · 7 complètes · 75 partielles
+82 leçons · 20 complètes · 62 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -17,20 +17,20 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 5 | [Groupe Whatsapp ONE](transcriptions/0-to-1-master-one\05-groupe-whatsapp-one.md) | 1:49 | complet |
 | ✅ | 6 | [Le secret de la motivation](transcriptions/0-to-1-master-one\06-le-secret-de-la-motivation.md) | 11:13 | complet |
 | ✅ | 7 | [Le contrat qui changera ta vie](transcriptions/0-to-1-master-one\07-le-contrat-qui-changera-ta-vie.md) | 7:59 | complet |
-| 🟡 | 8 | [Le plan pour créer ta nouvelle vie](transcriptions/0-to-1-master-one\08-le-plan-pour-creer-ta-nouvelle-vie.md) | — | partiel |
-| 🟡 | 9 | [Preuve que c’est possible](transcriptions/0-to-1-master-one\09-preuve-que-c-est-possible.md) | 5:24 | partiel |
-| 🟡 | 10 | [Ton plan pour réussir](transcriptions/0-to-1-master-one\10-ton-plan-pour-reussir.md) | — | partiel |
-| 🟡 | 11 | [Règles surprenantes pour réussir sa vie](transcriptions/0-to-1-master-one\11-regles-surprenantes-pour-reussir-sa-vie.md) | — | partiel |
-| 🟡 | 12 | [Budget, timing et focus : à quoi t’attendre](transcriptions/0-to-1-master-one\12-budget-timing-et-focus-a-quoi-t-attendre.md) | — | partiel |
-| 🟡 | 13 | [Pourquoi Master marche (1% du marché)](transcriptions/0-to-1-master-one\13-pourquoi-master-marche-1-du-marche.md) | — | partiel |
-| 🟡 | 14 | [Outils IA pour aller 10x plus vite](transcriptions/0-to-1-master-one\14-outils-ia-pour-aller-10x-plus-vite.md) | 27:03 | partiel |
-| 🟡 | 15 | [Le modèle : Pain→Produit→Pub→Vente→Livraison](transcriptions/0-to-1-master-one\15-le-modele-pain-produit-pub-vente-livraison.md) | — | partiel |
-| 🟡 | 16 | [Mindset: les secrets pour une réussite MASSIVE](transcriptions/0-to-1-master-one\16-mindset-les-secrets-pour-une-reussite-massive.md) | — | partiel |
-| 🟡 | 17 | [Contrer ce qui fait échouer/abandonner un débutant](transcriptions/0-to-1-master-one\17-contrer-ce-qui-fait-echouer-abandonner-un-debutant.md) | — | partiel |
+| ✅ | 8 | [Le plan pour créer ta nouvelle vie](transcriptions/0-to-1-master-one\08-le-plan-pour-creer-ta-nouvelle-vie.md) | 8:19 | complet |
+| ✅ | 9 | [Preuve que c’est possible](transcriptions/0-to-1-master-one\09-preuve-que-c-est-possible.md) | 5:24 | complet |
+| ✅ | 10 | [Ton plan pour réussir](transcriptions/0-to-1-master-one\10-ton-plan-pour-reussir.md) | 16:06 | complet |
+| ✅ | 11 | [Règles surprenantes pour réussir sa vie](transcriptions/0-to-1-master-one\11-regles-surprenantes-pour-reussir-sa-vie.md) | 11:58 | complet |
+| ✅ | 12 | [Budget, timing et focus : à quoi t’attendre](transcriptions/0-to-1-master-one\12-budget-timing-et-focus-a-quoi-t-attendre.md) | 5:24 | complet |
+| ✅ | 13 | [Pourquoi Master marche (1% du marché)](transcriptions/0-to-1-master-one\13-pourquoi-master-marche-1-du-marche.md) | 10:09 | complet |
+| ✅ | 14 | [Outils IA pour aller 10x plus vite](transcriptions/0-to-1-master-one\14-outils-ia-pour-aller-10x-plus-vite.md) | 27:03 | complet |
+| ✅ | 15 | [Le modèle : Pain→Produit→Pub→Vente→Livraison](transcriptions/0-to-1-master-one\15-le-modele-pain-produit-pub-vente-livraison.md) | 8:58 | complet |
+| ✅ | 16 | [Mindset: les secrets pour une réussite MASSIVE](transcriptions/0-to-1-master-one\16-mindset-les-secrets-pour-une-reussite-massive.md) | 6:03 | complet |
+| ✅ | 17 | [Contrer ce qui fait échouer/abandonner un débutant](transcriptions/0-to-1-master-one\17-contrer-ce-qui-fait-echouer-abandonner-un-debutant.md) | 5:47 | complet |
 | 🟡 | 18 | [Module organisation - A lire](transcriptions/0-to-1-master-one\18-module-organisation-a-lire.md) | — | partiel |
-| 🟡 | 19 | [Comment devenir quelqu'un d'ULTRA organisé](transcriptions/0-to-1-master-one\19-comment-devenir-quelqu-un-d-ultra-organise.md) | — | partiel |
-| 🟡 | 20 | [Organiser ses tâches avec Asana et ClickUp](transcriptions/0-to-1-master-one\20-organiser-ses-taches-avec-asana-et-clickup.md) | — | partiel |
-| 🟡 | 21 | [Comment créer des habitudes qui changent votre vie](transcriptions/0-to-1-master-one\21-comment-creer-des-habitudes-qui-changent-votre-vie.md) | — | partiel |
+| ✅ | 19 | [Comment devenir quelqu'un d'ULTRA organisé](transcriptions/0-to-1-master-one\19-comment-devenir-quelqu-un-d-ultra-organise.md) | 20:27 | complet |
+| ✅ | 20 | [Organiser ses tâches avec Asana et ClickUp](transcriptions/0-to-1-master-one\20-organiser-ses-taches-avec-asana-et-clickup.md) | 18:09 | complet |
+| ✅ | 21 | [Comment créer des habitudes qui changent votre vie](transcriptions/0-to-1-master-one\21-comment-creer-des-habitudes-qui-changent-votre-vie.md) | 30:31 | complet |
 | 🟡 | 22 | [Exercices pratiques — Affirmation audio](transcriptions/0-to-1-master-one\22-exercices-pratiques-affirmation-audio.md) | — | partiel |
 | 🟡 | 23 | [Métriques & erreurs fatales](transcriptions/0-to-1-master-one\23-metriques-erreurs-fatales.md) | — | partiel |
 | 🟡 | 24 | [Units economics / contributions Margin](transcriptions/0-to-1-master-one\24-units-economics-contributions-margin.md) | — | partiel |

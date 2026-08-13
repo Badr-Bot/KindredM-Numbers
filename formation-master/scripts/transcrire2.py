@@ -71,11 +71,11 @@ def fiche_pour(mslug, base_audio):
     return cands[0] if len(cands) == 1 else None
 
 
-def main():
-    filtre = sys.argv[1] if len(sys.argv) > 1 else ""
+def une_passe(filtre):
+    """Une passe sur tous les modules présents. Renvoie le nombre de fiches faites."""
     modules = [m for m in PRIORITE if os.path.isdir(os.path.join(AUDIO, m))]
     # modules hors liste de priorité, à la fin
-    for m in sorted(os.listdir(AUDIO)) if os.path.isdir(AUDIO) else []:
+    for m in (sorted(os.listdir(AUDIO)) if os.path.isdir(AUDIO) else []):
         if m not in modules and os.path.isdir(os.path.join(AUDIO, m)):
             modules.append(m)
     if filtre:
@@ -115,7 +115,25 @@ def main():
             total_fait += 1
             print("  ✅ %d signes en %.1f min (audio %.1f min)" %
                   (len(texte), (time.time() - t0) / 60, (duree or 0) / 60), flush=True)
-    print("\nFini : %d fiche(s) transcrites." % total_fait, flush=True)
+    return total_fait
+
+
+def main():
+    filtre = sys.argv[1] if len(sys.argv) > 1 else ""
+    total = 0
+    vides = 0
+    while True:
+        fait = une_passe(filtre)
+        total += fait
+        # le téléchargement remplit les dossiers en continu : on repasse tant
+        # qu'il reste (ou qu'il arrive) du travail ; 3 passes vides = terminé
+        vides = vides + 1 if fait == 0 else 0
+        if vides >= 3:
+            break
+        print("— passe finie (%d nouvelles, %d au total), on re-scanne dans 5 min —"
+              % (fait, total), flush=True)
+        time.sleep(300)
+    print("\nFini : %d fiche(s) transcrites." % total, flush=True)
 
 
 if __name__ == "__main__":
