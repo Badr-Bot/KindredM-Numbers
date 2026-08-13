@@ -142,3 +142,19 @@ npm run dev     # serveur local, http://localhost:3000
 npm run lint
 npm run build
 ```
+
+## Base de connaissance formation (media-buying)
+
+`formation/` contient les transcriptions et les notes de la formation MASTER,
+une leçon par fichier. Les skills de `.claude/skills/` s'appuient dessus —
+et uniquement dessus — pour répondre aux questions de media-buying, rendre les
+verdicts de scaling et auditer le compte.
+
+```bash
+npm run formation:lecon -- media-buying 7 "0-10k Day Protocole"
+npm run formation:bundle    # régénère formation/BUNDLE.md (GPT / Projet Claude)
+```
+
+Le mode d'emploi complet est dans `formation/README.md`, le montage d'un GPT
+ou d'un Projet Claude dans `docs/formation-gpt.md`, et l'état d'avancement
+leçon par leçon dans `formation/INDEX.md`.

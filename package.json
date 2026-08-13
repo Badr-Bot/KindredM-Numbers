@@ -10,7 +10,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "discover-products": "tsx scripts/discover-products.ts",
-    "backfill": "tsx scripts/backfill.ts"
+    "backfill": "tsx scripts/backfill.ts",
+    "formation:lecon": "node scripts/formation-nouvelle-lecon.mjs",
+    "formation:bundle": "node scripts/formation-bundle.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
