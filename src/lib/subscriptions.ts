@@ -77,7 +77,11 @@ const WETRACKED_START = "2026-06-04";
 
 export const SUBSCRIPTIONS: Subscription[] = [
   // Équipe (prestataires mensuels)
-  { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-16", endDay: null, note: "Commencé le 16/07 (Badr 08/08) — c'est lui l'« emailing » du prorata. % de commission oublié pour le moment." },
+  // 13/08 (Badr) : c'est 1 500 EUROS, pas 1 500 $ — l'entrée du 08/08 était en
+  // USD et affichait donc ~1 300 € après conversion, d'où l'écart repéré par
+  // Badr. Arrêté FIN AOÛT : endDay 31/08 inclus, plus compté dès le 01/09
+  // (la ligne reste : l'historique doit porter ce qui a été réellement payé).
+  { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "EUR", startDay: "2026-07-16", endDay: "2026-08-31", note: "1 500 €/mois (corrigé 13/08, était saisi en USD ≈ 1 300 €). Commencé le 16/07, arrêté fin août (Badr 13/08). % de commission oublié pour le moment." },
   { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, note: "Commencé le 15/07 (Badr 08/08). % de commission oublié pour le moment." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
