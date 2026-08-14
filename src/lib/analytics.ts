@@ -2,6 +2,7 @@ import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
+import { parseUtmCampaign } from "./roasReport";
 import type { Totals } from "./data";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
@@ -349,6 +350,32 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
 // Spend : Gilet = campagnes dont le nom contient "LANCASTER". Polo = TOUT LE
 // RESTE (Badr, 03/08 : "le polo c'est toutes les campagnes qui ciblent pas
 // le gilet") — inclut donc aussi le spend UNMAPPED, comme le total GLOBAL.
+//
+// VALEUR META PAR PRODUIT — CORRIGÉE LE 14/08 (Badr : « pk le MER du Polo est
+// en dessous du ROAS Meta ? c'est pas normal non ?? »). Il avait raison : par
+// construction le MER ne PEUT PAS passer sous le ROAS d'une même carte —
+// dénominateur identique (le spend), et le numérateur du MER (CA TOTAL du
+// bucket) contient déjà le CA que Meta s'attribue. Quand ça s'inverse, c'est
+// que les deux numérateurs ne parlent pas du même périmètre.
+//
+// C'était exactement le cas : le CA était découpé PAR LIGNES DE COMMANDE
+// (toute commande contenant un Gilet sort du Polo) tandis que la valeur Meta
+// l'était PAR NOM DE CAMPAGNE (seul "LANCASTER" sortait). Deux axes
+// différents pour une même carte → chaque commande Gilet vendue par une
+// campagne Polo (cross-sell) retirait du CA au Polo sans lui retirer la
+// valeur Meta correspondante. Constaté le 14/08 : 2 commandes Gilet (99,96 €)
+// sorties du CA Polo alors que LANCASTER n'avait AUCUN achat attribué à
+// retirer côté Meta → MER Polo sous son propre ROAS Meta.
+//
+// Depuis : la valeur Meta d'une campagne est ventilée entre les buckets AU
+// PRORATA DU CA de ses commandes (rattachées par `utm_campaign`, déjà stocké
+// dans `landing_site` — migration 0008), donc sur le MÊME axe que le CA. Le
+// nom de campagne ne sert plus que de REPLI, quand aucune commande du jour ne
+// porte l'UTM de la campagne (clic d'hier converti aujourd'hui, UTM perdu).
+// Ce qui reste possible après ce correctif, c'est un vrai excès d'attribution
+// de Meta (view-through + imputation au jour du clic : le 13/08 Meta
+// revendiquait 43 des 45 commandes, soit 97 % du CA) — un fait à lire, pas un
+// bug à corriger : c'est précisément ce que le MER sert à démentir.
 // ---------------------------------------------------------------------------
 
 export interface ProductSplitCard {
@@ -399,6 +426,83 @@ interface RawOrderForSplit {
   cogs_upsells_cents: number;
   tax_eu_cents: number;
   line_items: { title: string }[];
+  /** URL d'atterrissage (migration 0008) : porte l'`utm_campaign`. */
+  landing_site?: string | null;
+}
+
+/** Les trois cartes produit. Une commande / un euro de CA n'est JAMAIS dans
+ * deux buckets à la fois. */
+export type ProductBucketKey = "GILET" | "TESTING" | "POLO";
+
+export type CaByBucket = Record<ProductBucketKey, number>;
+
+export function emptyCaByBucket(): CaByBucket {
+  return { GILET: 0, TESTING: 0, POLO: 0 };
+}
+
+/**
+ * Bucket déduit du seul nom de campagne — le REPLI, quand aucune commande du
+ * jour ne porte l'UTM de cette campagne. Le Gilet est testé AVANT les tests
+ * produit, comme le fait le découpage du spend (Gilet d'abord, Testing sur le
+ * reste) : même précédence des deux côtés, sinon une campagne au nom hybride
+ * atterrirait dans deux buckets différents selon la métrique.
+ */
+export function bucketForCampaignName(campaignName: string | null): ProductBucketKey {
+  const name = (campaignName ?? "").toUpperCase();
+  if (name.includes(GILET_CAMPAIGN_KEYWORD)) return "GILET";
+  if (TESTING_CAMPAIGN_KEYWORDS.some((k) => name.includes(k))) return "TESTING";
+  return "POLO";
+}
+
+export interface MetaCampaignValue {
+  campaignId: string;
+  campaignName: string | null;
+  purchaseValueCents: number;
+}
+
+/**
+ * Ventile la valeur d'achat attribuée par Meta entre les buckets produit, sur
+ * le MÊME axe que le CA (voir le pavé en tête de section).
+ *
+ * Pour chaque campagne :
+ *  • si des commandes du jour portent son `utm_campaign`, sa valeur Meta est
+ *    répartie AU PRORATA du CA de ces commandes par bucket — une campagne
+ *    Polo qui a vendu un Gilet en cross-sell rend donc au Gilet la part
+ *    correspondante, exactement comme le CA le fait déjà ;
+ *  • sinon, repli sur le nom de campagne (comportement d'avant le 14/08).
+ *
+ * Fonction PURE : aucune I/O, testée au centime. La somme des trois buckets
+ * est toujours EXACTEMENT le total d'entrée (les deux premiers sont arrondis,
+ * le troisième absorbe le reste) — sans ça, `split()` en aval attribuerait au
+ * Polo les centimes perdus en arrondi et le total ne collerait plus.
+ */
+export function splitMetaValueByProduct(input: {
+  rows: MetaCampaignValue[];
+  /** CA du jour par campagne UTM, déjà bucketé par produit. */
+  caByCampaign: Map<string, CaByBucket>;
+}): CaByBucket {
+  const out = emptyCaByBucket();
+  for (const row of input.rows) {
+    const value = row.purchaseValueCents;
+    if (!value) continue;
+    const ca = input.caByCampaign.get(row.campaignId);
+    // Un CA négatif (remboursements > ventes du jour sur ce bucket) ne doit
+    // pas produire une part négative : on le traite comme zéro.
+    const g = Math.max(ca?.GILET ?? 0, 0);
+    const t = Math.max(ca?.TESTING ?? 0, 0);
+    const p = Math.max(ca?.POLO ?? 0, 0);
+    const total = g + t + p;
+    if (total <= 0) {
+      out[bucketForCampaignName(row.campaignName)] += value;
+      continue;
+    }
+    const giletPart = Math.round((value * g) / total);
+    const testingPart = Math.round((value * t) / total);
+    out.GILET += giletPart;
+    out.TESTING += testingPart;
+    out.POLO += value - giletPart - testingPart;
+  }
+  return out;
 }
 
 function emptyBucket() {
@@ -447,7 +551,7 @@ export async function getProductSplitForDay(
     // Valeur d'achat attribuée par Meta, pour le ROAS Meta par produit (12/08).
     // Table issue d'une migration ultérieure : son absence ne casse rien, elle
     // laisse juste le ROAS Meta à 0 (le MER, lui, reste calculé).
-    supabase.from("meta_insights").select("campaign_name, purchase_value_cents").eq("day", day),
+    supabase.from("meta_insights").select("campaign_id, campaign_name, purchase_value_cents").eq("day", day),
   ]);
   if (mapError) return [];
   const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
@@ -457,7 +561,9 @@ export async function getProductSplitForDay(
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
+      .select(
+        "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
+      )
       .eq("day", day)
       .order("id", { ascending: true })
       .range(from, from + PAGE - 1)) as unknown as {
@@ -472,11 +578,23 @@ export async function getProductSplitForDay(
   if (orders.length === 0) return [];
 
   const gilet = emptyBucket();
+  // CA du jour par campagne UTM ET par bucket produit : c'est CETTE table qui
+  // permet de ventiler la valeur Meta sur le même axe que le CA. Une commande
+  // sans `landing_site` exploitable n'y entre pas — sa campagne retombera
+  // alors sur le repli par nom (voir splitMetaValueByProduct).
+  const caByCampaign = new Map<string, CaByBucket>();
   for (const o of orders) {
     const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
+    const caCents = o.total_cents - o.refunded_cents;
+    const campaignId = parseUtmCampaign(o.landing_site);
+    if (campaignId) {
+      const cur = caByCampaign.get(campaignId) ?? emptyCaByBucket();
+      cur[isGilet ? "GILET" : "POLO"] += caCents;
+      caByCampaign.set(campaignId, cur);
+    }
     if (!isGilet) continue;
     gilet.orders += 1;
-    gilet.caCents += o.total_cents - o.refunded_cents;
+    gilet.caCents += caCents;
     gilet.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
     gilet.taxCents += o.tax_eu_cents;
   }
@@ -504,18 +622,20 @@ export async function getProductSplitForDay(
       })
       .reduce((s, r) => s + (r.spend_cents as number), 0);
 
-  // Valeur attribuée par Meta, découpée EXACTEMENT comme le spend (mêmes
-  // mots-clés de campagne) : sans ça, un ROAS Meta par produit rapporterait
-  // une recette et une dépense qui ne parlent pas des mêmes campagnes.
+  // Valeur attribuée par Meta, ventilée sur le MÊME axe que le CA (commande →
+  // produit) via l'UTM, avec repli sur le nom de campagne. Corrigé le 14/08 :
+  // le découpage par mots-clés seuls pouvait laisser au Polo la valeur Meta de
+  // commandes Gilet dont le CA, lui, en était retiré (voir tête de section).
   const metaValues = insightError ? [] : (insightRows ?? []);
-  const metaValueByKeywords = (kws: string[]) =>
-    metaValues
-      .filter((r) => {
-        const name = ((r.campaign_name as string) ?? "").toUpperCase();
-        return kws.some((k) => name.includes(k));
-      })
-      .reduce((s, r) => s + ((r.purchase_value_cents as number) ?? 0), 0);
   const metaValueTotal = metaValues.reduce((s, r) => s + ((r.purchase_value_cents as number) ?? 0), 0);
+  const metaValueByProduct = splitMetaValueByProduct({
+    rows: metaValues.map((r) => ({
+      campaignId: String(r.campaign_id ?? ""),
+      campaignName: (r.campaign_name as string) ?? null,
+      purchaseValueCents: (r.purchase_value_cents as number) ?? 0,
+    })),
+    caByCampaign,
+  });
 
   // Chaque composant est clampé au Global, puis le POLO absorbe le reste :
   // Polo = Global − Gilet − NIRA. Garantit la somme exacte même si `orders`
@@ -537,11 +657,7 @@ export async function getProductSplitForDay(
   // feesCentsForCa(poloCaCents) séparément (deux arrondis indépendants ne
   // sommeraient pas forcément au frais Global).
   const fees = split(feesCentsForCa(ca.g), feesCentsForCa(ca.n), global.feesCents);
-  const mv = split(
-    metaValueByKeywords([GILET_CAMPAIGN_KEYWORD]),
-    metaValueByKeywords(TESTING_CAMPAIGN_KEYWORDS),
-    metaValueTotal
-  );
+  const mv = split(metaValueByProduct.GILET, metaValueByProduct.TESTING, metaValueTotal);
 
   const cards = [
     toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g),
