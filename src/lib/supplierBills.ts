@@ -82,11 +82,37 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // AVEC polo facturé 8,90 €, l'ancien prix). Accepté par Badr, grille du
     // moteur mise à jour en conséquence — la facture est due EN ENTIER.
     disputedCents: 0,
-    status: "a_payer",
-    paidCents: 0,
-    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534) — montant à virer. Litige gilet levé le 14/08 (supplément packing du gilet primaire, explication fournisseur vérifiée et acceptée).",
+    // PAYÉE (Badr, 14/08 : « je lui ai payé ce qu'il a demandé ce matin,
+    // tout est réglo ») — montant demandé réglé en entier (13 914,91 $).
+    status: "payee",
+    paidCents: 1206441,
+    note: "Payée le 14/08 (annonce Badr) : montant demandé réglé en entier (13 914,91 $, taux 1,1534). Contient 410 € de « custom packing ». Litige gilet levé (packing du gilet primaire, vérifié et accepté).",
   },
 ];
+
+// ---------------------------------------------------------------------------
+// AVOIRS ATTENDUS sur les PROCHAINES factures — promesses du fournisseur,
+// à pointer à la réception (c'est tout l'intérêt du suivi : vérifier qu'ils
+// arrivent vraiment, pas les oublier).
+// ---------------------------------------------------------------------------
+export interface SupplierPendingCredit {
+  label: string;
+  /** Estimation maison, centimes EUR — le fournisseur fixera le montant réel. */
+  estimatedCents: number;
+  note: string;
+}
+
+export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
+  {
+    label: "Refund Long Sleeves (promis le 14/08)",
+    estimatedCents: 2855,
+    note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. À pointer sur la prochaine facture.",
+  },
+];
+
+export function supplierPendingCreditsCents(): number {
+  return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);
+}
 
 export function supplierOwedCents(): number {
   return SUPPLIER_BILLS.reduce((t, b) => t + (b.totalCents - b.paidCents), 0);

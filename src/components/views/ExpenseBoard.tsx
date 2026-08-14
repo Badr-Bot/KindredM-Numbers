@@ -11,6 +11,7 @@ import { SUBSCRIPTIONS, fixedCostsCentsForDay, monthlyEurCents, subscriptionTota
 import {
   SUPPLIER_BILLS,
   SUPPLIER_NAME,
+  SUPPLIER_PENDING_CREDITS,
   supplierDisputedCents,
   supplierOwedCents,
   supplierPayableCents,
@@ -676,6 +677,17 @@ function SupplierBillsCard() {
           );
         })}
       </ul>
+      {SUPPLIER_PENDING_CREDITS.length > 0 && (
+        <div className="mt-2 rounded-md border border-cyan/30 bg-cyan/[0.05] p-2">
+          {SUPPLIER_PENDING_CREDITS.map((c) => (
+            <div key={c.label} className="text-[10.5px] leading-snug">
+              <span className="font-semibold text-cyan">🎫 {c.label}</span>{" "}
+              <b className="tnum">~{formatEur0(c.estimatedCents)}</b>
+              <span className="text-ink-faint"> — {c.note}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
