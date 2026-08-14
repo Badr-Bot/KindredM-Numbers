@@ -204,10 +204,10 @@ il ne faut jamais répondre à sa place.
 
 ## CRO, BOOSTER CA & AOV
 
-- 🟡 **01 — Présentation et Introduction CRO #1** 
-- 🟡 **02 — CRO : Le Meilleur Levier de Croissance #2** 
-- 🟡 **03 — CRO : Le Meilleur Levier de Croissance #3** 
-- 🟡 **04 — Process complet du CRO #1** · 25:52
+- ✅ **01 — Présentation et Introduction CRO #1** · 23:28
+- ✅ **02 — CRO : Le Meilleur Levier de Croissance #2** · 15:31
+- ✅ **03 — CRO : Le Meilleur Levier de Croissance #3** · 18:02
+- ✅ **04 — Process complet du CRO #1** · 25:52
 - 🟡 **05 — Process complet du CRO #2** · 37:38
 - 🟡 **06 — 2 Grandes Leçons CRO sur le Prix** · 8:00
 - 🟡 **07 — Partage de résultats CRO** · 6:03
@@ -297,125 +297,6 @@ il ne faut jamais répondre à sa place.
 - 🟡 **16 — Module Complémentaire 2 : Dépôt à l'International** 
 - 🟡 **17 — Liens Importants** 
 
-## LIVE REPLAYS
-
-- 🟡 **01 — Règle & Information importante** 
-- 🟡 **02 — 1 Aoû. (Nico & Lucas) : Media-buy, Gifting & Meta** 
-- 🟡 **03 — 5 Aoû. (Leny) : Créatives, Volume & Influenceurs** 
-- 🟡 **04 — 8 Aoû. (Lucas & Thomas) : IA, Ads & Création** 
-- 🟡 **05 — 12 Aoû. (Leny) : Publicité, Croissance & Stratégie** 
-- 🟡 **06 — 1 Jui. (Leny) : Publicité, Scaling & Créativité** 
-- 🟡 **07 — 4 Jui. (Nico) : Créatives, Scaling & Croissance** 
-- 🟡 **08 — 9 Jui. (Leny) : Ads, Concurrence & Rentabilité** 
-- 🟡 **09 — 11 Jui. (Onially) : Spécialiste SAV E-commerce** 
-- 🟡 **10 — 15 Jui. (Leny) : Ads, Créativité & Scaling** 
-- 🟡 **11 — 17 Jui. (Vincent) : Marketing, Ads & Persévérance** 
-- 🟡 **12 — 18 Jui. (Matteo) : Publicité, Scaling & IA** 
-- 🟡 **13 — 22 Jui. (Leny) : Marge, Produits & Taxes** 
-- 🟡 **14 — 25 Jui. (Sophia) : Recrutement, Contrats & Perf** 
-- 🟡 **15 — 29 Jui. (Leny) : Publicité, Rentabilité & Scaling** 
-- 🟡 **16 — 03 Jui. (Leny) : Ventes, Cashflow & Réseau** 
-- 🟡 **17 — 05 Jui. (Vincent) : Rentabilité, Créas & Scaling** 
-- 🟡 **18 — 06 Jui. (Matteo) : Scaling, Créativité & Cashflow** 
-- 🟡 **19 — 10 Jui. (Leny) : Vente, Créatives  & Entraide** 
-- 🟡 **20 — 13 Jui. (3PL) : Stock, Transport, Structuration** 
-- 🟡 **21 — 17 Jui. (Leny) : Créas, Scaling & Performance** 
-- 🟡 **22 — 20 Jui. (Nico) : Créatives, Scaling & Itération** 
-- 🟡 **23 — 24 Jui. (Leny) : Créas, Avatar & Structuration** 
-- 🟡 **24 — 24 Jui. (Matteo) : Stratégie, Créativité & Growth** 
-- 🟡 **25 — 28 Jui. (Lucas & Thomas) : LIVE IA** 
-- 🟡 **26 — 30 Jui. (Lucile) : Feedback & Intégration** 
-- 🟡 **27 — 01 Mai. (Vincent) : Vente, Stratégie & Momentum** 
-- 🟡 **28 — 02 Mai. (Lars) : Expert en PSP** 
-- 🟡 **29 — 06 Mai. (Leny) : Ventes, Créativité & Exécution** 
-- 🟡 **30 — 09 Mai. (Nico) : Stratégie, Créatives & Scale** 
-- 🟡 **31 — 13 Mai. (Leny) : Publicité, Clients & Scaling** 
-- 🟡 **32 — 16 Mai. (Sophia) : Fondateurs, Structure & Perf** 
-- 🟡 **33 — 20 Mai. (Leny) : Vente, Stratégie & Croissance** 
-- 🟡 **34 — 23 Mai. (Matteo) : Manifestation, Scale & Mindset** 
-- 🟡 **35 — 27 Mai. (Leny) : Vitesse, Créas & Entraide** 
-- 🟡 **36 — 30 Mai. (Vincent) : Expert en GEO** 
-- 🟡 **37 — 01 Avr. (Leny) : Coaching, Marketing & Publicités** 
-- 🟡 **38 — 03 Avr. (Vincent) : Psychologie, Croyance & Algo** 
-- 🟡 **39 — 04 Avr. (Onially) : Spécialiste SAV E-commerce** 
-- 🟡 **40 — 09 Avr. (Leny) : Publicité, Créatives & Croissance** 
-- 🟡 **41 — 15 Avr. (Leny) : Ventes, Créas & Optimisation** 
-- 🟡 **42 — 18 Avr. (Matteo) : Scaling, Créatives & Coaching** 
-- 🟡 **43 — 23 Avr. (Leny) : Créa, Concepts & Persévérance** 
-- 🟡 **44 — 25 Avr. (Matteo & Nico) : Ads, Scaling & Croyances** 
-- 🟡 **45 — 29 Avr. (Leny) : Ventes, Créatives & Influenceurs** 
-- 🟡 **46 — 30 Avr. (Sophia) : Équipe, Délégation & Perf** 
-- 🟡 **47 — 05 Mar. (Leny) : Vente, Créativité & Croissance** 
-- 🟡 **48 — 06 Mar. (Agent Français) : Coaching Sourcing** 
-- 🟡 **49 — 07 Mar. (Nico & Matteo) : Ventes, Mindset & Offres** 
-- 🟡 **50 — 12 Mar. (Leny) : Créas, Rentabilité & Croissance** 
-- 🟡 **51 — 14 Mar. (Nico) : Ventes, Créativité & Agents** 
-- 🟡 **52 — 18 Mar. (Leny) : Créatives, Stabilisation & Marché** 
-- 🟡 **53 — 20 Mar. (Vincent) : Vente, Emotions & Scaling** 
-- 🟡 **54 — 25 Mar. (Leny) : Créas, Budgets & Stratégie** 
-- 🟡 **55 — 28 Mar. (Loic & Nico) : Ventes, Ads & Audience** 
-- 🟡 **56 — 04 Fév. (Lény) : Ventes, Créatives & Budget** 
-- 🟡 **57 — 06 Fév. (Vincent) : Désir, Avatar & Marché** 
-- 🟡 **58 — 07 Fév. (Julie) : Email Marketing - EmailClub** 
-- 🟡 **59 — 11 Fév. (Leny) : Ventes, Créatives & Mindset** 
-- 🟡 **60 — 14 Fév. (Matteo) : Autom., Créatives & Psychologie** 
-- 🟡 **61 — 18 Fév. (Leny) : Ventes, Créatives & Affiliation** 
-- 🟡 **62 — 21 Fév. (Hugo) : Whatsapp Marketing Kanal** 
-- 🟡 **63 — 25 Fév. (Leny) : Ventes, Créatives & Stratégie** 
-- 🟡 **64 — 09 Jan. (Leny) : Ventes, Scaling & Créatives** 
-- 🟡 **65 — 11 Jan. (Matteo & Gabor) : Strat, Planif & Growth** 
-- 🟡 **66 — 16 Jan. (Leny) : Stratégie, Créatives & Croissance** 
-- 🟡 **67 — 21 Jan. (Leny) : Croissance, Publicité & Patience** 
-- 🟡 **68 — 24 Jan. (Matteo) : Vente, Scaling & Optimisation** 
-- 🟡 **69 — 28 Jan. (Lény) : Ventes, Scaling & Créativité** 
-- 🟡 **70 — 04 Dec. (Leny) : Ventes, Créatives & Optimisation** 
-- 🟡 **71 — 11 Dec. (Leny) : Publicité, Offre & Discipline** 
-- 🟡 **72 — 13 Dec. (Matteo & Sophia) : Recrues, Ops & Croiss** 
-- 🟡 **73 — 17 Dec. (Leny) : Ventes, Offre & Compétence** 
-- 🟡 **74 — 23 Dec. (Leny) : Ads, Stratégie & Optimisation** · 1:03:08
-- 🟡 **75 — 27 Dec. (Matteo) : Stratégie, Ads & Optimisation** 
-- 🟡 **76 — 31 Dec. (Leny) : Stratégie, Créatives & Croissance** 
-- 🟡 **77 — 05 Nov. (Leny) : Ventes, Publicité & Optimisation** 
-- 🟡 **78 — 08 Nov. (Matteo) : Ads, Recrutement & Croissance** 
-- 🟡 **79 — 12 Nov. (Leny) : Publicité, Rentabilité & Scaling** 
-- 🟡 **80 — 19 Nov. (Leny) : Ventes, Publicité & Optimisation** 
-- 🟡 **81 — 22 Nov. (Nico & Andrea) : Vente, Conversion & Créa** 
-- 🟡 **82 — 26 Nov. (Leny) : Publicité, Scaling & Performance** 
-- 🟡 **83 — 02 Oct. (Leny) : Ventes, Créatives & Optimisation** 
-- 🟡 **84 — 08 Oct. (Leny) : Publicité, Créatives & Conversion** 
-- 🟡 **85 — 11 Oct. (Matteo) : Croissance, Créa & Écosystème** · 1:05:39
-- 🟡 **86 — 15 Oct. (Leny) : Vente, Créatives & Croissance** · 1:05:39
-- 🟡 **87 — 21 Oct. (Leny) : Ventes, Stratégie & Créativité** 
-- 🟡 **88 — 25 Oct. (Nico & Thomas) : Email, WhatsApp & Abos** · 1:02:19
-- 🟡 **89 — 30 Oct. (Leny) : Ventes, Publicité & Stratégie** 
-- 🟡 **90 — 03 Sep. (Leny) : Stratégie, Créatives & Scaling** · 1:00:34
-- 🟡 **91 — 10 Sep. (Leny) : Ads, Créativité & Scaling** 
-- 🟡 **92 — 13 Sep. (Matteo, Sophia, Emre) BFCM, Perf & Conv** 
-- 🟡 **93 — 17 Sep. (Leny) : Ventes, Stratégie & Confiance** 
-- 🟡 **94 — 24 Sep. (Leny) : Ventes, Créativité & Optimisation** 
-- 🟡 **95 — 28 Sep. (Nico) : Stratégie, Créa & Croissance** 
-- 🟡 **96 — 08 Aoû. (Leny) : Croissance, Marge & Mindset** 
-- 🟡 **97 — 09 Aoû. (Nico & Matteo) : IA, Meta & Marchés** 
-- 🟡 **98 — 14 Aoû. (Leny) : Ventes, Stratégie & Exécution** 
-- 🟡 **99 — 17 Aoû. (Nico & Lucas) : IA, Nouveautés, VEO3** 
-- 🟡 **100 — 20 Aoû. (Leny) : Ventes, Créatives & Optimisation** 
-- 🟡 **101 — 23 Aoû. (Matteo) : Créatives, Scaling & Expansion** 
-- 🟡 **102 — 27 Aoû. (Leny) : Ads, Croissance & Stratégie** · 1:00:54
-- 🟡 **103 — 30 Aoû. (Nico) : Ads, Stratégie & Croissance** 
-- 🟡 **104 — 05 Jui. (Nico & Leny) : Ventes, Ads & Scaling** 
-- 🟡 **105 — 09 Jui. (Nico & Leny) : Produits, Ads & Conversion** 
-- 🟡 **106 — 16 Jui. (Leny) : Publicité, Créativité & Scaling** 
-- 🟡 **107 — 23 Jui. (Leny) : Ventes, Stratégie & Rentabilité** · 1:00:10
-- 🟡 **108 — 26 Jui. (Matteo) : Ads, Motivation & Stratégie** 
-- 🟡 **109 — 29 Jui. (Leny) : Publicité, Scaling & Créativité** 
-- 🟡 **110 — 07 Juin (Nico & Vincent) : Recrutement, Supply, ..** · 1:57:59
-- 🟡 **111 — 14 Jui. (Matteo) : Ads, Croissance & Communauté** 
-- 🟡 **112 — 21 Jui. (Nico & Alex) : Ventes, Stratégie & Équipe** 
-- 🟡 **113 — 28 Jui. (Matteo) : Publicité, Scaling & Communauté** 
-- 🟡 **114 — 17 Mai. (Nico & Matteo) : Growth, Mkg & Mindset** 
-- 🟡 **115 — 24 Mai. (Nico, Matteo, ..) : Vente, Offre & Trafic** 
-- 🟡 **116 — 31 Mai. (Matteo) : Offre, Rentabilité & Algorithme** 
-
 ## MASTER ACQUISITION
 
 - ✅ **01 — Ce que les formateurs ne vous disent pas** · 35:29
@@ -500,19 +381,19 @@ il ne faut jamais répondre à sa place.
 - ⬜ NON TRANSCRITE **22 — HeyGen** · 17:10
 - 🟡 **23 — Canva IA: Branding produit avec IA 2025** · 19:50
 - ✅ **24 — 1 : Sora 2 – Créer un prompt puissant et réaliste** · 7:51
-- 🟡 **25 — 2 : Kie AI & Higgsfield – Génération Content** · 30:34
-- 🟡 **26 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
-- 🟡 **27 — Ep #4 - Présentation + Utilisation de Mirage** · 7:42
-- 🟡 **28 — Ep #46 - ADS Cartoon IA** · 8:48
-- 🟡 **29 — Ep #47 - ChatGPT Image 2** · 8:48
-- 🟡 **30 — Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2** · 8:48
-- 🟡 **31 — Ep #51 - Skill AI Ads Modulable** · 8:48
-- 🟡 **32 — Ep #53 - Skill Native Ads Copy via Claude Code** · 8:48
-- 🟡 **33 — Ep #56 - Créer des UGC IA ultra réalistes** · 8:48
-- 🟡 **34 — Ep #58 - Styles d'ads cartoons qui performent** · 8:48
-- 🟡 **35 — Ep #60 - Créer une musique pour vos ads** · 8:48
-- 🟡 **36 — Ep #62 -   Raw Talking Heads & statiques animés** · 8:48
-- 🟡 **37 — Être cité par les IA : la stratégie Glide** 
+- ✅ **25 — 2 : Kie AI & Higgsfield – Génération Content** · 30:34
+- ✅ **26 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
+- ✅ **27 — Ep #4 - Présentation + Utilisation de Mirage** · 7:42
+- ✅ **28 — Ep #46 - ADS Cartoon IA** · 8:48
+- ✅ **29 — Ep #47 - ChatGPT Image 2** · 8:48
+- ✅ **30 — Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2** · 8:48
+- ✅ **31 — Ep #51 - Skill AI Ads Modulable** · 8:48
+- ✅ **32 — Ep #53 - Skill Native Ads Copy via Claude Code** · 8:48
+- ✅ **33 — Ep #56 - Créer des UGC IA ultra réalistes** · 8:48
+- ✅ **34 — Ep #58 - Styles d'ads cartoons qui performent** · 8:48
+- ✅ **35 — Ep #60 - Créer une musique pour vos ads** · 8:48
+- ✅ **36 — Ep #62 -   Raw Talking Heads & statiques animés** · 8:48
+- ✅ **37 — Être cité par les IA : la stratégie Glide** · 14:14
 - 🟡 **38 — Glide : Offre & Contact** 
 
 ## MASTER INSIDER

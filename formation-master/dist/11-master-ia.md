@@ -2683,7 +2683,7 @@ Le prompt, c'est ton levier de contrôle. Ce n'est pas Sora qui crée à ta plac
 ======================================================================
 MODULE : MASTER IA
 LEÇON 25 : 2 : Kie AI & Higgsfield – Génération Content
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 25
 ======================================================================
 
@@ -2740,16 +2740,180 @@ La vraie force de cette méthode, c'est la scalabilité : une fois le process ma
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello la team, j'espère que vous allez bien et que vous êtes en forme même dans la vidéo partie 2 de Sora. Donc aujourd'hui on va voir comment être jésé qui aille et qui ex-file pour pouvoir générer énormément de contene. Que ce soit du contene UGC, des séquences 3D, des séquences B-roll, du contene format podcast, micro-tautoire, etc. En plus de ça, je vous ai prévu vraiment un petit bonus que j'ai créé pour l'occasion qui va vous permettre de générer des pompes vraiment banger. Voici le type de vidéo que vous allez pouvoir générer directement après cette vidéo.
+
+[00:22] Donc ça c'est des contentes par exemple B-roll, on peut voir ici que l'UGC prend un gumis, elle le mange et franchement la qualité est vraiment top. Ici une petite vidéo au style cinématique. On peut voir que vraiment la qualité est top, top, top. Là il a bien respecté le gumis, il est carré, il est rouge, foncé comme je lui avais demandé. La couleur de la boîte est top, franchement le rendu est vraiment magnifique. Vous allez pouvoir générer ce type de vidéo.
+
+[00:43] Ou alors ce type de vidéo, des formats podcast, des formats séquences 3D, des formats style témoignage, des formats UGC, FESCAM. Donc je vous montre tout ça. On peut voir vraiment que le rendu est vraiment top, la qualité du persona est magnifique aussi en plus de ça.
+
+[01:07] Il a intégré directement la boîte des gumis comme je lui avais demandé. Ici on peut voir une petite séquence B-roll qui est vraiment, vraiment excité. Ça c'est vraiment super intéressant, imaginons que vous avez un script qui parle un peu d'un angle scientifique. Vous allez pouvoir intégrer ce B-roll directement dans votre ad.
+
+[01:30] Imaginons un moment donné dans votre script vous avez, vous parlez des cellules, vous parlez du fait que quand vous allez manger le gumis, ça va réagir directement dans les cellules et que ça va directement envoyer l'hormone du sommeil à votre cerveau. Et donc ça, ça peut clairement faire partie et mettre en image votre script. C'est vraiment super qualitatif.
+
+[01:54] Ici après on a des témoignages. Donc ça vous pourriez l'ajouter dans votre site. Ou alors directement sur votre site. Je m'endors en 10 minutes. Je me réveille sans mal de tête. C'est naturel, pas comme les pilules. Je dors enfin toute la nuit. C'est vraiment magnifique, quand tu voyais la qualité du rendu, on pourrait même pas croire que c'est une IA.
+
+[02:15] Et c'est vraiment ça l'objectif. Et pour finir on va pouvoir générer aussi des UGC de ce type. Bon on peut voir que franchement le résultat est vraiment pas mal.
+
+[02:44] Là, il y a eu un petit moment où le gumis n'a pas été respecté parce que je lui ai pas dit dans le prompt que ça vous pourriez le mettre aussi. Je l'ai au midi de le dire. Et il a rajouté légèrement un petit truc ici, mais ça c'est tout à fait... Maintenant je me suis lancé la nuit et j'ai vraiment réveillé.
+
+[03:25] Ou dans chaque scène, il y a vraiment bien la description de votre produit dans la scène où vous le montrez bien sûr. Comme ça vous êtes sûrs que l'IA va respecter et que vous aurez une vidéo qui sera parfaite. Sinon franchement le rendu est vraiment top top top. On voit bien que l'UGC est de bonne qualité, elle parle bien. En plus ici on peut voir qu'il a été ajouté le petit pot de gumis. Ça donne un petit truc en plus.
+
+[03:46] Non franchement c'est vraiment pas mal. Et c'est clairement ce type de contenu que vous pourriez utiliser en format mashup. Vous vous ajoutez des moments de mashup avec d'autres séquences que vous avez générées. Vous allez pouvoir faire une adse complète en quelques secondes. Pour ce ferment on va utiliser KiAi. Il y a une plateforme dans laquelle vous allez pouvoir utiliser plein de modèles d'IA. Comme VO3, Sora2, Flucontexte, Klinge et AI etc.
+
+[04:09] La différence avec Xfilz c'est que là vous allez directement utiliser la paix des outils. Et donc aussi la grande différence c'est que vous allez pouvoir générer des vidéos jusqu'à 25 secondes. Donc en mode storyboard vous allez pouvoir mettre les scènes avec la durée de chaque scène comme vous pouvez le voir ici. Et vraiment c'est beaucoup beaucoup moins cher que la paix d'OpenAI et que la paix carrément de Falai.
+
+[04:30] C'est vraiment magnifique parce que si vous regardez en Sora2 Pro vous allez avoir 0,10 centimes par seconde. Alors que pour OpenAI c'est 0,5, c'est 5 fois plus cher. C'est vraiment insane. Donc je vous invite vraiment à l'utiliser pour ça. En fait il y a deux choses pour lesquelles vous allez pouvoir l'utiliser. Déjà c'est parce que c'est pas cher. Et donc même si vous voulez faire des automatisations ou quoi que ce soit vous pouvez reprendre un API.
+
+[04:51] Ce qu'il y a possibilité aussi de faire c'est donc de générer les vidéos en 25 secondes. Ça c'est ce qui n'a pas possibilité de faire sur Xfilz. En fait les deux outils sont bien. Ils ont des avantages et des inconvénients. Ici le réel avantage c'est de pouvoir générer des vidéos plus longues jusqu'à 15 et 25 secondes. Alors que sur Xfilz c'est jusqu'à 12 secondes. Par contre sur Xfilz les réels avantages c'est que vous allez pouvoir ajouter pas mal de filtres en fait qui vont aider à générer les vidéos.
+
+[05:15] Imaginons vous mettez le type de vidéo dans quelle format vous voulez, sur quelle plateforme vous voulez le mettre et en fonction de la plateforme. Mais la vidéo sera un peu différente. On sait bien que le format TikTok n'est pas tout à fait le même que le format short. Ou alors Instagram Reels. Ça c'est assez intéressant. Vous allez pouvoir ajouter des filtres au niveau du visuel et des sons. Donc le style, le craziness et le montage avec les cut et cetera.
+
+[05:40] Vous allez pouvoir ajouter aussi au niveau du son. Et vous allez aussi pouvoir ajouter des presets. Donc les presets sont assez bien quand vous avez une idée bien spécifique de vidéos que vous voulez réaliser. Par exemple vous voulez réaliser des street interviews. Vous allez pouvoir cliquer sur street interview. Et là il y aura directement un preset qui va se mettre. Et donc il y a Sora que dans la vidéo que vous allez générer, ça va être une vidéo style interview.
+
+[06:05] Micro trottoir. Et là vous en avez plein. Vous allez pouvoir faire des unboxing. Et donc c'est ça vraiment la plus-valu de X-FILD. Et c'est ça vraiment la plus-valu de Ki-I. Mais on se retrouve directement sur Ki-I pour que je vous montre tout ça. Hello Latime. J'espère que vous allez bien et que vous êtes en forme même dans la partie 2 de notre vidéo sur Sora. Aujourd'hui on va parler de Ki-I et de X-FILD. Donc celle-là, les deux plateformes dans laquelle on peut utiliser Sora 2.
+
+[06:27] Franchement les deux sont bien. Il y a des avantages et des inconvénients dans les deux. Et je vais vous présenter tout ça. Donc on se retrouve directement dans Ki-I. Quand vous allez vous inscrire, vous allez arriver sur cette partie du site. Donc c'est modèle market. C'est là où vous allez retrouver vraiment tous les modèles d'IA disponibles dans Ki-I. C'est un peu comme X-FILD. Sauf que la grande différente, c'est que là ça va reprendre vraiment tous les modèles mais directement à partir de la pays. En fait vous allez utiliser le modèle à partir de la pays.
+
+[06:49] Donc par exemple, vous avez Sora 2, vous avez VO3.1, vous avez Flucontec, vous avez One 2.5. En fait vous avez vraiment tous les modèles. Ce qui est assez intéressant. Et aussi, donc ici vous avez la paye qui si vous voulez directement l'utiliser dans un workflow. Vous avez la paye usage. Donc ça c'est toutes les utilisations que vous avez faites. Vous avez les logs. Donc ça c'est toutes vos anciennes vidéos que vous avez déjà générées.
+
+[07:10] Vous avez ensuite le billing. C'est là où vous allez pouvoir acheter des crédits. Donc vous pouvez acheter entre 5 et 1250 dollars de crédit en sachant qu'une vidéo de haute qualité de 25 secondes va coûter jusqu'à 400 crédits. Donc vous pourrez faire deux vidéos de 25 secondes avec 5 dollars. Ce qui est pas mal en vrai. Vous avez les updates de la pays. Ça serait intéressant.
+
+[07:31] Et les logs, c'est là où vous allez pouvoir retrouver toutes les informations par rapport aux différents modèles et des petites informations assez utiles pour pouvoir générer du content. Donc là on va pouvoir même mettre en français. On va retourner dans modèle market. La grande différence avec X-field, c'est que vous allez pouvoir générer des vidéos jusqu'à 25 secondes, je vais vous montrer. Comme vous voyez en fait il y a différents types de formats.
+
+[07:53] Donc vous avez le format storyboard, donc celui-ci. Ou alors là il y a un petit bug. On va retourner sur Sora2Pro. Voilà. Ici vous avez tous les formats. Donc soit vous avez de Sora2Pro storyboard. Donc là vous allez pouvoir générer une vidéo directement en assignant des scènes différentes. Donc si ça c'est vraiment pas mal parce que vous mettez la durée. Et là vous allez pouvoir ajouter des scènes. Par exemple scènes 3, scènes 4, scènes 5, scènes 6.
+
+[08:16] Et donc dans chaque scène, il y aura une vidéo un peu différente. Donc il va falloir décrire chaque scène de manière propre et cohérente. Et vous pouvez même ajouter la durée de la scènes. Donc on pourrait mettre par exemple, on pourrait mettre 5 scènes de 4 secondes et une scènes de 5. Et là vous allez juste ajouter votre prompt avec votre scène. Et ensuite ajouter votre produit et vous allez pouvoir directement générer la vidéo.
+
+[08:38] Donc c'est vraiment pas mal. Ça c'était par rapport au storyboard. Vous avez aussi texte to video. Vous allez pouvoir générer des vidéos à partir d'un texte. Ça c'est un peu moins intéressant. Et vous avez aussi Sora2Pro image to video. Donc là vous allez pouvoir insérer votre image de votre produit. Et générer des vidéos avec un prompt que vous allez pouvoir générer. Vous allez juste régler l'aspect, la longueur de la vidéo.
+
+[08:59] Et la qualité. Moi je vous conseille de mettre en height si vous avez un peu plus de crédit. Mais pour faire des tests, pour pouvoir tester certains prompts, c'est plus intéressant de commencer à générer en standard. Comme ça vous n'utilisez pas trop de crédit. Et une fois que vous avez un prompt, vous pouvez la générer en haute qualité. Ça c'est intéressant de le faire. Donc c'est vraiment ça la grande différence avec Xfil. Donc ça va être généré à partir de l'API sur qui est-il vous avez le choix
+
+[09:20] entre réaliser des vidéos entre 10 et 15 secondes en format normal et si c'est en format pro storyboard. Là ça sera des vidéos entre 10, 15 et 25 secondes. Alors que sur Xfil, les vidéos elles vont être en maximum 4, 8 ou 12 secondes. La qualité est réglable, ça c'est sympa. Comme un peu sur QIA, sauf que ici c'est directement 720p ou 1080p.
+
+[09:42] Vous allez pouvoir aussi choisir un modèle différent. Parce qu'ils ont train, en fait différents modèles. Ils ont le standard et le pro comme on a avec OpenAI. Et en plus de ça ils ont le max et le pro max. Donc le max ça sera intéressant pour avoir des vidéos de très bonne qualité qui sont assez rapides à faire. Alors que le pro max ont vraiment des qualités cinématiques si vous voulez faire des vidéos cinématiques d'un produit en particulier,
+
+[10:03] d'un produit de luxe etc. ça peut être vraiment sympa. En plus de ça, ce qui est intéressant c'est que sur Xfil vous allez pouvoir régler en fonction de la plateforme sur laquelle vous souhaitez mettre le produit parce que clairement une vidéo TikTok sera légèrement différente qu'un YouTube Short ou alors qu'un Instagram Rizz. Ça c'est logique. Et en plus de ça vous allez pouvoir mettre différents filtres. Vous allez pouvoir régler la musique dans le background.
+
+[10:24] Si vous voulez une musique en particulier ou pas vous allez pouvoir mettre custom et régler avec un léger texte. Moi j'aime bien laisser en auto et mettre dans le prompt directement que je vais ajouter à Xfil. Vous allez pouvoir régler la langue. Ça c'est intéressant de la mettre. Moi ça c'est en fonction de dans la langue que vous souhaitez que vous souhaitez générer la vidéo. C'est intéressant de mettre la langue de sortie. Parce que si vous mettez auto ça va le faire mais ça en cours mieux d'être précis.
+
+[10:46] Vous pouvez mettre par exemple anglais. Vous allez pouvoir régler le speech. Donc vous allez pouvoir aussi régler le speech. Donc ajoutez auto ou alors custom. Si vous voulez par exemple une voix qui est chuchote vous allez pouvoir l'ajouter ici. Un peu ASMR ou quoi que ce soit. La rapidité de la voix ça c'est intéressant. Moi j'aime bien la mettre en fast ou alors ultra fast. Après ça dépend le style de vidéo que vous voulez générer.
+
+[11:08] En général on aime bien que ça soit dynamique dans une ad. Donc c'est mieux que ça soit une voix qui soit plus rapide et qui soit impactante. Vous allez pouvoir aussi régler les visuels. Donc le style. Si c'est réalistique, cartoon, anime ou alors custom. Moi j'aime bien mettre réalistique aussi. Vous allez pouvoir aussi régler l'intensité des visuels. Donc c'est à dire que l'IA va être...
+
+[11:29] Si vous mettez auto l'IA va être... On va dire... Va s'adapter en fonction de votre prompt pour avoir plus de créativité ou moins de créativité. Si vous mettez par exemple l'eau il y aura beaucoup moins de créativité. Si vous mettez ultra height il y aura beaucoup plus de créativité. Ça peut jouer énormément. Si vous voulez que l'IA soit très créative je vous invite à mettre height. Et si vous voulez pas vous mettez simplement l'eau. Pour le montage vous pouvez sélectionner entre auto
+
+[11:51] ou alors no cuts, ou alors slow placed ou fast placed. Ça veut dire que vous allez pouvoir avoir des cuts ou pas dans la vidéo. Moi j'aime bien mettre auto aussi. Et là vous allez simplement être save settings. Et là vous allez créer la vidéo. En plus de ça il y a des presets. Les presets sont assez intéressants. Comme vous pouvez voir il y a énormément de types de presets. Donc il y a les product ads,
+
+[12:12] il y a les virals ads, il y a les juges et c'est cinématique, il y a les animated. Et là par exemple nous on pourrait regarder dans les product ads. Vous allez pouvoir par exemple avoir un preset qui soit en lien avec... En velvet woods. Lumiere. The center of elegance president. C'est vraiment intéressant vous d'aller les virals. You wrap it up. Let me show yourself. Slap your bitches. Raise the trenches.
+
+[12:33] There's music on. Il y a vraiment plein plein de presets qui sont assez cool et utiles pour pouvoir emmener l'IA vers un type de vidéo que vous souhaitez réaliser. Il y a cinématique aussi. Vous avez les UGC. Moi j'aime bien aussi laisser...
+
+[12:54] Ne pas mettre de presets. Lesser en général comme ça il y a... Choisis pareil le même en fonction de mon prompt. Parce que le prompt va être la partie la plus importante et c'est ce qui va apporter le plus des résultats et le meilleur résultat. Donc pour ce faire en fait j'ai créé un petit GPT dans lequel on va pouvoir réaliser des vraiment des bons prompts. Donc on va commencer par générer déjà une vidéo avec Ki-Ice.
+
+[13:15] Je vous montre directement. Donc j'ai réalisé une petite instruction qu'on va pouvoir donner à notre GPT. Voilà. Donc créer un prompt Sora 2 pour Ki-Ice storyboard. J'aimerais que cet UGC 6 mois... Donc là on va ajouter l'UGC 6 mois pour pouvoir avoir un caractère... Enfin du caractère consistency. Pour avoir une consistance des caractères. Pour avoir une personne qui ressemble à la personne que je vais ajouter ici.
+
+[13:39] On va charger fichier. Voilà. On va l'ajouter. Et l'objectif c'est qu'en fait dans le prompt Chaque GPT nous sort un prompt avec une fille qui soit décrite en fait similaire à elle. Donc comme ça on aura une vidéo qui sera vraiment avec un persona que nous on souhaite. Parce que si vous ne mettez pas ça ou alors que vous laissez simplement lié à choisir du personnage vous n'aurez peut-être pas forcément un persona
+
+[14:01] qui va coïncider avec votre persona cible de votre marque. Donc voilà si j'voins de présenter mon produit somnia des gumis pour dormir pardon l'UGC doit être dans sa chambre et il doit y avoir une ambiance chaleureuse pour chaque scène où l'UGC montre le produit il faut bien le décrire pardon image 6 mois.
+
+[14:22] Donc là ce que je vous invite à faire c'est bien mettre ça. Parce que quand vous allez dans KIA et que vous allez mettre scène par scène si vous n'ajoutez pas ça l'IA va pas forcément respecter à 100% votre produit. Donc là on va ajouter notre produit tak ajoutez voilà donc ça c'est le script donc c'est le dialogue que l'IA va devoir nous dire
+
+[14:45] dans les scènes on va envoyer ce qui est vraiment intéressant et c'est pour ça que j'ai construit ce GPT là pour qu'en fait il personnalise vraiment à 100% votre prompt et que vous aurez vraiment une vidéo personnalisée
+
+[15:06] qui soit réglée et ciblée en fonction de vos boseurs. Donc par exemple là donc on a donné le prompt enfin l'instruction au GPT et là il va nous poser quelques questions pour vraiment cibler notre besoin par exemple la durée totale donc on a indiqué 25 secondes il demande si on veut segmenter en plusieurs scènes par exemple 4, 5 ou 6 plans on va mettre pour l'occasion on va mettre 1, 2, 3, 4, 5
+
+[15:36] non 5 fois 4 secondes 5 fois 4 secondes et 1 scène de 5 secondes voilà ensuite on va mettre la deuxième question parce que en fait l'avantage là
+
+[15:58] c'est qu'en fonction du modèle que vous allez lui sur lequel vous allez demander de réaliser le prompt il va faire un prompt qui soit différent parce que comme sur le format storyboard de Kiay vous avez différentes scènes le prompt ne va pas être le même que si vous le mettez par exemple dans pro image tout vidéo ou alors dans xfit c'est vraiment la plus value donc on va continuer on va mettre ambiance type chaleureuse
+
+[16:19] ça c'est comme j'avais dit peut-tu un soirée dorée on va mettre douze lampes style lamp de chevet avec une ambiance chaleureuse voilà donc là vous répondez simplement à toutes les questions
+
+[16:40] j'y répond vite en même temps donc là on a tout ajouté on va le mettre en bas et là le gpt videoprompt engineer va nous créer vraiment un bête de prompt
+
+[17:00] voilà il nous fait une petite synthèse c'est ça qui est vraiment excellent donc là il nous fait une petite synthèse de tout ce qu'on veut pour pouvoir analyser si c'est correct donc dialogue, style, uc, bruit, vrai doux, naturel, facebook, al, ça c'est bon mière, hop hop hop si il y a un élément que vous souhaitez modifier vous savez directement sans devoir vérifier tout le prompt complet
+
+[17:20] donc là il nous donne le prompt on peut le voir hop avec les scènes différentes qu'on va pouvoir ajouter directement dans keyeye là il nous a fait trop de scènes par contre je ne sais pas pourquoi il en a fait 7 alors que je lui en avais demandé 6 ça peut arriver qu'il y ait des petites erreurs comme là j'ai toujours vérifié mon prompt c'est peut-être parce qu'il n'a pas très bien ce que je lui ai dit ici pas très bien compris pardon on peut lui redire hop on va lui mettre 5
+
+[17:42] scènes de 4 secondes et une scènes de 5 secondes là il va mieux comprendre donc là il nous fait tout prompt correct donc voilà là il nous a bien généré chaque scènes voilà description hop action contrôle ça c'est bon donc là on va simplement copier chaque scènes et chaque prompt
+
+[18:03] donc on va juste à chaque fois copier cette partie plus la scènes hop on va venir dans keyeye et on va ajouter tac on ajoute et en plus de ça on va ajouter donc les différentes commandes à la fin et eux etc hop on va le copier on va le coller ici et donc à chaque fois il faut bien penser à mettre ça aussi tout est bien compréhensible par les
+
+[18:25] tac on va faire pareille pour la scènes 2 parce que j'aime bien faire pour être plus rapide donc vous allez simplement mettre la commande ici prenez la scènes 2 contrôle c comme ça vous allez aller plus vite là vous descendez vous reprenez simplement la partie de fin
+
+[18:47] contrôle c contrôle v voilà on va faire contrôle la contrôle v on va mettre 4 secondes ici on va pouvoir faire pareil donc on va venir simplement remplacer la scènes 2 par la scènes 3 voilà contrôle la contrôle c 4 secondes 4 secondes 4 secondes et 5 secondes
+
+[19:08] voilà et vous faites ça pour toutes les scènes est ce que je vous invite vraiment à faire c'est de beléguer ça à votre équipe clairement une fois que vous avez le fonctionnement après vous avez simplement à donner les vidéos à votre équipe comme ça votre équipe peut s'en charger et faire plein plein de vidéos et de contènes pour votre marque l'objectif c'est pas que vous vous fassiez parce que même la génération de la vidéo ça prend un peu de temps donc autant que une personne ou un VA
+
+[19:30] en fait ça n'occupe voilà une fois que c'est fait là on n'a pas besoin de mettre de scènes 7 on va mettre 25 secondes on va ajouter le format portrait on va ajouter notre produit ici et voilà et là
+
+[19:52] on peut voir que du coup ça coûte 225 crédit donc vous allez pouvoir avec 5$ vous allez pouvoir faire plus ou moins 3 vidéos et là on peut start on en voit donc la vidéo va se générer ici ça prend un peu de temps parce que logique c'est une vidéo de 25 secondes donc ce que je vous invite
+
+[20:14] à faire c'est faire autre chose dans la tendance ou alors créer de nouvelles vidéos sur xfeed ou alors sur r2pro si vous quittez la page en fait vous allez retrouver votre vidéo dans logs ici voilà comme vous pouvez voir elle est en cours de chargement elle est en cours de fabrication et ici vous avez les résultats vous allez pouvoir
+
+[20:35] voir la vidéo ou alors télécharger on va se retrouver directement dans xfeed pour pouvoir générer une autre donc là on va directement aller sur xfeed on va déjà générer notre prompt avec chatchapet donc on va ouvrir chatchapet on va lui envoyer notre petite instruction voilà donc créer un prompt pour générer une vidéo au format podcast d'un homme, image 6 juin donc on va ajouter l'image
+
+[20:57] du gars, c'est un autre personnais cible qui parle de Megumi Somnia facecam devant un micro sur sm7b avec la qualité de ce micro pourquoi j'ai mis avec la qualité de ce micro c'est pour que comme ça il y a comprenne qu'il parle dans un micro de bonne qualité et donc la sortie audio sera meilleure aussi alors on va mettre voici le script voici le dialogue, 2 points ça c'est bon on va pouvoir lui envoyer voilà donc là il va de nouveau nous poser quelques questions
+
+[21:19] ce qui est bien c'est qu'à chaque fois du coup ça sera plus ou moins similaire là il nous demande le type de vidéo, le modèle du téléphone et on pourrait mettre que c'est une caméra de très très bonne qualité style Sony on va pouvoir mettre l'ambiance du décor donc on peut dire que c'est dans un studio de podcast hyper dynamique ou alors naturel ou quoi que ce soit on va pouvoir mettre la durée, la plateforme cible et le style visuel donc là j'ai répondu à toutes les questions
+
+[21:41] j'ai bien ajouté aussi la caméra haute qualité Sony avec un micro sur pour qu'il s'agit bien j'ai aussi ajouté facecam statique donc comme il me le demandait pour qu'il puisse bien régler le propre en fonction hop j'ai mis studio sobre avec une bonne proportion des lumières comme dans un studio de podcast et on va pouvoir envoyer donc là il nous crée directement le prompt en fait ce qui est bien c'est que une fois que vous avez l'idée de la vidéo
+
+[22:03] vous avez simplement à lui donner les bonnes instructions il va vous créer un bon prompt en fait avec tous les éléments comme je vous ai montré dans la première partie de ce RA2 qu'on doit avoir dans un prompt pour pouvoir régénérer des bonnes vidéos donc on le copie on va directement le mettre ici et on peut l'envoyer, ce qu'on peut faire c'est changer on peut le mettre par exemple 12 secondes déjà parce que j'ai dit 12 secondes dans le prompt c'est bon, réaliste ça c'est bon
+
+[22:25] auto auto c'est bon anglais c'est bon on va mettre ultra phase comme ça il va parler très vite et on peut générer ça prend aussi un peu de temps parce que comme la qualité est assez bonne c'est en pro max ça prend un peu de temps mais ça c'est rapide en attendant on va retourner voir de l'autre côté si ça a été généré ça toujours pas été généré donc on va pouvoir en générer une autre encore donc là on peut retourner dans un chat qui était déjà ouvert ou alors dans un nouveau on va prendre par exemple ce chat ci
+
+[22:47] on va pouvoir ajouter ça donc créer un nouveau prompt pour générer une vidéo d'ici le témoignage croisé ce que disent les vrais utilisateurs donc ça va être bien parce qu'on va avoir plusieurs utilisateurs à la suite l'un de l'autre qui vont faire un petit témoignage rapide de notre produit en fait donc il faut que ce soit un montage rapide de 4 mini témoignages dans différentes scènes ultra réaliste de personnes qui disent tatatame
+
+[23:08] format UGC, FESCAM point repose moi de nouvelles questions. Voilà je dis ça pour qu'il soit bien au courant que c'est un nouveau prompt donc là il faut qu'il me repose une nouvelle question on va reposer des questions la durée la plateforme cible, l'ambiance profil il nous pose vraiment beaucoup de questions donc la durée on va mettre 10 secondes
+
+[23:30] parce que ce sera sur la version de qui il est donc 1, là je réponds toutes les questions et puis je vous reprends. Voilà donc là j'ai répondu à toutes les questions ce qui était intéressant comme question il m'a posé quel était l'environnement que l'on souhaitait pour en fonction des personnages il m'a demandé quel était l'archétype de notre personnage, ça c'est aussi intéressant parce que vous allez pouvoir générer 4 personnes qui soient un peu différents ou alors similaires donc là on va lui envoyer, il va nous générer notre prompt
+
+[23:52] donc il nous fait un petit descriptif et là il nous a donné tout voilà donc une fois que le prompt a été terminé on va le reprendre complètement cette fois vu que c'est pas dans storyboard on va pouvoir directement le mettre dans saura2pro on pourrait même mettre texte ou vidéo on n'est pas obligé de faire image parce qu'il n'y a pas l'image, enfin si on peut quand même ajouter l'image du produit ça il a plus de contexte on va mettre 10 secondes
+
+[24:14] on va mettre en haute qualité et en format portrait on va pouvoir envoyer ça prend un peu de temps aussi donc voilà en attendant que l'autre vidéo soit générée on va déjà voir la première vidéo qu'on a voulu générer elle a finie de générer, donc là on peut voir qu'il y a un petit bug sur la plateforme, on sait pas la lire directement sur la plateforme mais on peut la télécharger donc on la télécharge une fois qu'elle a téléchargé on va pouvoir l'ouvrir là voici donc on voit qu'elle fait 25 secondes on va pouvoir directement l'analyser en direct
+
+[24:36] tu mettes le son, voilà donc on peut vraiment voir que la qualité est vraiment bonne en plus si vous vous regardez bien ici à droite on voit même le pot elle est dans son lit et on voit même le pot de Gumi c'est vraiment magnifique et puis après là elle présente directement bien
+
+[24:58] la qualité du son est très très bonne aussi et elle a l'air fatiguée c'est vraiment top on peut voir à la fin qu'elle remonte encore à la fin elle remonte encore le produit là il y a eu une petite légère modification du texte mais c'est vraiment léger
+
+[25:20] si vous mettez ça dans la vidéo personne va le remarquer mais franchement c'est vraiment magnifique hop c'est top top top donc on va voir directement si les autres vidéos ont bien fini d'être générées on va aller sur Xfeed pour la deuxième vidéo donc voilà sur Xfeed on peut voir que ça a bien été généré on va la activer directement donc ça c'était le format podcast vous pouvez essayer chaque facture chaque supplement mais si vous n'êtes pas n'importe quoi les gens pensent que le taré est normal
+
+[25:42] c'est pas depuis que j'ai commencé à prendre des gumières
+
+[26:04] il a pas assez décrit en fait donc toujours bien décrit dans le prompt le produit comment il est pour être sûr à 100% qu'il soit bien respecté là il a mis un capuchon blanc il a un peu été créatif et un peu halluciné mais c'est pas grave et on va regarder pour l'autre encore vidéo qu'on a fait par rapport au témoignage client on va retourner ici hop voilà donc elle a bien été générée aussi on va la télécharger on peut voir du coup qu'elle a bien été générée
+
+[26:26] hop on va l'activer on peut voir vraiment que c'est vraiment bien fait là il faudrait juste c'est coupé faire un meilleur montage parce que là c'est un peu lent vous cuttez au bon moment ça fait vraiment du content réaliste je me réveille sans vanne de tête
+
+[26:48] et les UGC la qualité des UGC est très très bonne et la voix aussi donc là on va générer 2 dernières vidéos donc on va générer la première vidéo ça serait une vidéo style séquence 3D donc on va créer un prompt pour générer une séquence 3D on pourra ajouter dans mes ads du mécanisme qu'il se passe dans le corps quand on prend le gumizymélatonine SOMIA pour bien dormir et ça doit être très pro
+
+[27:10] et sans dialogue nitexte on va voir ce qu'il va de donner parce que c'est un peu vague l'objectif c'est d'avoir par exemple des ondes qui m'ont de cerveau je sais pas les faits de la mélatonine au cerveau mais de manière 3D que vous pourriez ajouter par exemple dans une vidéo type scientifique dans une ads type scientifique avec un docteur ou quoi que ce soit qui prête vraiment pas mal donc là il va nous créer le prompt
+
+[27:32] et voilà donc on va copier et on va directement aller dans XFILD on va sélectionner contrôler et là on va pouvoir peut-être changer le type on peut laisser auto là on peut laisser auto ultra face ça c'est bon on va pouvoir mettre youtube short
+
+[27:54] et on va pouvoir ajouter on va juste ajouter dans les settings on va mettre 8 secondes et on va pouvoir envoyer donc en attendant que cette vidéo là soit générée on va en gérer une dernière qui sera une vidéo un peu style cinématique donc créer un prompt sera pour une vidéo TikTok de 12 secondes qui montre mes gummies somnia pour bien dormir on va ajouter directement le produit on ajoute
+
+[28:16] j'aimerais qu'il y ait des jumps cuts rapide des texte popping avec des transitions fluides une ambiance de soir cosy couleur pastel lavante et bleu nuit et sur une table de nuit pardon une main qui emprunt bougie allumée, livre, lumière douce on peut mettre entre parenthèses légumise une forme
+
+[28:38] carré rouge foncé comme ça il a vraiment le bon truc là on va pouvoir lui envoyer et il va nous recréer un bon petit prompt voilà donc voilà il nous a généré tout le prompt on va pouvoir le copier on va aller dans XFILD donc on peut lui dire de légèrement raccourci le légèrement
+
+[29:00] sans supprimer les détails donc là il nous a bien regeneré le prompt un peu plus court, on va pouvoir le copier et on l'envoie donc voilà les deux vidéos ont bien été générées là on va pouvoir start la première
+
+[29:23] qui était la vidéo 3D ça va faire un béâtre ça te pourrait faire par exemple le... c'est vraiment magnifique parce que ça pourrait vraiment faire partie d'une nade dans le script si imaginons vous dites par exemple la melatonine secrète directement dans les cellules l'hormone du sommeil qui permet de mieux dormir etc boum vous mettez ce passage là ça parle ses parlances et qualitatifs c'est vraiment magnifique pour la dernière vidéo la voici
+
+[29:45] on va mettre le son franchement elle est vraiment pas mal elle est un peu lente on aurait pu améliorer les instructions pour qu'elle soit plus dynamique pour qu'il y ait un peu plus de scène mais sinon la qualité de scène est vraiment magnifique là on peut voir qu'elle prend le gumise
+
+[30:05] elle a bien respecté le gumise comme je vous l'avais dit donc il est carré, il est rouge foncé la qualité de la boîte etc elle est vraiment top, il est bien respecté c'est magnifique parce que c'est ça en fait grâce à ça et grâce à cette méthode vous allez vraiment pouvoir générer énormément de contènes différents avoir des personnes à différents pour pouvoir tester plein d'angles et faire plein d'iterration, plein de nouveaux contents pour vos aides
+
+[30:27] c'est vraiment ça l'objectif donc j'espère que cette vidéo vous a plu et que vous avez bien aimé si vous avez la moindre question, quoi que ce soit n'hésitez pas à m'envoyer un message je vous ferai un plaisir de vous aider
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 26 : Ep #1 - Arcads IA et formats qui convertissent
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 26
 ======================================================================
 
@@ -2791,16 +2955,62 @@ Arcads permet de créer des UGC avec des acteurs IA pour diversifier tes formats
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui, je ne vais pas vous montrer un concept, une trend qui marche, mais plusieurs concepts qui marchent et en plus comment vous allez pouvoir les implémenter directement avec l'IA. Donc ça vous coûter beaucoup moins cher. Et si je commence à vous en parler, c'est parce qu'on a testé et ça marche, on a des winning ads avec des acteurs. Donc je vais vous montrer sur une petite vidéo.
+
+[00:21] Donc c'est Creative Insights. Simplement le but c'est de vous faire découvrir les nouveautés, les tendances sur quoi il faut surfer. Et ce qui marche actuellement pour nous. Donc c'est ce que je vais faire. Ça n'a pas une très longue vidéo, je vais simplement vous montrer et ensuite à vous d'un peu aller dedans creuser l'outil. C'est très simple à utiliser. Donc le premier format qui marche très bien pour votre produit, c'est un format skit ou
+
+[00:44] ce qui a deux personnes qui se parlent. Donc il faut un acteur, il faut un bon acteur. Et là sur ARCAT, donc on est sur arcat.ai. On a plein plat d'avateurs et maintenant ils sont très bien fait. Et vous pouvez choisir deux acteurs, un homme, une femme qui se parle et qui se regarde. Et c'est très très puissant.
+
+[01:05] Donc simplement vous pouvez prendre vos meilleurs scripts et le faire sous forme de discussion. Vous pouvez simplement demander à Tchasse UBT ou plus dire le Tchasse UBT de la communauté, enfin du school pour lui dire ok reprends mon meilleur script et simplement fait pour un format skit ou ce qui a deux personnes se parlent. Et c'est un format qui est très diversif, divertissant, pardon, et qui marche aussi beaucoup
+
+[01:31] sur TikTok. Ce que je conseille pour ce type de format, c'est taper sur du solution product aware. Produit, ça va être un peu plus compliqué de l'étenir tout du long sur un format assez court. Donc là je ferai une ad de 30 à 1 minute 30 maximum sous ce format là. Ça marche très bien et on a des superacteurs et donc vous pouvez
+
+[01:55] et vous pouvez être très bien. Elle est très bien et si la voix vous convient pas, vous pouvez mettre votre propre voix de l'Evenlabs. Ceci possible. Ce que je conseille, c'est sourcer pour là qui sont assez loin, c'est de zoomer. Là c'est trop loin. Là en fait on a un espace qui est trop loin que l'on n'arrive pas à lire les émotions.
+
+[02:19] Donc quand vous reprenez vos plans, il faut que vous mettez un plan si plus zoomé. Donc voilà, ça c'est bien. Mais ça c'est trop loin. Voilà juste un tips. Ensuite ce qui marche très bien aussi c'est street interview. Donc street interview vous pouvez faire comme si vous avez fait un street interview. Par exemple vous avez un produit, on va dire vous avez un parfum.
+
+[02:41] Ok, qu'est-ce que vous avez pensé de ce parfum ? Si vous avez déjà des scènes que vous avez tournées dans le réel, juste d'une scène c'est que vous faites sentir à quelqu'un qui est vous pensez du parfum. La personne réagit puis ensuite vous faites une réaction de plein de personnes différentes. Ok, donc question elle peut pas penser. Elle lui dit amazing j'adore l'odeur.
+
+[03:01] Elle elle dit j'aimerais que mon mari sente ça. Ça m'excite pas importe je sais pas. Et vous pouvez combiner plein de personnes, plein de diaries ici. Et avoir un résultat ou c'est que c'est un effet social proof de ouf. Donc c'est vraiment très puissant. Après il y a des formats comme ça ou c'est un peu poussé.
+
+[03:24] Mais moi ce que je conseille c'est le street interview. Si vous avez déjà une scène préfaite ça peut montrer votre produit. Le seul inconvénient c'est qu'on comprend pas votre produit. Donc il faudrait que vous montrez votre produit pour faire un montage. C'est que les gens ils savent que ça parle du produit. Si on voit pas du tout produit dans la vidéo c'est pas top. Mais c'est pour ça que je conseille d'utiliser vraiment arcade.
+
+[03:46] Comme complément et pas faire toute une vidéo avec. C'est à dire ça peut ajouter la voiceover, le talking head de la vidéo. Mais après derrière il faut que vous mettez des footage. Ok je sais pas pourquoi il y a des faits d'artifice. Il faut que vous mettez des footage qui montrent votre produit etc. Donc le street interview marche très bien aussi.
+
+[04:07] Ça dépend des produits. Là pareil on peut faire du format un peu plus long. On peut faire du problème à ouère. Mais après il faudra mécaniser donc c'est un peu plus dur en street interview. Je dirais en street interview faites sur des réactions. Sur des réactions et des choses très physiologiques. Tout ce qui est attirance ou tout ce qui est beauté.
+
+[04:28] Donc voilà. Ensuite on avait quoi d'intéressant ? On a tout ce qui est docteur aussi. Donc docteur ça c'est un format. Il marche bien pour tout ce qui est santé. Alors ou c'est qu'on a le docteur. Je vais vous montrer d'abord le format podcast. Le format podcast.
+
+[04:50] Très très bien. Et ça marche. Il y a pas mal de winning hats notamment. Il tourne sur beaucoup de winning hats. Pas savoir où est bien. Donc il n'y a pas forcément de la modifier. Mais il y a beaucoup de plans qui sont très très très bien. Alors je vais vous montrer le docteur aussi.
+
+[05:10] Docteur. Docteur. Docteur. Docteur. Donc très puissant. Soit vous prenez un docteur comme ça et vous lui montrez. Tant en tant dans la vidéo. Ça passe.
+
+[05:32] Rien que le fait de voir le docteur en début de la vidéo par exemple. Juste une seconde qui dit une phrase. Et après tout le reste. Vous avez vous fouté. Ça va changer totalement la vidéo. Donc je vous invite à regarder. Parce qu'il y a plein plein de choses. Ils ont mis beaucoup de choses. À jour. Voilà on peut même questionner. Questionner des pompiers.
+
+[05:54] Si on pense. Il y a même quelque chose que ça je vous dirai pour la fin d'année. Mais qui est très puissant. C'est ça. Je vais vous montrer. C'est une vidéo avec le père Noël. Et qui est tout. Je suis persuadé. Selon une niche. Mais de vidéos bien scriptées.
+
+[06:16] Avec le père Noël. Ça peut cartonner. Donc voilà. Je vous donne le site Arcat. Peut-être qu'on peut regarder pour avoir une réduction. Une appellation web. Pour l'instant on s'en fout. Allez sur Arcat. Prenez un abonnement. Ça coûte 100 dollars.
+
+[06:38] On est prêt. Mais ça les vaut. Parce que des acteurs. C'est minimum 100 dollars. Et là vous avez. Je sais plus combien de vidéos. Je coigne une dizaine de vidéos pour 100 dollars. Ça vaut vraiment la peine. Quand vous testez des acteurs. Je vous conseille vraiment de reprendre vos meilleurs scripts. Vos meilleurs angles.
+
+[07:00] Ne venez pas tester de manière toute nouvelle. Tout avec les acteurs. Partez sur des choses validées. Ce qu'on fait c'est comprendre nos meilleurs scripts. Ici. Ça j'ai fait un test. On le modifie avec Transibété selon le concept. Par exemple si c'est un concept podcast. On va venir adapter. À que ça soit naturel en podcast. Ça parle pas de la marque. Enfin on vous propose ce produit.
+
+[07:22] Mais ça parle de cette marque. Parle de ceci etc. Donc voilà. Il y a aussi par accessoire. Vous pouvez regarder. Des gens qui portent des bijoux. Des fruits qui sont très bien pour les hooks. En tout cas c'est un petit type. Ce que je vous donne en hook. Ça ça cartonne. C'est dommage qu'ils ont pas mis plus de femmes.
+
+[07:44] Parce que là avec les femmes ça aurait continué de marcher. Donc je vous montre en fait. Pourquoi ça cartonne. Alors. Pourquoi on n'arrive pas à le voir. Encore. Voilà. Voilà.
+
+[08:06] Je vous invite vraiment. Allez en profondeur. Si ça vous plaît. Je vous ferai plus de vidéos. Plus détaillées sur Arcat. Sur des cas concrets. Donc. Pour des scripts. Pour des concepts qui marchent pour nous. Je pourrais vous faire l'effort. De refaire un exemple pour vous.
+
+[08:28] Pour montrer pourquoi ça marchait pour nous. Je ne vous montrerai pas exactement les mêmes acteurs. Si vous avez déjà un bon volume. Il va falloir diversifier vos scripts actuels. Avec Arcat. Ça va vous donner des nouveaux concepts frais. Avec un Tata d'acteur. Donc il y a vraiment de quoi faire. On voit cet émateur. Allez. Tcha tcha.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 27 : Ep #4 - Présentation + Utilisation de Mirage
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 27
 ======================================================================
 
@@ -2842,16 +3052,56 @@ Mirage App permet de créer des avatars IA ultra-réalistes calqués sur ton cli
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui, j'aimerais faire un petit creative insight sur quelque chose qu'on utilise actuellement et qu'on a setup dans nos process. Je pensais important de vous partager. Pour résumer quelque chose de très important dans le domaine des créatifs, c'est qu'il faut avoir des footage, il faut avoir des b-rolls. Et c'est les b-rolls qui vont pouvoir illustrer le contenu.
+
+[00:22] Dans vos meilleurs rats, il n'y a pas que le script, il n'y a pas que les principes psychologiques, il y a aussi la qualité des b-rolls. Donc les b-rolls sont ultra importants. Nous, on a eu plusieurs fois des b-rolls fatigues. Des b-rolls fatigues, c'est quoi ? C'est qu'on avait les mêmes shots qui marchaient très bien, qui avaient dépensé des millions.
+
+[00:42] Et que nos videoteurs utilisaient encore et encore, même sur des nouveaux scripts, même sur des nouveaux concepts. Ce qui faisait qu'il y avait moins d'attractions, ce qui faisait que Meta avait toujours vu ses footage. Et les mettaient moins en avant que les gens réagissaient moins bien. Donc c'est très important d'avoir un système qui permet d'avoir de footage frais chaque semaine. Donc pour ça, il y a des comptantes créateurs.
+
+[01:04] Il y a des videographeurs, c'est-à-dire, vous pouvez trouver des videographeurs sur Fiverr ou vous-même, qui tournent du contenu frais chaque semaine, chaque mois et qui envoient du nouveau contenu. Personnellement, nous ce qui a mieux marché, c'est de faire le contenu maison, c'est-à-dire le contenu que je tourne moi-même avec des proches.
+
+[01:27] Et c'est le contenu qui a mieux marché parce que des fois j'ai des idées et on prend plus le temps à faire des choses calies. Donc voilà, il faut avoir du contenu frais. Et pour ça, maintenant, il utilise des outils. Nous maintenant, on utilise une manière de speed-up et à moindre coût d'avoir de footer chaque semaine.
+
+[01:48] Et c'est l'éhigh. Donc je vous avais déjà présenté Arcade. Sauf qu'Arcade, il y a quelques limites. Et là, on utilise une autre app en plus, qui est incroyable pour le contenu UGC. Parce qu'en fait, vous pouvez créer des avatars de zéro et vous pouvez créer des avatars comme vous voulez.
+
+[02:10] Je vous montre un exemple tout bête pour montrer à quel point ça peut être puissant. Pour une brand, on a fait une analyse de l'avatar type, de l'outra-vatar type. On a défini des fans à avatar type. Et on leur a demandé, ok, défini-moi la personne, à quoi ressemble la personne qui pourra avoir de l'influence sur lui
+
+[02:31] sans être une preuve d'autorité. Il y a quelqu'un qui ressemble à pas l'outra-vatar et qui pourrait inspirer notre autorité. Et on a créé Ron ici. On a version avec cheveux et sans cheveux. Et ensuite, on s'est dit, ok, on va pouvoir créer des concepts podcast. Et on a mis un fond derrière comme Joe Rogan. Je ne sais pas si vous connaissez le podcast Joe Rogan, mais c'est ultra célèbre aux US.
+
+[02:54] Et du coup, je pense clairement, je vous fais cette vidéo parce que je venais de le faire ce matin. On a créé cet avatar avec Chatubit et qui est réaliste. Et là, avec cet app là Mirage App, on va pouvoir faire parler cet avatar en podcast. Et je ne peux pas vous montrer le résultat,
+
+[03:15] mais je vais vous effaire un résultat test pour vous montrer comment ça donne. C'est très performant, c'est très bien fait. Et pour le français, c'est mieux que Arcat. Pour le français, c'est mieux que Arcat. Et je crois qu'il y a une manière, si on contacte le support, de faire uploader des voix. Donc comme ça, vous pouvez faire des voix sur Eleven-Lens et faire uploader.
+
+[03:39] Et donc voilà, ce que je vous conseille, du disestable, c'est un app assez cher qui coûte 199€ le mois pour les premiers mois test, mais qui permet en fait d'avoir du contenu très peu cher, vu la qualité et qui permet de tester des concepts. C'est-à-dire tester des formats podcasts, tester des formats micro trottoirs, tester en fait n'importe quoi parce que seule votre imagination,
+
+[04:02] seule votre imagination pourra vous arrêter. Parce que vous pouvez très bien faire à quelqu'un qui se fait arrêter dans la rue, quelqu'un qui je ne sais pas, est en combinaison de cosmonaute. Et c'est très, très réaliste. C'est vraiment très, très réaliste. Donc là, vous avez des avatars qui vous ont posés. Moi, j'ai pris un exemple avec lui. Donc je vous ai fait un exemple.
+
+[04:26] Et ce qui est bien, c'est qu'en fait, simplement, vous mettez le texte, ça génère la voix. Ensuite, vous sélectionnez votre avatar. Vous pourrez sélectionner plusieurs et voir le prévu de comment ça donne avec plusieurs. Et après, vous pouvez corriger frame par frame. C'est-à-dire, même si une frame qui n'a pas l'air authentique, eh bien, vous pouvez la refaire jusqu'à que ça marche. Donc là, ça, c'est le résultat frame par frame.
+
+[04:47] Je n'aurais préféré ne jamais découvrir cette marque. Maintenant, je ne peux plus porter autre chose. Si vous êtes un homme de plus de 40 ans, cela va vous changer la vie. Vraiment, je trouve ça très, très bien fait, très réaliste. Et ce qu'il faut bien sûr tenir compte, c'est qu'on utilise ça seulement pendant 2 secondes dans l'AT.
+
+[05:10] C'est-à-dire, on voit 2 secondes là, 2 secondes là, 2 secondes là, 2 secondes là. Les gens se croient que ça n'en a pas de casse, mais après, derrière, on illustre avec des bireaux. Donc c'est vraiment ultra puissant. Ultra puissant, je vais vous montrer la vidéo en entière. Je n'aurais préféré ne jamais...
+
+[05:30] Ah ouais, non, je peux juste la tête chercher comme ça. Donc je vais vous la montrer en entière. Ok. Marc, maintenant je ne peux plus porter autre chose. Si vous êtes un homme de plus de 40 ans, cela va vous changer la vie. Donc ouais, moi je trouve ça vraiment, vraiment très bien fait.
+
+[05:53] Honnêtement, on a fait quelques zettes et ça donne super bien. Donc ce que je conseille, c'est de faire déjà votre personne qui résonne avec votre avatar. Format podcast, inspirez-vous de ce qui marche. Si vous faites des formats street interview, inspirez-vous de hats qui marchent en street interview et vous demandez de mettre un fonds pareil. C'est pour ça que j'ai mis ce fonds là sur podcast,
+
+[06:15] parce que c'est inspiré d'un podcast célèbre. C'est-à-dire que pour les gens, ça va déjà être quelque chose qu'ils ont l'habitude de voir. Donc là, on peut aussi générer de manière automatique des acteurs. Ah non, ok, ils génèrent ici. Pardon, c'est si très bien éclairé, c'est très bien.
+
+[06:37] Ils appliquent en plus des bons principes. Là, il y a un peu trop de choses derrière, mais vous pouvez très bien créer avec des fonds verts. Mais ce que je veux dire, c'est que en fait, l'oral avatar est très bien fait, parce que son arcade, c'est un peu plus aléatoire. Là, ils sont très bien cadrés. C'est-à-dire qu'il y a une bonne numérité.
+
+[06:58] Pardon, les acteurs. Ouais, ça c'est très bien. Sa pare-ambre va l'utiliser, s'en va l'utiliser. Ça, ça pourrait être très très bien. Ça aussi, et ça fait vraiment naturel. Donc, j'utilise de tester et mirage. Donc, il n'y a pas de collaboration ni rien. Simplement, c'est nappes qu'on utilise maintenant,
+
+[07:22] que j'ai mis dans mes process récemment. Et que je sais qu'ils marchent pour des agences de créatives. C'est comme ça que j'ai découvert. Et vraiment pour avoir des acteurs registrés à moins dans le coup, et d'avoir du contenu frais chaque semaine. Donc voilà, c'était Matteo, Creative Insights, à bientôt.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 28 : Ep #46 - ADS Cartoon IA
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 28
 ======================================================================
 
@@ -2893,16 +3143,72 @@ Thomas démontre comment générer des vidéos cartoon publicitaires en automati
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Salut à tous c'est Thomas j'espère que vous allez bien aujourd'hui on se retrouve pour un créatif insight IA donc je vais vous montrer comment générer des ads cartoon IA via un skills plot code vous allez voir c'est super simple mais avant tout je vais vous montrer le genre de résultats qu'on peut obtenir donc la première vidéo
+
+[00:20] ton café ne te donne pas d'énergie il te la vole chaque matin c'est un coup de fouet chaque après-midi c'est la facture pig d'énergie palpitations et le crash à 14 heures brouillard mentale irritable vider tu reprends un café pour tenir ce cycle ce n'est pas toi c'est le café seul moi je suis crinière de lion avec cinq champignons adaptogène je forme le système de synergie moins de café in énergie stable pas de crash
+
+[00:44] mouchillo 30 jours pour l'essayer si tu n'aimes pas on te rembourse tu gardes même le sachet reprend ton énergie mouchillo.com voilà ça c'était la première et ton café te vole ton énergie et personne ne te le dit moi c'est lion's mane et je vais te révéler la vérité
+
+[01:07] chaque tasse de café classique crée une dette d'énergie ton cerveau fabrique plus de récepteurs de fatigue résultats poids moi je fais l'inverse je stimule ton facteur de croissance nerveuse t'énero ne se régénère ta concentration devient laser si champignon zéro crash 100% naturel c'est mouchillo le café qui nourrit ton cerveau au lieu de l'épuiser essaye le
+
+[01:31] maintenant je vais vous montrer comment faire en action vous allez voir c'est vraiment super simple donc déjà avant toute chose il va vous falloir une API CIII et Claude ok donc téléchargez bien Claude si vous l'avez il vous le faut en plan minimum pro donc
+
+[01:51] pour accéder à Claude ok ce que oui on va fonctionner avec le code ok donc une fois que vous avez Claude il va falloir aller sur qui aille et vous créer un compte ok quand vous êtes qui aille que vous avez bien créé votre compte rendez vous dans api market
+
+[02:13] et on va créer une clé api ok donc là rendez vous dans api qui moi je l'ai déjà créé mais vous vous cliquerez sur crééit new qui vous la nommez par exemple
+
+[02:34] car point et voilà vous avez votre clé bon là entre autres moi je vais la supprimer gardez la bien pour vous ensuite une fois que vous avez créé votre clé api qui aille et que vous avez
+
+[02:56] des crédits évidemment il vous faut environ entre 200 et 300 crédits sur qui aille donc ça vous coûte quelques euros donc voilà veillez à avoir peut-être ouais entre 200 et 300 crédits c'est bien ensuite
+
+[03:18] rendez vous sur le drive donc vous allez cliquer sur ce lien téléchargez du coup ce zip donc hop télécharge une fois téléchargez du coup vous allez avoir ce document là vous allez le désiper
+
+[03:45] puis droit extraire voilà vous allez vous retrouver avec ce document ci il est là voilà et maintenant dans ce document vous allez pouvoir coller la clé qui aille qu'on a généré précisément ok
+
+[04:09] donc on ouvre le document juste ici donc vous allez ouvrir votre document qui aille à pays qui est donc dans le bloc note vous allez remplacer cette clé api ci par votre clé qu'on vient générer sur qui aille ok donc rendez vous
+
+[04:35] avec sur qui aille on va copier notre clé qu'on vient de générer juste ici on retourne sur le bloc note on va coller on sélectionne bien tout notre clé et on fait enregistré et on peut fermer directement ok ensuite il nous restera une petite étape maintenant qu'on a la clé
+
+[04:58] api on va aller dans le dossier doc et on va importer tous les documents qu'on a généré bien manus donc nos documents fondamentaux ok donc vous importez vos documents fondamentaux donc cela et une fois que c'est bon on peut directement passer à clé de code ok tout est bon tout est cet on va pouvoir avoir notre vidéo on veut vous montrer ça
+
+[05:25] ferme rendez vous du coup sur pload là vous vous allez atterir directement sur le chat normalement il vous faut comme je vous le disais un plan pro minimum ou c'est préconisé quand même un plan max x 5 pour le code
+
+[05:46] il a des limites justifications plus et b c'était pour ça mais je pense qu'un plan pro ça devrait faire le tas tant que vous avez accéder à clôte-côte ok donc là au lieu d'aller dans chat juste ici vous allez aller dans code ok clique sur code en fait une ou ces ciens ok et là du coup on va aller bien sélectionner notre document normalement vous n'aurez rien ici vous allez cliquer ici ouvrir un dossier
+
+[06:12] sur le bureau du ploono document et là ok donc on sélectionne bien cartoon ads le document avec la peyquille le ski c'est à l'intérieur ok et bien sûr nos documents fondamentaux on sélectionne le dossier la camp c'est bien sélectionné on peut le voir apparaître ici ça veut dire que
+
+[06:33] clôte-côte est bien dans le document ok ensuite vous pouvez le mettre soit en ignorez les permissions donc ça c'est vous qui choisissez soit vous le laissez agir en toute autonomie sur votre pc soit vous vous acceptez les permissions en fait il va vous demander des autorisations pour les lignes de commandes
+
+[06:55] c'est vous qui choisissez moi je vais bien laisser en ignorer les permissions pour que ça aille plus vite mais faire attention peut vraiment lire l'intégralité de votre pc donc ça c'est vous qui voyez donc voilà une fois que clôte et setup il est bien dans le dossier on a bien mis notre appai qui on a bien mis nos documents on va simplement envoyer
+
+[07:16] go à clôte et vous allez voir la magie va opérer donc là il va lire notre pichet donc je vais vous montrer ça il va accéder ici donc au dossier il va être en train de lire du coup le clôte md qui est le prompt qui lui donnent les
+
+[07:38] exécutions là vous voyez la créé un dossier donc il a dézipé celui là je vous montrez en direct voilà il extract de file de skills donc il a dézipé le skill là il a compris le skill et là il va lire la trou il va voir exactement ce qu'il doit faire et vous allez voir il va créer le script
+
+[08:01] générer les scènes avec nano banana ensuite animer les vidéos et compacter les scènes en une seule ad et vous allez voir le résultat donc ça peut prendre un peu de temps donc là évidemment il dit nos documents pour comprendre notre produit donc bien évidemment vous ce sera différent du que vous aurez vos documents ciblés sur votre produit
+
+[08:24] et va générer un script différent des ad différentes donc ce skill est vraiment adapté à n'importe quel produit suffit simplement d'importer les documents adaptés ok donc là il est en train de comprendre notre produit je vais mettre en pause le temps de procès parce que ça peut prendre comme un petit peu de temps
+
+[08:47] en général ça durer 5 à 10 minutes parfois 15 donc je vous reprends et je vous montre le potentiellement les étapes donc on retrouve tout de suite donc là voilà il nous dit qu'il a assez de contexte s'il a bien lu tous les documents il fait son choix du coup sur le personnage il nous explique pourquoi il choisit ce personnage
+
+[09:13] il choisit l'angle les hoocs le vocabulaire le cta et donc là il est il est en train de décrire le job et ensuite il va pouvoir commencer directement à générer les scènes puis les annuler donc je vous reprends juste après et voilà donc il a bien terminé ça a pris un peu de temps une dizaine de minutes mais il a complètement fini il a fait le process de
+
+[09:41] A à Z donc je vais montrer le résultat là pour voir le résultat l'output rendez-vous dans le dossier vous pouvez rendez-vous du coup dans cartoon et a vidéo ki i dans le dossier dans output ok et là on va cliquer sur final
+
+[10:04] et attention j'avoue tout je suis ton café et chaque jour je te vole ton énergie à 9h00 tu trembles à 11h00 tu paniques à 14h00 crash tes prisonniers de mon cycle moi lion's main je nourris ton cerveau au lieu de le forcer énergie calme focus laser zéro crash
+
+[10:32] avec moi mouchillo si champignon remplace ton café 30 jours pour m'essayer où c'est gratuit et voilà une seule requête je vous rappelle qu'on a juste envoyé go à clout code donc n'hésitez pas à vous faire plaisir maintenant générer des vidéos il ya
+
+[10:52] en cartoon en illimité et ensuite vous avez juste à rajouter peut-être potentiellement des sous-titres avec cap cut ou peut-être une petite musique ou quoi mais voilà quasiment une ade toute faite adapté à votre produit
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 29 : Ep #47 - ChatGPT Image 2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 29
 ======================================================================
 
@@ -2944,16 +3250,76 @@ ChatGPT Image 2 se distingue par son mode "sinking", son rendu de texte exceptio
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello à tous c'est Thomas on se retrouve pour un créatif insight sur chat gpt image 2 donc c'est le nouveau modèle de génération d'image d'open ea donc il est banger et on va voir ensemble pourquoi il est banger et surtout on va le comparer avec nano banana 2 donc on va envoyer les mêmes prontes avec les mêmes références pour voir en fait la différence entre chat gpt image 2 et nano banana 2 ok donc
+
+[00:28] les trois choses qui changent tout pour chat gpt 2 image c'est que surtout c'est un modèle syncing donc en fait il va sur le web il croise les sources qui résonnent avec la structure de l'image avant de la générer par exemple si on lui donne une infographie sur le marché il va chercher les vrais données donc il y a vraiment une sorte de cohérence
+
+[00:50] qui est vraiment accentué quoi grâce à ce mode syncing donc ensuite il y a un rendu du texte qui est vraiment vraiment hallucinant donc qui respecte le texte c'est rare des modèles d'image qui respectent vraiment le texte donc qui respecte les paragraphentiers les polices la hiérarchie de la typographie
+
+[01:11] tu sort des couvertures de libra en gros des magazines etc vraiment cohérent comparé à d'autres modèles où il va toujours y avoir des petits choses à revoir ou autre donc voilà il respecte le contexte global donc si jamais tu lui charge une image tu lui demandes une motif le reste ne bouge pas contrairement à d'autres modèles ou des fois
+
+[01:32] ça va bouger au niveau du visage ou des petits détails ou autre par contre la censure de open ai est toujours très agressive donc pour pas oublier que c'est quand même un modèle d'open ai donc si vous générer des des visages connus du contenu sensuel un peu gore ou un peu
+
+[01:54] compliqué on va dire que ça va être rapidement bloqué simplement donc faites attention à ça c'est un très bon modèle mais il est quand même assez agressif en sens sur ok donc voilà on va commencer tout de suite on va se rendre sur x-field et on va pouvoir comparer directement avec deux promptes donc on commence tout de suite
+
+[02:15] ok donc on est sur x-field on va pouvoir du coup sélectionner charge et pt de image on va faire uniquement des images en 1 1 4k et ai pour la comparaison ok donc là je vais aller chercher le premier prompt qui est du coup un prompt image produit donc on va pouvoir le copier
+
+[02:37] le coller dans x-field et je vais importer du coup la référence tac de mon produit donc là j'ai bien charge et pt de image sélectionner et je vais pouvoir cliquer générer
+
+[02:59] ok maintenant je vais faire la même chose avec nano banana 2 donc toujours en 1 1 et le même setup donc on est bon je clique sur générer ensuite je vais envoyer les autres promptes et je vous reprends juste après je vais envoyer tous les promptes
+
+[03:20] de cette manière en envoyant sur les deux modèle je vous décris rapidement les promptes donc là on va avoir une ade là comme vous le disiez c'était une image produit ensuite on va avoir une native ade et une image l'oade donc l'image qu'on a importé tout une ade ça va nous permettre d'avoir des tests assez variés pour pouvoir comparer
+
+[03:44] les deux modèles donc j'envoie toutes les images dans x-field avec les deux modèles et je vous reprends juste après pour la comparaison et donc toutes les générations sont terminées on va pouvoir comparer chaque image donc là on va avoir la première image donc ça va être l'image produit ok donc
+
+[04:06] en tant que caroussel d'image produit Shopify donc là on va avoir l'image de gpt2 ok et ici l'image de nano balle comme vous pouvez le voir déjà sur cette image la différence est assez flagrante au niveau du réalisme du détail sur par exemple les champignons je sais pas si vous le voyez
+
+[04:29] au niveau des plantes aussi même le petit le côté orangé un peu pâle derrière qui match vraiment bien avec le design du packaging les couleurs même les grandes cafés la tasse on peut voir que c'est ultra réaliste
+
+[04:51] qu'on pourrait aici vous c'est assez lissé si on peut dire ça même au niveau des petits détails sur les les logos je sais pas si on peut appeler ça comme ça mais avec le texte c'est assez clean c'est très propre je trouve que en tout cas cette image pour le coup
+
+[05:14] si on peut donner un système de point le point va largement à chadjp t image comme vous pouvez le voir là c'est très simple en fait sur nano balle 2 et je trouve en tout cas moins cali que au global chadjp t image comme vous le voyez ok donc on passe à la suite du coup la prochaine image c'est
+
+[05:37] lats meta donc à partir de l'image qu'on a porté les deux ont généré une ade donc là ici on a lats de chadjp t image donc quel café qui ne te crache pas énergie douce est spéclaire ok pour voir la youngsmen qui cite bien le youngsmen fraichik concept je commande 100% bio
+
+[06:00] ok la qualité d'une magie propre très bien je comparais avec nano et là on a le café qui ne te crache pas par l'énergie de six priclaires et un smet fraichik concept je commande ce que par exemple ouais il y a des petits détails là on peut voir ok les champignons
+
+[06:23] c'est ok je trouve que ça se vaut au niveau des ades là pour le coup mais comme vous pouvez le voir il y a toujours ce côté assez clean assez réel avec le je pense c'est un masque visuel ou autre qui correspond bien la lumière et vraiment
+
+[06:44] propre en tout cas sur lats de chadjp t2 avec cette lumière un peu jaunie qu'on n'a pas sur nano banana qui est un peu terne quoi ça c'est vraiment des couleurs simples donc il y a déjà ça ensuite au niveau de la qualité
+
+[07:05] je trouve que nano banana fait quand même assez bien le job au niveau du respect de la qualité réelle de l'image ensuite pour regarder pour jp t honnêtement lui aussi il y a peut être un petit bleu qui s'y avoir la tasse se retrouve devant le sachet en fait le sachet devant
+
+[07:27] donc là là dessus il y a peut être une petite incohérence mais au global je trouve que lats est quand même plus propre sur jp t que sur nano même si il y a cette petite incohérence donc là peut dire à peu près égalité sur ce point là ensuite on va avoir du coup
+
+[07:50] la native ads donc ici là c'est la native ads de jp t donc comme vous pouvez le voir c'est oui toujours cette lumière assez la lumière est très bien gérée et là c'est sur celle de nano banana donc là encore une fois la même conclusion
+
+[08:13] la lumière est très sobres et très lisse en fait pareil pour l'image on peut presque voir que c'est de lia tout est assez lissé quoi il n'y a pas de il n'y a pas énormément de détails comparé à ici ou vraiment on peut voir vraiment une précision dans le détail quand par exemple la fumée
+
+[08:36] qui passe devant les plantes c'est vraiment précis il y a vraiment de la cohérence il y a un livre là aussi un livre mais il y a plusieurs plantes il y a vraiment les grains on voit vraiment le le café qui tombe là aussi mais c'est assez
+
+[08:59] moi je trouve que là pour le coup sur cette image sur cette native jp t gagne de point quand on peut le voir ici là il y a du café qui dépasse normalement c'est pas censé dépasser du sachet c'est une petite incohérence de nano banana je pense mais non clairement celle ci peut le voir directement elle est beaucoup plus propre
+
+[09:20] au global même dans le détail donc là le point va encore à jp t2 ok ensuite dernière image donc c'est cette fois ci l'ad là on va avoir l'image de jp t juste ici et l'image de nous maintenant ici alors là clairement c'est sans équivoc
+
+[09:45] comme vous pouvez le voir encore une fois il y a toujours ce côté très lisse très il a bon on voit directement que c'est liable c'est c'est c'est lycée il y a vraiment pareil niveau lumière c'est toujours très sobres comparé à jp t où on voit vraiment du pas il y a énormément de détails il y a de lumière qui est vraiment plus propre
+
+[10:11] même le petit logo avec le bio nadine france ça rend beaucoup mieux qu'ici le café qui te révélisant te cracher le café qui te révélisant te cracher au niveau du texte ça se vaut au niveau du pk ging c'est similaire mais surtout vraiment niveau détail lumière
+
+[10:37] réalisme il y a vraiment quelque chose en plus sur jp t1 donc là aussi je donnerai le point jp t sur cet ad pour la comparaison je vous incite à vraiment tester comparé ne pas hésiter non plus à tester vs d'autres modèles comme par exemple sur si dream ou flux
+
+[11:00] qui sont aussi des très bons modèles de génération d'image vous pouvez comparer les quatre donc nano banana 2 jp t 2 si dream 4.5 et plus du 2 pro et voir lesquels vous conviennent le mieux pour vos générations d'image mais là
+
+[11:20] comme on l'a vu dans les comparaisons d'être moins jp t vraiment top en tout cas en termes de réalisme de cohérence de lumière donc voilà pour ce créatif insight
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 30 : Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 30
 ======================================================================
 
@@ -2993,16 +3359,52 @@ Un workflow en trois outils pour créer des vidéos storyboard publicitaires : C
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello la team, j'espère que vous allez bien et que vous êtes en force bienvenue dans ce creative inside dans lequel je vais montrer comment réaliser ce type de vidéo storyboard directement avec CDANCE et tchatsypéé. On va pouvoir générer ce type et aussi ce type.
+
+[00:37] L'objectif en fait c'est de créer avec gpt2 image un storyboard comme ceci donc avec toutes les étapes par lesquelles on va passer la vidéo et ensuite une fois que vous avez ce storyboard vous allez directement l'envoyer dans CDANCE et CDANCE va vous générer ce type de vidéo. Ce qui est vraiment bien c'est que déjà ça vous fait pas mal de birelles hyper rapidement vous avez des birelles de 3 secondes que vous allez pouvoir reprendre pour même d'autres vidéos des birelles hyper qualitatives et en plus de ça vous allez simplement ajouter peut-être une
+
+[01:00] petite voix off ça peut générer une adse qualitative hyper rapidement. Ce que vous pouvez même faire c'est diviser en deux donc vous allez faire plusieurs storyboards pour avoir finalement une adse complète et ça ça peut être totalement faisable. Pour pouvoir créer ce genre de storyboard ce que vous allez devoir faire déjà c'est déjà aller sur CLOT. Donc sur CLOT j'écris un skill ce que vous allez simplement devoir faire c'est reprendre ce skill, aller dans compétences. Ici dans compétences vous allez sélectionner compétences et vous allez simplement ajouter
+
+[01:24] une compétence, parcourir une compétence, créer une compétence, là vous allez téléverser une compétence et vous allez simplement ajouter la compétence que vous avez donnée. Donc ça inscrit en fait, tu vas directement créer pour CLOT code, pour CLOT vous allez pouvoir utiliser directement pour pouvoir générer le brief, ensuite le prompt pour CDPT et ensuite le prompt pour CDANCE. Je vous montre tout ça.
+
+[01:44] Vous allez dans une nouvelle discussion, on va r slash a storyboard creator, on va lui mettre et un storyboard pour produit Muxilla. Donc là vous lui donnez vraiment un nipou de toutes les data que vous avez donc le
+
+[02:07] must le faire dans votre dossier avec lequel vous avez toute la data. Là on va simplement lui ajouter même le site, on va mettre Muxilla.com. Comme je pense, je me suis inclus. On va lui ajouter aussi en input l'image du produit. Donc voilà ici vous lui ajoutez directement l'image du produit, ce que vous pouvez faire
+
+[02:30] aussi c'est lui ajouter un petit brief, voici un script que tu peux adapter. Donc voilà là on lui envoie, il va nous directement nous générer un brief complet de notre storyboard. Là il nous a créé un storyboard complet, il est en train de créer. Ça vous pouvez faire vraiment l'adapter en fonction de vos besoins, moi j'ai repris
+
+[02:50] un que j'avais, mais vous pouvez vraiment faire ça totalement adapté, vous pouvez simplement jeter votre produit, vous l'adaptez aussi votre brief et il va directement s'adapter avec votre produit et votre brief, ça va être fait vraiment en quelques secondes. Une fois que vous avez fait ça, vous allez simplement lui dire, donne moi un compte pour créer ce storyboard en image avec gpt2image.
+
+[03:18] Voilà, il faut qu'on a tant que ça finit. Ah bah il le fait déjà sans que vous le mangue, c'est parfait. Avec, on est en train de créer avec les actions. Voilà, une fois qu'on a le brief, on va le copier, on va directement aller dans image,
+
+[03:40] on va créer image, on va pouvoir créer ça directement avec gpt2. On va mettre toujours en 16 9e, ça il va vraiment être un storyboard complet, avec les informations du personnel, les informations du produit, les informations de caméras, d'actions et de style etc. On génère, on va bien en générer 2 à la fois. L'avantage c'est tout ce qu'on fait là, on peut l'automatiser aussi dans load.
+
+[04:03] Et c'est ce que je vous conseille de faire à terme. Mais là déjà avec le speed ça vous permet d'aller beaucoup plus rapidement. Ok, du coup les 2 storyboards ont été générés, donc on a le premier ici. Donc il a vraiment bien suivi le texte que je lui ai donné. Tac, tac, tac, tac. Ou on a celui-ci qui a bien été suivi aussi, j'ai une préférence pour celui-ci. Ce que le produit a été mieux respecté ici. Le personnel est pas mal, on va directement l'utiliser.
+
+[04:26] Donc il a ajouté comme je lui ai dit, caméra, action, le personnage, le produit. C'est parfait. Donc on va le télécharger. Donc on va pouvoir directement retourner dans cloud. Dans cloud on va pouvoir faire ces... Comme il avait déjà généré, en fait il nous avait déjà généré le prompt pour Sidense. On se basant sur le prompt qu'il avait généré pour pouvoir générer le storyboard dans chatchaptt. Donc ce qu'on va faire c'est qu'on va reprendre ce prompt. On va retourner dans xfil, on va dans video, Sidense.
+
+[04:49] Donc on va jeter notre prompt et on va pouvoir directement jeter notre storyboard. Hop, voilà, ça charge. Donc voilà c'était directement checké, on va pouvoir l'ajouter, on va pouvoir directement générer. Donc on va avoir 15 secondes pour ma 916ème, ne pas oublier. Ici vous pouvez mettre la qualité la meilleure. Ça coûte un peu beaucoup de crédit mais c'est vraiment, vraiment bon. En attendant de ça génère, je ne sais pas si vous avez vu, il y a des mcp qui sont sortis. C'est vraiment très très intéressant. Parce que vous allez pouvoir agouter directement et connecter directement xfil à cloud.
+
+[05:14] Cloud cover, pour pouvoir générer des acts, des vidéos avec tous les modèles d'IAR disponibles sur xfil directement dans votre cloud. Ça ça va vraiment bien parce que vous allez pouvoir générer plus rapidement du content. Parce que ça va pas être limité en termes de génération en même temps. Et pour les images ça va être similaire. Le seul inconvénient en xfil du terrain actuellement c'est que ça coûte cher. Mais sinon ils ont un très très bon content, surtout avec marketing studio.
+
+[05:35] Vous allez pouvoir générer ces vidéos assez rapidement, c'est très très très fort. Ils font un très très bon tool mais qui coûte un peu cher. Alors si c'était généré, c'est toujours en cours de génération. Donc voilà la vidéo a été générée, on peut voir le rendu directement. Voilà c'était très très très rapide à la fin, ça se répète mieux.
+
+[06:11] Ça ce qu'il faut améliorer c'est directement du coup le sur-reboard en une poutte. Là je le fais rapidement pour que vous compreniez. Mais on peut voir que là, du coup en fait il a essayé de condenser un script qui dure 30 secondes dans une vidéo de 15 secondes. Donc c'est pour ça que ça a été super rapide à la fin. Ça ce qu'il faut améliorer du coup c'est le script que vous allez lui donner en input. Et du coup vérifier que le storyboard que vous allez fournir correspond bien.
+
+[06:32] Et soit adapté à Siden, c'est parce que là il dure 45 secondes c'est pour ça. Mais on peut voir que le résultat est pas mal. Sinon entre eux. Et pas mal, c'est que vous avez du coup des bírolls que vous êtes pouvoir réutiliser.
+
+[06:57] Là il faudrait l'améliorer clairement. C'est pas le résultat auquel je m'attendais. Je me colle le premier MEO du coup. Et même au niveau de la musique on peut l'améliorer.
+
+[07:24] Le premier est vraiment beaucoup mieux. Du coup voilà j'espère que cette vidéo vous aura plu. N'hésitez pas si vous avez des questions à m'envoyer un message en privé. Je suis pas le plus rapide à répondre mais je vous répondrai dès que j'ai de la disponibilité avec plaisir.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 31 : Ep #51 - Skill AI Ads Modulable
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 31
 ======================================================================
 
@@ -3046,16 +3448,56 @@ Ce Creative Insight présente une mise à jour d'un skills Claude Code pour gén
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Je vous ai adapté le dernier Skills cartoon du Creative Insight il y a trois semaines je crois. Donc l'ancien Skills était dédié uniquement pour la génération de Ads cartoon. Donc maintenant avec ce Skills adapté il y a plusieurs choses qui entrent en jeu.
+
+[00:26] Donc il y a des nouveaux Skills qui sont disponibles. Vous pourrez bien sûr évidemment générer toujours le Skill de base, donc Cartoon 3D. Mais aussi les Ads Clay, donc un peu style pata modelé. Les styles 2D, donc 2D animation et les styles médicales 3D.
+
+[00:48] Donc les quatre styles et I entraînent un peu en ce moment en Ads. Ensuite j'ai adapté le Skills pour qu'il soit modulable. C'est-à-dire que vous pourrez avoir trois modes d'exécution, c'est-à-dire full autonome. Donc comme précédemment quand je vous l'ai montré dans le dernier Creative Insight, vous envoyez simplement Go à Cloud Code et donc il va être autonome à 100% et générer les Ads.
+
+[01:17] Ce mini autonome, c'est-à-dire qu'il va générer cinq scripts et vous allez choisir parmi les cinq scripts quel script vous voulez qu'il génère pour les Ads et ensuite vous allez du coup choisir quel style. Donc il va vous dire ce que vous voulez, un style Cartoon, un style Clay, un style 2D, un style médical et vous choisirez.
+
+[01:38] Et dernier mode d'exécution c'est le script importé. Vous pourrez aussi importer directement votre script et après une fois que vous avez importé votre script, vous lui direz du coup quel style adapté pour l'Ads. Vous aurez la ressource du nouveau Skills dans Drive,
+
+[01:59] donc juste à le télécharger depuis le lien, donc juste ici, vous pouvez le télécharger. Et je vais vous montrer des exemples d'Ads que ce Skills peut vous générer. Donc voilà, par exemple là pour une Ads 2D.
+
+[02:39] 50mg de caféine plus 6 champignons adaptogènes. Le focus sans l'éditeur, l'énergie sans le crash. Mouchillo, 30 jours pour briser le cycle où c'est intégralement remboursé. Le lien est dans la bio. Voilà pour le style 2D, toujours le style Cartoon, c'est le même Jordaz que je vous avais montré précédemment.
+
+[03:03] Tu connais ce coup de barre à 14 heures main, ce bruit de feuille qui te trahit. Si on brûle ton estomac anxiété, te donne une énergie calme et un focus sans face intégralement, lien dans la bio. Là, rapidement je passe vite fait sur les exemples. Là c'est le style Clay, donc pas ta mode.
+
+[03:37] Alors j'ai remplacé mon café par Mouchillo. 6 champignons adaptogènes, plus d'acide, plus de jiteur. Trois semaines après, je redeviens la maman que je veux être. 30 jours pour essayer, où c'est intégralement remboursé. Ok, et le dernier style, il n'est pas fini,
+
+[04:00] mais je vous montrerai peut-être la clip en cours. Donc Claude Code est en train de les générer actuellement. Donc c'est en cours. Donc je vous montrerai par exemple ça. Ça c'est une cultivation. En fait c'est ce genre de style organe médical si on peut dire ça.
+
+[04:23] Et je vais montrer un clip. Suis ton estomac. Et chaque matin à 6 heures, tu me fais brûler de l'intérieur.
+
+[04:43] C'est une suivante. Acide chlorhidrique. Cortisol. Inflammation chronique. T'appelles ça un réveil ? Moi j'appelle ça une épreuve quotidienne. Ça va être excellent pour l'instant, mais la génération n'est pas finie. Mais voilà le genre de style que vous pouvez obtenir avec ce skill.
+
+[05:05] Bien évidemment c'est adaptable. Donc vous pouvez totalement générer directement, comme je vous le montrais dans le dernier Creative Insight Cartoon, que les ades seront adaptées à votre produit. Donc via les documents fondamentaux que vous avez importés dans le skill. Donc je vous invite vraiment à tester.
+
+[05:28] Vous verrez dès le début en fait, vous pouvez sélectionner. Claude Code va vous proposer comment, quel style adapté, combien de scripts, etc. Je vais vous montrer directement, ça va être plus simple,
+
+[05:50] comme ça vous comprendrez plus vite. Donc voilà, là par exemple vous vous rendez du coup, vous avez bien importé vos documents, comme je vous les montrais dans le dernier Creative Insight. Vous avez le skill, vous le lancez et vous faites go. Et là, je vais vous proposer du coup ce que je vous expliquais précédemment avec les différentes styles,
+
+[06:13] enfin les différentes choses modulables. Donc là il nous propose soit Cartoon, soit Play, soit 2D, soit Medical. Donc là par exemple, je veux dire Play. Et là il nous propose, comme je vous le disais précédemment,
+
+[06:35] le mode, soit en mode Full Autonom, donc j'ai juste à lui dire Full Autonom et il va générer là directement le script, etc. soit semi-autonom, donc il me propose 5 scripts et je lui dis, bah choisissez le script là et génère l'ads, soit script importé, et là je lui importe mon script et il génère l'ads ensuite.
+
+[06:57] Et donc là par exemple je vais choisir Full Autonom, je vais lui dire et il va partir générer l'ads. Donc là il va, voilà, et il lance le workflow, ok. Donc pour l'instant je vais l'enlever parce que je n'ai pas besoin. Mais je vais vous montrer si l'ads est terminé,
+
+[07:19] du coup la dernière ads 3D médical. Et donc voilà pour la vidéo finale 3D médical. Je suis ton estomac. Et chaque matin à 6 heures, tu me fais brûler de l'intérieur. Acide chlorhidrique. Cortisol. Inflammation chronique. T'appelles ça un réveil.
+
+[07:40] Moi j'appelle ça une épreuve quotidienne. Mais les 6 champignons adaptogènes me calment. Et les prébiotiques me reconstruisent en douceur. Mouchillo. 30 jours pour me gérer. Où c'est intégralement remboursé. Le lien est dans la bio. Je suis ton l'ad.
+
+[08:01] Pour les 3D médical. Et n'hésitez pas vraiment, faites-vous plaisir avec ce skills. Vous pouvez tester les différents modes de fonctionnement, donc soit en important les scripts, soit en lui demandant de générer les scripts, soit en Total Autonomie. Donc tester ce qui fonctionne le mieux pour vous. Et donc voilà.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 32 : Ep #53 - Skill Native Ads Copy via Claude Code
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 32
 ======================================================================
 
@@ -3099,16 +3541,56 @@ Un workflow Claude Code avec un skill dédié pour générer en masse des native
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello les gars j'espère que vous allez bien aujourd'hui nouveau Creative Insight donc je vous ai concocté un skill pour des native ads plus le long ad copy en masse avec du coup Cloud Code. Ok donc pour ce skills il nous faudra Cloud Code. Moi je vous conseille au minimum le plan pro même si le plan max x5 sera mieux et si
+
+[00:26] vraiment vous utilisez Cloud Code tout le temps le plan x20 mais le plan max x5 est largement suffisant pour moi. Ok donc pour l'utilisation de ce skills évidemment vous allez devoir télécharger le skills juste ici. Donc voilà vous le téléchargez moi je ne le fais pas car je l'ai déjà fait.
+
+[00:48] Il est tack juste ici. Une fois que vous l'avez vous pouvez l'extraire. Donc là j'ai mon skills il est là. Une fois que ceci fait on va aller chercher notre clé API Kiai donc pour ça vous allez
+
+[01:10] vous rendre sur Kiai. Si vous n'avez pas de compte vous créez un compte. Une fois que vous avez créé votre compte Kiai vous allez aller dans API Ki. Create new juste ici. Vous créez votre API Ki là on va l'appeler entre autres Nativads et là vous copiez votre
+
+[01:31] API Ki. Vous allez dans votre dossier vous allez dans API Ki et I Texte. Vous collez l'API Ki juste ici. Bon moi je ne le fais pas parce que j'ai déjà une autre API Ki j'en ai pas besoin. Donc vous vous collez bien pour remplacer celle là par votre API Ki vous faites fichier
+
+[01:52] enregistré. Vous pouvez fermer et là on va se retrouver du coup dans Cloud Code. Donc vous allez vous retrouver du coup sur cette page sur Cloud Normal finalement. Là on va aller dans Cloud Code donc juste ici. Et donc là vous allez cliquer sur New Session.
+
+[02:17] Vous allez sélectionner le skills juste ici. Donc vous cliquez sur ouvrir un dossier là. Moi il est sur le bureau donc Nativads Copies Skills sélectionnés et ça vous le mettra ici. Bon moi il était déjà sélectionné mais voilà ça procède. Ensuite vous vous mettez bien en ignorer les permissions, contourner les autorisations. Donc je vous précise que la Cloud Code a toutes les permissions donc il pourra exécuter
+
+[02:42] des lignes de code sur votre PC sans votre autorisation. Donc c'est entre guillemets abhoris et péri le mais moi honnêtement je fais tout en ça parce que sinon c'est super long en fait il n'est pas simplement automatisé. Il va vous demander de valider des choses tout le temps donc clairement mettez en ignorer les permissions. Ok donc une fois ceci fait vérifiez bien que vous avez vos documents fondamentaux dans
+
+[03:09] le skills donc rendez-vous dans le skill et là dans documents fondamentaux vous importez bien vos documents généré précédemment avec Manus. Si vous ne savez pas comment faire regarder le process Manus de génération de documents et une fois toutes les documents généré vous les mettez ici et donc bien sûr ce sera
+
+[03:30] adapté à votre marque votre produit votre marketing etc. Donc voilà on revient du coup dans Cloud et là je vais lui dire de commencer je vais lui dire go je met en pause le temps qui charge.
+
+[03:55] Donc voilà là il a bien compris que go ça voulait dire de commencer à exécuter le skills donc il a analysé tous les chiets du skills et aussi petite précision mettez-vous au minimum je vous conseille un modèle de langage sonnet moi je mets le max honnêtement ce skill je le fais tourner sur opus 4.8 un million de contexte je n'ai pas testé
+
+[04:19] sur les autres modèles mais voilà n'hésitez pas en tout cas vous pouvez l'utiliser je pense sur opus IQ j'en doute par contre sonnet en mon avis ça passera vu que c'est juste des appels d'appuies ça devrait aller et opus voilà si jamais vous avez pas de problème à utiliser opus et bouffer des crédits ok.
+
+[04:41] Donc voilà là pendant ce temps là il a vu il a lu les documents il a vu que c'était la brand mochilio et donc il est en train de commencer à préparer le skills enfin là au bout et normalement il va nous demander quelques petites questions donc je vous reprends juste à part. Ok donc c'est bon là il me demande les images donc la phase image va
+
+[05:08] générer les images sur qui il est là par exemple dans cette phase vous pouvez lui dire autre si vous voulez par exemple 11 images si vous voulez 50 images là pour le coup je vais lui demander d'engénérer on va dire 8 par exemple lui nativads je veux lui nativads
+
+[05:32] avec image plus copy soit autonome fait le process par exemple là je lui fais envoyer je fais entrer il avait déjà fait le plan pour les 6 bon bah tant pis il va faire les 8 donc voilà il
+
+[06:01] prépare les 8 images et les 8 z copy et je vous reprends juste après donc là voilà comme vous pouvez le voir il est encore en cours d'exécution ça met un petit peu de temps mais là ça y est il a bien généré les images et là il est en train de générer les copies donc je vous reprends
+
+[06:23] une fois qu'il a terminé ok donc c'est bon il a bien terminé donc là vous pourrez visualiser vos nativads du coup sur le local host donc c'est un petit dashboard que je vous ai mis pour visualiser donc là on peut voir la nativads numéro 1 avec le copy le long ad copy on peut
+
+[06:44] cliquer sur download voilà nativads numéro 2 encore une fois je vous rappelle le personnage musilio c'est vraiment la personne qui manque de focus typiquement cette personne là donc je trouve qu'il a fait du bon travail en termes de marketing là le nat copy pareil encore
+
+[07:04] nativads at copy nativads at copy nativads at copy pareil encore le café là avec la petite tasse de café c'est excellent la personne qu'on peut plus au travail voilà et la copie ok donc ça c'est
+
+[07:24] pour le visualiser rapidement et vous pouvez vous rendre du coup si vous voulez télécharger entre guillemets soit vous cliquez sur les boutons dans le dashboard soit vous allez dans output sans besoin de l'étés charger vous rendez du coup dans le skills dans output là vous avez la tâche dans faire et là vous avez chaque nativ avec chaque copie donc voilà vous pouvez du coup c'est bien le point
+
+[07:51] md le copie le jason c'est pour le dashboard je crois donc c'est bien ça si vous voulez voir ouvrir avec le bloc de et vous avez le copie juste donc voilà pour ce skills faites-vous plaisir
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 33 : Ep #56 - Créer des UGC IA ultra réalistes
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 33
 ======================================================================
 
@@ -3148,16 +3630,60 @@ Une méthode pour créer des UGC vidéos ultra réalistes en remplaçant le visa
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello Latib, j'espère que vous êtes en forme, bienvenue dans ce prochain Creative Insight. Aujourd'hui, je vais vous montrer deux choses. La première chose, c'est comment on va faire pour passer d'une vidéo comme ça, par exemple de moi, à une vidéo comme ça, d'une personne qui ressemble à votre personne, donc je vais vous montrer. Comme vous pouvez voir, on voit vraiment que ça fait exactement les mêmes choses que moi.
+
+[00:35] Les cheveux, ils bougent naturellement, etc. La peau, elle est adaptée, c'est pas du tout la même peau que moi, ça renveille les peaux, etc. Et c'est vraiment ça de manière ultra rapide, vous pourriez même faire ça avec un autre produit, si vous voulez changer le produit, vous pourrez le faire. J'ai fait un autre exemple ici avec cette personne. On peut voir que ça fonctionne ultra bien.
+
+[01:00] Ça reproduit même les lumières, etc. C'est très très très fort. Et ce que j'avais aussi envie de vous montrer en deuxième, c'est que je vois énormément de gens et j'ai encore pas mal de questions sur comment réaliser des bons formats podcast, des formats style talking ou des formats street interview, etc. de très très bonne qualité. Je vais encore beaucoup de gens faire ce type de format mais avec une qualité assez mauvaise où on peut assez facilement voir que c'est de lia ici, je vais vous montrer franchement la qualité très très très bonne.
+
+[01:41] De cette manière, en fait, par exemple là, j'ai juste créé un script, j'ai envie d'avoir une personne qui lise un commentaire. Et une fois qu'il est fini de lire le commentaire, qu'elle regarde, fait ce qu'elle explique, qu'elle répond au commentaire, c'est exactement ce qu'elle a fait. On peut voir que vraiment la qualité du JCC est très très très professionnelle. On ne pourrait pas voir que c'est une fausse UJC. Et pour ce faire, il y a une technique assez simple que je vais vous montrer. Mais pour commencer, on va d'abord faire cette partie-là, le Creative Insight.
+
+[02:04] Donc, ce que je vous invite à faire, c'est si imaginons que vous avez votre produit, imaginez, le produit c'est la bosse. Vous allez par exemple récplaner le b-roll avec la bosse. Et vous allez pouvoir modifier votre tête par le village de votre personnel, le corps, les habits, le décor, etc. Et pour ce faire, vous allez juste aller dans Seedance, c'est moi qui disais Seedance avec qui ?
+
+[02:25] Parce que c'est moins cher que X-Feed, mais vous pouvez aussi l'utiliser dans X-Feed, c'est le même principe. Et en gros, ce que vous allez devoir faire, là, j'ai l'exemple concret, c'est que vous allez devoir reprendre l'IMA, la vidéo de base. Donc, simplement, j'ai repris un moment dans une vidéo comme ça. Et là, ce que vous allez faire, c'est que vous allez faire un screenshot du moment du début de la vidéo.
+
+[02:46] Vous allez simplement faire un screenshot de ça. Et là, ensuite, une fois que vous avez ce screenshot, vous allez aller dans ChatGPT. Donc, quand vous allez dans ChatGPT, vous reprenez simplement le screenshot et vous... simplement avec un petit tip-ront assez simple, vous lui demandez de changer le personnage que vous avez par le personnage que vous souhaitez. Et vous pouvez même lui demander de changer, par exemple, ses habits ou quoi que ce soit, comme j'ai fait dans la première vidéo que vous avez montré.
+
+[03:07] Après que vous avez cette photo-là, vous allez la reprendre, vous allez la télécharger. Et en fait, ce que vous allez faire, c'est que vous allez mettre en input la référence de l'image et la référence de la vidéo. Une fois que c'est fait, vous allez simplement mettre un... à rebase avec la vidéo de référence. Vous allez mettre replace the men for the woman... for the new woman, sorry, in image. Et vous allez mettre le... à rebase de la... de l'image.
+
+[03:31] Une fois que c'est fait, vous allez simplement mettre la même durée que votre vidéo. Là, dans l'occurrence, ça doit lire un peu plus de 7 secondes, par exemple. Vous allez mettre 8 secondes. Une fois que c'est fait, vous allez appuyer sur Run et la vidéo va être générée hyper rapidement. Et là, vous avez... et là, vous avez clairement un birel qui a été dupliqué d'un concurrent. Et vous avez modifié des éléments et là, Facebook pourra complètement...
+
+[03:54] l'accepter et il n'y aura pas... il n'y aura pas de DMCR. Vous pourriez même faire la même chose. Par exemple, il y a un truc qui fonctionne assez bien dans les ads actuellement. C'est un petit tip. On en a déjà parlé dans le podcast. Mais, par exemple, si 7 create les wines, vous simplement vous changez les t-shirts de la personne par un t-shirt rouge. Et ça va faire plus cliquer parce que le rouge attire le regard.
+
+[04:15] Et donc, ça peut aussi augmenter les statistiques. Et ça, ça va peut-être un simple changement pour faire des itérations que vous pouvez faire directement dans vos ads. Donc ça, c'était par rapport au premier exemple. Et ça fonctionne à tous les coups. À tous les coups. C'est hyper simple à faire. Ça prend 30 secondes. Et pour la deuxième chose, ce que je vous conseille de faire pour pouvoir faire des très bons UGC comme je vous en montrais ici. En fait, ce qu'il faut savoir, c'est qu'il va falloir aller dans Pinterest.
+
+[04:38] Parce que dans Pinterest, vous allez avoir une mine du GC. Du GC hyper réaliste comme par exemple cette personne. Vous pourriez simplement reprendre le début de la vidéo, là, ici. Vous faites un screenshot. Et vous allez dire simplement à ChatJPT de remplacer son visage. Ou alors de modifier légèrement son visage pour qu'il soit adapté à votre persona. Et une fois que c'est fait. Ce qui est bien, c'est comme vous allez changer quasiment uniquement le visage.
+
+[05:01] Et le personnage, la scène va rester la même. Ça va faire que la scène n'estra ultra réaliste. Que si vous la générez à partir de l'IA, la scène n'estra jamais autant réaliste que si ça vient d'une réelle photo. Et de cette manière, en fait, ce qui est vraiment bien, c'est que vous pouvez même adapter ça à plein type de scène. Imaginons, vous vendez des compléments. Vous pouvez mettre par exemple Peptide. Podcast.
+
+[05:23] Voilà. On peut voir que par exemple, Peptide c'est peut-être pas le meilleur exemple. Si on met Girl podcast, par exemple. On peut voir que là on va tomber sur plein de studios de podcast qui sont intéressants. De femmes qui parlent dans des scènes très girolies, comme celle-ci, par exemple.
+
+[05:46] Ça vous pourriez totalement reprendre. Vous pourriez reprendre cette personne. Et de cette manière, vous allez avoir plein de types du GC. Celle-ci aussi. Celle-ci, c'est vraiment pas mal. Dans des studios qui paraissent vraiment réels et la qualité sera bien meilleure. Moi, dans l'exemple, j'avais envie de reprendre une personne qui parle à partir de son téléphone, qui regarde ton téléphone.
+
+[06:09] Qui répond à une question, en fait. Si on le retrouve, il est pas loin. Du coup, j'ai juste mis Girl podcast et je suis tombé sur elle. Du coup, je l'ai reprise. En fait, ce que j'ai fait, c'est que j'ai pris un screenshot. Une fois que j'ai fait le screenshot, j'ai été dans Xfeed, j'ai mis Image.
+
+[06:30] J'ai simplement modifié son visage avec une personne blonde. Hop, comme ça. Tout en gardant exactement la même scène. On peut voir que vraiment l'image, elle est 100% similaire. Une fois que j'ai cette image là, j'avais créé un script au préalable avec Claude. Et donc, j'ai demandé à Claude de me générer un prompt avec Seedance en mettant en input mon email.
+
+[06:53] Ça, c'est simplement avec un skill que je vais vous fournir. En gros, le skill va directement générer le prompt pour animer, comme vous le souhaitez, le UGC. Une fois que vous avez ce prompt, vous avez juste à le copier. Par exemple, j'avais demandé que la personne, elle lise d'abord et regarde son téléphone au début. Et puis après, elle tourne son visage pour regarder la caméra et continuer à parler.
+
+[07:16] C'est ce qu'elle a fait. Et ça fonctionne très très très bien. Et ce qui est aussi intéressant dans le script que j'ai créé, c'est que, comme vous pouvez le voir, il ajoute le hash, le arrobat. C'est-à-dire que, en input, vous allez simplement mettre la vidéo, l'image, pardon, et simplement donnant le prompt, ça va directement capter avec le arrobat image,
+
+[07:37] l'image que vous avez mis en input pour que Seedance comprenne bien de quel créateur vous parliez. Et comme ça, vous allez avoir beaucoup plus de bons résultats. Ensuite, vous avez simplement en généré et le résultat est très très fort.
+
+[07:58] Bon, ça prend un peu de temps, mais vous l'avez déjà vu. Et voilà, si donc c'était par rapport à ça, mais vous pouvez vraiment faire ça pour tout type. Et je vous invite vraiment à reprendre les jugés, c'est qui parle. Par exemple, ici, c'est parfait aussi. Ici, elle parle devant, à partir d'un micro DJI, la scène, elle est vraiment parfaite. Ça pourrait faire un jugé, c'est parfait. Celle-ci aussi, tac. Il y en a plein et vous allez avoir tout type de personnes. Clairement, vous pouvez créer vraiment une infinité du gc et du gc qui passe ultra réel,
+
+[08:24] même en mode talking dans la rue. Hop, vous prenez par exemple, et c'est vraiment parfait même ici. Imaginons, vous aurez votre produit, boom, vous refaites la scène et vous ajoutez votre produit ici. Le gc qui parle de votre produit, avec votre produit devant, c'est magnifique. De cette manière là, vous allez vraiment avoir des résultats bingers.
+
+[08:46] N'hésitez pas si vous avez des questions, vous avez simplement un mauvais message, vous allez reposer la question sur le groupe en me tagant. Comme ça, ça va permettre de répondre à toutes les personnes. Et on se retrouve bientôt pour une prochaine vidéo, les gars.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 34 : Ep #58 - Styles d'ads cartoons qui performent
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 34
 ======================================================================
 
@@ -3197,16 +3723,62 @@ Un panorama des styles de publicités cartoon qui performent (claymotion, musica
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello la team, j'espère que vous allez bien et que vous êtes en forme, et même nous, ce prochain Creative Insight, aujourd'hui on va voir les différents Zads cartoon, parce que je pensais que c'était important de vous montrer les différents Zads qui existaient dans les cartoons, et je voulais aussi vous montrer des nouvelles Zads cartoon qui arrivent et qui sont vraiment bangers avec vraiment des bonnes stats, et aussi vous emmener sur une réflexion plus longue en vous montrant d'autres styles de cartoons que vous pourriez faire et que vous pourriez aussi tester pour vos Zads.
+
+[00:21] Donc on se tarde bien. Donc pour les premiers, on a les Cremotion. Donc les Cremotion, ça va être un style très patacelle comme ça, comme pour les enfants. Ça fonctionne très bien. En fait on va pouvoir animer de manière ultra précise et montrer certains éléments
+
+[00:41] même médicaux, quoi que ce soit, dans une ad, que ce soit pour les Cremotion, ou alors les 3D aussi, les Pixar, de manière ciblée et sans forcément se faire reprendre par l'algorithme, quoi que ce soit, de méta. Ça c'est vraiment intéressant. Ensuite on a les Musicals qui fonctionnent hyper bien. Donc ça a toutes les ads cartoon de type musical. Et ce qui est vraiment intéressant, c'est que vous allez pouvoir faire aussi des musiques un peu style Disney, et ça cartonne.
+
+[01:08] Là on peut pas que c'est pour la cosmétique, donc une crème, je pense, en tiage. Ça fait un peu comme si elles étaient dans un magasin, elles trouvent une crème. Et toutes les ads que je vous montreras, c'est des ads qui fonctionnent hyper bien chez les gens qui les lancent. Et je vous invite vraiment à le faire. Ensuite on a les 2D, donc ça va être plus pour ma
+
+[01:29] un peu dessin animé comme ça. Vous entendez, la VO qui l'utilise, la VO qui l'utilise, c'est vraiment... C'est vraiment comme des dessins animés, c'est une VO assez prenante, avec une voix grave. Et c'est aussi intéressant.
+
+[01:51] Ensuite on a les Pixar, ça. Les Pixar, c'est les plus connus, c'est ceux qui ont le plus pop, c'est ceux qui ont été le plus utilisés. Et c'est intéressant comme eux, chaque élément va être représenté par un autre personnage,
+
+[02:14] que soit un vrai personnage et quand il parle d'un élément, il va représenter ça avec un personnage infectif, pas une personne qui ressemble d'un luma. Ensuite on a les 3D. Ce qui est vraiment intéressant avec les 3D aussi, c'est que ça va être des éléments qu'on va reprendre aussi dans des ads. Parce que, par exemple, ceci, voilà, ça c'est un élément 3D que vous pourrez
+
+[02:35] réellement mettre dans une ad dans un format mashup où vous avez un monde d'UGC et puis un monde de... C'est quand c'est 3D, etc. Et ça, ça carte vraiment bien. Donc ça c'est les 5 formats cartoons qui sont existants et qui ont déjà bien pop actuellement et on en a de nouveaux.
+
+[02:59] Donc on a le style crochet, le style crochet qui va être vraiment intéressant. Comme vous pouvez voir, ils représentent ça vraiment bien. Est-ce qu'il y a très sensible ce qu'ils ajoutent des effets sonores? Et le fait de le faire en format Climotion, ce style de hook, vous n'auriez pas pu le faire dans un format réel. Et là vous pouvez le faire sans problème, sans que vous mettez à bloc quoi que ce soit, si on a.
+
+[03:21] Et vous entendez la voix, elle est vraiment encore bien faite. Ensuite on a le format style Zack des films. Ça, ça va être vraiment un format qui est cartoon actuellement aussi. Donc les deux formats que je vous montre là, le style crochet et le Zack des films, c'est les nouveaux formats qui viennent d'arriver sur le marché et qui commencent vraiment à pop, dont le Zack des films qui est très, très puissant. En fait, ça s'appelle Zack des films parce que ça a été créé par la personne qui a créé ce style en fait qui s'appelle Zack des films.
+
+[03:41] Vous pourriez même aller voir Petite Astuce. Vous mettez Zack des films sur le site de la chaine et vous vous rappelez de la chaine. Et vous entendez la voix, elle est vraiment encore bien faite. Ensuite on a le format style Zack des films. Vous mettez Zack des films sur YouTube et vous verrez, il a fait des milliers de milliers de vidéos sur le format Zack des films et il fait des milliers de millions de vues. Chaque vidéo a pas moins de 2 millions de vues.
+
+[04:03] En fait comme vous pouvez voir, c'est une abscina pas de cut. C'est-à-dire qu'en fait on va mettre le début de la frame 1 avec le fin de la frame 2. Et donc on aura chaque fois une continuité. Donc en fait donc cling, parce que ça c'est mieux de le faire avec cling. Vous allez faire début de la frame 1, frame 2 en input. Et puis après, quand vous allez avoir la première séquence, vous allez reprendre la frame 2, la mettre en frame 1
+
+[04:23] et vous allez mettre la frame 3. Et comme ça, ça va s'enchaîner parfaitement au montage et vous aurez une abscina parfaite. Là par exemple c'est une abscina pour prime qui a vraiment carrément fait. Et puis on a plus un format pour médical. Vous voyez comme ça c'est mousse, comme ça les transitions sont parfaitement, c'est vraiment top.
+
+[04:46] Et vous voyez comme ça c'est mousse, comme ça les transitions sont parfaitement, c'est vraiment top. Voilà. Donc ça c'est vraiment les deux formats qui cartonnent actuellement.
+
+[05:06] Plus les autres qui cartonnaient déjà mais ceci c'est ceux qui sont en train de pop. Donc je vous invite vraiment à les essayer. Et ensuite je voulais aussi vous donner une piste de réflexion sur les nouveaux types qui vont bientôt arriver selon moi et qui vont faire énormément de stats, qui pourraient être intéressés à tester et vous pourrez même faire des tests pour les gens qui ne sont pas en train de faire des tests. Et puis vous allez voir comment ça va.
+
+[05:27] Donc je vais vous donner une petite petite petite petite petite petite petite petite qui va faire énormément de stats qui pourraient être intéressés à tester et vous pourrez même faire plein plein d'autres types d'arts. Cartoon qui sont encore connus. Par exemple là ici on a le format plémobile. Gone wrong especially since it's 62% Et donc ça c'est une ass qui tourne réellement avec Marsofmen là. Je pense que ça va être comme ça. Et comme vous pouvez le voir il y a pas mal d'arts comme ça,
+
+[05:48] format plémobile qui tourne chez eux. Donc c'est aussi un peu un format nouveau et qui est en train d'être testé par les grandes marques et qui arrive. Et puis ils vont faire de la smr. Ils vont faire de la smr. Et ils ont vraiment pas mal d'arts de ce format là avec du chottement. Donc c'est vraiment intéressant.
+
+[06:16] C'est un peu pour ma plutôt pas vraiment plémobile. C'est plutôt format... Je sais plus comment ça s'appelle. Le nom mais j'oblige le nom. Ensuite on a le Lego, format Lego. C'est très très intéressant. Je n'ai pas encore beaucoup vu. Et je pense que ça peut énormément se caler. Et aussi ce qu'il faut faire attention c'est que en fonction de votre thématique, en fonction de votre personnat, vous allez faire plutôt un format ou l'autre.
+
+[06:37] Parce que ça va plus par là votre personnat. Je sais bien que par exemple niveau plémobile, il y a pas quand même une grande tranche de la population qui collectionne les plémobiles. Et les Lego sur tous les Lego. Donc ça pourrait peut-être être intéressant. Si vous voyez que votre personnat cible aime les Lego, de faire quelque chose de Lego. Alors si vous avez un personnat cible par exemple, qui a entre 20 et 30 ans, 35 ans,
+
+[06:59] ça pourrait peut-être être intéressant aussi de faire un format GT1. Avec des personnats un peu stylés GT1. Comme ça ça va leur parler et ça peut être vraiment intéressant.
+
+[07:19] Donc vraiment pourquoi les ads hier cartonne pour le monde, les ads cartonne cartonne actuellement. Mais déjà ça va captiver le regard, ça va arrêter l'oeil et ça va arrêter le scroll instantanément. Parce que c'est quelque chose de naturel, c'est un peu ce qu'on a toujours regardé quand on était enfants etc. Les dessinimés, les cartoons. Donc ça bloque pas l'oeil. Ensuite elle ne me ressent pas des pubs, ça c'est aussi intéressant. On n'a pas de pack shut en fait, on n'a pas de pack shut du produit.
+
+[07:40] On n'a pas des discours commerciales vraiment. Et ensuite ça s'intègre vraiment parfaitement dans le feed. Donc on a un format BrainRoute. Donc ça va vraiment le content qui va passer dans le feed de manière naturel. Et pour finir elle rentre la marque beaucoup plus désirable. En fait elles sont attractives et jamais trop vendeuses. Donc elles vont claires à votre audience.
+
+[08:00] Et ça va être un format qui va être vraiment intéressant à tester. Et donc pour ce faire j'ai créé un skin qui va vous aider à générer toutes les frames et ensuite la vidéo. Donc en fait vous allez simplement lui donner le script avec le brief. Et lui il va s'occuper de générer toutes les images. Une fois que vous allez valider ces images là il va générer la vidéo. Donc clique. Si vous avez des questions ou si vous voulez améliorer certains éléments n'hésitez pas à me le dire. Si vous voyez que dans le skill c'est un certain petit élément qui peuvent être amélioré
+
+[08:23] je serai très sympa de me le dire et je modifierai ça avec plaisir. Mais il fonctionne déjà très bien. J'espère que vous passez un bon week-end et je vous souhaite déjà une bonne semaine.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 35 : Ep #60 - Créer une musique pour vos ads
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 35
 ======================================================================
 
@@ -3246,16 +3818,78 @@ Une méthode pour créer des ads musicales puissantes en générant une "VSL en 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello les gars, j'espère que vous allez bien aujourd'hui, nouveau Creative Insight. Donc je vais vous montrer comment faire de la musique en fait pour vos ads, une sorte de script musical, une musique chantée derrière vos ads, puisque c'est un banger en ce moment, ce genre de concept avec des musiques. Là je vais vous montrer deux ads qui scèlent énormément sur une brand de drainant
+
+[00:23] l'infatique avec ce genre d'ads. C'est vraiment les deux top ads de la brand. Comme vous pouvez le voir il y a 10K à 24 spend sur ce genre d'ads. Je vais vous montrer, vous allez tout de suite comprendre le concept.
+
+[00:58] Regarde par-dessus les peaux chaque soir depuis 10 ans. Elle court trois fois par semaine. Ses jambes sont musclées en dessous. Mais au-dessus les creux, les bosses musclées en dessous. Capitonnais au-dessus. Elle a crémé trois tubes, trois mois. Rien le sait Rome à 48 euros. Rien le palpé roulait 16,5 euros.
+
+[01:19] Tout revenu, elle a couru, elle a crémé. Elle a massé, rien a changé. Si c'était du gras les femmes non s'en auraient pas. Et les hommes en auraient mais c'est pas le cas. Elle porte plus de shorts depuis trois ans. La piscine avec les amis j'ai pas de maillots. Elle en a quatre. Et chaque fois que Julien touche ses cuisses.
+
+[01:41] Elle tend le must parce que quand c'est tendu ça se voit moins. Il le sait pas, elle y pense chaque fois. Et puis un jour dans ce cabinet de kiné une phrase. Il y a trois couches sous votre peau. Les crèmes touchent la première. Le sport touche la dernière. La cellulite s'est jamais là pendant dix ans.
+
+[02:04] Elle crémait la surface. Elle musclait le dessous et le milieu personne l'a touché. Quatre plantes, une pipette. Le soir dans un verre d'eau. Pas une crème qui touche le dessus. Un drènement qui agit au mi. Jour dix, le geste part dessus. Les pôles, le miroir, les creux, les plus profonds.
+
+[02:24] Un profond pour la première fois en dix ans. Trois semaines la peau d'orange s'estompe. La balance a pas bougé, c'est pas du poids. Ces deux l'eau qui quittent les tissus. La balance reste pareille, les cuisses changent. Saturday dernier la piscine avec ma tisse. Par le short de bain.
+
+[02:45] Le maillot, les néons l'eau et Charlotte au milieu qui nageait. Sans y penser. Et le soir Julien a touché ses cuisses. Et elle a pas tendu pour la première fois. Si la texte parfois c'est pas le gras.
+
+[03:13] C'est la couche du milieu. Voilà, vous avez pu voir en fait c'est vraiment une musique complète
+
+[03:35] avec tous les mécanismes. En fait c'est une VSL en musique littéralement et avec des biroles cartoon qui en fait se sont supertoisés sur la musique. Vous pouvez voir vraiment que c'est ultra puissant en marketing. Tout est là. Si vous comprenez un peu la structure de la musique
+
+[03:57] vous voyez ce que je veux dire. C'est une masterclass. On va pas voir la deuxième entièrement mais je vais vous montrer. Si jamais vous voulez check c'est ça la bande. Allez voir sur la librairie vous trouverez. Et l'autre page c'était celle-ci. Donc...
+
+[04:22] Voilà c'est même principe en fait. Il commence directement à cibler la personne. Donc là, moi aussi mon ventre a changé depuis la main de la pause et du coup la personne se sent engagé après il y a la musique. Et évidemment l'effet musical c'est toujours ça. Quand on entend une nouvelle musique il y a des mécanismes qui s'activent dans notre cerveau
+
+[04:46] d'anticipation du son. Et ça nous permet en fait d'être restés beaucoup plus d'anticiper les prochaines notes de la musique, d'anticiper les prochaines rimes, les prochaines paroles. Et c'est un peu une sorte de hack qui permet de capter l'attention des gens et les faire rester du coup sur la vidéo.
+
+[05:08] En plus évidemment du target classique en marketing que ce soit le hook où on explique directement c'est vous, c'est ce persona X etc. Là vraiment l'effet musical ça permet aussi de garder d'avoir un très très très bon old rate. Donc voilà, petite pépite.
+
+[05:30] Et donc je vais vous montrer maintenant comment générer ce genre de musique à l'intérieur des vidéos. Après il vous restera plus qu'à du coup générer B-roll en cartoune et les adapter et mettre les sous-titres et vous aurez votre aide. Donc là je vous montre comment faire la musique. Donc je vous ai créé un petit skills. Evidemment vous pourrez l'adapter ce skills. Donc je vais vous montrer ça tout de suite.
+
+[05:52] Donc voilà et vous pourrez télécharger juste en bas du creative insight le skills. Donc c'est celui-ci. Donc ce skills il est basé encore une fois sur vos documents fondamentaux de votre marque. Donc vous aurez toujours besoin encore des documents fondamentaux comme dans les skills précédents, les skills cartoon, les skills native ads, copies etc.
+
+[06:13] Donc là c'est le même principe. Donc vous téléchargez le skills, vous l'extrayez. Donc tac tac tac et tout. Voilà. Ensuite vous ouvrez évidemment. Vous allez mettre les documents fondamentaux dedans. Donc là c'est les documents de Michilo.
+
+[06:34] Donc tac tac tac. J'ai bien mis les documents fondamentaux dans les documents fondamentaux. Ensuite je vais pouvoir, si vous ne jamais vous voulez l'utiliser dans Cloud Code, vous avez juste à lui donner le chemin d'accès en cliquent droit, copier un temps que chemin d'accès et ouvrir une nouvelle session Cloud Code.
+
+[06:55] Moi je vais vous montrer dans Cloud comment l'utiliser. Donc c'est simple on va remporter le skill dans la banque de skills Cloud. Donc vous pouvez très bien l'utiliser aussi dans Cloud Code. C'est vous qui vous avez de votre vote. Là maintenant qu'on a le skills qui est là avec les documents fondamentaux à l'intérieur, on va pouvoir du coup cette fois-ci
+
+[07:16] je le rezip pour l'intégrer dans Cloud. Donc là je fais compresser vers cette zip. Il est là celui-ci, c'est avec les documents fondamentaux. Je vais l'appeler. Par exemple ok. Pour bien être sûr que c'est le bon. Ensuite je me rends dans Cloud. Donc tac.
+
+[07:38] Là je vais aller dans mon projet qui a les data sur ma marque. Même si on les a intégrés du coup dans le skills, je préfère toujours agir dans le projet même s'il a déjà les documents etc. Je préfère toujours quand je vais créer les scripts. Donc avant de lancer, on va déjà évidemment intégrer le skill dans Cloud.
+
+[08:04] Donc là je vais dans mon Cloud. Je vais dans du coup paramètres. Là je vais aller dans compétences. Et là je vais faire ajouter. Donc là téléverser une compétence. Je clique dessus. Et là j'ai mon skill. Alors c'est pas celui-ci justement, c'est celui avec le ok.
+
+[08:26] Donc voilà c'est bon je l'ai. Le skills avec le ok où on a bien intégré les documents fondamentaux. Donc je clique dessus. Là il va s'intégrer du coup dans mes skills il est juste ici. Et là je vais copier le titre. Comme ça je serai tac. Et là je vais aller du coup dans mon projet comme vous le disais.
+
+[08:49] Je vais le dire. J'ai un prompt pour sous-noi. Souno et A, ça va être l'IA qu'on va utiliser qui est juste là pour créer la musique. Mais là pour le coup on va faire un prompt pour sous-noi et A pour qu'il crée la musique avec le skill.
+
+[09:14] Donc génère un prompt pour sous-no. Pour une A de musique. Pour une chine de, on va dire une minute. Ok et utilise ce skill pour cela.
+
+[09:37] Et donc là je vais envoyer. Il va du coup générer le prompt pour sous-no qui contiendra toute la musique en fait. Tout le script de la musique, toute la chanson en fait. Donc je vous reprends dès qu'il a fini. Donc voilà il a terminé et il nous a fait le prompt qui contient du coup toute la musique.
+
+[09:59] Donc là je vais le copier. Du coup je vais me rendre dans sous-no. Si vous n'avez pas sous-no, vous rendez-vous simplement sur le site, vous créez un compte. Et vous allez arriver sur cette page. Normalement il n'y a pas besoin d'avoir un point payant pour générer musique. Si jamais vous vous ingénez plusieurs, j'imagine qu'au bout d'un moment il y a des limites.
+
+[10:22] Mais là pour l'instant vous pouvez le faire en free. Donc là je vais du coup coller le prompt. Je vais faire create. Et là du coup ça va partir en génération. Et je vous reprends dès que la musique est générée. Donc voilà il en a généré plusieurs.
+
+[10:43] Donc là on va pouvoir lire une des musiques. Donc voilà pour la musique.
+
+[12:57] Donc comme vous pouvez le voir elle a généré une musique assez entraînante. Mais vous pouvez faire pas mal de styles évidemment. Donc vous pouvez adapter les styles. Faire des musiques qui touchent peut-être des personnes qui sont plus impactées par de musiques plus calmes et plus dramatiques un peu. Si on peut dire ça.
+
+[13:18] Et vous pouvez toucher en fait plusieurs types de personnes avec ce genre de musique. Et parler à vos différents personnes. Donc voilà une fois que vous avez la musique vous aurez juste à la télécharger. Et une fois téléchargé après il faudra juste faire les bieroles du coup adaptés au script. Donc soit des bieroles en cartoon.
+
+[13:40] Vous pouvez aussi faire techniquement des bieroles non cartoon. Ça peut être juste des bieroles liées à classiques. Et après faire le montage sur la musique. Et vous aurez une ade du coup avec un style musical si on peut dire ça. Donc voilà les gars. Ciao.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 36 : Ep #62 -   Raw Talking Heads & statiques animés
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 36
 ======================================================================
 
@@ -3299,16 +3933,50 @@ Deux formats publicitaires performants sont présentés : les Raw Talking Heads 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello la team, j'espère que vous allez bien et que vous êtes en forme et bienvenue dans ce prochain Creative Insights. Dans ce Creative Insights, on va avoir deux types de contente assez intéressants. Donc, on va déjà voir les Ro-Talking Heads, qui sont vraiment très intéressants. You know that girl on Tech Talk, who does the beat my garden gummy with me? Donc, ça va être une personne qui parle de manière ro, fescam, un peu de manière ugly. Et ça fait très naturel et ça donne confiance à la personne qui voit la pub.
+
+[00:23] Donc, ce qui est vraiment bien, c'est qu'avec ce Ro-Talking Heads, vous allez pouvoir aussi le faire sur tout type de trafic, que ce soit le trafic froid, trafic tièd ou alors trafic show. Donc, il y aura une su… en fait avec le trafic froid, vous allez susciter la curiosité. Et donc, ce sera des vidéos plus courtes. Ensuite, il y a le trafic tièd où là, vous allez répondre au scepticisme et vous allez aider le spectateur à se projeter en utilisant le produit.
+
+[00:43] Donc, comme ça, un peu comme aussi on l'a vu dans la vidéo précédente. Et ensuite, il y aura le trafic show où là, vous allez répondre à des questions, les coups que ce soit, directement en talking heads de cette manière. Et ça, ça va très bien fonctionner. Et en fait, c'est ça qui est bien, c'est qu'un même créateur peut aussi couvrir tout le funnel. En fait, c'est-à-dire qu'avec un seul créateur, vous allez pouvoir faire tout le funnel.
+
+[01:04] Donc, ça, c'est la première partie. Et je vais montrer aussi comment et ce qu'on va pouvoir faire maintenant avec Sidense 2.5 pour créer ce type de talking heads hyper rapidement. Ensuite, on a les statics animés qui deviennent très très populaires et qui fonctionnent très très bien aussi. Comme vous pouvez le voir, c'est des petites statiques comme ça qui vont être animés. Comme par exemple celle-ci aussi. Ou alors encore celle-ci.
+
+[01:26] Et ça, c'est des marques actuellement qu'ils utilisent et qui scale avec ces statiques là, qui vont énormément dans leur créative librairie. Et ça fonctionne très très bien. Et c'est super simple à faire. Vous allez simplement reprendre votre statique. Vous allez aller dans Claude. J'ai créé un skill qui va vous permettre de l'animer directement. Vous mettez ce skill directement dans Claude. Et ça va être fait hyper rapidement. Ou simplement, vous dites ce que vous l'animez dans la statique.
+
+[01:48] Et comme ça, ça va être fait super rapidement avec Kling et Aria. Ensuite, ce qu'on a, donc on a Seedance 2.5. Ça, j'ai envie de vous en parler parce qu'il est stylé hier de manière partout. Avant, il était seulement sur Dreaminai. Dreaminai de CapCut. Et là, il est actuellement disponible sur Kiay, sur X-Fill, etc.
+
+[02:09] Mais sur Kiay, il est beaucoup moins cher. Parce que ça va seulement vous coûter 0,19 centimes par seconde pour une vidéo avec une image en input ou alors une vidéo. Alors que sur les autres modèles, ça va vous coûter beaucoup plus cher, voir jusqu'à 30, 40, 50 centimes par seconde. Ici, c'est très rentable. Pour une vidéo de 30 secondes, ça va vous donner un coût de 5, 6 euros.
+
+[02:31] Et ce qui est intéressant, c'est que maintenant, on va pouvoir faire beaucoup plus de choses qu'avec Seedance 2.0. Déjà, la grande modification, c'est qu'on va pouvoir ajouter jusqu'à 30 images en input. On va pouvoir lui donner jusqu'à 10 références vidéo et 10 références audio. C'est-à-dire que vous allez pouvoir faire vraiment une vidéo qui est beaucoup plus précise en lui donnant plein d'éléments que sur le produit, etc.
+
+[02:53] Et c'est très, très, très bien. Ce que j'ai fait là, pour vous montrer un exemple de choses qui est possible de faire maintenant et qui ne l'était pas forcément avant. Et ça, je trouve ça assez intéressant. Dans le prompt, donc, je vais... Ce qu'il faut toujours faire attention, c'est quand vous donnez le prompt, c'est toujours bien mettre le hashtag avec ArrobaImage1, par exemple, pour mettre en référence une image que vous avez mis 6 jours. Et en plus de ça, j'ai mis ArrobaAudio1.
+
+[03:15] Donc ça, c'est l'audio de la personne qui parle. Donc je vais vous montrer. Il y a quand même 90% des gens qui goûtent notre café et qui ne se doutent pas une seconde de la recette. Donc ça, c'est la VO. J'ai mis l'image en input de l'UGC. J'ai fait un prompt avec Claude et le skillice que je vous avais déjà donné. Je lui ai dit qu'il me fallait une UGC qui parle Fescam.
+
+[03:37] Donc l'UGC 6 joints et que l'audio 6 joints, que ce soit en lip-sync, je dis que ça devait être assez dynamique, il devait avoir des variations de mouvement, etc. C'est ce qui m'a fait assez rapidement. Il y a quand même 80% des gens qui goûtent notre café et qui ne se doutent pas une seconde de la recette. 14 mois de recherche et développement. Voilà, on peut voir que le résultat fonctionne très bien.
+
+[03:58] Il a un peu changé la scène, mais c'est pas grave. Ça, c'était dans le prompt, j'avais demandé de changer. Et comme ça, vous allez pouvoir, à partir d'un audio, faire une vidéo qui soit vraiment de très très bonne qualité avec Seedance. Ou alors simplement en donnant l'audio, en donnant l'image, vous allez pouvoir aussi faire du image pour speech, ou alors du texte pour speech.
+
+[04:20] Mais du texte pour speech, ça je ne vous le conseille pas forcément parce que ça vous fait beaucoup plus de crédit. Ça coûte environ 11 centimes en plus, par seconde, pour une vidéo qui est faite sans input. Donc sans vidéo ou sans image. Donc ça, je vous le conseille pas forcément. C'est mieux toujours de mettre de toute façon l'image en input pour que Seedance fasse quelque chose de beaucoup plus propre.
+
+[04:45] Voilà, c'est un peu salto pot. Je pense que ça, c'est intéressant. Ce qui serait peut-être intéressant, si vous voulez, dites-le moi en commentaire, ou quoi que ce soit. Ce qui serait peut-être intéressant, c'est que je vous fasse une vidéo complète sur Seedance avec quels sont les éléments possibles de faire et toute la variation avec les références d'image, les références vidéo, la possibilité de modifier des éléments dans une diose,
+
+[05:06] je vous pourrais vous montrer. Comme ça, ce sera une vidéo complète. Là, je vous ai montré en Creative Insights, ce qui est très intéressant. Ce qui est aussi très intéressant, c'est que maintenant, on a le modèle, en même temps, je vous montre. On a le tout nouveau modèle que personne connaît. On a Minimax H3 qui est sorti. Et là, en fait, on va pouvoir créer des vidéos aussi jusqu'à 15 secondes, c'est déjà pas mal. Seedance 2.5, maintenant, c'est jusqu'à 30 secondes.
+
+[05:27] C'est énorme. L'avantage de Minimax H3, c'est que c'est moins cher et que la qualité est quand même pas mal. Et ce qu'on peut faire aussi, c'est faire Minimax tout vidéo ou alors une référence tout vidéo. C'est-à-dire que là, par exemple, si on a une musique, on va pouvoir animer la personne avec de la musique. Donc, simplement, on a ajouté l'image, on a ajouté
+
+[05:48] un exemple de vidéo où la personne chante et on a ajouté l'audio. On a mis la durée. On a miré la résolution et là, directement, c'était... Avec un simple prom d'air. Un prom qui était fait hyper rapidement.
+
+[06:08] Un peu comme Seedance. Voilà. N'hésitez pas si vous avez des questions. Dites-moi si vous voulez une vidéo complète sur Seedance 2.5 et si vous voulez aussi une vidéo complète sur Minimax H3. Comme ça, on pourra faire une propre et update le module comme ça.
 
 
 
 ======================================================================
 MODULE : MASTER IA
 LEÇON 37 : Être cité par les IA : la stratégie Glide
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER IA / leçon 37
 ======================================================================
 
@@ -3356,9 +4024,85 @@ Nous sommes à un moment rare : le GEO est encore accessible avec un effort mod�
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bonjour et bienvenue dans cette présentation. On va aller droit au but et on va vous expliquer tout ce que l'on fait, comment on le fait et pourquoi Glide est probablement la solution qu'il vous faut si vous souhaitez performer dans le géo. Rapidement petite présentation de notre entreprise. Nos limites a été fondées par Anthony Gonnais, venteport alias major,
+
+[00:25] que vous pouvez retrouver sur les réseaux et sur internet en 2020 et depuis nous accompagnons des entrepreneurs et des entreprises en Suisse, en France et ailleurs pour le développement de leur activité, pour le scaling et pour la croissance. La visibilité, la visibilité c'est le sujet principal
+
+[00:47] et le sujet qui nous concerne si on veut apparaître dans les IA. Vous le savez, il y a plusieurs moyens d'aller chercher des clients, d'être visibles et d'être reconnus. Il ne s'agit pas de dire ici que telle ou telle méthode de prospection est obsolète, absolument pas. Simplement avec le temps, des nouvelles méthodes de prospection arrivent, des dérivés naissent et savoir se positionner sur une méthode naissante
+
+[01:16] permet de profiter des avantages du fait que au début, elle est toujours simple à mettre en place, relativement rentable et plutôt efficace. Si je prends très rapidement comme exemple le SEO, il y a de cela presque 30 ans, eh bien on pouvait très facilement ranquer dans Google en faisant un site internet, 3 articles de blog,
+
+[01:37] l'affaire était pliée, c'est évidemment plus le cas aujourd'hui, c'est devenu beaucoup plus complexe. Pareil, par exemple pour la pub Facebook, au début, lorsque la pub Facebook est apparue, on pouvait mal faire de la pub et obtenir des résultats. Avec le temps, tout cela se complique et cela va être la même chose pour le SEO. On va arriver dans une phase d'adoption
+
+[01:57] puis une phase de saturation qui vont rendre les choses plus ou moins compliquées. À l'heure actuelle, on peut obtenir des résultats intéressants avec un effort relativement modéré. Aujourd'hui, les LLM, les chatbots prennent le pouvoir sur la recherche Google Classique puisque la plupart des gens, vous et moi y compris,
+
+[02:18] vont chercher des réponses à leurs problématiques dans leur chatbot préféré et pour l'entreprise, l'entrepreneur, le service de l'autre côté, cela équivaut souvent à des prospects qualifiés qui vont utiliser l'IA, que ce soit au début, au milieu ou à la fin, de leur processus d'achat.
+
+[02:45] Ils vont également poser des questions à l'IA sur une entreprise qu'ils connaissent peut-être. Soit une personne ne connaît pas un service sous une entreprise et parle d'un problème, dans ce moment-là, on va vouloir être cité naturellement par les IA. Soit la personne a entendu parler de tel ou tel entreprise, de tel ou tel entrepreneur, de tel ou tel produit et va vouloir demander à son chatbot
+
+[03:08] un avis sur la question. Donc ces deux éléments sont fondamentaux et on va en parler. Donc aujourd'hui, ce n'est pas une question de est-ce que j'utilise Google, est-ce que j'utilise pas Google, même dans quelques mois Google, ce sera Gemini avec une interface différente. Là-haut ou le GEO, a plusieurs avantages. Premièrement, cela envoie du trafic organique ultra qualifié.
+
+[03:31] Donc on ne va pas être dans un volume immense, quoique, mais plutôt dans du trafic de bonne qualité, avec des taux de conversion supérieurs, un LLM qui ne va pas se contenter d'écrire une ligne avec un lien, mais faire un pitch et on va vouloir influencer ce pitch, évidemment. Et donc il y avait une opportunité qui est encore relativement peu exploité. Donc comment fonctionne le référencement
+
+[03:53] dans l'LLM aujourd'hui ? Tout d'abord, la base en SEO reste valable. Ça il faut le dire. Les bonnes pratiques, la qualité du site web, la légèreté, les métadescription, les articles, les backlinks, toutes ces choses-là restent pertinentes. Mais les LLM vont voir plus loin que ça. Étant donné qu'ils sont conçus pour fonctionner
+
+[04:15] ou imiter un fonctionnement humain, ils vont aller synthétiser de l'information. Et ils vont d'abord synthétiser de l'information anglophone américaine, déjà parce que c'est leur langue de base et c'est là-dessus qu'ils sont entraînés, c'est sur le web américain qu'ils vont d'abord se former, à travers des communiqués de presse, à travers de la presse anglophone américaine
+
+[04:38] ou internationale, à travers des réseaux sociaux et à travers des annuaires. Et donc ce qu'on a découvert, c'est que si on peut apparaître partout à la fois, partout en même temps, eh bien on va pouvoir influencer l'opinion des LLM. Je reprends un petit peu, toujours l'exemple, d'Emmanuel Macron en 2017, puisqu'il a fait un petit peu ce qu'on fait là.
+
+[04:59] Il est apparu partout à la fois, avec une couverture médiatique immense et ça a permis d'influencer et de l'aider à gagner son élection. De l'autorité, de l'indexation, de la crédibilité, c'est ce que vous voulez montrer pour influencer les LLM en votre faveur, il faut vraiment se rappeler de cela.
+
+[05:21] Alors qu'est-ce qu'on fait quand on fait Glide ? Une opération Glide consiste en plusieurs points. Premièrement, on va rédiger de manière spécifique et selon une structure adaptée aux LLM, un communiqué de presse pour vous, en anglais, qui va être ensuite publié
+
+[05:42] dans un minimum de 500 médias internationaux à très grosse audience ou audience plus petite. Il y aura un petit peu de tout, du mainstream, du spécifique en fonction de votre niche, mais vous allez être publié dans un minimum de 500 médias internationaux avec des liens vers vos sites, avec des vidéos et des photos qui ont une très forte visibilité
+
+[06:04] et les intelligences artificielles ne pourront pas passer à côté de ces informations et elles vont les manger. Ça c'est garantie. Elles vont les manger, elles vont les garder dans leur base de données et elles seront capables de les reserver lorsque ce sera pertinent. Les moteurs de recherche standard vont aussi le voir, on va aussi les indexer manuellement et donc ça aura un effet que je montrerai tout à l'heure
+
+[06:26] à plein de niveaux différents. On va également injecter des ressenties annuaires qui vont vous donner du backlink de qualité et qui vont pousser encore ce référencement et l'autorité de votre site. Et enfin, parmi tous les médias qui auront publié votre communiqué de presse, cette d'entre eux en feront un poste sur leurs réseaux sociaux respectifs
+
+[06:48] aux Etats-Unis toujours LinkedIn, Instagram, TikTok, Threads, Facebook et BlueSky. Tout ça, les LLM adore également scroller les réseaux sociaux pour apporter de ce qu'on fait. Vous allez recevoir un rapport complet évidemment avec les liens vers tout ce qui aura été publié il faut savoir que 98, 99% de tout ce qui aura été publié
+
+[07:10] va le rester, il va y avoir un tout petit peu de perte c'est inévitable mais la large, large majorité va être conservée et vous pourrez utiliser les logos des différents médias notamment les grands médias américains qui vous auront publié pour les mettre si vous le souhaitez et vous allez avoir un logo sur vos sites internet pour mettre, on nous a vu, sur ce qui va augmenter votre autorité
+
+[07:32] et ce qui va in fine augmenter votre taux de conversion donc en plus du GEO en plus des performances SEO vous allez augmenter vos taux de conversion grâce à l'autorité ACI on va pouvoir garantir que ces informations seront indexées au coeur des IA et vous allez gagner une visibilité de la publicité, du boost SEO, GEO de l'autorité, de la crédibilité et beaucoup plus de visibilité
+
+[07:54] vous allez passer d'un état où vous êtes invisible où on ne vous connaît pas on ne sait pas si on doit vous faire confiance à une entreprise mainstream sortie de ses frontières puissantes et qui donne envie c'est très important puisque je le rappelle, on ne fait pas ce travail pour les humains mais d'abord pour les IA qui vont le lire et qui elles vont
+
+[08:16] convaincre des humains d'acheter chez vous quelques exemples de ce qu'on a fait et du spectre relativement large dans lequel on peut intervenir ici nous avons des screenshots de la description chat GPT d'un petit entrepreneur très doué mais pas encore connu, qui fait partie de nos clients et
+
+[08:38] qui a fait cette opération glide on voit que, vient que lui ne ressortent pas naturellement puisqu'il est dans une niche très compétitive et qu'il n'est encore pas fait de travail lorsqu'il sort, ou lorsqu'on parle de lui chat GPT ou un autre chat bot va donner des informations très précises très structurées de manière naturelle et avec les sources qui sont les nôtres
+
+[09:00] on voit society arts and culture.com streetinsider.com ça fait envie moi lorsque je vois ça si je suis un potentiel client et que je vois que cet entrepreneur français a se séver dans une IA il y a le fort de chance que je le contacte si on voit un autre client à nous donc sur la photo
+
+[09:22] de gauche, il avait un problème puisque des personnes remettaient en doute de manière tout à fait fausse d'ailleurs la fiabilité de son service alors qu'il est très bon et que la plupart de ses clients sont contents et le premier résultat qui apparaissait c'était site à fiabilité douteuse alors que c'est pas vrai également ScamDoc etc etc nous avons fait ce travail avec lui
+
+[09:44] et à présent TrustPilot qui arrive en premier TrustPilot avec quatre étoiles et nos articles qui passent devant et qui cachent complètement 4,2 étoiles qui arrivent en premier et aujourd'hui lorsqu'on fait la même recherche et bien son TrustPilot arrive en premier quatre étoiles
+
+[10:06] il y a 4,2 sur Google review et nos articles, nos communiqués de presse passent avant le reste et on complètement je dirais effacé des choses négatives qui pouvaient s'abattre sur lui de manière plutôt injuste il va de soi que nous ne faisons pas du nettoyage de réputation c'est-à-dire que si
+
+[10:28] vous avez triché si vous avez menti on ne va pas venir essayer de cacher cela on va simplement essayer de vous montrer sur votre meilleure image en nous basant sur la réalité c'est très important de le dire on va augmenter un domain rating donc le domain rating sur Google et sur les moteurs de recherche va être amélioré par ce qu'on fait
+
+[10:50] ça peut être très variable mais on va constater une augmentation on va constater également dans les IA sur un certain nombre de promptes une amélioration et là j'ai un client qui nous disait encore l'autre jour qu'il était très content puisque depuis qu'il a fait ça son dernier client l'a trouvé grâce à chadjpt vous allez avoir comme je le disais des sources d'autorité majeure à placer
+
+[11:12] ou bon vous semble sur vos sites internet un total de 200 millions de visiteurs potentiels sur tous les médias sur lesquels vous serez publié et ici deux éléments très intéressants on va voir que ce client en particulier voulait que lorsqu'on parle de lui on sache qu'il a fait 6 millions d'euros accompagné de 20 000 entrepreneurs etc
+
+[11:34] récompensé par Russell Branson et lorsqu'on pose des questions maintenant on voit que les sources non communiquées de presse arrivent en premier et sont utilisées pour donner ces informations on le voit notamment ici lorsqu'on pose des questions et qu'il arrive en premier yahu finance est la source et ici lorsqu'il arrive pas en premier lorsqu'on cherche un prestataire et qu'il n'arrive pas en premier
+
+[11:56] même s'il arrive en quatrième eh bien on voit bien que la qualité de la data est beaucoup bien meilleure que celle de ses concurrents et ce qui est très important c'est grâce à notre source il faut préciser quelque chose de très important dans les LLM il n'y a pas de classement à proprement parler comme dans Google
+
+[12:18] dans Google on parle de classement déterministe c'est-à-dire qu'il y a un classement un instant t qui ne va pas bouger sauf à chaque fois qu'il est rafraîchis et modifié dans les LLM ça n'a rien à voir on va tout d'un coup être cité le lendemain on ne sera pas cité si je fais telle recherche, si ma sœur et donc c'est une grande partie d'aléatoire une grande partie d'allucination on va plutôt parler de probabilité
+
+[12:40] d'être cité et de notre côté également de comment diminuer les hallucinations que les IA vont faire sur vous et ici encore un exemple sur notre site à nous on a travaillé notamment avec des agences comme KEEK agence américaine qui fait de la B-Testing la plateforme française Stormrock qui vend du CBD
+
+[13:02] très très connu Swiss Serenity, un prestataire de finance des auteurs comme Mireille Calmel une grande autrice française avec 4,5 millions de livres vendus etc la finalité, le but pour vous et moi en faisant ces actions c'est de pouvoir être cité directement dans les IA
+
+[13:24] et un jour d'avoir carrément des chatbots qui créent une petite interface pour permettre à nos clients d'acheter directement rendez-vous avec nous depuis leur plateforme si vous êtes intéressé par ce sujet si vous pensez que Glide peut vous aider à atteindre les objectifs qui sont les vôtres eh bien je vous conseille de prendre rendez-vous de scanner
+
+[13:46] secure code ou de cliquer sous le bouton en dessous de la vidéo afin de prendre rendez-vous et qu'on discute ensemble de comment on peut vous aider de quelle solution sera la plus adaptée pour vous être spécifique pour simplement prendre de l'avance vous mettre au coeur des LLM maintenant parce que demain ce sera trop tard voilà
+
+[14:08] merci de m'avoir écouté et je me réjouis de vous retrouver lors d'un rendez-vous personnalisé
 
 
 

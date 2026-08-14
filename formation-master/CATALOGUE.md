@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 251 complètes (40 %)**
+**508 leçons au total · 268 complètes (52 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -220,14 +220,14 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRO, BOOSTER CA & AOV
 
-8 leçons · 0 complètes · 8 partielles
+8 leçons · 4 complètes · 4 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Présentation et Introduction CRO #1](transcriptions/cro-booster-ca-aov\01-presentation-et-introduction-cro-1.md) | — | partiel |
-| 🟡 | 2 | [CRO : Le Meilleur Levier de Croissance #2](transcriptions/cro-booster-ca-aov\02-cro-le-meilleur-levier-de-croissance-2.md) | — | partiel |
-| 🟡 | 3 | [CRO : Le Meilleur Levier de Croissance #3](transcriptions/cro-booster-ca-aov\03-cro-le-meilleur-levier-de-croissance-3.md) | — | partiel |
-| 🟡 | 4 | [Process complet du CRO #1](transcriptions/cro-booster-ca-aov\04-process-complet-du-cro-1.md) | 25:52 | partiel |
+| ✅ | 1 | [Présentation et Introduction CRO #1](transcriptions/cro-booster-ca-aov\01-presentation-et-introduction-cro-1.md) | 23:28 | complet |
+| ✅ | 2 | [CRO : Le Meilleur Levier de Croissance #2](transcriptions/cro-booster-ca-aov\02-cro-le-meilleur-levier-de-croissance-2.md) | 15:31 | complet |
+| ✅ | 3 | [CRO : Le Meilleur Levier de Croissance #3](transcriptions/cro-booster-ca-aov\03-cro-le-meilleur-levier-de-croissance-3.md) | 18:02 | complet |
+| ✅ | 4 | [Process complet du CRO #1](transcriptions/cro-booster-ca-aov\04-process-complet-du-cro-1.md) | 25:52 | complet |
 | 🟡 | 5 | [Process complet du CRO #2](transcriptions/cro-booster-ca-aov\05-process-complet-du-cro-2.md) | 37:38 | partiel |
 | 🟡 | 6 | [2 Grandes Leçons CRO sur le Prix](transcriptions/cro-booster-ca-aov\06-2-grandes-lecons-cro-sur-le-prix.md) | 8:00 | partiel |
 | 🟡 | 7 | [Partage de résultats CRO](transcriptions/cro-booster-ca-aov\07-partage-de-resultats-cro.md) | 6:03 | partiel |
@@ -333,129 +333,6 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | 🟡 | 16 | [Module Complémentaire 2 : Dépôt à l'International](transcriptions/legal-administratif\16-module-complementaire-2-depot-a-l-international.md) | — | partiel |
 | 🟡 | 17 | [Liens Importants](transcriptions/legal-administratif\17-liens-importants.md) | — | partiel |
 
-## LIVE REPLAYS
-
-116 leçons · 0 complètes · 116 partielles
-
-| | # | Leçon | Durée | Statut |
-|-|---|-------|-------|--------|
-| 🟡 | 1 | [Règle & Information importante](transcriptions/live-replays\01-regle-information-importante.md) | — | partiel |
-| 🟡 | 2 | [1 Aoû. (Nico & Lucas) : Media-buy, Gifting & Meta](transcriptions/live-replays\02-1-aou-nico-lucas-media-buy-gifting-meta.md) | — | partiel |
-| 🟡 | 3 | [5 Aoû. (Leny) : Créatives, Volume & Influenceurs](transcriptions/live-replays\03-5-aou-leny-creatives-volume-influenceurs.md) | — | partiel |
-| 🟡 | 4 | [8 Aoû. (Lucas & Thomas) : IA, Ads & Création](transcriptions/live-replays\04-8-aou-lucas-thomas-ia-ads-creation.md) | — | partiel |
-| 🟡 | 5 | [12 Aoû. (Leny) : Publicité, Croissance & Stratégie](transcriptions/live-replays\05-12-aou-leny-publicite-croissance-strategie.md) | — | partiel |
-| 🟡 | 6 | [1 Jui. (Leny) : Publicité, Scaling & Créativité](transcriptions/live-replays\06-1-jui-leny-publicite-scaling-creativite.md) | — | partiel |
-| 🟡 | 7 | [4 Jui. (Nico) : Créatives, Scaling & Croissance](transcriptions/live-replays\07-4-jui-nico-creatives-scaling-croissance.md) | — | partiel |
-| 🟡 | 8 | [9 Jui. (Leny) : Ads, Concurrence & Rentabilité](transcriptions/live-replays\08-9-jui-leny-ads-concurrence-rentabilite.md) | — | partiel |
-| 🟡 | 9 | [11 Jui. (Onially) : Spécialiste SAV E-commerce](transcriptions/live-replays\09-11-jui-onially-specialiste-sav-e-commerce.md) | — | partiel |
-| 🟡 | 10 | [15 Jui. (Leny) : Ads, Créativité & Scaling](transcriptions/live-replays\10-15-jui-leny-ads-creativite-scaling.md) | — | partiel |
-| 🟡 | 11 | [17 Jui. (Vincent) : Marketing, Ads & Persévérance](transcriptions/live-replays\11-17-jui-vincent-marketing-ads-perseverance.md) | — | partiel |
-| 🟡 | 12 | [18 Jui. (Matteo) : Publicité, Scaling & IA](transcriptions/live-replays\12-18-jui-matteo-publicite-scaling-ia.md) | — | partiel |
-| 🟡 | 13 | [22 Jui. (Leny) : Marge, Produits & Taxes](transcriptions/live-replays\13-22-jui-leny-marge-produits-taxes.md) | — | partiel |
-| 🟡 | 14 | [25 Jui. (Sophia) : Recrutement, Contrats & Perf](transcriptions/live-replays\14-25-jui-sophia-recrutement-contrats-perf.md) | — | partiel |
-| 🟡 | 15 | [29 Jui. (Leny) : Publicité, Rentabilité & Scaling](transcriptions/live-replays\15-29-jui-leny-publicite-rentabilite-scaling.md) | — | partiel |
-| 🟡 | 16 | [03 Jui. (Leny) : Ventes, Cashflow & Réseau](transcriptions/live-replays\16-03-jui-leny-ventes-cashflow-reseau.md) | — | partiel |
-| 🟡 | 17 | [05 Jui. (Vincent) : Rentabilité, Créas & Scaling](transcriptions/live-replays\17-05-jui-vincent-rentabilite-creas-scaling.md) | — | partiel |
-| 🟡 | 18 | [06 Jui. (Matteo) : Scaling, Créativité & Cashflow](transcriptions/live-replays\18-06-jui-matteo-scaling-creativite-cashflow.md) | — | partiel |
-| 🟡 | 19 | [10 Jui. (Leny) : Vente, Créatives  & Entraide](transcriptions/live-replays\19-10-jui-leny-vente-creatives-entraide.md) | — | partiel |
-| 🟡 | 20 | [13 Jui. (3PL) : Stock, Transport, Structuration](transcriptions/live-replays\20-13-jui-3pl-stock-transport-structuration.md) | — | partiel |
-| 🟡 | 21 | [17 Jui. (Leny) : Créas, Scaling & Performance](transcriptions/live-replays\21-17-jui-leny-creas-scaling-performance.md) | — | partiel |
-| 🟡 | 22 | [20 Jui. (Nico) : Créatives, Scaling & Itération](transcriptions/live-replays\22-20-jui-nico-creatives-scaling-iteration.md) | — | partiel |
-| 🟡 | 23 | [24 Jui. (Leny) : Créas, Avatar & Structuration](transcriptions/live-replays\23-24-jui-leny-creas-avatar-structuration.md) | — | partiel |
-| 🟡 | 24 | [24 Jui. (Matteo) : Stratégie, Créativité & Growth](transcriptions/live-replays\24-24-jui-matteo-strategie-creativite-growth.md) | — | partiel |
-| 🟡 | 25 | [28 Jui. (Lucas & Thomas) : LIVE IA](transcriptions/live-replays\25-28-jui-lucas-thomas-live-ia.md) | — | partiel |
-| 🟡 | 26 | [30 Jui. (Lucile) : Feedback & Intégration](transcriptions/live-replays\26-30-jui-lucile-feedback-integration.md) | — | partiel |
-| 🟡 | 27 | [01 Mai. (Vincent) : Vente, Stratégie & Momentum](transcriptions/live-replays\27-01-mai-vincent-vente-strategie-momentum.md) | — | partiel |
-| 🟡 | 28 | [02 Mai. (Lars) : Expert en PSP](transcriptions/live-replays\28-02-mai-lars-expert-en-psp.md) | — | partiel |
-| 🟡 | 29 | [06 Mai. (Leny) : Ventes, Créativité & Exécution](transcriptions/live-replays\29-06-mai-leny-ventes-creativite-execution.md) | — | partiel |
-| 🟡 | 30 | [09 Mai. (Nico) : Stratégie, Créatives & Scale](transcriptions/live-replays\30-09-mai-nico-strategie-creatives-scale.md) | — | partiel |
-| 🟡 | 31 | [13 Mai. (Leny) : Publicité, Clients & Scaling](transcriptions/live-replays\31-13-mai-leny-publicite-clients-scaling.md) | — | partiel |
-| 🟡 | 32 | [16 Mai. (Sophia) : Fondateurs, Structure & Perf](transcriptions/live-replays\32-16-mai-sophia-fondateurs-structure-perf.md) | — | partiel |
-| 🟡 | 33 | [20 Mai. (Leny) : Vente, Stratégie & Croissance](transcriptions/live-replays\33-20-mai-leny-vente-strategie-croissance.md) | — | partiel |
-| 🟡 | 34 | [23 Mai. (Matteo) : Manifestation, Scale & Mindset](transcriptions/live-replays\34-23-mai-matteo-manifestation-scale-mindset.md) | — | partiel |
-| 🟡 | 35 | [27 Mai. (Leny) : Vitesse, Créas & Entraide](transcriptions/live-replays\35-27-mai-leny-vitesse-creas-entraide.md) | — | partiel |
-| 🟡 | 36 | [30 Mai. (Vincent) : Expert en GEO](transcriptions/live-replays\36-30-mai-vincent-expert-en-geo.md) | — | partiel |
-| 🟡 | 37 | [01 Avr. (Leny) : Coaching, Marketing & Publicités](transcriptions/live-replays\37-01-avr-leny-coaching-marketing-publicites.md) | — | partiel |
-| 🟡 | 38 | [03 Avr. (Vincent) : Psychologie, Croyance & Algo](transcriptions/live-replays\38-03-avr-vincent-psychologie-croyance-algo.md) | — | partiel |
-| 🟡 | 39 | [04 Avr. (Onially) : Spécialiste SAV E-commerce](transcriptions/live-replays\39-04-avr-onially-specialiste-sav-e-commerce.md) | — | partiel |
-| 🟡 | 40 | [09 Avr. (Leny) : Publicité, Créatives & Croissance](transcriptions/live-replays\40-09-avr-leny-publicite-creatives-croissance.md) | — | partiel |
-| 🟡 | 41 | [15 Avr. (Leny) : Ventes, Créas & Optimisation](transcriptions/live-replays\41-15-avr-leny-ventes-creas-optimisation.md) | — | partiel |
-| 🟡 | 42 | [18 Avr. (Matteo) : Scaling, Créatives & Coaching](transcriptions/live-replays\42-18-avr-matteo-scaling-creatives-coaching.md) | — | partiel |
-| 🟡 | 43 | [23 Avr. (Leny) : Créa, Concepts & Persévérance](transcriptions/live-replays\43-23-avr-leny-crea-concepts-perseverance.md) | — | partiel |
-| 🟡 | 44 | [25 Avr. (Matteo & Nico) : Ads, Scaling & Croyances](transcriptions/live-replays\44-25-avr-matteo-nico-ads-scaling-croyances.md) | — | partiel |
-| 🟡 | 45 | [29 Avr. (Leny) : Ventes, Créatives & Influenceurs](transcriptions/live-replays\45-29-avr-leny-ventes-creatives-influenceurs.md) | — | partiel |
-| 🟡 | 46 | [30 Avr. (Sophia) : Équipe, Délégation & Perf](transcriptions/live-replays\46-30-avr-sophia-equipe-delegation-perf.md) | — | partiel |
-| 🟡 | 47 | [05 Mar. (Leny) : Vente, Créativité & Croissance](transcriptions/live-replays\47-05-mar-leny-vente-creativite-croissance.md) | — | partiel |
-| 🟡 | 48 | [06 Mar. (Agent Français) : Coaching Sourcing](transcriptions/live-replays\48-06-mar-agent-francais-coaching-sourcing.md) | — | partiel |
-| 🟡 | 49 | [07 Mar. (Nico & Matteo) : Ventes, Mindset & Offres](transcriptions/live-replays\49-07-mar-nico-matteo-ventes-mindset-offres.md) | — | partiel |
-| 🟡 | 50 | [12 Mar. (Leny) : Créas, Rentabilité & Croissance](transcriptions/live-replays\50-12-mar-leny-creas-rentabilite-croissance.md) | — | partiel |
-| 🟡 | 51 | [14 Mar. (Nico) : Ventes, Créativité & Agents](transcriptions/live-replays\51-14-mar-nico-ventes-creativite-agents.md) | — | partiel |
-| 🟡 | 52 | [18 Mar. (Leny) : Créatives, Stabilisation & Marché](transcriptions/live-replays\52-18-mar-leny-creatives-stabilisation-marche.md) | — | partiel |
-| 🟡 | 53 | [20 Mar. (Vincent) : Vente, Emotions & Scaling](transcriptions/live-replays\53-20-mar-vincent-vente-emotions-scaling.md) | — | partiel |
-| 🟡 | 54 | [25 Mar. (Leny) : Créas, Budgets & Stratégie](transcriptions/live-replays\54-25-mar-leny-creas-budgets-strategie.md) | — | partiel |
-| 🟡 | 55 | [28 Mar. (Loic & Nico) : Ventes, Ads & Audience](transcriptions/live-replays\55-28-mar-loic-nico-ventes-ads-audience.md) | — | partiel |
-| 🟡 | 56 | [04 Fév. (Lény) : Ventes, Créatives & Budget](transcriptions/live-replays\56-04-fev-leny-ventes-creatives-budget.md) | — | partiel |
-| 🟡 | 57 | [06 Fév. (Vincent) : Désir, Avatar & Marché](transcriptions/live-replays\57-06-fev-vincent-desir-avatar-marche.md) | — | partiel |
-| 🟡 | 58 | [07 Fév. (Julie) : Email Marketing - EmailClub](transcriptions/live-replays\58-07-fev-julie-email-marketing-emailclub.md) | — | partiel |
-| 🟡 | 59 | [11 Fév. (Leny) : Ventes, Créatives & Mindset](transcriptions/live-replays\59-11-fev-leny-ventes-creatives-mindset.md) | — | partiel |
-| 🟡 | 60 | [14 Fév. (Matteo) : Autom., Créatives & Psychologie](transcriptions/live-replays\60-14-fev-matteo-autom-creatives-psychologie.md) | — | partiel |
-| 🟡 | 61 | [18 Fév. (Leny) : Ventes, Créatives & Affiliation](transcriptions/live-replays\61-18-fev-leny-ventes-creatives-affiliation.md) | — | partiel |
-| 🟡 | 62 | [21 Fév. (Hugo) : Whatsapp Marketing Kanal](transcriptions/live-replays\62-21-fev-hugo-whatsapp-marketing-kanal.md) | — | partiel |
-| 🟡 | 63 | [25 Fév. (Leny) : Ventes, Créatives & Stratégie](transcriptions/live-replays\63-25-fev-leny-ventes-creatives-strategie.md) | — | partiel |
-| 🟡 | 64 | [09 Jan. (Leny) : Ventes, Scaling & Créatives](transcriptions/live-replays\64-09-jan-leny-ventes-scaling-creatives.md) | — | partiel |
-| 🟡 | 65 | [11 Jan. (Matteo & Gabor) : Strat, Planif & Growth](transcriptions/live-replays\65-11-jan-matteo-gabor-strat-planif-growth.md) | — | partiel |
-| 🟡 | 66 | [16 Jan. (Leny) : Stratégie, Créatives & Croissance](transcriptions/live-replays\66-16-jan-leny-strategie-creatives-croissance.md) | — | partiel |
-| 🟡 | 67 | [21 Jan. (Leny) : Croissance, Publicité & Patience](transcriptions/live-replays\67-21-jan-leny-croissance-publicite-patience.md) | — | partiel |
-| 🟡 | 68 | [24 Jan. (Matteo) : Vente, Scaling & Optimisation](transcriptions/live-replays\68-24-jan-matteo-vente-scaling-optimisation.md) | — | partiel |
-| 🟡 | 69 | [28 Jan. (Lény) : Ventes, Scaling & Créativité](transcriptions/live-replays\69-28-jan-leny-ventes-scaling-creativite.md) | — | partiel |
-| 🟡 | 70 | [04 Dec. (Leny) : Ventes, Créatives & Optimisation](transcriptions/live-replays\70-04-dec-leny-ventes-creatives-optimisation.md) | — | partiel |
-| 🟡 | 71 | [11 Dec. (Leny) : Publicité, Offre & Discipline](transcriptions/live-replays\71-11-dec-leny-publicite-offre-discipline.md) | — | partiel |
-| 🟡 | 72 | [13 Dec. (Matteo & Sophia) : Recrues, Ops & Croiss](transcriptions/live-replays\72-13-dec-matteo-sophia-recrues-ops-croiss.md) | — | partiel |
-| 🟡 | 73 | [17 Dec. (Leny) : Ventes, Offre & Compétence](transcriptions/live-replays\73-17-dec-leny-ventes-offre-competence.md) | — | partiel |
-| 🟡 | 74 | [23 Dec. (Leny) : Ads, Stratégie & Optimisation](transcriptions/live-replays\74-23-dec-leny-ads-strategie-optimisation.md) | 1:03:08 | partiel |
-| 🟡 | 75 | [27 Dec. (Matteo) : Stratégie, Ads & Optimisation](transcriptions/live-replays\75-27-dec-matteo-strategie-ads-optimisation.md) | — | partiel |
-| 🟡 | 76 | [31 Dec. (Leny) : Stratégie, Créatives & Croissance](transcriptions/live-replays\76-31-dec-leny-strategie-creatives-croissance.md) | — | partiel |
-| 🟡 | 77 | [05 Nov. (Leny) : Ventes, Publicité & Optimisation](transcriptions/live-replays\77-05-nov-leny-ventes-publicite-optimisation.md) | — | partiel |
-| 🟡 | 78 | [08 Nov. (Matteo) : Ads, Recrutement & Croissance](transcriptions/live-replays\78-08-nov-matteo-ads-recrutement-croissance.md) | — | partiel |
-| 🟡 | 79 | [12 Nov. (Leny) : Publicité, Rentabilité & Scaling](transcriptions/live-replays\79-12-nov-leny-publicite-rentabilite-scaling.md) | — | partiel |
-| 🟡 | 80 | [19 Nov. (Leny) : Ventes, Publicité & Optimisation](transcriptions/live-replays\80-19-nov-leny-ventes-publicite-optimisation.md) | — | partiel |
-| 🟡 | 81 | [22 Nov. (Nico & Andrea) : Vente, Conversion & Créa](transcriptions/live-replays\81-22-nov-nico-andrea-vente-conversion-crea.md) | — | partiel |
-| 🟡 | 82 | [26 Nov. (Leny) : Publicité, Scaling & Performance](transcriptions/live-replays\82-26-nov-leny-publicite-scaling-performance.md) | — | partiel |
-| 🟡 | 83 | [02 Oct. (Leny) : Ventes, Créatives & Optimisation](transcriptions/live-replays\83-02-oct-leny-ventes-creatives-optimisation.md) | — | partiel |
-| 🟡 | 84 | [08 Oct. (Leny) : Publicité, Créatives & Conversion](transcriptions/live-replays\84-08-oct-leny-publicite-creatives-conversion.md) | — | partiel |
-| 🟡 | 85 | [11 Oct. (Matteo) : Croissance, Créa & Écosystème](transcriptions/live-replays\85-11-oct-matteo-croissance-crea-ecosysteme.md) | 1:05:39 | partiel |
-| 🟡 | 86 | [15 Oct. (Leny) : Vente, Créatives & Croissance](transcriptions/live-replays\86-15-oct-leny-vente-creatives-croissance.md) | 1:05:39 | partiel |
-| 🟡 | 87 | [21 Oct. (Leny) : Ventes, Stratégie & Créativité](transcriptions/live-replays\87-21-oct-leny-ventes-strategie-creativite.md) | — | partiel |
-| 🟡 | 88 | [25 Oct. (Nico & Thomas) : Email, WhatsApp & Abos](transcriptions/live-replays\88-25-oct-nico-thomas-email-whatsapp-abos.md) | 1:02:19 | partiel |
-| 🟡 | 89 | [30 Oct. (Leny) : Ventes, Publicité & Stratégie](transcriptions/live-replays\89-30-oct-leny-ventes-publicite-strategie.md) | — | partiel |
-| 🟡 | 90 | [03 Sep. (Leny) : Stratégie, Créatives & Scaling](transcriptions/live-replays\90-03-sep-leny-strategie-creatives-scaling.md) | 1:00:34 | partiel |
-| 🟡 | 91 | [10 Sep. (Leny) : Ads, Créativité & Scaling](transcriptions/live-replays\91-10-sep-leny-ads-creativite-scaling.md) | — | partiel |
-| 🟡 | 92 | [13 Sep. (Matteo, Sophia, Emre) BFCM, Perf & Conv](transcriptions/live-replays\92-13-sep-matteo-sophia-emre-bfcm-perf-conv.md) | — | partiel |
-| 🟡 | 93 | [17 Sep. (Leny) : Ventes, Stratégie & Confiance](transcriptions/live-replays\93-17-sep-leny-ventes-strategie-confiance.md) | — | partiel |
-| 🟡 | 94 | [24 Sep. (Leny) : Ventes, Créativité & Optimisation](transcriptions/live-replays\94-24-sep-leny-ventes-creativite-optimisation.md) | — | partiel |
-| 🟡 | 95 | [28 Sep. (Nico) : Stratégie, Créa & Croissance](transcriptions/live-replays\95-28-sep-nico-strategie-crea-croissance.md) | — | partiel |
-| 🟡 | 96 | [08 Aoû. (Leny) : Croissance, Marge & Mindset](transcriptions/live-replays\96-08-aou-leny-croissance-marge-mindset.md) | — | partiel |
-| 🟡 | 97 | [09 Aoû. (Nico & Matteo) : IA, Meta & Marchés](transcriptions/live-replays\97-09-aou-nico-matteo-ia-meta-marches.md) | — | partiel |
-| 🟡 | 98 | [14 Aoû. (Leny) : Ventes, Stratégie & Exécution](transcriptions/live-replays\98-14-aou-leny-ventes-strategie-execution.md) | — | partiel |
-| 🟡 | 99 | [17 Aoû. (Nico & Lucas) : IA, Nouveautés, VEO3](transcriptions/live-replays\99-17-aou-nico-lucas-ia-nouveautes-veo3.md) | — | partiel |
-| 🟡 | 100 | [20 Aoû. (Leny) : Ventes, Créatives & Optimisation](transcriptions/live-replays\100-20-aou-leny-ventes-creatives-optimisation.md) | — | partiel |
-| 🟡 | 101 | [23 Aoû. (Matteo) : Créatives, Scaling & Expansion](transcriptions/live-replays\101-23-aou-matteo-creatives-scaling-expansion.md) | — | partiel |
-| 🟡 | 102 | [27 Aoû. (Leny) : Ads, Croissance & Stratégie](transcriptions/live-replays\102-27-aou-leny-ads-croissance-strategie.md) | 1:00:54 | partiel |
-| 🟡 | 103 | [30 Aoû. (Nico) : Ads, Stratégie & Croissance](transcriptions/live-replays\103-30-aou-nico-ads-strategie-croissance.md) | — | partiel |
-| 🟡 | 104 | [05 Jui. (Nico & Leny) : Ventes, Ads & Scaling](transcriptions/live-replays\104-05-jui-nico-leny-ventes-ads-scaling.md) | — | partiel |
-| 🟡 | 105 | [09 Jui. (Nico & Leny) : Produits, Ads & Conversion](transcriptions/live-replays\105-09-jui-nico-leny-produits-ads-conversion.md) | — | partiel |
-| 🟡 | 106 | [16 Jui. (Leny) : Publicité, Créativité & Scaling](transcriptions/live-replays\106-16-jui-leny-publicite-creativite-scaling.md) | — | partiel |
-| 🟡 | 107 | [23 Jui. (Leny) : Ventes, Stratégie & Rentabilité](transcriptions/live-replays\107-23-jui-leny-ventes-strategie-rentabilite.md) | 1:00:10 | partiel |
-| 🟡 | 108 | [26 Jui. (Matteo) : Ads, Motivation & Stratégie](transcriptions/live-replays\108-26-jui-matteo-ads-motivation-strategie.md) | — | partiel |
-| 🟡 | 109 | [29 Jui. (Leny) : Publicité, Scaling & Créativité](transcriptions/live-replays\109-29-jui-leny-publicite-scaling-creativite.md) | — | partiel |
-| 🟡 | 110 | [07 Juin (Nico & Vincent) : Recrutement, Supply, ..](transcriptions/live-replays\110-07-juin-nico-vincent-recrutement-supply.md) | 1:57:59 | partiel |
-| 🟡 | 111 | [14 Jui. (Matteo) : Ads, Croissance & Communauté](transcriptions/live-replays\111-14-jui-matteo-ads-croissance-communaute.md) | — | partiel |
-| 🟡 | 112 | [21 Jui. (Nico & Alex) : Ventes, Stratégie & Équipe](transcriptions/live-replays\112-21-jui-nico-alex-ventes-strategie-equipe.md) | — | partiel |
-| 🟡 | 113 | [28 Jui. (Matteo) : Publicité, Scaling & Communauté](transcriptions/live-replays\113-28-jui-matteo-publicite-scaling-communaute.md) | — | partiel |
-| 🟡 | 114 | [17 Mai. (Nico & Matteo) : Growth, Mkg & Mindset](transcriptions/live-replays\114-17-mai-nico-matteo-growth-mkg-mindset.md) | — | partiel |
-| 🟡 | 115 | [24 Mai. (Nico, Matteo, ..) : Vente, Offre & Trafic](transcriptions/live-replays\115-24-mai-nico-matteo-vente-offre-trafic.md) | — | partiel |
-| 🟡 | 116 | [31 Mai. (Matteo) : Offre, Rentabilité & Algorithme](transcriptions/live-replays\116-31-mai-matteo-offre-rentabilite-algorithme.md) | — | partiel |
-
 ## MASTER ACQUISITION
 
 55 leçons · 54 complètes · 1 partielles
@@ -520,7 +397,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER IA
 
-38 leçons · 22 complètes · 15 partielles
+38 leçons · 35 complètes · 2 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -548,19 +425,19 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ⬜ | 22 | [HeyGen](transcriptions/master-ia\22-heygen.md) | 17:10 | a-transcrire |
 | 🟡 | 23 | [Canva IA: Branding produit avec IA 2025](transcriptions/master-ia\23-canva-ia-branding-produit-avec-ia-2025.md) | 19:50 | partiel |
 | ✅ | 24 | [1 : Sora 2 – Créer un prompt puissant et réaliste](transcriptions/master-ia\24-1-sora-2-creer-un-prompt-puissant-et.md) | 7:51 | complet |
-| 🟡 | 25 | [2 : Kie AI & Higgsfield – Génération Content](transcriptions/master-ia\25-2-kie-ai-higgsfield-generation-content.md) | 30:34 | partiel |
-| 🟡 | 26 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/master-ia\26-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | partiel |
-| 🟡 | 27 | [Ep #4 - Présentation + Utilisation de Mirage](transcriptions/master-ia\27-ep-4-presentation-utilisation-de-mirage.md) | 7:42 | partiel |
-| 🟡 | 28 | [Ep #46 - ADS Cartoon IA](transcriptions/master-ia\28-ep-46-ads-cartoon-ia.md) | 8:48 | partiel |
-| 🟡 | 29 | [Ep #47 - ChatGPT Image 2](transcriptions/master-ia\29-ep-47-chatgpt-image-2.md) | 8:48 | partiel |
-| 🟡 | 30 | [Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2](transcriptions/master-ia\30-ep-49-ads-storyboard-avec-seedance-2-0.md) | 8:48 | partiel |
-| 🟡 | 31 | [Ep #51 - Skill AI Ads Modulable](transcriptions/master-ia\31-ep-51-skill-ai-ads-modulable.md) | 8:48 | partiel |
-| 🟡 | 32 | [Ep #53 - Skill Native Ads Copy via Claude Code](transcriptions/master-ia\32-ep-53-skill-native-ads-copy-via-claude.md) | 8:48 | partiel |
-| 🟡 | 33 | [Ep #56 - Créer des UGC IA ultra réalistes](transcriptions/master-ia\33-ep-56-creer-des-ugc-ia-ultra-realistes.md) | 8:48 | partiel |
-| 🟡 | 34 | [Ep #58 - Styles d'ads cartoons qui performent](transcriptions/master-ia\34-ep-58-styles-d-ads-cartoons-qui-performent.md) | 8:48 | partiel |
-| 🟡 | 35 | [Ep #60 - Créer une musique pour vos ads](transcriptions/master-ia\35-ep-60-creer-une-musique-pour-vos-ads.md) | 8:48 | partiel |
-| 🟡 | 36 | [Ep #62 -   Raw Talking Heads & statiques animés](transcriptions/master-ia\36-ep-62-raw-talking-heads-statiques-animes.md) | 8:48 | partiel |
-| 🟡 | 37 | [Être cité par les IA : la stratégie Glide](transcriptions/master-ia\37-etre-cite-par-les-ia-la-strategie-glide.md) | — | partiel |
+| ✅ | 25 | [2 : Kie AI & Higgsfield – Génération Content](transcriptions/master-ia\25-2-kie-ai-higgsfield-generation-content.md) | 30:34 | complet |
+| ✅ | 26 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/master-ia\26-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | complet |
+| ✅ | 27 | [Ep #4 - Présentation + Utilisation de Mirage](transcriptions/master-ia\27-ep-4-presentation-utilisation-de-mirage.md) | 7:42 | complet |
+| ✅ | 28 | [Ep #46 - ADS Cartoon IA](transcriptions/master-ia\28-ep-46-ads-cartoon-ia.md) | 8:48 | complet |
+| ✅ | 29 | [Ep #47 - ChatGPT Image 2](transcriptions/master-ia\29-ep-47-chatgpt-image-2.md) | 8:48 | complet |
+| ✅ | 30 | [Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2](transcriptions/master-ia\30-ep-49-ads-storyboard-avec-seedance-2-0.md) | 8:48 | complet |
+| ✅ | 31 | [Ep #51 - Skill AI Ads Modulable](transcriptions/master-ia\31-ep-51-skill-ai-ads-modulable.md) | 8:48 | complet |
+| ✅ | 32 | [Ep #53 - Skill Native Ads Copy via Claude Code](transcriptions/master-ia\32-ep-53-skill-native-ads-copy-via-claude.md) | 8:48 | complet |
+| ✅ | 33 | [Ep #56 - Créer des UGC IA ultra réalistes](transcriptions/master-ia\33-ep-56-creer-des-ugc-ia-ultra-realistes.md) | 8:48 | complet |
+| ✅ | 34 | [Ep #58 - Styles d'ads cartoons qui performent](transcriptions/master-ia\34-ep-58-styles-d-ads-cartoons-qui-performent.md) | 8:48 | complet |
+| ✅ | 35 | [Ep #60 - Créer une musique pour vos ads](transcriptions/master-ia\35-ep-60-creer-une-musique-pour-vos-ads.md) | 8:48 | complet |
+| ✅ | 36 | [Ep #62 -   Raw Talking Heads & statiques animés](transcriptions/master-ia\36-ep-62-raw-talking-heads-statiques-animes.md) | 8:48 | complet |
+| ✅ | 37 | [Être cité par les IA : la stratégie Glide](transcriptions/master-ia\37-etre-cite-par-les-ia-la-strategie-glide.md) | 14:14 | complet |
 | 🟡 | 38 | [Glide : Offre & Contact](transcriptions/master-ia\38-glide-offre-contact.md) | — | partiel |
 
 ## MASTER INSIDER
