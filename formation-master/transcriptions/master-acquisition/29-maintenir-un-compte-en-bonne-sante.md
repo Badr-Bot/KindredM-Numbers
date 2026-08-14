@@ -2,9 +2,9 @@
 module: MASTER ACQUISITION
 lecon: 29
 titre: "🆕 Maintenir un compte en bonne santé"
-duree: ""
+duree: "5:02"
 url: "https://www.skool.com/master/classroom/4d936265?md=ab7ab9ec06694e4c9bde50e066a87f11"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -90,6 +90,32 @@ Toujours traiter la cause racine d'un problème plutôt que le symptôme, et ne 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc ensuite on continue le process, là ce que vous allez faire aussi c'est reporter à l'équipe CREA, c'est-à-dire si c'était rejeté pour une raison il va falloir fixer le problème à la source. On continue pas à juste faire un pense-en-mais-dépensement, on fixe le problème, on partage à l'équipe CREA de la raison exacte et on essaie de trouver des solutions. Ensuite des trucs qui comptent à l'échelle, ça aura un compte secours, toujours avoir un adac en deux secours,
+
+[00:24] ça peut toujours vous être utile en cas de problème de crédit line, en cas de ban etc, toujours avoir un adac en deux secours. Et diversité créative, ça je sais pas, procéde Emila, moins tu rides sur une seule CREA board d'online, moins une vague de rejet te fait mal. Donc ça c'est nous processins, je le dis juste pourquoi j'ai mis ça,
+
+[00:46] moins de read tout sur une CREA board d'online, oui oui oui, de toute façon il faut que vous ayez plusieurs types de CREA. Il faut pas que vous voulez sur un seul winner, quand vous scalez et que vous avez une CREA qui scale, qui se fait ban, ça fait mal. Si vous avez ça, si c'est le cas, demandez-nous et nous ce qu'on peut faire, c'est vous faire approuver par Anisider.
+
+[01:12] Vous avez une Nats qui se pendait beaucoup et elle vous fait mal, écrivez à notre équipe et approuvez par Anisider. Pour vérifier la santé du compte ici, pour vérifier les attraîchés ici, ok. Et maintenant, c'est ça le process, pourquoi elle est mis à deux fois ?
+
+[01:39] Parce qu'on a traduit, c'est simplement un double, on avait traduit de France à Anglais, ça a double juste, je vais l'enlever. Ensuite, problème sur Meta et si je vous ai mis des liens importants en cas de problème, ok. C'est des liens vraiment importants qui vont vous permettre de se nécessairener vos problèmes. Chose à savoir, c'est que si vous avez quoi comme problème, nous on peut mettre en contact avec Anisider.
+
+[02:02] Par exemple, vous avez une baisse de performance, faites un check avec l'Aisider pour voir la santé du compte. C'est quelque chose que je fais très régulièrement, surtout si j'ai un problème, parce que des fois, il peut y avoir des châteaux de banne. Parce que des fois, vous ne savez pas, mais quelqu'un vous a posé un DMC, mais pas visible, ok. Parce qu'il a payé Anisider pour le faire. Ça se fait de moins en moins, parce que les conséquences peuvent être graves si quelqu'un boufflait ça.
+
+[02:23] Mais vous pouvez avoir un BM qui peut-être passe, vous utilisez un BM de contagion et d'autres annonceurs en fait, ont reçu des DMC où on fait beaucoup d'êtres rejetés et ça impacte en fait la santé du BM. Et avec Anisider, il va pouvoir voir pourquoi votre compte a été impacté. Si c'est la page, si c'est le nom de domaine, si c'est les ads, si vous avez peut-être une stratégie,
+
+[02:48] une mauvaise stratégie de médiabéine que peut-être votre compte en fait, il va venir avoir pas ces diversités créatives et ça vous pénalise. Peut-être qu'il va voir que vous avez reçu un DMC et peut-être que vous avez un mini-chat de banne, que vous avez un Ace, etc. Un Ace, c'est un mini-chat de banne, ou peut-être que vous avez un chat de banne. Et en fait, ça ne sert à rien de fixer votre site, vos créatives, etc.
+
+[03:09] Si vous avez un chat de banne sur Facebook, par exemple, ok, ça ne sert à rien. Nous, par exemple, ce qui est arrivé, c'est qu'en 2025, on a une grosse baisse de performance. Ok ? Pourtant, les créatifs étaient bien, pourtant tout était bien, mais une grosse baisse de performance. J'ai fait un check, l'insider m'a dit, ben, c'est pas étonnant, t'as reçu un fake DMC. C'est-à-dire quelqu'un a payé un insider pour poser un DMC.
+
+[03:30] Ok ? Les impacts sont très graves après parce que quand tu sais ça, pour eux, c'est... C'est grave, ok ? Donc ne posez jamais un faux DMC, surtout si c'est pas justifié. Et à travers un insider, ça coûte quelques cas, et ça vaut pas la peine. Mais bref, on l'a cliné. Heureusement qu'on avait des sites solides, c'est-à-dire qu'on avait beaucoup de spades.
+
+[03:54] Il m'a dit, sinon, on compte, il aurait sauté. Mais sachez que quand on compte, spade beaucoup et qu'il a spade beaucoup sur meta, même si vous faire un DMC, n'importe quoi, si il est solide, vous n'allez pas le faire sauter. Et si vous le faites sauter et que c'est une grosse marque sérieuse, elle peut se retourner contre vous, et légalement, ça peut faire mal. Un vraiement fait attention avec ça.
+
+[04:15] Et en fait, il m'a dit la date de quand on a reçu le faux DMC, et ça tombait exactement quand on a eu les chutes de performance. Et une fois que ça s'est cliné, on a pu avoir des meilleures performances. Donc vraiment très important, ça coûte... Ça dépend des prix. Ça ne coûte pas très, très cher que ça. Ça peut coûter... Pour check des fois, il le fait pour quelques centaines de dollars.
+
+[04:35] Je crois que c'est entre 300 et 500. Ça dépend des périodes de l'année. C'est en fonction de l'offre et de la demande. Des fois, les Insiders ne le font plus, du coup, ça augmente le prix. Mais bref, demandez-nous juste si vous avez ces genres de problèmes. Et pour clean, ça dépend du problème. Mais vraiment, ça, c'est un truc important. Ensuite, je vous ai mis des autres liens importants, c'est dessus. Donc voilà, la santé du compte, c'est vraiment important. Vous pouvez vous tuer vos résultats.
+
+[04:56] Donc c'est pour ça que je vous donne le process. Et on a fait une vidéo dédiée. C'est matéo. A bientôt. Tchao tchao.

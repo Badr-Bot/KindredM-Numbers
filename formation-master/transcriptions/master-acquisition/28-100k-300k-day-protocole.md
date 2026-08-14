@@ -2,9 +2,9 @@
 module: MASTER ACQUISITION
 lecon: 28
 titre: "🆕 100k-300k+ Day Protocole"
-duree: ""
+duree: "3:53"
 url: "https://www.skool.com/master/classroom/4d936265?md=0d35b57cd4da4598a0f55af3b538d5c6"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -86,6 +86,24 @@ Chaque compte réagit différemment. Il ne faut jamais appliquer une structure o
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, un palais de 100 à 300 kd, là, c'est plus technique. Je pense que vous serez peu à le faire, mais vous en serez quand même quelques-uns, du moins à l'heure avec qui je trouve ces vidéos. Il y a quelques-quels qui sont dans cette phase-là, donc ça dira là, et qui veulent faire ça. Donc là, ce que vous devez faire, c'est s'augmenter. Donc là, on va venir s'augmenter, cilio, par collection, par avatar, par géographie.
+
+[00:25] C'est-à-dire, si on a plusieurs pays, on va essayer d'avoir des campagnes par pays. On veut s'augmenter un maximum pour contrôler un maximum beatcap à flattède, multi-régions, multi-audience. C'est-à-dire que là, l'habitèque qu'on avait sur les U.S., on va essayer d'avoir la même sur les UK, etc. On va essayer de répliquer ce qui marchait ici, simplement sur d'autres audiences.
+
+[00:48] Par contre, si vous étiez en worldwide et que vous testiez à faire des campagnes séparées par pays, que ça marche moins bien, il va falloir s'adapter. Il ne faut pas s'augmenter pour s'augmenter. Chaque compte réagit différemment. Je le répéterai toujours, chaque compte réagit différemment. Là, on vous donne un guide-line, on vous donne ce qui marche ici,
+
+[01:11] mais ça se peut que sur certains comptes, ça ne marche pas pareil. Il va falloir s'adapter. Donc là, multi-canals obligés, Applevine, TikTok, Google, on veut chercher plus d'incrimentalité, toucher plus de nouveaux clients pour alimenter ceci. RefreshKra, vous aurez normalement un bon système. Ça va être surtout du refreshKra, d'optimiser,
+
+[01:34] en fait, toute la diversité, comme je vous le montrais après. La diversité est très bonne en marketing. Meilleur mécanisme, meilleure compréhension du désir et de la vâtarde.
+
+[02:06] Là, vous serez sur des choses plus poussées à un niveau copérating. Et vous avez piloté au Blend de MIR, profit total, je mets OROS, encore une fois. Donc là, la structure, on aura simplement des civils augmentés plus par région, comme d'habitude, les mêmes campagnes qu'avant. Pardon, j'oublie l'ABO, bon, là ça va plus sourder 20%, mais moins,
+
+[02:38] ça sera peut-être même moins. Whitelistine en masse, là, à ce stade-là, avec les top créateurs, simplement ce qu'on veut, c'est que eux produisent leurs propres contenus et ça va alimenter fortement le compte. L'incrimentalité sera très importante. À ce stade-là, on va regarder beaucoup l'incrimentalité parce qu'on peut vite se tuer un scale si on ne targuait pas de nouveaux customers.
+
+[03:01] Donc là, j'ai hold out total impact. On veut vraiment valider chaque canal. Chaque canal, on veut vraiment que ça ait cherché l'incrimentalité. Donc là, je conseille d'utiliser des tools vraiment triple-wale payant avec la triple attribution,
+
+[03:22] de vraiment suivre de près le comité Saint-Lucourt d'Akari et les nouveaux customers, du customer CPA pour être sûr qu'on a un funnel qui est saint. Et pour passer de ça à ça, ce n'est pas si compliqué. C'est juste une question d'augmentation du budget. Ça va très vite. Donc là, le media buying est important.
+
+[03:44] Là, le media buying est très important parce qu'on a déjà un système qui marche et il va falloir juste faire un peu mieux pour augmenter le spend.

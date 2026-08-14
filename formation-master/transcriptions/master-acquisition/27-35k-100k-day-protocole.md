@@ -2,9 +2,9 @@
 module: MASTER ACQUISITION
 lecon: 27
 titre: "🆕 35k-100k Day Protocole"
-duree: ""
+duree: "2:13"
 url: "https://www.skool.com/master/classroom/4d936265?md=729795cafebb40aba5ad28a2994dfb87"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -98,6 +98,18 @@ Le mindset clé ici, c'est de raisonner en pilotage d'entreprise au profit sur l
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, palier 35 à 100 KD, ce palier-là, il n'est pas si compliqué. Là, simplement, il va rajouter de la diversité créative. C'est-à-dire que là, vous aurez plein de trucs qui marchent, et il va falloir diversifier correctement, diversifier, comme je vous expliquais avant, avec une bonne diversité psychologique.
+
+[00:21] La beat cap, la méthode beat cap à faillite sur les top 8h, il va falloir bien regarder l'attribution. On est sur de 7D-clicks sur les campagnes scaling. On mesure avec Triple Whale et on prend l'addition OMR au profit, pas au REST META. Là, on va regarder l'entier du funèle, parce que là, on touche beaucoup de clients et c'est le profit qui compte.
+
+[00:41] Et ce qu'on veut, c'est sur le long terme, descendre le OMR. Si vous êtes une brène, il va falloir alimenter ce trafic qu'on paye avec META. On prend l'endu Amazon, en mettant du Google, email, etc. Mais là, on doit le mettre au plus vite possible. Mais on va piloter l'entreprise au profit. Diversité psychologique, on va venir surveiller le CPMR. Si il montre, on ne va pas squeller. C'est un signal qu'on est en train de saturer une audience.
+
+[01:04] En gros, le CPMR, c'est quoi ? Les CPMs font la fréquence. Et c'est un indicateur de nos résultats futurs. En fait, si le CPMR monte, ça veut dire qu'on est en train de toucher la même audience. Et que ça nous coûte de plus en plus cher pour en fait saturer une audience. Ça veut dire qu'on n'a pas de diversité créative.
+
+[01:26] Et qu'on est en train de simplement retoucher les mêmes personnes et les mêmes personnes qui sont en train d'être fatigués. Si le CPMR descend, c'est un signal qu'on est en train de toucher de nouvelles personnes. Donc c'est bien, ça nous indique que souvent, les résultats vont aller mieux et que c'est un bon indicateur pour squeller. Et là, Wild Listing partnership à fond et la structure, c'est à peu près la même qu'ici.
+
+[01:48] C'est quasiment la même, sauf que là, je conseille vraiment BitCap pour passer ce palier à là. Vous pouvez être là, c'est BitCap et une semaine plus tard, arrête là. Et je parle pas de soft scaling. Ok, là je parle de résultats stables. Faire 100 KD et faire un screenshot, mettre sur Twitter, c'est simple. On soft scale. Honnêtement, c'est simple.
+
+[02:08] On va vous donner aussi des techniques soft scale comme on soft scale proprement, mais là, on vous parle de résultats stables.

@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 76 complètes (12 %)**
+**624 leçons au total · 91 complètes (14 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -458,7 +458,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER ACQUISITION
 
-55 leçons · 13 complètes · 42 partielles
+55 leçons · 28 complètes · 27 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -475,22 +475,22 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 11 | [Scripter ses ads (Partie 3)](transcriptions/master-acquisition\11-scripter-ses-ads-partie-3.md) | 12:30 | complet |
 | ✅ | 12 | [Production (Partie 1)](transcriptions/master-acquisition\12-production-partie-1.md) | 10:25 | complet |
 | ✅ | 13 | [Production (Partie 2)](transcriptions/master-acquisition\13-production-partie-2.md) | 9:08 | complet |
-| 🟡 | 14 | [Sourcing (Partie 1)](transcriptions/master-acquisition\14-sourcing-partie-1.md) | — | partiel |
-| 🟡 | 15 | [Sourcing (Partie 2)](transcriptions/master-acquisition\15-sourcing-partie-2.md) | — | partiel |
-| 🟡 | 16 | [Custom GPT pour créa](transcriptions/master-acquisition\16-custom-gpt-pour-crea.md) | — | partiel |
-| 🟡 | 17 | [[SOP] Mini-MasterClass HOOK IRRÉSISTIBLES](transcriptions/master-acquisition\17-sop-mini-masterclass-hook-irresistibles.md) | — | partiel |
+| ✅ | 14 | [Sourcing (Partie 1)](transcriptions/master-acquisition\14-sourcing-partie-1.md) | 10:54 | complet |
+| ✅ | 15 | [Sourcing (Partie 2)](transcriptions/master-acquisition\15-sourcing-partie-2.md) | 12:31 | complet |
+| ✅ | 16 | [Custom GPT pour créa](transcriptions/master-acquisition\16-custom-gpt-pour-crea.md) | 12:01 | complet |
+| ✅ | 17 | [[SOP] Mini-MasterClass HOOK IRRÉSISTIBLES](transcriptions/master-acquisition\17-sop-mini-masterclass-hook-irresistibles.md) | 43:26 | complet |
 | 🟡 | 18 | [Recruter un Creative Strategist](transcriptions/master-acquisition\18-recruter-un-creative-strategist.md) | — | partiel |
-| 🟡 | 19 | [Introduction](transcriptions/master-acquisition\19-introduction.md) | — | partiel |
-| 🟡 | 20 | [Facebook Ads - Partie 1 : Tester & Masteriser](transcriptions/master-acquisition\20-facebook-ads-partie-1-tester-masteriser.md) | — | partiel |
-| 🟡 | 21 | [Facebook Ads - Partie 2 : Tester & Masteriser](transcriptions/master-acquisition\21-facebook-ads-partie-2-tester-masteriser.md) | — | partiel |
-| 🟡 | 22 | [Facebook Ads - Partie 3 : Tester & Masteriser](transcriptions/master-acquisition\22-facebook-ads-partie-3-tester-masteriser.md) | — | partiel |
-| 🟡 | 23 | [🆕 Scaler en 2026 sur Meta Ads - Partie 1](transcriptions/master-acquisition\23-scaler-en-2026-sur-meta-ads-partie-1.md) | — | partiel |
-| 🟡 | 24 | [🆕 Scaler en 2026 sur Meta Ads - Partie 2](transcriptions/master-acquisition\24-scaler-en-2026-sur-meta-ads-partie-2.md) | — | partiel |
-| 🟡 | 25 | [🆕 0-10k Day Protocole](transcriptions/master-acquisition\25-0-10k-day-protocole.md) | — | partiel |
-| 🟡 | 26 | [🆕 10k-35k Day Protocole](transcriptions/master-acquisition\26-10k-35k-day-protocole.md) | — | partiel |
-| 🟡 | 27 | [🆕 35k-100k Day Protocole](transcriptions/master-acquisition\27-35k-100k-day-protocole.md) | — | partiel |
-| 🟡 | 28 | [🆕 100k-300k+ Day Protocole](transcriptions/master-acquisition\28-100k-300k-day-protocole.md) | — | partiel |
-| 🟡 | 29 | [🆕 Maintenir un compte en bonne santé](transcriptions/master-acquisition\29-maintenir-un-compte-en-bonne-sante.md) | — | partiel |
+| ✅ | 19 | [Introduction](transcriptions/master-acquisition\19-introduction.md) | 1:27 | complet |
+| ✅ | 20 | [Facebook Ads - Partie 1 : Tester & Masteriser](transcriptions/master-acquisition\20-facebook-ads-partie-1-tester-masteriser.md) | 6:55 | complet |
+| ✅ | 21 | [Facebook Ads - Partie 2 : Tester & Masteriser](transcriptions/master-acquisition\21-facebook-ads-partie-2-tester-masteriser.md) | 9:32 | complet |
+| ✅ | 22 | [Facebook Ads - Partie 3 : Tester & Masteriser](transcriptions/master-acquisition\22-facebook-ads-partie-3-tester-masteriser.md) | 29:22 | complet |
+| ✅ | 23 | [🆕 Scaler en 2026 sur Meta Ads - Partie 1](transcriptions/master-acquisition\23-scaler-en-2026-sur-meta-ads-partie-1.md) | 11:58 | complet |
+| ✅ | 24 | [🆕 Scaler en 2026 sur Meta Ads - Partie 2](transcriptions/master-acquisition\24-scaler-en-2026-sur-meta-ads-partie-2.md) | 38:56 | complet |
+| ✅ | 25 | [🆕 0-10k Day Protocole](transcriptions/master-acquisition\25-0-10k-day-protocole.md) | 6:34 | complet |
+| ✅ | 26 | [🆕 10k-35k Day Protocole](transcriptions/master-acquisition\26-10k-35k-day-protocole.md) | 5:48 | complet |
+| ✅ | 27 | [🆕 35k-100k Day Protocole](transcriptions/master-acquisition\27-35k-100k-day-protocole.md) | 2:13 | complet |
+| ✅ | 28 | [🆕 100k-300k+ Day Protocole](transcriptions/master-acquisition\28-100k-300k-day-protocole.md) | 3:53 | complet |
+| ✅ | 29 | [🆕 Maintenir un compte en bonne santé](transcriptions/master-acquisition\29-maintenir-un-compte-en-bonne-sante.md) | 5:02 | complet |
 | 🟡 | 30 | [🆕 L'algorithme Meta, ce que personne ne te dit](transcriptions/master-acquisition\30-l-algorithme-meta-ce-que-personne-ne-te.md) | — | partiel |
 | 🟡 | 31 | [🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day](transcriptions/master-acquisition\31-strategie-bid-cap-inflated-de-10-a-100k.md) | — | partiel |
 | 🟡 | 32 | [🆕 Les erreurs fréquentes et instabilité](transcriptions/master-acquisition\32-les-erreurs-frequentes-et-instabilite.md) | — | partiel |

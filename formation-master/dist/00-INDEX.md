@@ -431,22 +431,22 @@ il ne faut jamais répondre à sa place.
 - ✅ **11 — Scripter ses ads (Partie 3)** · 12:30
 - ✅ **12 — Production (Partie 1)** · 10:25
 - ✅ **13 — Production (Partie 2)** · 9:08
-- 🟡 **14 — Sourcing (Partie 1)** 
-- 🟡 **15 — Sourcing (Partie 2)** 
-- 🟡 **16 — Custom GPT pour créa** 
-- 🟡 **17 — [SOP] Mini-MasterClass HOOK IRRÉSISTIBLES** 
+- ✅ **14 — Sourcing (Partie 1)** · 10:54
+- ✅ **15 — Sourcing (Partie 2)** · 12:31
+- ✅ **16 — Custom GPT pour créa** · 12:01
+- ✅ **17 — [SOP] Mini-MasterClass HOOK IRRÉSISTIBLES** · 43:26
 - 🟡 **18 — Recruter un Creative Strategist** 
-- 🟡 **19 — Introduction** 
-- 🟡 **20 — Facebook Ads - Partie 1 : Tester & Masteriser** 
-- 🟡 **21 — Facebook Ads - Partie 2 : Tester & Masteriser** 
-- 🟡 **22 — Facebook Ads - Partie 3 : Tester & Masteriser** 
-- 🟡 **23 — 🆕 Scaler en 2026 sur Meta Ads - Partie 1** 
-- 🟡 **24 — 🆕 Scaler en 2026 sur Meta Ads - Partie 2** 
-- 🟡 **25 — 🆕 0-10k Day Protocole** 
-- 🟡 **26 — 🆕 10k-35k Day Protocole** 
-- 🟡 **27 — 🆕 35k-100k Day Protocole** 
-- 🟡 **28 — 🆕 100k-300k+ Day Protocole** 
-- 🟡 **29 — 🆕 Maintenir un compte en bonne santé** 
+- ✅ **19 — Introduction** · 1:27
+- ✅ **20 — Facebook Ads - Partie 1 : Tester & Masteriser** · 6:55
+- ✅ **21 — Facebook Ads - Partie 2 : Tester & Masteriser** · 9:32
+- ✅ **22 — Facebook Ads - Partie 3 : Tester & Masteriser** · 29:22
+- ✅ **23 — 🆕 Scaler en 2026 sur Meta Ads - Partie 1** · 11:58
+- ✅ **24 — 🆕 Scaler en 2026 sur Meta Ads - Partie 2** · 38:56
+- ✅ **25 — 🆕 0-10k Day Protocole** · 6:34
+- ✅ **26 — 🆕 10k-35k Day Protocole** · 5:48
+- ✅ **27 — 🆕 35k-100k Day Protocole** · 2:13
+- ✅ **28 — 🆕 100k-300k+ Day Protocole** · 3:53
+- ✅ **29 — 🆕 Maintenir un compte en bonne santé** · 5:02
 - 🟡 **30 — 🆕 L'algorithme Meta, ce que personne ne te dit** 
 - 🟡 **31 — 🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day** 
 - 🟡 **32 — 🆕 Les erreurs fréquentes et instabilité** 

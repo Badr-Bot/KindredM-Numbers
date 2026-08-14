@@ -2198,7 +2198,7 @@ Traiter ton vidéo éditeur comme un vrai membre d'équipe, lui donner une visio
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 14 : Sourcing (Partie 1)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 14
 ======================================================================
 
@@ -2284,16 +2284,76 @@ La clé, c'est la vitesse d'itération. Peu importe la qualité de ta créative,
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors bienvenue dans la suite du module création de Creative Winners. Aujourd'hui on va parler du sourcing, comment sourcer le contenu pour matérialiser vos sticks, matérialiser vos tats. Donc je pourrais faire une semaine de vidéo rien que sur ça. Il existe plein de méthodes de sourcing. Le but c'est pas de vous donner tout ce qui est possible. Le but c'est de vous donner les méthodes les plus simples et les mondes goûteuses pour pousser et sourcer votre contenu.
+
+[00:21] Un aspect très important que les gens ne nous mosonnent pas dans une production de Creative, c'est un process et le but c'est d'aller le plus vite possible et de tester au moindre coût. Moins vous avez de budget à tester, enfin vous mettez de budget à tester et plus ça va vite, plus vous allez pouvoir escaler. Parce que même si vous arrivez à créer des Atwinners, ça vous prend un mois et ça
+
+[00:44] vous coûte 3000, vous aurez des nouvelles Atwinners tous les mois et c'est pas ce qu'on veut, nous ce qu'on veut c'est pouvoir y atterrer rapidement et aller vite. Donc je vais vous donner les méthodes qui marchent le mieux. Les techniques aussi peu connues pour sourcer rapidement et rendre au coût les footages.
+
+[01:04] Donc la première méthode trop négligée c'est le tournage maison. Donc simplement tourner chez soi le contenu, vous connaissez mieux que qui compte votre marque. C'est ce que je conseille en premier. Peu importe si vous avez des techniques en pas de vidéo, commandez le produit chez vous,
+
+[01:27] envoyez-le à votre équipe, demandez à que chacun tourne le contenu. Après il y a les règles que je vais donner mais ça va être vraiment important. Personnellement les meilleurs contenus qu'on a eu, les meilleurs ats qu'on a eu, c'est avec le contenu qu'on a tourné chez nous. On a envoyé dans des studios, on a envoyé des acteurs. Le meilleur contenu qu'on a eu c'était le contenu qu'on a eu chez nous. Parce des fois vous avez des idées et d'avoir le produit chez vous,
+
+[01:49] on peut éviter de tourner cette idée. Donc les règles pour bien tourner et avoir des footages réussis, c'est d'avoir une bonne lumière dans un fond agréable. C'est-à-dire si vous avez un fond blanc, une table noire, une table blanche, ça va être bien. Mais t'es une petite plante, mais ne tournez pas du contenu, ce n'est pas agréable.
+
+[02:10] Donc ça c'est très important, ça revient au code des créatifs. Et ce qu'on indique aux créateurs UGC de tourner, ça va être valable pour vous aussi. Donc tournez dans un fond agréable, et d'ailleurs dans un fond blanc. Si vous tournez dans un salon, il faut que ça soit inspirant, il faut que ça soit bien rangé. Ça c'est très important. Tournez des shots de votre produit sur différents angles.
+
+[02:30] Un unboxing sur différents angles, démontrez la qualité du produit, faites des close-ups de vos produits, montrez les fonctionnalités, ces boiteurs-proofs en application, etc. Ça dépend bien sûr du produit, mais montrez les bénéfices de votre produit. Et filmez simplement avec un iPhone en vertical.
+
+[02:52] Donc ce n'est pas si compliqué. Comme je l'ai dit, on a dépensé des millions avec dates que j'avais tournées moi-même. Avec aucune expérience en vidéo, simplement comme j'ai fait, j'ai commandé le produit. On a fait plusieurs shots. Ensuite j'ai sectionné seulement les shots qui étaient bien, puis on les a mis dans des hats, dans la meilleure hat avec nos shots. Puis là ça.
+
+[03:13] Le mieux pris que la précédente avec des footages que vous trouvez sur Internet. Les footages que vous avez chez vous, ce sera des nouveaux footages aux Eudmeta. Et ça marche beaucoup mieux si ils sont bien tournés. Donc ça c'est indispensable. Donc commandez sur Amazon, commandez chez votre agent, commandez même un joli packaging. Tournez votre produit dans différents angles,
+
+[03:35] tournez produits avec différents bénéfices, réfléchissez à comment créer des contenus captivants, comment créer des hooks. Et vous pouvez vous aider d'outils. Donc il y a différents outils que vous pouvez vous aider, c'est des tableaux. Je vous montrerai, je vous ai mis différents outils et le lien Amazon. Donc tableaux de réflexion c'est quoi ? Simplement il y a souvent la taille de votre produit.
+
+[03:56] Ça permet de faire des photos ou des vidéos sur un tableau. Donc ça c'est pas le premier plus indispensable. Le premier plus indispensable, j'ai resté un fond blanc. On va voir si vous avez besoin de tourner les plus gros matériel. Vous avez des grands fond blancs et des pieds fond blancs. Des pieds fond blancs, vous placez simplement le produit là que vous pouvez filmer sous un fond professionnel.
+
+[04:17] Mais honnêtement, le lifestyle marche très bien. Il faut se fait juste d'avoir un endroit inspirant, qui est bien rangé, bien clean. Et vous pouvez tourner pas mal de contenus. Si c'est du make-up, vous pouvez tourner dans une salle de bain. Suivement les produits, vous pouvez tourner dans un salon. Et suivant la taille des produits sur une table, ça va très bien. Studio Photo Box aussi,
+
+[04:38] important là pour faire des contenus très professionnels. Avec ça, ça coûte pas cher. Machines à fumer aussi. Ça, c'est ultra bien. Ça fait de la lumière. Pour des hooks, c'est très bien. Et après, simplement, ce que je conseille, c'est d'avoir une bonne lumière. Donc indispensable, c'est une bonne lumière. Ça, c'est vraiment indispensable. Il faut que tous vos contenus soient bien filmés.
+
+[05:01] Donc ça, c'est la première méthode. C'est de tourner le contenu depuis chez soi. Et d'envoyer aussi avant d'employer, collaborateur ou ami, pas importe, pour qu'il tourne le contenu. Ensuite, il va y avoir tout ce qui est content de créateurs. C'est-à-dire les créateurs UGC et les acteurs.
+
+[05:22] Donc je sais pas les deux parce que c'est pas la même chose. Les acteurs, ils sont des professionnels. Ils sont des personnes qui vont tourner du contenu beaucoup mieux fait, que ils vont parler, ça va donner beaucoup plus réaliste. Mais des contenus, des contents de créateurs UGC, ça marche aussi. Il y en a des qui sont très, très forts. Donc on s'est regardé juste les deux.
+
+[05:44] Simplement, vous allez venir trouver sur des plateformes tels que Fiverr, UG, TikTok. Donc sur TikTok, simplement ce que vous allez faire, c'est de taper UGC sur TikTok. Simplement, vous pouvez taper UGC sur TikTok et vous allez pouvoir trouver des contents de créatrices qui peuvent fêter avec ce que vous recherchez dès qu'on expérience.
+
+[06:06] Par exemple. Elle a déjà pas mal d'abonnés. Donc je pense qu'elle va coûter assez cher. Mais par exemple, si vous avez un produit dans la même niche, alors on va voir exactement combien elle coûte. UGC package.
+
+[06:31] Mais bon, vous comprenez l'idée, simplement, vous tapez UGC ou de termes pour trouver les meilleurs UGC créateurs que vous recherchez par rapport à votre niche. Ensuite, vous allez simplement les contacter. C'est une manière de trouver des acteurs pas chers et qui tournent bien. Et puis ceux qui ont des vues, se dire que leurs contenus plaît.
+
+[06:53] Vous allez vite voir si c'est professionnel ou pas. Par exemple, pour Du Fashion, pour Du Fashion, elle est pas mal. Elle filme bien. Cosmétique aussi. Après, elle sourit pas trop.
+
+[07:13] Et ça, c'est quelque chose de... Je suis pas trop fan. C'est toujours mieux de sourire. Ça donne toujours mieux, ça génère des émotions positives. Donc simplement, je demanderais de sourire. User ces portefolio. Donc ça, c'est une méthode. On peut tout simplement taper sur TikTok.
+
+[07:33] Et après, vous pouvez taper d'autres termes. De votre niche pour trouver des acteurs de votre niche. Par exemple, ça, c'est plutôt bien fait. Elle est vraiment pas mal. Pour tout ce qui est cosmétique, beauté, etc. Ça pourrait être intéressant. Donc ça, c'est une méthode.
+
+[07:54] Ensuite, Fiverr, sur Fiverr, il y a beaucoup d'acteurs. Simplement, vous tapez acteurs. UGC content de créateurs. Vous avez trouvé beaucoup de personnes. Vous avez pu filtrer par notes. Tu parlais. Twitter, X. Tapez simplement des hashtags. UGC créateurs. Et là, vous avez aussi pour retrouver
+
+[08:16] du GCP content de créateurs. Peux utiliser par les autres. Sur Fiverr en général, ils sont beaucoup plus utilisés. Beaucoup plus visibles. Peu de personnes connaissent notamment en France. Comment ça se populariser ? Je parle. Mais il y a Backstage. C'est aux US.
+
+[08:38] Vous allez pouvoir avoir des vrais acteurs. Donc des acteurs qu'on jouait dans des films d'Hollywood. Vous allez pouvoir trouver de tout. Et il y a vraiment une très bonne qualité. Et même si vous avez un produit en France. Même si vous avez un produit en Espagne, et que vos acteurs ne parlent pas américains. Ça va être très intéressant de les utiliser. Parce que vous pouvez vous faire des tests. Ça va être très intéressant de les utiliser. Parce que vous pouvez tourner des biais-rolls.
+
+[09:00] Des contenus très qualitatifs avec eux. Et simplement mettre une voiceover d'air. Et ça vous quettera toujours moins cher que d'être en France. Parce que par exemple, en France, les acteurs UGC et nous, cher. Là, vous pouvez trouver des talents qui vous tournent des briefs. Pour 100 dollars. Pour 100 en dollars. Mais pour 1000 dollars, pour 3000, ça dépend des prix. Mais en général, ça va être toujours moins cher. Que ce que vous allez avoir en France.
+
+[09:22] Donc c'est très intéressant. Et très cher. Et très vite fait. Et très très bien tourné. Le process, je vous l'ai mis ici. Là, il est en anglais. Parce qu'on l'updates. Donc il restera en anglais ici. Donc simplement, si on a mis le process. Et on vous donnera accès au notion. Mais en gros, simplement, vous allez faire un gig. Donc c'est un post. Vous allez venir
+
+[09:44] sélectionner les candidats manuellement. Et ensuite, les autres personnes, vont pouvoir postuler. Et vous filtrerez simplement votre post. Par genre. Qu'est ce que vous voulez. L'âge, la location, etc. Et ensuite, vous verrez les acteurs de ce style. Donc vous allez pouvoir cliquer sur votre profil. Vous allez pouvoir voir ce qu'ils ont fait. Vous allez pouvoir voir leur tête.
+
+[10:06] Directement, le rage. Vous allez pouvoir filtrer par taille, poids. C'est vraiment insane. Et vous allez pouvoir tomber sur des très bons profils. Et ensuite, vous allez les contacter facilement. Donc, ce que je conseille, c'est d'avoir un acteur. Et ensuite, de sélectionner les meilleurs. Après, vous pouvez les contacter manuellement ou mettre un employé
+
+[10:28] ou le faire avec les ministres ou GoogleMass pour contacter en masse. Mais personnellement, si vous faites de bons posts, vous allez avoir vraiment de la qualité et assez très vite de trouver des bons acteurs. Et après, simplement, vous faites un test avec lui et vous le payez. Et vous allez vite voir qu'ils sont super calis. Et si vous avez une marque US, un acteur de parler passe encore mieux.
+
+[10:50] Si vous pouvez parler face-caméra, il parle très très bien. Et ça, c'est vraiment Game Changer.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 15 : Sourcing (Partie 2)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 15
 ======================================================================
 
@@ -2369,16 +2429,82 @@ Le sourcing, c'est un levier sous-estimé. La plupart des gens passent trop de t
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, recherche Google, c'est une méthode que personne connaît. C'est simplement, vous allez venir sur Google, vous allez venir taper ceci. Instagram, boutier influenceur, le pays et Gmail. Donc, par exemple, vous faites une recherche pour la beauté.
+
+[00:23] Vous allez venir taper Instagram, beauté influenceur, Gmail. Vous pouvez mettre aussi le pays. Là, je n'ai pas mis le pays. Mais on va faire un test en direct. Je vous montre. Là, on est sur Google, Instagram, cultrice. On va mettre FR, et taper à côté.
+
+[00:49] Et là, vous allez venir pouvoir trouver des actrices. Pardon, je vais juste quitter la page. Vous allez pouvoir trouver plein d'artistes, plein d'influenceurs dans votre niche. Et ça, c'est une très bonne manière pour trouver en bulk beaucoup de contents de caractère en fonction des niches.
+
+[01:13] Là, je vais mettre les différentes niches, ce que vous pouvez taper. Et également, vous pouvez changer les Gmail par Hotmail, Yahoo, etc. Ensuite, il y a le contenu libre. Donc, le contenu libre, c'est le sourcil du contenu qui existe déjà.
+
+[01:34] Donc, simplement sur Tému, YouTube, Walbéris, Amazon, AliExpress. Je fais quelques fautes. C'est sourcil du contenu qui n'appartient pas à une brand et qui va pouvoir être exploitable. Et il y a énormément de contenu de qualité. Je vais vous montrer que ce qu'on doit faire. Donc, ce qu'on recherche, c'est des séquences intéressantes. C'est-à-dire qu'il n'appartient pas à une marque.
+
+[01:55] On ne veut pas se faire des messiers. On va utiliser du contenu. Il peut utiliser sur Facebook pour que ce soit comme du contenu nouveau, mais que vous n'avez pas tourné. On va chercher des contenus plutôt natifs que trop commerciales. Le trop commercial, ça marche peu sur les plateformes actuellement. Donc, on va chercher des contenus tournés comme si ils étaient natifs, comme si ils étaient des contenus IGC et d'acteurs, mais tournés avec iPhone.
+
+[02:18] Le but de se chercher des footages, c'est qu'il y a des émotions, c'est que ça peut créer un petit peu d'émotionnel et qui correspondent à les critères qu'on a déjà vu précédemment. C'est-à-dire, beaux-lumière, couleur agréable, soit captivant. Ça donne envie de regarder. Et aussi qu'on voit des personnes heureuses. Des footages, je sais que la personne n'est pas l'air d'être heureuse. En général, je ne prends pas ce footage.
+
+[02:40] Donc, il doit être ordré derrière. On va voir le produit. Là, j'ai mis des exemples. Par exemple, ça, c'est pas un bout footage. Même si le produit est même derrière, c'est pas agréable à voir. Tandis que là, on s'est bien éclairé, c'est focus sur le produit. Là, pareil. Là, pareil. Là, pareil. Là, pareil. Là, pareil.
+
+[03:01] Vous devez choisir les footages. Vous devez entraîner votre œil à trouver qu'est-ce qu'un bout footage. Et ça, ça va tout changer. Donc, vous cherchez pour trouver du contenu 3D et animation, le meilleur endroit, c'est YouTube. Donc, je vais vous montrer. Vous avez pour taper 3D animation par Nipain.
+
+[03:21] Si vous cherchez un produit qui peut venir solutionner Nipain. Et vous allez avoir beaucoup d'animations. De jeux, nous, par exemple. Ça va être très qualitatif. Ou ça, par exemple. Par exemple, pour un hook.
+
+[03:45] Là, voici comment j'ai annulé ma chirurgie au genou. Et ça, c'est un très bon hook. Je sais que ça fonctionne. Donc, vous allez pouvoir chercher sur YouTube,
+
+[04:05] sur un concurrent. Ça, je déconseille de ne pas prendre pour un concurrent du même produit. Mais par contre, si vous avez un concurrent qui a du bon footage, maintenant ça, je le déconseille. C'est trop border. Donc, là, en fait, ce que je voulais mettre, c'était de reprendre un concurrent, mais que ce n'était pas du même produit. Par exemple, lui, il utilise un contenu dans sa pub.
+
+[04:28] C'est qu'il met ceci. Mais ce n'est pas le même produit. Vous utilisez un autre produit pour les genoux, par exemple, et de reprendre son footage. Il risquera de ne pas le voir, mais ça reste toujours border. C'est vraiment, il a fait le contenu lui-même. Donc, ça reste border. Ensuite, Amazon. Il y a des épites pour trouver des contenus GC et des témoignages aussi. Donc, je vous montre sur Amazon comment on fait.
+
+[04:50] Donc, j'ai tapé un produit vraiment au hasard. Normalement, ici, on doit avoir des vidéos. Voilà. Donc, ça, c'est du contenu très commercial.
+
+[05:11] Je ne recommande pas. Mais ici, vous avez des vidéos en fait, du GC. Donc, là, vous avez en fait un super contenu GC qui n'est pas utilisé, parce que la plupart des personnes n'y pensent pas et ne les télécharge pas. Ça, c'est compliqué. Mais moi, je vais vous montrer le hack. Donc, là, vous avez du super contenu.
+
+[05:31] Ici, il est simplement, comment vous avez pu télécharger, vous vous téléchargez simplement Donny. Donc, Donny, c'est une app qui permet de télécharger des vidéos. C'est vraiment très bien. Donc, je vais mettre un produit, par exemple. Qu'est-ce qui pourrait être tendance pour un produit haut.
+
+[05:54] Basie comme du rouge à lèvres. On va descendre. Et là, on va voir tout le contenu. Et on va venir regarder ce que sont bien. Et simplement, ce que vous avez fait, c'était charger la vidéo. Simplement.
+
+[06:15] Et là, ça va être plus intéressant quand ça fourmère 916. Mais c'est insane, parce que vous allez pouvoir avoir plein de contenus GC. De vrais contenus GC. De plein d'étnés différents. Et voilà, c'est un gros, gros hack que je vous donne. Donc, l'application s'appelle Donny et une version gratuite.
+
+[06:36] Après, je pense que au bout d'un moment, ça va être bien payant, mais ça vaut vraiment le coup. Ça vaut vraiment, vraiment l'appel. Donc Amazon, l'application Donny, cette application que vous avez mis, elle est utilisée. L'application que vous avez mis, elle n'existe plus. Enfin, elle ne permet plus de l'empathiser.
+
+[06:57] L'application Donny. Ensuite, TikTok, super important pour trouver des hoocs. TikTok, c'est là que vous pouvez retrouver de super hoocs. Donc pour les hoocs, on va faire un exemple. Par exemple, on avait vu ça avant. Voilà, admettons que votre produit pourrait correspondre.
+
+[07:22] Et que vous avez un hooc qui pourrait correspondre à ça, un close-up comme ça avec du matériel. Simplement, vous allez être chargé ce hooc-là. Ou sinon, est-ce qu'on peut retrouver son tap interme comme ça.
+
+[07:46] Vous avez pas retrouvé plein d'idées de hoocs. Après, ça dépend quel hooc que vous allez faire. TikTok, c'est vraiment bien. Par exemple, qu'est-ce qu'on aurait besoin comme hoocs.
+
+[08:08] Admettons que vous avez un produit sexy. Par exemple, ce que c'est pour le lipstick. Vous allez venir regarder si ce qu'il se fait, qui est petit d'attention. Donc ça peut-être ça peut être une higette de hoocs. On rappelle un lit captivant. Le lit captivant, c'est bien filmé, c'est bien éclairé.
+
+[08:31] Fonds agréable. Ça pourrait passer pour un hooc, honnêtement, ça. Après, ça dépend du texte aussi. Mais j'ai trouvé une manière pour le rendre fou, par exemple. J'ai trouvé une manière de le rendre fou. Et là, on a le hook pour le lipstick. Après, éventuellement ça.
+
+[08:57] Une manière de le rendre fou. Voilà, c'est un gros plan. C'est intéressant. On ne sait pas ce que c'est. Mais ça pourrait marcher après. Possible que Facebook bloque. Ce qui ne sait pas ce que c'est. Ça pourrait être explicite. Mais ça peut être désidé. Mais en général, TikTok, c'est ultra bien pour trouver des hoocs.
+
+[09:19] Donc YouTube témoignage, comme j'ai dit avant. Même s'ils ne parlent pas du même produit, admettons que vous avez besoin d'un produit pour les rouge à lèvres. Vous allez pouvoir taper les meilleurs produits rouge à lèvres. Comme j'ai montré avant, sur Donny. Et... Si elles ne m'ont pas le produit, vous allez pouvoir simplement utiliser son témoignage.
+
+[09:48] Ou c'est quelque part du rouge à lèvres. Donc je m'explique. Vous avez un rouge à lèvres, c'est pas le même. Vous allez prendre ce témoignage là. C'est le meilleur rouge à lèvres que j'ai utilisé. Ça donne des superlèvres, etc. Et si on ne voit pas le produit, ça peut passer. Donc ça, c'est juste une technique. Donc j'ai mis YouTube par exemple Amazon, YouTube, pareil.
+
+[10:09] Donc vous pouvez trouver des témoignages sur YouTube. Testimonial lipstick par exemple. Un peu de peine. C'est vrai que c'est moins courant d'avoir des testimonials pour un lipstick.
+
+[10:35] C'est plus de montrer le... Par exemple là, c'est du super contenu. Même si c'est pas le même lipstick pour utiliser. Donc YouTube, TikTok, Amazon, c'est le frappuissant.
+
+[10:56] Ensuite, vous avez à l'express, Témis ou Walbéris. Vous avez maintenant du super contenu. Walbéris aussi, c'est pas mal. Donc personne ne connait maintenant comment ça en parler. Mais c'est que nous, quand on le connaissait. Donc ils font leur propre footage, ils font leur propre contenu. Donc ça, personne n'a ces mêmes footage. Donc vous serez les uniques détenteurs. Ça se voit qu'un en réussi.
+
+[11:18] Et vous avez pour toi du super contenu. Par exemple ça. Donc là, autant en termes de statiques que de d'image. C'est une pepite. Et ensuite, encore sans pintérés sur Instagram. Vous pouvez trouver pas mal de contenu. Franchement, si votre produit est connu. Et si vous lancez un produit, normalement, il est déjà connu.
+
+[11:41] Et normalement de contenu que vous pouvez prendre. À moins de recours. Donc ça, avec ça, avec tout ça, vous avez pouvoir avoir assez de contenu pour préparer vos ades. Et après, je vous conseillerais de fixer un temps sur lequel vous sourcez. Parce que pas assez trop de temps, parce qu'on vit de se perdre.
+
+[12:03] À chercher beaucoup de trucs. Mais organisez un drive. Sourcez du contenu seulement ce qui est qualitatif. Ne sourcez pas tout le contenu que vous pouvez. Vous sourcez seulement ce qui est qualitatif. Et ensuite, vous ordrez directement dans un drive. Si c'est pour des hooks, vous ordrez dans un fichier hook. Si c'est pour des close-ups, vous ordrez dans un fichier close-up. Et vous eueu plodé que ce qui est qualitatif. Et après, vous pouvez donner un brief en votre monteur.
+
+[12:25] Et puis, lui, il piochera là-dedans pour monter vos vidéos. Donc voilà, c'était Matéo. J'espère que la vidéo vous a plu. Tchao tchao.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 16 : Custom GPT pour créa
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 16
 ======================================================================
 
@@ -2472,16 +2598,80 @@ La clé d'un bon script, ce n'est pas d'écrire joliment, c'est de déclencher u
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors module extra, je vous ai préparé quelque chose d'incroyable qui va vous faciliter la vie, car vous n'avez pas tous le temps à vous former en comparéting, vous former sur les créatifs, vous former comment avoir la psychologie pour convertir dans des scripts. Alors ce que j'ai fait, c'est que j'ai préparé un custom GPT,
+
+[00:21] donc je vous ai fait quelque chose de insane, simplement je vous ai fait un GPT personnalisé. Donc c'est ce GPT là. Donc il est basé sur exactement le même GPT qu'on a créé pour mes brand, donc on a créé un par brand et le propre ici est pareil. Donc simplement ici, moi j'ai mis un prompt qui lui donne des informations très précises sur comment il va pouvoir vous aider.
+
+[00:48] Ensuite je lui ai donné toute la nollée, tout du savoir, donc je lui ai donné beaucoup de nollée au niveau de toutes mes vidéos YouTube, de tout ce que j'ai fait comme contenu, de tout ce que j'ai parlé au niveau des créatifs, des présentations que j'ai faites, des top livres, copier writing, celui-là écoute 429 euros. Bien sûr on peut l'avoir sur internet maintenant. Donc là je donnais tout des liens, je donnais plein de hooks qui convertissent pour qu'il ait plein de headlines
+
+[01:13] et simplement j'e demande de créer en fait quand il va venir scripter, il va venir utiliser des mots des clients, c'est-à-dire il va pas venir inventer des termes, il va venir utiliser des mots des clients, il va utiliser des frameworks éprouvés, il va venir créer des tensions émotionnelles fortes, il va venir déclencher des désirs immédiats d'achat,
+
+[01:36] donc il va pas faire des ads qui vont être jolies, ça va être très copi-arrêté. Donc là, des tons masculins firmés, jamais chip, il va créer des images mentales fortes,
+
+[01:57] donc nous ce qu'on veut, je vous rappelle, c'est que quand vous scriptez, c'est qu'un mot permet de déclencher une image mentale, c'est-à-dire c'est ça qui va venir impacter et créer des émotions. Il n'y a pas d'image mentale quand c'est flou, ça ne impacte pas. Donc là, je donne un exemple, c'est comme si tu portais un sac de briques depuis des années, ça va raisonner, ça va donner une image mentale claire, donc nous c'est exactement ce qu'on veut.
+
+[02:24] Donc il n'y a aucun ton académique, neu, clé, marketing, on n'est que sur le direct-response et ce qu'on veut c'est créer un écart émotionnel fort de la situation, donc il va choquer, surprendre, faire sourire, remuer, il va être légèrement fun, donc quand il peut, quand ça a du sens, il va être légèrement fun, ça gère vous donner certaines variations avec de l'humour.
+
+[02:47] Donc voilà, j'y ai vraiment entraîné, c'est un pompe, on a revu, revu, revu, et on pourra le revoir, si on a vos retours, on pourra le revoir bien sûr. On a donné quelques frémorques qui marchent, plus on lui a demandé de si vous donnez des frémorques qui basent sur les frémorques que vous donnez. Par exemple vous donnez un frémorque d'un compétiteur qui cartonne, simplement lui il va pouvoir l'adapter sous votre produit,
+
+[03:10] mais après il faudra donner les nonnets de votre produit, ça je vous le dire comment. Donc on lui demande de vraiment se baser sur la base de connaissance qu'on lui donne, d'utiliser le langage des clients, et voilà d'utiliser des levies psychologiques, il y a des choses qu'il ne doit pas faire par les trop neutres,
+
+[03:32] par les de manière jolie, mais sans fondement, etc. Donc voilà, ça c'est 5 amorces de conversation, mais vous pouvez donner vos customs amorces, vraiment. Donc là j'ai fait un test, on est où, mais là. Donc ça date juste avant, ce que j'ai fait c'est que j'ai pris un produit sur Amazon. Donc j'ai pris un produit ici, et brièvement j'ai téléchargé les avis,
+
+[03:57] et j'ai fait l'analyse marketing comme je vous ai montré au module Analyse Marketing. Donc j'ai créé un prompt avec un chat d'HBT pour avoir une analyse marketing en 1 minute. Donc c'est ce que j'ai fait. Donc là je lui ai dit ok, crie moi un script publicité, et m'a dit ok dis-moi ton produit, dis-moi l'objectif, parce que ça va être aussi adapté pour des adversariales, etc.
+
+[04:19] Donc c'est pour tous les scripts. Donc j'ai pas fait que ads, il va être pour ads, pour créer des hoocs, pour créer des landing pages, il va vraiment vous aider en fait à scripter comme moi, je vous aiderai. Donc là je vais donner la data des clients, je vais donner l'analyse marketing. Moi j'avais fait une petite analyse marketing avec chat d'HBT,
+
+[04:40] parce que là on voit, c'est pas mis en forme, mais lui il a compris. Et maintenant il devra avoir le knowledge, la data pour créer une ads. On va voir ce qu'on va faire. Donc ok, le produit c'est memory from batmat.
+
+[05:00] Donc là il a fait une script et une variante. Donc on va déjà voir, je vais déjà voir quel angle et quel message il targette. Parce que c'est le plus important. Donc pour être totalement transparent avec vous, j'ai pas encore regardé le résultat. Je vais le découvrir maintenant. Alors, hook, pieds nus, glissants, sur un carrelage mouillé, chute évitée de justesse.
+
+[05:21] Chaque jour des milliers de gens risquent ça, un seul trompé à tapis glisse, un stonatoçon, c'est la chute. Donc ce produit, je sais que c'est un... On va juste checker rapidement. Donc c'est un tapis absorbant. Et j'espère que ça va juste au niveau de son juste à jeter le micro.
+
+[05:46] Donc c'est un tapis absorbant. Et la plupart des gens se concentraient sur... Voilà, c'est offrer du luxe, offrer quelque chose de confortable, qui absorbe bien, etc. Qui glisse pas, qui absorbe bien l'eau, qui est confortable. Mais selon moi, c'est pas ça qui vend. Selon moi, c'est pas un assez gros levier psychologique.
+
+[06:08] Par contre, le fait de se accès sur les personnes âgées et dire que vous évitez les chutes, pour moi, ça peut marcher. Donc en fait, quand j'ai vu ici l'analyse marketing, c'est ça que j'ai pensé. Et lui, il va directement dans ce qui est le plus important. Donc en fait, il a compris directement. Donc déjà, c'est un grand plus. Et il script très bien.
+
+[06:29] Chaque jour, des milliers de gens risquent ça. Ça va être choquant. Donc là, en fait, il choque. Et ensuite, les pieds qui sont en force de tapis moriforme ralentissent. Il est stylé. On a l'introduction du produit. Et on a les bénéfices secondaires. Il est top. J'en ai marre de tapis qui glisse, qui pue, il intègre au bout de 3 lavages. Il a repris en fait les termes de client. Donc ça, c'est insin.
+
+[06:51] En plus, il vous donne des... Quoi qu'on peut faire. Et par la suite, on vous donnera encore. Mais vous pourrez faire une adse totalement acquilla. Ça va arriver. Pour l'instant, c'est pas encore super au point. Mais par la suite, si vous avez les knowledge avec un chat GBT, vous allez pouvoir créer toutes vos vidéos. Ok, là, il a trouvé un nom de récord absence.
+
+[07:12] Il est resté en place des 6,50 lavages à profit parmi 500 foyers. Le confort d'un tel cinquintoise sans la facture. 0 deurs, 0 glissades, 0 compromis. Insin. Et un truc que je vais demander, c'est de donner plusieurs variations. Parce que pour être honnête, un chat GBT, c'est bien. Mais il n'y a pas besoin forcément qu'il vous donne directement ce qu'il faut parfait.
+
+[07:34] Ça, c'est bien. C'est déjà très bien. Mais moi, ça, je le reverrai. Et je ranalyserai selon les marketing pour voir si je peux pas améliorer. C'est d'avoir une base. Et là, s'il vous donne 2-3 variations, c'est top. Parce que ça vous fait du script gratuit très rapidement. Et des fois, d'autres angles, d'autres manières de faire l'aide. Et si ton matin, commencez par ça, une soirée de spa chez toi.
+
+[07:56] Ok, là, il est plus sur un angle marché sur un nuage. L'angle que je choisis plus des compétiteurs et sur quoi ça a marché. Je pense que ça marche bien, mais c'est moins scalable que l'angle de glissade. Marché sur un nuage, plénu. Ok, boom, boom, boom. Pile de tapis moisique glissant des chérés, vs le nôtre. Ok, là, ils discréditent les autres solutions.
+
+[08:17] C'est un angle aussi qui est très important, très scalable. Mais en fait, il a mes knowledge. Donc il a tout ce que je dis sur ce qui est scalable ou pas. Sur les besoins psychologiques et des besoins fondamentaux. Et il targuait directement dedans. Donc c'est insin. Vraiment, c'est insin. Vous allez faire des scripts, des ads de malades, de folies. Le tapis de bain, c'est souvent de l'arnaque.
+
+[08:38] Ça puissent agler, ça apprête de la vache poubelle. Il utilise exactement les thèmes des clients. J'adore. Je testais tous les tapis sur ma zone et ça tient la route. Donc peut-être ça a amélioré. Je testais... En fait, c'est un client qui a dit ça. Ouais, en fait, c'est pas mal, ça dépend. Mais tu tais tous les tapis de marché, peut-être. Va off, il ne glisse pas, non, il ne pourrit pas.
+
+[08:59] Il passe à 50 machines, boom, boom, t'exexclamant. Donc on comprend que le fait que ça soit lavable et que ça tient, c'est un gros point négatif. En fait, votre produit, c'est un produit nouveau et peut discréditer les autres si il remplit une nouvelle fonction que les autres ne faisaient pas. Comme, par exemple,
+
+[09:23] une brosse à dents qui ne se casse jamais. C'est-à-dire qui dure toute une vie. C'est la même brosse à dents, mais elle dure toute une vie. Donc elle remplit une objection, quelque chose... Elle comble quelque chose du produit original. Et là, ça part dans ce qu'il fait. Donc il le met en avant. Et ce 90 jours, on poursuit, c'était pas bluffé. Franchement, Insane. Insane, Insane.
+
+[09:44] Donc, Enjoy. Maintenant, ce qu'il va falloir faire de votre côté, c'est de donner cette data. Donc je vous ai mis un rappel. La slide. Ok. Alors, donc les knowledge. L'entraînement du châche BT, toute la partie dure, c'est déjà fait pour vous. Donc je vous ai déjà occupé de le faire pour vous.
+
+[10:04] Ça, ce sera tout bon. Ce qu'il faudrait que vous le facez, c'est que vous donnez le knowledge sur votre produit, sur vos clients. Même plus que sur vos produits, ne faites pas l'erreur de faire... Ce que font beaucoup de personnes, c'est de donner la fiche produit et les informations sur votre produit. Donnez-le, donnez-lui, sur vos clients. Pas en fonction de vos clients, vos prospects, qui va créer ce qu'il faut.
+
+[10:25] Donc, le meilleur moyen, c'est de donner de la nice marketing que vous avez déjà fait en module marketing analysis. Si vous n'avez pas fait ou pas importe, si vous voulez refaire, ce qui est important, c'est la data client. Il doit avoir, ce que disent les clients, Amazon important. Amazon Review, Amazon Review, j'ai mis deux fois. Amazon Review ou vos reviews à vous, c'est ça que je voulais dire.
+
+[10:46] Sondage client, faites des sondages auprès de vos clients. Vous simplement demandez pourquoi ils ont acheté le produit, qu'est-ce qu'ils aiment, ce serait quoi leur produit des rêves, qu'est-ce qu'ils n'aimaient pas chez les solutions qu'ils avaient testées. Et comme ça, vous avez la data de vos clients. Mais important d'avoir aussi la data de d'autres, parce que vos clients peut-être qu'ils ont acheté pour certains angles que vous n'avez jamais targeté.
+
+[11:08] Et si vous voulez targeter de nouveaux angles, mais il faut avoir de la data nouvelle. Ensuite, True Spilote, ça aussi, c'est sous côté. Mais True Spilote, je vais vous donner ce tout-ilat qui permet de télécharger en masse tout ce qui est sur True Spilote. Donc, vous pouvez faire de vos compétiteurs, de vous-même, si vous avez déjà une marque True Spilote, si vous êtes une marque, c'est vraiment très bien moi, c'est ce qu'on a fait et ça marche.
+
+[11:30] Vraiment, vraiment très, très bien. Donc voilà, c'était Matéo. Donc pour accéder à Djibé Thé, vous pouvez simplement y accéder ici. Il est aussi disponible sur le GPT Store, mais seulement ceux qu'on accéder pour accéder. Donc voilà, pour rappel, vous pouvez l'utiliser pour vos scripts de ads, vos advertorios, vos landing pages
+
+[11:55] ou tous les copies que vous devez faire dans votre marque. À bientôt.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 17 : [SOP] Mini-MasterClass HOOK IRRÉSISTIBLES
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 17
 ======================================================================
 
@@ -2578,9 +2768,243 @@ La clé que peu de e-commerçants comprennent : un hook ne vend pas, il ouvre la
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans cette mini masterclass sur comment créer des eaux qui sont irrésistibles, qui non seulement captivent l'attention, mais aussi multiplient vos conversions. Donc le premier point, le problème actuel en fait, c'est que le temps d'attention de vos prospects se réduit.
+
+[00:23] On a les plateformes comme TikTok qui viennent changer la manière de consommer. Donc le temps d'attention se réduit d'année en année. Donc il faut être de plus en plus fort sur les hooks, sinon vous allez venir passer à côté d'opportunités en fait de convertir des prospects en client et vous allez venir manquer un tas de ventes.
+
+[00:47] Alors aujourd'hui dans le monde du commerce, si on n'est pas bon à faire des hooks, on n'arrivera pas à atteindre des certains résultats, on n'arrivera pas à ce qu'il est, parce que la publicité nous coûtera trop cher et on restera avec des faibles EOS. Donc masteriser des hooks devient une priorité et devient indispensable pour réussir dans les commerces en 2024.
+
+[01:13] Ce qu'il faut savoir c'est que le hook, il a un impact direct sur le nombre de ventes. Car plus vous accrochez de personnes, plus de personnes vont regarder votre publicité et donc vous aurez plus de clics et forcément plus de ventes, à condition que votre publicité fonctionne. Donc ça va vous faire réduire le coût publicitaire de votre publicité
+
+[01:39] et augmenter la potentialité que votre ad se devienne virale. Et créer plusieurs hooks permet d'éviter aussi l'ad fatigue. Seulement on a une ads qui fonctionnent bien et on la laisse mourir alors que si on avait créé différents hooks on aurait pu avoir une meilleure version de l'ads peut-être et juste éviter l'ad fatigue
+
+[02:00] en changeant les premières secondes de la vidéo. Et un truc qui est vrai aussi c'est que 80% des e-commerce ne savent même pas comment mesurer et analyser si un hook est bon ou non. En fait ce que j'ai remarqué c'est que beaucoup d e-commerce, même d e-commerce qui faisait déjà un bon chiffre d'affaires ne savent même pas comment analyser leur hook.
+
+[02:22] Ne savent même pas qu'il maitrisque mettre en place sur les canaux comme Facebook par exemple pour mesurer si le hook est bon ou non. Donc ça c'est primordial parce qu'on ne sait pas mesurer, difficile de s'améliorer. Mais ce que j'ai vu c'est que pour beaucoup, ils ont déjà créé des bons hooks
+
+[02:45] ils arrivent à créer des bons hooks mais ils n'ont pas un process précis qui leur permet de repliquer encore et encore. Ils ne comprennent pas les principes psychologiques de pourquoi un hook fonctionne. Donc la clé c'est d'utiliser des techniques psychologiques. On va venir venir interpeller l'inconscient de notre prospect pour le faire venir s'arrêter.
+
+[03:08] Car en fait quand ils scrollent sur Facebook, sur TikTok, c'est son système limbique qui a activé. C'est-à-dire qu'il n'est pas en mode ce qui est réfléchi. Donc si il ne réfléchit pas, on va mettre en place des techniques pour venir arrêter son inconscient. Donc c'est des choses que son inconscient ne pourra pas s'empêcher de regarder.
+
+[03:29] C'est ça qui fait un bon hook en fait. Et quand on a un bon hook, c'est super parce qu'on le met dans notre honteau noir et puis à la fin on le convertit en achat en quelques minutes et c'est ça que j'adore avec le direct réponse. En fait c'est tout un procédé où c'est que la personne ne nous connaît pas
+
+[03:50] et on la convertit en client dans l'heure qui suit. Donc ça c'est magique. Et pour ça il faut maîtriser le direct réponse et ça commence par le hook. Donc le hook c'est la porte d'entrée de notre funèle. Et plus petit est la porte d'entrée, plus petit seront les résultats. Et à l'inverse, plus on a un hook qui est puissant,
+
+[04:13] plus ça va multiplier les chances de réussite. Ça va pas garantir une réussite parce qu'après il y a le reste de l'attre, il y a votre offre, il y a votre funèle. Mais si vous avez tout le reste qui a aligné, un bon hook ça va vraiment multiplier plus simplement vos résultats. Donc l'importance du hook, un bon hook, comme je l'ai dit, ça va venir permettre à votre créatif
+
+[04:35] de venir plus facilement winneuse. Donc vous avez le choix, parce que vous aurez des coups plus bas, vous aurez un meilleur AOS et vous allez venir favoriser les chances que votre créatif perce en testing. Lors de la phase de testing, ce qu'il faut savoir, c'est que l'algorithme va venir
+
+[04:57] analyser certains points de votre créatif, de votre funèle, de votre conversion pour venir mettre en avant ou pas votre créatif. Et si vous avez un minimum bon, vous n'allez pas passer la phase de testing. Et à l'averse, si il est pertinent, si Facebook voit que pas mal de personnes
+
+[05:19] regardent votre vidéo, que pas mal de personnes cliquent et que vous faites des conversions, il va venir mettre en avant votre créatif, il va venir faire baisser le couple publicitaire et c'est ça qui va venir faire un bon AOS. Donc il n'y a pas que le hook, il y a le reste de la créatif, mais si vous avez un bon hook, vous allez vraiment favoriser
+
+[05:41] de meilleur AOS. Et ça on l'a vu, personnellement sur toutes nos créatives qui sont devenues winneuses, qui sont devenues des condors, c'est à dire qu'on générait plus de 500 000 euros de vente, c'est toutes des créatives qui avaient un bon hook. En fait sans un bon hook, ça va être très difficile de se quitter
+
+[06:03] de manière très profitable. Donc j'ai juste créé un petit exemple de l'impact réel d'un hook. En fait on a deux cas de figure. On a exactement la même publicité ici, où c'est que le hook rate, donc c'est la métrique du hook, on va la voir juste après et à 20%. Le CPM il est à 10, on a 100 000 impressions,
+
+[06:25] la OV il a 50 dollars, le CTR 1%, conversion de rate à 2%. C'est des chiffres moyens, on va dire, donc c'est un exemple. Ce qui nous fait 1000 clics et un ROS de 1.2. Ok, maintenant on a la même publicité. Exactement la même publicité,
+
+[06:47] mais avec un hook, meilleur de 10%. Donc 10% ça peut paraître gros, mais c'est pas si gros. Franchement, vous vous ferez juste les 3 premières secondes de votre publicité et vous pouvez vite gagner 10, 15, 20, 30% de hook. Et ça ça va faire quoi ? Ça va venir faire descendre vos CPM. Vous allez venir donc toucher plus de personnes
+
+[07:09] pour moins cher. Votre CTR va augmenter logiquement parce que vous allez venir toucher plus de personnes, la OV il reste le même de toute conversion, il reste le même. Ça vous fait avoir 3600 clics et votre revenu il passe à 3600 dollars.
+
+[07:31] Donc un ROS de 4.32. Pour un petit spend, mais en commençant avec des petits spend, des bons ROS sont un très bon indicateur pour du scaling futur. Et ça vous pouvez simplement prendre en compte vos créatifs entre celles qui ont bien marché et celles qui ont bien marché. Vous allez venir regarder
+
+[07:52] le hook rate, les CPM, le CTR et vous allez vite voir qu'il y a une corrélation directe. Donc maintenant comment mesurer votre hook. Ce qui ne meurt pas ne peut pas s'améliorer. Le hook rate c'est une métrique qu'on va venir ajouter manuellement. Je vais vous montrer comment
+
+[08:14] sur Facebook. Et elle est aussi appelée Thumb Stop ratio. Donc en fait c'est simplement avec cette métrique qu'on va venir pour analyser la puissance du hook. Et comme je l'ai dit une créative qu'un hook faible est difficilement scalable.
+
+[08:36] Après ce qu'il faut savoir c'est que là j'ai mis un bar M qui est assez général mais ça dépend des niches. Il y a des niches où c'est que le hook a tendance à être facilement plus élevé que d'autres niches. Mais de manière générale ça reste dans ces eaux là. En dessous de 25% c'est clairement faible. Donc c'est vraiment clairement faible. Il faut améliorer entre 25 et 30% ces moyens.
+
+[08:58] Ça peut être ok d'avoir un 30% pour du scaling. Ça peut être ok. Mais si vraiment vous voulez avoir de super résultats de bons heroes il va falloir être au dessus de 35%. Là on voit c'est un testing donc ça c'est juste ça fait juste partie de ma campagne EBO en testing. Après bien sûr
+
+[09:20] j'ai augmenté un peu les budgets parce que ça a bien fonctionné. Et on voit que la lio qui était à 45% minimum. Et c'est ça qui fait vraiment qui fait qu'après on arrive à dépenser plus et en restant bien profitable. Donc comment configurer le hook
+
+[09:41] donc là je vous ai mis un screen. Je vais vous montrer en vidéo. Simplement on va venir installer une KPI qui est les 3 secondes view divisé par l'impression. Et ça va nous donner un pourcentage. Donc quelques tips pour améliorer vos hook pardon
+
+[10:02] Donc si vous avez un hook qui est faible qu'est ce qu'il va falloir faire ? Il va falloir créer un autre batch un autre batch de créatifs. Ça veut dire quoi ? Ça veut dire vous allez reprendre votre créatif et vous allez venir créer 5 variations de différents hooks. Vous allez venir modifier les premières secondes. Donc ça c'est la première chose c'est de
+
+[10:24] venir créer de nouvelles créatives en changeant les premières secondes de votre annonce. Ensuite il va falloir peut-être changer la headline d'ouverture dans votre hook. Quel message vous met en premier ? Peut-être c'est juste ça qui vous changez. Peut-être que l'angle marketing ciblé ne parle pas. Donc là aussi si vous avez un bon hook et que vous dites quelque chose de pas cohérent par rapport à votre cible ça peut faire chuter vos résultats.
+
+[10:46] Ensuite peut-être changer du format de votre hook. Peut-être que à votre audience le format de hook que vous utilisez ne parle pas. Utilisez peut-être une question une boucle ouverte on verra plus tard c'est des moyens d'intriguer durant le hook. Vous pouvez changer un hook.
+
+[11:08] Mettre un hook plus dramatique, plus excitant, plus intriguant on verra ensuite comment. Il y aussi la miniature. Donc j'ai laissé quelques mots en anglais parce que des fois c'est plus compréhensible en anglais. La teubne c'est dans la miniature. Ça aussi ça n'a pas correct. Et on l'a remarqué à de multiples reprises et c'est
+
+[11:30] prouvé. Une bonne miniature est importante pour captiver l'intention. Donc ça aussi mettez un close up, mettez quelque chose intriguant. Vous pouvez même mettre votre hook en miniature. En fait, vous sélectionnez simplement manuellement votre hook en miniature. Ensuite un autre type c'est de trouver un moyen de mettre du rouge dans votre hook.
+
+[11:52] Pourquoi le rouge ? On le verra aussi plus tard mais pas ça que captive l'intention. Parce qu'en fait naturellement, instinctivement le cerveau, l'imbic est fait pour s'arrêter quand il y a du rouge. Tout ce qui est danger pour notre cerveau souvent il y a du rouge dedans. Donc dès qu'on va du rouge pour nous c'est potentiellement danger. Donc on se met en état d'alerte. Et puis simplement ça va être d'appliquer les points suivants.
+
+[12:14] Donc là on arrive à la partie la plus intéressante c'est maintenant comment faire un hook magique, comment faire de bons hooks. Donc comme je l'ai expliqué le secret d'un bon hook c'est la capacité à manipuler et à en donner à l'inconscient de se stopper. C'est plus fort que lui en fait parce qu'il va pas réfléchir il va
+
+[12:36] se stopper sur votre créativ. Car en fait ce qu'il faut savoir c'est que notre cerveau réagit à plusieurs principes psychologiques. Et puis on va voir justement je vous présente quelques-uns des plus puissants pour captiver votre prospect. Donc le premier principe c'est l'utilisation de déclencheurs visuels. En fait on va venir utiliser des images
+
+[12:57] des couleurs qui naturellement font stopper l'inconscient et attire le lit. Donc l'utilisation des déclencheurs visuels c'est une stratégie le plus simple que j'implais le plus souvent dans les créatifs. Cette approche elle exploite les éléments visuels comme des images, les couleurs vives comme le rouge ou les mouvements
+
+[13:19] pour captiver l'attention. En fait notre cerveau dès qu'il y a du mouvement il va être en fait il va être captiver parce qu'il va venir vouloir suivre la suite. Et certaines couleurs comme le rouge comme je l'ai expliqué avant qui captive naturellement l'intention. Pourquoi ça fonctionne ? Parce que les êtres humains
+
+[13:41] sont des êtres visuels c'est-à-dire que ce qui va venir faire capté l'intention au premier lieu ça va être les yeux. Sur Tic-Toc il y a aussi la partie du son mais sur les deux plateformes le visuel va être ce qui va venir vouloir travailler à 80% donc une grande partie du cerveau humain traite en fonction des images.
+
+[14:03] Donc avec certains types d'éléments en mettant du mouvement en fait on va venir faire arrêter l'inconscient des personnes. Et pourquoi c'est si efficace parce que ça capte rapidement l'attention on a besoin d'un environnement c'est qu'on a énormément d'informations donc si on n'a pas quelque chose de visuellement punchy qui capte l'attention ça va être mort
+
+[14:25] et c'est facile de la comprendre. Les visuels les textes mis de certaines manières sont faciles à comprendre et en plus de ça très simple à mettre en pratique. Donc là j'ai juste mis un exemple donc simplement on a du texte ici sur un fond rouge qu'est-ce qui cause l'asiatique. Je mets beaucoup d'exemples anglophones parce qu'ils sont
+
+[14:47] avancés dans ce domaine là donc je mettrai beaucoup d'exemples anglophones donc là on a ce ou quoi c'est que qu'est-ce que l'asiatique donc les personnes qui souviennent d'asiatique dès qu'elles voient ça elles vont être captivées on a quelque chose qui montre l'asiatique qui est intrigant donc donc voilà.
+
+[15:12] Ensuite le point 2 c'est le pattern interupture de pattern en français c'est une technique ultra puissante qu'utilisant marketing et en psychologie pour capter l'attention on interrompant le flux de pensée habituelle des personnes. C'est aussi utilisé dans certaines techniques deep noses cette approche elle repose sur l'idée qu'on fait notre espérie
+
+[15:34] issu un modèle de pensée prévisible et nous on va venir interrompre avec quelque chose de totalement inattendu quelque chose de pas conventionnel qui va venir captiver la curiosité de la personne pourquoi c'est efficace ? Parce que comme je dis ça va venir capturer la créativité la curiosité pardon ça va venir augmenter la rétention
+
+[15:56] en fait on va venir mettre comme un battement c'est que on va parler à l'enconction et lui il va plus facilement se souvenir de ce qui va venir passer après donc en fait on a remarqué et de nombreux études le prouvent que quand il y a une rupture de pattern il va être plus facilement manipulable donc c'est pour ça que c'est utilisé en hypnose il va mieux se souvenir de ce qu'il a vu
+
+[16:18] donc ça va laisser une meilleure impression donc c'est très utilisé par des grandes marques mais peu utilisé à l'échelle du e-commerce, du trop-shipping c'est très très peu utilisé pourtant c'est terriblement efficace et ça fait aussi le langagement émotionnel et ça c'est game changer parce que le but principal d'une publicité en direct response
+
+[16:40] je parle beaucoup en direct response c'est dire qu'on veut que le prospect achète rapidement aujourd'hui c'est de lui créer un fort pic émotionnel et en fait simplement le retour de pattern ça va venir favoriser l'engagement émotionnel ensuite après
+
+[17:00] c'est-à-dire qu'il va être plus sujet à avoir un fort pic émotionnel durant le reste de la publicité avec un bon rupture de pattern et puis en plus de ça on va venir se démarquer dans un environnement saturé donc il y a pas mal d'exemples on pratique il faut montrer quelque chose d'habitude de manière inhabituelle c'est-à-dire quelque chose que le prospect a l'habitude de faire
+
+[17:22] mais avec quelque chose de totalement incohérent ou un truc qui change là j'ai mis deux exemples là on voit un rasoir et un œuf c'est un peu incohérent mais ce hook-là a très bien marché cette créative-là a généré d'énorme résultats pas pour moi mais j'ai
+
+[17:44] trouvé sur online et une autre rupture de pattern ici c'est qu'on... quelqu'un qui brûle un billet et je vous montre je vous montre aussi des exemples des exemples concrets on fera une analyse des études de cas donc voilà pour rupture de pattern ensuite on a
+
+[18:06] l'effet zégarnique on peut appeler ça aussi open loop en fait il y a une plus de tasche inachevée donc quand on commence une histoire ou qu'on pose une question s'odonner la réponse immédiate les personnes vont vouloir connaître la suite et c'est logique, c'est un principe psychologique qui a été observé
+
+[18:28] durant de nombreuses années donc depuis 1920 on fait des remarquées que les gens surtout le cerveau des gens ils ont tendance à mieux souvenir des tâches et ils ont une histoire inachevée pas complétée en fait ça va venir mettre une tension psychologique qui maintient la personne en état d'alerte
+
+[18:50] et c'est utilisé c'est beaucoup utilisé par contre ça c'est beaucoup utilisé c'est utilisé dans les séries c'est utilisé dans les podcasts en fait dans les séries ils vous montrent au début de la série des moments de la série et du coup vous de savoir envie de regarder la suite et de voir ce que vous avez vu pour avoir la réponse à votre question
+
+[19:12] et dans les podcasts c'est fait de manière similaire, ils vous montrent des parties du podcast ils vous montrent des certaines punchlines et vous avez envie naturellement de voir la suite et pourquoi c'est si efficace parce qu'elle va venir stimuler l'engagement du coup on va être plus facilement alerte
+
+[19:32] et avoir un meilleur watch time du contenu jusqu'à arriver à ce moment c'est qu'on a la réponse on va avoir un meilleur aussi la rétention et on crée de l'anticipation c'est à dire que la personne va essayer de de répondre à la question elle-même et du coup vous allez avoir plus de place dans son cerveau
+
+[19:54] parce que vous allez venir, elle va venir penser à vous, à votre produit, à ce que vous avez mis en avant dans des cas pratiques dans des cas pratiques par contre simplement poser une question provocatrice au début sans y répondre directement c'est ce qui est le plus efficace ou commencer par une histoire sans présenter la fin là on a un exemple quelque chose qui est assez intrigant
+
+[20:16] je vous montrerai des exemples après mais là on a juste simplement une personne qui rentre avec du mouvement avec un oudi avec lundi et nous on se dit ok ça va être quoi mardi mercredi juillet vendredi et on va vous donner des exemples de ce qui est très bien fonctionné
+
+[20:38] je vous laisserai le lien pour l'observer donc ça reprend cet effet cet effet c'est garni ensuite on a le quatrième c'est l'appel à l'émotion donc des fortes émotions la joie, la surprise d'indignation plein de trésmotions sont très puissantes pour en fait captiver l'attention
+
+[21:00] on est des êtres humains, des êtres socials quand on voit un visage, quand on voit une émotion ça nous captive et c'est ce qui fait que sur TikTok d'énormes hoocs qui peuvent pas apparaître simples parce qu'on a juste une personne avec un visage qui parle captive l'attention parce qu'en fait ça réagit à cette loi là qui est la loi de l'émotion quand on voit un visage on a une certaine empathie
+
+[21:22] puis on va essayer de comprendre et ce principe là il est puissant parce que quand on commence avec quelque chose qui a de l'émotion, de la joie, de la surprise de la dénation, de la peur, de la tristesse en fait on va venir rendre la suite de la vidéo plus mémorable mais aussi plus facilement
+
+[21:42] elle va plus facilement être partageable parce que les gens aiment partager ce qu'il y a de l'émotion ils aiment en fait en fait c'est quelque chose assez égoïste mais ils aiment partager ce qu'ils ont vécu qu'ils ont aimé aux autres et ça c'est un quai primordial pour que ça devienne winner si vous de creative et beaucoup partagé elle aura plus de chance de devenir winners
+
+[22:04] donc pourquoi c'est si efficace ça renforce la mémorisation quand on a une forte émotion qui est activée on se souvient plus facilement il est préparé pour quand il y a quelque chose qu'il y a une forte émotion de se souvenir c'est ancrer en nous c'est un instinct de survie ça va augmenter le partage comme je l'ai expliqué avant
+
+[22:27] parce que l'émotion c'est une manière de tisser des liens avec les autres on a des fortes émotions avec quelqu'un on tissent des liens et on se revient assez longtemps de ce moment donc ça va augmenter l'engagement ça va motiver les gens à passer à l'action ça va motiver les clics ça va augmenter votre CTR
+
+[22:49] et ça va créer aussi une connexion personnelle avec la marque quand on crée une émotion vraiment forte ça va créer une connexion directe avec la personne donc c'est pour ça que comme je l'ai dit avant un bon hook ça peut être totalement game changer pour vos créatives parce que ça va venir favoriser un terrain favorable à ce que la créative génère
+
+[23:11] de forêt os donc en cas de pratique je vous ai mis un exemple ici montrer un visage montrer une émotion, quelque chose intrigant on va regarder l'exemple
+
+[23:41] je vous montrerai l'exemple je vais vous configurer mon loom de manière à fin de mise juste cet écran-là je vous montrerai 10 exemples juste maintenant donc tendance actuelle et évolution du marché pourquoi j'ai mis ça et un truc très important c'est que là je vais vous montrer des principes qui marchent à l'heure actuelle certains principes qui marcheront encore en 2025 en 2030 c'est des choses qui ne changent pas
+
+[24:03] mais ce qu'il va falloir faire attention c'est que le marché change les gens deviennent plus ou moins sophistiqués par rapport à des tendances donc quand je vais vous montrer ça beaucoup de personnes vont l'impliquer c'est-à-dire que beaucoup de personnes l'impliquent aussi déjà donc certains hooks, une fois qu'ils seront vus et revus vont moins bien marcher donc ça sera toujours important
+
+[24:25] pour certaines tendances, certains types de hooks de se renouveler, de suivre ce qui se fait actuellement et de toujours regarder les principes psychologiques mais de changer la manière dans laquelle vous allez venir les montrer donc bienvenue dans la suite de cette masterclass c'est qu'on va venir analyser certains hooks donc je vous ai mis en bonus
+
+[24:47] le hook playbook sur Notion donc en fait là je vous ai juste résumé de manière assez ludique les structures de textes gagnantes donc quel texte comment on met en avant les textes dans votre hook la première manière c'est de mettre du fond rouge
+
+[25:09] et blanc et ensuite en bas du fond blanc avec du texte noir et rouge ça captive très bien attention ça marche très très bien cette manière-là fonctionne très bien après ça se peut que avec l'évolution commence à moins bien fonctionner en tout cas sur facebook sur instagram ça fonctionne très bien
+
+[25:30] ensuite on a simplement du texte blanc et du fond blanc pardon et du texte noir et rouge ça aussi ça marche très bien c'est classique ça marche très bien et ensuite on a la forme c'est qu'on a le texte au centre et certains parties du texte en une couleur ça peut être du jaune, du rouge
+
+[25:52] après le rouge est moins mis en avant parce que souvent ça se voit pas souvent ce qu'il y a derrière c'est pour ça que le jaune de cette manière-là ça se voit et ça aussi ça marche très très bien pourquoi toujours du rouge parce que comme je l'ai dit avant on est naturellement programmé pour prêter attention ce qui se trouve dans cette structure-là donc vous pouvez regarder dans n'importe quel pays
+
+[26:14] souvent les panneaux de signalisation de danger dans ces couleurs-là et dans ces structures-là les panneaux attention, les panneaux de limitation vitesse dans beaucoup de pays sont exactement dans cette même structure donc en fait naturellement quand vous allez venir montrer ça, le cerveau de procès vous allez dire ok, il y a quelque chose que je dois faire attention
+
+[26:36] ça peut être mortel ensuite, les différents types de hook-winner dans le document, dans le petit masterclass qu'on a vu avant, je vous ai présenté les principes psychologiques après il y a différents types de hook il y en a vraiment beaucoup il suffit simplement de maîtriser certains le premier type de hook
+
+[26:57] c'est de commencer par le produit donc vous montrez directement un wo effect de captiver l'attention avec le produit ça, ça marche très bien pour toutes les créatives qui vont venir s'adresser un stage du funèle, ou c'est qu'ils sont déjà conscients de la solution et du produit donc là, on a cette créative-là
+
+[27:19] donc je vous laisse des exemples ici ensuite on a les types de créatives que vous savez qu'on va venir se concentrer sur le problème donc là on va venir montrer de manière exagérée le problème de la personne elle va se sentir directement concernée et même inconsciemment on va lui venir montrer ce qui peut arriver de pire donc ça va venir vraiment la mettre en état d'alerte
+
+[27:40] après attention à respecter les réc-publicitaires là, faire un zoom comme ça sur la peau c'est limite là ça a passé mais vous faites attention, vous montrez de manière subtile le problème on peut aussi venir montrer le problème d'une manière intrigante rendre mettre une croix là c'est auquel là sûrement viral, cette créative-là a généré énormément
+
+[28:02] d'ingénieurs, je ne pense plus d'un million simplement parce que on s'intéressait pour les personnes qui avaient une bosse de bisons et on voit le problème qui est montré par une personne on voit une croix et ce hook là, cartonné et de nombreuses variations de ce hook également montrer enfin quelqu'un qui montre quelque chose
+
+[28:24] sur une autre personne est très très puissant dans le domaine des hooks et dans le domaine des créatives ça intrigue naturellement donc ça c'est aussi quelque chose de très puissant puis qu'on met en place nos créatives simplement de venir montrer de venir montrer une partie du corps le produit mais de quelqu'un d'autre c'est-à-dire quelqu'un qui montre une partie du corps de quelqu'un d'autre est très très puissante
+
+[28:48] ensuite on a tout ce qui est bizarre donc quelque chose de peut-être satisfaisant à l'œil ou d'intrigant vraiment je sais, ça aussi ça marche bien là je vous ai mis quelques tips et hacks pour captiver l'attention premier type c'est de mettre une petite bulle avec du contenu intrigant dedans
+
+[29:09] donc du contenu vidéo ça on peut le faire sur canvas assez simple on met un cadre on met un trigonglissie et on enregistre deux vidéos donc une qui peut être très basique ou c'est qu'on montre simplement quelque chose et l'autre c'est qu'on met un contenu en relation avec le produit ça marche très très bien pour captiver l'attention
+
+[29:31] ensuite c'est de séparer la partie en deux ça peut être comme ça ou comme ça ça marche très très bien parce qu'on peut vite raconter une histoire très rapidement et le cerveau a le temps de regarder les deux choses donc vraiment ça c'est une technique que j'utilise pas mal et qui fonctionne très très bien puis ensuite il y a tout ce qui est close up produit aux mains, ça aussi ça fonctionne très bien
+
+[29:53] ce type d'eau que ça fonctionne merveilleusement bien après le texte le headline et va être aussi crucial mais de cette manière là de voir une main ça fonctionne très bien autant en hook qu'en thumbnail si on met, ça c'est un autre tips pour les miniatures ça fonctionne aussi terriblement bien
+
+[30:15] ensuite c'est de montrer un visage un visage en close up de cette manière là assez proche si possible une femme, une jolie femme ça va venir naturellement créer un bon hook en fait donc ça c'est très utilisé pour tout ce qui est make up pour tout ce qui est bijou pour beaucoup de choses en fait parce que ça va venir captiver l'attention
+
+[30:37] non seulement des hommes mais des femmes également on a remarqué et à travers de nombreuses études que ça captivait autant les femmes que les hommes en fait un joli visage va venir captiver l'attention je vous ai mis aussi quelques exemples de headline winner pour votre hook donc vous pouvez vous inspirer de ces headlines, créer des variations de ces headlines
+
+[30:58] je vous ai mis en anglais parce qu'en anglais sont très puissantes si vous partez du français ou convertissez en anglais ça donnera pas cette même puissance là en anglais on a beaucoup plus de possibilités de mots et ça c'est des mots vraiment très puissants donc je les mets en anglais comme ça vous pouvez les traduire dans les langues directement que sur lesquels vous avez votre offre vous traduisez avec chat d'ebt
+
+[31:20] en espagnol, en français dans un peu toutes les langues ça va bien donner parce qu'il va comprendre le sens puissant qu'il utilise en anglais simplement on peut adapter à votre produit pour beaucoup c'est en lien avec un problème donc là c'est beaucoup en lien avec un problème après il existe plein plein de trop-cues le meilleur moyen pour trouver des mots c'est de simplement
+
+[31:42] de faire de l'analyse de ce qui marche actuellement sur les créatifs publicitaires Facebook et TikTok et là vous aurez énormément d'idées ensuite on va venir étudier quelques exemples des études de cas concrets
+
+[32:12] donc je vous ai sauvegardé sur 4play 4play c'est l'outil que j'utilise pour sauvegarder des créatifs depuis la libarerie facebook on peut l'organiser par dossier on peut l'organiser par hook par exemple c'est ultra puissant on peut aussi des recherches avec l'intelligence artificielle donc je vous ai mis quelques hooks vous allez voir que pour beaucoup
+
+[32:34] ils reprennent les principes psychologiques qu'on a vu avant donc on va en garder quelques uns on va les analyser, on va comprendre pourquoi ça marche et simplement ça va devenir vous donner des inspirations pour implémenter pour vos produits donc là on va voir le premier je vais mettre ici
+
+[33:04] donc là en fait simplement ce qu'ils font c'est informants, c'est qu'une personne avec des scènes intrigantes satisfaisantes à l'œil et après il pose des questions il pose une question les gens lui disent oui et en fait non, il dit que non c'est une technique de hook qui marche très bien, on vous dit quelque chose qui paraît cohérent
+
+[33:26] et puis les personnes naturellement vont regarder la suite ensuite ça c'est de la même marque donc là on voit une manière en blanc fond rouge
+
+[33:47] une manière à peine de soulager le problème de constipation et on voit une main sur quelqu'un qui fait quelque chose et c'est intrigue simplement ensuite là on a quelque chose d'intriguant, il pose une question donc là on a un hook qui est très bien
+
+[34:12] fait de beaucoup, il font du très bon travail une niveau des créatives, ils ont pas mal de créativité là on a simplement quelque chose d'intriguant on se demande pourquoi ça fonctionne un peu comme une rupture de paterne ensuite là on a des types de hook
+
+[34:33] ils le font parce que c'est un peu difficile de faire en réel dû au rec publicitaire mais en gros mon mari a dit que j'avais un cul de Barbie je crois que j'ai bien traduit donc là on a quelque chose d'intriguant
+
+[34:54] ça change complètement, on a pas l'habitude de voir une Barbie avec ça ça capture vraiment l'attention là on a le hook que je vous ai montré avant on a quelque chose de courant une orange je crois et moisi on a aussi des ruptures de paterne on a un visage séparé en deux
+
+[35:16] ils ont mis la deuse c'est pas pour rien que cette créative a cartonné là on a aussi une autre rupture de paterne on a quelqu'un qui se lisse mais avec un vento sur les yeux donc on voit directement le produit ensuite il répond à une question elle met de l'émotion donc là on voit que les américains sont très forts
+
+[35:38] ils connaissent les principes psychologiques ils les empilent même c'est à dire qu'il crée un hook et juste après le hook encore quelque chose de captivant pour vraiment créer des super hades pour tout ce qui est bijou on a aussi ce format là on commence par le produit en close-up mon copain m'a surpris avec ça et on a quelque chose de
+
+[35:59] on a le produit en close-up une main qui démontre et ça captive l'attention tout simplement ensuite là on a une créative qui a été énormément vue c'est qu'on a une émotion j'ai eu ce bracelet donc maintenant je peux voir ma mère chaque fois que je veux
+
+[36:21] donc là on voit quelqu'un qui a une forte émotion on se demande qu'est-ce qu'elle fait juste un problème avec ma connexion voilà tu vois la musique qui apprennait donc je dis très très motivé
+
+[36:41] qui fait qu'une simple créative on la peut devenir virale et très très bien fonctionner là pour pas en tout ce qui est bijou on a ce format là en fait qui marche très bien et on a un texte ici le truc émotif elle a pleuré en lisant ça si vous avez une boutique de bijou
+
+[37:03] ça fonctionne très très très bien donc c'est toujours important de regarder les formats qui marchent aussi dans votre industrie puis de répliquer simplement avec votre produit votre contenu puis là on a l'attention ensuite là on a aussi quelque chose d'intrigant
+
+[37:24] donc vous voyez de recréer quelque chose sur une poupée de recréer quelque chose sur une poupée de séparer en deux là on a quelque chose de totalement bizarre d'incohérent qui active aussi l'attention
+
+[37:45] après on a une créative vraiment très dropshipping mais cette créative avait énormément de commentaires donc elle avait beaucoup d'argent dépensé dessus et le haut qui était bon idéalement pour améliorer encore cette créative après là je pense qu'ils n'ont pas mis de texte parce que c'était un peu limite au niveau borderline
+
+[38:07] puis plus on mette texte plus l'algorithme va être capable de pouvoir bloquer la créative donc là ils ont pas mis de texte mais si vous avez un produit compagnon finalement en mettant un texte vous allez pouvoir mettre une cohérence par rapport à un contenu que vous montrez et votre produit par exemple la nouvelle technique pour c'est le produit pour pour repousser les cheveux, voilà là ça aurait été encore plus puissant
+
+[38:29] donc là avec un texte d'une manière comme ça, un fond rouge les gens vont dire ok what the fuck c'est quoi ça et ça va vraiment captiver et en plus vous allez venir captiver les bonnes personnes parce que vous pouvez mettre un hook totalement différent mais vous allez venir captiver l'attention de mauvaise personne du coup ça a pas de sens là on a ce que je vous ai montré avant
+
+[38:50] le produit en main on a le produit en main, on a un effet un peu wow avec un glabrum, voilà très simple, ça fonctionne très bien pour TikTok, Instagram là on a un visage
+
+[39:11] on a du mouvement et on a le laïn là donc ça captive après on a introduit très très rapidement vous voyez au bout d'une seconde sur le problème des cheveux et après je vous ai mis 2 hooks, donc là on avait le hook avant, il a été repris
+
+[39:32] donc ça montre à quel point il est puissant en plus on voit qu'il y a un stylo donc naturellement on pense que c'est quelqu'un de professionnel qui met ça qui pointe ça donc ultra puissant donc vous voyez, là pendant 3 secondes
+
+[39:55] comme c'est puissant on a on voit le produit on voit une headline puissante qui va unir captivé attention juste après visage, joli visage qui sourit, émotion émotion donc voilà, il y a la dose pour TikTok c'est exactement ça qu'il faut
+
+[40:17] pour Facebook également là le texte c'est en bas ça marche un peu moins bien qu'en haut en haut il va être vu en premier mais ça marche aussi puis là on a quelque chose d'entrigon ça captive l'intention donc voilà voilà pour quelques hooks
+
+[40:41] voilà quelques études de cadres de certains hooks donc j'espère cette mini master class peut vous être utile les hooks sont vraiment très très important et vous allez vite voir que si vous avez déjà une offre qui marche déjà en itérant de nouveaux hooks ça va être totalement game changer
+
+[41:03] pour votre business après j'ai mis un petit disclaimer je vous conseille vraiment d'utiliser ces techniques si votre produit est bon ça veut dire s'il est satisfait parce que si vous commencez à faire énormément de ventes et que votre produit ne satisfait pas donc si vous avez un mauvais retour client ça va vous faire plus de mal que de bien donc ça a vraiment très important y a un produit au point
+
+[41:25] assurer que votre client soit satisfait avant de vraiment skiller sinon vous allez avoir plus de problèmes qu'autre chose et ça peut être des blocages au niveau payment processeur, des blocages sur les plateformes telles que facebook etc c'est vraiment important de pouvoir skiller une fois que le back end
+
+[41:48] on est sûr que les clients sont satisfaits du produit sinon ça a pas de sens donc je remercie d'avoir regardé ces petites masterclass je vais simplement résumer donc je met un peu tout ce que j'ai appris en programmation neuro-languistique en neuro-marketing et en expérience dans les commerces et cette année je désévoirai de repartager
+
+[42:10] de repartager tout ce que j'ai appris de repartager tout ce qui fonctionne pour moi pour simplement aider d'autres personnes dans une situation et si vous êtes dans une situation c'est que vous faites déjà une offre qui marche vous faites déjà un 54 de chiffre d'affaires minimum par mois
+
+[42:32] et que vous s'étiez décuplé vos résultats avec un meilleur système de créatives vous pouvez postuler à ce lien s'il est encore valable mais là en ce moment j'ouvre quelques places pour simplement une opportunité c'est qu'on va venir implémenter nos process de créatives et de scaling publicitaires donc seulement
+
+[42:54] si ça sera encore disponible si vous correspondez au profil vous pouvez postuler sinon je vous souhaite vraiment le meilleur j'espère que ça peut vous apporter un maximum de valeur c'est une petite masterclass on peut vraiment aller beaucoup plus loin en termes de profondeur de ce qu'on peut faire j'espère que ça a été clair
+
+[43:16] j'espère que vous arrivez rapidement à implémenter et je vous souhaite comme j'ai déjà dit le meilleur c'était Matteo, allez ciao
 
 
 
@@ -2622,7 +3046,7 @@ _(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 19 : Introduction
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 19
 ======================================================================
 
@@ -2684,16 +3108,22 @@ Au-delà de la technique, l'idée est de vous transmettre un mindset d'exécutio
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Petite vidéo juste pour vous dire que justement on a update ce module donc tout ce que vous voyez ici c'est des nouvelles vidéos j'ai pris énormément de temps personnellement pour vous synthétiser nos process qu'on a actuellement pour pucer les appliquer aussi donc j'espère que vous en rendez compte de la valeur que vous avez si j'avais reçu ça
+
+[00:21] il y a quelques années auparavant quand je débute l'icom j'aurais déjà fait des centaines de millions là vous aurez juste un infer advantage tout le monde vous avez le framework médiabying qui vous donne encore plus d'infos donc dans dans ce module médiabye vous avez des infos sur comment piloter votre business en général avec meta avec le médiabye pour aller chercher du gros gros argent
+
+[00:45] est très profitable donc vraiment c'est le c'est mes process pour vous que je vous donne que j'ai pris l'effort de vous expliquer de manière très concrète donc voilà juste pour pour pucer bien bien suivre bien impliquer et si vous appliquez ça
+
+[01:06] et que ça marche pas se dire que vous avez un problème et que votre funèle si vous avez un funèle qui marche un produit qui marche des vous suivez ce qu'on vous dit au niveau créatif vous allez cartonner vous allez passer très vite de 0 à 10 de 10 à 35 de 35 à 100 de 100 à 300 parce que c'est le process qu'utilisent les gens qui font plus 300 cadets voilà c'était matéo amusez-vous
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 20 : Facebook Ads - Partie 1 : Tester & Masteriser
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 20
 ======================================================================
 
@@ -2745,16 +3175,50 @@ Facebook reste la plateforme la plus puissante pour scaler un business en 2025 m
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, bienvenue dans le module Test et Masteriser Facebook Ads. Donc, pour ceux qui ne savent pas encore, Facebook reste et est l'outil le plus puissant pour générer de l'argent sur les réseaux sociaux. Pour l'instant, c'est celui qui apporte le plus de stabilité et celui qui permet de faire les chiffres les plus élevés à tout en maintenant de bons résultats.
+
+[00:23] Donc, Facebook est tellement avancé qu'il permet, juste avec une créative, de trouver les acheteurs et de vous permettre de se caler. Donc, on va voir aujourd'hui le setup à avoir pour éviter de perdre énormément d'argent et éviter de perdre un business même.
+
+[00:44] Donc, on va voir les choses basiques pour avoir une sécurité parce qu'il y a des hacks, il y a des blocages et en ayant setup là, vous serez sûr d'éviter cela. Donc tout d'abord, ce que je recommande, c'est d'utiliser des comptes agences Facebook. Ça va venir éviter de perdre du temps, de perdre de l'argent si vous avez des blocages, si vous avez une marque déjà et que vous avez un compte non comptage en Facebook, c'est très bien, vous pouvez tourner dessus.
+
+[01:20] Après, maintenant, il y a des comptes cashback. Donc, ça, c'est toujours intéressant, on peut avoir 4, 5, ou 6% de cashback sur les dépenses. Donc au niveau BNF, ça rajoute quelque chose de gros, au moins un bon bonus. Mais nous, actuellement, on utilise des comptes agences, un full comptes agences parce que c'est plus simple et ça te permet de prendre un blocage, de ne pas impacter tous nos autres assets.
+
+[01:47] Donc je vais vous montrer le process à utiliser. Donc, ça, c'est le bulletproof setup pour éviter les blocages et c'est encore valable actuellement. Donc tout d'abord, ce qu'il faut savoir, c'est qu'il y a plusieurs précautions à prendre.
+
+[02:10] Les premières précautions à prendre, c'est avoir, peu importe, votre BM, avoir deux admins minimum dans le BM. Parce que si vous avez un admins bloqué, si vous avez un admins hacké, au même temps, vous perdez votre BM. Vous perdez votre BM, vous pouvez perdre votre pixel, vous pouvez perdre vos adacons, vous pouvez tout perdre. Donc, je recommande d'avoir plus que deux admins dans le profil.
+
+[02:34] Et ces admins-là doivent être des admins fantômes. C'est-à-dire, c'est des profils de vos amis ou à vous qui ne sont pas utilisés pour pub, qui ne sont pas utilisés pour créer des pages, qui ne sont pas utilisés pour le reste. C'est juste des profils-là qui vont rester dans le compte juste pour être là. Et moins ces profils-là ont d'impact, c'est-à-dire si ils lancent des pubs qui n'ont plus pu rejeter, ils vont avoir des impacts, ça peut bloquer votre BM.
+
+[02:58] Donc moins ils ont d'impact, mieux ça va être pour votre compte. Donc prenez des profils et ne le touchez pas, juste des réels profils. Ensuite, c'est d'avoir plusieurs profils pour la page. Pareil, vous avez votre page, vous faites haquer, vous faites bloquer, vous n'avez plus accès à la page. Donc ayez plusieurs profils admins de votre page.
+
+[03:20] Ces profils-là, ils sont profils de page mais ils ne lancent pas de pubs. Ça, c'est celui qui a le plus de risque. Quand vous lancez des pubs, vous avez des pubs rejetés, etc. Vous faites des choses, peut-être, triquilles et ça impacte votre profil. Il ne peut pas impacter votre page. Donc vous, ce que vous voulez, c'est... Vous avez un profil pour puber. Lui, il n'est pas admis. Il rejoint les pages en tant que pas admis et il crée les pubs.
+
+[03:43] Si il y a un problème, il n'est ni relié à la page, ni relié au BM en tant qu'admine. Ça maintient une certaine santé au niveau du compte. Ensuite, je conseille de créer votre pixel. Déberger votre pixel sur un BM backup. Pas le BM qui pub, pour ne pas avoir de problème.
+
+[04:06] Et de partager votre pixel sur le BM sur lequel vous faites de la pub. À d'accounte partagée. Non, c'est à d'accounte agence. Donc là, vous avez les comptes agences qui sont partagées sur votre BM. Ou si vous avez un BM, vous pouvez partager sur un autre BM. Mais je conseille, pour faire simple actuellement, alors je sais que je tourne cette vidéo en 2025-18 mars,
+
+[04:33] d'avoir votre BM et les comptes agences et votre compte sur le BM, c'est ok maintenant. Avant, c'était mieux de partager au cas où, mais maintenant c'est ok. Mais si vous avez un comptagence, ça sera de toute façon partagé. Vous avez le pixel ici partagé sur votre store avec une application qui permet d'avoir un retour en serveur.
+
+[04:58] Ça veut dire que depuis la mise à jour ISOS14, on n'a plus toute la data de Facebook. En utilisant des applications comme Mitraka et Iros, et je ne parle pas de Triple Whale, Triple Whale, ça ne revoit pas un serveur, ça va venir envoyer la data de manière 100% curate. Ça envoie 100% de la data qui permet d'avoir 90%, 95%, 98% de la data accurate.
+
+[05:24] Donc nous, on travaille avec Mitraka et Iros, on mettra un lien si vous ne l'utilisez pas encore. C'est la meilleure manière d'envoyer la data précisément et ça va vous améliorer vos performances. Plus vous avez de meilleures pertes. Si vous n'utilisez pas encore Mitraka ou Iros, dès que vous allez l'installer,
+
+[05:47] normalement vous allez venir voir un gain. Ça peut être en 10% et 20% de votre résultat actuel en termes de iOS. Donc voilà, si vous achetez des profils, faites gaffe, il y a beaucoup de hacks. Donc dès que vous achetez un profil, vous devez sécuriser toutes les informations,
+
+[06:08] c'est-à-dire changer la 2FA, changer l'email, changer l'email backup qui est connecté à l'email, déconnecter tous les appareils, vraiment tout changer pour que le profil soit safe. Et pensez à bien le warm-up pour ne pas y se bloquer mais normalement, pas vous achetez, ils vous donnent un process, mais je vous l'ai mis ici au cas où. Donc voilà, ça c'est pour le setup, ça paraît compliqué, mais ça n'allait pas tant que ça.
+
+[06:33] Ça c'est le setup que l'on utilise et qui n'a plus de problème, du moins ça n'a plus de gros problèmes parce qu'on a des profils bloqués, mais dès qu'on a un profil, on le change et ça n'apparque pas tout le reste. Donc voilà, courte vidéo sur la partie setup Facebook.
+
+[06:54] A bientôt.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 21 : Facebook Ads - Partie 2 : Tester & Masteriser
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 21
 ======================================================================
 
@@ -2806,16 +3270,64 @@ Le vrai levier sur Meta aujourd'hui, ce n'est plus la structure, c'est la façon
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, comment tester et masteriser Facebook Ads ? Un module très important, on va voir jouer la structure et on va plutôt voir les secrets. Je vais vous réveller ici, parce que mes autres collègues y commerçant qui font pas mal d'argent ne voudraient pas que je vous révelle, mais je vais vous réveller exactement les méthodes qu'on utilise pour dépenser des centaines de milliers par mois sur meta.
+
+[00:27] Et je vais vous réveller aussi le secret de ce qu'on fait plus de 100 m sur meta. Donc je vais commencer tout de suite avec cette image là qui a été prise durant le dernier mastermind qu'on a fait avril 2025. C'est un mastermind destiné aux e-commerçants avancés. Et on a eu des speakers et ce qu'on a fait c'est
+
+[00:49] qu'on a le dernier jour, on a profité de faire une table ronde, c'est qu'on a réunis tous les cerveaux autour d'un table et on a mis deux experts de meta devant et on leur a posé des questions pour extraire leur méthode exacte de comment ils run meta, de ce qui marche pour eux. Et ici on a Foatt qui a fait plus de 100 millions en e-commerce sur meta. Théo Joubert qui a dépensé plus de 100 millions
+
+[01:14] en e-commerce sur meta, pas que pour lui par contre pour ses brendes etc. Il y a une grosse grosse expérience sur meta, ça fait longtemps qu'il est sur meta et il reste sur meta. Et les deux utilisent le même système et c'est exactement le même système qu'ils utilisent par aussi d'autres américains qui font du 5M le moins en drop en e-com.
+
+[01:40] Donc c'est une méthode qui va paraître folle, qui va vous paraître très simple mais c'est la méthode qui s'utilise. Donc nous on a eu la chance d'extraire ces informations, d'en reposer toutes les questions et simplement c'est ce que je vous réveille. Donc leur méthode qui s'utilise c'est de tout concentrer dans quelque chose qui est très
+
+[02:02] très simple qui est une master CBO. Donc une master CBO c'est quoi ? C'est une seule campagne où c'est que Facebook va venir dépenser par rapport à la campagne et non par rapport aux ad-sets. Et où c'est que dedans on va regrouper toutes les créatives dans un minimum d'ad-sets. Donc en fait ce qu'ils font c'est qu'ils regroupent dans un ad-sets 50 créatifs.
+
+[02:27] Donc si vous commencez vous allez venir faire 25 à 50 créatifs. C'est à dire vous allez venir mixer différents types d'images, différents types de vidéos, différents angles marketing, différents messages, différents acteurs, différents avatar, vous mélangez tout et vous allez venir lancer et vous allez voir ce qui se passe. Pourquoi cette méthode ? Parce que en fait l'algorithme
+
+[02:51] est maintenant plus intelligent que nous. Il peut identifier ce qui fonctionne et il va mettre du budget sur ce qu'il y a du potentiel. Ce qui veut dire que quand vous mettez 50 ads et que vous voyez que 4, 5 dépenses, la majorité du budget c'est qu'il y a quelque chose à les chercher. Le message, l'avatar, le concept, résonne. Donc simplement, ce qu'il fait, il faut être ce
+
+[03:15] qu'il fait c'est qu'il se lance sur les US. Il crée pas mal de dates et aussi que ça dépense, même si c'est parentable, il va y terrer. C'est-à-dire admettons qu'il a des ads UGC, ou c'est que l'angle, c'est tourné autour du fil, je ne sais pas, un message spécifique.
+
+[03:38] Il va venir y terrer sur ces messages-là, il va venir y terrer sur ces acteurs-là et ensuite il va réinjecter dedans et il va essayer de battre ce qui est dedans jusqu'à que Métat devienne rentable. Et en fait, il fait confiance à Métat parce qu'au bout d'un moment, Métat va devenir rentable. Et le fait de tout se concentrer dans une cibio, ça va venir permettre à Métat de râler beaucoup
+
+[03:59] plus vite. Il aura une meilleure phase d'apprentissage. Il aura toute la data au même endroit et simplement ce que vous aurez besoin de faire, c'est de l'animenter en créatif. Et c'est exactement à quoi Métat est actuellement entraîné. Une fois que vous êtes full avec 50 ads, vous allez venir simplement créer un nouvel ad-sett et là pareil, vous blindez dedans. Donc c'est une méthode très, très simple,
+
+[04:22] mais ce n'est pas parce que c'est simple que c'est facile. Ce qui compte ici, ça va être au niveau des créatifs et au niveau du travail de marketing etc. Pour résumer cette méthode, l'algorithme est plus intelligent. Donc on y fait confiance. On injecte des créats, il va venir rentable. Ça va beaucoup plus vite. Donc moins d'adsets, moins de campagnes. Tout est concentré ici. C'est un
+
+[04:44] algorithme intelligent. Donc lui il a besoin de sonorer de data et nous on lui donne de la data. En plus de ça, il y a un minimum de poche. En fait, si on avait plein de campagnes, il devrait aller chercher dans toutes les campagnes. Il devrait voir comment les campagnes réagissent par rapport aux certains créatifs. Des campagnes pourront marcher, des tournons. Tout est centralisé.
+
+[05:09] Et c'est très très simple à utiliser. Ça vous prend très peu de temps à déceguer et ça va pouvoir supporter un énorme spend. Donc simplement vous, ce que vous devez faire, si vous êtes au départ, c'est injecter beaucoup de créatifs. Comment l'a montré ? Vous allez venir tester différents angles, différents messages, différents avatars, différents concepts.
+
+[05:32] Et ensuite, sur ce que ça spend, vous allez venir yter. Donc là c'est la méthode 1, ça structure 1 qui est très bien et que je vous conseille. Et il y a aussi la méthode 2 qui est similaire avec quelques variations. Et c'est la méthode que j'utilise. Je vais s'expliquer pourquoi.
+
+[05:54] Même si on fait des tests avec cette méthode tout le temps. Mais ce qu'il faut savoir, c'est que si vous êtes déjà un adacante qui tourne, vous n'allez pas pouvoir changer de méthode. Parce que votre adacante, il a data, il va venir réagir en fonction de comment vous l'avez entraîné. Si vous allez entraîner à faire qu'une campagne et vous allez ancrer plein, ça risque de mal réagir.
+
+[06:19] Si vous avez plein de campagnes et vous allez venir ancrer que une, ça risque de mal réagir. Donc ça peut, le mieux c'est de repartir sur un nouveau adacante, de tester un nouveau adacante, si vous les changez de structure. Mais dans tous les cas, si vous avez beaucoup de campagnes, il va falloir consolider en minimum de campagnes. Donc la structure 2, j'ai pas changé ici. C'est la même structure, une master CBO.
+
+[06:43] Mais on va aussi avoir une habille aux campagnes, c'est qu'on va tester les nouveaux adsets net new. C'est-à-dire les nouveaux concepts de créatives, les nouveaux angles ou tout ce qu'on a besoin de data. Pourquoi ? Parce que ici, si une créative ne se peine pas, ça veut dire que Meta ne juge qu'elle a pas de potentiel. C'est très bien, ça maximise l'orale OS, c'est-à-dire qu'on gaspille pas d'argent parce que si la crainte
+
+[07:07] n'est pas bonne, Meta ne va pas dépenser dessus. Mais par contre, ça ne nous aide pas pour aller plus vite et analyser les data de ce qu'on fait. C'est-à-dire que quand on va lancer un nouveau concept, un nouveau angle, on veut voir si c'est pas bon, si c'est quoi qui est pas bon dans les créatives. Si c'est le hook, si c'est la conversion rate, c'est-à-dire si ça résonne mal avec la vata,
+
+[07:30] on va avoir de la data. Et c'est pour ça que nous, on teste encore avec une habille aux classiques, c'est qu'un adsett part une batch de créatives. C'est-à-dire on va avoir un batch de nouveaux angles, de nouveaux concepts, on teste dans un batch 3, 5 ads maximum parce qu'on veut un maximum de data et on veut qu'il se peine sur ce qu'il y a le plus de chance. Et si c'est pas rentable,
+
+[07:53] on m'en coupe. Mais on aura de la data analysée parce qu'il va se peine de toute façon. Et ensuite, une fois que c'est winner, on injecte dans les compagnes de scaling. Et possibilité de créer des CBO advantage plus additionnel, donc je dirais une seule CBO classique, mais après, on pouvait faire des CBO bitcap, cosscap, je vous montrerai comment. Et advantage plus passer nos types
+
+[08:17] de compagnes. Mais vraiment, dans l'ensemble, il faut rester très très consolidé. Donc voilà pour cette vidéo, c'est assez court. Mais rendez-vous compte de la valeur que je vous donne, juste pour que vous puissiez avoir un peu de contexte. Fouad avait pris du coaching, un appel de 30 minutes avec un américain pour avoir cette méthode. Et ça, c'est le fruit d'année de travail. Et nous,
+
+[08:45] on paye des masterminds, on rentre dans le cerveau et ça, je vous le donne là dans un school, le casier gratuit. Donc la valeur est énorme, mais ce qui compte, c'est pas vraiment la structure. Maintenant sur Meta, c'est plus de comment vous allez nourrir. Donc ce qui influence l'algorithme Meta, c'est la structure, c'est comment vous prenez de décision, c'est-à-dire comment vous
+
+[09:08] communiquez avec Meta en augmentant le budget, en descendant le budget, comment vous le nourrissez. C'est ça qui va venir vraiment compter. Mais le 80 du 20, ça va être les créatifs. Donc dans la prochaine vidéo, je vais vous montrer la structure et le framework exact de comment on passe de
+
+[09:29] la phase 1 à la phase. Keylink sur Meta. C'était Matéo. Ciao ciao !
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 22 : Facebook Ads - Partie 3 : Tester & Masteriser
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 22
 ======================================================================
 
@@ -2872,16 +3384,174 @@ Le vrai levier sur Meta, c'est pas juste une bonne pub, c'est comprendre la comb
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Testez et masterisez Facebook Ads. Aujourd'hui on va voir le process. Je vais vous accompagner sur le document qu'on va vous donner. C'est le document qu'on utilise à l'interne. Vous verrez, comme je vous ai montré dans la vidéo précédente, il y aura de l'anglais. Je vais vous expliquer. Il y a beaucoup de choses en anglais parce que c'est le document tel quel qu'on utilise.
+
+[00:26] Je vais me mettre par ici. Nous, on était ici. La phase 1. Ce que vous devez savoir, ce n'est pas juste un processme de buying, mais c'est un process qui va vous expliquer les principes et comment on fonctionne en termes de créatifs. C'est-à-dire qu'est-ce qu'il faut nourrir l'adacante, comment on réfléchit et comment on scale.
+
+[00:50] La phase 1, la première phase, c'est de trouver des winning hats. Le seul objectif, c'est de trouver des hats winnees. Pour ça, on teste différents messages avec différents concepts, différents vatars, différents awareness. Le tout doit être très bien exécuté. Il faut respecter les règles pour créer une winning hat.
+
+[01:11] Le but, c'est d'étansifier des audurance winnees qui peuvent être scalées. C'est votre rôle dans la créative testing. On en parle plus de cette formule dans le module avancé. Mais le but, c'est de tester, tester, tester. Une fois que vous avez des hats winneuses, il faut les scaler. Pour tester des hats winneuses, ce qu'on conseille, c'est de faire une bio.
+
+[01:36] Testing cette campagne sert à tester les nouveaux formats, tout ce qui est nouveau. Si vous avez déjà des hats winneuses, si vous tournez déjà avec une cibo scaling, il faut créer une bio de test pour tout ce qui est netnew, c'est-à-dire des nouveaux concepts, des nouveaux scripts, des nouveaux briefs, etc.
+
+[01:57] Et tout ce qui est intération, vous pouvez directement injecter en cibo. Ça, c'est ok. Mais ça, ça va permettre de tester des nouveaux angles, de tester tout ce qui est vraiment nouveau. Tout ce que META n'a pas de data pour justement analyser la data et comprendre ce qui marche, ce qui marche pas et laisser sa chance de spend.
+
+[02:18] Donc simplement, la règle, c'est de regrouper par concept. C'est-à-dire, vous avez un batch, c'est-à-dire tester l'angle santé, on va dire, hygién buccale. Vous avez ni regroupé votre hats qui est AD1 hygién buccale avec l'hats AD1 hygién buccale
+
+[02:40] ouc2 ouc3 ouc4. Basiquement, on regroupe par angle. Vous pouvez aussi regrouper par une variation. Par exemple, c'est de même angle, mais il y a une variation dans l'hats, où c'est la même actrice et c'est différent, différent créatif. Mais idéalement, on veut regrouper ce qui est similaire pour que META ait le plus vite possible un learning dessus.
+
+[03:07] Donc pour vite comprendre si votre nouveau script, si votre angle marche ou pas. Testez seulement avec votre top country. C'est-à-dire si vous avez votre top pays, c'est la France, ne testez pas worldwide, testez uniquement la France. META n'est pas trop date. En général, 4 hats, c'est ce qui fonctionne le mieux.
+
+[03:29] Et au niveau du budget, vous avez accès à ce calculateur. Le but ici, c'est de mettre votre budget que vous prévoyez pour de spend sur le mois. Ça va vous calculer un testing de budget ici par rapport à votre CPA, par rapport à votre CPM, etc.
+
+[03:52] Donc, il y a une vidéo explicative qui est ici. Vous avez qu'à simplement regarder et elle explique tout. Et ça vous expliquera comment tester. Donc voilà, vous êtes en un bio testing, et là vous allez venir tester des concepts. Donc pas mal de nouveaux concepts chaque semaine. Et ensuite, une fois que vous avez des ads smineuses,
+
+[04:12] vous allez venir prendre le post ID et les injecter en CBO scanning. Donc, ce n'est pas compliqué. Vraiment pas compliqué. Ça y a beaucoup de tutoriels ici. On va vraiment sur les choses avancées, vraiment pour pouvoir faire du gros argent. Mais les choses basiques, comme peut-être le post ID, même sa GBT, vous pouvez vous montrer.
+
+[04:32] Donc ça, c'est un petit rappel de combien de batch testé par semaine. Après, si vous êtes à zéro, vous pouvez tester 30 batch. C'est OK. Simplement, si vous testez trop de batch, et que vous avez zéro winner, c'est qu'il faut revoir la qualité. Donc, c'est pour éviter de cramer trop de budget. C'est pour ça qu'on met une fourchette. Si vous avez quelque chose qui tourne déjà,
+
+[04:54] ce qu'on conseille, c'est 60% d'intérations et 40% de nouveaux concepts. Faire que d'intérations, c'est bien. Ça vous permet d'avoir des bons héros, de multiplier des ads smineuses. Mais au bout d'un moment, il va falloir rafraîchir. Sinon, au bout d'un moment, vous allez être dans une impasse. Donc, la plupart du focus doit être fait sur le travail rapide.
+
+[05:15] C'est facile à opérer, c'est-à-dire prendre votre winning ad, c'est-à-dire tester différents hook, différents leads, différents acteurs, etc. Si on en parle dans le process avancé, de refraîche le content avec des nouveaux footage, d'améliorer l'ad, d'abattre. Donc, ça, c'est le rôle d'intérations.
+
+[05:37] Et de tout ce qu'il y a de nouveaux concepts, c'est des muscripts. C'est-à-dire, vous faites un nouveau brief, basé sur un compétiteur, vous testez un nouveau format, vous testez des nouveaux angles, vous testez des nouveaux avatar, tout ce qu'il y a de nouveaux, tout ce que Meta n'a pas de data dessus, c'est un nouveau concept. Et ça, ça va en un bio. Ça, ça va en un bio. Et ça, vous pouvez injecter dans les campagnes de scaling.
+
+[06:09] Au niveau des formats, ça c'est juste un rappel. Les top formats, c'est mashup, c'est-à-dire que vous faites un script, il y a une voix derrière ou une vraie voix, et vous mettez les meilleurs footage qui match avec le contenu pour générer une émotion, etc. C'est-à-dire, ça peut être plusieurs contenus de UGC, mais c'est pas vraiment techniquement une vidéo UGC. C'est plus puissant. Ça permet de scaler beaucoup mieux.
+
+[06:31] VSL aussi, c'est top. UGC, c'est top. Près moins scalable. Des vidéos narratives, des vidéos non-narratives, des statics, des gifs, des carousels, d'art postings. C'est des top formats à tester. Le but ici, j'ai mis en anglais, je pourrais vous traduire.
+
+[06:53] Voilà, l'essentiel c'est de trouver des gagnants dans plusieurs aspects, dans plusieurs... ici, c'est mal traduit, dans plusieurs aspects, pour que Facebook touche différents publics. Comme je l'avais expliqué, il y a des audiences qui vont acheter sur des statics, il y a des audiences qui vont acheter sur des mash-up, il y a des audiences qui vont acheter sur des vidéos courtes, sur des vidéos plus longues.
+
+[07:14] En fait, vous devez faire beaucoup de diversité. C'est ce qui va permettre de pouvoir se qu'elle ait touché beaucoup plus de personnes. Parce qu'on ne peut jamais anticiper une personne qui est dans le métro, elle ne va pas mettre le son. Donc une statique, qui va peut-être juste surappeler le produit qu'elle avait déjà vu auparavant, va beaucoup mieux marcher que si la personne était chez elle et avait le temps de regarder une VSL, par exemple.
+
+[07:36] C'est pour ça qu'idéalement, il faut avoir la diversité, pour pouvoir se queler sur méta, il faut avoir de la diversité. Surtout que maintenant, méta est mis en place une nouvelle mise à jour et est capable de convertir avec vos flux de créatives. C'est-à-dire, c'est pas juste une créative qui va venir convertir, c'est peut-être un flux. C'est-à-dire des créatives qui vont travailler entre elles.
+
+[07:58] C'est pour ça que si vous testez que des statics, ça va pas marcher, mais dès que vous rajoutez des vidéos, vos statics vont marcher. Parce que méta combine et remonte les statics à ceux qui ont déjà vu les vidéos, etc. Donc ça, c'est quelque chose d'important à prendre en compte. Ensuite, la phase 2, scaling. Donc là, vous scalez vos winning hats. Donc, c'est juste des rappels au niveau créatif.
+
+[08:19] Mais ça, c'est plutôt un niveau créatif qui se passe. Vous devez identifier les combos gagnants. C'est pas juste une hat qui est winneuse. C'est derrière, il y a un message qui est winneur. Il y a un avatar qui est winneur. Il y a un concept qui est winneur. Il y a un awareness qui est winneur. C'est-à-dire que là, vous avez votre winning hat qui est ici. Le message, c'est... Qu'est-ce qu'on peut reprendre comme exemple ?
+
+[08:42] Ok, je vais prendre un exemple avec quelque chose de basique. Ok, un t-shirt. Le message, c'est le t-shirt qui permet de cacher le ventre.
+
+[09:07] Le concept, c'est de le faire en mashup. On a testé ce message qui permet de cacher le ventre en image, ça marche pas trop, en UGC, ça marche pas trop. Mais en mashup, on montre en différents hommes, ça cartonne. L'avatar, c'est un homme de 40 ans. On a testé des hommes jeunes et tout, mais vraiment, un homme plus de 40 ans, ça cartonne. Et la awareness, c'est quelqu'un qui sait...
+
+[09:30] En fait, qui sait même pas que... C'est quelqu'un de non aware, qui sait pas qu'il a un problème, c'est-à-dire que les t-shirts peuvent fêter à quelqu'un qui a un ventre. Donc il sait même pas ça. Donc c'est très scréable. Ça, c'est la combinaison gagnante. Donc en fait, nous, on a testé pas mal de choses et on a vu que sur certaines ades,
+
+[09:51] c'est qu'on montrait l'avatar qu'à un temps, ça marchait mieux. On a vu que le message de cacher le ventre avec le t-shirt, ça marche mieux. Et on a vu que les concepts plus mashup, marchaient mieux. Donc une fois qu'on a analysé tout ça, en fait, simplement, regardons, vous mettez à spend, ou c'est qu'on a des bons résultats, et bien on va venir recomposer les combos winner. Et c'est ce qui va donner
+
+[10:13] le message, comme je vous l'ai dit avant, le t-shirt qui permet de cacher le ventre avec l'avatar qui est plus de 40 ans et avec les concepts qui ont le mieux marché. Ça peut être différents concepts. Peut-être que ça a bien marché les VSL, ça a bien marché les UGC, ça a bien marché les statiques et simplement on va venir tester le message, l'avatar et le market awareness sur ces différents concepts.
+
+[10:34] Mais on ne va pas tout tester ensemble. Simplement là, on va venir recomposer ce qui marche. Et on va venir double dom. C'est-à-dire on va venir créer beaucoup plus de concepts avec le même avatar, avec le même avatar, même message, même concept, mais différents awareness level. On va venir essayer de peut-être toucher sous le message,
+
+[10:55] le t-shirt qui permet de cacher les ventres, même avatar dom 40 ans, concept comme avant mashup, c'est-à-dire plusieurs footages, plusieurs personnes qui montrent sous une voix off. Mais on va tester ceux qui peut-être cherchent déjà un t-shirt pour cacher les ventres. Et là les résultats peuvent être tout autres. Parce que quand on est précis sur le market awareness qu'on
+
+[11:17] cherche, je rappelle, je pars du principe, vous avez vu le module créatif dans ce school, et bien ça va me dire résonner beaucoup mieux et vous allez pouvoir aller chercher beaucoup, beaucoup d'argent. Ou alors on peut tester d'autres messages différents, même avatar, même concept, même market awareness. Mais on va venir tester peut-être le t-shirt qui permet de cacher
+
+[11:39] les ventres, pour ceux qui aiment le foot peut-être. Voilà, des messages comme ça. Donc vous allez venir itérer sur les messages. Donc il y a plein plein de manière de créer énormément de ads winnees quand on a un combo gagnant. Mais il faut pas tout tester en même temps, il faut rester sur ce qui marche. Donc une fois que vous avez trouvé
+
+[12:01] ce qui marche, vous allez venir scaler vos ads winnees dans les cbo. Vous allez venir créer pas mal d'iterration comme je l'ai expliqué ici, vous allez pouvoir injecter dans les cbo. Et c'est ce qui va vous permettre d'avoir beaucoup de spend. Parce que le but c'est d'avoir le plus de spend possible pour faire entrer le plus de bénéfice possible. Le but c'est pas de maintenir votre ROS5 que vous avez en testing, en dépensement 20$.
+
+[12:23] Le but c'est d'avoir le plus possible de bénéf. Idéalement on vise sur une rentabilité de 20% en peu près. Ça peut descendre sur du gros volume si vous êtes à plus de 100KD et que vous faites du 15% en 10%. Tout dépend de vos objectifs, ça peut être OK. Parce que dans l'ensemble, si vous avez une marque meta, ça reste un canot d'acquisition.
+
+[12:45] Et qu'il y a acquisition, dit derrière que vous avez un backend. Un backend c'est à dire que vous achetez des acheteurs et derrière, les acheteurs où vous avez trouvé un moyen pour avoir du répit. Vous avez trouvé un moyen pour ensuite gagner de l'argent avec des e-mail. Vous avez trouvé un moyen pour ensuite les faire acheter sur Google, sur Amazon etc. Donc en fait
+
+[13:07] même si vous avez une rentabilité à 10% sur meta, c'est la rentabilité globale qui compte. C'est-à-dire que c'est votre MRE, votre bénéfice blended qui compte. Parce meta aussi, ça permet de faire énormément de profits, énormément de spend. Idealement, ça marche mieux
+
+[13:29] qu'en derrière. On va venir activer Google. On va venir activer Amazon. On va venir activer du retaggating branding sur Google. Et qu'on va venir mettre en place des compagnes d'e-mail. Clairement. Donc, comme on a expliqué avant dans la structure, dans la précédente vidéo, une CBO Main CBO, j'appelle ça une CBO master, c'est que dedans, on va venir
+
+[13:51] utiliser toutes les créatives. On va venir concentrer toute la data dans une seule CBO. Ça va être la main campaign. Cette campaign-là, elle doit avoir beaucoup de spend. C'est celle qui va spend beaucoup. On va pouvoir dupliquer avec une advantage. Ça marche bien. C'est beaucoup de personnes. Certains pays, ça marche un peu moins bien, comme la
+
+[14:13] Suisse ou les pays où vous savez que vous avez plusieurs langues dedans. Mais ça a testé. Et en fait, simplement, c'est une compagne advantage. Je sais qu'il y a un seul ad-sets. Vous allez venir setup du Coscap. C'est-à-dire, vous allez venir setup autour de votre CPA break-even, plus ou moins 5 et voir où c'est que ça spend le mieux et où c'est que vous avez les meilleurs résultats. Si vous avez
+
+[14:35] des bons résultats sur le compte, l'advantage Coscap, c'est là qui va vous permettre d'avoir du résultat le plus stable. Il faut simplement trouver votre CPA break-even. Donc, si admettons que vous avez un CPA break-even de 28, il va falloir tester à 25, à 26, à 27, à 28, à 29, à 30, plus ou moins 5 dollars. Et une fois que vous allez commencer à avoir des bons résultats,
+
+[14:57] que ça spend, on va dire, ou 30, vous allez venir tester 29, 77. Par exemple, ou 29, 75. 29, 65. Et en fait, vous allez venir tester jusqu'à que vous trouvez que met à spend pas l'entier de votre budget et que vous avez
+
+[15:19] une bonne rentabilité. Donc ça, c'est la règle pour l'advantage. En général, on fait des campagnes par Country et par SKU. Si vous avez plusieurs produits, plusieurs gammes de produits, idéalement, c'est plusieurs campagnes différentes. Ça peut se faire de tout mélanger, mais là, pour vraiment squelter, pour vraiment bien décortiquer et avoir une simplicité de décision,
+
+[15:41] on va séparer par produit et par pays aussi. Paix, ça dépend. Ça dépend ce qui marche le mieux. Si vous avez mélangé vos pays sur les campagnes ou que vous avez des bons résultats, gardez votre mélange de pays. Mais si vous partez de serreau, également séparer par pays. Ça va permettre de vraiment concentrer et de percer dans un pays. Parce que des fois, quand on teste plusieurs pays,
+
+[16:03] ça ne fait pas percer dans le pays que l'on voudrait. Par exemple, les US, personnellement, je testais US, UK, Big Five, et j'avais toujours la peine à percer sur les US. Il y a beaucoup de spin sur les US, mais les résultats n'étaient pas comme je voulais. En faisant que US que US, au bon moment, Meta a réussi à percer et nous a permis de avoir des numéroses sur les US.
+
+[16:25] Vous allez déjà pouvoir avoir beaucoup de spin comme ça, avec tous vos compagnes testings, votre campagne CBO et Advantage, plus la campagne Retargeting, qui est ici que je vous montre après. Remarketing. Donc là, on va voir voir si de ce haut on va avoir
+
+[16:46] après. Et ensuite, la surface 3, ce n'est plus technique. Je ne pourrai pas l'en détail aujourd'hui, mais j'expliquerai dans le module avancé c'est de faire du beat cap et cos cap. Ça, c'est vraiment le glitch qui permet de passer de 5K de spin à 50K de spin par jour en quelques jours. Parce qu'en fait, simplement, on va venir
+
+[17:08] prendre nos meilleures ads ici. Donc les top top ads. Et on va venir les condenser dans une campagne où c'est qu'on va venir en chérir sur le beat ou par coup par achat. Et on va venir multiplier ces campagnes la plusieurs fois pour tester différents cos cap différents. Et une fois qu'on a trouvé notre coup par achat cible, on va venir tester
+
+[17:30] différents coups par achats proches de ce coup par achat cible. Bref, ça, c'est compliqué et on va faire pareil pour le beat cap. Et on va travailler en escalier. On sait qu'on va pas les faire partir au même moment pour pouvoir soft-skiller dessus et dépenser beaucoup d'argent et maintenir une très très bonne rentabilité. C'est vraiment un glitch mais on expliquerait en module avancé.
+
+[17:52] Ensuite, la troisième, c'est remarketing. Donc remarketing, j'ai mis un peu plus bas parce qu'il y a beaucoup de choses qu'on vous donne. Donc en fait, c'est de faire une campagne qui va venir retarguer. Techniquement Meta fait déjà du retargetting. Donc Meta, même si on ne lui dit pas et retargette ce qu'on vit au vidéo. Il va venir combiner dans les cibo,
+
+[18:14] dans les advantage différents créatives à certaines personnes. Une personne n'avait une vidéo et il sait qu'après il va lui montrer peut-être tel type d'image. Et s'il voit que ça marche bien il va faire la même combinaison sur les mêmes types de personnes. Donc il le fait déjà. Mais c'est toujours bien d'avoir en plus une campagne remarketing où c'est que là vous avez vraiment des créatives adaptées au retargetting. Et ça, c'est des créatives adaptées au top
+
+[18:36] de funèles. C'est que les personnes ne vous connaissent pas. Donc là il y a pas mal de manière de le faire. Et ce qui marche très bien c'est de rester très simple, c'est de faire une cibo. C'est que vous allez venir allouer 5 à 10% de budget total. Donc si vous dépensez 20 KD, ne commencez pas directement avec 2 K de spend. Je dirais qu'on s'est peut-être à 500$ et vous augmentez par la suite.
+
+[18:58] Et après, vous adeptez bien sûr le budget n'importe quelle autre campagne. Parce que des fois le remarketing il va venir bien marcher, il va venir un peu moins marcher et quand ça marche bien, il faut augmenter le budget. C'est possible que des fois il y a 30% du budget total. Parce que il y a une période comme ça. Audiences 1, là c'est tout ce qui va être
+
+[19:20] middle of funnel. Donc les visiteurs, ce qu'on interagit avec Instagram, avec Facebook, votre liste de lead clavieux si vous en avez. C'est d'en venir exclure les pourchets, bien sûr. Et la de set 2, c'est A2 cartes, ni C check out. Donc ce sont ceux qui sont chauds. C'est ceux vraiment chez qui il faudra peu pour acheter. Au niveau de la de set 1,
+
+[19:41] les types de créatifs qui marchent bien c'est vos winning hats. Vous pouvez injecter les winning hats avec le même post ID. Non, ça c'est sans... Je le déte pas sans... Les winning hats mais pas même post ID. Différent
+
+[20:04] d'être copi. Je vais peut-être le supprimer ça peut-être. Poser problème. Sans le faisant. Mais récemment on a refait les tests et on a vu que ça marchait mieux de mettre différents post ID parce qu'il le fait le retargetting automatiquement dans les campagnes. Donc winning hats
+
+[20:25] avec un ad copy middle of funnel. Vous avez votre winning hats mais dedans c'est un ad copy plutôt middle of funnel et peut-être tester de troupages aussi. Un truc qui marche bien en retargetting c'est de faire du troisième partie page. C'est-à-dire de faire des pages type docteur, type blog, type prénom et nom commun de votre pays. Par exemple Marie
+
+[20:47] Marie Dubois ou en Angleterre je sais pas Marie Miller et en fait de voir les mêmes hats mais sur une autre page. Parce que vous allez avoir d'autres CTR, vous allez avoir d'autres résultats. Clairement parce que la page les gens voient la page. Quand on voit une pub, on voit le nom de la personne. La photo ou le nom de la personne impactent les résultats.
+
+[21:09] Ce qui est très intéressant à faire en remarketing c'est de faire avec pas mal de pages différents. Comme ça les gens voient partout votre produit sous différentes personnes puis ils disent ok c'est viral tout le monde parle et ça impacte vraiment le compte. Les grosses prennent le fond. Tout ce qui est testimonial UGC ça va venir être mis ici. Unboxing aussi. Carousel de winning hats.
+
+[21:31] Donc simplement si vous prenez un hack, c'est que vous prenez vos winning hats et vous faites plusieurs carousels. C'est à dire le mot carousel avec vos statiques de winning hats. Ça marche très bien. Le before after si vous avez un produit de le mettre en carousel aussi ça marche très très bien. Et de mettre votre...
+
+[21:52] Winning hats mettre avec un autre UGC peut être un UGC plus adapté au produit sans parler du problème. C'est à dire focus produit c'est à dire les gens qui connaissent déjà votre produit et là ils voient quelqu'un qui ouvre votre produit et qu'il y a une forte émotion. Il va dire ok peut-être le produit est quand même pas si mal. Mashup
+
+[22:14] de plusieurs personnes. Ça ça cartonne aussi donc vous allez venir prendre plusieurs avatars, plusieurs UGC créateurs qui va venir parler de votre produit et vous allez faire une hat. Ça ça marche très très bien. Des statiques en testimonial aussi des vidéos qui répondent aux objections plus ça mène des profs qui va venir des études ou la journée du client
+
+[22:36] comment ça va se passer. Ça marche très très bien au final c'est dit peut-être. Je vous ai mis des ad-copies aussi qui marchent bien. 5 raisons Y 5, 6 raisons Y ça ça marche très très bien. Et là vous allez pouvoir mettre peut-être des arguments supplémentaires que ce que vous montrez en topo funnels ou différents. Les testimonials ça marche aussi très très bien. Plus de trust
+
+[22:58] Vous êtes nouveau dans ces t-shirts en bamboo à experimenter cette brand et considéré comme la plus confortable et évoluée top t-shirt ça offre ça ça ça ça c'est en gros mettre plus de trust ça marche aussi bien. Ce que je conseille c'est de faire plusieurs ad-copies, 3 ad-copies comme ceci de tester, voir ceux qui marchent le mieux
+
+[23:20] puis ensuite mettre 2 ad-copies par ads Headline par des autorités ça marche bien la profession de valeur ou money back ça marche très très bien surtout aux us en France aussi c'est-à-dire si on revient en t-shirt je sais pas comment on pourrait tourner ça
+
+[23:42] pour cacher le ventre mais un meilleur physique ou vous êtes remboursé instantané je sais pas de mettre aussi ceci à prouve ça marche bien et en ad-set 2 donc tout ce qui va être plus chaud là juste une image ça suffit donc vraiment vous mettez une image
+
+[24:04] avec l'offre et de l'urgence ça fait le taf vraiment cassez vous pas la tête vous mettez votre proposition de valeur proposition de valeur ou vous êtes remboursé plus l'offre
+
+[24:26] de xx pour 100 se termine aujourd'hui vous mettez ça avec votre produit fond blanc titre noir texte en rouge ça va venir cartonner c'est garantie ensuite votre winning ads product aware c'est-à-dire vous allez venir prendre votre winning ads
+
+[24:48] et la tourner en product aware c'est que là vous allez venir par les queues de l'offre par exemple plus bottom of the net copy UGC testimonial mashup comme on a dit avant testimonial statics ou d'autres ads autre ads de middle of the net après vous laissez simplement metta trouver ce qui va venir me marcher
+
+[25:10] mais techniquement ici les images ça suffit très bien les gens connaissent déjà les gens ont déjà vu vos ads là et ils ont juste besoin d'avoir un rappel sur l'offre et de l'urgence etc donc ce qui marche très bien ici c'est ce simple proof copy de mettre plusieurs testimonials comme ceci donc vraiment vous pouvez copier coller et vous adapter à votre marque
+
+[25:32] ça cartonne les grosses braines le fond de mettre aussi ça si la personne est vieille si vous avez une autre vieille de mettre simplement vous êtes pas encore décidive vous avez des questions à plener nous à plener nous ça c'est aussi un glitch si vous avez produit i ticket si vous avez des personnes vieilles ça ça va vous ramener énormément de personnes urgence plus l'offre
+
+[25:54] ok seulement aujourd'hui l'offre 3 plus 3 3 plus 3 3 plus 3 à acheter 3 plus 3 pardon l'offre 3 acheter plus 3 offert et sur nos nicles et l'offre se termine rapidement ça permet de mettre l'urgence parce qu'il faut pas oublier c'est que les gens oublient
+
+[26:16] les gens ne pensent pas à votre marque les gens ont vu votre pub si vous avez fait une pub comme on l'a expliqué dans la partie créative si vous avez une application attache émotionnelle vous allez venir créer quelque chose si elle a personne si elle a pas acheté elle aura moins une empreinte émotionnelle elle se rappellera de votre produit et le fait de juste revoir le produit ah ok il y a 3 plus 3 aujourd'hui il faut que j'achète parce que votre personne
+
+[26:38] peut-être qu'elle n'avait même pas cliqué encore sur le site et là elle a cliqué elle a vu qu'elle offre c'est un moyen du rappeler qu'elle offre promo code aussi tout d'ailleurs unilier 50% sauver 15% plus avec le code ça peut être bien forgot to check out peut-être simplement elle a oublié de continuer
+
+[26:59] parce que clairement ici elle a ajouté au panier et elle a ajouté le panier ou est la initiate check out donc là je suis dit ok bah l'off se termine aujourd'hui il faut le faire maintenant sinon c'est trop tard et on a idline last chance ça marche bien voilà c'est la dernière chance pour obtenir l'offre 50% aujourd'hui on run il y a eu 300 000 vendus
+
+[27:21] free shipping plus 45 days monnaie bag guarantee ça peut être 90, ça peut être pas importe vous comprenez ensuite vous pouvez faire aussi les compagnes catalogue sale retard kiting donc ça c'est beaucoup de produits c'est conseillé sur une des google principalement c'est conseillé donc là simplement c'est le setup
+
+[27:43] je vais pas trop m'éparpiller mes parpires là dessus et win back aussi pour pour les acheteurs qu'on fait des nouveaux lancements etc je suis plus trop fan de ça parce qu'on peut faire tellement facilement par email que ça c'est vraiment bonus
+
+[28:04] ça dépend vraiment de votre brand mais je dirais non en moins que vous avez un client ça va rien vous coûter de leur contacter par email ensuite ici vous avez juste mis un rappel des règles pour prendre des décisions vous avez le document mais vous pouvez laisser spender la ov et si vraiment vous avez 0 à 2 cartes 0,1,7 checkout tournez off
+
+[28:26] c'est qu'il y a sûrement un problème si la spend la ov est qu'il n'y a pas de résultat il a d'autres règles basiques juste pour prendre des décisions et être plus ou moins juste je parle pas ici de soft scaling mais techniquement ça dépend des brands ça dépend des adacantes
+
+[28:48] vous pouvez aussi soft scaling mais ça en regardera dans la partie avancée c'est matéo j'espère que ça a été clair ça c'est technique la partie media buying il y a beaucoup de choses ça peut paraître très simple on dit on fait peu de compagnes mais je vais vous expliquer vraiment le fonctionnement
+
+[29:10] de pourquoi on le fait c'est important pour comprendre et s'adapter quand l'algorithme subdète c'était matéo
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 23 : 🆕 Scaler en 2026 sur Meta Ads - Partie 1
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 23
 ======================================================================
 
@@ -2969,16 +3639,80 @@ Le media buying n'est qu'un levier de pilotage, pas une solution miracle. Il ne 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Commence QLED avec meta en 2026. Je vais vous donner le bullet prints le même process qui est utilisée par des marques qui spend 1M day. Donc aujourd'hui je vais partager de la valeur comme vous n'avez jamais eu. C'est-à-dire vous allez détenir dans vos mains le même process que des marques qui spend 1M day, que des gars qui masterise meta. Ok, je vais vous donner les clés.
+
+[00:26] Et je vais vous donner comment les utiliser et comment être un top media-beilleur aussi. Donc ce document est juste un bullet point de l'état actuel du media-buy. Ok, pardonnez-moi, j'utilise whisper. Pour ceux qui savent pas whisper, c'est ça. Ça permet en fait de
+
+[00:50] dicter nos paroles. Et c'est ultra utile dans le quotidien. Si vous ne l'utilisez pas, utilisez whisper. Donc il y aura tous les process séparés dans des liens. Donc c'est-à-dire vous aurez tous les process séparés dans des liens. Ça va juste vous donner la compréhension globale de la stratégie globale. Ensuite, il y aura des liens spécifiques avec des process spécifiques pour que vous puissiez appliquer
+
+[01:12] et même voir donner à vos équipes chaque process. Ok. Mais vous devez comprendre ceci. C'est pour ça que ça c'est vraiment important. Et ça complète tout ce que vous avez vu avant dans le school. Ok. C'est pas une update, c'est que ça complète. Parce qu'il n'y a rien qui obsolète. Mais là vous aurez des stratégies qui vont venir compléter. Ok.
+
+[01:34] Surtout comment passer de 0 à 10K, d'est, de 10K à 30K, d'est et de 30K à 100K et de 100K à plus de 300K. Ok. Donc ce que je veux vous dire, comme je l'ai dit, c'est une même strat utilisée par ceux qui spendent un MD. Là ce que vous pouvez voir, c'est un screenshot qui n'est pas notre compte, qui est un compte qui est un spy.
+
+[01:57] Et pour juste vous montrer que ce qu'on va vous montrer après, c'est exactement les mêmes stratégies. Ce n'est pas sortir de nos chapeaux, c'est les process qu'on utilise sur nos adacons. Et c'est les mêmes process qu'utilisent d'autres personnes dans leurs adacons. C'est les mêmes process qu'utilisent des gars qui font 30ème par mois et qui nous l'ont dit de vivre. Ok.
+
+[02:20] Là on a un petit screenshot sympa sur les last 30 days, 4 millions 250 de spend. Donc pour mettre les pendules à l'heure, on va parler en spend. On ne parle pas en chiffre d'affaires, on parle en spend. Ok. C'est une autre approche et c'est beaucoup plus précis de la réalité. Parce que ce qu'on veut c'est spend le plus possible. Ce n'est pas juste un revenu. Ce qu'on veut c'est spend.
+
+[02:41] Et si on spend et qu'on voit du revenu, ça vous fera beaucoup de profit. Ok. Donc là 4.2 millions c'est solide. Il n'y a pas qu'une seule campagne. Il y a plusieurs campagnes. Je vous montrerai ensuite. Il y a du testing, il y a du scaling, il y a du bit cap. Il y a des campagnes inflatèdes. C'est-à-dire que là on a 604 budget et il spend 100 cas. Ok. Et ce n'est pas 100 cas sur le jour.
+
+[03:04] Ça c'est un screenshot des last 30 days. C'est-à-dire qu'il spend une petite partie mais très profitable. On n'a pas l'IOS. On a le coup de vache à très profitable ici. Donc je ferme ça. Donc voilà. Vous comprenez que vraiment ce qu'on va vous donner c'est les strats utilisés par les plus gros.
+
+[03:30] Mais ce que vous décomprendrez d'abord avant que je vous explique tout ça, c'est que meta, ce n'est pas un silo. Meta c'est le spend qui doit faire générer le profit blended. Il y a de la grande personne qui dit OK, Airways break even, Airways break even. Comment je dois regarder ? D'ailleurs on va en parler après. Ce que vous allez comprendre surtout si vous allez à un gros niveau, on ne va pas squelé sur le Airways d'une campagne.
+
+[03:56] On ne va pas micro optimiser les campagnes ici. Nous ce qu'on veut surtout si vous avez une marque, c'est de regarder le profit blended. C'est-à-dire combien est-ce que votre écosystème génère de l'argent. Meta, même avec Airways qui n'est pas profitable ici, peut alimenter vos compagnes Google, vos backend en termes de d'e-mail marketing,
+
+[04:19] votre Amazon si vous avez des Amazon en place ou d'autres canaux. Donc en fait Meta c'est la plateforme numéro 1 qui alémente tout le reste. Et ce que vous devez bien comprendre c'est qu'on ne regarde pas juste les Airways ici. Nous ce qu'on veut c'est spend un maximum pour avoir le maximum de profit. Donc c'est vraiment un autre état d'esprit qu'il faut changer. Donc on ne scale pas sur l'Airways d'une campagne, on va aller se squeler sur le profit total.
+
+[04:42] Le Airways Meta est gonflé. Souvent il est gonflé et si tu lis le vrai résultat, c'est là que tu vas voir les vrais infos en disant le profit blended. Parce qu'il y a trop de personnes qui ne sont pas... Oui mais est-ce que c'est vraiment le moins Airways ou pas ? Au final tant que tu as du profit et que tu as augmenté ton spend et que tu fais plus de profit,
+
+[05:03] c'est que tu es plus ou moins bien. Ensuite après je vais vous montrer qu'on ne vous a pas optimisé avec les fenêtres d'attribution. Donc vous vous regardez c'est ça. Ok ? C'est un skinshot. C'est votre profit. Ok votre profit grandit oui ou non. Ça veut dire que votre écosystème marche.
+
+[05:24] C'est pas le Airways, c'est pas de targeter 3.5 Airways, c'est faire plus en plus de profit. Ok ? Donc post-endromeda, la craif et le targeting je vous rappelle. Le volume et la diversité créatifs font ce qui est pas le réglage d'audience. C'est juste un rappel. C'est vraiment ça qui va faire foie. Rappel encore une fois, le media buying ne marche que si Creative Winners et Offre Finale valider.
+
+[05:51] Là toutes les techniques que je vous partage, je sais que c'est sexy, media buying, je sais que les gens à dans media buying, la vérité c'est que le media buying ne marche pas si vous n'avez pas une Offre valider, une audience valider, un langue valider et une ads winners. Si vous n'avez pas un funnel qui marche, ça sert à rien de faire du media buying. Donc si vous regardez ça en ce moment, avant ça il faut fixer vos bottlenecks.
+
+[06:13] C'est-à-dire le media buy va seulement marcher si vous avez un funnel qui marche. C'est-à-dire si vous avez déjà des ads winners et si vous avez déjà un funnel qui marche. C'est-à-dire que vous arrivez à générer du profit ou du moins vous arrivez à générer des chiffres d'affaires. Si seulement vous arrivez à générer du chiffre d'affaires, c'est-à-dire que vous avez ça qui est aligné,
+
+[06:34] vous avez trouvé une audience qui est bonne, un angle qui est bon avec des ads qui sont bonnes, sur une offre qui est validée, là seulement vous pouvez vous focus sur le media buying. Sinon le media buying, ça va juste en fait vous sauver quelques pépettes. Mais ça va pas vous permettre de scale. Mais par contre si vous avez tout qui est aligné, là ça peut permettre,
+
+[06:55] ça peut vous permettre de passer de decay à deux spend à 100K deux spend. Mais il faut voir tout ça valider et c'est tout ça qui va augmenter. Le media buy c'est juste en fait une manière de piloter ceci. Si vous êtes une marque, ça ça rappelle, ok, si vous êtes une marque, l'économie qui débloque le scaling, ça va être, c'est juste un reminder,
+
+[07:18] mais le vrai plafond du scaling n'est pas le budget, c'est le cac à l'alliance. C'est-à-dire combien tu peux, tu permets de payer un client. Tu ne peux jamais, ou de structure, un problème de marge. Donc là je vous disais c'est un problème d'offre, mais si vous êtes une marque, important, votre levier ça va être de monter le cac, c'est pas de le baisser. Il y a trop de personnes, surtout de gourou, à la terme des agences media buying,
+
+[07:41] ok, ou des âges de créatres, on va vous faire baisser le cac. Et elles n'arrivent pas vraiment parce que si vous avez une marque, le cac va augmenter année après année, ça c'est un mauvais nouvel. La bonne nouvelle c'est que vous avez un levier plus vous grandissez en tant que marque pour simplement augmenter la ov et augmenter votre cac. Le cac pour rappel c'est le coût d'acquisition.
+
+[08:02] C'est-à-dire que si vous commencez votre marque, vous avez un coût d'acquisition à 25, et attendez-vous que deux années plus tard, il sera certainement à 28, 30, voire plus. Et c'est normal. Et vous, ce que vous devez faire c'est pas vous battre là-dedans, c'est simplement pouvoir l'augmenter. C'est-à-dire avec des meilleures LTV, des meilleures marges,
+
+[08:23] une meilleure A ou V, et ça, quand vous êtes une marque, c'est simple à faire. Ok, c'est juste un rappel. Donc le résultat, ton cac tolérable passe de 15$, 15 à 20$ en France, à 40 à 50. Plus vous pouvez vous permettre d'acquier des clients pour plus cher, plus vous allez pouvoir débloquer du spend et plus vous allez pouvoir outskill
+
+[08:44] vos compétiteurs. Là, vous aurez les docks qu'on va joindre. Comme ça, ça sera un rappel. Et après, vous aurez tous les docks dans un notion avec les process. Donc maintenant, résumez, pallier 0 à 10KD par jour. Quel est votre focus ? Ça, ça va être très important parce qu'il y a beaucoup de personnes qui font des choses qui ne sont pas dans son focus,
+
+[09:06] sur 0 à 10KD. Donc ça va faire une picure de rappel. Donc le focus, c'est de trouver des premières ades winner. Créat plus offre valider. Si tu as des créas winneuses et que ça ne convertit pas, il faut revoir l'offre. Si tu as une offre et des créas winneuses, ça sera peut-être un problème sur ton funèle.
+
+[09:27] Donc en régénéral, on fait du copy meaning, c'est-à-dire qu'on s'inspire des ades winneurs, des concurrents. Là, on ne va pas venir réinnover parce qu'on n'a pas beaucoup de budget de spend. Budget de spend, c'est quoi ? C'est que le budget de testing, c'est-à-dire que quand vous êtes à 10KD de spend, ok, vous êtes 10KD de spend, là je parle en chiffre d'affaires,
+
+[09:49] mais si vous êtes à 10KD de spend, vous aurez 20 à 30% comme je vais vous le dire après, de budget en testing. C'est-à-dire que vous pouvez évaluer 2 à 3K par jour, 2K c'est bien, de test. C'est que là, vous n'avez pas à retester de votre truc moins sûr, etc. Mais quand vous n'êtes pas là, vous avez 100% de votre budget en testing.
+
+[10:10] Vous êtes à 0, 100% de votre budget en testing. Ça veut dire si vous mettez 500$, 500$, c'est des tests. Donc pour réduire les chances que un test foire, il va falloir simplement prendre des choses qui sont prouvées. On veut minimiser le risque d'erreur.
+
+[10:31] Pour maximiser les chances de réussite, on va prendre des concepts qui marchent. On va prendre simplement des ads qui marchent, on va recopier leurs scripts, on va les adapter à notre produit et on va venir mettre nos footages. C'est ça qu'on fait. Surtout maintenant avec l'IA, c'est très simple. L'offre doit être une offre prouvée. On va venir aussi prendre une offre prouvée.
+
+[10:52] On ne va pas inventer un prix. On va prendre une offre qui est prouvée. Et seulement en faisant ça, après on pourra lire les résultats et voir peut-être où optimiser. Là, nous avons mis dans le module Analyse quelle métrique à analyser pour voir en fait où c'est qu'il y a un problème. En fonction de si votre conversion de rate est élevée
+
+[11:13] et vos CPCs faibles, on vous remettra le cadran. Je vous redonnerai le lien vers le cadran. Voir le cadran. Je vais vous le montrer juste maintenant. Là, on avait donné ce cadran. En gros, si vous avez vos conversions de rate élevées
+
+[11:33] et ces PC élevées, là, il faut tout corriger. Si vous avez vos conversions de rate élevées et ces PC faibles, là, il faut corriger la conversion. C'est-à-dire qu'il y a un bon trafic, mais il y a un problème sur le funèl. Donc là, il doit y avoir un problème sur le funèl. Mais je vous invite à revoir cette vidéo et revoir ce document si vous avez ce type de problème.
+
+[11:55] C'est juste pour rappeler en fait où vous trouvez l'info.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 24 : 🆕 Scaler en 2026 sur Meta Ads - Partie 2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 24
 ======================================================================
 
@@ -3090,16 +3824,230 @@ Au-delà de la technique, le message clé est le suivant : scaler n'est jamais l
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc concrètement, ce que vous avez fait, c'est aller sur train track, at-spy, brain search, prendre des ads qui marchent pour votre compétiteur et répliquer ces ads-là avec différents hooks, les mêmes hooks, mais avec tous vos footage, de reprendre un esthatique et de
+
+[00:22] relancer ça dans une cibo principalement. Là, on va être sur une cibo principal pour éviter de gaspiller du spend en testing. Là, ce qu'on veut, c'est meta va trouver où ça doit spend et meta va spend où ça doit spend. Donc, l'offre doit être validée, voir le cadran, valider tes chiffres vraiment de ce qu'elle est. C'est-à-dire que tu vas connaître ton airose break even, ça marche.
+
+[00:44] Si tu es parentable, on se calme pas. On fixe l'offre, la création, l'ALP. Donc, ça, c'est très important. C'est une erreur que je vois trop souvent. C'est qu'en fait, il y a des personnes qui ne savent pas vraiment le airose break even, combien ils ont besoin de marche pour faire tourner le business, ça on vous l'expliquera après comment. Et en fait, ils vont venir cramer du budget, cramer de la profitabilité, sans
+
+[01:05] connaître ceci. Donc là, ça, on est d'accord que vous connaissez. Vous savez, Day 1, vous lancez un 500 dollars. Day 2, vous faites un CAD. Vous savez que vous avez, je ne sais pas, 200 dollars, 200 euros de bénéfices. Ça, il faut le savoir, il faut être sûr. Parce que là, ce que je vous ai apprêté à vous donner, ça peut vous faire passer
+
+[01:26] très vite de là à là, de là à là. Mais si vous avez des problèmes, vous savez pas où on vous marge, eh bien, vous allez pouvoir en fait manquer pas mal d'argent. Ok ? C'est juste un rappel. Ensuite, dès qu'on a 2 à 5 cas de spend, ok, ce n'est pas un chiffre définitif, ce n'est pas 2, ce n'est pas 5. Ça dépend de vous. Ça dépend de vos capacités de créage.
+
+[01:47] Mais dès qu'on est à environ à 2 à 5 cas d'e de spend, là ce qu'on va faire, c'est qu'on va venir mettre 20 à 30% du budget en testing. C'est-à-dire qu'on va lancer un nabio testing et on va venir simplement lancer des ad-sets par concept. Donc, je vous ferai une explication, mais ad-sets par concept. Donc, vous aurez les process détaillés.
+
+[02:08] Ça, c'est juste une overview de la stratégie. Ad-sets par concept, vous aurez entre trois et c'est créatif. Ok ? C'est-à-dire que vous en avez un JECI 1 avec hook 1, hook 2, hook 3, hook 4, hook 5. Là, le but, c'est en fait de venir injecter ici seulement des ad-sets qui ont du potentiel. Pourquoi ? Parce qu'une CBO, si vous l'alimenter en trop d'ad-sets,
+
+[02:31] elle peut perdre son efficacité si elle a trop de ad-sets et ça peut perdre en termes de rentabilité. Parce que Meta va analyser, va essayer de combiner des ad-sets ensemble. Et si vous avez du bon capacité de créat, ça va être contre-productif de 3 injectés ici. Maintenant, il y a 2 cas de figure. Vous êtes à 2 cas de spend, ok ?
+
+[02:53] Et votre iOS commence à jeter. Là, ce que je vous conseille, c'est d'injecter directement des choses que vous êtes sûrs dans la CBO. Si vous avez du bon iOS et que vous les continuez à alimenter, la testante de la BIO. Mais quoi qu'il en soit, si vous vous apprêtez à tester un bon volume de créatif, d'à 2 à 5 cas de spend, il va falloir créer la BIO testing, ok ? Ça, ça va vous faire monter 0 à 10 kD.
+
+[03:15] C'est juste le focus. Le reste, bitcap, etc., ça sert à rien. Bah, c'est pas le focus. C'est pas le focus, c'est pas le 20 du 80. Là, c'est d'avoir plus d'ad-swinners, plus d'ad-swinners, d'améliorer l'offre, d'améliorer la LP, etc. Ok ? C'est ça votre focus. Ensuite, pas les deux, 10 à 30 kD par jour. Là, on va se rapprocher.
+
+[03:36] On va faire un bon de 300 cas par mois à 1 million par mois, concrètement. Je n'aurais dû mettre 33. Ça, ça fait 1 million, allez 35. Là, le bon entre ça et ça, c'est simplement d'industrialiser le testing de créatif. Là, ce qu'on veut, c'est faire plus de ce qui marche bien et mieux.
+
+[03:57] Donc là, on va faire plus de volume d'angle chaque semaine. Donc plus de volume d'angle chaque semaine, plus de volume d'angle chaque semaine. Pourquoi j'ai mis ça ? Qu'est-ce que j'ai voulu dire ? Plus de volume d'angle chaque semaine. Ouais, en gros, je sais ce que j'ai voulu dire, je vais se corriger. Ok, en fait, je voulais simplement mettre de tester plusieurs angles différents.
+
+[04:19] Et ensuite, les étirer, ça, c'est dessous. Donc, tester plusieurs angles différents parce que vous êtes un angle banger, un angle qui peut vous faire passer de ça à ça. Ok ? Parce que là, ce n'est pas sûr que ça soit votre angle banger. C'est-à-dire qu'il va falloir tester différents angles pour tirouer différentes poches de chance dans lesquelles vous allez pouvoir scaler.
+
+[04:40] Je me spète mes lunettes. Comment ça va être tard ? Je ne me juge pas pour le style. C'est pour le sommeil. Donc là, ensuite, vous allez venir yterrer ce qui marche. C'est-à-dire que là, c'est bien beau de faire des nouveaux tests, mais on va venir aussi yterrer ce qui marche. On va venir analyser les patterns, etc. Donc là, je ne donne pas un cours de créativ. Je veux juste rappel sur qu'est-ce qu'il est important pour vous rester fixé sur les rails à suivre.
+
+[05:06] Donc vos skip-winners, vous allez faire de nouveaux concepts. Vous allez essayer de les battre parce que un skip-win qui est un winner ici, si vous l'améliorer, il peut venir banger ici. Et nous, tous nos stats banger ont suivi ce cheminement. C'est-à-dire que ça n'a jamais été une stats banger d'entrée. C'était une stats winner qui se pendait bien. Et on a fait un nouveau concept.
+
+[05:28] Par exemple, là, notre dernière stats banger qui a spent 500K depuis le mois de mai, avril, plus de 500K, c'était un script qu'on a ramellioré légèrement. C'est-à-dire que c'est moi qui l'a amélioré. Et on a testé un nouveau concept, c'est-à-dire avec des nouveaux footage. En fait, la même voix off et ça a cartonné.
+
+[05:52] Et c'est cela, on a spent 500K. Alors que la première, on avait peut-être spent, je ne sais pas, 20K, même moins, peut-être bien moins en fait, je crois 5K. Donc il va falloir yterrer. Ne laissez pas sur la route ce qui marche. On yterre. On yterre un new angle aussi. C'est-à-dire qu'on peut prendre un script winner et le même script on yterre un new angle. On peut yterrer des messages winner en nouveau concept.
+
+[06:15] Et mettre en place du volume statique. Ça, maintenant, c'est très simple. Mettre en place du volume statique. Ok, c'est très, très simple de faire du copy meaning, de mettre du volume statique. C'est très simple. Donc là, on industrialise le testing de creative. On sépare proprement Abio et ScalingCivio. Et on peut commencer à introduire des stratégies de BitCAP. On peut. Ce n'est pas obligatoire, mais on peut.
+
+[06:37] Je vous donne des stratégies de... C'est mec-là, ici, pour passer de 0, de 10 à 100KD. Ok. Il faut démarrer le whitelisting et partnership. Là, ça devient obligatoire avec les créateurs des ads gagnants. Ok. Ce qu'on va faire, et à nouveau, on vous donnera le process.
+
+[06:59] Mais concrètement, vous allez venir trouver des créateurs, mettre vos ads minus qui fitent et lancer ces ads-là avec les créateurs. Pourquoi ? Parce que le whitelisting et le partnership, ça permet de montrer la même ad à différentes personnes. C'est-à-dire que vous avez votre ad qui est avec votre page.
+
+[07:20] Vous faites une ad en whitelisting. La personne peut voir les deux ads. Parce que c'est différent et vous avez touché d'autres postes d'audience. Et en faisant ça, vous allez avoir des héros est totalement différents. Nous, on a lancé les mémas avec différents créateurs et avec notre brand page. Et on a eu une banger ad, ce qui est sorti avec certains whitelisters.
+
+[07:40] Et pas du tout winner avec notre brand page. Donc là, ça va être très important de mettre ça en place. Parce que par la suite, c'est de la représentée à peu de 30% de votre spend. Whitelisting partnership. C'est un boost en métal qu'il faut utiliser. Vous allez expecter plus 20% minimum en faisant ça.
+
+[08:03] Minimum, c'est le minimum minimum que vous allez accepter. Donc la structure, à ce stade-là, on a un CBO principal. Ok, on a bio testing, donc CBO master, qu'on appelle bio testing. Vous aurez une CBO zombie, Coscap. Ok. Donc simplement, vos ads ici qui spendent trop ou qui sont plus profitables,
+
+[08:26] on les met ici pour que là, on maintienne un beau AirOS propre. Et là, on va mettre toutes les ads qui ont spend et qui ne sont plus vraiment winner, qui sont peut-être essoufflés. À certaines conditions, mais à nouveau, vous aurez le process. On peut start une campagne CBO beatcap infelett. Donc là, simplement, vous allez prendre vos meilleures ads ici.
+
+[08:46] Et vous allez les isoler dans une campagne CBO beatcap ou Coscap ou les deux. Nous, on fait les deux. Et là, il faut 3 bonnes ads. Ok, minimum. Si minimum plus 3 bonnes ads. Et là, on va faire des compagnes, je vous expliquerai comment. Et ça peut vous débloquer beaucoup de spend ici. CBO interaction facultatif de faire une CBO, c'est que vous mettez vos winning ads
+
+[09:12] en interaction pour simplement augmenter le social proof. Ça fait baisser les CPM et c'est sympa. Mais ce n'est pas le 20-80. Ensuite, palier 35 à 100 KD. Ce palier là, il n'est pas si compliqué. Là, simplement, il va rajouter de la diversité créative. C'est-à-dire que là, vous aurez plein de trucs qui marchent.
+
+[09:32] Il va falloir diversifier correctement. Diversifier, comme je vous expliquais avant, avec une bonne diversité psychologique. La beatcap, la méthode beatcap infelett sur les top 8-ner, il va falloir bien regarder l'attribution. On est sur de 7 day clicks sur les campagnes scanning. On mesure avec triple whale et on prend l'addition OMR au profit, pas à wireless meta.
+
+[09:55] Là, on va regarder l'entier du funèle parce que là, on touche beaucoup de clients et c'est le profit qui compte. Et ce qu'on veut, c'est sur le long terme, descendre le OMR. Si vous êtes une brène, il va falloir alimenter ce trafic qu'on paye avec meta. On prend l'endu Amazon en mettant du Google, email, etc. Mais là, on doit le mettre au plus vite possible. Mais on va piloter l'entreprise au profit.
+
+[10:16] Diversité psychologique, on va venir surveiller le CPMR. Si il monte, on ne va pas squeller. C'est un signal qu'on est en train de saturer une audience. En gros, le CPMR, c'est quoi ? Les CPMs font la fréquence. Et c'est un indicateur de nos résultats futurs. En fait, si le CPMR monte, ça veut dire qu'on est en train de toucher la même audience.
+
+[10:38] Et que ça nous coûte de plus en plus cher pour en fait saturer une audience. C'est-à-dire qu'on n'a pas de diversité créative. Et qu'on est en train de simplement retoucher les mêmes personnes et qui sont en train d'être fatigués. Si le CPMR descend, c'est un signal qu'on est en train de toucher de nouvelles personnes. Donc c'est bien, ça nous indique que souvent, les résultats vont aller mieux.
+
+[10:59] Et que c'est un bon indicateur pour ce qu'elle est. Et là, White Listing Partnership à fond. Et la structure, c'est à peu près la même que ici. C'est quasiment la même, sauf que là, je conseille vraiment Bitcap. Pour passer ce palier à là, là. Vous pouvez être là, c'est un Bitcap et une semaine plus tard, arrête là. Et je parle pas de surfskilling, ok?
+
+[11:20] Là, je parle de résultats stables. Faire 100 KD et faire un screenshot, mettre sur Twitter, c'est simple. On surfskill. Honnêtement, c'est simple. On va vous donner aussi des techniques surfskill, comment on surfskill proprement, mais là, on vous parle de résultats stables. Ensuite, palier de 100 à 300 KD, là, c'est plus technique. Je serai peu à le faire, mais vous en seriez quand même quelques-uns,
+
+[11:44] du moins à l'heure que je trouve ces vidéos. Il y a quelques gars qui sont dans cette phase-là. Donc, c'est-à-dire là, et qui veulent faire ça. Donc là, ce que vous devez faire, c'est s'augmenter. Donc là, on va venir s'augmenter, cibio, par collection, par avatar, par géographie. C'est-à-dire, si on a plusieurs pays, on va essayer d'avoir des campagnes par pays, ok?
+
+[12:05] On veut s'augmenter un maximum. Pour contrôler un maximum, beatcap a flatté de multi-régions, multi-audience. C'est-à-dire que là, l'habitèque qu'on avait sur les US, on va essayer d'avoir la même sur les UK, etc. On va essayer de répliquer ce qui marche ici, simplement sur d'autres audiences. Par contre, si vous étiez en worldwide
+
+[12:28] et que vous testez les campagnes séparées par pays, que ça marche moins bien, il va falloir s'adapter. Il ne faut pas s'augmenter pour s'augmenter. Chaque compte réagit différemment, ok? Je le répéterai toujours, chaque compte réagit différemment. Là, on vous donne un guide-line, vous donne ce qui marche ici, mais ça se peut que sur certains comptes, ça ne marche pas pareil.
+
+[12:49] Il va falloir s'adapter. Donc là, multi-canals obligés, Apple, Vine, TikTok, Google, on veut chercher plus d'incrimentalité, toucher plus de nouveaux clients pour alimenter ceci. RefreshKra, donc là, les KRA, vous aurez non plus un bon système. Ça va être surtout du refreshKra, d'optimiser, optimiser en fait, toutes les...
+
+[13:13] la diversité, comme je vous le montrais après. La diversité est très bonne en marketing. Meilleur mécanisme, meilleure compréhension du désir en fait,
+
+[13:38] du désir et de l'avatar. Là, vous serez sur des choses plus poussées au niveau copérating. Et vous avez piloté au Blend de MIR, profit total, je mets ORS, encore une fois. Donc là, la structure, on aura simplement des CEO s'augmenter plus par région,
+
+[13:58] comme d'habitude, les mêmes campagnes Kavo, pardon, j'oublie l'ABO, boom, ça sera plus sur du 20%, même moins, ça sera peut-être même moins. WiteListin en masse, là, à ce stade là, avec les top créateurs,
+
+[14:20] simplement ce qu'on veut, c'est que eux produisent leurs propres contenus et ça va alimenter fortement le compte. L'incrimentalité sera très importante, à ce stade là, on va regarder beaucoup l'incrimentalité, parce qu'on peut vite se tuer un scale et on ne targette pas de nouveaux customers. Donc là, j'ai hold out total impact. On veut vraiment valider chaque canal.
+
+[14:44] Chaque canal, on veut vraiment que ça recherche l'incrimentalité. Donc là, je conseille d'utiliser des tools vraiment triple-wale payants avec la triple attribution, de vraiment suivre de près, comment ça nous coûte d'acquérir les nouveaux customers, du customer, si piez,
+
+[15:07] pour être sûr qu'on a un funnel qui est sain. Et pour passer de ça, ça, ce n'est pas si compliqué. C'est juste une question d'augmentation du budget, ça va très vite. Donc là, le media buying est important. Là, le media buying est très important, parce qu'on a déjà un système qui marche et il va falloir juste faire un peu mieux pour augmenter le spend.
+
+[15:28] Ok, comment fixer ta cible ? Tarjet, CPA, Airways, Break-Event. Il y a un doc qui aura un doc précis. Parce que c'est un point vraiment important, on prend donc compte. Mais en gros, tu vas avoir un Airways Break-Event qui va venir varier selon ton spend, selon tes charges. En gros, tu n'auras pas un Airways Break-Event à 1.5 et ça va être fixe.
+
+[15:49] Tu n'auras un Airways qui sera peut-être à 2, si tu spend 20 km le mois ou à 1.5 si tu spend 500 km le mois. Ça va dépendre de beaucoup de facteurs et on va voir ça ici. Ok, c'est très important, parce que tu vas pouvoir vraiment être sûr de faire de l'argent. Ensuite, les règles de décision quotidienne, chaque jour entre minuit et une heure du matin,
+
+[16:11] c'est très important, parce que c'est là que la data est stabilisée. C'est là que Meta veut que tu lui indiques si c'était bien ou c'était pas bien. C'est ce moment-là, c'est ce fenêtre-là que Meta va pouvoir apprendre. Ok, très important. Si tu ne veux pas attendre ce temps-là, tu peux simplement setup des règles automatiques. Je le montrerai à nouveau comment.
+
+[16:32] Donc les conditions, basiquement, on regarde les 2 dernières jours plus hier. Ce derrière, plus avant-hier, en gros, c'était rentable 11 km. Si c'est vraiment instable, on peut attendre les 3 derniers jours. À nouveau, on mettra décision Making. Et en gros, si on en perte, on va venir désesqueler de 15%
+
+[16:54] après 2 jours consécutifs. Donc il n'y a pas de spain, un jour en rouge, on descend. C'est la meilleure manière de faire du yo-yo. Il y a 2 jours consécutifs, on va venir désesqueler un petit peu. On va venir dire à Meta, et là je ne suis pas content. Et là, Meta peut reverser. Si on a une marge en 0,10%,
+
+[17:15] on ne peut rien faire stabiliser. Ça dépend de nouveau du spend. Si vous êtes à 504 de spend, 10% c'est... je vais vous montrer quand même un peu. Entre 10 et 15%, on l'a augmenté un petit peu. Et si vous êtes dans la bonne marge que vous voulez, 20 à 30%. Et si vous êtes bien au-dessus, vous pouvez doubler le spend. Si vous avez des fantastiques Airways, vous pouvez doubler le spend. Ça, c'est des atitres indicateurs.
+
+[17:36] Il faut être plus ou moins proche, mais si vous avez un Airways Breakerven que vous tariez à 1.3, et que vous avez 3 de Airways, moi je double le budget. Et si l'an-demain, c'est encore bien, je double le budget. Et tant que c'est bien, je double. Ok? Et si vous semblez avoir touché un plafond, parce qu'il y a toujours des plafonds par campagne, le hack, ok,
+
+[17:57] ça, personne ne le donne, c'est vraiment un gros hack, c'est d'augmenter le budget doucement, de 100$ à 250$. Ok? Admettons que vous êtes en 3 et 5K. Souvent, il y a des plafonds pour beaucoup de campagne entre ces budgets-là. Simplement, le hack, c'est d'augmenter gentiment de 100$ à 250$. Une à deux fois par jour, voire plus,
+
+[18:18] juste pour passer ce plafond gentiment. Métal va vous donner, en fait, la bonne audience un petit peu, mais quand vous vous augmentez trop, souvent Métal, ce stat de la, il va vous dire, vous donnez un peu du chiffre trafic. C'est pas tout le temps, mais si vous arrivez et vous atteignez un plafond, il y a cette technique-là. Quand c'est qu'on crée une nouvelle CBO, ne vous produit une nouvelle offre prix différent ou nouvelle Landig audience.
+
+[18:40] Ok? Vous avez une audience un avatar totalement différent. Vous pouvez tester dans une nouvelle CBO Master. Ok? Rappel, le moteur du testing, ce qui augmente le scaling, c'est un flux constant de nouveaux winners. Ça, je supprime, ça, c'est plus une métrique importante. Il n'y a plus un nombre
+
+[19:01] de tech créatives à tester. C'est simplement, il faut alimenter votre campagne et avoir une diversité de créatives pour avoir un CPMR qui descend. L'objectif, c'est de trouver des banger hats. Vous pouvez très bien tester
+
+[19:22] 50 hats le mois et trouver 2 banger hats et faire beaucoup plus de spend que le gars qui est en test 500. C'est pour ça que je ne mets plus un chiffre de volume, c'est toujours important. Ce qu'il faut, c'est que simplement, si, à l'heure actuelle, vous n'avez pas à squelter, c'est-à-dire qu'il vous manque des nouvelles hats winners. Ce n'est pas en faisant un énorme volume
+
+[19:43] que ça peut fixer. Si vous faites un énorme volume, ça peut faire monter, diminuer votre indice de diversité en prenant meta. Et vous allez voir un CPMR qui monte. Ce qu'il faut, c'est vraiment avoir un volume intelligent. Et maintenant, si vous avez un volume intelligent, que faites des bonnes créatives, vous vous aplenez des winners.
+
+[20:04] Vous allez de la bonne qualité. Là, une fois que vous avez de la bonne qualité, vous avez pour augmenter la quantité. Ok ? Mais, basiquement, pour n'importe quel compte, quand vous augmentez la qualité ou la quantité, ça va vous donner plus de spades. C'est simple. C'est une formule. Donc là, à l'heure actuelle, sur votre compte,
+
+[20:25] revoyez votre qualité et ensuite, augmentez la quantité. Ok ? Vous testez sans statique, testez en 200. Mais d'abord, revoyez la qualité. Ok ? C'est pour ça que je ne vous ai pas mis de volume parce que trop de personnes, ok, ils augmentent le volume sans prendre en compte la qualité. La diversité de Flywheel. Ok ? Ça, c'est la formulation dont je n'ai donné que dans le Mastermind. C'est très, très important à comprendre.
+
+[20:47] Pour augmenter la diversité créative, il suffit juste d'augmenter des parties de cette équation. En gros, une créative winner, c'est quoi ? C'est un message, qui est un angle, c'est-à-dire. Fini, finis les pots volcaniques, ok, pour parler à ce compte de la CNÉ.
+
+[21:09] Un avatar précis, un stage d'avoirness, ok, ça, ça va ensemble. C'est-à-dire, vous allez venir parler à un avatar, ok, une fille qui est anxieuse parce que elle a de la CNÉ et qui connaît déjà les solutions en triacné, qu'elle a testé les solutions en triacné. C'est pas du tout la même personne
+
+[21:30] si c'est quelqu'un qui ne connaît pas du tout ces solutions-là, ok ? Un concept, c'est comment vous allez venir emballer la créative. Donc là, ça va être, ce que vous pouvez dire, un mini vaisselle. Et la cohérence index, ça, c'est comment est-ce que l'ensemble des choses sont cohérentes pour atteindre la personne ?
+
+[21:52] C'est très simple. Vous avez un produit par exemple, c'est que la personne, ok, si on reprend l'exemple de la CNÉ, elle est consciente en fait de tous les produits qui existent contre la CNÉ et vous, vous allez lui parler directement de votre produit.
+
+[22:15] En fait, elle a besoin déjà de voir que les autres solutions qu'elle pensait bien ne sont pas les bons, ok ? C'est ça une cohérence index. Toutes ces formules-là sont en cohérence. Je vous explique juste après. Donc l'avatar complet, décision segment, identité, stage à Warnes, à partir des ADS-Skispen, on va venir itérer.
+
+[22:36] Donc là, quand vous êtes des ADS-Skispen, vous allez venir décortiquer ici et vous allez venir prendre un truc échangé. C'est-à-dire vous prenez, regardez tout ça, votre script tout, tout, tout, tout, et vous allez venir faire un nouveau concept. Ou vous allez venir garder votre concept-là de vaisselle qui marche, par exemple, de mini vaisselle, mais vous allez venir tester l'avatar sur un autre stage d'Awarnes, ok ? Là, ça va être plus de Julie qui connaît les solutions.
+
+[22:59] C'est Julie qui a décidé à acheter et là, le script qui va un peu changer pour maintenir une cohérence index élevée par rapport à ça, ok ? C'est un peu plus poussé. On verra ça dans les créatifs pour ce qui va aller plus loin, mais c'est vraiment important à comprendre maintenant. Donc l'angle, même angle nouveau concept, avatar, etc. Le concept, même concept nouveau angle avatar, etc. Le visuel, ça peut changer.
+
+[23:21] Ça peut changer aussi le setting, simplement de changer haute-de-or, salon, salle, etc. T-shirt rouge, c'est un hack qu'on avait donné. De mettre du T-shirt rouge sur la personne, ça augmente le résultat de l'ad. On testait le, vous allez me remercier plus tard. Ensuite, les leviers de diversité, donc format vidéo en statique. Vous pouvez convertir une vidéo en statique,
+
+[23:42] c'est très simple. Vous reprenez le hook qui marche bien, vous le mettez en deadline, tout simplement. Véicule donc changer concept, changer le persona, changer le setting à nouveau. Je vous ai mis simplement ici les différents astuces. Mais à nouveau, vous aurez ça dans le module créatif.
+
+[24:03] Donc la cohérence index, c'est quoi ? Je vous la réexplique ici. Ça mesure à quel point tous les éléments créatifs sont alignés pour amplifier le message, pour amplifier ce qu'on veut faire passer comme message. Exemple, cela n'est pas aligné au stage d'avoir né sous la sophistication de marché.
+
+[24:24] Une erreur très courante. Vous prenez un produit sur les US qui parle de chilagites. Vous faites exactement le même script. Et dans le script, dans l'Athe, la personne discrédite d'autres solutions qui sont propres aux US. Et vous avez copié, collé l'Athe,
+
+[24:45] vous avez mis les mêmes footages, et vous discréditez des produits que les gens ne connaissent pas en France, peut-être des injections qui sont utilisées aux États-Unis, mais que les Français ne connaissent pas. On a une cohérence index faible par rapport à la bataque que vous les touchez, parce que votre bataque est français. Il n'est pas américain. Donc, une cohérence index c'est quoi ? C'est, basiquement, vous allez venir comprendre votre bataque
+
+[25:06] et créer, et être sûr que ça, c'est aligné par rapport à lui. Par rapport à ses objets, par rapport à ce qui vit. Les footages sont bien des footages qui vont lui parler. Et pour ça, il faut vraiment connaître votre avatar. Ok ? C'est très, très important. Si votre avatar, c'est Julie, qui est une française, qui pour elle,
+
+[25:27] les solutions pour perdre du poids, c'est la salle de sport, les régimes, et que vous reprenez des States, c'est que les gens, ils prennent des sereins pour perdre du poids, ça ne va pas lui parler. Et vous allez dire, putain, j'ai copié avec cet ond la même ade. Là, je vous explique pourquoi. Coéérence index, ça va encore plus loin, et ça, c'est moi qui l'ai développé, cette formule. C'est moi qui l'ai développé pour finir et partager
+
+[25:49] à pas mal de créatifs stratégiques, etc. Donc c'est une formule vraiment qui est mathématique. Ok ? Ce n'est pas de la fantaisie, c'est mathématique. Et vous allez vite comprendre que c'est des maths, en fait, simplement. Donc, qu'est-ce que ça prend aussi en compte ? Ça prend en compte la cohérence du message avec la avatar à niveau d'un ond S, l'harmonie visuelle du texte.
+
+[26:10] C'est-à-dire vous allez beau avoir un bon script, etc. Si votre texte de votre visuel ne prouve pas ce que le texte dit, la cohérence d'index va baisser. Ça doit résonner avec l'état émotionnel de la avatar. Et le flow hypnotique psychologique séquence des bons éléments dans le bon ordre pour induire une décision d'achat.
+
+[26:31] Ok ? Ça prend en compte tout en compte les techniques psychologiques. C'est-à-dire qu'il va falloir avoir un bon hook, il va falloir en fait garder l'intention du long, et là on aura une cohérence d'index qui va être élevée. Pour garder l'intention tout du long et avoir un flow hypnotique, en gros, il faut captiver l'attention, avoir des patterns interruptes au départ, première forte, surprise visuelle,
+
+[26:52] maintenir l'attention, on peut re-hooker, remettre des hooks durant la vidéo. Le but c'est que la personne reste à regarder l'at sans s'en rendre compte et on crée un chemin à un conscience positif. Donc aucun élément égrittant, glitch audio, ton bizarre, on utilise des principes Disney que j'ai déjà expliqué de maintes et maintes fois de ne pas mettre d'angle, etc. On se utilise des émotions, on met des visages, etc.
+
+[27:13] Des visages qui sourient, c'est bien éclairé. Donc ça, il faut prendre en compte qu'on va analyser une ATS. Pourquoi je vous dis tout ça? Pourquoi je vais beaucoup plus loin que un apporteki? Parce que un apporteki va verrer une ATS et dire ok, cette maîtrique là n'est pas bonne, n'est pas bonne, n'est pas bonne. Et il va retester et il comprend pas ceci. Il comprend pas pourquoi c'est pas bonne. Alors qu'il peut avoir une très très bonne ATS
+
+[27:34] ok, qui a des bons éléments visuels mais que simplement ça ne fit pas par rapport au stage awareness. Ce que vous montrez, ça ne parle pas du tout par rapport au stage awareness. Donc la base, et je vais répéter toujours, c'est de connaître parfaitement votre avatar. Et quand vous connaissez parfaitement votre avatar, vous n'avez pas à comprendre ce qui cloche. Et ça, vous devez le comprendre,
+
+[27:55] passer à la base. Toutes vos ATS doivent avoir cette base-là de technicité de la T. C'est-à-dire que les visuels il faut que ça change de séquence toutes les 2-3 secondes. Il faut que ça soit agréable à voir, il faut que ça soit bien éclairé, il faut que des visages positifs, il ne faut pas avoir non plus trop de visages, il faut que ça soit agréable à lire, il faut que on voit bien le hook texte, le hook soit bon. Tout ça c'est la base.
+
+[28:16] Ok, c'est la base. Je vous apprends ça dans les modules, mais c'est la base à avoir. Et ensuite, c'est ça que vous voulez. Si vous voulez faire du haut niveau. Ensuite, sur les techniques de cadrage, donc, ce qu'on veut favoriser, c'est un plan moyen. C'est-à-dire, on veut voir Myquis, Tete et ça, un grand plan. C'est sur quoi on veut se focaliser. C'est-à-dire, on va avoir des choses peu près comme je suis là,
+
+[28:37] avec un petit espace ici. Ça c'est agréable. Là, c'est trop invasif. La caméra qui s'adapte, mais vous avez compris. Principalement, c'est pour vos acteurs, mais ça c'est la base. C'est juste un rappel. Si c'est tout près, c'est pas bon. C'est tout loin, c'est pas bon non plus. Ce qu'on veut, en fait, c'est comme si vous parlez un ami. Je vous rappelle,
+
+[28:58] c'est comme si vous parlez un ami. Vous avez qu'on prend parfaitement votre ami et vous savez qu'en fait, pour lui, par rapport à ce qu'il sait, la meilleure manière d'emballer le message, ça va être comme ça. Et le message, ça va être comme ça. Vous voulez le convaincre d'aller avec vous à un parc d'attraction et vous savez que cet ami-là, il a peur, en fait, des manèges. Et bien, votre message, ça va être un message
+
+[29:19] qui va lui dire, ok, on va pouvoir passer un moment agréable à ce promené parce que vous savez qu'il aime le calme et qu'on parle dans des lieux calmes. Je dis ça, n'importe quoi, on va pas avoir de calme. Mais, qu'est-ce qu'on pourrait dire à quelqu'un ? Vous voulez le convaincre d'aller dans un parc d'attraction, il n'aime pas les manèges. Ok. Vous savez que cette personne va passer une très bonne journée
+
+[29:40] dans un lieu magique. On va pouvoir, on va pouvoir, je sais pas, votre message, c'est ça, on va passer une journée, changer les idées dans un lieu magique. Vous savez qu'il a une journée dure par rapport à son travail. Donc là, vous lui dites des choses par rapport à ce qu'il est à ouer, par rapport au parc. Donc, il sait qu'il allait manèges,
+
+[30:01] mais il sait pas qu'en fait, ça peut aussi le déstresser par rapport à son travail. Bref, vous allez venir, en fait, il y a un balai par rapport à lui. Et ce que je veux dire, ce que je veux dire par là, c'est que si vous allez trop proche de lui, ça va être invasif. Si vous êtes trop loin, il va pas vraiment lire vos émotions vous truster. Vous allez être à une bonne distance. Ok. C'est pareil.
+
+[30:24] Et ça, c'est les erreurs, les erreurs courantes. Je les ramène ici. Je sais pas si je les avais déjà dite, je les avais déjà dite, pardon, mais je les redis, mieux vous dire deux fois que zéro, pour vous faire rentrer les choses dans la tête. Vous voyez que certains trucs, je répète et répète et répète. C'est normal. C'est pour que simplement, ça rentre dans votre tête. Et je veux vous éviter
+
+[30:45] de faire des erreurs. Pour l'instant, on a des gens qui se killent comme de malades depuis qu'ils ont rejoint le school et je veux qu'un maximum de personnes fassent de même. Donc, les erreurs mauvais trop près, bon, c'est juste qu'on peut lire des expressions de visages, gestes naturels. Les erreurs qui tuent la performance, c'est le hook. Il n'est pas le message principal,
+
+[31:06] des connexions, ou vous ne répondez pas au hook. Il y a trop de personnes qui prennent des hooks pour mettre des hooks, mais ensuite qui n'animent pas leurs rates par rapport au hook. Pas bon à 10 de cohérence. Pas de CTA clair, si tu veux du résultat, clique ici. Ça, c'est top. Il faut un CTA clair, à la fin. Il va avoir une très bonne rate si il n'y a pas un bon CTA et ça tuer la rate. Ça ne la tue pas complètement,
+
+[31:27] mais ça minimifie le résultat. Mauvés cadrages, mauvaise lumière, pas de visage heureux. Il n'y a aucune approche émotionnelle. Off, robotique, pas naturel, musique de fond mal alignée. Transition backlit, ça aussi. Il va avoir une super rate. Si vous avez des mauvaise transitions qui sont trop fantaisistes ou backlées ou des erreurs,
+
+[31:48] ça te tue la rate. Ça, tout ce que je vous ai expliqué, c'est la recette magique pour générer des ventes, maximiser le watch time et booster l'engagement. C'est ça qui va faire des rates au mineur. Nous, ce qu'on veut, c'est des rates qui se retrouvent sur train de trac. Dans les tops, rates. Et moi, j'en ai plusieurs qui sont retrouvés dans minéra, adspy, train de trac, comme top ad-swinners. Parce que quand l'ad-saint bien fait
+
+[32:09] et que les gens regardent qu'ils ont des émotions et ils publient, c'est-à-dire, ils commentent, ils partagent et ils regardent la vidéo et ça génère massive de ventes pour pas cher. Les types de pros pour créer une cohesion maximale, recherchent l'audience d'abord, comprendre parfaitement votre audience.
+
+[32:31] Storyboard comme un film, chaque scène, c'est un micro-objectif de combattion. Vous devez bien décomposer votre ad-sainte en hook, en lead pour tenir l'attention en générer des émotions, etc. Donc, chaque partie est importante. C'est pas juste l'ad-sainte son entier. Soyez vraiment pointieux. Et testez le message en live, donc validez le ton, le visuel, le format.
+
+[32:53] Avec un groupe de batches et ces tests, là je voulais mettre ces... avec tribe. Et... tribe, ça je vais mettre le module tribe. Tribe, mon gros séquence, c'est la technologie de Meta qui permet d'analyser si une ad se peut avoir
+
+[33:13] pouvoir marcher ou pas. Ensuite, beatcap, ça vous auraient des détails. Et quand coupé, gérer le role coasters, ce qu'il faut savoir, c'est que c'est pas toujours linéaire. A tous les niveaux, il n'y aura jamais la folie pendant plusieurs semaines, plusieurs mois. Il y aura toujours des mauvais jours, toujours des bons jours.
+
+[33:34] Et ce qu'il faut savoir, c'est savoir ceci. Faites simplement. De règle de base, on ne juge pas sur un seul jour. On utilise un 3D rolling. On veut venir identifier des tendances. Là, ça commence à être bien ou là, ça commence à être moins bien. Mais des jours, oui, non, il n'y aura toujours. Des fois, vous allez dédientifier qu'il y a des jours qui sont moins bons.
+
+[33:56] Pour certains, c'est souvent le lundi. Pour d'autres, ça peut être le dimanche. Ça dépend de votre audience. Il faut capitaliser sur ça. Il faut pas lancer vos testings dans les mauvais jours. Il faut pas lancer des testings dans les bons jours. Il faut également lancer vos testings entre les deux. Ok ? vos testings comme ça, meta sera top of mind dans les bons jours. Ce que tu contrôles pas,
+
+[34:20] un temps qui va arriver et de m'en marcher, ne gaspille pas ton énergie dessus. Ce que tu contrôles, c'est ta stratégie. Montez en awareness, problème à oerre, audience plus large, etc. Des signales cpmr qui montent, égal, saturation de créatives. Réponse, il faut que tu apportes la diversité, apportant. Quelques astuces et protections importantes,
+
+[34:41] la plupart se plantent. La santé du compte est importante. Gardes un taux de rejet bas, date, c'est-à-dire, je vous expliquerai encore, il y aura la stratégie. Mais il faut vraiment que vous ayez, c'est même pas 5%, c'est 100 pour 1. 100 pour 1, c'est-à-dire, une hâte rejetée, c'est sans hâte, approuvé.
+
+[35:03] Un vague de rejet, donc il faut l'annoyer, on vous expliquera la stratégie. On vous dit une stratégie qu'il n'a de rejetée, tu fais une stratégie que je vous montrer. Reporte le rejet à l'équipe CRA. Donc, ça c'est nos process. Nous, ce qu'on fait, c'est qu'on a une rejetée,
+
+[35:23] on rapporte à l'équipe CRA. Parce que si vous fixez ça, vous n'avez pas compris, l'équipe CRA peut refaire les mémerreurs et mémerreurs. Et il y a toujours un compte de secours, un deuxième compte pub prêt à l'équipe CRA. Ça peut arriver des problèmes de crédit line, peu importe. Et il y a toujours un deuxième compte pub au cas où. Protection sur dépenses, si vous faites du coscap et du bitcap à haut-climite, il va falloir mettre des règles automatiques
+
+[35:44] au cas où ça se pende. Il ne sait pas plus de dicats et que le ROS en dessous de 1 met trop pause. Et ça c'est au moins des règles parce que des fois, ce qui arrive, qu'on fait du bitcap à haut-volume, c'est de la réplique et ce qui arrive, qu'on fait du bitcap à haut-volume, vous avez 104 budgets.
+
+[36:06] Ok. Et durant la semaine, ça se pende pas. Et le week-end, il y a les bits qui augmentent, qui descendent, pardon, ou qui augmentent. Et ça va se pender 60 cas. Et d'un coup, ce n'est pas profitable. Ça peut vite partir, vite. Ok. C'est le retour d'expérience. Donc ensuite, nous avons un setup des règles automatiques qui permettent au cas où si ça se pende trop, pour pas bon et où est-ce,
+
+[36:27] de mettre en pause jusqu'à demain, jusqu'à que je puisse analyser et voir, ok, bah là, on va corriger. FTIR, donc surveiller le first-time impression ratio. Donc là, vous pouvez voir dans les ad-sets, inspect, audience, saturation. Si le FTIR et FTIR chutent, tu vas venir repayer pour toucher les mêmes gens.
+
+[36:49] Donc tu as besoin de nouvelles cras, audience, ce n'est pas plus de budget. Ça, ça peut arriver sur ton, sur un stade, c'est que vous êtes entre 100 et 300 cadets et que vous saturé une audience avec plein de diversité mais que vous saturé quand même un avatar, il va falloir aller toucher d'autres avatars. Et principalement, 6 pieds mètre. C'est sympa, tout le monde a accès.
+
+[37:11] Donc gros, ad-sets, inspect, audience, saturation. Si vous n'avez pas accès, 6 pieds mètre. Ensuite, recycler les winners, réinjecter les winners prouvé dans une campagne dédiée. Il y a toujours un test de winner qu'on refait. C'est-à-dire que nous, chaque année, je reprends les winners de l'année passée et je les relance pour voir si ça prend. Il y a des winners qui peuvent être winner en avril et plus être winner
+
+[37:32] durant l'année en cours et ensuite être winner en avril tandis qu'il y a d'autres qui vont plus marcher qui peuvent se rallier les nmiers et redurer longtemps. Donc les winners, il faut toujours se retester dans le futur. Ensuite, zombie co-scape, c'est important, on ressuscite les vieux winners et ça, vous allez voir, c'est magique. Ok? Comme j'ai expliqué avant. Surf scaling.
+
+[37:54] Donc là, pendant les promos et les pixes de niais, quand vraiment vous êtes ouvert pour escaler pas toutes les 24 heures. Pourquoi je mets ça? Je vais escaler toutes les 2 heures, enfin, 1 à 2 heures durant 24 heures. Mais là, il faudra regarder le process surf scaling quand on veut vraiment bien surf scaler.
+
+[38:15] En fait, on a un shit c'est qu'on analyse le blend de DRS par heure pour pas en fait éviter de craimer son budget et de surf scaler pour surf scaler. Donc voilà juste un glossière pour appeler les mots. Voilà en gros, la stratégie je pense que avec ça, vous êtes prêt à passer de zéro
+
+[38:36] à 100 kD au minimum. Vous avez du moins la même stratégie que j'utilise parce que ça, c'est mon process. Tout ce que vous allez voir là dans les process de meta-baing c'est mes process traduits en français. Voilà, c'est mato. J'espère que vous avez apprécié. J'ai hâte de vous voir à ces niveaux de spend. Allez, à bientôt. Ciao ciao.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 25 : 🆕 0-10k Day Protocole
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 25
 ======================================================================
 
@@ -3183,16 +4131,52 @@ Sur ce palier, il faut minimiser le risque en copiant ce qui est prouvé (offre,
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc maintenant, résumez, pallier 0 à d'icadé par jour. Quel est votre focus ? Ça, ça va être très important parce qu'il y a beaucoup de personnes qui font des choses qui ne sont pas dans son focus, c'est toujours 0 à d'icadé. Donc ça va faire une piqûre de rappel. Donc le focus, c'est de trouver des premières hattes « winners ». Créa plus offre valider.
+
+[00:21] Si tu as des créas winneuses et que ça ne convertit pas, il faut revoir l'offre. Si tu as une offre et des créas winneuses, c'est certainement peut-être qu'il y a un problème sur ton funèle. Donc en régenéral, on fait du « copy meaning ». C'est-à-dire qu'on s'inspire des hats winners, des concurrents. Là, on ne va pas venir réinnover parce qu'on n'a pas beaucoup de budget de spend.
+
+[00:43] Budget de spend, c'est quoi ? C'est que le budget de testing. C'est-à-dire que quand vous êtes à d'icadé de spend, ok, vous êtes d'icadé de spend, là je parle en chiffre d'affaires, mais si vous êtes à d'icadé de spend, vous aurez 20 à 30%, comme je vais vous le dire après, de budget en testing. C'est-à-dire que vous pouvez allouer 2 à 3 cas par jour,
+
+[01:05] 2 cas c'est bien, de test. C'est que là, vous n'avez pas à retester de votre truc, peut-être de truc moins sûr, etc. Mais quand vous n'êtes pas là, vous avez 100% de votre budget en testing. Vous êtes à 0, 100% de votre budget en testing. Ça veut dire si vous mettez 500 dollars, 500 dollars, c'est des tests. Donc, pour réduire les chances que un test foire,
+
+[01:29] il va falloir simplement prendre des choses qui sont prouvées. Ok, on veut minimiser le risque d'erreur. Et pour maximiser les chances de réussite, on va prendre des concepts qui marchent. On va prendre simplement des ads qui marchent, on va recopier leurs scripts, on va les adapter à notre produit, et on va venir mettre nos footages. Ok, c'est ça qu'on fait.
+
+[01:50] Surtout maintenant avec l'IA, c'est très simple. L'offre doit être une offre prouvée. On va venir aussi prendre une offre prouvée. On ne va pas inventer un prix. On va prendre une offre qui est prouvée. Et seulement en faisant ça, après, on pourra aller à les résultats et voir peut-être où optimiser. Là nouveau, on avait mis dans le module analyse
+
+[02:13] quelle métrique à analyser pour voir en fait où c'est qu'il y a un problème. En fonction, si votre conversion rate est élevée et vous cpc faible, on vous remettra le cadre en. Je vous redonnerai le lien vers le cadre en. Voir le cadre en. Le cadre en. Je vais vous le montrer juste maintenant.
+
+[02:34] Donc là, on avait donné ce cadre en. En gros, si vous avez vos conversions de rate élevées et cpc élevées, là, il faut tout corriger. Si vous avez vos conversions de rate élevées et cpc faible, là, il faut corriger la conversion. C'est-à-dire qu'il y a un bon trafic, mais il y a un problème sur le funètre. Donc là, il doit y avoir un problème sur le funètre.
+
+[02:57] Mais je vous invite à revoir cette vidéo et revoir ce document si vous avez ce type de problème. C'est juste pour rappeler en fait où trouver l'info. Donc concrètement, ce que vous avez faire c'est aller sur train track, at spy, brand search, prendre des ads qui marchent pour votre compétiteur et répliquer ces ads-là
+
+[03:18] avec différents hoocs, différents... les mêmes hoocs, mais avec tous vos footage. Vous reprenez un esthétique et vous relancez ça dans une cibo. Principalement, là, on va être sur une cibo principale pour éviter de gaspiller du spend en testing. Là, ce qu'on veut c'est meta. Va trouver où ça quitte. Ça doit spend.
+
+[03:39] Et meta va spend où ça doit spend. Ok? Donc, il faut être validé, voir le cadran, valider tes chiffres vraiment de ce qu'est-il. C'est-à-dire que tu vas connaître ton AirOS Break Even, t'as marge, si tu es parentable, on scale pas. On fixe l'offre, la création à l'ALP. Donc ça c'est très important. C'est une erreur que je vois trop souvent. C'est qu'en fait, il y a des personnes qui savent pas vraiment le AirOS Break Even,
+
+[03:59] combien ils ont besoin de marge pour faire tourner le business. Ça, on vous l'expliquera après comment. Et en fait, ils vont venir cramer du budget, cramer de la profitabilité, sans connaître ceci. Donc là, ça, on est d'accord que vous connaissez. Vous savez, Day One, vous lancez à 500 dollars. Day 2, vous faites un cadet.
+
+[04:20] Vous savez que vous avez, je ne sais pas, 200... dollars, 200 euros de bénéfices. Ça, il faut le savoir, il faut être sûr. Parce que là, ce que je vous apprêtais à vous donner, ça peut vous faire passer très vite de là à là, de là à là. Mais si vous avez des problèmes, vous savez pas où on vous marge, eh ben, vous allez pouvoir en fait manquer pas mal d'argent. Ok?
+
+[04:40] C'est juste un rappel. Ensuite, dès qu'on a 2 à 5K de spend, ok, c'est pas un chiffre définitif. C'est pas 2, c'est pas 5, c'est... ça dépend de vous. Ça dépend de vos capacités de créat, mais dès qu'on est à environ à 2 à 5K de spend, là, ce qu'on va faire, c'est qu'on va venir mettre 20 à 30% du budget en testing. C'est-à-dire qu'on va lancer un nabio testing
+
+[05:01] et on va venir simplement lancer des ad-sets par concept. Donc, je vous ferai une explication, mais sûr, mais ad-sets par concept. Donc, vous aurez les process détaillés, ça c'est juste une overview de la stratégie. Ad-sets par concept, et vous aurez entre trois, et c'est créatif. Ok? C'est-à-dire, vous aurez un UGC-1 avec UGC-1, UGC-2, UGC-3, UGC-4, UGC-5.
+
+[05:25] Là, le but, c'est en fait de venir injecter ici seulement des ad-sets qui ont du potentiel. Pourquoi? Parce qu'une CBO, si vous l'alimentez en trop d'ads, elle peut perdre son efficacité si elle a trop de ad-sets, et ça peut perdre en termes de rentabilité. Parce que Meta va analyser, elle va essayer de combiner des ad-sets ensemble. Et si vous avez du bon capacité de créat,
+
+[05:48] la main, ça va être contre-productif de trois injectés ici. Maintenant, il y a deux cas de figure. Vous êtes à deux cas de spend, ok? Et votre ROS commence à chuter. Là, ce que je vous conseille, c'est d'injecter directement des choses que vous êtes sûrs dans la CBO. Si vous avez du bon ROS et que vous voulez continuer à alimenter, la testant de la BO.
+
+[06:09] Mais quoi qu'il en soit, si vous vous apprêtez à tester un bon volume de créatifs d'à 2 à 5 cas de spend, il va falloir créer la BO testing, ok? Ça, ça va vous faire monter 0 à 10 kD. C'est juste le focus. Le reste, beat cap, etc., ça ne sert à rien. C'est pas le focus. C'est pas le focus. C'est pas le 20 du 80. Là, c'est d'avoir plus d'ad-swinners. Plus d'ad-swinners.
+
+[06:29] D'améliorer l'offre, d'améliorer l'IP, etc. Ok? C'est ça, votre focus.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 26 : 🆕 10k-35k Day Protocole
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 26
 ======================================================================
 
@@ -3283,16 +4267,48 @@ Ne jamais laisser un script winner "sur la route". Chaque ad qui performe doit �
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, pas les deux, 10 à 30K dés par jour. Là, on va se rapprocher, on va faire un bon de 300K par mois à un million par mois concrètement. Je vais en réduire de 33. Ça, ça fait un million. Allez, 35. Là, le bon entre ça et ça, entre ça et ça, c'est simplement d'indiffréliser le testing de créatives.
+
+[00:21] Là, ce qu'on veut, c'est faire plus de ce qui marche bien et mieux. Donc là, on va faire plus de volumes d'angles chaque semaine. Donc plus de volumes d'angles chaque semaine, plus de volumes d'angles chaque semaine. Pourquoi j'ai mis ça ? Qu'est-ce que j'ai voulu dire ? Plus de volumes d'angles chaque semaine. Ouais, en gros, je sais ce que je voulais dire, je vais juste corriger.
+
+[00:44] Ok, en fait, je voulais simplement mettre de tester plusieurs angles différents. Et ensuite, les étirer, ça, c'est dessus. Donc, tester plusieurs angles différents parce que vous êtes un angle banger, un angle qui peut vous faire passer de ça à ça. Ok ? Parce que là, c'est pas sûr que ça soit votre angle banger. C'est-à-dire qu'il va falloir tester différents angles pour tirouver,
+
+[01:06] différentes poches d'audience dans lesquels vous avez pour voir ce qu'elle est. Je vous spète mes lunettes. Comment ça être tard ? Je ne me juge pas pour le style. C'est pour le sommeil. Donc là, ensuite, vous allez venir yterrer ce qui marche. C'est-à-dire que là, c'est bien beau de faire des nouveaux tests, mais on va venir aussi yterrer ce qui marche. On va venir analyser les patterns, etc.
+
+[01:26] Là, je ne donne pas un cours de créativité, je vous donne juste un rappel sur ce qui est important, pour rester fixé sur les rails à suivre. Donc vos skip-winners, vous allez faire de nouveaux concepts. Vous allez essayer de les battre parce que un skip-win qui est un winner ici, si vous l'améliorer, il peut venir banger ici. Et nous, tous nos ates bangers ont suivi ce cheminement.
+
+[01:48] C'est-à-dire, ce n'est jamais été une ates banger d'entrée. C'était une ates winner qui se pendait bien et on a fait un nouveau concept. Par exemple, là, une dernière ates banger qui a spend 500K depuis le mois de mai, avril, plus de 500K, c'était un script qu'on a ramellioré légèrement. C'est-à-dire, c'est moi qui l'a amélioré.
+
+[02:10] Et on a testé un nouveau concept, c'est-à-dire avec des nouveaux footage, en fait, la même voix off et ça a cartonné. Et c'est-à-dire là, on a spend 500K. Alors que la première, on avait peut-être spend, je ne sais pas, 20K, même moins, peut-être bien moins en fait, je crois 5K. Donc, il va falloir itérer.
+
+[02:31] Ne laissez pas sur la route ce qui marche. On itère. On itère nuo angle aussi, c'est-à-dire qu'on peut prendre un script winner et le même script on itère nuo angle. On peut itérer des messages winner en nouveau concept et mettre en place du volume statique. Ça maintenant, c'est très simple. Mettre en place du volume statique. Ok, c'est très, très simple de faire du copy meaning,
+
+[02:53] de mettre du volume statique, c'est très simple. Donc là, on industrialise le testing de créatives. On sépare proprement Abio et ScalingCivio et on peut commencer à introduire des stratégies de BitCAP. On peut, ce n'est pas obligatoire, mais on peut. Je vous donne des stratégies de, c'est mec-là ici pour passer de 0, de 10 à 100KD.
+
+[03:14] Ok. Il faut démarrer le white listing et partnership. Là, ça devient obligatoire avec les créateurs des ads gagnants. Ok. Ce qu'on va faire, et à nouveau, on vous donnera le process. Mais concrètement, vous allez venir trouver des créateurs, mettre vos ads mineuses qui fitent
+
+[03:34] et lancer ces ads-là avec les créateurs. Pourquoi ? Parce que le white listing et le partnership, ça permet de montrer la même ade à différentes personnes. C'est-à-dire que vous avez votre ade qui a résoudu votre page, vous faites une ade en white listing, la personne peut voir les deux ads. Parce que c'est différent,
+
+[03:55] et vous avez touché d'autres postes d'audience. Et en faisant ça, vous allez avoir des héros-wests totalement différents. Nous, on a lancé les mêmes ads avec différents créateurs et avec notre brand page. Et on a eu une banger adce qui est sorti avec certains white-listers. Et pas du tout winner avec notre brand page. Donc là, ça va être très important de mettre ça en place. Parce que, par la suite,
+
+[04:15] c'est de représenter à peu de 30% de votre spend. White listing, partnership. C'est un boost, on met ça qu'il faut utiliser. Vous allez expecter plus 20% minimum en faisant ça. Minimum, c'est le minimum minimum que vous allez accepter.
+
+[04:36] Donc la structure, à ce stade-là, on a un CBO principal, ok ? On a a bio testing, donc CBO master qu'on appelle a bio testing. Vous aurez une CBO zombie, Coscap, ok ? Donc simplement, vos ads ici qui spendent trop ou qui sont plus profitables, on les met ici
+
+[04:56] pour que là on maintienne un beau air-west propre. Et là, on va mettre toutes les ads qui ont spend et qui ne sont plus vraiment winner, ok ? Qui sont peut-être essoufflés. À certaines conditions, mais à nouveau, vous aurez le process. On peut start une campagne CBO bitcap infa-tête. Donc là, simplement, vous allez prendre vos meilleures ads ici et vous allez les isoler dans une campagne CBO bitcap ou Coscap
+
+[05:19] ou les deux. Nous, on fait les deux. Et là, il faut 3 bon ads, ok ? Minimum, si minimum plus 3 bon ads. Et là, on va faire des campagnes, je vous expliquerai comment. Et ça peut vous débloquer beaucoup de spend ici. CBO interaction facultatif, de faire une CBO, c'est que vous mettez vos winning ads
+
+[05:40] en interaction pour simplement augmenter le social proof. Ça fait baisser les CPM et c'est sympa. Mais ce n'est pas le 20-80, ok ?
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 27 : 🆕 35k-100k Day Protocole
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 27
 ======================================================================
 
@@ -3387,16 +4403,28 @@ Le mindset clé ici, c'est de raisonner en pilotage d'entreprise au profit sur l
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, palier 35 à 100 KD, ce palier-là, il n'est pas si compliqué. Là, simplement, il va rajouter de la diversité créative. C'est-à-dire que là, vous aurez plein de trucs qui marchent, et il va falloir diversifier correctement, diversifier, comme je vous expliquais avant, avec une bonne diversité psychologique.
+
+[00:21] La beat cap, la méthode beat cap à faillite sur les top 8h, il va falloir bien regarder l'attribution. On est sur de 7D-clicks sur les campagnes scaling. On mesure avec Triple Whale et on prend l'addition OMR au profit, pas au REST META. Là, on va regarder l'entier du funèle, parce que là, on touche beaucoup de clients et c'est le profit qui compte.
+
+[00:41] Et ce qu'on veut, c'est sur le long terme, descendre le OMR. Si vous êtes une brène, il va falloir alimenter ce trafic qu'on paye avec META. On prend l'endu Amazon, en mettant du Google, email, etc. Mais là, on doit le mettre au plus vite possible. Mais on va piloter l'entreprise au profit. Diversité psychologique, on va venir surveiller le CPMR. Si il montre, on ne va pas squeller. C'est un signal qu'on est en train de saturer une audience.
+
+[01:04] En gros, le CPMR, c'est quoi ? Les CPMs font la fréquence. Et c'est un indicateur de nos résultats futurs. En fait, si le CPMR monte, ça veut dire qu'on est en train de toucher la même audience. Et que ça nous coûte de plus en plus cher pour en fait saturer une audience. Ça veut dire qu'on n'a pas de diversité créative.
+
+[01:26] Et qu'on est en train de simplement retoucher les mêmes personnes et les mêmes personnes qui sont en train d'être fatigués. Si le CPMR descend, c'est un signal qu'on est en train de toucher de nouvelles personnes. Donc c'est bien, ça nous indique que souvent, les résultats vont aller mieux et que c'est un bon indicateur pour squeller. Et là, Wild Listing partnership à fond et la structure, c'est à peu près la même qu'ici.
+
+[01:48] C'est quasiment la même, sauf que là, je conseille vraiment BitCap pour passer ce palier à là. Vous pouvez être là, c'est BitCap et une semaine plus tard, arrête là. Et je parle pas de soft scaling. Ok, là je parle de résultats stables. Faire 100 KD et faire un screenshot, mettre sur Twitter, c'est simple. On soft scale. Honnêtement, c'est simple.
+
+[02:08] On va vous donner aussi des techniques soft scale comme on soft scale proprement, mais là, on vous parle de résultats stables.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 28 : 🆕 100k-300k+ Day Protocole
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 28
 ======================================================================
 
@@ -3479,16 +4507,34 @@ Chaque compte réagit différemment. Il ne faut jamais appliquer une structure o
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, un palais de 100 à 300 kd, là, c'est plus technique. Je pense que vous serez peu à le faire, mais vous en serez quand même quelques-uns, du moins à l'heure avec qui je trouve ces vidéos. Il y a quelques-quels qui sont dans cette phase-là, donc ça dira là, et qui veulent faire ça. Donc là, ce que vous devez faire, c'est s'augmenter. Donc là, on va venir s'augmenter, cilio, par collection, par avatar, par géographie.
+
+[00:25] C'est-à-dire, si on a plusieurs pays, on va essayer d'avoir des campagnes par pays. On veut s'augmenter un maximum pour contrôler un maximum beatcap à flattède, multi-régions, multi-audience. C'est-à-dire que là, l'habitèque qu'on avait sur les U.S., on va essayer d'avoir la même sur les UK, etc. On va essayer de répliquer ce qui marchait ici, simplement sur d'autres audiences.
+
+[00:48] Par contre, si vous étiez en worldwide et que vous testiez à faire des campagnes séparées par pays, que ça marche moins bien, il va falloir s'adapter. Il ne faut pas s'augmenter pour s'augmenter. Chaque compte réagit différemment. Je le répéterai toujours, chaque compte réagit différemment. Là, on vous donne un guide-line, on vous donne ce qui marche ici,
+
+[01:11] mais ça se peut que sur certains comptes, ça ne marche pas pareil. Il va falloir s'adapter. Donc là, multi-canals obligés, Applevine, TikTok, Google, on veut chercher plus d'incrimentalité, toucher plus de nouveaux clients pour alimenter ceci. RefreshKra, vous aurez normalement un bon système. Ça va être surtout du refreshKra, d'optimiser,
+
+[01:34] en fait, toute la diversité, comme je vous le montrais après. La diversité est très bonne en marketing. Meilleur mécanisme, meilleure compréhension du désir et de la vâtarde.
+
+[02:06] Là, vous serez sur des choses plus poussées à un niveau copérating. Et vous avez piloté au Blend de MIR, profit total, je mets OROS, encore une fois. Donc là, la structure, on aura simplement des civils augmentés plus par région, comme d'habitude, les mêmes campagnes qu'avant. Pardon, j'oublie l'ABO, bon, là ça va plus sourder 20%, mais moins,
+
+[02:38] ça sera peut-être même moins. Whitelistine en masse, là, à ce stade-là, avec les top créateurs, simplement ce qu'on veut, c'est que eux produisent leurs propres contenus et ça va alimenter fortement le compte. L'incrimentalité sera très importante. À ce stade-là, on va regarder beaucoup l'incrimentalité parce qu'on peut vite se tuer un scale si on ne targuait pas de nouveaux customers.
+
+[03:01] Donc là, j'ai hold out total impact. On veut vraiment valider chaque canal. Chaque canal, on veut vraiment que ça ait cherché l'incrimentalité. Donc là, je conseille d'utiliser des tools vraiment triple-wale payant avec la triple attribution,
+
+[03:22] de vraiment suivre de près le comité Saint-Lucourt d'Akari et les nouveaux customers, du customer CPA pour être sûr qu'on a un funnel qui est saint. Et pour passer de ça à ça, ce n'est pas si compliqué. C'est juste une question d'augmentation du budget. Ça va très vite. Donc là, le media buying est important.
+
+[03:44] Là, le media buying est très important parce qu'on a déjà un système qui marche et il va falloir juste faire un peu mieux pour augmenter le spend.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 29 : 🆕 Maintenir un compte en bonne santé
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 29
 ======================================================================
 
@@ -3575,9 +4621,35 @@ Toujours traiter la cause racine d'un problème plutôt que le symptôme, et ne 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc ensuite on continue le process, là ce que vous allez faire aussi c'est reporter à l'équipe CREA, c'est-à-dire si c'était rejeté pour une raison il va falloir fixer le problème à la source. On continue pas à juste faire un pense-en-mais-dépensement, on fixe le problème, on partage à l'équipe CREA de la raison exacte et on essaie de trouver des solutions. Ensuite des trucs qui comptent à l'échelle, ça aura un compte secours, toujours avoir un adac en deux secours,
+
+[00:24] ça peut toujours vous être utile en cas de problème de crédit line, en cas de ban etc, toujours avoir un adac en deux secours. Et diversité créative, ça je sais pas, procéde Emila, moins tu rides sur une seule CREA board d'online, moins une vague de rejet te fait mal. Donc ça c'est nous processins, je le dis juste pourquoi j'ai mis ça,
+
+[00:46] moins de read tout sur une CREA board d'online, oui oui oui, de toute façon il faut que vous ayez plusieurs types de CREA. Il faut pas que vous voulez sur un seul winner, quand vous scalez et que vous avez une CREA qui scale, qui se fait ban, ça fait mal. Si vous avez ça, si c'est le cas, demandez-nous et nous ce qu'on peut faire, c'est vous faire approuver par Anisider.
+
+[01:12] Vous avez une Nats qui se pendait beaucoup et elle vous fait mal, écrivez à notre équipe et approuvez par Anisider. Pour vérifier la santé du compte ici, pour vérifier les attraîchés ici, ok. Et maintenant, c'est ça le process, pourquoi elle est mis à deux fois ?
+
+[01:39] Parce qu'on a traduit, c'est simplement un double, on avait traduit de France à Anglais, ça a double juste, je vais l'enlever. Ensuite, problème sur Meta et si je vous ai mis des liens importants en cas de problème, ok. C'est des liens vraiment importants qui vont vous permettre de se nécessairener vos problèmes. Chose à savoir, c'est que si vous avez quoi comme problème, nous on peut mettre en contact avec Anisider.
+
+[02:02] Par exemple, vous avez une baisse de performance, faites un check avec l'Aisider pour voir la santé du compte. C'est quelque chose que je fais très régulièrement, surtout si j'ai un problème, parce que des fois, il peut y avoir des châteaux de banne. Parce que des fois, vous ne savez pas, mais quelqu'un vous a posé un DMC, mais pas visible, ok. Parce qu'il a payé Anisider pour le faire. Ça se fait de moins en moins, parce que les conséquences peuvent être graves si quelqu'un boufflait ça.
+
+[02:23] Mais vous pouvez avoir un BM qui peut-être passe, vous utilisez un BM de contagion et d'autres annonceurs en fait, ont reçu des DMC où on fait beaucoup d'êtres rejetés et ça impacte en fait la santé du BM. Et avec Anisider, il va pouvoir voir pourquoi votre compte a été impacté. Si c'est la page, si c'est le nom de domaine, si c'est les ads, si vous avez peut-être une stratégie,
+
+[02:48] une mauvaise stratégie de médiabéine que peut-être votre compte en fait, il va venir avoir pas ces diversités créatives et ça vous pénalise. Peut-être qu'il va voir que vous avez reçu un DMC et peut-être que vous avez un mini-chat de banne, que vous avez un Ace, etc. Un Ace, c'est un mini-chat de banne, ou peut-être que vous avez un chat de banne. Et en fait, ça ne sert à rien de fixer votre site, vos créatives, etc.
+
+[03:09] Si vous avez un chat de banne sur Facebook, par exemple, ok, ça ne sert à rien. Nous, par exemple, ce qui est arrivé, c'est qu'en 2025, on a une grosse baisse de performance. Ok ? Pourtant, les créatifs étaient bien, pourtant tout était bien, mais une grosse baisse de performance. J'ai fait un check, l'insider m'a dit, ben, c'est pas étonnant, t'as reçu un fake DMC. C'est-à-dire quelqu'un a payé un insider pour poser un DMC.
+
+[03:30] Ok ? Les impacts sont très graves après parce que quand tu sais ça, pour eux, c'est... C'est grave, ok ? Donc ne posez jamais un faux DMC, surtout si c'est pas justifié. Et à travers un insider, ça coûte quelques cas, et ça vaut pas la peine. Mais bref, on l'a cliné. Heureusement qu'on avait des sites solides, c'est-à-dire qu'on avait beaucoup de spades.
+
+[03:54] Il m'a dit, sinon, on compte, il aurait sauté. Mais sachez que quand on compte, spade beaucoup et qu'il a spade beaucoup sur meta, même si vous faire un DMC, n'importe quoi, si il est solide, vous n'allez pas le faire sauter. Et si vous le faites sauter et que c'est une grosse marque sérieuse, elle peut se retourner contre vous, et légalement, ça peut faire mal. Un vraiement fait attention avec ça.
+
+[04:15] Et en fait, il m'a dit la date de quand on a reçu le faux DMC, et ça tombait exactement quand on a eu les chutes de performance. Et une fois que ça s'est cliné, on a pu avoir des meilleures performances. Donc vraiment très important, ça coûte... Ça dépend des prix. Ça ne coûte pas très, très cher que ça. Ça peut coûter... Pour check des fois, il le fait pour quelques centaines de dollars.
+
+[04:35] Je crois que c'est entre 300 et 500. Ça dépend des périodes de l'année. C'est en fonction de l'offre et de la demande. Des fois, les Insiders ne le font plus, du coup, ça augmente le prix. Mais bref, demandez-nous juste si vous avez ces genres de problèmes. Et pour clean, ça dépend du problème. Mais vraiment, ça, c'est un truc important. Ensuite, je vous ai mis des autres liens importants, c'est dessus. Donc voilà, la santé du compte, c'est vraiment important. Vous pouvez vous tuer vos résultats.
+
+[04:56] Donc c'est pour ça que je vous donne le process. Et on a fait une vidéo dédiée. C'est matéo. A bientôt. Tchao tchao.
 
 
 
