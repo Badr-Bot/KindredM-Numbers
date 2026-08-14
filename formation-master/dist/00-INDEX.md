@@ -507,6 +507,72 @@ il ne faut jamais répondre à sa place.
 - 🟡 **17 — QUICK WINS - JUILLET 2026** 
 - 🟡 **18 — QUICK WINS - AOÛT 2026** 
 
+## RESSOURCES GOOGLE
+
+- ✅ **01 — Ma nouvelle vie - template** 
+- ✅ **02 — DOC - L'importance de l'IA** 
+- ✅ **03 — Quadrants MASTER Marketing** 
+- ✅ **04 — Market & Product Formula** 
+- ✅ **05 — 33 Sophistication Simplifié (base à connaître) (Doc video)** 
+- ✅ **06 — Fichier d'organisation** 
+- ✅ **07 — Prompt Universel - Manus** 
+- ✅ **08 — Prompt Universel - Chatgpt** 
+- ✅ **09 — Prompt logo + charte graphique** 
+- ✅ **10 — Prompt image produit** 
+- ✅ **11 — Tableau Profit & Loss** 
+- ✅ **12 — Tracking List** 
+- ✅ **13 — Doc de la vidéo** 
+- ✅ **14 — 17 [SOP] Mini-MasterClass HOOK IRRÉSISTIBLES (Document)** 
+- ✅ **15 — DOCUMENT - META PROCESS** 
+- ✅ **16 — DOCUMENT - TIKTOK PROCESS** 
+- ✅ **17 — Scripts VSL - Exemple 1** 
+- ✅ **18 — Scripts VSL - Exemple 2** 
+- ✅ **19 — Scripts VSL - Exemple 3** 
+- ✅ **20 — Tableau P&L** 
+- ✅ **21 — Théorie** 
+- ✅ **22 — Diversity Map** 
+- ✅ **23 — Lien du Template forecast** 
+- ✅ **24 — Template G-Sheet EMF Media** 
+- ✅ **25 — Template G-Docs EMF Media** 
+- ✅ **26 — Créatives des Brands** 
+- ✅ **27 — Document Live** 
+- ✅ **28 — Upsell Template** 
+- ✅ **29 — Document Fashion TikTok Ads SOP** 
+- ✅ **30 — 07 Créatives calculateur (Document)** 
+- ✅ **31 — Warmap** 
+- ✅ **32 — Trackeur de la journée** 
+- ✅ **33 — Lien des ads** 
+- ✅ **34 — Marques mentionnées** 
+- ✅ **35 — Process Duplication Winning Ads** 
+- ✅ **36 — Tableau de suivi des litiges** 
+- ✅ **37 — Tableau de suivi des KPIs mensuels** 
+- ✅ **38 — 01 L’entonnoir d’une marque qui performe (Document)** 
+- ✅ **39 — 02 Les typologies de personnes (Document)** 
+- ✅ **40 — 03 Construire la bonne équipe (Document)** 
+- ✅ **41 — 04 Rôles, Responsabilités et KPI (Document)** 
+- ✅ **42 — 06 Process: Explications et Gestion (Document)** 
+- ✅ **43 — 07 Identifier et résoudre les blocages internes (Document)** 
+- ✅ **44 — 08 Cadences de meeting pour une marque performante (Document)** 
+- ✅ **45 — 09 Leadership de performance (Document)** 
+- ✅ **46 — 10 Management pour la performance (Document)** 
+- ✅ **47 — 11 Incentives et bonus (Document)** 
+- ✅ **48 — 12 Les 3 piliers de la performance (Document)** 
+- ✅ **49 — 13 Plan de Croissance (Template)** 
+- ✅ **50 — 14 Savoir quand recruter (Document)** 
+- ✅ **51 — 15 Quand déléguer et comment reprendre votre valeur (Document)** 
+- ✅ **52 — 16 Comment attirer les meilleurs talents (Document)** 
+- ✅ **53 — 17 Le Headhunting (Document)** 
+- ✅ **54 — 18 SOP complet: Recrutement (Document)** 
+- ✅ **55 — SOP—Réussir son année (OKR/Strat)** 
+- ✅ **56 — Google Doc BFCM** 
+- ✅ **57 — Retroplanning** 
+- ✅ **58 — Boîte à idées** 
+- ✅ **59 — Q4 Cheatsheet Calendrier** 
+- ✅ **60 — 07 Flow Email BFCM (Google Doc)** 
+- ✅ **61 — Timeline Email BFCM** 
+- ✅ **62 — Lien Document SMS** 
+- ✅ **63 — Doc vidéo 🎁 500+ Templates Ads Q4** 
+
 ## RESSOURCES NOTION
 
 - ✅ **01 — MODULE MANUS AI - MASTER** 

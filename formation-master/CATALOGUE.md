@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**516 leçons au total · 464 complètes (89 %)**
+**579 leçons au total · 527 complètes (91 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -574,6 +574,76 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | 🟡 | 16 | [QUICK WINS - JUIN 2026](transcriptions/quick-wins\16-quick-wins-juin-2026.md) | — | partiel |
 | 🟡 | 17 | [QUICK WINS - JUILLET 2026](transcriptions/quick-wins\17-quick-wins-juillet-2026.md) | — | partiel |
 | 🟡 | 18 | [QUICK WINS - AOÛT 2026](transcriptions/quick-wins\18-quick-wins-aout-2026.md) | — | partiel |
+
+## RESSOURCES GOOGLE
+
+63 leçons · 63 complètes · 0 partielles
+
+| | # | Leçon | Durée | Statut |
+|-|---|-------|-------|--------|
+| ✅ | 1 | [Ma nouvelle vie - template](transcriptions/ressources-google\01-ma-nouvelle-vie-template.md) | — | complet |
+| ✅ | 2 | [DOC - L'importance de l'IA](transcriptions/ressources-google\02-doc-l-importance-de-l-ia.md) | — | complet |
+| ✅ | 3 | [Quadrants MASTER Marketing](transcriptions/ressources-google\03-quadrants-master-marketing.md) | — | complet |
+| ✅ | 4 | [Market & Product Formula](transcriptions/ressources-google\04-market-product-formula.md) | — | complet |
+| ✅ | 5 | [33 Sophistication Simplifié (base à connaître) (Doc video)](transcriptions/ressources-google\05-33-sophistication-simplifie-base-a-connaitre-doc-video.md) | — | complet |
+| ✅ | 6 | [Fichier d'organisation](transcriptions/ressources-google\06-fichier-d-organisation.md) | — | complet |
+| ✅ | 7 | [Prompt Universel - Manus](transcriptions/ressources-google\07-prompt-universel-manus.md) | — | complet |
+| ✅ | 8 | [Prompt Universel - Chatgpt](transcriptions/ressources-google\08-prompt-universel-chatgpt.md) | — | complet |
+| ✅ | 9 | [Prompt logo + charte graphique](transcriptions/ressources-google\09-prompt-logo-charte-graphique.md) | — | complet |
+| ✅ | 10 | [Prompt image produit](transcriptions/ressources-google\10-prompt-image-produit.md) | — | complet |
+| ✅ | 11 | [Tableau Profit & Loss](transcriptions/ressources-google\11-tableau-profit-loss.md) | — | complet |
+| ✅ | 12 | [Tracking List](transcriptions/ressources-google\12-tracking-list.md) | — | complet |
+| ✅ | 13 | [Doc de la vidéo](transcriptions/ressources-google\13-doc-de-la-video.md) | — | complet |
+| ✅ | 14 | [17 [SOP] Mini-MasterClass HOOK IRRÉSISTIBLES (Document)](transcriptions/ressources-google\14-17-sop-mini-masterclass-hook-irresistibles-document.md) | — | complet |
+| ✅ | 15 | [DOCUMENT - META PROCESS](transcriptions/ressources-google\15-document-meta-process.md) | — | complet |
+| ✅ | 16 | [DOCUMENT - TIKTOK PROCESS](transcriptions/ressources-google\16-document-tiktok-process.md) | — | complet |
+| ✅ | 17 | [Scripts VSL - Exemple 1](transcriptions/ressources-google\17-scripts-vsl-exemple-1.md) | — | complet |
+| ✅ | 18 | [Scripts VSL - Exemple 2](transcriptions/ressources-google\18-scripts-vsl-exemple-2.md) | — | complet |
+| ✅ | 19 | [Scripts VSL - Exemple 3](transcriptions/ressources-google\19-scripts-vsl-exemple-3.md) | — | complet |
+| ✅ | 20 | [Tableau P&L](transcriptions/ressources-google\20-tableau-p-l.md) | — | complet |
+| ✅ | 21 | [Théorie](transcriptions/ressources-google\21-theorie.md) | — | complet |
+| ✅ | 22 | [Diversity Map](transcriptions/ressources-google\22-diversity-map.md) | — | complet |
+| ✅ | 23 | [Lien du Template forecast](transcriptions/ressources-google\23-lien-du-template-forecast.md) | — | complet |
+| ✅ | 24 | [Template G-Sheet EMF Media](transcriptions/ressources-google\24-template-g-sheet-emf-media.md) | — | complet |
+| ✅ | 25 | [Template G-Docs EMF Media](transcriptions/ressources-google\25-template-g-docs-emf-media.md) | — | complet |
+| ✅ | 26 | [Créatives des Brands](transcriptions/ressources-google\26-creatives-des-brands.md) | — | complet |
+| ✅ | 27 | [Document Live](transcriptions/ressources-google\27-document-live.md) | — | complet |
+| ✅ | 28 | [Upsell Template](transcriptions/ressources-google\28-upsell-template.md) | — | complet |
+| ✅ | 29 | [Document Fashion TikTok Ads SOP](transcriptions/ressources-google\29-document-fashion-tiktok-ads-sop.md) | — | complet |
+| ✅ | 30 | [07 Créatives calculateur (Document)](transcriptions/ressources-google\30-07-creatives-calculateur-document.md) | — | complet |
+| ✅ | 31 | [Warmap](transcriptions/ressources-google\31-warmap.md) | — | complet |
+| ✅ | 32 | [Trackeur de la journée](transcriptions/ressources-google\32-trackeur-de-la-journee.md) | — | complet |
+| ✅ | 33 | [Lien des ads](transcriptions/ressources-google\33-lien-des-ads.md) | — | complet |
+| ✅ | 34 | [Marques mentionnées](transcriptions/ressources-google\34-marques-mentionnees.md) | — | complet |
+| ✅ | 35 | [Process Duplication Winning Ads](transcriptions/ressources-google\35-process-duplication-winning-ads.md) | — | complet |
+| ✅ | 36 | [Tableau de suivi des litiges](transcriptions/ressources-google\36-tableau-de-suivi-des-litiges.md) | — | complet |
+| ✅ | 37 | [Tableau de suivi des KPIs mensuels](transcriptions/ressources-google\37-tableau-de-suivi-des-kpis-mensuels.md) | — | complet |
+| ✅ | 38 | [01 L’entonnoir d’une marque qui performe (Document)](transcriptions/ressources-google\38-01-l-entonnoir-d-une-marque-qui-performe.md) | — | complet |
+| ✅ | 39 | [02 Les typologies de personnes (Document)](transcriptions/ressources-google\39-02-les-typologies-de-personnes-document.md) | — | complet |
+| ✅ | 40 | [03 Construire la bonne équipe (Document)](transcriptions/ressources-google\40-03-construire-la-bonne-equipe-document.md) | — | complet |
+| ✅ | 41 | [04 Rôles, Responsabilités et KPI (Document)](transcriptions/ressources-google\41-04-roles-responsabilites-et-kpi-document.md) | — | complet |
+| ✅ | 42 | [06 Process: Explications et Gestion (Document)](transcriptions/ressources-google\42-06-process-explications-et-gestion-document.md) | — | complet |
+| ✅ | 43 | [07 Identifier et résoudre les blocages internes (Document)](transcriptions/ressources-google\43-07-identifier-et-resoudre-les-blocages-internes-document.md) | — | complet |
+| ✅ | 44 | [08 Cadences de meeting pour une marque performante (Document)](transcriptions/ressources-google\44-08-cadences-de-meeting-pour-une-marque-performante.md) | — | complet |
+| ✅ | 45 | [09 Leadership de performance (Document)](transcriptions/ressources-google\45-09-leadership-de-performance-document.md) | — | complet |
+| ✅ | 46 | [10 Management pour la performance (Document)](transcriptions/ressources-google\46-10-management-pour-la-performance-document.md) | — | complet |
+| ✅ | 47 | [11 Incentives et bonus (Document)](transcriptions/ressources-google\47-11-incentives-et-bonus-document.md) | — | complet |
+| ✅ | 48 | [12 Les 3 piliers de la performance (Document)](transcriptions/ressources-google\48-12-les-3-piliers-de-la-performance-document.md) | — | complet |
+| ✅ | 49 | [13 Plan de Croissance (Template)](transcriptions/ressources-google\49-13-plan-de-croissance-template.md) | — | complet |
+| ✅ | 50 | [14 Savoir quand recruter (Document)](transcriptions/ressources-google\50-14-savoir-quand-recruter-document.md) | — | complet |
+| ✅ | 51 | [15 Quand déléguer et comment reprendre votre valeur (Document)](transcriptions/ressources-google\51-15-quand-deleguer-et-comment-reprendre-votre-valeur.md) | — | complet |
+| ✅ | 52 | [16 Comment attirer les meilleurs talents (Document)](transcriptions/ressources-google\52-16-comment-attirer-les-meilleurs-talents-document.md) | — | complet |
+| ✅ | 53 | [17 Le Headhunting (Document)](transcriptions/ressources-google\53-17-le-headhunting-document.md) | — | complet |
+| ✅ | 54 | [18 SOP complet: Recrutement (Document)](transcriptions/ressources-google\54-18-sop-complet-recrutement-document.md) | — | complet |
+| ✅ | 55 | [SOP—Réussir son année (OKR/Strat)](transcriptions/ressources-google\55-sop-reussir-son-annee-okr-strat.md) | — | complet |
+| ✅ | 56 | [Google Doc BFCM](transcriptions/ressources-google\56-google-doc-bfcm.md) | — | complet |
+| ✅ | 57 | [Retroplanning](transcriptions/ressources-google\57-retroplanning.md) | — | complet |
+| ✅ | 58 | [Boîte à idées](transcriptions/ressources-google\58-boite-a-idees.md) | — | complet |
+| ✅ | 59 | [Q4 Cheatsheet Calendrier](transcriptions/ressources-google\59-q4-cheatsheet-calendrier.md) | — | complet |
+| ✅ | 60 | [07 Flow Email BFCM (Google Doc)](transcriptions/ressources-google\60-07-flow-email-bfcm-google-doc.md) | — | complet |
+| ✅ | 61 | [Timeline Email BFCM](transcriptions/ressources-google\61-timeline-email-bfcm.md) | — | complet |
+| ✅ | 62 | [Lien Document SMS](transcriptions/ressources-google\62-lien-document-sms.md) | — | complet |
+| ✅ | 63 | [Doc vidéo 🎁 500+ Templates Ads Q4](transcriptions/ressources-google\63-doc-video-500-templates-ads-q4.md) | — | complet |
 
 ## RESSOURCES NOTION
 
