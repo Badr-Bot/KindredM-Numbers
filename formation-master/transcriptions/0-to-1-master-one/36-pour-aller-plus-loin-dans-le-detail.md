@@ -4,7 +4,7 @@ lecon: 36
 titre: "Pour aller plus loin dans le détail"
 duree: "1:02"
 url: "https://www.skool.com/master/classroom/a252882e?md=3771a7ec0fc44aa590dc2dcbe48917b4"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -53,6 +53,10 @@ Si tu as déjà les bases ou que tu veux aller plus loin que le module Fondation
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, si vous avez regardé la partie produit master et que vous voulez plus de détails sur comment trouver des produits PEPIT, des produits Banger, vous suffis d'aller dans Classroom ici et vous allez dans Product Air Research. Et ici, on vous partage encore plus de détails sur être sur à 100% d'avoir un produit vraiment intéressant.
+
+[00:25] On a aussi mon retour d'expérience d'après avoir fait des années et des années d'e-commerce. Sur quel marché se lancer, sur quel type de produit trouver, bien que tout ce qu'on vous a montré dans le module fondation, c'est tout ce qui est nécessaire pour faire vos premiers 1000 euros par jour et plus.
+
+[00:48] Mais ici, on a aussi plus de conseils. Si vous êtes quelqu'un peut-être qui a de plus d'expérience, vous voulez juste plus d'informations sur avoir le bon produit, le bon marché et lancer au bon moment. Donc voilà, c'est dans Master Research.

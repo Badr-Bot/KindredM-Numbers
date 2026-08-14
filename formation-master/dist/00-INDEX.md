@@ -40,21 +40,21 @@ il ne faut jamais répondre à sa place.
 - ✅ **32 — Impressions US: hacks récents pour pépites** · 10:49
 - ✅ **33 — Sophistication Simplifié (base à connaître)** · 8:18
 - ✅ **34 — Fichier d'organisation** · 15:38
-- 🟡 **35 — Sourcing & première commande** 
-- 🟡 **36 — Pour aller plus loin dans le détail** · 1:02
+- ✅ **35 — Sourcing & première commande** · 9:03
+- ✅ **36 — Pour aller plus loin dans le détail** · 1:02
 - 🟡 **37 — Logistique et fournisseurs** 
-- 🟡 **38 — L'importance des créatives** 
-- 🟡 **39 — Le Parcours Psychologique des créatives Hook 1/2** 
-- 🟡 **40 — Le Parcours Psychologique des créatives 2/2** 
-- 🟡 **41 — Démo : créer une créative avec l’IA de A à Z** · 49:12
-- 🟡 **42 — Créer des ads à très bas coût sans IA (~200€)** 
+- ✅ **38 — L'importance des créatives** · 8:03
+- ✅ **39 — Le Parcours Psychologique des créatives Hook 1/2** · 13:30
+- ✅ **40 — Le Parcours Psychologique des créatives 2/2** · 16:15
+- ✅ **41 — Démo : créer une créative avec l’IA de A à Z** · 49:12
+- ✅ **42 — Créer des ads à très bas coût sans IA (~200€)** · 10:36
 - 🟡 **43 — Pour aller plus loin avec l'IA ..** 
 - 🟡 **44 — Pour aller plus loin avec les créatives** 
-- 🟡 **45 — Checklist 2026 & CRO Tips** 
-- 🟡 **46 — Setup Shopify pas à pas, include app** · 37:38
-- 🟡 **47 — Thème Offert MASTER + Recommandation 2026** · 3:28
-- 🟡 **48 — Thème recommandé + Page produit pour convertir** · 49:08
-- 🟡 **49 — Parametre Boutique, Shipping etc** · 10:02
+- ✅ **45 — Checklist 2026 & CRO Tips** · 20:15
+- ✅ **46 — Setup Shopify pas à pas, include app** · 37:38
+- ✅ **47 — Thème Offert MASTER + Recommandation 2026** · 3:28
+- ✅ **48 — Thème recommandé + Page produit pour convertir** · 49:08
+- ✅ **49 — Parametre Boutique, Shipping etc** · 10:02
 - 🟡 **50 — Création offre débutant** 
 - 🟡 **51 — Logo IA (Canva), Charte Couleur, Trust Badges** 
 - 🟡 **52 — Créer des images produit 100% AI qui convertisse** 

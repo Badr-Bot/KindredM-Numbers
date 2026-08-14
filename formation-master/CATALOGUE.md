@@ -1,12 +1,12 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 128 complètes (20 %)**
+**624 leçons au total · 140 complètes (22 %)**
 
 
 ## 0 to 1 : MASTER ONE
 
-82 leçons · 31 complètes · 51 partielles
+82 leçons · 43 complètes · 39 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -44,21 +44,21 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 32 | [Impressions US: hacks récents pour pépites](transcriptions/0-to-1-master-one\32-impressions-us-hacks-recents-pour-pepites.md) | 10:49 | complet |
 | ✅ | 33 | [Sophistication Simplifié (base à connaître)](transcriptions/0-to-1-master-one\33-sophistication-simplifie-base-a-connaitre.md) | 8:18 | complet |
 | ✅ | 34 | [Fichier d'organisation](transcriptions/0-to-1-master-one\34-fichier-d-organisation.md) | 15:38 | complet |
-| 🟡 | 35 | [Sourcing & première commande](transcriptions/0-to-1-master-one\35-sourcing-premiere-commande.md) | — | partiel |
-| 🟡 | 36 | [Pour aller plus loin dans le détail](transcriptions/0-to-1-master-one\36-pour-aller-plus-loin-dans-le-detail.md) | 1:02 | partiel |
+| ✅ | 35 | [Sourcing & première commande](transcriptions/0-to-1-master-one\35-sourcing-premiere-commande.md) | 9:03 | complet |
+| ✅ | 36 | [Pour aller plus loin dans le détail](transcriptions/0-to-1-master-one\36-pour-aller-plus-loin-dans-le-detail.md) | 1:02 | complet |
 | 🟡 | 37 | [Logistique et fournisseurs](transcriptions/0-to-1-master-one\37-logistique-et-fournisseurs.md) | — | partiel |
-| 🟡 | 38 | [L'importance des créatives](transcriptions/0-to-1-master-one\38-l-importance-des-creatives.md) | — | partiel |
-| 🟡 | 39 | [Le Parcours Psychologique des créatives Hook 1/2](transcriptions/0-to-1-master-one\39-le-parcours-psychologique-des-creatives-hook-1-2.md) | — | partiel |
-| 🟡 | 40 | [Le Parcours Psychologique des créatives 2/2](transcriptions/0-to-1-master-one\40-le-parcours-psychologique-des-creatives-2-2.md) | — | partiel |
-| 🟡 | 41 | [Démo : créer une créative avec l’IA de A à Z](transcriptions/0-to-1-master-one\41-demo-creer-une-creative-avec-l-ia-de.md) | 49:12 | partiel |
-| 🟡 | 42 | [Créer des ads à très bas coût sans IA (~200€)](transcriptions/0-to-1-master-one\42-creer-des-ads-a-tres-bas-cout-sans.md) | — | partiel |
+| ✅ | 38 | [L'importance des créatives](transcriptions/0-to-1-master-one\38-l-importance-des-creatives.md) | 8:03 | complet |
+| ✅ | 39 | [Le Parcours Psychologique des créatives Hook 1/2](transcriptions/0-to-1-master-one\39-le-parcours-psychologique-des-creatives-hook-1-2.md) | 13:30 | complet |
+| ✅ | 40 | [Le Parcours Psychologique des créatives 2/2](transcriptions/0-to-1-master-one\40-le-parcours-psychologique-des-creatives-2-2.md) | 16:15 | complet |
+| ✅ | 41 | [Démo : créer une créative avec l’IA de A à Z](transcriptions/0-to-1-master-one\41-demo-creer-une-creative-avec-l-ia-de.md) | 49:12 | complet |
+| ✅ | 42 | [Créer des ads à très bas coût sans IA (~200€)](transcriptions/0-to-1-master-one\42-creer-des-ads-a-tres-bas-cout-sans.md) | 10:36 | complet |
 | 🟡 | 43 | [Pour aller plus loin avec l'IA ..](transcriptions/0-to-1-master-one\43-pour-aller-plus-loin-avec-l-ia.md) | — | partiel |
 | 🟡 | 44 | [Pour aller plus loin avec les créatives](transcriptions/0-to-1-master-one\44-pour-aller-plus-loin-avec-les-creatives.md) | — | partiel |
-| 🟡 | 45 | [Checklist 2026 & CRO Tips](transcriptions/0-to-1-master-one\45-checklist-2026-cro-tips.md) | — | partiel |
-| 🟡 | 46 | [Setup Shopify pas à pas, include app](transcriptions/0-to-1-master-one\46-setup-shopify-pas-a-pas-include-app.md) | 37:38 | partiel |
-| 🟡 | 47 | [Thème Offert MASTER + Recommandation 2026](transcriptions/0-to-1-master-one\47-theme-offert-master-recommandation-2026.md) | 3:28 | partiel |
-| 🟡 | 48 | [Thème recommandé + Page produit pour convertir](transcriptions/0-to-1-master-one\48-theme-recommande-page-produit-pour-convertir.md) | 49:08 | partiel |
-| 🟡 | 49 | [Parametre Boutique, Shipping etc](transcriptions/0-to-1-master-one\49-parametre-boutique-shipping-etc.md) | 10:02 | partiel |
+| ✅ | 45 | [Checklist 2026 & CRO Tips](transcriptions/0-to-1-master-one\45-checklist-2026-cro-tips.md) | 20:15 | complet |
+| ✅ | 46 | [Setup Shopify pas à pas, include app](transcriptions/0-to-1-master-one\46-setup-shopify-pas-a-pas-include-app.md) | 37:38 | complet |
+| ✅ | 47 | [Thème Offert MASTER + Recommandation 2026](transcriptions/0-to-1-master-one\47-theme-offert-master-recommandation-2026.md) | 3:28 | complet |
+| ✅ | 48 | [Thème recommandé + Page produit pour convertir](transcriptions/0-to-1-master-one\48-theme-recommande-page-produit-pour-convertir.md) | 49:08 | complet |
+| ✅ | 49 | [Parametre Boutique, Shipping etc](transcriptions/0-to-1-master-one\49-parametre-boutique-shipping-etc.md) | 10:02 | complet |
 | 🟡 | 50 | [Création offre débutant](transcriptions/0-to-1-master-one\50-creation-offre-debutant.md) | — | partiel |
 | 🟡 | 51 | [Logo IA (Canva), Charte Couleur, Trust Badges](transcriptions/0-to-1-master-one\51-logo-ia-canva-charte-couleur-trust-badges.md) | — | partiel |
 | 🟡 | 52 | [Créer des images produit 100% AI qui convertisse](transcriptions/0-to-1-master-one\52-creer-des-images-produit-100-ai-qui-convertisse.md) | — | partiel |

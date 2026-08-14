@@ -1,4 +1,4 @@
-# 0 to 1 : MASTER ONE
+# 0 to 1 : MASTER ONE (partie 1/2)
 
 _Transcriptions de la formation MASTER. Source unique de vérité._
 
@@ -4383,7 +4383,7 @@ Le fichier en lui-même n'est pas magique, ce qui compte, c'est la régularité 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 35 : Sourcing & première commande
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 35
 ======================================================================
 
@@ -4427,16 +4427,66 @@ Ne sous-estime pas cette étape : le fournisseur que tu choisis aujourd'hui impa
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Hello les gars, on se retrouve pas en module aujourd'hui assez simple. Donc ça va être comment sourcer votre premier produit winner. Une fois que vous avez fait votre recherche et que vous avez visité, que vous avez validé le marché et la demande de votre produit, c'est le moment de trouver un fondateur. On va passer tout de suite dans le vizier du sujet. Donc premièrement, négocier ses premiers prix.
+
+[00:22] Alors ce que je conseille personnellement, c'est de passer sur 16.88 à Libaba et les agents que vous aurez dans le school ou qu'on vous a recommandé. Donc pour apprendre à discuter avec les fournisseurs, ça va vous aider à obtenir les meilleures conditions possibles dès le départ. Donc moi ce que je conseille, c'est de passer sur Libaba pour faire une recherche très très simple par image, par image.
+
+[00:45] Pardon, donc vous prenez l'image du concurrent. Ensuite vous le mettez sur Libaba. Ça va venir trier sur Libaba avec la liste de tous les fournisseurs, ceux qui sont vérifiés. Choisissez premièrement un agent vérifié. Donc vous mettez le filtre agent vérifié et ensuite ceux qui ont le plus d'étoiles et le plus d'avis. Donc c'est très important pour avoir la meilleure qualité possible.
+
+[01:07] Ensuite vous allez faire une demande de sourcing. Donc un maximum de demandes possibles. Au minimum 10 ce que je conseille personnellement sur Libaba. Disons que vous avez un produit de café au champignon par exemple. Vous allez venir faire une recherche image directement avec à Libaba.
+
+[01:28] Ensuite vous allez lister le top 10, 20, 30 agents et usines qui proposent ce produit là. Vous allez ensuite les contacter avec un visage assez simple. Vous allez leur demander le prix pour le MOQ. Donc MOQ c'est minimum order quantité. Donc la quantité minimum de commandes, vous ne pouvez pas commander. Ça dépend la gamme et la niche.
+
+[01:49] Des fois vous ne pouvez pas commander que un ou deux produits pour voir ce que ça donne. Vous êtes obligé de commander par 10, 20, 30, 50, 100. Ça dépend du produit. Vous pouvez donc en fait se demander le prix pour le MOQ pour 100, 1000, 3000 pièces. Et en fait ça c'est pour avoir un ordre d'idée de à quel point vous allez pouvoir scalez. Et avoir pardon vos marches se réduire avec le temps.
+
+[02:12] Donc si vous savez que par exemple là vous avez un Roastback Even à 1,7. Parce que vous avez acheté juste une MOQ. Vous savez que si vous allez passer une commande de 1000 pièces. Par exemple votre Roastback Even il va passer à probablement 1,6 ou 1,65, 1,5. Et ça vous permet justement d'ajouter vos marches, de voir que le plus vous scalez,
+
+[02:35] plus ça va être simple pour vous de faire du profit. Donc ça c'est très important. Faites demander un maximum de vie. Vous vous en demandez au moins 10. Vous comparez tous les prix, vous voyez, qui proposent la meurqualité. Ensuite, il faut demander après pardon le prix sans la livraison. L' livraison est trop cher pour demander de passer par une autre ligne.
+
+[02:56] Ça c'est pour les agents. Donc moi ce que je fais personnellement, c'est que je contacte les usines directes de Monts-Ralibaba. Et ensuite j'envoie les couches du moi même de Chine à Chine, à mon agent en Chine qui va s'occuper justement de la livraison. Parce que les agents généralement sur les sourcings, ils vont vous allumer en termes de prix. Je préfère contacter direct tout mon usine,
+
+[03:16] avoir la meilleure prix possible sur le marché. Et sur 16,88 aussi ça marche. Là vous avez les meilleures prix possibles. Ensuite tout ce que vous avez à faire, c'est d'envoyer la marchandise à l'agent. Ça se fait extrêmement simplement. Ils ont l'habitude des agents et fous canier énormément d'argent comme ça. Ça vous permet d'augmenter vos marches et de pas vous faire allumer par l'agent. Une fois que l'agent a produit, vous lui demandez une estimation du prix de livraison.
+
+[03:39] Et ensuite vous calculez vos coques comme ça. Donc ensuite si l'agent vous propose un prix trop élevé, bien sûr, vous pouvez faire des deux vies avec différents agents et comparer. Et ensuite, si l'agent, il a un prix trop haut, vous pouvez lui proposer aussi d'essayer de passer par une autre ligne. Après, ce n'est pas forcément la même qualité. En termes de shipping, il faut voir ça peut-être, ça va peut-être mettre un peu plus de temps et avoir un mont de garantie.
+
+[04:01] Mais vous pouvez toujours essayer de gagner quelques centimes comme ça. Ensuite, commandez ces premiers échantillons. Donc une fois que vous avez identifié les meilleurs fournisseurs et les meilleures usines, vous pouvez commander 3 à 5 échantillons pour comparer et choisir la meilleure. Donc une fois que vous avez votre liste de, on va dire 10 fournisseurs sur Alibaba,
+
+[04:22] vous allez venir leur demander un sample, donc sample, qui connaissent en anglais, c'est un échantillon. Déjà, vous avez déjà fait un prométrie par rapport aux 10 fournisseurs. Donc, je vais laisser le top 3. Là, normalement, vous avez probablement la meilleure qualité sur le marché, en tout cas sur Alibaba. Une fois que vous avez ces trois là, vous allez commander ensuite recevoir le produit chez vous,
+
+[04:44] tester la qualité, voir si tout est conforme, si il n'y a pas de problème, si la fashion peut tester l'état et voir ce qui va, ce qui va pas, s'il y a des coupes-chures qui ne vont pas, si c'est dans la skincare, vous pouvez voir le produit, s'il n'est pas venu endommager, s'il est bien emballé, s'il y a plein de choses à vérifier la qualité. Une fois que vous avez ces trois là,
+
+[05:04] vous pouvez choisir le meilleur ou avoir bien évidemment plusieurs usines avec qui vous pouvez vous fournir. C'est important de faire ce test, d'échantiller en amont aussi, pour éviter de commander par exemple les 10 meilleurs pièces. Et de se retrouver avec la marchandise chez l'agente, vous avez déjà payé et qui a eu de très mauvaise qualité, du coup vous pouvez pas la vendre,
+
+[05:25] ça peut arriver et c'est très très problématique. Ensuite, les délais de livraison, identifier et gérer les délais pour éviter les mauvaises surprises et garantir une expérience climatique. Ça, c'est une fois que vous avez validé votre produit, winner, que vous avez votre fournisseur, qui vous propose un produit très qualitatif là, il va falloir identifier les délais de livraison.
+
+[05:47] Bon, est-ce que le temps de production, c'est 20 jours, 30 jours, 40 jours, 50 jours. En fonction de ça aussi, on peut switcher d'argent de usines parce que j'ai eu des usines qui proposent des fois des délais trop longs et qui tapaient les plus chers, je préfère aller vite et passer avec une autre usine. Donc bien demander les délais de production.
+
+[06:08] Ça va pas du tout être pareil, si vous avez 20 jours de délais et 30, 40 jours, ça change énormément de choses. Sachez-le en amont. Ensuite, il faut savoir qu'en plus du délais de production, si vous envoyez en Chine, il y a encore un jour ou deux délais de livraison, plus le délais pour que l'argent mette toute la marchandise en stock chez lui.
+
+[06:29] Donc ça encore, ça va, c'est en deux jours, si vous êtes en Chine, mais si vous êtes en France, vous aussi comptez le transport maritime ou il n'y a rien. Donc aussi, faites attention à ça. Et c'est bien de calculer au jour près exact quand est-ce que vous aurez du stock, etc. Pour éviter de tomber en rupture et avoir la meilleure expérience client possible. Ensuite, les autres aspects essentiels,
+
+[06:50] vérification des certifications standard du produit, ça, c'est plutôt pour les compléments alimentaires et tout ce qui est consommable. Donc grâce à ça, après, ce que je peux vous conseiller sur ce genre de choses, c'est qu'en Chine, ils travaillent avec un partenaire, je crois, qui est européen, qui permet d'avoir toutes les certifications et les standards européens.
+
+[07:10] Donc c'est des tests que vous allez payer bien évidemment. Ça doit être, ça dépend du produit, mais c'est 200, 300, 400 euros par certification. Mais si vous voulez vendre en France, c'est absolument obligatoire. Ensuite, la gestion des quantités minimales de commande, MQ, donc, vous pouvez essayer de négocier bien évidemment les MQ. Vous pouvez aussi voir avec l'argent,
+
+[07:33] si vous vous coupez au commandeur en volume, bien évidemment, il va baisser les prix. Mais en plus de ça, il peut réduire vos MQ pour les prochains commandes aussi. Donc ça aussi, c'est intéressant. Ensuite, communication efficace avec les agents, fournisseurs. Moi, ce que je vous conseille personnellement, c'est de s'adapter à l'argent. Donc il y a pas mal de doutils qui fonctionnent. Il y a l'arc, WhatsApp, Alibaba, WeChat, etc.
+
+[07:53] Nous en Europe, base par ClickUp, plein de choses, NoChen, etc. Plein de choses différentes. Mais ce que je vous conseille, c'est d'adapter à l'argent, parce qu'il y a pas mal d'agents qui mettent énormément de temps à répondre. Et là, c'est absolument pas ce qu'on veut. Ce que je vous conseille, c'est de voir avec eux quel est leur canal de discussion préféré ou est-ce qu'ils seront le plus disponible
+
+[08:14] ou est-ce qu'ils répondent le plus vite possible. Après, ça reste des humains. Il faut essayer de les comprendre. Et n'hésitez pas à les renoncer déjà s'ils mettent du temps à répondre. Et vous pouvez aussi voir, probablement, essayer de passer avec d'autres agents si vous avez trop de problèmes avec certains agents. Ça peut arriver en Chine, parce que des fois, quand on est un petit client, il préfère
+
+[08:36] accorder de l'importance à des clients plus grosses, qui est tout à fait normal. Mais bon, il y a toujours d'autres solutions. Donc voilà ce que je pensais, c'est d'adapter à l'agent, essayer de comprendre exactement ce que eux recherchent, ensuite comprendre pourquoi ils veulent tout ça, essayer de trouver un terrain dont on t'a vécu.
+
+[08:57] Donc voilà les gaz-této pour ce module. N'hésitez pas, si vous avez les questions et on se retrouve dans le prochain module.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 36 : Pour aller plus loin dans le détail
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 36
 ======================================================================
 
@@ -4486,9 +4536,13 @@ Si tu as déjà les bases ou que tu veux aller plus loin que le module Fondation
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, si vous avez regardé la partie produit master et que vous voulez plus de détails sur comment trouver des produits PEPIT, des produits Banger, vous suffis d'aller dans Classroom ici et vous allez dans Product Air Research. Et ici, on vous partage encore plus de détails sur être sur à 100% d'avoir un produit vraiment intéressant.
+
+[00:25] On a aussi mon retour d'expérience d'après avoir fait des années et des années d'e-commerce. Sur quel marché se lancer, sur quel type de produit trouver, bien que tout ce qu'on vous a montré dans le module fondation, c'est tout ce qui est nécessaire pour faire vos premiers 1000 euros par jour et plus.
+
+[00:48] Mais ici, on a aussi plus de conseils. Si vous êtes quelqu'un peut-être qui a de plus d'expérience, vous voulez juste plus d'informations sur avoir le bon produit, le bon marché et lancer au bon moment. Donc voilà, c'est dans Master Research.
 
 
 
@@ -4540,7 +4594,7 @@ _(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 38 : L'importance des créatives
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 38
 ======================================================================
 
@@ -4592,16 +4646,54 @@ Ce domaine va au-delà de la publicité : comprendre la psychologie d'achat et l
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors avant d'attaquer ce module qui est pour moi le plus important, je vais expliquer une importance des créatifs. Je vais vous expliquer aussi comment suivre tout ça, ok ? Parce que c'est la partie où je considère avoir le plus de knowledge, donc c'est la partie qui va dire la plus avancée. Et si par contre vous êtes débutant, vous avez vite trouvé du contenu très avancé, où c'est que vous aurez de la peine de départ.
+
+[00:27] Donc je vais vous donner l'ordre à laquelle suivre. Deux qu'il y aura un ordre auquel suivre ces modules sans être perdu, que vous devrez simplement suivre dans l'ordre. C'est là de crescendo d'une manière très avancée, de crescendo en fait, à vous rendre très très avancée.
+
+[00:48] Ok, on a des personnes qui sont devenues vraiment expertes juste en suivant ce que je conseille. Je ne conseillerai pas encore être un expert-expert, mais c'est un domaine que j'ai eu beaucoup de plaisir à étudier, à combiner avec la psychologie. Et vous allez vite voir que vous allez apprendre des choses qui vont vous rapporter de l'argent tout du long de votre vie. Parce que si vous allez faire des créatifs publicitaires pour vendre, vous aurez toujours gagné de l'argent tout du long de votre vie.
+
+[01:17] Donc on a du contenu très très avancé, vous allez voir, ça va très loin. Et il faut juste suivre les modules et il y en a aussi Creative Insights, c'est Creative Insights chaque semaine. Je ou quelqu'un de l'équipe partage une insight actuelle qui marche pour nous, pour nos business dans le sujet des créatifs. Et donc vous aurez des pépites chaque semaine.
+
+[01:40] Et le but c'est de condenser ça sur des vidéos assez courtes et process appliquées. Ok, on veut des choses appliquables. On ne veut pas juste la théorie, on veut des choses appliquables sous une vidéo courte. Les créatifs décident si ton business vit ou meurt. Je vais le mettre ici. Donc tu peux avoir le meilleur produit au monde. S'il n'y a pas de clics, s'il n'y a pas de bonnes créatifs, rien se passe.
+
+[02:02] Surtout que nous on va vous apprendre comment générer beaucoup de cash avec Meta principalement. Parce que pour moi Meta c'est la chose numéro 1. Mais ensuite il y a aussi TikTok, Google, Applevin mais il y aura toujours cet aspect de créatif. Même Google maintenant, les créatifs sont très importants et le plus gros argent peut se faire avec des créatifs. Donc les créatifs ne sont pas juste une étape.
+
+[02:24] Le but c'est pas juste que les gens cliquent. C'est pas juste de leur dire qu'il faut cliquer. Les créatifs c'est un déclencheur psychologique. Les créatifs c'est la partie où c'est qu'on va pouvoir créer une émotion chez la personne et donner envie d'acheter. Et les créatifs peuvent rapporter énormément d'argent. Moi j'ai décidé de mettre mon focus dedans.
+
+[02:45] Je sais plus en quelle année, je pense depuis 2022-2023. Et les résultats ont été instantanés. En fait, juste avec des créatifs, on a pu générer des résultats incroyables. Juste avec une seule créative en 2024-2025, on a dépensé plus 3 millions sur une créative avec ses variations. Et le message et le visuel déterminent la performance globale principalement.
+
+[03:09] Donc en fait, juste pour vous comprendre, vous allez venir mettre quelque chose d'une créative. Et ça va venir vous rapporter de l'argent. Ce qui vous vous comprenez aussi, je risque de le répéter certainement plusieurs fois dans le module et j'ai risque d'y aller aussi en détail. C'est que le parcours classique sur Meta, sur TikTok, on va venir trouver quelqu'un qui ne nous connaît pas.
+
+[03:38] Il est en train de scroller. Il va venir s'arrêter sur notre pub. Il va venir regarder la pub. Il va venir ressentir quelque chose. Donc, il va lui faire ressentir quelque chose. C'est-à-dire en fonction de nos textes, de nos visuels, on va lui faire ressentir des émotions positives, négatives, des envies. Il va venir cliquer sur le site avec tout ce charge émotionnel en voulant acheter le produit.
+
+[03:59] Et ensuite, le suite, ça va juste être une extension. Le but c'est juste de continuer le parcours psychologique qu'on a fait pour qu'à la fin, il achète. Et c'est comme ça qu'on peut en convaincre quelqu'un qui ne connaît pas à acheter en quelques minutes, 5 minutes, je vais vous expliquer ensuite, avec simplement un parcours hypnotique. Ce qu'il faut savoir, c'est que souvent, quand il scroll, il est en état inconscient, il est un peu en hypnotique.
+
+[04:25] Il veut juste de la dopamine. Et nous, on va y captiver son sensation avec des techniques. On va faire en sorte qu'il se sente concerné. On va faire en sorte qu'il ressente un pic émotionnel plus fort que la douleur d'achat parce que acheter, c'est une douleur, c'est au mon argent. Et il faut le faire, il faut mettre ma carte, etc. Donc nous, en fait, on va venir préparer quelqu'un à faire cet effort-là et acheter.
+
+[04:49] Et ensuite, on va y dire de cliquer, à la fin de la pub. Ensuite, il va arriver sur le site. Il doit avoir confiance rapidement sur le site en moins de 2 secondes. Il lit, l'offre semble irrésistible, évidente. Il achète. Ok ? Ça, pour résumer, c'est ce qu'on veut faire. Il n'aura maîtriser chaque étape de ce parcours. C'est aussi simple que ça. Et 5 minutes, c'est la moyenne de temps qu'on a besoin pour convaincre un inconnu à acheter.
+
+[05:18] Ce qui veut dire en 5 minutes, vous pouvez convaincre quelqu'un qui ne vous connaît pas à acheter avec une vidéo, avec un funèles. Et pour nous, ça se confirme même en moins de 5 minutes. Après, ça dépend de l'essor de vos produits. Si vous avez un produit plus lourd, 5 minutes vont peut-être se transformer plus longs. Mais en direct expérience, l'objectif sur un Aov à moins de 100 euros, c'est de convaincre en moins de 5 minutes.
+
+[05:42] Aov, c'est pas de les moyens. Ok ? Ça veut dire que votre client, si il va acheter votre produit, plus d'autres produits, ça va donner son pas de les moyens. Et le total avant checkout doit être 200 euros. En gros, c'est sale le Aov. En gros, en moyenne, quel est le montant que le client achète avant le checkout ?
+
+[06:08] Après, Aov, techniquement, c'est aussi après le checkout. Avec les obsèdes. Mais pour l'instant, c'est juste pour définir ce que c'est la OV, si vous ne savez pas ce que c'est. Donc voilà, le dernier réponse, c'est convaincre quelqu'un qui ne connaît pas rapidement avec des techniques psychologiques. C'est qu'il faut savoir que l'attention elle la ressort la plus rare et quand on arrive à tenir l'attention de quelqu'un,
+
+[06:33] qu'on arrive à faire regarder nos vidéos longtemps, un méta nous récompense. Quelque chose de très important à savoir, c'est que les créatifs font le targeting. C'est-à-dire que vos créatifs, ce que vous mettez dans vos créatifs, vous allez venir cibler les gens en fonction de ça. C'est peut-être une créatif qui parle à des gens qui sont telles avatars, telles et tenies,
+
+[07:00] en montant un avatar par exemple, c'est pas sud-américain, hispanique, vous allez venir targater, si vous faites des ads sur les US, des avatars similaires. Si vous mettez ça dans votre créatif, parce que votre algorithme, il va venir analyser votre ad, en fonction des réactions de telle personne, montrer à d'autres personnes.
+
+[07:23] C'est-à-dire que si vous mettez une ad d'une bouteille et vous mettez le titre, cette bouteille m'a soulagé mes problèmes de genoux, vous allez venir targater toutes les personnes qui ont des problèmes de genoux. Et si vous mettez la même vidéo en mettant cette bouteille, mais d'arriqués au sport, vous allez venir toucher d'autres personnes. C'est-à-dire que c'est votre créatif qui cible les personnes et non l'inverse.
+
+[07:48] C'est-à-dire qu'il n'y a pas de technique à faire son meta pour retrouver. Ça c'était avant, maintenant c'est ce que vous mettez dans votre créatif qui attire les bonnes personnes. Donc vos visuels, tout ce que vous mettez dans votre créatif va venir attirer des bons acheteurs ou pas. Très important.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 39 : Le Parcours Psychologique des créatives Hook 1/2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 39
 ======================================================================
 
@@ -4653,16 +4745,86 @@ La plupart des créatifs pensent faire "du contenu". En réalité, chaque créat
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, là je vais vous dévoiler quel est le parcours psychologique des créatifs. Donc je vais vous dévoiler ce que personne ne vous dévoile. Je vais vous expliquer ce qui se passe d'un point de vue psychologique, tout du long du parcours que va faire votre prospect au niveau de la créative. Donc pour résumer, je vais mettre ici, un peu plus petit, voilà comme ça je ne gage pas le dessin.
+
+[00:22] La créative ce n'est pas juste une vidéo ou une image, ok ? C'est un stimulu psychologique construit pour influencer le cerveau humain en quelques secondes, quelques minutes. Ok ? Donc c'est un véhicule qu'on va utiliser pour lui faire prendre une décision. Donc on ne crée pas juste du contenu, on construit un parcours hypnotique qui guide quelqu'un qui ne te connaît pas faire une décision vers celle de donner de l'argent en fait,
+
+[00:45] de sortir sa carte bleue. Ok ? Donc c'est pour remettre du contexte, parce que tout ce que je vais vous donner là, ce sera intemporel. Ok ? C'est-à-dire que peu importe ce qui arrive dans les prochaines années, ce sera intemporel, ça c'est les codes, ce n'est pas juste des petits hacks, ok ? Et comme vous le voyez dans ce school, on ne vous donne pas juste des hacks, on vous donne vraiment le raisonnement derrière pourquoi les choses marchent.
+
+[01:06] Donc je fais un petit notion pour vous expliquer mieux. Ok, alors on va décortiquer le parcours psychologique des créatives. Donc votre tout premier objectif c'est de venir captiver le cerveau primitif avec un hook irrésistible, pardon. Donc votre premier objectif c'est de captiver l'attention de votre prospect, ok ?
+
+[01:29] Pas captiver l'attention d'une n'importe qui, sinon n'importe qui peut faire des hooks clickbait qui vont attirer l'attention d'une n'importe qui mais captiver l'attention de votre prospect. Donc il faut falloir que vous maîtrisiez qui est votre avatar pour ensuite comprendre comment c'est que vous avez pu avoir eu captiver l'attention. Et le hook il est ultra important parce que en fait si vous n'avez pas un bon hook,
+
+[01:50] vous avez beau avoir une bonne vidéo, ça va pas marcher, ça va pas être banger, ok ? Donc le hook il a trois rôles, c'est un attraper l'attention, il doit faire dire que c'est pour moi, ok ? C'est-à-dire que la personne il se dit ok, ça va me concerner et ça doit créer une attente. Ça doit créer une boucle ouverte, une question dans la tête du prospect pour qui reste.
+
+[02:11] Et ça, ça se fait avec les visuels et le texte. Donc pour résumer, le prospect ne réfléchit pas, il scroll, ok ? Il veut juste la dopamine, il veut des choses simples à scanner quand ils sont les réseaux, il veut des femmes, des émotions, des chakis d'ance, des trucs drôles, des trucs en fait, c'est qu'il n'a pas besoin de se concentrer. Donc votre hook il doit pas avoir besoin de se concentrer et c'est d'y captiver l'attention.
+
+[02:34] Donc on doit y faire une rupture mentale, une rupture de patern qu'on appelle ça en deux secondes, ok ? Le plus vite possible. Et un bon hook ne montre pas tout, il doit ouvrir une boucle dans la tête. C'est-à-dire qu'il doit y avoir quelque chose que le prospect envie de regarder. Comme dans une série, on montre un truc et on monte une scène et on dit ok, on veut voir ce qui s'est passé. Ok ? C'est comme si là, je vous montre un hook où il y a plein de personnes dans une rue,
+
+[02:58] où il y a plein de personnes, il y a des gens qui regardent depuis le balcon, il y a tout le monde qui regarde en fait quelque chose, on sait pas trop ce que c'est. Et bien le but c'est pas de montrer directement ce que c'est. Le but c'est qu'on se demande justement ce que c'est, puis qu'on regarde la vidéo pour comprendre ce qui s'est passé. Et après il peut y avoir un message, je sais pas, les habitants de Chicago ont été sous le choc en découvrant ceci dimanche matin, par exemple.
+
+[03:23] Et vous, ça va vous hooker parce que vous voulez voir ce qu'il y a. Mais si vous montrez direct, ça va venir casser le truc, ça va venir casser l'attention. La tension, pas la tension. Donc un hook qui sert à trois choses, comme je dis, attraper l'attention, dire au cerveau, c'est pour moi créer une attente. C'est pas juste de faire arrêter le scroll, ça c'est beginner. Il est vrai mécanique biologique pour un hook winner, c'est ceci.
+
+[03:47] C'est un, c'est du mouvement. Il faut toujours qu'il y ait du mouvement dans un hook très très important, il faut qu'il y ait un pattern interrup... Et naturellement on est fait pour être captivé quand il y a du mouvement. C'est-à-dire si c'est moins mon hook, moins qu'il bouge pas, ou moins qu'il fait ça, naturellement votre œil va rester pour essayer de finaliser le mouvement et voir c'est quoi. Donc le mouvement, le premier hack, donc le cerveau il est programé pour d'être été le mouvement que j'ai dit,
+
+[04:11] un geste de la main, une tête, ce qui tourne, quelque chose qui tombe, un zoom, des micro-mouvements. Pas importe, il faut qu'il y ait du mouvement sur hook. Très important, c'est peut-être comme ceci par exemple. La séance pide, je vais mettre à peine moins vite. Vous voyez, il y a du mouvement, c'est pas ce qui se passe.
+
+[04:36] Mais il doit y avoir le mouvement direct dans la première seconde. Dans la 0.5 seconde il doit avoir du mouvement. Très important, c'est premier hack, c'est que tous vos hooks doivent comporter du mouvement. Ensuite, ça doit être facile à scanner. Un hook doit être facile à scanner. Si c'est un truc compliqué ou si le cerveau ne comprend pas, il va dire non, c'est trop compliqué pour moi, je ne veux pas regarder.
+
+[05:00] Je vous rappelle, il est en état hypnotique ou ce qui veut de la dopamine. Donc il ne doit pas lui compliqué le travail. Ça doit être simple et agréable à regarder. Il doit y avoir des couleurs. Vous voyez, là c'est simple à scanner. Il y a du noir, une sorte de beige, des ongles rouges, de la peau, mais c'est facile à scanner. Et là, un autre hack, c'est de montrer des mains qui tiennent quelque chose.
+
+[05:21] Ça marche toujours. C'est un hack psychologique quand quelqu'un tient quelque chose dans une main. Et qu'on ne voit que ça, c'est qu'on doit revoir ce qui se passe. Donc, facile à scanner, le hook doit être compris en un seul regard. Le cerveau ne doit jamais regarder ou chercher. C'est-à-dire que ça doit être simple ce qu'on doit regarder. Et on doit avoir un plan serré, on doit zoomer sur ce qu'on doit regarder.
+
+[05:44] On ne doit pas savoir si c'est ça, si c'est ça, si c'est ça qu'on doit regarder. Et on doit pouvoir lire facilement l'émotion. On doit comprendre si elle doute, si elle est surprise, si elle est dégoûtée. Elle doit être bien éclairée, on doit pouvoir scanner facilement. Le texte doit être puits, être lu rapidement aussi. Et un seul point focal.
+
+[06:10] Voilà, un exemple. En sachant que ça, c'est la limite de facile à scanner. C'est pour ça que je voulais montrer, c'est-à-dire que ce n'est pas le meilleur exemple, mais c'est la limite. C'est-à-dire qu'on a révu ça scanner, mais ça reste quand même... Ça commence à devenir complexe. Tu as dit qu'un truc comme ceci, c'est beaucoup plus simple. Donc le cerveau, il ne doit pas comprendre, il ne doit pas réfléchir, sinon il est déjà perdu.
+
+[06:36] Ensuite, le point 3, c'est le contexte immédiat. Ça, très peu de personnes en parlent, je pense que vous n'avez jamais vu ça sur Youtube, sur Twitter, etc. Mais dans les 1 à 5 premières secondes, il doit comprendre que ça parle pour lui. C'est-à-dire, le rôle de votre OOC, je vous le rappelle, c'est d'être pertinent.
+
+[06:57] C'est de targetter la bonne personne. Sinon, on fait juste des OOC, clickbait, et en fait, vous allez me dire targetter beaucoup de personnes, mais ça n'a pas à avoir de sens. Meta, TikTok, etc. Ce qu'il veut, c'est que vos OOC fassent aussi le filtre. Donc plus ça va être pertinent pour lui, plus vous aurez de bonnes performances.
+
+[07:20] Donc il ne faut pas que ça aille lentement, il ne faut pas mettre des scènes inutiles, il doit comprendre instantanément le problème de ma situation et que ça le concerne. Du moins dans les 5 premières secondes, ok ? Donc comme j'ai dit, un OOC peut être beau, surprenant viral, mais sans signal de pertinence par rapport au prospect, il ne va pas retenir la bonne audience et du coup, il ne va pas marcher.
+
+[07:42] Il n'y a pas que le OOC. Le but, c'est de tenir la bonne personne sur votre vidéo. Ce n'est pas de tenir n'importe qui. Donc c'est très important. Ça doit parler de lui. Ça doit être pertinent pour la bonne audience. Sinon après, il y aura une chute. Là, je vous ai mis des exemples de headline. Donc là, vous aurez quelque chose de banger-banger. Vous aurez une bibliothèque la même qu'une on utilise pour créer en fait tous des OOC,
+
+[08:07] selon pas mal de variables, selon les niveaux d'Awareness, ok ? Selon des techniques, des frameworks psychologiques, ok ? Vous aurez plein d'exemples et vous pourrez simplement fider un GPT. Là, je vous ai mis des OOC UGC aussi si c'est une personne UGC.
+
+[08:28] Bref, vous aurez juste trop d'exemples à prendre pour des OOC. Donc vous aurez plus aucune excuse de ne pas avoir d'idées de OOC. Simplement, vous faites un OOC, c'est que ça parle de... on va dire de problème, ok ? Et puis on va venir regarder un exemple, par exemple, ok ? Trois ways this product fight acne problem effectively, ok ?
+
+[08:52] Vous aurez aucun qui marche, vous pourrez adapter. Et vous pourrez faire des variations aussi. Et en français également, ça, je vous mets en anglais, parce que ces phrases en anglais, ça marche. Et vous, il faudra la traduire dans la langue que vous faites. C'est du français, c'est une autre langue. Il faudra bien repartir de ça et être sûr que ça traduit bien. Je vous donne aussi quelques exemples rapides qu'on puisse présenter en direct.
+
+[09:15] Donc le OOC identité, ça marchera toujours quand vous cibliez précisément votre avatar avec son problème. OOC curiosité ouverte. Par exemple, un barbeur qui laisse tomber le produit au ralenti. J'ai testé un truc que personne utilise pour la repose de barbe, ok ? Donc pareil, on cible la personne et il y a une curiosité pourquoi il laisse tomber le produit.
+
+[09:36] On invite de voir la suite. OOC à version à la perte. Il y a plein de dentifluices qui tombent dans une baignoire. Et puis nous on dit arrête de gaspiller ton argent dans ça. Le cerveau veut savoir pourquoi. Donc ça, c'est juste trois exemples. Rendon, voilà la vidéo est coupée. Rendon que je vous donne en fait pour pouvoir captiver attention.
+
+[09:57] Là, on est plus sur de la partie théorie. Le but c'est que vous puissiez comprendre comment moi je vois les créatifs. Et c'est comme ça que ça sera banger. C'est comme ça que vous pourrez faire beaucoup, beaucoup d'argent avec les créatifs. Parce que le niveau des gens de non-master est le niveau le plus élevé qui existe. Donc le rôle stratégique du OOC, il sert pas seulement à captiver attention.
+
+[10:21] Il sert aussi à indiquer à l'adgorithme qui c'est que vous l'avez oublier. Quel stage d'awareness tu parles et quel angle tu attaques. Ce qui veut dire que vous n'avez pas encore vu les stages d'awareness. Mais vous allez le voir par la suite dans le module. Si vous mettez dans votre OOC un OOC qui parle du problème, ça va targéter les gens qui sont aware à ce problème-là.
+
+[10:44] C'est comme si vous parlez de ce produit par rapport à la kné. Vous n'allez pas venir toucher des gens qui n'ont pas de la kné. Ou qui ne savent pas qu'ils ont de la kné. Par exemple, ou ce qui... Ils ne sont pas conscients de ça. Donc c'est très important de bien choisir vos OOCs. Parce que vos OOCs, ça va venir targéter différents avatars. Et selon les avatars que vous avez targéter, vous pourrez avoir des résultats totalement différents.
+
+[11:06] Ok, ça c'est très très important à comprendre. Je résume, si vous voulez cibler des gens qui veulent juste la meilleure offre de votre produit, si vous faites un OOC sur le prix, ça c'est le meilleur prix qu'on n'a jamais vu, vous allez targéter ces types de personnes. Si vous voulez targéter des personnes qui sont en train de comparer différents produits d'acné,
+
+[11:27] vous allez faire un OOC qui parle à ce type de personnes-là. Parce que le OOC fait le targeting. Quelques règles d'ordre d'un OOC gagnant. Donc il y a le mouvement, visual immédiat, émotion, ou tension visible. Si on voit des visages, on sent du désir,
+
+[11:47] la faussation, la surprise, la validation. Si on ressent une tension ou une émotion, ça va venir marcher. Et ça c'est universel. Si il y a une tension, par exemple, quelqu'un qui ouvre une porte et qui dit « j'ai surpris ma femme dans la chambre, à faire... ok, une tension, à faire quoi ? À faire peut-être un truc sexuel, etc. » Donc en fait, on va venir créer un désir ou une tension.
+
+[12:11] Cible à schlère, on cible à bâtard, curent été ouverte, sans tout révéler. Une headline qui cible. Donc les headlines c'est le texte. Et là, on vous a mis... Voilà, juste... trop d'inspiration. On ne trouve pas la solution complète dès le début, très important. On ouvre une question ou peut-être une loop et on la ferme dans la vidéo.
+
+[12:34] Ça, très, très important aussi. Vous devez répondre à votre ouc dans la vidéo. Sinon, vous n'allez pas fermer quelque chose, il va y rester une flouce station. Et ça doit être satisfaisant. Ok ? Très, très important. Si vous dites les trois méthodes qui permettent d'enlever la cnais naturellement, montrez ces trois méthodes. Ne changez pas... Ne mettez pas un body de vidéo qui ne répond pas à ce ouc très, très important.
+
+[12:57] Et tu dois parler comme ton avatar parle dans sa tête. Ok ? C'est pour ça qu'il faut le comprendre. C'est pour ça qu'après vous aurez une analyse au niveau de l'abattard. Parce que si vous comprenez pas l'abattard, ça va être compliqué d'être précis par rapport à lui. C'est vraiment la base de la base de la base. Et un seul point focal visuel. Ça doit être très simple à scanner. Ok ?
+
+[13:18] Si là, vous avez un ouc au séqueux, comme ça, par exemple. Et le ouc commence comme ça, qu'est-ce que vous devez regarder ? Et dès qu'il y a de la cohérence, le cerveau, il lâche.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 40 : Le Parcours Psychologique des créatives 2/2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 40
 ======================================================================
 
@@ -4714,16 +4876,104 @@ La vente, c'est avant tout une affaire d'émotions. Les décisions d'achat se pr
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, ensuite, après le hook par rapport à notre parcours psychologique, qu'est-ce qui se passe ? Donc là vous avez captivé l'attention de votre prospect, vous avez ciblé la bonne personne, vous avez ouvert une question de sa tête, et là maintenant, il va se poser une question inconsciente, il va se dire, ok enfin, inconsciemment ça, il va avoir l'attention qui est captivée,
+
+[00:21] puis il y a une question qui va venir, ok ? Cette question là va venir à ce moment là, est-ce que ça me concerne ? Ok, là je suis en train de regarder quoi, est-ce que ça me f***** concernent ? Donc là, une fois que vous avez accroché son cerveau, vous devez y répondre à cette question directement, vous devez y montrer que c'est pour lui. Donc là, ça dépend de votre avatar, de votre produit, etc.
+
+[00:41] Mais il va falloir montrer peut-être une de l'heure qui connaît, un désir qui va atteindre, une situation dans laquelle il se projette, une personne qui lui ressemble. Donc là, après le hook, ça va être très important de lui faire comprendre que c'est pour lui, ok ? Une technique très simple c'est de soit montrer l'avatar de votre personne, rapidement, qui a un problème, un douleur, un désir,
+
+[01:02] ou d'être très précis sur l'angle, et la propulsion de valeur que vous faites dans votre âge. Par exemple, vous vendez un appareil qui permet de dépiler, ok ? Qui permet de dépiler grâce à la lumière pulsée. Vous targuetez des femmes de plus de 60 ans. Vous n'allez pas venir montrer après le hook des jambes de femmes jeunes.
+
+[01:25] C'est une erreur que la plupart des personnes font. Vous allez venir montrer, peut-être, déjà quelle partie des femmes veulent s'épiler, et vous allez montrer des jambes de femmes de 60 ans, ok ? Donc ça, c'est très important. Après le hook, il va se poser la question, et c'est que ça me concerne. Et là, vous devez lui répondre. Et ça, vous allez le voir,
+
+[01:46] on vous l'explique simplement, sur Métable, vous pourrez voir ça avec la métrique hold rate. Mais pour l'instant, pas besoin de vous compliquer, vous allez voir ça par la suite. Là, je vous explique juste pour vous comprenez vraiment dans votre tête le parcours et que vous puissiez comprendre comment ensuite, mieux emmagasiner tout ce que je vais vous donner par la suite.
+
+[02:07] En étape 3, il y a créé l'émotion. Là, ce que vous devez faire, c'est que vous avez captivé son attention. Il sait que c'est pour lui. Maintenant, vous allez venir, boom, lui faire créer des émotions. C'est la magie des créatifs. Les décisions d'achat se font toujours par des émotions. Si tu veux vendre massivement, tu es obligé de créer des émotions.
+
+[02:27] Il est obligé. Donc, on peut faire selon le niveau d'awareness que vous allez comprendre par la suite. C'est-à-dire le niveau de stage de conscience que votre prospect est par rapport à votre produit. Ok. Est-ce qu'il sait que votre produit existe ? Est-ce qu'il connaît déjà votre produit ou pas ? Eh bien, vous allez venir créer différents types d'émotions.
+
+[02:48] Et il y a plusieurs leviers. Il y a le levier de la douleur. Il a une douleur, il a un problème. Et nous, on va venir appuyer dessus. Pas avec des phrases marketing génériques, ce que font par des personnes, mais avec des scènes précises. Ce qu'il veut savoir, c'est que votre script va être moins important que les footages que vous montrez. Votre script est important, mais les footages doivent prouver.
+
+[03:11] Donc, admettons qu'il a de la kné. Je prends l'exemple de la kné. Vous allez venir, par exemple, si tu souffres de la kné depuis des années et que tu as tout essayé, tu vas venir montrer des scènes qui vont venir piquer son émotionnel. Ça peut être une fille qu'a ça
+
+[03:32] et que les hommes la regardent avec des goûts, par exemple. Ça peut être qu'elles se regardent avec des goûts. Ça dépend de votre avatar, mais il faut trouver qu'est-ce que votre avatar ressent comme douleur et qu'est-ce qui pourrait appuyer ces douleurs-là. J'ai mis quelques exemples, par exemple, un jeans qui ferme plus. Par exemple, un produit de perte du poids
+
+[03:53] ou une posture voûtée devant le miroir, une mauvaise odeur après une longue journée, une fatigue visible sur le visage. Donc, vous devez avoir quelque chose qui va être pertinent et qui va venir appuyer sur la douleur. Vous vendez un produit qui soigne les douleurs de genoux, par exemple. Vous parlez de la douleur de genoux que s'il ne fait rien, il peut finir en chaise au lente.
+
+[04:15] Vous allez me montrer qu'il va finir en chaise au lente et qu'il pourra plus jouer avec ses petits-enfants. Et là, vous allez venir appuyer une douleur. Parce que si votre prospect ne passe pas à l'achat, c'est juste parce qu'on n'a pas assez, on n'a pas montré à quel point c'était douloureux et à quel point il voulait obtenir le désir. Donc, votre rôle, c'est de jouer avec ces émotions-là. C'est comme un film, il va falloir créer quelque chose. Il faut que le prospect ressente une forte émotion.
+
+[04:39] Ensuite, vous allez venir amplifier le désir de la transformation. Donc, c'est bien beau du met-en tout ce qu'il est, mais il ne va pas prendre des décisions si vous ne montrez pas qui est ce qu'il pourrait obtenir. Donc là, vous allez venir montrer ce qu'il veut ressentir. Plus de confiance, plus d'attention, plus de confort, plus d'énergie, bla bla bla. Tout en fait, toutes les émotions liées à son désir.
+
+[05:01] Comment il va se sentir ? Comment il va se sentir quand elle aura plus d'acné que l'aura une magnifique peau ? Comment elle va se sentir ? Et là, vous n'avez pas juste montré des résultats finales, mais vous avez montré des moments exacts où c'est que sa vie change. Par exemple, vous allez montrer, elle, je ne sais pas, dans un beau travail où c'est que tout le monde l'a regardé. C'est que ses collègues qui l'a regardé pas avant,
+
+[05:22] qui l'a regardé avec des goûts, la commençaient à l'en regarder avec envie, par exemple. J'ai mis des exemples, quelqu'un qui remarque son parfum. Quand on vendait un parfum, on va se voir que par exemple dans la rue, les gens sortent. Une posture droite, vous allez voir que la personne, il se tient droit, il s'attire les regards, il sourit devant le miroir qu'on voit qu'il a confiance. Il va falloir créer un désir de transformation.
+
+[05:47] Il va montrer des scènes au siècle auquel il ressent cette transformation. Quel sentiment il ressent. Très très important. Et on va créer un gap émotionnel. Donc ça, ça dépend de votre vidéo. Plus elle est longue, plus vous pourrez créer de gap. Mais en gros, quand vous amplifiez une douleur,
+
+[06:08] vous lui dites là, vous avez assez de douleur là au genou. Tu pourrais finir en chaise roulante si tu ne continue pas. Quel exemple tu donnes à tes enfants. Est-ce que tu aimerais encore pouvoir jouer avec tes petits enfants ? En fait, tu vas venir le mettre très bas, au niveau intensité, au niveau fréquence vibratoire. Et ensuite, fréquence par an de l'émotion. Et ensuite, on va venir monter par rapport à la positive.
+
+[06:31] On va venir dire, ok, mais imagine si là, tu pouvais soigner gentiment tes douleurs de genou, pouvoir rejouer avec tes petits enfants, pouvoir refaire des activités qui te plaisaient avant, ne plus être un fardeau pour ta famille. Et là, en fait, on va venir créer quelque chose de très très fort, ok ? Et il va avoir les frissons, il va avoir quelque chose de très très fort.
+
+[06:52] Et ce gap là, en fait, qui va donner l'envie d'acheter. Plus le gap est grand, plus l'envie sera forte. C'est pour ça qu'il faut maîtriser les deux parties. Donc avant la frustration, pour doute, après fierté, soulagement, attraction, confiance. Plus le gap est clair et grand, plus l'achat devient logique émotionnellement.
+
+[07:14] Parce qu'il va savoir, ok, là, il faut que je passe à l'action. J'ai envie d'atteindre ça. Et encore après, pour des VSL, pour des vidéos plus longues, on peut refaire des gaps. Par exemple, là, tu pourrais être ça, mais n'oublie pas, tu es là. Et si tu ne t'as pas dit maintenant, eh bien, tout de suite, tu seras comme ça. Et ensuite, on introduit le produit. Et le produit doit être une suite logique
+
+[07:35] par rapport à ce que vous dites. Ça veut dire qu'il y a plein de frameworks, mais là, je veux juste vous expliquer ce qui marche de manière universelle. C'est tout ce que vous dites ici. Eh bien, après, ça doit être une suite logique. Ça veut dire que votre produit, par rapport au douleur, par rapport à pourquoi il n'arrive pas à se soigner, c'est la solution la plus évidente pour lui. Ok ? Et juste un rappel, c'est...
+
+[07:57] Ce que vous devez faire, c'est que son envie d'acheter doit être plus forte que sa douleur d'achat. Donc en fait, si vous mettez des émotions, etc., vous allez donner une envie des émotions qui vont être plus lourdes que la douleur d'achat. Parce que acheter, c'est une douleur. Ok ? Acheter, c'est une douleur.
+
+[08:18] Rassurer, c'est un mot rationnel. Ensuite, ça, c'est l'étape 3. Vous avez capté. Attention, vous avez dit, montrer que c'est pour lui, vous avez activé des émotions, mais là, il s'active un mécanisme dans lui qui est... Ouais, ok. Mais... Mais... Et en gros, ça, c'est un peu la voix rationnelle, la voix de vos parents, comme si vous voulez acheter quelque chose.
+
+[08:40] Ok ? Moi, quand j'étais plus jeune, je faisais de la magie et je voulais acheter... j'étais fan et je voulais acheter un tour de la femme qu'on coupe en deux. Ok ? Ça coûtait 3000 francs, un truc du style. En gros, c'était toutes mes économies que j'avais à l'époque. Et moi, je voulais l'acheter. Et moi, j'étais sûr. Moi, j'aimais tout l'aspect émotionnel.
+
+[09:02] Et là, ma mère, elle m'a dit, « Non, attends, tu veux faire quoi ? C'est pourquoi ? C'est quoi le prix ? C'est très très cher. Enfin, c'est bon, deux questions. Et cette voilà, en fait, vu que personne l'a contrée, je ne l'ai pas acheté. Et c'était une bonne décision, mais c'est juste pour vous comprenir que les émotions, c'est bien beau, mais il y aura un mécanisme inconscient
+
+[09:24] qui va venir arriver si c'est votre prospect. Ça va être sans servo rationnel. Sans servo rationnel, si vous le rassurez pas, ça casse la vente. C'est un mécanisme normal, sinon on achèterait tous sur le coup d'émotion et n'importe qui pourrait acheter n'importe quoi. Donc c'est un système d'autodéfense.
+
+[09:44] Et là, lui, ce qu'il va vouloir vérifier, c'est des aspects techniques. Il va se dire, est-ce que ça marche vraiment ? Est-ce que c'est simple à utiliser ? Est-ce que je peux faire confiance ? Est-ce que c'est pas trop cher ? Est-ce que c'est pas trop compliqué ? Mais pour moi, moi, je suis spécial. Est-ce que ça va vraiment marcher ? Donc là, il va falloir contrer ces obligations-là. Et ça, c'est au bon moment.
+
+[10:06] Il y a trop de personnes qui le font dans l'âte même avant. Vous avez arrivé après l'émotion. C'est après l'émotion que ce servo-là va s'activer et vous avez le rassurer ici. Et si vous le rassurez trop tard, vous perdez la vente. Donc une bonne créative va répondre directement à ces questions dans l'ordre. Simplement avec des démonstrations. Avec une simplicité d'utilisation. Vous allez dire que ça a clair, avec la preuve sociale, avec la garantie.
+
+[10:28] Plus vous avez un objectif, plus vous avez une preuve sociale avec la garantie. Plus vous avez de... C'est pas plus vous avez, c'est plus vous le faites dans l'ordre. Ça demande quand même un aspect assez technique. C'est-à-dire de savoir dans quel ordre il pense, dans quel ordre il va dire ce que ça va marcher. Plus ça va être précis. Et pour le savoir, c'est très simple. Vous pouvez simplement demander à vos prospects
+
+[10:50] dans des formes après-achat pourquoi t'as acheté le produit, quoi t'étais sceptique. Mais en fait, dans l'ordre, ce qu'il va vous dire, il met la priorité sur ces obligations. C'est pas oublier. Vous vous direz, j'avais peur que ça marche pas pour moi. C'est la chose la plus importante. Si vous dis en premier, le prix est cher. C'est-à-dire que c'est peut-être l'objectif la plus importante. Et il va falloir contrer ces obligations-là.
+
+[11:12] Et en principe, ce qui marche bien, c'est de montrer dans la vidéo que c'est simple à utiliser, que ça marche vraiment. Tu peux faire confiance en m'entendant du social proof. Et ensuite, mais des garanties. En fait, si vous mettez ça, naturellement, ça va venir éliminer la plupart des obligations pour beaucoup de produits. Vous démontrez que c'est simple. Vous devez montrer que c'est simple à utiliser,
+
+[11:34] que les résultats sont clairs, vous montrez que la crème, on l'applique sur la peau. Et ensuite, la crée part gentiment, et ensuite la peau devient belle. Et que si ils ne sont pas satisfaits, ils ont 180 jours. Et en plus de ça, ils vont économiser 200 francs par mois, 200 euros par mois par rapport à s'il est utilisé pour les produits. 200 euros par mois par rapport à s'ils utilisent
+
+[11:56] le recutane, par exemple, qui est un médicament pour la crème. Vous voyez, tout ça, en fait, ça va venir, ok. C'est logique. Je dois l'acheter. Mais attention, on ne balance pas juste une liste de bénéfices comme un brochure. Ce ne doit pas trop alors dire la vidéo. Et on doit pas montrer qu'on l'émotion est encore actif. Pas trop tard. Ce que vous savez, c'est que
+
+[12:18] les seaux rationnelles ne recherchent pas la vérité. Ils recherchent une justification logique à une décision déjà émotionnelle. Donc on n'a combattu pas, on donne une raison de dire oui à lui aussi. Et j'ai noté que c'est beaucoup de personnes se trompent parce qu'ils pensent que la partie rationnelle sert à convaincre. Alors non, en fait, il sert juste à enlever la peur d'avoir tort. C'est-à-dire, ok, ça fait
+
+[12:40] sens bordel. Achète. Et ensuite, le dernier point, c'est le call to action. Vous avez beau y activer, avoir captiver son atoutant, montrer que c'est pour lui. Il lui donné des émotions, le rassurer, il faut lui dire maintenant qu'est-ce qu'il doit faire. Et à ce stade-là,
+
+[13:02] votre prospect, vous avez fait le plus dur. Il doit juste savoir qu'est-ce qu'il doit faire. Et là, vous devez lui dire à son cerveau, clique. Si tu veux plus d'acné, clique. Il y a une offre en ce moment. C'est très simple. Il faut juste pas que ça fasse trop vendeur, ok? Il faut pas lui dire achète maintenant. Achetez maintenant. Il faut que ça soit une suite logique.
+
+[13:24] Il faut être compris. Vous êtes compris en 2 à 5, 7 secondes. Plus tôt 3, 7 secondes. C'est simple et logique. Ça ne va pas casser le rythme émotionnel. Et ça va ressembler à un conseil plutôt qu'un ordre. Ok, là, si tu veux un conseil, enfin, là, si tu as de l'acné encore et tu n'arrives pas à faire partir et que tu veux une méthode naturelle,
+
+[13:46] ben, je te conseille de cliquer là pour voir si cet acné est encore disponible. Il y a une offre en ce moment, c'est encore du stock. Clique sur le bouton ci-dessous, par exemple. Si tu veux faire repousser tes cheveux naturellement, clique sur le lien ci-dessous. La promo se termine aujourd'hui. Voilà, ça c'est un très très bon call to action. Si tu as retrouvé cette sensation, clique sur le lien ci-dessous. L'objectif
+
+[14:08] c'est pas de crier achète, mais c'est de rendre le clic évident. Et de lui dire subitinement. Petit golden nuggets de fin. Le call to action ne fait pas décider si il fait décider quoi. Ça c'est une technique qu'on a utilisée et que j'ai appris assez tard cette année, en 2026, enfin, fin 2025,
+
+[14:30] et qui marche vraiment très bien. Et ça marche bien aussi si vous avez un petit frère, des enfants de bas âge et que vous voulez leur faire prendre une décision. À la place du dire, mange mange ton kiwi. Vous allez dire, tu préfères le kiwi ou l'orange. Et en fait pour lui,
+
+[14:52] surtout quand on a un enfant et pour le cerveau primitif de notre prospect, si je dis primitif, c'est parce qu'il va être dans un parcours hypnotique. Ça va être plus simple de lui faire manger son kiwi sur une orange que de lui dire, mange le kiwi. Parce que le cerveau, il n'aime pas qu'on lui dise
+
+[15:14] quoi faire. Il aime décider. C'est lui qui reste mettre. Donc ça, ce petit hack, c'est qu'à la fin, ok, là avec ce deal qui est en cours tu vas prendre un pack de 1 ou un pack de 2. Tu vas prendre la version classique ou la version avancée du produit. Et du coup, on réduit la résistance motale et on active une projection déjà sur ce qu'il va faire. Il va déjà s'imaginer choisir.
+
+[15:36] Donc ça a très important, très important Google hack. Donc on lui donne pas un choix. On lui donne un choix pas un oui ou non. Et du coup il va acheter. Et ça c'est une méthode qui a été popularisée par Hormoziduron son dernier livre. Il en pas. Donc voilà, vraiment
+
+[15:57] ça c'est Banger. Regardez Regardez encore ce parcours encore et encore. Parce que avec ça, vous allez pouvoir imprimer énormément, énormément d'argent. Ça va pouvoir vous aider aussi dans la vie de tous les jours. C'est Banger. C'était Mathéo. A bientôt. Tchao.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 41 : Démo : créer une créative avec l’IA de A à Z
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 41
 ======================================================================
 
@@ -4796,16 +5046,286 @@ Ce qui change vraiment avec ces outils, c'est la vitesse d'exécution : ce qui p
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello la team, j'espère que vous allez bien et que vous êtes en forme. Bienvenue dans cette prochaine vidéo dans laquelle on va vous montrer comment créer une créative de A à Z avec Lia. Je vais tout vous montrer dans cette vidéo. Je me présente rapidement, je m'appelle Lucas, je suis expériat, appliqué à l'e-commerce et je suis aussi associé avec Nico sur différentes brêtes. Dans cette vidéo je vais montrer comment réaliser ce type d'arts complète, full mashup avec des b-rolls, etc. La plupart des gens ne réalisent pas à quelle vitesse le café au champignon agit.
+
+[00:22] Voici ce qui se passe dans votre corps durant les 7 premiers jours. Dès votre première tasse, votre organisme absorbe de puissants composés issus de 6 champignons différents. Les bétaglucanes du turkey tail, les tritère-pennes du reishi et les hérissénones du lion's mane. Ensemble, ils commencent à soutenir vos intestins, réguler vos hormones de stress et dissiper le brouillard mental à la racine. Et c'est là que ça devient intéressant.
+
+[00:42] Après seulement 24 heures, vos intestins commencent à changer. Beaucoup de personnes décrivent se sentir moins ballonnés. Franchement on peut voir que le résultat est vraiment vraiment magnifique, toutes ces scènes là je les ai créées moi-même avec Kling et A mais je vais montrer comment faire. Et la VEO aussi a été créée par moi-même. On a possibilité aussi de faire des UGCIA donc des HAT UGCIA où on va pouvoir avoir l'UGC plus pouvoir rajouter des bírols pour avoir des changements de plan et tout.
+
+[01:04] C'est vraiment le top affaire je montre. Se réveiller à 2h du matin pour uriner, ça c'est le cortisol. Une douleur soudaine à l'épaule, un autre symptôme du cortisol. Perte de cheveux soudaines, à couffènes, oui c'est le cortisol. Et cette graisse abdominal qui persiste, devinez... Le top vraiment c'est d'avoir un UGC qui parle, boum on rajoute un bírol, puis on a deux nouveaux UGC qui parlent. Et quoi ? Le cortisol.
+
+[01:25] Le cortisol est lorm... Puis on rajoute encore un bírol, là on n'en a pas mis assez mais c'était pour l'exemple. Vous avez montré un peu d'abord l'UGCIA comment l'était puis ensuite je vous ai ajouté quelques petits bírols mais je vous invite à ajouter plus de bírols. Mais voilà, je vais montrer comment faire tous les bírols. On peut aussi créer ce type de bírols. Donc les bírols où la personne tient de produit, elle montre le produit. On peut créer des bírols de style séquence 3D, on peut aussi type témoignage etc.
+
+[01:47] C'est vraiment magnifique. Donc ensemble on va voir comment utiliser Kiai et X-FIL pour pouvoir générer ce type de bírols et ce type du GC. Donc ce qu'il faut savoir c'est que Kiai et X-FIL sont des sasses, donc des outils un peu similaires. En fait ils regroupent les meilleurs modèles d'IA actuellement du marché. Par rapport à Elevenlabs par contre là c'est complètement différent. C'est le meilleur outil pour pouvoir faire des VO actuelles sur le marché.
+
+[02:08] C'est vraiment le top du top. Mais je vais montrer. Donc on va se retrouver directement sur Kiai. Donc comme vous pouvez voir Kiai regroupe vraiment les meilleurs modèles d'IA du marché. Donc vous allez avoir accès à nano-bananas, vous allez avoir accès à Sydrim 5.0 Lite. En plus nano-bananas en exclusivité c'est magnifique pour la vidéo. Ils viennent sortir aujourd'hui. Je vous donnerai quelques petites infos par rapport à ça. On a pas mal de choses qui sont vraiment intéressantes même que ce soit pour les images, tous vidéos.
+
+[02:32] On va pouvoir générer des vidéos avec VO3. On va pouvoir avec Sora 2, avec Sora 2 Pro Storyboard. Et on a Kling et Tidents qui est tout nouveau et qui n'est pas encore accessible partout. Mais j'ai une petite surprise pour vous. Restez bien jusqu'à la fin de la vidéo je vais vous montrer tout ça. Donc la grande différence avec Xfield c'est qu'on va pouvoir générer des images et des vidéos sans avoir besoin de prendre un abonnement. Ici ça fonctionne sous forme de crédit.
+
+[02:53] Donc vous allez assister simplement vos crédits. Et une fois que vous achetez 5 dollars de crédit, par exemple vous allez obtenir 1000 crédits. Une fois que vous avez 1000 crédits vous allez pouvoir générer directement des vidéos alors que sur Xfield il faut absolument un abonnement pour pouvoir commencer à générer. C'est un peu la différence. Et donc ça c'est chouette pour quelqu'un qui n'a pas forcément le budget de prendre un abonnement directement. Et bien là il est pour 5 dollars il va pouvoir déjà commencer à générer ses premiers bérol,
+
+[03:14] à générer ses premiers GCA etc. Mais je vais montrer comment il fonctionne après. Je vais d'abord vous présenter Xfield. Donc Xfield c'est vraiment pas mal. Vous allez pouvoir générer énormément de choses. Vous allez pouvoir générer des images avec les meilleurs modèles comme dans Kiai. Donc vous allez avoir accès à Zimages etc. Mais en plus vous allez pouvoir upskiller, vous allez pouvoir faire du face swap, vous allez pouvoir faire des modifications etc. C'est vraiment top. Vous allez avoir aussi les vidéos.
+
+[03:36] Donc les vidéos là vous allez accès à tous les meilleurs modèles aussi de vidéos. Donc vous allez pouvoir aussi faire du lip sync, ça c'est assez intéressant. Vous allez pouvoir faire des vidéos cinématiques. Vous allez pouvoir faire de l'edit. Donc upskiller des images, modifier certaines choses dans les vidéos modifiées ou alors dupliquer une vidéo d'un autre. Ça c'est pas mal aussi. Vous allez pouvoir faire des mood boards, vous allez pouvoir faire des vibe motion. Donc tout ce qui est animation 3D, c'est l'animation de votre logo ou quoi que ce soit.
+
+[03:59] Vous allez pouvoir faire de la cinéma studio. Donc comme des petits films complets en mode cinématique, vous allez pouvoir faire aussi un influenceur IA. Donc nous aujourd'hui on va voir comment générer ces frames. Donc on va d'abord générer les frames avec nano banana et ensuite on va donner vie à ces frames dans King et High. Donc maintenant je vais montrer deux méthodes et donc la vidéo va être en trois parties.
+
+[04:19] La première partie va être Manus où je vais montrer la première méthode pour pouvoir faire des bírolles hyper rapidement. Ensuite on va voir avec chat GPT comme ça si vous n'avez pas Manus, vous allez pouvoir utiliser chat GPT. Si vous n'avez pas chat GPT, vous allez pouvoir utiliser la méthode Manus. Et en dernier je vais montrer comment générer des UGC IA de hyper bonne qualité rapidement. Donc la première partie on va voir comment utiliser Manus pour pouvoir faire ça. Donc pour ce faire j'ai créé un prompt que je vous donnerai, un prompt totalement
+
+[04:40] personnalisable, je vous mettrai pas mal de variables comme ça vous pourrez modifier en fonction de votre produit, de ce que vous avez besoin etc. Donc je vais donner un objectif, je vais dire qu'il fallait réaliser des images à partir d'un script et d'une publicité. Je vais dire qu'il fallait découper ce script en 35 scènes frame par frame et ensuite générer les images avec nano banana. Je vais donner des règles pour que les photos soient hyper réalistes. Je vais donner le type de contene que moi je voulais, le type de contene CGI.
+
+[05:03] Donc image rémedicale de type UGC aussi. De type de macro etc. Pour avoir vraiment une multitude de b-roll et construire une adse complète à partir de notre script qui se trouve ici. Pour le script vraiment c'est super important de faire des bons scripts. Ça va être vraiment la pièce maîtresse de votre adse. Donc n'hésitez pas à bien regarder la partie de Matteo sur les créatives etc. Pour vraiment pouvoir générer des très bons scripts.
+
+[05:25] On a aussi la partie de Thomas qui est vraiment intéressante avec Manus pour pouvoir générer des documents complets sur notre brand et une analyse complète sur la brand. Donc on va reprendre ce prompt. On va l'envoyer directement dans Manus. Et on va lui dire « LIS DOC ». Maintenant on va le laisser travailler. Je vous invite toujours à le mettre en max. Comme ça il a vraiment les meilleures capacités. Ça va utiliser plus de crédit mais il va être bien plus puissant.
+
+[05:47] Donc là l'objectif avec Manus ça va être de créer nos images de chaque frame de notre script. Donc comme vous avez vu dans le script, on a tout un script complet. Et l'objectif ça va être de reprendre de ce script là et d'analyser chaque frame de ce script pour pouvoir générer des images qui seront en lien avec ce script et ensuite animer ces images là. Puis les assembler ensemble pour faire vraiment une adse de bonne qualité.
+
+[06:09] Donc on va ce qu'il nous dit. Donc là il a bien analysé notre document. Il nous a donné notre objectif comme on souhaite. Il nous a dit les cinq types de visuels comme on le souhaite aussi. Et il nous a fait une petite proposition comme première scène. Il nous propose la première scène par rapport à cette partie du script. Donc un homme âgé d'environ 35 ans, partigué de légère serne etc. C'est sur une table il tient un café en main fumant. C'est bien mais c'est pas assez percutant selon moi.
+
+[06:31] Pour moi je pense que ça oucle la personne. Et donc il faudrait faire une scène plutôt style 3D. Une personne qui est par exemple au toilette et qui évacue. Parce qu'on voit vraiment que dans le script la plupart des gens ne réalisent pas quelle vitesse le café au champignon agit. Donc il faudrait vraiment qu'on est structuré de dire « Putain, ça agit hyper rapidement ». Donc moi ce que je veux dire, je ne suis pas fan de la première scène.
+
+[06:53] J'aimerais une scène qui soit beaucoup plus percutante, accrochante. Donc une scène où on voit en imagerie médical quelqu'un qui est en train de se vider au toilette qui a mal aux vendres et qui a l'impression qu'il y a une explosion dans son vendre et ça doit être vraiment accrochant. Et s'il te plaît donne-moi les six prochaines scènes frais,
+
+[07:13] comme ça je peux voir les validés. Donc là on voit qu'il nous a proposé une première scène qui est de meilleure qualité. Donc là avec un mannequin translucide qui est au toilette etc. avec des explosions de lumière rouge et orange qu'on va faire l'image ça va être beaucoup plus parlant. Ensuite il nous a proposé une scène encore cgmédicale. Donc pour voir ce qui se passe dans les sept prochains jours, ces premiers jours pardon. Là je pense que je vais lui demander autre chose
+
+[07:35] plutôt encore un birel ugc un peu comme le deuxième. Et on va lui dire qu'à partir de absorptions absorptes de puissants composés issus des six champignons là ce serait intéressant d'avoir un autre birel type CGI. Donc on va lui dire hop. J'aimerais que la scène 2 tu fasses un ugc plutôt qui prend le produit en main
+
+[07:55] qui le montre devant lui ou alors qui prend du café qui prend la poudre et qui la verse dans une tasse pour faire son café avec le produit visible derrière lui ou quoi que ce soit. J'aimerais comme ugc 2, scène 3 ça c'est bon. Scène 4. Enfin j'aimerais bien plutôt d'abord diviser la scène 3 en plusieurs contentes. Donc la scène 3 j'aimerais bien que la partie où votre organisme
+
+[08:18] absorbe de puissants composés issus de six champignons différents là qu'on est encore une imagerie médicale de ce qui se passe quand le corps absorbe ces six champignons. Donc on voit par exemple au niveau des intestins de la digestion extérieure de l'absorption des six champignons. Ensuite la scène 4 avec les trois types de champignons.
+
+[08:39] J'aimerais bien que ça soit divisé en trois parties pour qu'il y ait une image, une frame par type de champignons comme ça on va créer trois images. Ensuite scène 5 avec une imagerie médicale ça me semble bien. Mèdequin translucide vu de face de torse. Ensuite frame 6 toujours imagerie médicale.
+
+[09:01] Tu peux me générer les six images de ce que je t'ai demandé. Même il y en a plus que six du coup parce qu'on a divisé certaines frames. Donc fais-le, s'il te plait merci. Donc voilà on lui a demandé, on va lui envoyer. Et là il va nous générer, il va nous refaire les frames. En plus de ça il va nous générer les images donc il nous fait un récapitulatif, c'est ça qui est bien. Scène 1 donc CGI comme je l'ai demandé. Scène 2, UGC quelqu'un qui verse la poudre muschie l'eau dans sa tasse.
+
+[09:22] C'est bon. Scène 3, l'absorption du champignon. Ok, je vais lui dire. J'aimerais que entre la scène 2 et la scène 3 il y ait encore une ou deux images de content UGC. Donc d'une personne par exemple qui prend un café, d'une personne qui tient le produit en main, ça serait vraiment pas mal. Donc on lui voit ça aussi. Il va ajouter ça à nos scènes.
+
+[09:43] Et en fait c'est ça vraiment la plus valu. C'est qu'il va vous faire des propositions qui sont parfois bonnes et parfois moins bonnes. Comme par exemple là les propositions qui étaient vraiment pas mal, c'était la CGI médicale à partir de ce qui se passe même la vue frontal ici. C'est pas mal en soi. Et aussi ce qui est pas mal c'est donc les scènes 4 avec les différents champignons. Ça pourrait être pas mal aussi. On voit les trois champignons sur une même scène mais c'est mieux d'avoir plusieurs scènes selon moi.
+
+[10:04] Ensuite il nous a fait une scène CGI encore avec les intestins, les glances urinales et le cerveau de ce qui se passe actuellement avec le brouillard mental etc. Ça c'est vraiment pas mal. Et on a encore une autre image médicale pour compléter ce qui a été dit. Donc en fait vraiment la grosse plus value c'est de brainstormer avec lui, d'avoir des idées. Ce que vous pouvez aussi faire c'est lui donner un input pas mal d'arts de concurrents ou d'endemnis qui fonctionnent déjà
+
+[10:24] pour qu'ils comprennent ce qui fonctionne pour pouvoir ensuite dupliquer et améliorer avec votre produit etc. Donc là comme on peut voir c'est vraiment intéressant par contre il nous a ajouté du texte sur l'image alors que je lui ai pas forcément demandé. Et ce qui est vraiment bien c'est comment en input dans le dossier on avait ajouté les photos du produit. Il a pu les reprendre directement par lui-même sans qu'on lui donne. Ça c'est vraiment exceptionnel. Celle-ci elle est top. Hop on va regarder les autres.
+
+[10:45] Les images UGC franchement elles sont très très bonne qualité. On peut voir que même là regardez ça fait vraiment très pro. Il a même inversé le nom comme c'est fait dans un miroir. C'est très très très cali. On voit même les reflets de son appareil photo sur miroir. C'est vraiment top. Ça fait hyper réel. Ça fait un peu ugly ads. Et c'est ça qu'on veut. Pas qu'il y ait des trucs hyper beaux, image studio et tout. Ça va pas faire réel. Donc ça c'est ce que j'ai mis dans mon prompt pour qu'ils puissent savoir quel type du GC etc.
+
+[11:07] faire. Donc tu vois photo réalisme. Chaque image que tu devrais générer va être indissernable d'une vraie photo d'une vraie capture d'écran médical etc. Et c'est ça en fait la grosse grosse plus value d'un prompt qui est bien fait. Tac. En plus il a toujours bien respecté notre produit. Donc là c'est top. On a déjà pas mal de scènes. Ce qu'on peut faire en attendant que ça se génère, c'est déjà aller dans 11labs et générer la voix off.
+
+[11:29] Donc quand vous allez arriver sur 11labs, vous allez arriver ici dans la partie home. Et vous allez ensuite aller dans texte sous-split. Si jamais j'ai fait une vidéo dans un autre module où j'explique de A à Z comment fonctionne 11labs, pouvoir l'utiliser parfaitement et générer des VO vraiment de très très bonne qualité. Je vous invite à aller le voir. Mais je vous montre rapidement en bas compte le script. Ce qu'on va faire c'est demander à jpt de supprimer les balises du script pour avoir un script complet en continu.
+
+[11:50] Donc je vais simplement dire j'aimerais que pour ce script tu enlèves les balises 1, 2, 3, 4, 5, 6, 7, tata, tata, et que tu me donnes simplement le script complet. Hop, il va le faire. Voilà. Là on va pouvoir le copier. Tak. Et on va pouvoir directement générer une VO dans 11labs. Ici on l'ajoute. Il y a différents paramètres. Vous allez pouvoir déjà sélectionner la VO. Ce que je vous invite vraiment à faire c'est
+
+[12:11] dupliquer une VO existante de quelqu'un qui parle sur YouTube, etc. En instant de voice coding c'est hyper rapide à faire. Et je vous montre dans la vidéo que je l'ai présentée 11labs. Donc on va prendre par exemple une voix de, voilà, celle-ci qui est très bien. On peut mettre 11labs v3 parce que dans 11labs v3 on va pouvoir ajouter des balises qui vont nous permettre de donner de l'émotion directement à la voix. On va mettre v3 and 1s. Voilà. Donc il nous a ajouté plein de balises.
+
+[12:32] Et là on va pouvoir générer. Et vous allez voir là. La plupart des gens ne réalisent pas à quelle vitesse le café au champignon agit. Voici ce qui se passe dans votre corps les 7 premiers jours. Dès votre première tasse, votre organisme absorbe de puiss… Et voilà on peut voir vraiment que la VO est de très très bonne qualité. Et qu'elle est presque indécernable d'une VO, d'une vraie voix. Et ça vous prendrait beaucoup plus de temps de révo de voix et de comment ça va faire ça.
+
+[12:53] Et on va la garder sur le côté pour après. On va retourner dans Manus, voir ce qu'il nous a préparé. C'est vraiment magnifique. Il a fait exactement ce que je souhaitais. Donc il nous a montré les intestins avec l'absorption du café, de ce qui se passe. Il nous a montré les 3 différents champignons. Et ensuite encore les imageries médicales. C'est vraiment top top top. Ça suit exactement le plan de notre frème, de notre script. Donc maintenant ce qu'on va pouvoir lui dire c'est de créer un prompt pour chaque
+
+[13:15] image pour les animer avec Kling et I. J'aimerais que tu crées un prompt pour chacune de ces images pour les animer dans Kling et I de manière parfaite. Voilà. Et il n'a pas écouté ce que je lui ai dit. L'audio ne fonctionne pas hyper bien. Il faut utiliser Whisper comme Nicolas présenté dans une autre vidéo pour chacune de ces images. Un prompt pour animer ces images dans Kling 3.0.
+
+[13:38] Ce qui est vraiment bien c'est que vous pouvez les sélectionner comme ça. Elle va être ajoutée et ensuite, lui parler par rapport au scène que vous avez générée. Là il entend réfléchir et il va nous donner vraiment des bêtes de prompt qu'on va pouvoir utiliser dans Madobanana pour pouvoir les animer. Là j'ai pas fait toutes les scènes. On en a déjà environ 6, 7. Mais vous avez compris le principe. L'objectif c'est de faire ça, de brainstormer un peu avec lui, de voir ce qui correspondrait en même temps par rapport aux scripts et de générer chaque image de cette frame,
+
+[14:01] de ce script. Une fois qu'on a ces images là, ils vont nous donner le prompt et on va les animer. Donc voilà, il nous a montré exactement le type d'animation qui va faire. Ça c'est bien. Il nous a fait un petit résumé de chaque animation. C'est très très bien. Ensuite, on a pour chacune des images un prompt Kling 3.0 qui est top et on va pouvoir les animer. Je vais montrer. Donc on va toutes les télécharger. On va les désyper. Une fois qu'on les a, on va pouvoir les directement dans Kling et XFeed.
+
+[14:25] Donc dans XFeed, vous allez pouvoir aller dans vidéo. Et là dans vidéo, vous allez pouvoir générer du content. Vous allez mettre Kling 3.0. Ici, vous allez pouvoir sélectionner le type de modèle que vous souhaitez. Vraiment le meilleur qu'on pourra faire d'ebiroll, comment on le fait actuellement, c'est Kling 3.0. Il est vraiment très très très fort et il a de très très bonne qualité. On a aussi VO3 mais il est quand même moins bon. Là qui on va ajouter l'image de notre frame.
+
+[14:47] Et on va ajouter le prompt qu'on a généré dans mon use. Contrôle V. Vous vous mettez. Ici, vous pouvez soit laisser prompt un ans. Ça veut dire qu'il va améliorer le prompt automatiquement pour faire un prompt qui soit meilleur pour Kling. Moi, j'ai l'ai ce jour. Vous pouvez laisser le son ou pas. Moi, je vous conseille de le laisser parce que si vous l'enlevez, parfois vous manquez certains effets sonores qui sont vraiment intéressants dans les frames.
+
+[15:07] Et on va pouvoir aussi ajouter des éléments. Ça, c'est imaginant. Vous voulez faire une vidéo de vous ou vous avez une consistance de votre visage ou alors du personnage que vous allez lui donner en input. Vous allez pouvoir faire par exemple plein de photos de vous comme ça. 360 degrés et lui donner toutes ces images là pour que dans la vidéo, votre tête soit respectée et qui a une consistance de votre visage à 100%. Ça fonctionne très très bien. Donc là, on va mettre des frames de 4 secondes.
+
+[15:28] Ça coûte que 7 crédits. Donc c'est vraiment rien. Et vous allez pouvoir générer. On va faire ça pour toutes les images. On va prendre votre prompt. On va l'ajouter dans X-field. On va ajouter la scène. On doit attendre que ce soit chargé pour pouvoir upload.
+
+[15:49] On peut faire ça aussi dans Key Eye. Vous allez arriver dans modèle market. Vous allez sélectionner images ou vidéos. On va prendre fillings 3.0. Voilà. Là, on va pouvoir ajouter une image de start. On va reprendre la 2. Comme ça, on va voir ce que ça donne chez lui et les comparaisons entre les 2 modèles. Là, quand on ajoute le prompt, on va pouvoir mettre la durée en 4.
+
+[16:10] Et on va pouvoir mettre pro. On va pouvoir générer. Ça sert à plus d'eau aussi, vous allez voir. Donc on va faire ça pour toutes les images. Je vais mettre ça en accéléré comme ça. C'est plus rapide. Donc voilà, tout a été généré. On peut voir que c'est assez rapide. Il faut juste faire du copier de prompt et ensuite ajouter les frames.
+
+[16:30] Mais c'est assez rapide. Donc on peut voir que les qualités sont pas mal. Par exemple, celle-ci, c'est le hook. Ce qu'on aurait pu demander à Manus, c'était de faire la même image mais sans le texte. Là, le texte, il était pas forcément nécessaire. Donc ça, vous allez simplement lui faire un petit prompt. On lui disait, supprime le texte dans cette image et il va le faire. On va voir. Franchement, c'est vraiment pas mal. Ça fait un bon hook. Ça explose et tout.
+
+[16:51] C'est top, top, top. On va voir les frames UGC. Celle-ci, elle est bien aussi là. On se rend un peu bugger, je vois. Ça peut arriver. Là, cette partie-là est très bien mais on voit qu'il boit le café après avoir mis directement la poutre. Ça va pas. Ici, ça c'est top, top, top.
+
+[17:12] Ça c'est top aussi. Madrim dit quelque chose. Ça c'est magnifique aussi. Ça c'est top. Les champignons, top, top. Le machine, elle est vraiment bien faite aussi.
+
+[17:38] La seule chose, c'est qu'il a ajouté de la musique. Donc ça, vous pourriez le dire aussi dans Manus que dans les prompt, cling, il peut avoir des sons d'effects mais pas de musique. Comme ça, il vous donne que le son un peu qui monte comme ça. Ça c'est top. Donc on voit l'effet qui a fait adaptogène sur les intestins avec une amélioration de
+
+[17:59] la digestion, etc. C'est top, top, top. J'ai fait en même temps quelques vidéos sur Key Eye. Donc pour pouvoir en faire plusieurs en même temps, vous allez simplement revenir à chaque fois sur... Donc vous allez juste aller sur la plateforme et en refaire ici ou cliquer sur cling. Et là vous allez pouvoir en régénérer une et pas fenêtre. Ça va être plus une vidéo générée. Donc je vais télécharger plusieurs. Une fois qu'elles sont finies, elles seront mises ici. Parfois ça bug un peu. Donc le mieux c'est d'être surgi directement, c'est ce que vous conseillez de faire.
+
+[18:21] Si vous n'arrivez pas à aller voir, vous allez simplement sur Key Eye et vous allez ici, vous allez pouvoir contacter des supports qui sont hyper actifs. Vous vous répondez dans les 10 minutes et vous leur expliquez votre problème et vous vous en réglez. Donc on va regarder un peu ça à donner. On va commencer par la première. Alors on peut voir que la frême du coup est bien mieux faite que sur X-FILD.
+
+[18:44] Parce qu'il respecte beaucoup mieux ce que je lui avais demandé de juste avoir la poudre qui tombe dans le café mais franchement, là, c'est la vraie idée. Il est magnifique, il est vraiment magnifique. On va regarder les autres. Le champignon, il a même ajouté un petit insecte. C'est top. Je pense que c'est top. On va regarder encore les autres.
+
+[19:06] Ça, c'est vraiment bien aussi. Et la petite éraignière, imaginez-vous qu'elle n'en va pas. C'est plus ou moins similaire à X-FILD. En fait, c'est là que vous voyez que vous l'utilisez dans Key Eye ou dans X-FILD. Les résultats sont plus ou moins les mêmes parce que c'est des modèles
+
+[19:27] d'IA qui sont similaires. C'est juste le prompt qui va changer en fonction du prompt que vous mettez. Là, le résultat va changer. Mais le prompt est super important. Et donc, on va pouvoir commencer à faire la vidéo. Je vais vous montrer ça. Pour ce faire, vous allez reprendre toutes les frames. Ce qui est intéressant, c'est que vous pouvez en décharger plusieurs en même temps sur X-FILD. Vous sélectionnez toutes les frames. Une fois sélectionnée, vous appelez ici sur download.
+
+[19:49] On va pouvoir les désiper. Et on va pouvoir les ajouter directement dans CapCut. On va aussi ajouter la VO. On la sélectionne. On upload aussi. On ajoute les frames. On sélectionne des plusieurs. Et les ajoutez directement ici. Et là, on va pouvoir Cut pour que ça soit aligné avec notre script.
+
+[20:13] Voici ce qui se passe dans votre corps les 7 premiers jours. Dès votre première tasse, votre... On pourrait légèrement accélérer. vitesse. On va légèrement accélérer. Si ce qui se passe dans votre corps les 7 premiers jours. Dès votre... On va un peu crop. Parce que le début est un peu long je trouve. Voilà. Si maintenant on passe à lui gester. Dès votre première tasse, votre organ...
+
+[20:36] Ça on va un peu accélérer aussi. Deux trois frames ici. On pourrait même mettre la frame de... Qui est-il qui était mieux ? On va la ajouter. On va supprimer ça ici. Et on va mettre... une vitesse un peu plus rapide.
+
+[20:57] Donc là c'est beaucoup trop long. On va mettre ces trois frames mais on va les accélérer. Et on va les crop. On pourrait même un peu accélérer. Voici ce qui se passe dans votre corps les... Voici ce qui se passe dans votre corps, boum. Là. On accélère et on Cut un peu. Voici ce qui se passe dans votre corps les 7 premiers jours. Top.
+
+[21:18] Les 7 premiers jours. 7 premiers jours. Dès votre... Ça on peut Cut. Dès votre première tasse. Ça là on est même obligé de la mettre on pourra la garder plus tard.
+
+[21:38] Ça là on peut Cut ça. Ça on peut même mettre celle-ci avant régulier des intestins. Il commence à soutenir vos intestins.
+
+[21:59] On va l'accélérer. Régulez vos hormones de stress. Et disciplez le brouillard mental à la racine. Et voilà. Donc là en quelques secondes on peut même ajouter le son. Le son ne va supprimer le son des UC. Extrême le son. On va laisser le son là on va supprimer les sons.
+
+[22:20] Les champignons. On va un peu diminuer le volume. Pour que ce soit abusé. Et voilà. Déjà là en quelques secondes. En quelques minutes en fait. On a déjà vraiment un résultat parfait. Donc là vous allez pouvoir faire ça. Avec toutes les frames. Et vous aurez en 1h 1h30 2h maximum de temps.
+
+[22:42] Une adse complète qui dure 1 minute 1 minute 30. Voici ce qui se passe dans votre corps. Les 7 premiers jours. Dès votre première tasse. Votre organisme absorbe de puissants composés. Issue de 6 champignons différents. Les bétag lucanes du turkey tail. Les tritère peines du reishi. Les hérisénones du lion's mane. Ensemble ils commencent à soutenir vos intestins. Réguler vos hormones de stress. Et dissiper le brouillard mental à la racine.
+
+[23:04] Et c'est là que. Franchement c'est vraiment banger. Il y a quelques mois c'est vraiment pas possible de faire ce genre de truc. Et là on peut faire ça hyper rapidement. Avec un conduit hyper qualitatif. C'est vraiment cinématique. C'est ultra professionnel. C'est top top top. Avec ce genre d'art. Vous allez vraiment cartonner les gars. Maintenant. Une fois qu'on a ça. Je vais montrer comment faire la même chose. Mais avec cette GPT. On va aller un peu plus rapidement cette fois-ci.
+
+[23:26] La différence avec cette GPT. C'est qu'on va pas pouvoir faire les images directement dans de cette GPT. On va devoir créer les prompt pour ces images là. Ensuite générer les prompt. Genérer les images de ces prompt. Dans nano banana. Donc je vous montre tout ça. Donc là on va lui envoyer le prompt. Similaire à celui qu'on a envoyé dans Manus. Mais là on va lui demander de générer des prompt. À la place des images. Hop. On sélectionne. On va ajouter ça dans. Dans GPT.
+
+[23:47] Donc dans GPT. Ce que j'ai fait c'est que j'ai aussi créé un dossier. Avec toutes les informations du produit etc. Donc on va pouvoir lui upload. On va ici ajouter des images produits. Comme ça il comprend bien notre produit. Et on lui envoie. Je vous montre aussi la partie avec GPT. Comme ça vous aurez les deux possibilités. Parce que certaines personnes auront l'abonnement de GPT. Et d'autres auront l'abonnement Manus. Et comme ça vous allez pouvoir faire en fonction de ce que vous avez. Hop.
+
+[24:08] Donc objectif découpé. Il nous donne bien l'objectif. Les scènes fournis. Ok. Je suis prêt. Donc je lui envoie le script. On va lui envoyer le script. Hop. Et lui scènes. Donc là il va tout analyser. 35 scènes sont prompt. Extrêmement poussé nano banana. Ok. Ça c'est top. Donc là il nous a fait toutes les scènes. Il y en a fait de 1 à 12.
+
+[24:28] Absorption. Plus absorption plus ingrédient. Ok. Donc. Timecode 1. Il nous a fait une UGC ultra réalistique. Ok. C'est intéressant. Comme une UGC. Il nous a fait une métaphore de temps. Parce qu'il y a ces premiers jours. Ouais. C'est pas mal. Une UGC. Puis une célématique 3D. Pour dire. Donc l'effet que ça fait dans le corps.
+
+[24:49] L'absorption. Ok. Puis après il nous a fait des macros. Pour les différents types de champignons. C'est pas mal aussi. Il y a encore une image rémédicale. Et puis encore une image rémédicale. Encore une UGC. Une métaphore de temps. Parce que c'est en 2 jours. Franchement c'est pas mal. On peut juste lui dire. Par exemple d'améliorer le début. Un peu comme on a fait par avant. Parce que là il nous a fait une image UGC.
+
+[25:12] Donc. J'aimerais bien que tu améliores la scène 1. Pour avoir quelque chose d'impactant. J'aimerais bien une scène en format 3D. Donc image rémédicale. Une personne qui. Se sent vraiment pas bien. Et qui est au toilette. Et qui est en train de tout lâcher. Ou alors ça peut même. Tu peux même faire 2 versions. Une personne réelle.
+
+[25:33] Et une personne en image rémédicale. Comme ça on va tester les 2. Tu peux me faire 2 promes. Une UGC c'était bien. A la place de la métaphore temporelle. Tu pourrais me faire un promes UGC en plus. Puis c'est G.I. Médical Setup. Macromacro Setup aussi. Et voilà. Merci beaucoup. Tu peux me donner des promes assez poussées de nanobannon. Donc là ils vont générer tout ça.
+
+[25:56] Mais franchement déjà les résultats de base étaient très très bien. Parce qu'il est bien. C'est qu'ils nous donnent les corrections. Je te fais. Toilette malaisin digestif. Version G.C.Mirroir. Vida J. Bonfleur. Fatiguier. Version G.C.G.OK. Là on va pouvoir reprendre les prontes. Là on va directement dans. Xfil on va mettre image. Nanobanana 2. Nanobanana 2 c'est exceptionnel.
+
+[26:17] Parce qu'il est sorti justement hier. Quand je vais commencer à tourner la vidéo. On va pouvoir lui ajouter. Et on va pouvoir. Sélectionner le type de ration. On va pouvoir sélectionner la qualité d'image. Vous avez toujours à mettre 4K. C'est la meilleure qualité. Et ça n'use pas beaucoup plus de crédit. Vous allez pouvoir aussi générer par batch. Donc plusieurs images en même temps. C'est top. Comme là. Bon je vous invite toujours à générer 2 images. Par 2 images. Comme ça. Vous allez avoir 2 tests pour 1 pronte.
+
+[26:38] Et vous allez toujours avoir un meilleur vendu sur l'une ou l'autre image. On va pouvoir faire la même chose en key-eye. Là on va mettre. Nanobanana 2. On va lui ajouter le pronte. On va supprimer cette image là. On va lui mettre la qualité 4K. On va mettre l'aspération auto. Si vous mettez auto il va prendre l'aspération que lui a décidé.
+
+[26:59] Ou alors l'aspération dans le pronte. Toujours bien mettre 9, 16. Et on en va. Donc ça va être aussi rapidement à générer. On peut déjà faire les autres prontes. Comme ça on va tous les avoir d'un coup. Je les fais. Donc là vous vérifiez juste que ça correspond bien. Ce que vous avez envie. Qu'il y ait dans votre script. On va reprendre tout. Je génère tout.
+
+[27:22] Ça qui est bien aussi avec Nanobanana. Dans Xfill c'est qu'on peut générer 8 images en même temps. Donc c'est assez intéressant. Et c'est beaucoup plus rapide.
+
+[27:42] Donc là il nous a amélioré les autres scènes. Je vais lui dire. Donne nous aussi. Les autres scènes. Voilà. Comme ça on va pouvoir les générer aussi. Car la toilette c'est pas mal. C'est intéressant. Mais je trouve que. Que Manus nous avait donné était un peu mieux. Enfin je préfère en image 3D. Je trouve que ça parle plus. Là en image 3D franchement on voit que ça parle beaucoup plus rapidement.
+
+[28:08] C'est beaucoup mieux. Celle-ci elle est top. On pourra la générer aussi. Donc là on peut voir que j'ai fait une petite erreur. Ici j'ai oublié d'ajouter notre produit. Donc on va l'ajouter. On va reprendre le prompt. Nous allons juste faire ça. Tâques. Vous allez contrôler. Et on va pouvoir ajouter le produit. Pour nous respecter ça correctement. Voilà. Ça c'est bon.
+
+[28:29] Donc on va reprendre les autres prompts. Donc voilà là je vais donner tous les prompts. Qui nous avaient fournis. On va voir ce que ça va rendre. Il y a déjà quelques résultats. Ça ça peut être intéressant. On va tester en vidéo. Parce que ça donne. Ici il y a l'image médicale.
+
+[28:49] On pourrait tester les deux. Ça c'est pas mal aussi. Sauf que le produit n'a pas été respecté. C'est le prompt qui n'était pas assez bon. Ce que je vous invite à faire. Si vous voulez faire de meilleures prompts. Vous reprenez le prompt. Par exemple de l'UGC. Voilà. On va prendre. UGC avec sa tasse. Voilà. Et on va aller dans. Promptes. Machines pour nano-bananas.
+
+[29:10] Et là c'est un GPT qui était créé spécialement. Pour pouvoir générer des bons prompts pour nano-bananas. Donc on va lire. Améliore cette image. Et améliore ce prompt. Et j'aimerais ajouter mon produit. En input. Là il nous améliore l'image. Le prompt. On va pouvoir directement l'injecter.
+
+[29:31] On va ajouter notre produit. Et on envoie. Voilà. On peut voir ce qu'il a fait pour le reste. C'est vraiment pas mal. Ici c'est top top top. Donc on a toutes les images. On a des images de nos champignons. On a des images d'une personne qui boit un café. Ok. On a les images d'intro.
+
+[29:51] C'est top. On va voir comment il améliore cette image. Avec un bon prompt. Ici si vous voulez avoir plus d'images en temps vous pouvez récler. Et ici vous avez tous les modèles d'image. Donc il y a vraiment les meilleurs modèles d'image actuel. Il y a zimages qui est vraiment pas mal. Mais le seul inconvénient c'est que vous n'allez pas pouvoir mettre d'images en input. Mais pour tout ce qui est image un peu plus borderline.
+
+[30:12] Un style d'unité, etc. Il le fait. On a Cidream Lite 5.0 qui est sorti il n'y a pas longtemps. Qui est vraiment exceptionnel aussi. Il y a Nano Banana Pro qui est similaire à Nano Banana 2. Sauf que Nano Banana 2 ce qui a vraiment changé c'est qu'actuellement on peut avoir une cohérence dans les personnages. Ce qui est encore meilleur que Nano Banana Pro. Et en plus de ça il va beaucoup mieux respecter votre texte. Donc si vous lui donnez du texte dans le prompt et vous lui dites il faut l'ajouter sur ma statique, etc.
+
+[30:35] Il va le faire. Il va bien bien garder le texte que vous lui a donné. Car avant avec l'ancien modèle il ne respectait pas toujours à son consent. On a aussi la possibilité de faire des images qui soient traduites. Donc imaginons on a notre photo de produit. On a vraiment bien traduire ce qu'il y a dessus. Il va pouvoir traduire et garder exactement la même typographie et tout. C'est vraiment magnifique. Donc là on peut voir que franchement le résultat est top en mode UGC. Et on va générer des vidéos pour tout ça.
+
+[30:56] Donc là on va reprendre le chat de GPT. Maintenant pour chaque scène, créer un honte. Animer ces images avec Kling et AI.
+
+[31:18] Voilà. Donc là il va nous donner toutes les scènes avec les prontes. Scènes 1, UGC Organic, Focus Produits. On va pas faire comme ça. On va aller plutôt dans Prompt Engineer. En fait c'est un GPT que j'ai créé spécialement pour générer des bons prontes pour Sora 2,
+
+[31:41] pour VO3, pour Kling. Donc là vous allez pouvoir lui donner en input les images qu'on a créées auprès à Lable. On peut ajouter par exemple, c'est si hop. On va la télécharger. On va lui ajouter un input. Donc on va ajouter un Prompt. On va créer un Prompt pour animer cette image avec Kling. Il faut que la personne est mal au ventre.
+
+[32:03] On entend comme si elle se vidait l'estomac au toilette. Et on est vraiment l'impression qu'il se passe quelque chose dans son ventre. Donc là il va nous créer un Prompt. Ce qui est toujours intéressant de lui dire aussi, c'est lui dire qu'il doit pas avoir de texte dans la vidéo, qu'il doit pas avoir de musique. Et comme ça il va pas les ajouter. Si jamais ça doit être une vidéo hyper réalistique, qu'il doit pas avoir de texte sur la vidéo, il doit pas avoir de musique. Et il doit avoir un côté très très naturel type UGC.
+
+[32:27] Il va nous créer le Prompt pour pouvoir directement ajouter dans Kling. Ce que j'aime vraiment bien c'est qu'il nous montre le format déjà. Durée recommandée, ça ce n'est pas très intéressant de la durée. On n'aurait même pu lui dire dans le Prompt de base que c'était des bírolls de 4 secondes comme ça il me générait une scène un peu plus rapide. Hop, caractère du persona. Il nous donne les micro-actions, le climat c'est légère, sa main. Sur le moment, on voit son abdomen se contracter subtilement. Il se pencherait vraiment en avant et il ferme les yeux brèvement.
+
+[32:50] Hop. J'aimerais bien même que tu ajoutes du rouge au niveau de son vent, de son estomac pour montrer qu'il y a une douleur. Voilà. Et là on va pouvoir prendre le Prompt une fois qu'il sera généré. Si jamais pour Kling, c'est quand même toujours mieux de lui donner des Promptes en anglais. Donc je lui dis de me donner le Prompt en anglais, il va le traduire directement et on va pouvoir directement insérer.
+
+[33:11] Voilà, on copie le Prompt, on va venir ici, on va pouvoir directement mettre Animate. Maintenant ça va fonctionner. Enfin ça ne fonctionne pas toujours. Donc là on va juste retourner dans la vidéo Kling 3.0. On va ajouter la frame. On va ajouter le Prompt et on va lui mettre le Pondon. Ça c'est bon 4 secondes et on va générer. Donc ça vous faites ça pour toutes les images et au final vous aurez un rendu similaire à ce qu'on a fait avec Manus.
+
+[33:33] Sauf que Manus c'est plus rapide mais ça coûte plus cher. La vidéo est en train de générer. Images dans Nano Banana, dans Kiai, eux aussi étaient générées. On va voir ce que ça donne. Voilà, il est chargé. Ah ouais, il est encore beaucoup mieux. Après franchement, elle est puissante celle-ci. Ça hook direct. C'est le site animé. Tu lui fais un peu de rouge au niveau du ventre
+
+[33:55] et tu lui vois un gars qui est vraiment pas bien etc. C'est top. Kiai a de très bons résultats aussi. Mais tous les outils, les Prompt, Enginer, les GPT etc. je voulais mettre en description la vidéo. Je vais vous donner aussi accès au Prompt. Qui sont avec des balises pour que vous puissiez les modifier avec votre produit directement. Est-ce que ça a été généré ? Oui.
+
+[34:17] C'est vraiment bien fait. Ça peut être un très très bon hook. Une fois que vous avez fait ça, vous générez toutes les frames un peu comme on a fait là. Mais pour toutes les frames avec la GPT, je ne vais pas vous montrer sinon la vidéo, elle va durer deux heures. Mais vous avez compris, c'est le principal. Si vous avez des questions, quoi que ce soit par rapport à cette partie,
+
+[34:37] n'hésitez pas à m'envoyer un message. Je me ferai un plaisir de vous répondre. Et on va passer ensuite. Maintenant, l'idée, ça va être de créer un NuJCIA. Pour se faire, on va retourner dans le GPT. Le script qu'on va sélectionner pour faire le NuJCIA, c'est ce script. Donc j'ai réalisé un script qui va être parfait pour NuJCIA, style podcast qui va parler dans un micro Fescam. Donc on va créer l'image dans un nano-banana. Là, ce qu'on va faire, c'est aller dans une machine pour nano-banana.
+
+[35:01] Génère une image d'une personne qui est dans un studio de podcast Fescam qui parle devant un micro-chure. Cette femme a 35 à 40 ans. Elle est très belle et elle est dans un studio de podcast, de podcast, pardon, de style, comme on voit sur YouTube, seulement à la mode noire et très beau. Donc là, on ajoute. On va plus envoyer.
+
+[35:23] Il va nous créer directement un prompt pour générer cette femme-là dans nano-banana. Voilà. Contrôle C. On va retourner dans image. On va sélectionner, contrôler et on génère. On va générer 2. On va générer aussi une dans qui est aille nano-banana.
+
+[35:50] Il nous a fait une UGC. Ce n'est pas mal, mais ce n'est pas ce que je voulais. Ce n'est pas ce que je ne l'ai pas. C'est bien prompté. Je me suis mal exprimé. J'aimerais une personne qui soit dans un studio de podcast. A une table où il n'y a rien sur la table. On a juste le micro en face d'elle. Elle est un background, un fond qui soit assez sombre avec des éléments de décoration derrière.
+
+[36:11] Il faut que ce soit ultra réaliste. On va faire un prompt qui sera meilleur. C'est là qu'on voit que le prompt a une très grosse importance. Il faut vraiment bien que dans la nano-banana, il va mettre un prompt négatif pour expliquer ce que vous ne voulez pas dans votre image. On va copier et on va regenerer. On va voir ce qui a été généré dans qui est aille. Donc qui est aille d'image a été généré, on va la télécharger.
+
+[36:33] On va voir si les résultats étaient un peu meilleurs que dans Xfil, mais je ne pense pas parce que c'était le rendu. On va mettre autorisé. C'est quand même meilleur. Il y a toujours le mélangeur qui n'est pas nécessaire. On va regarder le nouveau résultat. On va pouvoir aussi le regenerer dans qui est aille.
+
+[36:55] Là c'est beaucoup mieux. Ça fait ultra réaliste. C'est 100 fois mieux. Une fois qu'on a cet influenceuse, on va pouvoir faire parler en tant que UGCIA de différentes manières. On a deux méthodes, une méthode qui est plus rapide mais un peu plus expensive et une méthode qui est un peu plus longue mais où on a très bon résultat. Je vais vous montrer la première méthode. On va télécharger l'image.
+
+[37:16] On va cliquer ici. On va aller sur Pekso Speech. D'abord pour générer la voix de la vidéo. On va supprimer cette partie. Comme ça je vous le montrerai. On va changer de voix. On va mettre la voix par exemple de Lucie. On va laisser en 11laps V3 pour qu'il y ait plus d'intonations.
+
+[37:38] Je n'aurais pu ajouter les balises. Se réveiller à 2h du matin pour uriner, ça c'est le cortisol. Une douleur soudaine à l'épaule, un autre symptôme du cortisol. Perte de cheveux soudaine, accouphaine, oui c'est le cortisol. Et cette graisse abdominale qui persiste, se réveiller. Ce qui est vraiment bien avec X-FIL, c'est qu'il va toujours donner
+
+[37:59] une double génération pour voir celle qui est le mieux. À 2h du matin pour uriner, ça c'est le cortisol. Une douleur soudaine à l'épaule, un autre symptôme du cortisol. Franchement la voix est pas mal. Devinez quoi le cortisol ? On va télécharger par exemple celle-ci. On va aller dans images et vidéos.
+
+[38:20] Non 11laps, parce que là aussi vous allez pouvoir générer un peu tout ce qu'on fait sur X-FIL. Mais vous pourriez le faire aussi sur 11laps. Mais ce n'est pas aussi bien fait et ce n'est pas aussi agréable à utiliser. Mais ce qui est vraiment intéressant c'est le lip-sync. Ici vous allez pouvoir utiliser OmniHuman1.5 qui est très très bon. Vous allez pouvoir ajouter votre avatar. Voilà j'ajoutais le bon et ici on va ajouter le speech.
+
+[38:41] On va le plauder aussi. C'est celui-là. C'est réveillé à 2h. Exactement. Là on pourrait ajouter un guide de génération. On pourrait lire par exemple que la LGC soit très naturelle et qu'il aide des mouvements naturels. On pourrait l'ajouter. Là on peut générer. Ça coûte pas mal de crédits, c'est un peu l'inconvénient. On peut voir que ça va nous coûter 37 000 crédits pour une vidéo de 38 secondes.
+
+[39:02] Je peux faire en tout 3 vidéos parce que j'ai plus de 140 crédits. On va générer. En attendant ce qu'on peut faire c'est faire l'autre méthode que ça génère. On va retourner ici. Celle-ci elle est vraiment pas mal aussi. On va prendre quand même celle-ci. Là on va aller dans vidéo et on va animer cette image en vidéo avec King.
+
+[39:23] On va reprendre l'image. On va retourner dans le chat gpt. On va retourner dans le video prompt engine. Et on va ajouter l'image qu'on aimerait animer. Parce que ça va être ça l'objectif c'est de lui faire parler dans une autre langue. Et donc elle va parler. Donc elle va avoir des mouvements de lèvres. Et ensuite on va faire du lip sync de cette vidéo directement avec lip sync.
+
+[39:45] Donc on va ajouter l'image. Celle-ci. On va ajouter le script aussi. On va ajouter les 3 premières phrases. Voilà. Donc il va falloir faire partie par partie du script. Et donc j'aimerais que tu animes cette UGC. Pour qu'elle dise le script que je t'ai donné ci-dessus.
+
+[40:07] Et j'aimerais qu'elle parle de manière hyper naturelle. Qu'elle parle devant microchures donc de très bonne qualité. Fais-moi le prompt en anglais. Et le script traduit le mot aussi en anglais pour qu'elle parle en anglais dans la vidéo. Je ne veux pas de bruit de parasite. Je ne veux pas de texte. Et je veux une très très bonne qualité. J'aimerais aussi qu'elle ait des mouvements naturels de main. Comme si elle parlait vraiment à une personne.
+
+[40:28] Voilà. Tous les points qu'on souhaite. Il faut toujours bien regarder. Parce que là on voit bien qu'il a bien respecté ce que je lui avais dit. Hop. On va pouvoir copier le prompt. Saine. Pourquoi je l'ai fait en anglais et pas en français ? Parce que je vais montrer la grande différence avec Kling. C'est que Kling en fait, c'est pas possible de générer des UGC directement en français. Avec lui qui parle Fescam.
+
+[40:48] Parce que son modèle n'a pas la fonctionnalité française. Mais il est très bon pour l'anglais et l'espagnol. Donc si vous voulez faire et start vos ads dans un marché type espagnol ou FR. Je vous invite à le faire avec Kling. Il y a VO3 qui est très bon aussi. Je ne vous le montre pas non plus. Parce que VO3 va nous faire 3 quarts du temps des voix qui sera en mode français canadien. Donc si vous lancez par contre vos ads au Canada FR.
+
+[41:09] Là, on sait d'utiliser VO3. Vous aurez des très très bons résultats du GEC. Et avec une voix très bonne qualité en mode québécois. Donc là on ajoute. On va mettre 11 secondes. Peut-être on va mettre en fonction de la durée du script. Donc on va générer la VO aussi. Pour notre petite partie de script. Voilà reprendre. Et elle était ici.
+
+[41:34] Voilà j'étais ici. Voilà, 11. Se réveiller à 2h du matin pour uriner. Ça c'est le cortisol. Une douleur soudaine à l'épaule. Un autre symptôme du cortisol. Laur de cheveux soudaine, ha coupfaine ou... On va voir que vraiment la voix est très bonne qualité aussi. Et la durée de 9 secondes. Donc ce qu'il va falloir faire c'est avoir une vidéo qui dure aussi 9 secondes ici. Donc on peut laisser 10 comme ça c'est top.
+
+[41:55] Et on va générer. Là il va nous générer une voix ou une vidéo ou la personne parlant FESCAM et dit le script en anglais de 9 secondes, pas de 10 secondes. Et ensuite on va pouvoir faire du lip-sync avec notre VO pour qu'elle parle en français qui est une correspondance avec l'audio et la vidéo parfaite. Je vais montrer ça. On va regarder si dans 11 laps la vidéo a fini d'être générée ou pas. On a 83% ça c'est rapide.
+
+[42:17] En attendant ce que je peux vous montrer quelque chose de vraiment vraiment banger dans une édition spéciale. En fait j'ai trouvé un outil qui nous permet d'avoir accès à SIDENCE donc SIDENCE qui est l'un des meilleurs outils de générations de vidéo qui est sorti mais il est disponible qu'en Chine. Et là j'ai trouvé un accès sur un tool qui nous permet de l'utiliser sans VPN. Bon, parfois ça peut être un peu long si vous l'utilisez en même temps que la Chine ça peut prendre 1 à 2 heures
+
+[42:39] pour la génération d'une seule vidéo mais si vous l'utilisez des moments précis dans les US DETAILS ça va prendre entre 8 et 15 minutes. Donc ça c'est top. Ça risque de prendre un peu de temps parce que là on est en plein heure de point en Chine. On a une vidéo assez cinématique je vous montrerai. Voilà donc on ajoute notre produit et on va créer un compte. J'aimerais que pour mon produit Muxilo qui est des champignons, un café aux champignons adaptogènes que tu crées une vidéo hyper cinématique
+
+[43:00] de quelqu'un qui prend le produit qui se fait un café avec qui verse de la poudre dans sa tasse et puis qui boit le café extrait de manière très cinématique, très belle pour pouvoir faire une pub l'écran de marque de luxe de café avec une VOFR. La vidéo doit durer 10 secondes. Si jamais la vidéo va être générée avec Seedance
+
+[43:21] le nouveau modèle d'IA de génération vidéo Seedance 2.0. Voilà on lui dit tout ça. Il n'y a pas bien écrit Seedance donc on va mettre Seedance. Voilà. La Muvbo à la place de V.O c'est pas grave. Voilà il nous crée le prompt. On va devoir faire un prompt plus court
+
+[43:42] parce que dans ces outils là les promptes de long ne sont pas forcément autorisés mais c'est pas grave. Je génère un prompt court et hyper efficace. Ici on peut même mettre une image d'entrée. On peut par exemple mettre notre produit. On ajoute.
+
+[44:06] Si vous pouvez mettre frame first ou last frame vous pouvez mettre omni aussi. Si vous voulez mettre plusieurs choses en entrée vous allez pouvoir mettre 9 images vous allez pouvoir mettre 3 vidéos, 3 musiques pour pouvoir faire une vidéo vraiment banger. Mais quand l'outil sera sorti complètement tout le monde donnera accès vous aurez une vidéo vraiment exclusive par rapport à ces outils. Un tuto complet. Mais en attendant du coup on va générer ça, on va le faire image
+
+[44:27] et on génère. Du coup je ne sais pas combien de temps on va prendre la génération mais si ça prend beaucoup trop de temps je le mettrai en lien de cette vidéo pour que vous puissiez voir. En attendant on va voir si ça a été généré. Ah voilà c'était complètement généré.
+
+[44:47] Se réveiller à 2h du matin pour uriner. Ça c'est le cortisol. Une douleur soudaine à l'épaule un autre symptôme du cortisol. Perte de cheveux soudaine, accouphaine, oui c'est le cortisol. Et cette graisse abdominale qui persiste devinez quoi le cortisol? Le cortisol est l'hormone du stress qui détruit votre corps petit à petit. Si vous vivez sous pression et... On peut voir que franchement le résultat est pas mal.
+
+[45:08] Ce que je vous invite à faire c'est d'abord c'est de suger ces là et d'ajouter des bírols à certains moments parce que parfois on voit un peu dans les yeux que c'est pas totalement 100% parfait. Et aussi on a mis en mode 720p vous pourriez le mettre en mode 1080p. Là si on tourne ici dans le lip-sync vous mettez 1080p, là vous aurez des meilleurs résultats mais c'est des vidéos maximum de 30 secondes et aussi on pourrait le upscale.
+
+[45:30] Donc on peut se retourner le... On peut le upscale, donc on va upscale la vidéo pour qu'il ait meilleure qualité et on peut l'extender aussi, ça c'est intéressant. Donc là on va la télécharger pour après. On va voir si ça a été généré, ça toujours pas été généré dans X-field. Donc en attendant ce que je peux vous montrer c'est un peu comme on a fait pour le champignon on va prendre la VO et la vidéo de l'UGC. Voilà, là on va l'ajouter ici
+
+[45:56] et là on va pouvoir ajouter des freins. Se réveiller à 2h du matin pour uriner. Ça c'est le cortisol. Une douleur soudaine à l'épaule Une autre symptôme du cortisol. Perte de cheveux soudaine à couffaine, oui c'est le cortisol. Et cette graisse abdominale qui pique le cortisol
+
+[46:21] devine quoi le cortisol ? Le cortisol est l'hormone du stress qui... La l'hormone du stress on peut mettre par exemple ceci, hop. Devine quoi le cortisol ? Le cortisol est l'hormone du stress qui détruit votre corps petit à petit. Voilà en fait l'objectif c'est d'ajouter des bérolles comme ça pour donner un peu plus de vie à l'UGC. Donc vous pourriez même par exemple hop on reprend cette partie là donc là on pourrait par exemple le mettre ici
+
+[46:43] et avoir l'UGC qui parle plus haut comme ça. Comme ça on a des variations. Stress qui détruit votre corps petit à petit. Si vous vivez sous pression et que vous essayez d'écrire... Et on peut faire ça avec tout en fait. Qu'il y a libre 1 million de choses ou que vous êtes mentalement épuisé, le cortisol dans votre corps est probablement au plafond. Moi,
+
+[47:05] qui a tout changé, ce sont les champignons... Là on pourrait dire les champignons adaptogènes. Là on peut rajouter des champignons. Les champignons adaptogènes. La plupart des gens n'ont aucune idée à quel point ils sont puissants. Le rayon... ...pichit. Le champignon... Là les noms tous on pourrait tous les ajouter là-dessus de l'autre. Ça serait top. Vous avez compris le principe de cette manière faire une ade
+
+[47:26] vraiment de top qualité. Bon là j'ai pas forcément les meilleurs bírolles pour ça. Mais ça vous pouvez les générer comme vous me l'avez montré dans la première partie de cette vidéo. On va voir si ça a été généré sur... X-FILD, OK ? Waking up at 2 in the morning to use the bathroom, that's cortisol. A sudden pain in your shoulder, that can also be cortisol. Sudden hair loss, ringing in your ears, yes, that's cortisol too. Waking up at...
+
+[47:47] Là on peut voir vraiment que la qualité de VGC elle est vraiment forte. Dommage qu'ils ont pas la version FR chez Kling. Mais elle c'est pas grave donc on va reprendre cette vidéo. On va la télécharger. On va aller dans Video Lip Sync Studio. On va ajouter la vidéo. On va ajouter notre audio. Upload. Attack. Attack.
+
+[48:08] On ajoute. Une fois qu'il est généré, on va pouvoir le sélectionner. Et là on va pouvoir mettre généré. Et donc là ça va mettre sur la vidéo anglaise. Ça va changer. Et ça va lipser avec notre voix FR pour avoir un résultat parfait. Donc il y aura toujours le mouvement de main et tout. Et le résultat au niveau de la bouche sera vraiment parfait. La seule contrainte c'est que c'est des vidéos qui doivent durer maximum 15 secondes.
+
+[48:30] Donc si vous avez une vidéo qui dure 45 secondes, vous allez faire 3 parties. 3 lipsings. Mais c'est assez rapide et c'est vraiment bien. Vous vous invite à le faire. Vous vous invite à le faire. Vous vous invite à attendre la génération. Regardez si ça a toujours été généré ici. Attack. Donc là on peut voir que c'était généré. On va cliquer sur plait. Se réveiller à 2h du matin pour uriner. Ça c'est le cortisol. Une douleur soudaine à l'épaule. Un autre symptôme du cortisol.
+
+[48:52] Perce de cheveux soudaine. Hakufaine. Oui c'est le cortisol. Se réveiller. On peut voir vraiment que le résultat est encore bien meilleur que ce qu'on avait fait ici. Sauf que là c'est plus rapide vu que vous allez avoir une vidéo plus longue directement. Et si vous voulez vraiment avoir un résultat de top qualité, faites cette méthode là. Voilà j'espère que cette vidéo vous a plu. Si vous avez la moindre question ou quoi que ce soit n'hésitez pas. Je me ferai un plaisir de vous aider. Et à bientôt pour les prochaines vidéos. C'était Lucas.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 42 : Créer des ads à très bas coût sans IA (~200€)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 42
 ======================================================================
 
@@ -4853,9 +5373,65 @@ La vraie force de cette approche, c'est l'indépendance. Une fois ta relation av
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Alors, je pense qu'on est tous d'accord pour dire qu'aujourd'hui, l'IA, ça fait vraiment des choses extraordinaires et je suis le premier à l'utiliser. En revanche, moi, personnellement, j'ai utilisé une autre stratégie qui a extrêmement bien fonctionné pour nous et j'aimerais que vous la partagez aujourd'hui. Et en fait, à la base, moi, avant de commencer l'e-commerce, j'avais une boîte de production
+
+[00:23] vidéo avec mon associé actuel et on a utilisé en fait nos femmes en tant que modèle, en tant qu'actrice pour incarner la marque et créer justement le contenu. Et aujourd'hui, je vais vous partager une technique pour justement créer son propre contenu, trouver une actrice qui va vous accompagner pour créer du coup vos ads et le tout à moindre
+
+[00:48] recours et pouvoir commencer votre brand avec beaucoup, beaucoup, beaucoup de trust parce qu'en fait, en une matinée de tournage, vous allez pouvoir enchaîner différents concepts de manière beaucoup plus rapide et ça a bâpris. Donc, l'idée, c'est de se rendre sur UG. Dénicher un profil qui nous plaît bien. Donc, on peut en contacter plusieurs actrices dans sa ville.
+
+[01:12] Là, par exemple, j'ai mis Rince. Rince, c'est pas une grosse ville et c'est pour vous montrer à quel point en fait, il y a quand même énormément de profils disponibles. Là, on peut encore charger et ça va défiler. Je ne me suis pas connecté, mais vous avez compris. Il desserque d'envoyer un premier message d'accroche pour dire, voilà, j'aimerais trouver quelqu'un pour faire une collaboration régulière sur le long terme, soit pour la UGC, soit
+
+[01:39] en tant qu'actrice. Et là, c'est très important ce que je vais dire. Pourquoi actrice ? Le but, c'est que du coup, on va les payer une matinée de tournage. Il y a des filles pour une matinée de tournage. Vous leur donnez 200 euros et c'est magnifique pour elle. Et pour vous, ça vous fait des ades pas très chers. Ça convient à tous les deux.
+
+[01:59] Donc voilà, mais il faut les rassurer. Il faut les mettre en mode, on est créateur d'une braine. On a besoin d'elle. On fait quelque chose de sérieux, de péren, quelque chose dans le long terme, etc. Et en fait, il ne faut pas qu'elle pense qu'on est tout seul dans notre chambre à faire notre braine, qu'on est une équipe, etc.
+
+[02:21] Donc il faut vraiment être le plus crédible possible. Et tout de suite, on veut leur proposer un call sur Google Meet. Le call sur Google Meet, ça va justement permettre de les rassurer. Parce que souvent, elles n'ont pas assez confiance en elles, parce que c'est quelque chose qu'elles n'ont jamais fait, faire un contrat d'actrice. Et puis peut-être pendant ce call, on va peut-être, on va peut-être
+
+[02:42] être deux pendant le call. On va peut-être être nous, puis notre copine ou nous, ou une amie ou nous, ou notre associé, etc. Le plus clean possible sur nous, il ne faut vraiment pas qu'il y ait de red flag, etc. Le but, c'est vraiment d'avoir leur confiance pendant ce call-là. Pendant le call aussi, on va essayer de récupérer leur numéro de téléphone, ce qui va permettre justement de pouvoir après directement les contacter
+
+[03:04] par WhatsApp et d'organiser un rendez-vous et ne pas passer par la plateforme. Parce qu'en fait, la plateforme ne propose pas des services d'actrice. Et pendant le call, on va leur expliquer qu'on a besoin d'elle pendant une matinée. On va leur décrire notre marque. On va leur décrire un peu la vision. On va leur décrire les scripts qu'on aimerait faire, etc.
+
+[03:25] Et puis après, on va arriver, quand vous avez trouvé le bon profil, etc. le jour du tournage. Donc le jour du tournage, souvent ça va être chez vous. Donc si c'est chez vous, soyez pas seul avec l'actrice, parce qu'en fait, elle va être mal à l'aise et ce n'est pas du tout le but. Nous, ce qu'on veut, c'est juste avoir des ades pour pas cher. Donc le jour j'ai peut-être invité une amie à vous ou alors votre associé, etc.
+
+[03:49] Mais il faut que ça soit vraiment clean et pas bizarre. Et si elle ne veut pas chez vous, ce qui est tout à fait normal, vous proposez toujours un plan D. Donc ça peut être, par exemple, dans un hall d'hôtel un peu stylé, ça peut être dans un beau restaurant de Votdeville. Et en fait, tout simplement, vous démarchez des professionnels de Votdeville
+
+[04:10] et que des beaux lieux de réception, vous allez pouvoir en fait filmer. Ce peut être dans des médias textes. Il y a plein d'endroits où on peut filmer du contenu. Il suffit juste d'être un peu malin et d'y aller au Bagou et de demander si on ne peut pas louer ou utiliser leur lieu gratuitement. Même dans des studios de podcast, maintenant dans des grandes villes,
+
+[04:32] il y en a beaucoup, ça coûte une centaine de rollers. L'idée, c'est de préparer tous ces scripts à l'avance. Ça soit bien carré pour que le jour j'y vous puissiez débiter, débiter, débiter des concepts et que en quatre heures de tournage, vous arrivez à produire entre cinq et quinze vidéos. C'est la range à avoir. Et pour justement que ça soit fluide et qu'on puisse se faire un maximum de concepts,
+
+[04:56] en fait, vous allez avoir vos scripts qui seront prêts à l'avance. Mais l'idée, c'est pas de lui dire, par exemple, la phrase entière, une Solads peut te rendre riche, mais 99% des e-commerce, on n'y arrivera jamais. Tu sais pourquoi ? Parce qu'ils ne comprennent pas le vrai rôle décréatif, etc. Ce qu'elle n'y arrivera pas. Ce n'est pas possible, elle va tout le temps blégeiller, etc. Enfin, c'est très, très dur de dire plus de trois, quatre phrases d'affilée.
+
+[05:21] Surtout, ne lui donnez pas son script sur le téléphone. Elle lit le script, elle vous le répète, ça ne marchera pas non plus. Faut que ça soit vous qui l'a coaché. Qui l'a coaché. Donc en fait, vous allez lui dire, OK, première phrase, une Solads peut te rendre riche et vous allez donner l'intonation qu'elle doit avoir. Donc une Solads peut vraiment te rendre riche.
+
+[05:42] Voilà, elle la répète. On cut, on passe à la phrase suivante. Mais 99% des e-commerce, on n'y arrivera jamais. Boom, elle la répète, mais 99% des e-commerce. Et voilà, et on enchaîne, et on enchaîne, et on fait phrase par phrase. Et après, dans vos ades, il y aura plein de cut. Mais vous allez voir, ça sera toujours fluide. Ça, dessus, il n'y aura pas de problème. Si elle a la bonne intonation à la fin des phrases
+
+[06:05] qui permettent de reprendre les phrases d'après, ça sera nickel, ça va passer super bien. Au niveau de la caméra à utiliser, vous ne vous embêtez pas, vous utilisez un iPhone. À partir de l'iPhone 15, la qualité, c'est extraordinaire. Si vous n'en avez pas, vous avez forcément un pote qu'en a un. OK. Après, une fois que vous avez tout filmé,
+
+[06:27] vous faites votre montage sur un logiciel que vous voulez. Je vous conseille de passer l'audio du montage ou alors directement la vidéo avec l'audio dans Adop podcast. Adop podcast, ça fait vraiment des miracles. Un son moyen devient tout de suite un son de qualité studio avec cet outil. Donc ça, c'est extraordinaire. Ou si vous avez un petit peu plus de budget,
+
+[06:49] je vous conseille vraiment d'acheter ça. C'est DJI Mike Mini. Ça coûte 44 euros. Pareil, ça fait des merveilles. Comme ça, vous clipsez le micro directement sur l'actrice. Vous, ça vous blanchez ça à votre iPhone. Et ça, du coup, le son, il sera parfait. Avec, vous pouvez même faire des micros trottoirs. Vous allez pouvoir vraiment faire beaucoup plus de concept
+
+[07:11] et augmenter la qualité de votre son. Le son, c'est super important. Si vous avez une mauvaise image mais un bon son, ça passera. Si vous avez un mauvais son mais une bonne image, là, c'est tuba pour votre vidéo. Après, pareil pour l'éclairage. En vidéo, en éclairage, il y a des règles à respecter.
+
+[07:32] Il faut toujours avoir une source de lumière qui soit pas homogène sur tout le visage. Voyez la l'ombre, l'ombreage, la vidéo, ça rend pas très bien. Là, tout de suite, en fait, il a mis une lumière sur la droite. Il va projeter, qui va surexposer un petit peu la partie droite de son visal.
+
+[07:53] Et la partie gauche va être surexposée. Là, vous allez me dire qu'on n'a pas de light, de softbox. Donc, c'est compliqué. Encore une fois, c'est un peu du bon sens. Si, par exemple, vous êtes dans une pièce et la lumière est que du lumière en plafond, ça va écraser l'actrice. Du coup, essayez de vous mettre, peut-être, proche d'une fenêtre.
+
+[08:14] Comme ça, la fenêtre va venir éclairer le visage sur cette partie-là. Ça va assombrer un peu cette partie-là et ça peut vous redonner tout de suite un bon rendu. Mais même si vous n'avez pas forcément de fenêtre, c'est du bon sens dans votre vidéo de bien placer les objets, les actrices, etc. pour que votre vidéo rende bien de manière globale.
+
+[08:35] Voilà, faites attention à ce qui traîne derrière. Il y a plein de petits détails qui vont faire que mi bout à bout, vont faire que votre vidéo soit calie, même si c'est filmé avec un iPhone. Donc voilà, pour cette partie-là, j'en ai fini. C'est des stratégies qui sont hyper puissantes si vous trouvez la bonne actrice. Et en fait, si vous commencez à travailler souvent avec l'actrice,
+
+[09:00] elle va même pouvoir intégrer votre marque en tant que personnel brand. Par exemple, vous pouvez, par exemple, lui donner un petit peu de départ comme ça, aller rattacher au projet. Vous pouvez, par exemple, lui donner un contrat long terme. Vas-y, tous les lundis matin de chaque semaine, boom, tournage. En fait, au final à mesure, vous allez forcément nouer
+
+[09:22] une relation avec l'actrice et, à la fin, elle sera beaucoup plus à l'aise avec vous. Et elle va voir que vous n'êtes pas bizarres et que tout c'est toujours professionnel. Un dernier tips pour trouver des actrices UGC, ce que vous pouvez faire, c'est faire en fait une campagne ads avec, par exemple,
+
+[09:42] juste une note d'iPhone, la marque Intel cherche sa prochaine actrice pour son shooting sur, par exemple, la ville de Rince. Titex pour décrire la marque, signer le CEO de la marque, etc. Vous faites une campagne ads en Abo, Cbo, peu importe. Vous mettez ça dans un ad set. Sur l'ad set, vous paramétrez la ville avec un rayon de 40 kilomètres.
+
+[10:06] Vous mettez 5-10 euros de budget par jour. En une semaine, vous allez avoir une tonne de lits et vous allez trouver des actrices à l'appel pour pouvoir trouver justement quelqu'un qui puisse incarner votre marque et faire des ads à l'appel, à l'appel, à l'appel et ce sera beaucoup plus simple. Le procès, une fois que c'est rodé, c'est super bien pour créer plein de concepts
+
+[10:29] qui n'existent pas sur le marché, parce que vous êtes plus dépendants de ce que vous pouvez scraper sur Internet. Donc voilà.
 
 
 
@@ -4941,7 +5517,7 @@ _(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 45 : Checklist 2026 & CRO Tips
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 45
 ======================================================================
 
@@ -5026,16 +5602,122 @@ Ce qui distingue les boutiques qui scalent de celles qui stagnent, c'est raremen
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo sur la boutique. Je vais vous faire rapidement une petite checklist et quelques tips que vous pouvez appliquer pour avoir un meilleur taux de conversion et des choses vraiment qui sont applicables immédiatement. Ok, que vous soyez débutants, intermédiaires, avancés, tout le monde a de quoi prendre de ce que je vais partager et vous allez pouvoir simplement avoir des conseils et simplement avoir une bonne base pour faire votre boutique et améliorer votre page produit, etc.
+
+[00:27] Donc, on commence tout de suite avec le thème. Le thème, c'est la chose dont la plupart des personnes parlent beaucoup, beaucoup de débutants et intermédiaires font que parler de thème, mais c'est la chose la moins importante. Donc, j'ai mis en premier pour qu'on en parle pendant 10 secondes et ensuite c'est fini. On utilise le thème shrine, on utilise des thèmes qui sont similaires aussi à shrine, mais évidemment le shrine pro qu'on paye.
+
+[00:48] Refresh et down, c'est également très intéressant. Je vous conseille de le lier avec Section Store après vous allez pouvoir avoir tout ce que vous voulez en terme de design en un clic sans savoir coder. Focal impact prestige, c'est très bien pour du fashion par exemple. Ce sont des thèmes qui sont clean, simples, efficaces. Motion aussi, c'est pas mal, overall. Et sinon, l'idée, dès le moment où vous commencez à scaler, moi typiquement j'ai un dev full time dans mon équipe qui est là pour simplement.
+
+[01:14] Par exemple, je lui dis ok cette marque, elle a ça qui est incroyable, qui est intéressant. Ok, elle va me développer ça, boum il le fait en quelques heures, c'est fait. L'idée c'est que le thème c'est pas très important, mais c'est vrai que si par exemple vous payez le shrine, vous avez quand même des bonnes bases. Ok, donc voilà, prenez ça en compte. Avec ça, vous êtes sûr d'avoir des bonnes bases, c'est validé. Et on passe à la suite, si jamais donc concernant l'inspiration que vous pouvez avoir pour vos thèmes et des nouveaux hautes que vous pouvez apporter, c'est très simple.
+
+[01:44] Vous pouvez vous inspirer avec par exemple After Lib, Facebook, As Library. Vous allez mettre des mots-clés dans votre niche que le nombre de vos concurrents, enfin que votre produit est. Et vous allez simplement, chaque mois peut-être une fois ou deux fois par mois, aller voir ceux qui spendent le plus, ceux qui ont le plus d'impression, ceux qui lancent le plus d'ads, et bien ok, sur leur site. Qu'est-ce qu'ils ont mis en place, qui est nouveau, que vous n'avez pas encore et ça va vous permettre de vraiment rester dans le top en termes de CR.
+
+[02:11] Parce que tout d'un coup, il y a quelque chose que beaucoup de personnes commencent à mettre et ça devient banger. Par exemple là maintenant, en live, je vais vous partager des choses banger, juste maintenant d'ailleurs. Typiquement, lui il est en train de scaler, en tout cas il scale fort il y a quelques mois, et j'ai pas analysé récemment, mais il scale fort. Et ce qui m'avait impacté sur son site, sur sa page produit, etc., c'est juste ce petit détail ici.
+
+[02:36] Donc là il a le monde sa marque, et à droite il y a un comparatif. C'est pas juste un simple comparatif, c'est un comparatif qui dit par exemple, chip knock off amazon. Et ce chip knock off, il a été utilisé dans beaucoup d'ads et de clacher les concurrents en même en parlant d'Amazon pour que justement les gens ne vont pas aller sur Amazon si eux ils ne sont pas sur Amazon. Mais ça c'est vraiment banger et ça ça vaut de l'or. Si vous êtes une marque qui tourne, vous savez très bien que ça vaut de l'or.
+
+[03:00] Et c'est des petits détails comme ça à droite à gauche qu'on vient récupérer à chaque fois pour au final avoir une boutique qui est magnifique. Mais ça vraiment, honnêtement ça vaut de l'or. Donc on repasse sur notre aperçu et simplement, une fois par mois, je vous conseille de vous inspirer de ce qui tourne le plus. Ensuite, concernant votre page d'accueil, pareil je vais en parler pendant 5 secondes parce que littéralement très peu de clients vont sur la page d'accueil.
+
+[03:23] Mettez une description produit, expliquez pourquoi votre solution c'est top, pourquoi votre produit c'est top. Si vous êtes en avec plusieurs produits, plein de produits différents, ça mettez-le pas forcément. Si vous êtes en mode mono produit, expliquez pourquoi votre produit est la solution idéale. Ensuite, image, texte, basique avec chat gpt, page de collection, les bienfaits du produit, une FAQ et des avis. Page d'accueil, magnifique avec ça. Vous pouvez vous aider à de chat gpt bien évidemment.
+
+[03:47] Ensuite au niveau de votre page produit, ce qui est le plus important. L'idée ici c'est qu'un enfant de 5 ans doit tout absolument comprendre quand il arrive sur votre page produit. On fait du direct réponse, ça veut dire, on fait des ads, le client doit acheter assez rapidement. On fait du tiktok ads, vous savez très bien que les gens ils scrollent, ils scrollent, ils scrollent. Eh ben c'est la même chose avec les boutiques, ils scrollent rapidement, ils vont ok, c'est pas intéressant, c'est intéressant, boom.
+
+[04:12] C'est trop compliqué, ils partent. Il faut qu'absolument, un enfant de 5 ans doit tout comprendre dans la plupart des cas. Si vous avez un produit médical extrêmement compliqué c'est autre chose. Mais pour 80% des produits, un enfant de 5 ans doit tout comprendre quand il arrive sur la page produit. Donc évitez les longues phrases, faites en sorte que ce soit simple, faites en sorte que ce soit efficace. Et pourquoi ? Parce qu'on fait vraiment du push marketing. C'est-à-dire qu'on vient pousser nos ads à l'intérieur de l'algorithme des gens.
+
+[04:35] Et c'est pas du pool marketing. Le pool marketing c'est quand les personnes vont faire des recherches et donc près de temps etc. Le push marketing c'est on met nos ads à l'intérieur de leur téléphone et on a très peu de secondes pour convertir. Donc c'est très important que ce soit simple et efficace. Ok ? Et je vais vous partager des astuces maintenant pour chercher un simple et efficace qui valent de leur.
+
+[04:56] Donc le plus important c'est vos images. Il faut absolument qu'on puisse comprendre le produit rien qu'avec le caroussel photo. Les clients ne scrollent pas les shops mais les clients scrollent les photos. On le voit non pas parce qu'on chiffre en ce moment et qu'on fait des résultats intéressants. Mais on le voit parce qu'on a installé Microsoft Clarity comme on le voit à la fin de cette vidéo.
+
+[05:18] C'est qu'on peut voir en fait la hit map des useurs et on voit en fait qu'ils ne vont pas très bas de la page produit. Du moins très peu de personnes y vont. En fait les gens ne scrollent pas votre boutique comme ça quand on pourrait le croire. Vous savez qu'on scrollent une page mais ils scrollent les photos comme ça. Les clients ils prennent l'iPhone et ils scrollent de ce côté là les photos.
+
+[05:41] Et du coup c'est important que votre tunnel de vente soit dans le parcours de vos images et pas de votre site. Mais évidemment votre site il est aussi important d'ailleurs juste en parlant de sites. Vous pouvez suivre cette trame ici qu'on a déjà partagé à de main-tres-prises. Et je vais le remettre ici en bas de cette vidéo. Vous avez en fait une landing page qui m'a rapporté des dizaines et des dizaines et des dizaines de millions.
+
+[06:04] Juste en suivant cette trame là. Mais justement ici il va falloir suivre cette trame là. Et ça je dirais que c'est pour 99% des produits honnêtement. Même si vous avez un produit médical ça va fonctionner parce que vous pouvez aussi faire des adverses territoriales avant de rediriger cette page. Vous pouvez aussi, voilà, vous pouvez faire beaucoup de choses et en fashion en réalité il n'y a pas besoin de faire autant. Mais pour tous les autres produits honnêtement c'est intéressant de faire quelque chose de similaire en tout cas.
+
+[06:27] Et le travail ici qui n'est pas forcément indiqué sur cette page ici, le travail le plus important c'est au niveau des images. Vous l'aurez compris. Donc on va voir ensemble au niveau des images quoi faire. Alors déjà au niveau des ordres de l'ordre de vos images sur votre page produit. Très simple. Donc là c'est l'ordre. C'est première, deuxième, troisième, quatrième. Votre première image ici elle doit démontrer le produit de façon clean, neutre et qu'on ait une vision claire du produit.
+
+[06:51] Exemple si je viens sur le shop Muscintim qui a été revendu pour 30M ou 20M je ne sais plus le chiffre exact. Très récemment, enfin moins d'un an, environ un an. Première page produit, première photo produit on voit le produit. Claire, simple, efficace. Si c'est un lot de deux, typiquement on voit le lot de deux.
+
+[07:12] Et il faut que ce soit simple et efficace qu'on voit directement ce que c'est. Boom, on voit ce que c'est. Ici ils ont rajouté un petit badge, Y note. Grosso modo quand on arrive sur la page produit on va comprendre le produit qu'est ce que c'est. Et ça c'est surtout plus important quand on fait du fashion ou des bijoux etc. Il faut qu'on ait visuellement exactement ce que le client quand il achètera il aura. Ok, parce que vous avez des clients qui regardent ça ils achètent direct.
+
+[07:34] Ils vont même pas regarder les autres. Donc c'est super important, ce sera la plus claire. Ensuite deuxième image, faites en sorte d'avoir une image animée si vous le pouvez. Donc c'est un gif. Et ce qui fonctionne bien c'est de mettre le top moment de vos ads winners en gif. Et le moment qui est satisfaisant où les clients ils ont eu le hook de regarder ce moment là de la vidéo où vous allez mettre une image animée.
+
+[07:56] Un exemple pour ça. Par exemple ici on est sur VaPure, un shop qui a scale et bien l'année passée. Je sais plus si cette année il scale encore je ne les ai pas suivi. Donc on peut voir qu'ils ont leur image ici et boum ils ont une image animée. Eux par contre ils expliquent aux gens comment l'utiliser à leur produit. Mais voilà, une image animée c'est vraiment top sur votre parcours client au niveau des images. Que ce soit la deuxième ou la troisième c'est important d'avoir quelque chose qui hook un peu le client
+
+[08:21] parce que vous allez avoir aussi beaucoup de clients qui ne viennent pas forcément de métal ou TikTok. Et avoir quelque chose de visuel comme ça qui bouge c'est top. Proposition de valeur, bénéfice produit. Donc ça pour la troisième image je vous conseille d'avoir tout ce qui est bénéfice produit, tout ce qui est proposition de valeur. Donc si on revient par exemple sur le Musc Intime on peut voir BOOM, bénéfice produit. Et c'est exactement ça qu'il faut faire.
+
+[08:43] Des petits bullet points ici et voilà c'est juste exactement ça qu'il faut faire. Et encore pourquoi pas encore plus de détails comme ça. Les étapes de comment l'utiliser. Donc voilà ce type d'image je vais vous mettre ici en bas. Normalement de cette vidéo vous avez plein de sites avec lesquels vous pouvez vous inspirer et ces cadeaux. Donc ici ensuite ce que vous pouvez avoir comme quatrième image c'est des avis clients avec votre persona.
+
+[09:06] Du social proof et badge etc. rembourser. Enfin pas forcément satisfaction rembourser d'ailleurs. Je ne mettrai pas toujours satisfaction rembourser comme dans les top images. Parce que si votre premier bénéfice client slash badge que vous ajoutez sur votre image produit c'est le fait que vous rembourser les clients s'ils ne sont pas satisfaits.
+
+[09:27] Ce n'est pas vraiment un bénéfice en fait. Donc mettez des vrais social proof un peu comme ici on le voit. Ils ont eu une victoire de la beauté etc. Honnêtement moi j'avais scale un produit chaussure orthopédique et j'avais mis quelque chose de similaire. Enfin pas dans cette niche là mais un prix etc. que mon entreprise avait gagné qui était en guillemets inventables avec 4 GPT et c'était vraiment banger.
+
+[09:49] Donc n'hésitez pas à avoir des trucs comme ça similaire. C'est top aussi. Ensuite tout ce qui est statistique, graphique pour les clients qui ont le moins confiance qui vient rassurer le fait d'acheter le produit c'est vraiment top. Donc après avoir toutes ces images qu'on vient de dire. Une petite image qui dit par exemple 95% de nos clients sont satisfaits. 95% de nos clients voient une différence après deux semaines.
+
+[10:12] Bah ça c'est banger. Et là je vais vous montrer deux exemples banger, deux exemples de boutiques qui chiffrent énormément et qui font exactement ce qu'il faut faire quand on parle de images produits et boutiques qui convertient en 2025. Vous voyez que c'est pas du blabla c'est juste la poor value ce que je vous donne.
+
+[10:35] Donc ici on arrive sur une des boutiques. Cette boutique là elle est en train de scale très fort. Elle est à l'heure actuelle avec meta ads. Ils ont plus de 1000 ads actifs et ils font exactement ce que je viens de vous mentionner. Donc là on arrive sur leur page produit. Alors là il y a un petit bug si vous scroller ce sera en français mais chez vous c'est en anglais parce que traduction avec VPN.
+
+[10:59] Mais ici on arrive sur la page produit. On a une belle image qui montre le produit. Et eux par contre en fait si vous voulez c'est quelque chose qui nettoie le visage. Et leur marketing du fait qu'ils ne sont pas chimiques et qu'il y a absolument 0 choses industrielles et que c'est vraiment 100% naturel. Il est tellement fort qu'ils sont obligés de le mettre ici. Mais typiquement si ils ne seraient pas autant fort sur ça en mode 0 parafaine, 0 para bain, 0 artificiel ingrédient.
+
+[11:25] Si ils ne seraient pas là dedans ils auraient enlevé, ils auraient juste mis le produit en grand. Ensuite deuxième image. Une cliente. Le persona exact qui donne un avis. Ensuite si vous n'avez pas de changement avec votre peau vous pouvez nous le retourner. En gros ils sont tellement confiants que c'est leur retour de police. Ensuite il y a une vidéo.
+
+[11:47] Donc il y a une vidéo, on limite une vsl de 44 secondes d'une cliente qui est compendre. Ça c'est vraiment vraiment banger. Ok le client il scroll encore. Il est peut-être un peu douteux. Il voit quelqu'un qui ça lui ressemble et il voit un avis positif. Nicole qui dit qu'elle a eu des avis et qu'on se voit dans 60 jours elle a eu des résultats. Enfin là du coup on va 20 jours elle a eu des résultats. Voilà c'est vrai qu'il y a des bons résultats.
+
+[12:09] Ensuite on scroll. Des statistiques comme je vous ai dit. Exactement d'ailleurs ce que je vous ai dit. 98% de success-race. Vous êtes pas partie des 2% vous avez votre argent de votre. Un avis traspilote. Très smart. Ok parce que en ce moment j'avais mentionné dans une de mes anciennes vidéos à l'époque de mettre des avis traspilotes ici au lieu des étoiles.
+
+[12:30] Il n'y a pas comment qu'il disait bien évidemment mais après j'ai vu énormément de boutiques le faire. Et du coup tout le monde le fait. Mais maintenant peut-être c'est plus smart de mettre les avis traspilotes de cette façon là. On le voit que c'est vraiment écrit. Et c'est vraiment banger. Là je pense que c'est un vrai avis par contre. Ensuite comment utiliser leur système ? 34 secondes une petite vidéo sur comment. Est-ce que leur système prouche ? On le voit. Use the ULTRA CLEAN. Boom.
+
+[12:51] Et ça c'est vraiment. Honnêtement vous pouvez voir n'importe quelle vidéo de ces héros n'importe quelle formation. C'est le plus gros. C'est la loi de Pareto les images en fait. Ok c'est vraiment vraiment important. Et ça ils sont en train de faire plusieurs millions chaque mois. Et du coup là comment utiliser le système. Minidemment on va pas faire ça avec un produit en fashion vous l'aurez compris. Ensuite next. Une image d'un autre angle où on voit le produit zoomé et on l'utilise.
+
+[13:13] Ensuite on voit que c'est 100% naturel. On voit les badges etc comme je vous ai dit. Bon là c'est plutôt le type de produit. Et ensuite ça n'en finit plus. Ça n'en finit plus. Donc vraiment leur page produit et dans leurs images. On voit les ingrédients de chaque type de produit. On voit les levels. Donc voilà c'est juste magnifique. Before during after. Honnêtement c'est toute une landing page.
+
+[13:34] Et ensuite ici on peut descendre. On voit qu'il y a la bundle. On voit qu'ils ont la même chose ici. Mais eux ils savent très bien. D'ailleurs ici il y a absolument tout ce qu'on va devoir dans les images. Et ils savent très bien que personne ne scrollent en fait. Et ils sont venus mettre tout ici les avis. Tout ce qu'il y a à mettre dans les images. Une autre boutique qui fait un travail intéressant. C'est celle-ci. On arrive sur la page produit. On voit le produit en utilisation.
+
+[13:55] On voit des bénéfices de produit. On voit quand on va recevoir le produit. À quoi s'attendre. À vie client. La chose que je vous ai dit avant. Et un guide ebook offert aussi gratuit. Donc je pense qu'il pourrait encore plus bosser sur les images. Mais vous l'aurez compris c'est déjà un très bon travail. Donc ça c'est vraiment banger. Et c'est le lien de ces deux boutiques en dessous de cette vidéo. Ensuite au niveau des images encore. Ayer des images des mêmes dimensions.
+
+[14:16] Que chaque image soit de la même dimension. Parce que si vous avez une image carré. Que votre image numéro 2 est un peu plus horizontal. Peu long. En fait ça va se voir dès la première image. En gros en dessous de la première image. Il y aura un texte. Et il y aura un guide blanc. Et ça fait relativement beaucoup descendre notre autre conversion. Donc ayer des images des mêmes dimensions.
+
+[14:37] Que ce soit harmonieux. Que votre charte graphique va tout ensemble. Par exemple vous avez un certain type de typographie. Que vous utilisez dans vos ads. Essayez sur votre site d'avoir le même type de typographie. Sur le shop et les images. Et soit de A à Z. Tout à harmonieux. On passe à la suite. D'autres conseils pour votre page produit. Ce que je peux vous conseiller de faire. C'est d'ajouter un petit like.
+
+[14:58] C'est d'ajouter un fondateur sur votre page produit. Alors c'est pas sur toutes les niches. Mais sur certaines niches. C'est important soit d'avoir une figure d'autorité. Ou simplement d'avoir un fondateur. On m'aime les deux. Et ça vous pouvez le faire avec l'IA. Mais ça ne le fait pas honnêtement. Si les concurrents qui chiffrent le plus ne le font pas. Ok. C'est pas sur tous les produits qui sont intéressants de le faire. Mais sur beaucoup de produits. D'ailleurs si vous avez vu la recherche produit.
+
+[15:21] Avec pipiads. Avec le t-shirt de compression. Vous aurez vu qu'il y a le fondateur. Et typiquement cette image là. Vous allez pouvoir la reprendre. Mixer avec charte gpt. Changer la tête du format du fondateur. Et avoir la même chose pour votre shop. Ok. Le bundle c'est obligatoire. Si on revient sur notre page ici. Là on voit le 1 des 3 bundles. Mais ici par exemple même ici.
+
+[15:42] Toujours avoir un bundle. Donc eux c'est de la bonne. Soit on achète une fois. Soit on s'abonne. En gros ce modo si ce n'est pas le cas. Et il y a toujours un bundle. Typiquement ici. Un sachet, 2 sachets, 3 sachets. Toujours un bundle. Parce qu'il y a des clients. Qui vont acheter tout le temps. Plusieurs. Tout le temps. Ok. Jamais proposer qu'une option. Sauf si c'est du gros I-Ticket. Etc. Vous m'aurez compris. Donc ça c'est super important. De tout le temps tout en avoir un bundle.
+
+[16:03] Et pour le bundle. Je vous conseille. L'application RAPI. Donc RAPI bundle. Très bonne application. On l'utilise. En ce moment. Sur ma boutique. Qui se cale le plus. C'est celle-ci qu'on a installé. On a sur le thème shrine. Un bundle qui est déjà préinscrit. Vous allez le voir. Mais on n'a pas tant de customisation. Qui est disponible. Donc on a préféré utiliser RAPI bundle.
+
+[16:25] Il est vrai qu'on a aussi beaucoup utilisé caching bundle. Mais on a eu un souci. Avec le free gift justement. Qu'on n'arrivait pas bien à faire avec caching bundle. Et finalement on l'a fait avec RAPI. C'est mon développeur qui l'a fait. On a utilisé cette application là. Donc vous pouvez utiliser cette application. Elle est top. Plus on connaît le founder derrière. Il est top aussi. Il connaît bien les commerces. Donc ça c'est top. Ils ont un savet très réactif.
+
+[16:47] Et même si vous avez quoi que ce soit comme question. En fait vous avez le founder sur les groupes WhatsApp. Que ce soit le groupe WhatsApp. Du school. Ou groupe WhatsApp de master. Simplement. Il y a le founder de RAPI. Qui est à disposition pour répondre à toutes vos questions. En quelques secondes. Et c'est vraiment top. Encore une fois concernant votre page produit. S'il y a des infos techniques que vous devez mettre. Admettons vous avez un produit dans l'informatique.
+
+[17:08] Mais là idéalement. Ayer des ongles déroulant pour mettre tous ces infos. On veut éviter que ça soit compliqué. On veut que ça soit simple. Comme vous l'aurez compris. Quand on arrive sur la page produit. Il faut que ça soit extrêmement simple. Et s'il y a des infos un peu techniques comme ça. Alors si c'est des infos importantes. Comme du fashion ou autre. Et que c'est la taille. Oui mettez-le en avant. Mais si c'est technique. Mettez-le dans des ongles déroulant. Ok. Oui checker.
+
+[17:29] Ça très facilement. Très facile à faire avec shrine. Et section store. Très facile. Ensuite FAQ. Le but de la FAQ c'est d'enlever les freins clients. Et cette FAQ là elle va évoluer. Au long de votre scaling. Tout au long de votre scaling. Vous allez avoir des nouveaux feedbacks clients. Et ensuite boum. Vous allez mettre les nouveaux freins des clients. Que vous avez réceptionné. Boum. Au-delà FAQ. Et à ces bangers.
+
+[17:50] Comme ça. Ça aide vraiment. Ensuite. Encore quelques points pour votre page produit. Soyez toujours en promotion. Ça fonctionne vraiment bien. Du moins toujours quelque chose qui indique aux clients. En ce moment c'est le meilleur moment pour acheter. C'est toujours ce qui fonctionne plus. Donc en ce moment je suis en train de scaler. Je suis en train de faire de bon chiffre aux US. Et je suis en promotion. Je suis toujours en promotion. Je suis en summer promotion. Je suis en winter promotion. Je suis en black friday promotion.
+
+[18:12] Et tout le temps une promotion. Si on va un peu sur les topsites du moment. Modern day. Boum. Promotion. Ils sont en train de scaler avec ce mot-clé. Modern days. Ici super spring sales end today. Toujours une promotion. Et en parlant de promotion. Du coup ça fait qu'on peut être en réduction. Ici anniversaire va pure. Bon. Ça c'est un anniversaire. Mais il y a toujours une raison de pourquoi il faut acheter maintenant.
+
+[18:34] Ok. C'est basique. Mais certaines personnes peuvent l'oublier. Quelque chose qui peut également grandement vous aider. C'est de proposer une réduction sur les premières commandes. Surtout quand vous avez un produit qui se rachète. Ça c'est vraiment banger. Idealement on met 10 à 15% de réduction pour la première commande. Surtout quand c'est quelque chose qui se rachète. C'est banger. On prend l'exemple ici de va pure qui donne 20% avec relax today.
+
+[18:57] Alors à l'époque il donnait en fait une réduction pour la première commande. Là maintenant il y a deux codes différents. Alors ça faut pas faire. Eux ils ont un code ici 20. C'est un code 10. Ça il faut pas faire. Mais ce qui fonctionne bien c'est d'avoir un code de première commande. Mais souvent beaucoup de grosses marques aussi. Ils font avec des pop-up qu'on arrive sur le site il y a une pop-up. Après un certain temps que le client est passé sur la page. Eh bien une pop-up ok moins 10% et ça convertit très bien.
+
+[19:20] Mais surtout sur les produits récurrents. Si vous vous êtes pas sur un produit qui est récurrent et que vous analysez vos top 5 concurrents et qu'ils ne le font pas. Faites le pas. Faites une promotion classique et ça va très bien fonctionner. Donc on arrive à la fin de cette vidéo. J'aimerais juste vous dire que si vous faites déjà du chiffre que votre e-commerce tourne déjà. Et que vous n'avez pas encore installé Mist, Microsoft Clarity. Installez-le. C'est en plus 100% gratuit.
+
+[19:41] Et vous allez justement pouvoir voir les hit maps. Ou c'est que les gens pressent le plus. Et du coup vous allez voir que c'est les images. Mais installez-le. C'est vraiment banger. Ça va beaucoup vous aider. Par exemple vous faites de l'advertoir. Il y a des choses qui sont intéressantes de voir où c'est que les gens cliquent etc. Donc Microsoft Clarity 100% gratuit. Ça vous permet de voir les hit maps client. Vidéo très courte mais énormément de value.
+
+[20:02] Noledge is not power until it is applied. Donc ce qui vous voulez dire d'Alli Karanigi. C'est que je viens de vous partager. Ça a 0 pouvoir si vous l'appliquer pas. Donc appliquez tout ce que vous pouvez appliquer. Et faites de l'argent. A bientôt.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 46 : Setup Shopify pas à pas, include app
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 46
 ======================================================================
 
@@ -5094,16 +5776,180 @@ S'inspirer de ce que font les concurrents qui marchent, c'est la stratégie la p
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Et le leguien on se retrouve pour la toute première vidéo du setup Shopify pour monter votre boutique de A à Z On va commencer directement à l'enduit sur Shopify, je vais masquer ça à Tac On vous conseille de passer par les thèmes gratuits, je vais montrer en fait vous venez dans boutique en ligne ici Et vous avez le champ entre plusieurs thèmes donc le thème horizon était déjà installé de base
+
+[00:24] Ensuite vous avez pas mal de thèmes gratuits ici que vous pouvez checker Je vous conseille de utiliser le thème don Donc si vous souhaitez pas payer pour prendre le thème don ici non plus on a choisi de partir sur le thème shrine On a acheté juste ici, vous allez sur le site shrine, on vous mettra le lien juste en dessous là Donc vous allez sur le site shrine ici, on vous mettra le lien juste en dessous
+
+[00:47] Là vous avez le shrine, le plan classique et le plan pro, on vous invite à prendre le plan classique Vous le ajoutez au panier ensuite vous suivez toutes les étapes qui vous donnent Donc ensuite je vais en mettre la caméra On a le thème shrine qui a été installé juste ici, vous allez venir le publier comme ici On va dire que si c'est shrine vous appelez sur publier ça va être juste ici
+
+[01:07] Là on a directement thème et on va partir sur la page d'accueil qu'on va venir justement setup ensemble Là vous cliquez sur modifier le thème Moi j'aime bien partir sur la fonction mobile On va être sur la page d'accueil Donc on va commencer simplement ici en changeant la barre de timer
+
+[01:32] Ok c'est déjà petit je vais me mettre juste là Alors on va venir changer le texte horizontal ticker Vous cliquez là, donc là il y a trois mots différents On va en enlever un et on va essayer Donc en fait on part sur une copie du site de rice
+
+[01:55] Donc on va essayer de voir ce qu'ils font et proposer à peu près la même chose Donc là il y a une sale juste au dessus up to 50% off et free gift Donc on va faire à peu près la même chose Je vais montrer ici On va mettre seul le divers parce que là on est vers seul le divers Et on va mettre jusqu'à 40% reduction
+
+[02:26] Donc ça c'est fait Après ici on peut le mettre en couleur blanche Donc accent 2 Ça c'est fait
+
+[02:54] Ensuite on va avoir justement les couleurs du site Que vous allez venir choisir juste ici dans paramètres du thème Je vais le décorer juste là Vous n'êtes pas dans couleur Et là moi j'ai déjà pris cette les couleurs Donc ensuite on vous invite à choisir trois couleurs qui vont correspondre à votre site Nous ça va être cette espèce de marron orange
+
+[03:14] Un petit peu de beige et du noir pour le texte Après pour être assez simple Lesser tout le shop en blanc et noir ça fait très bien la faire Je choisis juste une couleur en plus Par exemple du bleu ou en fonction de votre niche et votre produit Je vais choisir une couleur différente pour faire un peu plus De sachant un petit peu plus juste ici
+
+[03:35] Ensuite on va venir changer ma histoire ici On va changer le logo Donc on va venir dans paramètres du thème Logo juste ici On va venir importer notre propre logo D'ailleurs j'ai déjà importé pas mal de images ici Je vous montrerai comment les faire Mais si vous n'avez pas dit les images ici Vous l'avez téléchargé
+
+[03:56] Là j'ai déjà mis le logo avec le fond blanc Notre site ça va être mucho plus haut Donc c'est du café adaptogène Ensuite ici vous avez la taille du logo sur le ordi et sur téléphone Là on est sur téléphone et c'est un peu trop gros sans un picelle Je vous invite à mettre entre 50 et 100 en fonction de la taille de votre logo
+
+[04:20] Généralement 70 ça fait l'affaire On va voir ce que ça donne Là c'est un peu trop gros aussi Ajuster la taille pour que ça ne fasse pas trop gros Donc 70 je pense que c'est bien ici Là c'est bien pour ordinateur Là vous switchez entre ordinateur et mobile
+
+[04:42] Là c'est mobile et je pense que c'est un peu trop gros Du coup je vais encore bisser Donc là je vais remettre mobile à 70 Là ça me paraît bien Là on est sur la page d'accueil toujours
+
+[05:04] Vous avez changé vos couleurs Qui correspond à votre site à votre branding Ici on va venir mettre une photo assez sympathique Comme ici le fond Ici après ce que vous pouvez mettre sur la page d'accueil Ce qui est cool c'est mettre des personnes Si vous avez des images avec des personnes avec votre produit C'est très bien sinon vous les générerez avec l'IA Et ça fait très bien l'affaire
+
+[05:24] Je vais aller sur celle-ci Soit sur Formable Benderl Formable Benderl Sinon je vais tester directement avec ça Ok c'est sympa là Il faut venir mettre la taille de l'image La taille de l'image
+
+[05:46] Vous allez venir changer Diapositive Je ne suis pas fan de diapositive Donc ici il y a déjà les trucs de base Je vais les changer et enlever Diapositive Je vais mettre juste bannière avec l'image C'est ce qui rend le mieux On va venir sélectionner une image Celle-ci j'aime bien
+
+[06:07] Et là on peut ajuster la taille Pour que ça fasse parfaitement sur Ça ajuste parfaitement la taille ici au carré, au téléphone Autour de la bannière ici Vous pouvez jouer avec ça pour mettre adapté à la première Et là ça fait le crop parfait Ensuite j'ai une merme
+
+[06:27] Et en fait Diapositive, j'avais déjà mis du texte juste ici Je suis là J'avais déjà mis un texte ici Un titre que je vais remettre dans bannière Donc en fait si vous mettez un titre assez simple avec Avec votre proposition de valeur, est-ce que vous propose le produit Donc là on va venir dans le titre
+
+[06:49] Mettre ça, prendre soin de tous les aspects de ta santé Donc mettre un peu plus petit Hop, tac Ensuite ici vous pouvez mettre un petit autre détail Ici j'avais mis quoi Énergie et concentration toute la journée Donc ça c'est assez simple Vous regardez le scotgy concurrent Profitez, je vais mettre Profitez d'un peu un peu
+
+[07:10] Ok ça c'est cool Vous pouvez enlever des boutons ici Si vous voulez laisser, vous pouvez les laisser Donc là ça donne ça Ensuite Tac tac tac Est-ce que je change la couleur de ça Non, je vais l'envoyer en blanc
+
+[07:37] Attends, je vais me tromper Je vais l'envoyer en blanc Et ça en fait je vais changer de couleur Je vais le mettre en... Ok donc je vais le mettre comme ça
+
+[07:57] Et le texte on peut le mettre en blanc Texte couleur Blanc Ok, ça c'est pour le... Donc ici on va venir dans horizontal ticker
+
+[08:24] Vous allez mettre couleur Dans ticker color Vous allez mettre custom Ensuite vous allez mettre un modiflite juste ici Backround Et laisser un peu en du coup là Ça fait un peu de l'hupe propre Donc là on a la page d'accueil tac On a le premier titre que j'ai pris du concurrent justement À prenaitre son autre santé
+
+[08:44] Energy focus, etc Ensuite ça on me dit qu'on allait enlever le type positif On pouvait l'enlever Là on a un horizontal ticker Donc on peut mettre pas mal de texte ici Ça peut être cool aussi On va pouvoir mettre Ensuite on va mettre focus C'est ce que les bénéfices produits
+
+[09:04] Qu'apportent votre produit Sharp focus, concentration on va mettre On s'inspire vraiment de ce que le concurrent fait Ensuite je vais mettre en blanc Texte color scheme custom Et là justement Background comme ça Comme ça
+
+[09:24] Je pense que je vais pas être sûr sur ça Texte color blanc Ensuite Tape de comparaison On va la mettre peut-être un peu sur la page produit ou plus tard Là on va remettre une image produit Avec des bénéfices Exactement ce qui fait un peu concurrent Donc la devine produit en dessous
+
+[09:45] On va la mettre une image produit juste ici Et je sais pas qu'on a une comparaison aussi Je vais la comparaison Bardicone Ça je vais l'envoyer ou ça je vais l'enlever En raison de tout ça on a déjà un résultat Ça on peut laisser Testimony on va laisser Contact form on va l'enlever
+
+[10:06] Et un contact si je vais laisser ça comme ça Donc on va venir rajouter une image Donc ça va être une image Je vais montrer bannière J'aime bien rajouter bannière Et ensuite changer le texte Donc bannière si on va pouvoir choisir
+
+[10:27] Toc toc toc On va se souhaiter sur la page pour que je fasse déjà On va mettre ça On va mettre ça c'est quoi c'est j'écris Mr. Frambernaut
+
+[10:47] Non on va mettre ça je vais mettre autre chose Avant après ça c'est quoi On va mettre ça Trois étapes simples Vous mettez display all device On va check aussi si ça rend bien sur ordi Et on va enlever le texte
+
+[11:23] Ici on va changer Autour de la vannière toujours mettre adapté la première image Ensuite on va enlever les deux boutons Enlever les boutons Autre nom de l'évêtuel en 30 secondes
+
+[11:48] On va enlever le texte aussi Et ensuite je vais la remonter un petit peu juste là Et ici on va mettre quelques Ziclone On va mettre les joueurs ça en bien sur ordi Juste en bannière Je dois qu'on enlève ça
+
+[12:10] Et cet appareil Non on va mettre ça en 1 seconde Je suis un petit conteneur Qu'est ce qu'ils appellent les conteneurs Ah ok c'est ça
+
+[12:30] Non c'est pas ça Avec là Ah ok je sais pourquoi Il faut pas laisser bannière avec image
+
+[12:51] Il faut mettre directement un texte Donc là je vais me recoper coller le texte On va rajouter une section Texte Donc texte en richie Vous venez dans texte en richie Vous allez changer le titre Voilà ça fait à peu près le même résultat Et ensuite
+
+[13:13] Je vais enlever le bouton Ensuite en bannière On va enlever le titre On va prendre le texte La description On va enlever aussi supprimé On va coller une texte On va mettre ça ici Et là en fait Normalement
+
+[13:34] Ça fait un peu plus propre Ensuite On va ajuster la marche On va mettre 30 Je pense 32 c'est bien Et ici aussi 32 Donc ça c'est clean Qu'est ce que je fais On va laisser
+
+[13:55] Icon bar on peut laisser aussi Detecteur Icon bar qu'est ce qu'on va mettre ici Smooth and creamy
+
+[14:15] Cafe in Pâtes de sucre 100% les gars nous allons mettre ça Est-ce que je vais mettre un café ici non?
+
+[14:40] Je vais voir si on peut les mettre à la verticale On va couper pas
+
+[15:10] Il y a une vegan Et c'est en gluten On va mettre sanglutaine On va enlever ça On va revenir Icon
+
+[15:32] Et facile cheval parce qu'on n'a pas besoin Et c'est en gluten Est-ce qu'on peut enlever ça On va mettre ça comme ça c'est plus propre Sanglutaine Ici vous mettez des bénéfices que votre produit propose Donc pas de sucre Est-ce qu'on a sucre ici non? Je ne crois pas Detecteur
+
+[15:53] Parfum Ok on ne va pas mettre Sans sucre parce que je n'ai pas de logo ici Je n'aurais pu le faire avec Convo Mais on ne va pas faire ça avec Convo Je vais plutôt essayer de trouver Deux idées
+
+[16:13] On va mettre Booster Ça va être quoi en français? Je vais laisser le trajet avec Claude Happy Nails Booster
+
+[16:34] On va mettre ça Booster d'énergie de bonheur Booster de bonheur On va mettre Comme ça Booster de bonheur Et on va mettre énergie toute la journée Avec un éclair Tch-tch-tch Qui est où l'éclair Je pense qu'il y a un éclair
+
+[17:04] Est-ce que je ne l'ai pas vu Peut-être que je sais pas Je vais mettre Qu'est-ce qu'on m'a mis dans les autres Fini le crash de 14h Tch-tch-tch On va mettre Tch-tch-tch
+
+[17:44] Energie stable Energie stable Energie stable On va faire mes sœurs En même tac Si on va le supprimer Je me demande si je ne vais pas juste garder ça
+
+[18:12] Et enlever ça On va ça remettre sur le dix On va les mettre centrés Tch-tch-tch Displeur de device
+
+[18:32] Tch-tch-tch Sur l'ordinateur On a 3 du coin Voilà, ça rend plus propre Déjà tac
+
+[18:52] Ensuite résulita Peu venir prendre ça Tch-tch-tch On avait des avis clients On va essayer de les faire matcher Juste ici Tch-tch-tch C'est les mots devant
+
+[19:24] Les crashes de 14h Un peu On enlever ça On enlever ça On enlever ça Et là on peut mettre des chiffres
+
+[19:45] Tch-tch-tch
+
+[20:12] 30% Ça bug la longue Ça s'est fait 4,10% Le crash 14h
+
+[20:36] On essaie d'aller avec Claude Faire un peu de travail de recherche Pour ce produit Donne moi 3 statistics A baser sur les clients On dirait Ce café adaptogène Donc le café Je veux des 1%
+
+[20:58] Par exemple 90% Non plus le crash d'énergie Après 14h Hop Je vous invite à checker pas mal Claude aussi Il a osé d'aller avec le copier-racing Hop On va faire ça
+
+[21:18] On va venir copier ça la caméra Hop Hop Puis le crash On a un premier dit Ça va être 1ère concentration Bah d'ailleurs on va changer les limites
+
+[21:52] On va mettre 4,8 4,7 c'est bien 4,12 Et l'autre on va mettre 4,15 96% 1ère plus stable
+
+[22:13] Bon voilà Ce que ça donne Ici on va mettre un petit Tasterics basé Je vais mettre en Italique Basé sur Ou sinon on mettais basé sur un échantillon
+
+[22:39] De 100 clients etc Ça fonctionne bien aussi Donc voilà pour ça Tac, tac, tac Ensuite testimonial On va essayer de mettre Testimonial C'est bien de mettre en testimonial On va mettre Ce que je disais au maître client Ce que je mettrai pas autre chose
+
+[23:02] On va faire ce que tu as une tac Bon voilà Ça fait propre C'est fait avec LIA Je vous invite aussi A faire ce genre De créer avec LIA Les avec clients ça a été fait par Lucas D'ailleurs je pense que Chaque fois que ça bug le long des oléga
+
+[23:29] Je sais pas pourquoi ça me bagnait Ensuite On va mettre justement les titres Donne moi 3 à le client
+
+[23:57] Donc là ça va être Thomas du coup C'est un peu trop long On va faire trop long aussi On va mettre Thomas Thomas R, hauteur, sans fiche
+
+[24:22] Hop Ensuite Ici il faut changer le texte avec LIA Hop Avec LIA Ensuite on va mettre 2, 3, 2 Je suis bloqué encore avec ça
+
+[24:43] Il me soulse ce truc Ensuite On va mettre l'image On va mettre celle-ci Donc là On va mettre Sarah Sarah M On va le faire
+
+[25:11] Comme d'habitude Ça fait ça Merde Voilà, je vais masquer le Slider Bon là c'est comme ça, c'est pas grave Ensuite un troisième Les oléga la camérasse compre à chaque fois Je sais pas pourquoi
+
+[25:32] Ensuite on va mettre Celle-ci Donc voilà, hauteur, test Camille Camidée Là c'est un peu trop long
+
+[25:54] Parce qu'en fait Ici ça va venir Ici ça va venir dépasser Donc, essayez de pas mettre des trucs trop long Au moins ça correspond de les 3 Soit la même taille Hauteur, test C'est facile
+
+[26:26] Pardon, test Donc voilà, c'est peut-être un peu mieux Donc voilà Là on a ça On a les avis de client Je pense que On a qu'un texte là
+
+[26:48] Ici on a qu'un texte Je dois lui enlever Je vais le remettre Une image Bon il a disparu Un texte Ah non il est là Je ne l'ai pas remonté Donc voilà Un petit texte ici, ça comme ça
+
+[27:08] Je pense que je vais mettre là Ici on peut mettre aussi une petite image Je pense Je vais rajouter une image Donc bannir avec image Ensuite on va enlever tout ce qu'il y a Tac, tac
+
+[27:28] Et tac on va mettre bannir avec image On va mettre ça En avant après Ça peut être cool Adapté à première image Donc voilà pour la page d'accueil
+
+[28:05] Je vais remettre ma caméra Ensuite ici Il faudrait mettre une petite f'accue Idéalement Bon, je vais mettre une petite f'accue Descendez juste ici Dans contenu réductible Donc contenu réductible Je ne sais pas pourquoi il est là
+
+[28:25] Il ne suffisent pas bien Je vais enregistrer pour voir Ok on s'abandonne Ça c'est bon Ensuite ici On a une petite f'accue Je vais mettre d'ailleurs juste au dessus des avis clients Et après pour la f'accue Vous pouvez vous inspirer des concurrents Tac, tac, tac On va mettre c'est-à-dire de caffeine
+
+[28:49] Dans le produit Là, on change le titre On a de caffeine Il a chile Dans le produit Je fais une seconde f D'ailleurs je ne sais pas si ça c'est correct Je l'avoue La question Et donne moi la réponse
+
+[29:11] Ensuite la réponse Donc voilà ça c'est propre Mettez le plus de questions possibles Entre 4 et 10 ça peut faire l'affaire Ensuite est-ce qu'il y a des additifs
+
+[29:38] Tac, tac, tac On le use de maitres Comment l'utiliser Donne moi Les questions les plus fréquentes À ton avis Sur le produit Et les réponses Trois Donc voilà On va venir couper ça
+
+[30:00] On va aller voir On va aller voir On va aller voir On va venir couper ça Couper, couper, couper Ça c'est fait
+
+[30:24] Ensuite Est-ce que ça a le même goût qu'un café normal Ça aussi je pense que c'est une question Il va revenir assez souvent N'hésitez pas à checker avec vos concurrents Les FAQs qui font et vous prenez Tout ce que vous pouvez prendre Ensuite Comment on va avoir des résultats Non je pense pas que ce soit bon ça Une question
+
+[30:46] Je vais plutôt sur Et ce que j'avais dit Comment l'utiliser Ça aussi ça peut être important En tout cas, tout ce que je vais mettre
+
+[31:14] Et voilà La FAQ est prête La vie cliente aussi Ça, j'aimerais bien changer Du coup je vais changer la couleur Je crois que je vais le mettre en orange
+
+[31:39] Je vais mettre en orange Et essayer de changer le texte si je peux Après Vous pouvez le mover pour un bracherein 1926 My Store
+
+[32:01] Ça je m'en occuperai Sur la page produit je pense Et normalement tout est bon Pour la page d'accueil pour l'instant Hop Je vais check un petit peu On voit là pour la page d'accueil
+
+[32:25] N'hésitez pas
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 47 : Thème Offert MASTER + Recommandation 2026
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 47
 ======================================================================
 
@@ -5155,16 +6001,34 @@ Le mindset à avoir : ne perds pas de temps sur le design ou le thème quand tu 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo concernant les thèmes Shopify. Alors, il faut savoir que la plupart des débutants, ils se prennent toujours la tête avec ok, quel thème choisir, etc. Je ne sais pas si ça, c'est celui qui convertit le mieux ou autre. En réalité, le thème, ça change très peu. La plupart des personnes sont sur mobile quand ils arrivent sur votre boutique et ça change très peu.
+
+[00:20] On voit l'image, on voit le header à tout carte. Et honnêtement, le thème ne fera pas une grande différence. Comme je l'ai mentionné dans la vidéo sur la page produit, mais c'est les tips que j'ai donné en CRO, le thème n'a pas une grande importance. Par contre, update pour 2026. Moi, ce que je vous recommande, si vous ne faites pas encore un cadet, c'est le thème
+
+[00:42] shrine que vous allez modifier ensuite au niveau de l'image, des images professionnelles, vous peaufinez la partie above the field pour que quand le client arrive, tout soit fluide, tout fasse sens et tout soit joli. Le thème shrine, il est rapide, les bundles sont bien, rapide et aussi bien.
+
+[01:03] Il n'y a pas de bug. C'est pour ça qu'on le recommande. Maintenant, il a un certain prix et c'est pour ça qu'on vous partage un thème qui s'est inspiré de shrine qu'on a modifié et que beaucoup de personnes en chiffraient dessus et que c'est mon dev qui l'a développé. Il est un tout petit peu différent que le thème shrine une fois que vous allez l'importer
+
+[01:24] sur votre boutique, mais il est très très similaire et attention, je précise, le thème sera dessous cette vidéo. Il y aura un fichier que vous allez pouvoir installer. En gros, annouer donc vous regardez cette vidéo, en dessous ici, il y aura le fichier que vous allez pouvoir installer. Pour la mettre sur votre boutique, vous allez simplement aller sur la boutique Shopify
+
+[01:46] et ensuite sur Shopify, vous allez dans boutique et importer le thème très important. Renommer le thème avant de l'importer sur votre boutique, sinon beaucoup de personnes vont pouvoir trouver votre boutique très facilement. Et deuxième point, une fois que vous commencez à chiffrer 500 incadés, il est fortement recommandé d'acheter un thème ou simplement de ne pas forcément utiliser ce thème parce
+
+[02:11] que ce thème a été beaucoup inspiré de thèmes comme shrine et l'humine. Et si vous scalez fort, shrine peut bloquer ceux qui ont copié ces thèmes en fait. Donc c'est bien si vous débutez, vous pouvez faire vos premiers chiffres sans soucis, mais une fois que vous scalez, si tout d'un coup votre boutique bug et que vous dépensez
+
+[02:32] 10 000 euros par jour, 3 heures ou c'est que votre boutique est bloqué, c'est pas intéressant. Donc c'est pour ça qu'on l'a quand même mis pour les débutants-débutants. C'est un thème qui vaut 150, donc on vous partage 150 et mais faites attention quand même. À savoir c'est que jusqu'à très récemment, on utilisait ce thème jusqu'à il y a encore quelques semaines, il y en a eu zéro blocage.
+
+[02:53] Je vous dis ça parce que certaines personnes avec des copies d'autres thèmes ont eu des blocages, mais nous avec le thème que je vais vous partager, il y a eu zéro blocage. Donc ça c'est quelque chose à savoir. Et aussi avec l'IA, on peut coder tout ce qu'on veut sur la boutique. Mais en tant que débutant, on ne veut pas s'amuser à coder la boutique, on veut s'amuser à comprendre l'analyse sur votre persona, l'analyse des créatives et la l'engin
+
+[03:18] pêche doit être quelque chose que vous faites en quelques minutes maximum. Donc vous cassez pas la tête avec le thème. Et le thème est dispo juste en dessous.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 48 : Thème recommandé + Page produit pour convertir
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 48
 ======================================================================
 
@@ -5227,2162 +6091,238 @@ Une page produit bien construite, c'est la différence entre un visiteur qui rep
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Et le lien qui est en ce trou pour aujourd'hui pour setup la page produit de votre boutique Shopify. On arrive direct ici dans boutique en ligne. Je vais commencer par produit. D'ailleurs, il faut ajouter votre produit. Vous venez ici, vous cliquez sur ajouter un produit. Je vais le faire avec vous. Nous, c'est café adaptogène.
 
+[00:22] Ici, vous mettez une petite description assez courte en mode SEO. Je les fais avec Claude juste avant pour gagner du temps. Là, ce n'est pas très important cette description. En autre façon, ce n'est pas forcément visible. Ensuite, importez les images. Je vais juste sélectionner les fichiers existants.
 
+[00:43] Nous n'avons déjà généré les images du produit avec. Il y a d'ailleurs, vous vous fera un module avec Lucas. Normalement, ils vont vous faire exactement toutes ces images là. Voilà. Très, très clean, très, très pro. C'est un banger qui nous a pendus là.
 
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 49 : Parametre Boutique, Shipping etc
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 49
-======================================================================
+[01:03] Lucas, je vais m'entraîner un petit peu ce que ça donne. Ça charge, tac, tac, tac. Voilà. Un petit gif que je vais mettre juste là. Et voilà. Ça, c'est fait pour les images produits. Ensuite, vous mettez votre prix. On a de se mettre un prix de 27 euros au lieu.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[01:27] On va mettre 27 euros. Là, vous avez votre page produit qui est en train de se créer automatiquement. Surtout qu'on a avec Shrine. Ensuite, si vous avez la localisation, vous allez mettre votre stock. On va dire qu'on a GPS pour l'instant. Ensuite, vous pouvez mettre ici.
 
-# 49 — Parametre Boutique, Shipping etc
+[01:48] Vous vendrez en cadre rupture de stock, continuez à vendre. Donc, soit oui, soit non, en fonction de ce que vous souhaitez. Ici, vous mettez l'SKU, donc avec votre fournisseur, votre agent. Vous pouvez décider un SKU pour que ce soit plus simple pour vous et pour vous. Donc, voilà ce que ça va donner sur Google. Café adaptogène, vous pouvez mettre le chien aussi. Sans soucis si vous voulez votre SEO ici avec votre branding.
 
-`Section Skool : MODULE 8 : LANDING PAGE`
+[02:09] Une fois que ici on a le café adaptogène. On va venir dans boutique en ligne ici. Modifier le thème. Tac, tac, tac. Ensuite, ici, on arrive tant au catalogue. Je vais le faire juste après, je vais montrer comment changer tout ça. Là, on en a deux d'ailleurs.
 
-## Ce que la leçon annonce
+[02:32] Je vais enlever le premier et supprimer. Comme il y a le premier, supprimer. Comme on fait aussi. Donc, c'est parti. Vous avez deux choix. Vous mettez directement votre SKU sur catalogue et vous allez sur produit.
 
-> **Source : page de la leçon (texte Skool)**
+[02:52] Ici, soit vous allez dans collection, ici vous allez dans produit et produit par défaut. Donc là, on a un appui de produit qui s'est mis en place. Donc le cas où c'est l'image. Le propre, très professionnel. Cette image est absolument insane je trouve. Ensuite, si on va le décager là.
 
-### Introduction
+[03:16] On a la barre d'anneau, on a la lentette qu'on avait déjà faite. Ici, on va venir directement dans information produit. Donc, lorsque ça donne un genre de support, on va mettre moyen. En la hauteur de l'écran, ils ont pas le bureau.
 
-Configure ta boutique Shopify de A à Z en moins d'une heure.
+[03:37] Qu'est-ce que ça nous donne ? Ok, c'est clean. Off chez les vignettes. Donc là, j'en fiche off chez les vignettes quand même. Très important. On va enlever prévu d'une next slide.
 
----
+[04:00] C'est un darmature. Non, ça je suis pas trop fan. Si j'enregistre, voilà. Donc là, on a un produit. Les gens ont juste à slider. Ensuite, je vous invite à enlever ce texte-là. Je vais montrer juste ici, urgency texte pour l'enlever. Ensuite, le titre, café d'optogen.
 
-### Ce que tu vas apprendre
+[04:23] On va laisser comme ça. Là, on va enlever le pré. Parce qu'on va mettre un bundle de jeu. Je vais vous montrer juste après avec l'application rapide. Ici, emoji benefits. Je vous invite à faire comme ça. Moi, j'ai déjà créé nos bénéfices pour du justicier. Donc ça va être comme ça. Il se remet là ce truc.
 
-Dans cette vidéo, tu vas apprendre à paramétrer les fondations indispensables de ta boutique Shopify : activer et configurer Shopify Payments, mettre en place tes zones et tarifs d'expédition (dont la livraison gratuite conditionnelle), acheter et connecter ton nom de domaine, et générer toutes tes mentions légales et politiques obligatoires (CGV, retours, confidentialité) grâce à l'IA. À la fin, ta boutique est techniquement prête à recevoir des commandes.
+[04:48] Je ne m'en prie pas. Un fois, il est doucement. C'est bon. Merci. Donc voilà. Donc on a énergie stable. Là, on va changer quand même l'en emoji. En en emoji éclair.
 
----
+[05:13] Energie stable. Je trouve que plus on va mettre science, ça s'écline et facile à préparer. Je commence à attaquer. Donc voilà.
 
-### Mindset / Vision
+[05:35] Est-ce qu'on peut enlever d'accord ? Non. Et on va mettre tout ça en gras. Donc voilà. Là, on a notre petit badge. Est-ce que c'est pas aligné ? Je crois que c'est les emoji. Donc ça s'écline. Je vais changer juste un petit détail.
 
-Ne saute pas cette étape. Un setup bancal, c'est des paiements bloqués, des clients qui ne peuvent pas commander et des risques légaux. Prends 30 minutes maintenant pour tout faire correctement, ça te sauvera des heures de problèmes plus tard.
+[05:59] Je vais mettre en cerveau. Voilà. C'est peut-être mieux. Ensuite, ici, le bundle. Je vous invite à l'enlever. Si vous avez Chirin pour utiliser. Mais vu que on ne va pas passer pas rapide, je vais vous montrer si jamais vous n'avez pas ce thème là. Comment vous pouvez pour le bundle. Donc on va enlever. Je crois que c'est le liter de quantité.
 
----
+[06:20] On va enlever. Enregistrer. Ensuite, on quitte juste ici. Et j'ai installé l'application rapide. D'ailleurs, on va mettre un lien juste en dessous de la vidéo. Pour l'installer. Ici, vous venez vous activer dans le thème d'extension. Donc ça, c'est simple. Vous allez ici. Ensuite, on modifie le thème.
 
-### Timestamps
+[06:41] Ici, vous avez dans l'intégration d'application. Là, il y a rapide juste là. Vous avez juste à le cocher. Ensuite, vous allez dans rapide. On va faire un truc. C'est le truc. Create. Create. First bundle. On va passer sur celui-ci le plus simple. Après, il y en a différents. Je vous invite à checker un petit peu ce que vous voulez faire.
 
-00:00 - Créer sa boutique Shopify
-00:48 - Paramètres et Shopify Payments
-02:18 - Marchés et expédition
-05:18 - Taxes et nom de domaine
-07:38 - Politiques légales et conclusion
+[07:03] Ici avec les free gifts aussi, ça fonctionne bien. On va prendre sur celui-là. Bundle. Bundle. Une chio. Specifique produit. Que chosez-vous. C'est votre produit juste là. Ensuite, on va changer d'hiver.
 
----
+[07:23] Il met la bouche. Il choisit aussi les set-up du bundle. On va laisser comme ça. Switch colorant. Ensuite, on va aller dans offer. Timer.
 
-### Tags (Pour optimisation de recherche Skool)
+[07:43] On va voir ce que fait le concurrent bien. On va mettre un pack. Un sachet. Je pense que c'est bien sachet. Si on a un concurrent aussi, on va mettre un sachet. Sachet. Ici, on va enlever et contoter un.
 
-`Shopify` `boutique en ligne` `e-commerce débutant` `configuration Shopify` `dropshipping` `expédition Shopify` `nom de domaine` `Shopify Payments` `lancer sa boutique` `mentions légales e-commerce`
+[08:04] On va pouvoir ajouter une image. Chau variant image. On va mettre ça. Appli. On va changer les couleurs juste après. Price. Toc. On va sélectionner par défaut. Toc. Ça c'est le Toc. On va pas mettre.
 
-## Ressources
+[08:28] On va mettre en change de colorant juste après. Dans duo ensuite. Toc. De plus en offer. On va mettre quantité proie. Op 3. Et pour le sondage, on ne va pas mettre tout. Getaway de free. 54, c'est exactement le prix qu'on voulait.
 
-- [Lien Shopify 1€ pendant 3 mois](https://shopify.pxf.io/master)
+[08:52] Ah. Moi, je... Pareil pour le 3. Je vais essayer d'aller un peu plus vite parce que chaque fois ça se répète. En plus de offer. Du coup quantité 5. 3. Vous voyez que le temps, c'est facile à écraper. En plus ça ne coûte pas du tout cher. Op.
 
-## Transcription
+[09:13] Pas de timer du coup. Texte. Texte. Pas de blinking. Là on va mettre la meilleure offre. Ça c'est mieux pile. Rendait. C'est ok. On va changer après les namesale, etc. Ensuite, à dix images.
 
-> **Source : audio**
+[09:33] Variante. Après, on peut faire des variantes avec 3 sachets ici, 5 sachets ici pour que j'en comprenne. Mais ça vous fait avec Convoit, ça va assez rapidement avec Lia. Tac. Donc là on va enregistrer, juste changer les couleurs. Ensuite assez rapidement. Tac, tac, tac. Donc là, notre couleur, c'est... Je vais venir la chercher juste ici, Tera Kota.
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[09:55] Hop. Et je vais tout changer. Tac. Donc rapide, c'est une excellente application pour faire vos bundles assez facilement. Et ils font aussi Postparte, Chase, Upsell. Donc voilà, très très intéressant.
 
+[10:17] Hop, comme ça c'est propre. Économiser par contre là les offres que je ne sais pas comment c'est. Ça, je vais mettre. Avec Tectac. Vous m'avez été sub... Abonne-moi aussi. On va mettre 81. Je vais demander à...
 
+[10:39] Je prends ma screen, je vais demander à Claude. Les % qu'elles sont, pour le sonage d'économie réalisée sur ces offres. Comme ça c'est clair. Je vais mettre juste la caméra parce que ça bug à chaque fois.
 
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 50 : Création offre débutant
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 50
-======================================================================
+[10:59] En faire 3 plus de offres c'est propre. 33 % et 40 %. Donc là on va mettre. Economiser 33 %. Economiser 33 %. Et l'info de Kata s'est economisé 40 %.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[11:25] Donc voilà on enregistre. Ici on va mettre pareil. Le plus populaire. Tac, tac, tac, tac. C'est le plus populaire.
 
-# 50 — Création offre débutant
+[11:47] Et voilà. Comme ça ça s'est fait. Là on a un beau petit bundle fait assez rapidement. Et on va venir intégrer directement sur notre shop. Donc boutique en ligne, je t'ai occupé. C'est tout et bien fait. Donc tout est clean. On va dans Modiphility, on retourne sur la page produit.
 
-`Section Skool : MODULE 8 : LANDING PAGE`
+[12:08] Donc là on a ça, là on en a là avec Rapid. Donc très très clean. Très très propre. Ajo-pani. Donc il faut laisser le sélecteur de variantes. Pardon bouton d'achat. Vous pouvez mettre les boutons de paiement dynamique si vous voulez mais...
 
-## Ce que la leçon annonce
+[12:32] Généralement ça marche pas avec les bundles. Hop. Donc là ça buggy. On va juste refraîcher la page. Donc voilà là on a le bundle parfait.
 
-> **Source : page de la leçon (texte Skool)**
+[12:54] On va mettre ça. On va changer ça comme ça. Et voilà. Donc là c'est un peu plus clean. Là c'est parfait. Ensuite ici, estimer tes chipping, j'ai envie d'en mettre.
 
-### Introduction
+[13:15] C'est plutôt cool. Si vous le livrez assez rapidement. Donc là je vais revenir là. Estimer tes chipping, vous pouvez mettre... Si ça a 14 jours. On va te le mettre. Livraison prévue entre...
 
-Construire une offre irrésistible sur Shopify pour exploser votre taux de conversion et votre panier moyen.
+[13:37] Le... Le stack entre la date et... Ça se met tout le monde en fait avec vos chipping time ici. Là vous mettez ça c'est... On peut mettre en français d'ailleurs. Pour aller plus vite. Et là on va aller plus vite. Picol, en traduit.
 
----
+[14:08] En franc. C'est hop. Je sais de faire au plus vite hein. Mais vous êtes comme ça vous comprenez assez rapidement comment ça fonctionne. Stack. Ça c'est fait 10 après les dates. Je ne sais pas trop. On va mettre comme ça. Entre vendredi 6 mars. Soit vous mettez les dates comme ça.
 
-### Ce que tu vas apprendre
+[14:30] Donc moi je devrais mettre le... On va pas rajouter le 13 mars. Donc voilà. Plutôt cool.
 
-Dans cette vidéo, vous allez apprendre exactement comment structurer une offre e-commerce qui convertit, pas juste un produit, une vraie offre. Marouane, fondateur de l'application Rapi (70M$ générés), vous montre comment passer d'une boutique qui stagne à une boutique qui performe : comment construire un bundle clair et adapté à votre avatar client, pourquoi la simplicité de l'offre est la clé de la conversion, comment doubler votre panier moyen avec des upsells post-achat en un seul clic, et comment utiliser l'A/B test pour trouver l'offre qui performe le mieux, avec une étude de cas réelle à la clé.
+[14:51] Der la caméra qui repart à chaque fois. Je comprends pas. Vous avez le gars. C'est un peu chiant ce truc là. Là je vous invite à mettre un petit emoji genre... Camion.
 
----
+[15:19] Et du coup à enlever l'icône là. Display icon. Là ça fait un truc un petit peu clean. Top marge. Il nous enlevez les marges là. Normalement il n'y a pas besoin de marche. Ici vous pouvez mettre un avis client. Je vais en mettre un. Histoire pour voir ce que ça donne. Mais il n'y a pas besoin de mettre 3, 4, 1. Juste un suffira.
 
-### Mindset / Vision
+[15:41] Ou on le laisse ça. On le laisse ça. On le laisse ça. Et j'amue. Tic-tac-tac. Ça. Sélectionner une image. Donc on va mettre une image d'une cliente.
 
-En 2026, le produit ne suffit plus. Les CPM augmentent, la copie est instantanée grâce à l'IA, et la seule vraie arme compétitive reste votre offre. Ceux qui scalent ne vendent pas forcément de meilleurs produits, ils ont simplement appris à rendre leur offre impossible à refuser. C'est le levier le plus sous-exploité du e-commerce, et pourtant le plus rentable.
+[16:02] Celle-ci. Voilà. Ça c'est clean. On peut mettre. On avait mis quoi comme non. Ça c'est clean aussi. Parfait. Vous mettez les badges de paiement. Ensuite.
 
----
+[16:23] Très intéressant. Comme vous avez déjà... Tic-tac-tac-coller. Et badge de paiement. Mais nous n'aurons pas besoin de tout. Donc on va enlever. Je vais voir ce qu'on va mettre. Je pense qu'il y aura cela déjà.
 
-### Timestamps
+[16:47] Client de nappee. Client de nappee. Leitre. Maestro. Maestro. Maestro.
 
-00:00 - Pourquoi l’offre fait la différence
-02:06 - Définir une offre irrésistible
-03:19 - Bundles simples qui convertissent
-08:28 - Études de cas et A/B tests
-10:45 - Backend et upsells post-achat
+[17:07] Maestro. Maestro. On peut l'enlever. Je ne sais pas pourquoi il ne suffit pas de viser. C'est comme ça. Maestro. Maestro. Maestro.
 
----
+[17:29] Un peu le paiement. Un peu le paiement. Disco vers un bitcoin. Ça suffit. Tic-tac-tac. Ça fait un peu clean. Là. On va mettre un texte à propos de votre print.
 
-### Tags (Pour optimisation de recherche Skool)
+[17:49] Je vais préparer deux ou trois petits trucs. Il se tordra plus vite. On va mettre Optimist à santé. Ça c'est basé sur le concurrent. Donc hop. Je n'aime bien les petits chevres. C'est mieux. Optimist à santé avec deux tasse par jour. Ensuite.
 
-`offre irrésistible` `e-commerce Shopify` `augmenter panier moyen` `taux de conversion` `upsell post-achat` `bundle produit` `A/B test e-commerce` `Rapi Bundles` `stratégie e-commerce 2026` `scaler sa boutique`
+[18:11] On va changer aussi. On enlève le bouton parce qu'il ne sert à rien ici. Il peut mettre une petite image au cas où là. On va mettre une petite image. Il faut faire ce genre de images avec texte. On va mettre Panier avec image. Donc j'aime pas l'image avec texte. Tac.
 
-## Transcription
+[18:32] Panier avec image. Selectionning Panier. On va mettre ce qu'on a mis. Optimist à santé avec deux tasse par jour. On va mettre ça. Ça c'est plutôt cool.
 
-> **Source : audio**
+[18:54] Tac. On enlève le chevre. On enlève le texte. Et le bouton parce qu'on n'a pas besoin. On n'a pas. On va mettre la première image. Tac.
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[19:44] Inspecter. Un primal de review. Donc là ça va tac. Ici on peut faire un présentable. Pourquoi? Choisir.
 
+[20:06] On peut enlever ça. Là on peut mettre votre logo. Tac. Donc on peut choisir votre logo. Vous allez juste ici. Vous pouvez mettre le logo là normalement. Voilà. C'est un peu mieux.
 
+[20:30] On pourrait pouvoir faire nous contre le café par exemple. Ensuite mettre un logo de café. Ça peut être cool aussi. Petite heure de 3. Il n'y a pas besoin tout ça. Custom Color Scheme. Tac. Tac.
 
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 51 : Logo IA (Canva), Charte Couleur, Trust Badges
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 51
-======================================================================
+[20:52] On va mettre le blanc. Il faut activer le custom. On va activer. On va venir custom les couleurs background. On va mettre le blanc. Tac.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[21:13] OK. Texte en noir. Ensuite. Solid button label.
 
-# 51 — Logo IA (Canva), Charte Couleur, Trust Badges
+[21:49] Ce qui est le orange là. Je vais laisser comme ça. Mais normalement vous allez changer la couleur ici. Parce que ce n'est pas très clean. Je vais le faire passer là aussi. Juste ça. Texte en richie.
 
-`Section Skool : MODULE 8 : LANDING PAGE`
+[22:09] On va enlever la marge là. La marge ici en 1920. Comme ça c'est plus proche. Il faut essayer d'enlever un maximum de blanc entre les sections. Mais pas que ce soit trop collé non plus. Donc voilà. Ça fait plutôt de mieux. On peut l'enlever. Voilà pourquoi nous choisir. On peut mettre énergistables.
 
-## Ce que la leçon annonce
+[22:33] Puis si je l'avais écrit quelque part. Il nous oublie le nom. Ensuite. Après.
 
-> **Source : page de la leçon (texte Skool)**
+[22:54] Après. 14 heures. Donc ça c'est par rapport au OZ. On a fait. Je vais montrer les adissions. Avec les OZ, j'invite à checker le module de Thomas. Et en fait. Les points qui reviennent souvent c'est fini le crash de 14 heures. Donc on va s'acconner à utiliser. Après nos recherches marketing etc.
 
-### Introduction
+[23:15] Tableau. On va mettre une croix ici. Une flèche. En troisième. On va mettre. Qu'est ce qu'on pourrait mettre ? Tac, tac, tac, tac. On va essayer de comparer avec les autres. Ce qu'ils ont fait. Alors.
 
-Crée ton branding complet avec l'IA en moins d'une heure : logo, colorimétrie, packaging et badges.
+[23:39] On peut jouer avec les pesticides. Il n'y a pas de pesticides dedans. Plusieurs coups. Sans sucre. Confort digestif. On va mettre ça. Confort digestif. On va mettre un petit casque clean. Before after. Je vais les virer. Il n'y a pas besoin de before after.
 
----
+[24:01] Si vous avez un produit qui est si prête. Il compte bas aussi. Je vais l'enlever. Je ne sais pas trop en ce moment. Ça aussi. Ça aussi.
 
-### Ce que tu vas apprendre
+[24:22] Il peut mettre un truc mais il n'y a pas besoin. Il va mettre une autre résultat. Juste là. On peut l'enlever. On va mettre ce qu'on a mis sur la page d'accueil. Pourquoi nous sommes un peu des pourcentages ? Je vous les mettrai juste après. On va mettre un 90% tac. Hop.
 
-Dans cette vidéo, tu vas apprendre à créer une identité visuelle professionnelle pour ta marque en partant de zéro, sans designer. Concrètement : générer une palette de couleurs cohérente avec ton positionnement, créer un logo rapidement sur Canva ou via l'IA, produire un packaging prêt à l'emploi pour tes images produits Shopify, et générer des badges de réassurance (livraison, bio, paiement sécurisé…) à intégrer directement sur ton site. Tout ça avec Manus (ou ChatGPT + Ideogram/Nano Banana), grâce à un prompt clé en main fourni sous la vidéo.
+[24:47] Comme ça. 35. Ensuite.
 
----
+[25:08] Tac ou non. 78. Non mais ça ne se passe pas les chiffres que j'ai mis. Cap chien. Donc là on peut mettre d'après.
 
-### Mindset / Vision
+[25:32] Une enquête. De 7.6. Faction. Vas-y sur 1000 clients. Ou 100. Donc voilà.
 
-Le branding, ce n'est pas là où tu dois passer des semaines. L'objectif, c'est de lancer vite, tester, et améliorer. Un nom simple, un logo propre, une colorimétrie cohérente, c'est tout ce dont tu as besoin pour paraître professionnel dès le départ.
+[25:55] Ça fait ça. Non résultat. Je vais faire tourner sur la page d'accueil. On clique juste ici. Je vais changer ça. 92. 97. 96.
 
----
+[26:21] 97. C'est juste pour que ça corresponde sinon ça ne va pas faire pro.
 
-### Timestamps
+[26:45] Donc voilà nos résultats. Et si il est testimonial pareil que j'ai fait avec la page d'accueil. Ici on va mettre. Avis clients. On va essayer de vous mettre. C'est rapidement ici. Vous savez exactement les mêmes qu'on a mis sur la page d'accueil. Donc là on va choisir des clients. On va mettre d'autres probablement.
 
-00:00 - Objectif branding et outils
-01:24 - Créer un logo sur Canva
-03:55 - Choisir palette et typographies
-07:44 - Générer un packaging produit
-09:56 - Badges, icônes et conclusion
+[27:07] Je vais mettre les mêmes histoires que ça colle. Donc ici ça je m'en fiche. On va copier ici des avis clients qui sont juste là. Donc voilà. Ce n'est pas ici qu'on veut. C'est dans la description. On va mettre 4 cafés par jour. Pas la merde du tout.
 
----
+[27:28] Le nom de l'auteur va mettre Thomas R. Donc ça c'est fait. Là pour laisser ça. Il n'y a pas de soucis. On va enregistrer pour que ça ne bug pas. On va enregistrer pour que ça ne bug pas. Ensuite testimonial 2. On va partir sur la même.
 
-### Tags (Pour optimisation de recherche Skool)
+[27:49] On va enlister celle-ci. Là on va couper ça. On va mettre son nom. Ensuite la troisième. Juste ici avec celle-ci. On va enlever ça.
 
-`branding IA` `logo avec IA` `identité visuelle e-commerce` `Manus AI` `colorimétrie marque` `packaging produit` `Shopify branding` `ChatGPT marketing` `créer un logo gratuit` `lancer sa marque`
+[28:32] On va mettre comme idée. Et voilà. Les avis clients. On va mettre le nom. On va mettre le nom. Et là on va mettre le nom. Les avis clients. Je vous invite à en mettre un peu plus.
 
-## Ressources
+[28:53] Parce que ça ne sera pas assez troie. Il ne s'était pas en mettre beaucoup plus. C'est facile à gérer avec les clients. Là on met une petite FAQ. FAQ. TAQ. On va mettre exactement les mêmes qu'on a mis sur la page d'accueil. Juste ici. Il y a pas mal de questions qu'on peut mettre. On va préparer. Et utiliser le michi au.
 
-- [Lien KIA AI](https://kie.ai?ref=a66f4dcb74076be52e5a3525c4030eb6)
-- [Lien ElevenLabs](https://try.elevenlabs.io/start-create)
-- [Lien Higgsfield](https://higgsfield.ai/)
-- [Prompt logo + charte graphique](https://docs.google.com/document/d/1teYIuzhtPyoqiXl842T73xFdlBXSxQuUnBlw1Gv4Cq0/edit?usp=sharing)
+[29:17] Hop. TAQ. Là on vient coller la réponse. On va générer avec Claude. En fonction de votre produit. Il vous aurait besoin de mettre plus. Ou moins de questions. Donc moi je vous invite à en mettre un maximum. Et à bien réfléchir à ce que les clients.
 
-## Transcription
+[29:38] Peuvent se poser comme question. Avant de vouloir acheter le produit. Et répondre à leurs objections. Parce qu'ils en auront pas mal. Et ça permet toujours de convertir. Des personnes qui ne sont pas forcément susceptibles d'acheter. Une fois qu'elles ont la réponse à leurs questions. Vous voulez essayer. À répondre. En maximum d'objections possibles. En même temps.
 
-> **Source : audio**
+[30:00] Des résultats. TAQ, TAQ, TAQ, TAQ. Ça s'est fait. Vous pouvez changer les petits emoji. Il faudra gauche ça. Il n'y a pas de souci. Enregistrer. Normalement une belle page produit.
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[30:20] Assez fourni. Le bundle tout est bon ici un petit titre une image, le résultat ça a vu que l'on va voir. Donc voilà pour une page produite assez simple avec des tags. Ensuite je vais essayer de modifier les menus comme ça la vidéo. Yes donc on va partir ici on va mettre, j'avais mis un petit texte ici à mettre en bas de page.
 
+[30:52] Ça va être ça pour contact on va le mettre un peu plus loin de ce qu'on a prêt. Une question, ensuite on met ça juste là. De réponse automatique, tag, voilà, ça va se passer un petit peu.
 
+[31:15] Ça permettra sur le client ici avec le mail. Écrivez nous aussi, je vais revenir à la ligne pour que ça fasse plus pro. Ensuite je vais modifier juste ça, je vais l'enlever. Ici on peut enlever l'image, on peut enlever le quick link, les emails, si on peut l'enlever ça c'est pas utile. Là je vais ajouter quelques pages justement dans le menu que je vais montrer comment.
 
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 52 : Créer des images produit 100% AI qui convertisse
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 52
-======================================================================
+[31:40] Alors je montre comment on fait les menus maintenant pour quitter ça. Ça a été tag donc on va quitter, on va aller ici dans la page menu je crois. Non c'est pas ça c'est un contenu, menu. Donc dans menu piètes pages ici, vous avez votre piètes pages ici à la recherche.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[32:04] Mais du coup on va juste mettre en piètes pages que vous souhaitez c'est des trucs simples. FAQ, d'ailleurs il faut que je crée les pages d'abord, ils me semblent. Donc on va aller dans page, vous venez dans the quick online page. Ici on a une page de contact déjà qu'on va remplir, etc.
 
-# 52 — Créer des images produit 100% AI qui convertisse
+[32:30] Ici on va mettre une page de contact, on va tirer la cloutte. Écrime moi un texte simple pour une page de contact sur mail. On met aussi votre numéro aussi, ça peut bien fonctionner. Contactez-nous juste là, ça sera une page de contact qu'on va ajouter après sur le shop.
 
-`Section Skool : MODULE 8 : LANDING PAGE`
+[32:59] Là si je peux le voir, on ne sait pas pourquoi. On va aller la modifier directement sur le shop. Donc on a une page contact, on va créer une page de FAQ aussi. Pareil FAQ, je vais mettre un exemple mais il va falloir un peu plus la travailler que nous.
 
-## Ce que la leçon annonce
+[33:26] C'est juste un exemple, maintenant avec l'IA, on peut le faire assez facilement. FAQ enregistré, donc là on a une page FAQ, ça pourquoi elle est masquée visible. On met une page de FAQ aussi suivant ma commande. Donc suivant ma commande, ça avec une application que je vais vous montrer juste après.
 
-> **Source : page de la leçon (texte Skool)**
+[33:47] Ça va être traque 123, c'est simple à mettre en place. Suivant ma commande ici on va mettre un lien directement sur le shop. Ça c'est visible, on va d'abord aller sur boutique en ligne, personnaliser les pages. Et ensuite venir les ajouter au menu.
 
-### Introduction
+[34:09] Donc là quand on arrive normalement, elles ne sont pas sur le côté. Mais si vous cliquez la page d'accueil, vous pouvez venir directement personnaliser les pages. Donc là la page contact, on va mettre ça ici. Une question, contactez-nous.
 
-Crée des images produits qui convertissent, avec l'IA, en quelques minutes.
+[34:34] Voilà, ça c'est pour vous contacter assez simple, enregistré. On en accuste la page contact. On va venir ajouter justement dans le menu. Ensuite, la page FAQ. Donc là vous pouvez mettre une FAQ. Bon là je vous envie de la mettre, le contenu réductif.
 
----
+[34:58] Je vais juste mettre un petit texte histoire de... Je vais te faire comme ça, c'est pas si simple. Voilà, mais vous pouvez mettre le contenu réductif aussi simplement. Et faire une page un peu plus travaillée que là, mais c'est juste pour voir l'exemple. Ensuite la page de suivre ma commande. Je vous invite à télécharger une application qui va être...
 
-### Ce que tu vas apprendre
+[35:22] Là vous avez le traque order direct avec suivre ma commande. Ça on va venir traduire. Donc là on fait ça.
 
-Dans cette vidéo, tu vas apprendre à générer les 7 types d'images produits indispensables pour ton carrousel e-commerce (visuel simple, bénéfices, UGC, statistiques, témoignages…) en utilisant Manus AI. Tu verras comment structurer un prompt en deux parties (contexte + spécifications image par image), comment upscaler tes visuels avec Magnific AI pour les rendre ultra-réalistes, et comment créer des images de section pour habiller l'ensemble de ton site. À la fin, tu auras un set d'images professionnel prêt à être intégré directement dans ton store.
+[35:47] Bon, suivi, suivre. Après ici il peut mettre une application. Get in touch ça sur Walls primé. Ça n'a rien ici. Hop, tac. Enregistré tout ça. Donc on va aller justement dans les menus.
 
----
+[36:11] Tac, tac, tac. Qui va être en contenu. Menus. Là vous avez le pié page. Là on va venir enlever search. On va juste mettre un contact. Là vous mettez page contact. Voilà, quand ils sont en direct sur la page de contact.
 
-### Mindset / Vision
+[36:31] FAQ. FAQ. Hop, ici on peut mettre une page. FAQ qu'on vient de créer. Et pareil pour suivre ma commande. Vous mettez des blocs, vous mettez pas mal de choses. Là il faut être créatif. Donc ça sera un pié page. Du coup ensuite le menu pareil pour le menu principal.
 
-Le vrai levier sur un site e-commerce, ce ne sont pas les prix ni les descriptions, ce sont les images. Un client qui voit des visuels produits soignés, variés et authentiques est beaucoup plus enclin à commander. Maîtriser la création d'images avec l'IA, c'est se donner un avantage compétitif énorme sans budget photo.
+[36:55] Ici on va mettre. On va changer ça, ça va être. Accueil ici. Café. Adapt. Genre. Là je vous invite à enlever tous les produits. Et à mettre juste votre page produit. On met un majuscule d'air.
 
----
+[37:18] Hop. C'est pas correct, non? Bref. Ensuite ici il pouvait mettre une page contact. Une page FAQ. Suive ma commande etc. Un peu comme la page qu'on a faite juste avant.
 
-### Timestamps
+[37:38] Donc là dans page. FAQ. Tag contact. Ensuite sur ma commande. On voit là pour les menus. Ici on va ajouter pas mal d'autres choses. Mais juste les bases, les fondamentaux.
 
-00:00 - Images produit qui convertissent
-00:25 - Les 7 visuels indispensables
-01:28 - Générer avec Manus
-06:14 - Améliorer avec Magnific AI
-10:45 - Créer des images de section
+[37:59] Ensuite ça va aller dans le bout de chicanlis. Là on va juste check que ce soit mis. Jiffy le thème. Là normalement on a accueil. Café. Adapt. Je crois que ça peut s'enlever avec du code. Là pour enlever quick link qui est changé juste.
 
----
+[38:20] On peut mettre quoi? On peut mettre... Qui est-ce qu'ils mettent? On peut mettre juste dans formation.
 
-### Tags (Pour optimisation de recherche Skool)
+[38:46] Je ne sais pas pourquoi. Ils les alignent comme ça. Là c'est plus clean déjà. On peut en mettre ça juste là. Contact FAQ. Suive ma commande.
 
-`images produits IA` `Manus AI e-commerce` `visuels Shopify` `carrousel produit qui convertit` `Magnific AI upscale`
+[39:08] Ensuite ça va avoir les mentions légal, etc. Je suis en dessous. Mais vous pouvez créer un custom menu pour les avoir en lignée. Comme ça. Il faut aussi mettre les custom payment patch. Je crois. Un tach, tach, tach. Texte. Non, ce n'est pas texte.
 
-## Ressources
+[39:30] C'est là. Donc ça va être là. Comme tout à l'heure la même chose. Hop. Après le pay on va enlever bitcoin. Ça. Ça. Ça. Bitcoin, je ne sais pas.
 
-- [Lien KIE AI](https://kie.ai?ref=a66f4dcb74076be52e5a3525c4030eb6)
-- [Lien ElevenLabs](https://try.elevenlabs.io/start-create)
-- [Lien Higgsfield](https://higgsfield.ai/)
-- [Prompt image produit](https://docs.google.com/document/d/1GWScjw_7gEpxCwzjCWYR13HXZqoFr-xwQ0QaCocjIdI/edit?usp=sharing)
+[40:00] Maestro Master. C'est Master Paypal. Je suis plus faillipais. So forthment. Et voilà. Ce que ça donne. Normalement. Ça c'est clean. Voilà. Là aussi les pages. Hop. Tout est clean ici.
 
-## Transcription
+[40:20] On va mettre. Hop. Accueil. J'étais juste un petit peu voir ce qui me manque. Accueil. Je ne montre pas que ce que je fais ma commande. On va passer aux applications les gars. Donc là, l'application rapide qui est déjà mis. Ensuite, tiny SEO c'est une application qui va vous permettre justement de compresser la taille de vos images et d'avoir un site
 
-> **Source : audio**
+[40:41] qui va beaucoup plus vite. En fait là vous avez juste à faire ça. Hop. Enregistrer l'émogification. Et ensuite payer juste ici avec le formabigginner. Bon là on a. Il n'y a pas de faissons gratuites mais. Il faut commencer avec le plan. Et en fait ça va juste cropper vos images automatique. Donc ça c'est simple à mettre en place. Comme application.
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[41:03] Donc je vous recommande rapide tiny SEO. Ensuite on va passer à traque 123. Ça ça va être pour. Générer. Le suivi pour les clients. Donc installez juste ici. Tac. Tac. Tac. Installé.
 
+[41:28] Ok. Tac. Il y a un drop shipping mode. Donc je vous invite à l'activer pour pas que les clients voient que ça vienne. Là il va importer tout. Les commandes. Donne. On va commencer par le frino. On va avoir besoin de plus que ça. Encore fait tracking page. Là vous allez venir customiser votre tracking page.
 
+[41:48] C'est très très bien foutu. Donc voilà ça c'est simple pour échanger les images ici. Vous pouvez. Un petit peu custom un petit peu tout. Donc là. On va. Enregistrer. Voir ce que ça donne. Ce que ça donne.
 
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 53 : Checkup Débutant: à voir avant Lancement
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 53
-======================================================================
+[42:10] Ça veut le supprimer. Réalise. Ce que ça va donner. Au niveau de votre client. Je vous invite à juste changer les images ici. Là il est juste à entrer sur le mode commande et son numéro. Et voilà ça va être assez simple. Et dit URL pour échanger l'URL aussi. Mais là je vais juste. Copier et coller l'URL.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[42:30] Et mettre dans sur ma commande. Comme je vous ai montré juste avant. Donc. Dans. Menu. Tac. Tac. Contre tout cela. Menu. Sur ma commande. Là si. Vous avez l'application. Vous mettez comme ça. Et voilà. Si vous avez pas l'application vous laissez le.
 
-# 53 — Checkup Débutant: à voir avant Lancement
+[42:52] Ce que je vous ai montré juste avant. Donc là dans le pied de page. Je vais me mettre ça ensuite. Mais du principal aussi il faut le modifier. Là hop. Ça va juste les emmener directement sur la page de suivi. Comme si. Que vous aurez juste à changer après. Présentant. Levé justement. Du pérate tout de suite en rapide. Tac.
 
-`Section Skool : MODULE 8 : LANDING PAGE`
+[43:13] Tac. Hop. Tracking page. Customize. Tac. Pas d'image. On va remover l'image. Change image. On va mettre. Ouais. On va rien mettre. On va laisser ça comme ça. Save. Ça c'est clean.
 
-## Ce que la leçon annonce
+[43:34] L'EF. Tac. Tac. Et je vais juste enlever. Pas de produit. Recommandation. Après vous pouvez laisser. Ça vous aura vu de l'upsell. C'est plutôt cool. Maintenant qu'on a attracté le nombre 3. On va rajouter upcard et aftersell. Donc c'est pour le cas où vous n'avez pas.
 
-> **Source : page de la leçon (texte Skool)**
+[43:56] Shrine. C'est très important d'avoir. Donc je pense que vous ne voyez pas trop. Ça peut installer. Tac. Donc installer. Je vous invite à installer upcard et aussi aftersell.
 
-Checkup Landing Page, cette vidéo couvre le check complet à faire avant de lancer une boutique en tant que débutant.
-
----
-
-**1. S'inspirer des concurrents qui chiffrent**
-
-Analyser minimum 5 à 10 concurrents qui ont la même solutionRegarder sur **mobile** (pas desktop), les différences sont souvent importantesUtiliser **Brandsearch / TrendTrack / Meta Ads Library** pour trouver les concurrents par niche et par paysPasser commande chez les top concurrents une fois en phase de testing validé (voir upsells, flow email, expérience post-achat) 
-
-**2. Above the fold & images produit**
-
-Images = point le plus important (les gens scrollent les images)Ajouter : badges de confiance (ex. USDA Organic), "N°1 des ventes en [pays]", petits carrés avec bénéficesToujours checker le rendu mobileImage animée : très bienPremière image : produit seul, simple et propre
-
-**3. Header / Announcement bar**
-
-Logo trop petit → agrandirToujours une **raison marketing** pour la promo (calendrier marketing) — ex. Saint-Patrick, soldes, etc.Timer court (10 min) → prouvé efficace chez les US brands qui scalent (pas en france)
-
-**4. Titre produit (above the fold)**
-
-Ne jamais laisser juste le nom produit basique (ex. "café adaptogène")Mettre un bénéfice fort ou une phrase qui hookAjouter : avis Trustpilot/Loox sous le titre, bullet points avec emojis soignés, rappel du prix
-
-**5. Bouton Add to Cart**
-
-Arrondir davantageAjouter une flèche → meilleur taux de conversionRéduire l'espace entre le bouton et les badges de paiement
-
-**6. Page panier**
-
-Cadenas sécurité visibleTout en majuscules → meilleure lisibilitéRappel TrustpilotLivraison gratuite à partir d'un seuil → pousse à augmenter le panierCadeaux offerts → effet de perte si le client retire des produits
-
-**7. Checkout**
-
-Logo + nombre de clients satisfaits ou note TrustpilotNom de livraison qui inspire confianceTimer modifiable via le code (même sans Shopify Plus)
-
-**8. Footer**
-
-Jamais un Gmail dans le footer → email professionnel via redirection Shopify (gratuit)Ex. : info@[boutique].com redirigé vers le Gmail → pro aux yeux du clientMentions légales, contact, tout en français si marché FR
-
-**9. Lancer sur un nouveau marché**
-
-Utiliser Brandsearch → filtrer par pays + langue + trafic minimum + nb d'adsIdentifier les patterns récurrents des boutiques qui scalent dans ce paysEx. Allemagne → Paypal et Klarna obligatoiresAdapter : bouton, logo style, processeurs de paiement locaux
-
----
-
-### Mindset / Vision
-
-Sur ce marché, il n'est pas nécessaire de réinventer la roue, les marques qui font plusieurs millions ont déjà testé et validé ce qui fonctionne. Votre rôle est de vous inspirer intelligemment, d'être différent là où ça compte, et d'arriver dès le jour 1 avec une LP qui rivalise avec les meilleurs. Copier ce qui convertit, être différent sur le créatif et le positionnement, pas sur les fondamentaux UX. C'est ce qui sépare ceux qui obtiennent leur premier cash le premier jour de ceux qui stagnent.
-
----
-
-### Timestamps
-
-00:00 - Objectif : boutique prête
-01:18 - Benchmark concurrents gagnants
-04:24 - Recherche concurrentielle (outils)
-09:48 - Checklist optimisations boutique
-19:59 - Adapter au marché cible
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`shopify` `optimisation boutique` `landing page ecommerce` `audit boutique` `taux de conversion` `dropshipping` `analyse concurrents` `page produit` `bundle offre` `lancement boutique`
-
-## Ressources
-
-- [Lien Mushilo](https://mushilo.com/)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 54 : Copier une section d'un concurrent avec l'IA
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 54
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 54 — Copier une section d'un concurrent avec l'IA
-
-`Section Skool : MODULE 8 : LANDING PAGE`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Copie une section de n'importe quel site concurrent sur ta boutique en quelques clics, sans toucher au code.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à identifier et extraire une section d'un site concurrent grâce à l'inspecteur d'éléments de ton navigateur, puis à la reproduire proprement sur ta propre boutique Shopify en utilisant Claude (IA). Tu verras comment récupérer le code HTML de n'importe quelle section, le transformer en un bloc Liquid personnalisé avec du CSS inline (sans dépendances), et le coller directement dans ton éditeur de thème pour un affichage immédiat, desktop et mobile. Tu apprendras aussi comment corriger l'affichage si la section ne se charge pas correctement, en envoyant un screenshot à Claude pour qu'il adapte le code automatiquement.
-
----
-
-### Mindset / Vision
-
-Tu n'as pas besoin de savoir coder. Ce que tu as besoin de savoir, c'est comment demander à l'IA de coder pour toi,  et cette méthode te donne exactement ce levier.
-
----
-
-### Timestamps
-
-00:00 - Objectif et aperçu
-00:28 - Inspecter et repérer la section
-02:56 - Copier le HTML et préparer Claude
-03:58 - Générer code Liquid + CSS inline
-05:25 - Coller, vérifier et dépanner
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Shopify` `copier section concurrent` `Claude IA` `inspecteur élément` `Liquid personnalisé`
-
-## Ressources
-
-- [Lien Shopify 1€ pendant 3 mois](https://shopify.pxf.io/master)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 55 : Déléguer sa boutique intelligemment : wirefram
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 55
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 55 — Déléguer sa boutique intelligemment : wirefram
-
-`Section Skool : MODULE 8 : LANDING PAGE`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comment créer ou déléguer son site e-commerce Shopify sans se prendre la tête.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir les deux approches concrètes pour avoir un site Shopify professionnel rapidement : soit le déléguer entièrement à un free-lance, soit avancer toi-même sur 80% et faire appel à un pakistanais pour les 20% techniques qui te bloquent. Tu apprendras comment préparer un dossier complet (photos, textes, logo, charte graphique), comment trouver et gérer un bon free-lance sur Upwork sans te faire arnaquer, et comment créer un wirefram efficace avec Canva pour que ton prestataire sache exactement quoi reproduire. À la clé : un site e-commerce lancé entre 150 et 300 €, avec une méthode qui te fait gagner du temps et de l'argent.
-
----
-
-### Mindset / Vision
-
-Peu importe que tu aies du budget ou non, l'essentiel c'est de ne pas rester bloqué. Déléguer intelligemment ou avancer par étapes, les deux fonctionnent. Ce qui compte, c'est de lancer, même imparfait, et d'optimiser en cours de route.
-
----
-
-### Timestamps
-
-00:00 - Deux façons de déléguer
-01:05 - Préparer le brief et trouver un freelance
-03:00 - Filtrer sur Upwork et cadrer le budget
-05:11 - Wireframe rapide avec Canva
-08:18 - Suivi, deadlines et méthode 80/20
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Shopify` `créer site e-commerce` `déléguer free-lance` `Upwork Shopify` `wireframe Canva` `dropshipping débutant`
-
-## Ressources
-
-- [Lien Shopify 1€ pendant 3 mois](https://shopify.pxf.io/master)
-- [Tutoriel Upwork](https://www.skool.com/master/classroom/76197e37?md=426b853b8cd54a11bc47b445933ac61d)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 56 : Optimiser votre boutique en ligne
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 56
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 56 — Optimiser votre boutique en ligne
-
-`Section Skool : MODULE 8 : LANDING PAGE`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Optimise ta page produit Shopify pour maximiser tes conversions.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre comment structurer ta boutique e-commerce de A à Z pour vendre plus, sans changer ton produit. On va voir : la règle des 3 secondes de congruence entre ta pub et ta landing page, comment construire la zone "above the fold" avec les bons éléments (images, titre orienté résultat, sous-titre mécanisé, bullets de bénéfices, urgence et badges de confiance), et comment utiliser un prompt AI prêt à l'emploi (ChatGPT / Claude / Manus) pour construire toute ta copie produit rapidement. Tu repartiras avec une structure claire et actionnable à appliquer directement sur ta boutique.
-
----
-
-### Mindset / Vision
-
-Tes clients ne lisent pas, ils regardent. Si ta page ne leur parle pas en 3 secondes, tu perds la vente. Chaque élément doit les aspirer dans un tunnel logique et les pousser à acheter maintenant.
-
----
-
-### Timestamps
-
-00:00 - Objectif et congruence
-00:42 - Zone au-dessus de la ligne
-01:06 - Images et carrousel
-01:52 - Titres, sous-titres et déclencheurs
-04:12 - Audit boutique et améliorations
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`page produit Shopify` `optimisation conversion e-commerce` `copywriting fiche produit` `above the fold` `prompt AI Shopify` `dropshipping boutique` `taux de conversion` `titre orienté résultat` `urgence et confiance` `Claude Manus ChatGPT`
-
-## Ressources
-
-- [Créer des images avec l'IA](https://www.skool.com/master/classroom/a252882e?md=3c9ac867c499412cba2225681a2936bd)
-- [Lien de la vidéo de Nico](https://www.skool.com/master/classroom/a252882e?md=db60fe9bdbac4dcb8c46738569e8eb89)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 57 : Pour aller plus loin - CRO, BOOSTER CA & AOV
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 57
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 57 — Pour aller plus loin - CRO, BOOSTER CA & AOV
-
-`Section Skool : MODULE 8 : LANDING PAGE`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Accéder au module présenter par Andrea Cella, CEO de l'agence Hover : [MODULE CRO, BOOSTER CA & AOV ](https://www.skool.com/master/classroom/7435e809?md=fd90f8ac95ef46519089881a2ba5fbf8)
-
-Présenté par **Andrea Cella, CEO de Hover**
-
-Ce module est une introduction complète au **CRO (Conversion Rate Optimization)**, c’est-à-dire l’optimisation du taux de conversion d’une boutique en ligne.
-
-Concrètement, le CRO consiste à **gagner plus d’argent avec le même trafic**.
-Au lieu de chercher uniquement plus de visiteurs via la publicité, on apprend ici à :
-
-Transformer plus de visiteurs en acheteursAugmenter le panier moyenAméliorer la rentabilité globale du business
-
----
-
-#### Pourquoi ce module est important pour un débutant ?
-
-Quand on démarre en e-commerce, on pense souvent que la solution est d’augmenter les ads.
-Mais si ta boutique ne convertit pas bien, tu perds de l’argent.
-
-Andrea explique que le CRO est souvent **le levier le plus sous-estimé**, alors que c’est celui qui peut faire exploser :
-
-Le chiffre d’affairesLa margeLa stabilité du business
-
----
-
-#### L’objectif du module
-
-À la fin de ce module, tu dois :
-
-Comprendre comment une boutique génère réellement de l’argentSavoir identifier les points faibles d’un siteComprendre comment augmenter tes résultats sans forcément augmenter ton budget publicitaire
-
-Ce module pose les fondations.
-Les vidéos suivantes rentreront dans le process complet, les optimisations concrètes et les exemples réels.
-
----
-
-En résumé :
-Si tu veux scaler proprement, le CRO n’est pas optionnel.
-C’est ce qui transforme un business fragile en machine rentable.
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 58 : Présentation - Compte agence partenaire
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 58
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 58 — Présentation - Compte agence partenaire
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Présentation de **Prime Circle**, partenaire de **Master** pour tout ce qui concerne l’infrastructure publicitaire sur Meta.
-
-Florian présente leur agence et explique comment ils accompagnent les e-commerçants en mettant à disposition des **Business Managers et ad accounts à fort niveau de trust**, afin de lancer et scaler des campagnes dans un environnement plus stable et sécurisé.
-
-Prime Circle travaille avec des marques de tous niveaux, du débutant aux entreprises qui dépensent plusieurs centaines de milliers par mois, avec une approche basée sur des **infrastructures solides, une gestion propre des comptes et une vision long terme**.
-
----
-
-### Mindset / Vision
-
-L'approche de Prime Circuit repose sur un principe simple : ne travailler qu'avec des marques éthiques et propres. Cette sélectivité n'est pas un frein, c'est ce qui garantit la stabilité des comptes, des CPM plus bas, et une relation de confiance durable avec Meta. Scaler vite ne sert à rien si c'est au risque de perdre son BM du jour au lendemain.
-
----
-
-### Timestamps
-
-00:00 - Intro et objectifs du live
-01:28 - Présentation de l’agence Meta Partner
-03:09 - Éthique, stabilité et infrastructure pub
-05:33 - Offres, pricing et réductions Master
-13:31 - Q&A, retours et conclusion
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`publicité Meta` `compte publicitaire Facebook` `agence Meta partenaire` `BM Facebook` `scaling e-commerce` `ads Facebook` `infrastructure publicitaire` `ad account stable` `PrimeCircle` `communauté mastermind`
-
-## Ressources
-
-- [Travailler avec PrimeCircle](https://primecircle-agency.com/master)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 59 : Meta - Setup Invincible - Prime Circle
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 59
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 59 — Meta - Setup Invincible - Prime Circle
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Protège ton écosystème Meta avant qu'il soit trop tard.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir ce qu'est un Meta Invincible Setup, un système complet (profil, Business Manager, page) pensé pour résister aux restrictions de Meta. Tu vas comprendre pourquoi ton setup actuel est probablement vulnérable, quelles erreurs détruisent silencieusement ta structure publicitaire (VPN, WiFi pro, mauvaise création de profil…), et comment mettre en place un écosystème sain, stable et conforme qui te permet de scaler ton e-commerce sans risquer de tout perdre du jour au lendemain. À la fin, tu verras aussi comment te connecter pour la première fois à ta solution et démarrer tes campagnes immédiatement.
-
----
-
-### Mindset / Vision
-
-Si tu dépends à 100% de Meta pour ton acquisition, tu joues en permanence avec le feu. Un compte restreint, c'est des semaines de travail perdues et un scaling à l'arrêt. La bonne approche, ce n'est pas de réagir quand ça tombe, c'est d'anticiper avec une infrastructure solide dès le départ.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi Meta bloque tout
-00:48 - Setup Meta “invincible”
-03:31 - Bonnes pratiques et trust
-05:39 - Offres et garanties Pre Circle
-09:04 - Démo connexion At Power
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`meta ads setup` `business manager sécurisé` `compte publicitaire e-commerce` `restriction meta solution` `scaling facebook ads`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 60 : Choix d'un anti-detect browser
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 60
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 60 — Choix d'un anti-detect browser
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
----
-
-### Introduction
-
-Navigateurs anti-détection pour Meta Ads : lequel choisir ?
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, on fait le point sur les meilleurs navigateurs anti-détection à utiliser pour gérer plusieurs comptes publicitaires Meta (et Shopify), basé sur plus de 5 ans d'expérience terrain et les retours de nombreux annonceurs.
-
-Tu vas découvrir concrètement les 3 navigateurs qui font référence (Incognito, Multilogin, GoLogin), leurs niveaux de sécurité réels, leurs prix, et surtout comment obtenir des profils gratuits à vie, avec une manipulation précise sur GoLogin que très peu de gens connaissent. L'objectif : sécuriser tes comptes publicitaires, éviter les bans, et optimiser ta gestion multi-comptes sans exploser ton budget.
-
-**Sites mentionnés : **
-
-1. [https://incogniton.com/fr/](https://incogniton.com/fr/) (le moins sécurisé)
-2. [https://multilogin.com/](https://multilogin.com/) (le plus sécurisé et le plus cher)
-3. [https://gologin.com/](https://gologin.com/) (3 profils gratuits à vie)
-
----
-
-### Mindset / Vision
-
-La sécurité de tes comptes, c'est la base de ton infrastructure media buying. Un mauvais choix d'outil peut te coûter des semaines de travail. Investir dans un bon navigateur anti-détection, c'est protéger tout ton business.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi un anti-détection
-01:02 - Incogniton : gratuit mais limité
-02:08 - Multilogin : le plus sécurisé
-03:04 - GoLogin : avis et avantages
-03:25 - Activer 3 profils gratuits
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`navigateur anti-détection` `Meta Ads` `multicomptes Facebook` `GoLogin gratuit` `Multilogin` `gestion comptes publicitaires` `media buying` `anti-detect browser` `profils Facebook` `sécurité comptes Meta`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 61 : SOP Profil sécurisé avec Proxy
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 61
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 61 — SOP Profil sécurisé avec Proxy
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Sécuriser et utiliser un profil Meta de A à Z (proxy + anti-détection).
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à sécuriser complètement un profil Meta acheté, de la configuration du proxy à la connexion avec double authentification. On couvre tout : comment choisir et paramétrer un proxy ISP avec IP Royal, comment créer et configurer un profil sur GoLogin (gratuitement et à vie), comment ajouter le code 2FA, accéder au compte Facebook sans se faire bloquer, et enfin comment accepter un Business Manager via un lien ou une invitation email, le tout sans erreur et sans risque de ban.
-
-**Outils & Ressources : **
-Profiles- @scalelink telegram
-Proxy- [https://dashboard.iproyal.com/](https://dashboard.iproyal.com/)
-Gologin free- [https://gologin.com/](https://gologin.com/)
-Authenticator- [https://chromewebstore.google.com/detail/authenticator/bhghoamapcdpbohphigoooaddinpkbai](https://chromewebstore.google.com/detail/authenticator/bhghoamapcdpbohphigoooaddinpkbai)
-
----
-
-### Mindset / Vision
-
-Un profil acheté mal configuré = un profil perdu. La rigueur sur la configuration initiale (proxy, 2FA, notes de connexion) est ce qui sépare ceux qui scalent ceux qui recommencent à zéro chaque semaine.
-
----
-
-### Timestamps
-
-00:00 - Intro : objectifs anti-blocage
-00:37 - Acheter un profil et comprendre les infos
-01:23 - Choisir et configurer un proxy
-03:08 - Créer un profil GoLogin (gratuit)
-07:39 - Connexion Facebook, 2FA et BM
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`profil meta` `proxy facebook` `gologin tutoriel` `anti-détection meta` `business manager facebook` `profil acheté meta` `ip royal proxy` `compte facebook sécurisé` `2FA facebook` `pub facebook`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 62 : Introduction - Meta Ads
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 62
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 62 — Introduction - Meta Ads
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Maîtriser Meta Ads pour scaler ton e-commerce.
-
----
-
-### Ce que tu vas apprendre
-
-Comprendre pourquoi Meta est la plateforme d’acquisition numéro un en e-commerce et comment générer du trafic qualifié.
-
-Découvrir l’écosystème Meta avec Facebook, Instagram, Messenger et WhatsApp réunis dans une seule régie publicitaire.
-
-Comprendre le fonctionnement de l’algorithme basé sur plus de 20 ans de data et le système d’enchères qui permet de diffuser tes publicités efficacement.
-
-Configurer ton Business Manager et maîtriser les fondamentaux pour scaler tes campagnes avec méthode.
-
----
-
-### Mindset
-
-Meta repose sur trois piliers essentiels. La qualité, le prix et la scalabilité.
-
-Les marques performantes maîtrisent la plateforme en profondeur et font confiance à l’algorithme pour optimiser leurs résultats.
-
----
-
-### Timestamps
-
-00:00 Introduction et présentation du module Meta Ads 
-00:23 Pourquoi Meta est la plateforme numéro un en e-commerce 
-01:34 Fonctionnement de l'algorithme et du système d'enchères
-
----
-
-### Tags
-
-`meta ads` `facebook` `instagram` `business manager` `algorithme` `enchères` `ecommerce` `acquisition` `trafic` `publicité payante` `scaling` `campagnes` `plateforme` `ads spend` `créatives` `ciblage`
-
-## Ressources
-
-- [Présentation - META ADS](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 63 : Créer son Business Manager Meta Ads
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 63
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 63 — Créer son Business Manager Meta Ads
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Créer et sécuriser son Business Manager Meta de A à Z.
-
----
-
-### Ce que tu vas apprendre
-
-Configurer ton Business Manager correctement dès le départ depuis [business.facebook.com](http://business.facebook.com).
-
-Comprendre quelles informations renseigner et pourquoi utiliser un profil Facebook solide avec de l’ancienneté.
-
-Structurer ton BM pour éviter de le perdre en activant la double authentification et en ajoutant plusieurs admins en back up.
-
-Maîtriser la logique de dilution du risque pour sécuriser tes assets et poser des bases solides pour tes campagnes.
-
----
-
-### Mindset
-
-Un Business Manager est la fondation de ton système publicitaire.
-
-Un BM qui saute bloque immédiatement ton acquisition. Sécuriser dès le départ permet d’éviter des semaines de blocage et de protéger tes actifs.
-
-Négliger ces étapes est l’erreur la plus fréquente des débutants.
-
----
-
-### Timestamps
-
-00:00 - Créer un Business Manager
-00:05 - À quoi sert le BM
-00:26 - Accéder à Business Facebook
-00:33 - Infos à renseigner
-00:50 - Limites et profils solides
-00:56 - Pourquoi éviter un profil neuf
-01:33 - Aller sur la page de création
-01:39 - Créer le portefeuille business
-01:48 - Choisir le bon profil
-02:17 - Renseigner l’adresse pro
-02:43 - BM créé et notification
-02:48 - Confirmer par email
-02:58 - Vérifier spams et messages
-03:23 - Visite guidée du BM
-03:41 - Infos entreprise et vérification
-03:52 - Utilisateurs et partenaires
-04:11 - Pages et comptes pubs
-04:25 - Sources de données et pixels
-04:57 - Facturation et paiements
-05:14 - Sécuriser son BM
-05:29 - Activer la double authentification
-06:17 - Centre de sécurité
-07:04 - Configurer via appli Authenticator
-09:09 - Ajouter un admin backup
-12:53 - Accepter l’invitation et conclusion
-
----
-
-### Tags
-
-`meta ads` `business manager` `BM` `sécurité` `double authentification` `admin` `back up` `profil facebook` `pixel` `compte publicitaire` `assets` `acquisition` `ecommerce` `setup` `configuration`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 64 : Le compte publicitaire Meta Ads
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 64
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 64 — Le compte publicitaire Meta Ads
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Créer son compte publicitaire Meta correctement pour éviter tout blocage.
-
----
-
-### Ce que tu vas apprendre
-
-Créer ton compte publicitaire directement depuis le Business Manager.
-
-Nommer ton compte avec le bon format et choisir correctement le fuseau horaire et la devise, des paramètres définitifs.
-
-T’attribuer les droits admin pour garder le contrôle total sur ton compte.
-
-Ajouter une carte bancaire dédiée et appliquer la règle essentielle. Une carte bancaire par compte publicitaire.
-
----
-
-### Mindset
-
-Les erreurs faites à la création ne se corrigent pas.
-
-Choisir le bon pays, la bonne devise et utiliser un moyen de paiement séparé protège ton infrastructure sur le long terme.
-
-Mettre en place ces bonnes pratiques dès le départ évite des blocages et des pertes de temps coûteuses.
-
----
-
-### Timestamps
-
-00:00 Introduction et paramètres clés du compte publicitaire 
-00:48 Création du compte publicitaire dans le Business Manager 
-02:03 Ajout d'une carte bancaire et règle des moyens de paiement
-
----
-
-### Tags
-
-`meta ads` `compte publicitaire` `business manager` `carte bancaire` `devise` `fuseau horaire` `création` `setup` `admin` `paiement` `blocage` `facebook ads` `infrastructure publicitaire`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 65 : Le pixel Meta
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 65
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 65 — Le pixel Meta
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Créer et configurer son pixel Meta pour que l’algorithme puisse voir et optimiser.
-
----
-
-### Ce que tu vas apprendre
-
-Comprendre ce qu’est le pixel Meta et pourquoi il est indispensable pour piloter tes campagnes.
-
-Créer ton pixel depuis le Business Manager et le nommer correctement.
-
-Activer la correspondance avancée pour améliorer la qualité de la data.
-
-Assigner le pixel à ton compte publicitaire et commencer à remonter les événements clés. Vues de page, ajouts au panier, achats.
-
----
-
-### Mindset
-
-Sans pixel, tes campagnes tournent en aveugle.
-
-Meta ne peut ni apprendre, ni cibler, ni optimiser sans data fiable.
-
-Installer ton pixel, c’est donner de la visibilité à ton business et permettre une optimisation réelle de tes performances.
-
----
-
-### Timestamps
-
-00:00 Qu'est ce que le pixel Meta et pourquoi il est indispensable 
-00:43 Configuration du pixel dans le Business Manager 
-00:55 Assignation du pixel au compte publicitaire
-
----
-
-### Tags
-
-`meta ads` `pixel` `facebook` `événements` `tracking` `data` `gestionnaire d'événements` `business manager` `compte publicitaire` `optimisation` `conversion` `achat` `ajout panier` `setup`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 66 : La page Facebook
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 66
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 66 — La page Facebook
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Créer et chauffer sa page Facebook pour lancer ses publicités dans les meilleures conditions.
-
----
-
-### Ce que tu vas apprendre
-
-Créer ta page Facebook depuis le Business Manager et la rattacher à ton compte publicitaire.
-
-Configurer correctement ta page avec le nom de marque, la catégorie, le logo, la photo de couverture et la bio.
-
-Chauffer ta page avant le lancement en publiant trois à cinq posts sur plusieurs jours pour envoyer un signal de confiance à Meta.
-
-Poser une base solide avec une page active et crédible dès le départ.
-
----
-
-### Mindset
-
-Meta évalue en permanence la qualité et la légitimité de tes assets.
-
-Lancer des publicités avec une page vide crée de la méfiance.
-
-Publier quelques contenus simples avant le lancement renforce la confiance et améliore la stabilité de ton compte.
-
----
-
-### Timestamps
-
-00:00 Introduction et conseil clé sur le chauffage de la page
-00:54 Création de la page Facebook dans le Business Manager
-02:38 Configuration de la page... logo, couverture et informations
-
----
-
-### Tags
-
-`meta ads` `page facebook` `création` `configuration` `logo` `couverture` `posts` `chauffage` `business manager` `compte publicitaire` `confiance` `algorithme` `setup` `assets` `marque`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 67 : Connectez votre Pixel Meta à Shopify
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 67
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 67 — Connectez votre Pixel Meta à Shopify
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Connecter son pixel Meta à Shopify pour remonter la data et optimiser ses campagnes.
-
----
-
-### Ce que tu vas apprendre
-
-Tu vas apprendre à installer l’application Facebook et Instagram depuis le Shopify App Store et à connecter ta boutique à ton Business Manager. Tu verras comment associer ton compte Facebook, ton BM et ton pixel en quelques étapes simples. Tu comprendras aussi comment configurer le partage de données au maximum pour envoyer un maximum d’informations à Meta et améliorer la qualité du tracking. À la fin, ton pixel est actif sur ta boutique et les événements de conversion remontent en temps réel.
-
----
-
-### Timestamps
-
-00:00 Introduction et objectif de la connexion Shopify et Meta
-00:18 Installation de l’application Facebook et Instagram sur Shopify
-01:39 Association du pixel et configuration du partage de données maximum
-
----
-
-### Tags
-
-`meta ads` `pixel` `shopify` `facebook` `instagram` `installation` `connexion` `business manager` `partage de données` `événements` `conversion` `tracking` `setup` `boutique` `application`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 68 : Installer WeTracked pour un suivi précis
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 68
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 68 — Installer WeTracked pour un suivi précis
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Installer WeTracked pour améliorer la précision du tracking et exploiter pleinement tes données Meta.
-
----
-
-### Ce que tu vas apprendre
-
-Tu vas comprendre pourquoi le pixel installé via Shopify est limité et comment WeTracked permet d’augmenter significativement la remontée des conversions. Tu verras comment créer ton compte WeTracked, désinstaller le canal Facebook et Instagram pour éviter les conflits, puis connecter ton pixel Meta en utilisant l’ID du pixel et le token d’accès depuis le gestionnaire d’événements. Tu apprendras aussi à relier WeTracked à ta boutique Shopify via une clé API pour obtenir un tracking serveur fiable et précis. À la fin, ton système de tracking est optimisé et prêt à alimenter l’algorithme avec des données de qualité.
-
----
-
-### Mindset
-
-Des décisions publicitaires efficaces reposent sur des données fiables. Un tracking incomplet fausse l’analyse et limite les performances. Mettre en place une solution serveur dès le départ permet d’optimiser l’algorithme et de scaler avec plus de précision.
-
----
-
-### Timestamps
-
-00:00 Pourquoi WeTracked est plus fiable que le pixel natif Shopify
-01:56 Désinstallation du canal Facebook Instagram et création du compte WeTracked
-03:47 Connexion du pixel Meta et génération du token d’accès dans WeTracked
-
----
-
-### Tags
-
-`wetracked` `tracking serveur` `pixel meta` `shopify` `conversion` `data` `token accès` `gestionnaire événements` `facebook ads` `installation` `connexion` `fiabilité` `over tracking` `setup` `ecommerce`
-
-## Ressources
-
-- [Présentation - Meta Ads](https://www.canva.com/design/DAHGKSgJGTM/-At-Vy7BHhoS3R2SCJr3LQ/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 69 : Analyse de ses premiers chiffres : Quadrant Master
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 69
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 69 — Analyse de ses premiers chiffres : Quadrant Master
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comprends enfin tes chiffres Meta Ads pour savoir exactement quoi corriger après tes premiers tests.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à lire et interpréter les deux métriques clés de tes campagnes Meta, le CPC et le taux de conversion, pour diagnostiquer précisément ce qui bloque dans ton funnel. Tu découvriras un framework simple en 4 quadrants qui te dit si c'est tes créatives, ton site ou ton offre qui pose problème. Tu apprendras aussi comment optimiser ton panier moyen avec des bundles et des upsells, et tu comprendras à quelle fréquence analyser tes résultats pour ne pas prendre de mauvaises décisions.
-
----
-
-### Mindset / Vision
-
-La règle d'or en e-commerce débutant : ne jamais changer plusieurs variables en même temps. Isoler le problème, c'est ce qui te permet de vraiment scaler ce qui fonctionne et de ne pas abandonner un potentiel winner trop tôt.
-
----
-
-### Timestamps
-
-00:00 - Framework de testing Meta
-01:04 - Deux métriques clés : CPC et conversion
-03:28 - Le quadrant pour diagnostiquer
-07:24 - CPM élevés et compte Meta clean
-11:05 - Optimiser AOV, offres et patience
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`meta ads débutant` `taux de conversion shopify` `CPC publicité facebook` `e-commerce scaling` `analyser ses résultats meta`
-
-## Ressources
-
-- [DOC - Marketing Quadrant](https://docs.google.com/document/d/1_jmmZuvlAd1KDhzwx1vmW0pfpVwAlb-6/edit?tab=t.0)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 70 : 🆕 Prise de décision - Du testing au scaling
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 70
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 70 — 🆕 Prise de décision - Du testing au scaling
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-**Ressources :** 
-[Lien du notion](https://ecom-master.notion.site/Prise-de-d-cision-Du-testing-au-scaling-3a7387646c3e80238e0ad9ed79a056d8)
-[Protocole de prise de décision](https://whimsical.com/protocole-de-prise-de-decision-FvAhVdNFXhRdZLAbNNQqSz)
-
----
-
-### Introduction
-
-Comment prendre les bonnes décisions à chaque étape de votre scaling Meta Ads, du testing à zéro jusqu'à plusieurs dizaines de K par jour de spend.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, vous allez apprendre à utiliser un arbre de décision complet pour scaler vos campagnes Meta Ads de manière rationnelle plutôt qu'émotionnelle. Vous saurez identifier à chaque phase (setup, test initial, pre-scaling, scaling) si votre problème vient de la créa, de l'offre, du CPC ou du taux de conversion, et quelle action corriger en priorité. Vous repartirez avec les 3 leviers concrets pour scaler sans casser ce qui fonctionne : fixer les bottlenecks, protéger les ads qui marchent, et créer des "ads condors" capables de porter tout un compte publicitaire.
-
----
-
-### Mindset / Vision
-
-Arrêtez de vous fixer sur des paliers psychologiques comme le "1K par jour", ce n'est qu'une barrière mentale. La vraie logique, c'est le spend : plus vous spendez intelligemment (créas + funnel performants), plus vous générez de K/Day. Pareil pour la marge : cherchez le profit total par jour plutôt qu'un pourcentage de marge "parfait", car 15% de marge sur 100K rapporte bien plus que 30% sur 10K.
-
----
-
-### Timestamps
-
-00:00 - Prendre les bonnes décisions
-00:35 - Phase 0 : setup
-01:38 - Phase 1 : test initial
-03:01 - Phase de sauvetage
-05:43 - Big swings : offre et landing page
-07:16 - Exemple d’offre avec un nouveau mécanisme
-09:36 - Pré-scaling rentable
-15:04 - Scaling et mythes
-17:55 - Après 5K/jour : industrialiser
-21:28 - Protéger et maximiser le scaling
-
----
-
-### Lexique
-
-**CBO (Campaign Budget Optimization)** : Type de campagne Meta où le budget est géré au niveau de la campagne plutôt qu'au niveau des ad sets. Meta répartit automatiquement le budget vers les meilleures performances.
-
-**CPC (Coût Par Clic)** : Le prix moyen payé pour chaque clic généré par une publicité. Un CPC élevé signifie que la diffusion média coûte cher, indépendamment de la qualité du site. 
-
-**CPM (Coût Pour Mille impressions)** : Le prix payé pour 1000 impressions de la publicité. Il augmente si les créas manquent de diversité (trop de variations similaires).
-
-**CPA (Coût Par Acquisition)** : Le coût moyen pour obtenir une vente ou un client. Des CPA instables malgré de bonnes créas indiquent un problème plus profond dans le funnel.
-
-**ROAS (Return On Ad Spend)** : Le retour sur les dépenses publicitaires, c'est-à-dire le chiffre d'affaires généré pour chaque euro dépensé en pub. Matteo insiste sur le fait qu'il ne faut pas se fier uniquement à ce chiffre mais regarder le profit réel généré chaque jour.
-
-**AOV (Average Order Value)** : Le panier moyen, c'est-à-dire le montant moyen dépensé par commande. Un AOV trop bas est cité comme un "bottleneck" fréquent qui freine la rentabilité.
-
-**CTR** : Le taux de clic sur une publicité, c'est-à-dire le pourcentage de personnes qui cliquent après avoir vu l'ad. Matteo recommande un minimum de 5 à 10% avant d'injecter beaucoup de volume publicitaire, sinon on "brûle" son budget.
-
-**Landing Page (LP)** : La page web sur laquelle arrive le visiteur après avoir cliqué sur la publicité. Elle doit être cohérente avec le message de la créa pour ne pas casser la conversion.
-
-**Copy mining** : Stratégie consistant à reprendre des ads, offres ou landing pages déjà prouvées gagnantes chez la concurrence, plutôt que de tout créer de zéro.
-
-**Mécanisme (unique selling mechanism)** : L'argument ou la caractéristique différenciante qui explique "pourquoi" le produit fonctionne mieux qu'un autre.
-
-**Avatar (client idéal)** : Le profil type du client visé par la publicité (âge, style de vie, désirs, angle psychologique).
-
-**Hook** : La phrase ou l'image d'accroche au tout début d'une publicité, censée capter l'attention immédiatement.
-
-**Angle** : L'approche psychologique ou argumentaire utilisé dans une publicité (peur, joie, urgence, preuve sociale, etc.).
-
-**Big swing** : Changement radical de stratégie (nouvelle offre, nouveau mécanisme, nouvelle LP, nouvelles créas en même temps) lorsque tous les indicateurs sont mauvais. Réservé aux cas où rien ne fonctionne du tout.
-
-**Bottleneck (goulot d'étranglement)** : Le point de blocage principal qui empêche la conversion ou la rentabilité, même si le reste du funnel fonctionne bien.
-
-**Ads condor** : Une publicité exceptionnellement performante capable de porter tout un compte publicitaire à elle seule, en tirant les résultats de toutes les autres campagnes vers le haut. But ultime recherché après la phase de scaling.
-
-**Funnel** : Le parcours complet du client, du premier contact publicitaire jusqu'à l'achat (et au-delà).
-
-**OPEX (frais opérationnels)** : Les charges fixes de l'entreprise (salaires, outils, etc.), à ne pas confondre avec les frais variables liés directement à chaque vente.
-
-**SKU (Stock Keeping Unit)** : Un identifiant unique de référence produit, utilisé ici pour désigner un lancement de produit spécifique parmi d'autres.
-
-**K/Day (K par jour)** : Le montant dépensé en publicité par jour, exprimé en milliers d'euros (ex : "1K/Day" = 1000€ dépensés par jour). Matteo insiste : le K/Day n'est qu'une conséquence du spend, pas un objectif en soi.
-
-**Gifting** : Stratégie consistant à envoyer gratuitement des produits à des micro-influenceurs en échange de contenu publicitaire, permettant de produire un grand volume de créas rapidement.
-
-**UGC (User Generated Content)** : Contenu vidéo à l'esthétique "amateur", filmé comme par un vrai utilisateur plutôt qu'une publicité professionnelle.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`arbre de décision` `meta ads` `scaling ecommerce` `media buying` `copywriting publicitaire`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 71 : SOP Commentaire
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 71
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 71 — SOP Commentaire
-
-`Section Skool : MODULE 9 : PAID MEDIA`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Gestion des commentaires & emojis sous vos publicités Facebook, Le SOP complet
-
----
-
-- SOP commentaires : [https://classic-fireman-cf4.notion.site/SOP-Ajout-de-Commentaires-sous-les-Ads-Facebook-1e39a4e216328010835dc08758ca7793](https://classic-fireman-cf4.notion.site/SOP-Ajout-de-Commentaires-sous-les-Ads-Facebook-1e39a4e216328010835dc08758ca7793)
-
-boosting intéractions : [https://justanotherpanel.com/](https://justanotherpanel.com/)commentaires : [https://justanotherpanel.com/](https://justanotherpanel.com/)commentaires avec images : [https://fastlikes.fr/](https://fastlikes.fr/) (contacter support WA)commentaires avec vos propres profils : Profils via nate scalelinkgestion commentaires IA : [https://brandwise.ai/](https://brandwise.ai/)  
-
----
-
-### Ce que tu vas apprendre
-
-Les commentaires sous vos pubs, c'est le nouvel espace avis clients. Si tu ne les gères pas activement, tu perds des ventes chaque jour.
-
-Dans cette vidéo, tu vas apprendre à masquer les emojis négatifs en achetant des interactions positives via des panels au prix coûtant (quelques centimes), à ajouter des faux avis crédibles avec images pour booster ta preuve sociale, à sourcer des profils réels pour commenter tes publicités de façon authentique, et à automatiser entièrement cette gestion avec des outils IA ou en la déléguant à un assistant virtuel. À la clé : plus d'engagement, un meilleur score aux yeux de Meta, et un taux de conversion en hausse directe.
-
-La section commentaires, c'est désormais le premier endroit où ton client potentiel se forge une opinion, avant même de cliquer sur ta boutique. Traiter cet espace comme un levier de conversion, pas comme une corvée, c'est ce qui distingue les marques qui scalent de celles qui stagnent.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi les commentaires comptent
-02:18 - Camoufler les emojis négatifs
-04:32 - Tutoriel JustAnotherPanel
-08:52 - SOP commentaires qui convertissent
-12:57 - Profils et outils d’automatisation
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`publicité facebook` `gestion des commentaires` `preuve sociale` `e-commerce` `panel SMM` `emoji` `Facebook ads` `modération publicité` `dropshipping avancé` `engagement Facebook` `faux avis` `scale`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 72 : Recruter son premier Virtual Assistant(VA) SAV
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 72
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 72 — Recruter son premier Virtual Assistant(VA) SAV
-
-`Section Skool : MODULE 10 : 0 À 1K/DAY`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Recrute ton premier assistant virtuel en moins d'une semaine.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à mettre en place un système de recrutement rapide et efficace pour trouver des assistants virtuels (VA) qui gèrent ta relation client, tes commentaires pub Meta ou encore tes relations influenceurs. Tu vas découvrir quelles plateformes utiliser (Upwork / Fiverr), comment rédiger une annonce qui attire les bons profils, comment créer un formulaire de présélection, et comment trier les candidats dans un tableau Excel pour ne garder que le meilleur. À la fin, tu auras un process clé en main, des templates prêts à copier-coller et une méthode pour suivre le travail de ton VA chaque semaine.
-
----
-
-### Mindset / Vision
-
-Ne t'attache pas trop au recrutement. Si tu passes une semaine à chercher quelqu'un, tu auras du mal à t'en séparer même s'il ne convient pas. Vise le volume (50–100 candidats), recrute vite, teste plusieurs profils en parallèle, et garde celui qui matche le mieux avec ton business.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi recruter vite
-01:03 - Outils et plateformes
-02:01 - Créer l’annonce et filtrer
-04:24 - Inviter et sélectionner
-06:01 - Tester et suivre la performance
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`recrutement assistant virtuel` `VA freelance` `Upwork Fiverr` `délégation e-commerce` `service après vente externalisé`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 73 : Mettre en place un process SAV solide dès le déb
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 73
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 73 — Mettre en place un process SAV solide dès le déb
-
-`Section Skool : MODULE 10 : 0 À 1K/DAY`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Un SAV bien géré, c'est une réputation solide et moins de remboursements, voici comment le structurer.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à mettre en place un service après-vente efficace et autonome pour ton e-commerce. On couvre les bases indispensables : créer des templates de réponses adaptés à ton image de marque, gérer les colis en retard de manière proactive pour éviter les mauvais avis, mettre un process anti-fraude sur les colis prétendument perdus, définir des règles claires pour ton équipe (délais de réponse, rapports hebdomadaires, escalade), et choisir le bon outil de gestion de tickets (Freshdesk recommandé). Tu repars avec un système concret, prêt à déléguer.
-
----
-
-### Mindset / Vision
-
-Un bon SAV ne se voit pas quand tout va bien, il fait toute la différence quand ça va mal. C'est ton bouclier contre les mauvais avis Trustpilot et le fondement de la confiance client sur le long terme. Ne le sous-estime pas.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi le SAV compte
-00:59 - Templates et réponses rapides
-02:45 - Proactivité et gestion des litiges
-04:23 - Suivi équipe et règles de qualité
-06:46 - Outils ticketing et conclusion
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`service après-vente e-commerce` `SAV dropshipping` `gestion client en ligne` `Freshdesk tutoriel` `process équipe e-commerce`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 74 : Spreadsheet Suivi Budget/Résultats
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 74
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 74 — Spreadsheet Suivi Budget/Résultats
-
-`Section Skool : MODULE 10 : 0 À 1K/DAY`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comment utiliser ta feuille de route pour savoir si ton e-commerce est rentable.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, vous allez découvrir comment utiliser le **tableau de Profit & Loss (PNL)**, un outil essentiel pour piloter votre business e-commerce.
-
-Ce tableau vous permet de **visualiser précisément votre rentabilité**, comprendre où part votre argent et savoir si vos campagnes publicitaires peuvent réellement être profitables.
-
-Voici ce que vous allez apprendre dans ce document :
-
-• **Suivre vos coûts produits (COGS)** afin de connaître le vrai coût de chaque vente.
-• **Calculer automatiquement votre CPA cible** pour atteindre différents niveaux de profit (10 %, 15 %, 20 %).
-• **Comprendre votre AOV (Average Order Value)** et son impact sur votre rentabilité.
-• **Intégrer les frais de paiement (Shopify Payments, etc.)** pour avoir des calculs réalistes.
-• **Ajouter toutes vos dépenses fixes** : outils, SaaS, prestataires, salaires, etc.
-• **Analyser vos dépenses publicitaires** (Meta, TikTok, Google Ads).
-• **Suivre votre profit réel jour par jour et mois par mois.**
-
-Le tableau calcule automatiquement :
-
-• votre **CPA maximum rentable**
-• votre **ROAS cible**
-• votre **marge brute**
-• votre **profit net quotidien et mensuel**
-
-Enfin, vous aurez également **un récapitulatif global annuel** avec tous les KPIs clés pour analyser la performance globale de votre business.
-
-Ce tableau est votre **centre de pilotage financier** : il vous permet de prendre de meilleures décisions et de scaler votre business tout en restant rentable.
-
----
-
-### Mindset / Vision
-
-En e-commerce, beaucoup de marchands regardent leur CA et pensent qu'ils gagnent de l'argent, jusqu'au jour où ils regardent leur compte en banque. Cette feuille de route te force à poser les vrais chiffres : une seule source de vérité pour piloter ton business avec clarté plutôt qu'à l'instinct.
-
----
-
-### Timestamps
-
-00:00 - Intro et objectif du fichier
-00:17 - Coûts globaux et paramètres
-00:59 - Frais Shopify et dépenses fixes
-02:10 - CPA cible et feuille mensuelle
-03:51 - Récap P&L annuel et conclusion
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`rentabilité e-commerce` `feuille de route ecommerce` `CPA break-even` `P&L dropshipping` `coûts Shopify` `marge brute` `gestion financière boutique en ligne` `tableau de bord ecommerce`
-
-## Ressources
-
-- [Tableau Profit & Loss](https://docs.google.com/spreadsheets/d/19HZGXJSnsQgqkliAeqrImJen3MY3MD9VT2UR92Z3YyY/edit?gid=823803249#gid=823803249)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 75 : Protéger sa marque
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 75
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 75 — Protéger sa marque
-
-`Section Skool : MODULE 11 - SETUP & LEGAL`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-ACCEDER AU MODULE, [CLIQUER ICI ](https://www.skool.com/master/classroom/617a3b3a?md=66c8f259eaee4211bbcc45f2a8160cce)
-
-Quand tu lances un produit ou une marque en e-commerce, protéger ton nom est une étape importante. Beaucoup d’entrepreneurs le font trop tard, ou ne savent pas vraiment comment s’y prendre.
-
-Dans ce module, tu vas apprendre :
-
-• les bases pour **choisir un nom de marque qui peut être accepté**
-• comment **éviter les erreurs qui font refuser un dépôt**
-• comment **déposer ta marque correctement** auprès des offices
-• comment **protéger ta marque à l’international** si ton business grossit
-• comment **surveiller et défendre ta marque**
-
-Le module a été réalisé avec **Richard Conseil, spécialisé dans le dépôt de marques**, pour t’expliquer simplement les bonnes pratiques et les étapes à suivre.
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 76 : Top IA Productivité pour 2026
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 76
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 76 — Top IA Productivité pour 2026
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Découvre les outils IA qu'on utilise chaque jour pour aller 10x plus vite.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir une sélection concrète d'outils IA pour booster ta productivité au quotidien : NotebookLM pour résumer des PDF, livres et vidéos en quelques secondes (ou même les transformer en podcast), Fireflies pour transcrire automatiquement tous tes calls et meetings, SuperFlow pour dicter du texte partout sans bugs (WhatsApp, ChatGPT, etc.), YouTube Summary pour extraire la valeur d'une vidéo en un clic sans la regarder en entier, et enfin Rewind pour retrouver n'importe quoi sur ton écran et analyser où tu perds du temps. Chaque outil est montré en situation réelle avec des cas d'usage directs.
-
----
-
-### Mindset / Vision
-
-Ces outils ne remplacent pas ton travail, ils éliminent les frictions inutiles. Si tu veux performer avec l'IA, ce n'est pas une question de connaître 50 outils, c'est d'en maîtriser 5 que tu utilises vraiment tous les jours. C'est ça, la vraie productivité IA.
-
----
-
-### Timestamps
-
-00:00 - NotebookLM pour apprendre vite
-00:41 - Fireflies pour réunions
-01:22 - Superflow : dictée IA
-02:17 - YouTube Summary et prompt
-04:05 - Rewind pour tout retrouver
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`outils IA productivité` `NotebookLM` `Fireflies` `YouTube Summary` `intelligence artificielle quotidien`
-
-## Ressources
-
-- [Lien Doc](https://docs.google.com/document/d/1MslMOz56QmESy_a3o7GNJUdz9S1lcwHY/edit)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 77 : Liste Fournisseurs Vérifiés
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 77
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 77 — Liste Fournisseurs Vérifiés
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Redirection fournisseurs de confiance : [https://www.skool.com/master/classroom/1f3a87c2?md=3c60eb61c60d4d1081a3d5117146ff77](https://www.skool.com/master/classroom/1f3a87c2?md=3c60eb61c60d4d1081a3d5117146ff77)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 78 : Scripts Emails SAV De Base
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 78
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 78 — Scripts Emails SAV De Base
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Dans ce document, vous allez apprendre **comment construire une stratégie CRM complète pour un business e-commerce**.
-
-Le CRM est aujourd’hui l’un des canaux les plus rentables pour une marque. Bien utilisé, il permet de transformer votre base email en véritable moteur de ventes grâce aux **emails, SMS et WhatsApp**. Certaines marques génèrent jusqu’à **35 % de leur chiffre d’affaires grâce au CRM**.
-
-Dans ce guide, vous allez découvrir :
-
-• **Les bases du CRM**
-
-Comprendre pourquoi le CRM est essentiel pour rentabiliser votre acquisitionLes notions clés : opt-in, listes, segmentsLa différence entre **flows automatisés et campagnes**
-
-• **Comment bien configurer votre CRM**
-
-Choisir le bon outilStructurer votre base de donnéesParamétrer la délivrabilité pour éviter le spamChauffer votre domaine d’envoi
-
-• **Les automatisations pré-achat (flows)**
-
-Pop-ups pour collecter des emailsWelcome seriesAbandon de panierAbandon de navigation
-
-• **Les automatisations post-achat**
-
-Flows post-purchaseCross-sell et nurturingRéactivation des clients inactifs (churn)Programmes de fidélité
-
-• **Comment envoyer des campagnes email performantes**
-
-Construire un planning d’envoiChoisir la bonne fréquenceSegmenter votre audience pour maximiser les ventes
-
-• **Les KPIs essentiels à suivre**
-
-Open rateClick rateConversion rateRevenu généré par email
-
-• **Comment aller plus loin avec l’omnicanal**
-
-Combiner **email, SMS et WhatsApp**Multiplier les points de contact avec vos clientsAugmenter l’impact global de votre stratégie CRM
-
-Ce document vous donne **la structure complète d’un CRM e-commerce performant**, avec les flows, les campagnes et les méthodes utilisées par les marques qui réussissent.
-
-Prenez le temps de le parcourir attentivement : ce sont **les fondations d’une stratégie de rétention solide**.
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 79 : Product Radar : Comment l’Utiliser
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 79
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 79 — Product Radar : Comment l’Utiliser
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Chaque semaine, de **lundi à vendredi**, on vous envoie **1 produit gagnant/jour**, prêt à être testé.
-
-Important: Chaque produit est validé par Nico.
-
-Chaque fiche inclut :
-• Loom explicatif
-• Le produit + lien
-• L’angle marketing à utiliser
-• L’opportunité du moment
-• Nos recommandations pour le lancer efficacement
-
-Vous faire **gagner du temps**, éviter les tests inutiles, et vous aider à lancer **le bon produit, au bon moment**.
-
-Les vidéos product Radar seront disponibles sur le lien directement depuis le calendrier : 
-
-Ou directement lorsque le produit passe en live, à 19h chaque jour. (Les produits sont en live uniquement pendant 30 minutes)
-
-Pour les membres annuels, rien ne change : vous pouvez accéder à tous les products radar ici :
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 80 : Créative Insight — Analyses De Créa Qui Cartonnent
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 80
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 80 — Créative Insight — Analyses De Créa Qui Cartonnent
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Creative Insights : chaque dimanche
-
-Chaque dimanche, tu retrouveras les **Creative Insights**.
-
-Ce sont des analyses de **créatives qui fonctionnent vraiment en ce moment**, filmées par Matteo.
-
-L’idée est simple : te montrer des **ads qui dépensent énormément en publicité**, puis les décortiquer pour comprendre pourquoi elles marchent.
-
-Dans ces analyses, Matteo va :
-
-• analyser les créatives **frame par frame**
-• expliquer le **hook**, l’angle et la structure de l’ad
-• montrer **pourquoi la publicité convertit**
-• t’expliquer **comment t’en inspirer pour tes propres ads**
-
-Ce ne sont pas juste de belles pubs.
-Ce sont des **créatives qui génèrent réellement du chiffre d’affaires**, certaines pouvant dépenser **plusieurs centaines de milliers d’euros en publicité**.
-
-Grâce à nos radars et à nos contacts dans l’écosystème, on repère les créatives qui **spendent le plus sur le marché**, puis on les analyse pour toi.
-
-👉 Si tu veux toujours savoir **ce qui fonctionne réellement en publicité**, ne rate pas les Creative Insights du dimanche ici : [CLIQUER ICI ](https://www.skool.com/master/classroom/db46eb40?md=73e2a321e91e4fb4a3aa7eb44252eee3)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 81 : Live Coachings
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 81
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 81 — Live Coachings
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Chaque semaine, tu peux poser tes questions en direct et avancer plus vite.
-
----
-
-### 🔥 Tous les mercredis — Live Débutant avec Lenny
-
-Un live 100% orienté débutants.
-
-Tu peux poser tes questions sur :
-
-ProduitBoutiqueCréativesAdsBlocage mentalOrganisation
-
-Lenny te donne des solutions concrètes adaptées à ton niveau.
-
-👉 Si tu démarres, c’est LE live à ne jamais rater.
-
----
-
-### 🧠 1 semaine sur 2 — Live Coaching Q&A avec Nico & Matteo
-
-Ouvert à tous les niveaux.
-
-Tu peux poser :
-
-Tes problèmes businessTes analyses de chiffresTes stratégiesTes blocages
-
-C’est du coaching direct.
-On rentre dans les cas concrets.
-
----
-
-### 🎯 1 semaine sur 2 — Live Expert / Partenaire
-
-Un live à thème avec :
-
-Un expert spécifiqueUn partenaire stratégiqueUn sujet précis (Ads, IA, Scaling, etc.)
-
-Objectif : te faire gagner du temps en profondeur sur un sujet clé.
-
----
-
-### 🚀 1er vendredi de chaque mois — Live spécial avec Vincent Gabor
-
-Vincent apporte :
-
-VisionStratégieMindsetStructuration
-
-C’est un live très orienté valeur long terme.
-
----
-
-### 📅 Comment rejoindre un live ?
-
-Tout est à jour dans le **calendrier du Skool**Les coachings ont une **pastille rouge**Clique simplement sur le lien pour t’enregistrer
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : 0 to 1 : MASTER ONE
-LEÇON 82 : MASTER Chatbot
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 82
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 82 — MASTER Chatbot
-
-`Section Skool : MODULE 12 : BONUS & RESSOURCES`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Nous avons mis en place le **Master Chatbot**, un assistant basé sur l’ensemble des connaissances et des ressources du Master. Il est accessible à tous les membres du skool.
-
-Nous espérons qu’il vous aidera à trouver rapidement des réponses et à avancer plus efficacement.
-
-### Comment accéder au Master Chatbot ?
-
-1. Rendez-vous dans la **barre de recherche du skool** ou [cliquez-ici](https://www.skool.com/@master-chatbot-9540?g=master)
-
-1. Recherchez **« Master Chatbot »**.
-
-1. Appuyez sur **Entrée**.
-2. Selectionnez l’onglet **« Membres »**. Sélectionnez **« Master Chatbot »** et cliquez sur l’espace de discussion pour accéder au chat.
-
-### Comment l’utiliser ?
-
-Une fois dans le chat, vous pouvez poser toutes vos questions au Master Chatbot, notamment sur :
-
-les sujets techniques liés au Skool;le fonctionnement des outils et des ressources ;les différentes notions abordées dans Master ;toute question pour laquelle vous avez besoin d’aide ou de précisions.
-
-Le Master Chatbot s’appuie sur l’ensemble des connaissances disponibles dans le Skool pour vous apporter les réponses les plus pertinentes possible.
-
-Pour obtenir de meilleurs résultats, formulez des questions claires et précises, en ajoutant autant de contexte que nécessaire.
-
-**N’hésitez pas à l’utiliser dès que vous avez une question !**
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[44:17] On va commencer à installer. Voilà. Vous avez un plan et surbord.
 
 
