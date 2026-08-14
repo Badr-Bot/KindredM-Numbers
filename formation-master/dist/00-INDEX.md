@@ -547,11 +547,16 @@ il ne faut jamais répondre à sa place.
 - ✅ **36 — Comment Atteindre N'importe Quel Objectif & 37x Plus Vite (Retour d’expérience)** 
 - ✅ **37 — Comment Créer une Bid Cap Inflated 10-100k/day** 
 - ✅ **38 — Comment Scaler en 2025 Sur Meta - PLAYBOOK COMPLET** 
-- ✅ **42 — Guide : ElevenLabs V3 (alpha)** 
-- ✅ **43 — Creative Insight — ChatGPT Image 2** 
-- ✅ **45 — Quick Win — Changer l’approche psychologique de ton ads** 
-- ✅ **46 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des** 
-- ✅ **50 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)** 
+- ✅ **39 — Guide : ElevenLabs V3 (alpha)** 
+- ✅ **40 — Creative Insight — ChatGPT Image 2** 
+- ✅ **41 — Quick Win — Changer l’approche psychologique de ton ads** 
+- ✅ **42 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des** 
+- ✅ **43 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)** 
+- ✅ **44 — Stratégie Bid Cap** 
+- ✅ **45 — Dupliquer une campagne Meta Ads d'un compte à un autre** 
+- ✅ **46 — Contenu signalé** 
+- ✅ **47 — Creative Insight - 3 New format static à tester** 
+- ✅ **51 — Master x Hover - Partage de résultats CRO** 
 
 ## RÉUSSIR SON Q4
 

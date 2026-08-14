@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 456 complètes (89 %)**
+**513 leçons au total · 461 complètes (89 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -577,7 +577,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## RESSOURCES NOTION
 
-43 leçons · 43 complètes · 0 partielles
+48 leçons · 48 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -619,11 +619,16 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 36 | [Comment Atteindre N'importe Quel Objectif & 37x Plus Vite (Retour d’expérience)](transcriptions/ressources-notion\36-comment-atteindre-n-importe-quel-objectif-37x-plus.md) | — | complet |
 | ✅ | 37 | [Comment Créer une Bid Cap Inflated 10-100k/day](transcriptions/ressources-notion\37-comment-creer-une-bid-cap-inflated-10-100k.md) | — | complet |
 | ✅ | 38 | [Comment Scaler en 2025 Sur Meta - PLAYBOOK COMPLET](transcriptions/ressources-notion\38-comment-scaler-en-2025-sur-meta-playbook-complet.md) | — | complet |
-| ✅ | 42 | [Guide : ElevenLabs V3 (alpha)](transcriptions/ressources-notion\42-guide-elevenlabs-v3-alpha.md) | — | complet |
-| ✅ | 43 | [Creative Insight — ChatGPT Image 2](transcriptions/ressources-notion\43-creative-insight-chatgpt-image-2.md) | — | complet |
-| ✅ | 45 | [Quick Win — Changer l’approche psychologique de ton ads](transcriptions/ressources-notion\45-quick-win-changer-l-approche-psychologique-de-ton.md) | — | complet |
-| ✅ | 46 | [La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des](transcriptions/ressources-notion\46-la-methode-en-4-phases-et-12-questions.md) | — | complet |
-| ✅ | 50 | [[PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)](transcriptions/ressources-notion\50-prompt-creez-des-headlines-qui-convertissent-pattern-break.md) | — | complet |
+| ✅ | 39 | [Guide : ElevenLabs V3 (alpha)](transcriptions/ressources-notion\39-guide-elevenlabs-v3-alpha.md) | — | complet |
+| ✅ | 40 | [Creative Insight — ChatGPT Image 2](transcriptions/ressources-notion\40-creative-insight-chatgpt-image-2.md) | — | complet |
+| ✅ | 41 | [Quick Win — Changer l’approche psychologique de ton ads](transcriptions/ressources-notion\41-quick-win-changer-l-approche-psychologique-de-ton.md) | — | complet |
+| ✅ | 42 | [La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des](transcriptions/ressources-notion\42-la-methode-en-4-phases-et-12-questions.md) | — | complet |
+| ✅ | 43 | [[PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)](transcriptions/ressources-notion\43-prompt-creez-des-headlines-qui-convertissent-pattern-break.md) | — | complet |
+| ✅ | 44 | [Stratégie Bid Cap](transcriptions/ressources-notion\44-strategie-bid-cap.md) | — | complet |
+| ✅ | 45 | [Dupliquer une campagne Meta Ads d'un compte à un autre](transcriptions/ressources-notion\45-dupliquer-une-campagne-meta-ads-d-un-compte.md) | — | complet |
+| ✅ | 46 | [Contenu signalé](transcriptions/ressources-notion\46-contenu-signale.md) | — | complet |
+| ✅ | 47 | [Creative Insight - 3 New format static à tester](transcriptions/ressources-notion\47-creative-insight-3-new-format-static-a-tester.md) | — | complet |
+| ✅ | 51 | [Master x Hover - Partage de résultats CRO](transcriptions/ressources-notion\51-master-x-hover-partage-de-resultats-cro.md) | — | complet |
 
 ## RÉUSSIR SON Q4
 

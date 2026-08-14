@@ -50,8 +50,9 @@ for (const [cle, d] of docs) {
   i++;
   if (dejaFait.has(cle)) { log(`[${i}/${docs.size}] ⏭️ ${d.titre.slice(0, 50)}`); continue; }
   try {
-    await page.goto(d.url, { waitUntil: "domcontentloaded", timeout: 45000 });
-    await dormir(PAUSE + 1500);
+    await page.goto(d.url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await page.waitForLoadState("networkidle", { timeout: 30000 }).catch(() => {});
+    await dormir(PAUSE + 3000);
     // Notion charge en scrollant : on descend jusqu'à stabilisation
     let prev = -1;
     for (let s = 0; s < 30; s++) {

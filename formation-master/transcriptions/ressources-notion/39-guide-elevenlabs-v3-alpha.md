@@ -1,6 +1,6 @@
 ---
 module: RESSOURCES NOTION
-lecon: 42
+lecon: 39
 titre: "Guide : ElevenLabs V3 (alpha)"
 duree: ""
 url: "https://classic-fireman-cf4.notion.site/Guide-ElevenLabs-V3-alpha-2189a4e21632806a8bcdc78af3919683"
@@ -9,7 +9,7 @@ source: notion-public
 maj: 2026-08-13
 ---
 
-# 42 — Guide : ElevenLabs V3 (alpha)
+# 39 — Guide : ElevenLabs V3 (alpha)
 
 > **Source : document Notion public de la formation**
 > Référencé par : MASTER IA / 21 Mise à jour Eleven Labs V3 (new)

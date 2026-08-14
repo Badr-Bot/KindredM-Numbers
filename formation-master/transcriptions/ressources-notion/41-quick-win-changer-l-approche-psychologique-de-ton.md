@@ -1,6 +1,6 @@
 ---
 module: RESSOURCES NOTION
-lecon: 45
+lecon: 41
 titre: "Quick Win — Changer l’approche psychologique de ton ads"
 duree: ""
 url: "https://ecom-master.notion.site/Quick-Win-Changer-l-approche-psychologique-de-ton-ads-393387646c3e8164a11fc03c2704cc9e"
@@ -9,7 +9,7 @@ source: notion-public
 maj: 2026-08-13
 ---
 
-# 45 — Quick Win — Changer l’approche psychologique de ton ads
+# 41 — Quick Win — Changer l’approche psychologique de ton ads
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 05 Ep #57 - Changer la psychologie de vos ads

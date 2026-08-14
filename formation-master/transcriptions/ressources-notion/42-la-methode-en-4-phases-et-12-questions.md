@@ -1,6 +1,6 @@
 ---
 module: RESSOURCES NOTION
-lecon: 46
+lecon: 42
 titre: "La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des"
 duree: ""
 url: "https://ecom-master.notion.site/La-m-thode-en-4-phases-et-12-questions-qui-d-cide-de-chaque-cr-a-que-tu-lances-le-mental-system-des-37f387646c3e804a8fb7d3cf9684fe17"
@@ -9,7 +9,7 @@ source: notion-public
 maj: 2026-08-13
 ---
 
-# 46 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
+# 42 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 11 Ep #55 - 4 phases, 12 questions pour vos créas

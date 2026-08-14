@@ -1,6 +1,6 @@
 ---
 module: RESSOURCES NOTION
-lecon: 43
+lecon: 40
 titre: "Creative Insight — ChatGPT Image 2"
 duree: ""
 url: "https://ecom-masters.notion.site/Creative-Insight-ChatGPT-Image-2-34e9536abaec8091a072f149c89b9a87"
@@ -9,7 +9,7 @@ source: notion-public
 maj: 2026-08-13
 ---
 
-# 43 — Creative Insight — ChatGPT Image 2
+# 40 — Creative Insight — ChatGPT Image 2
 
 > **Source : document Notion public de la formation**
 > Référencé par : MASTER IA / 29 Ep #47 - ChatGPT Image 2; CRÉATIVE INSIGHT / 21 Ep #47 - ChatGPT Image 2

@@ -4187,14 +4187,14 @@ Drip daily : 50–120 pubs/jour, éviter reset massif
 
 ======================================================================
 MODULE : RESSOURCES NOTION
-LEÇON 42 : Guide : ElevenLabs V3 (alpha)
+LEÇON 39 : Guide : ElevenLabs V3 (alpha)
 STATUT DE LA SOURCE : complet
-RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 42
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 39
 ======================================================================
 
 ----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
 
-# 42 — Guide : ElevenLabs V3 (alpha)
+# 39 — Guide : ElevenLabs V3 (alpha)
 
 > **Source : document Notion public de la formation**
 > Référencé par : MASTER IA / 21 Mise à jour Eleven Labs V3 (new)
@@ -4531,14 +4531,14 @@ Multilingue + flexible
 
 ======================================================================
 MODULE : RESSOURCES NOTION
-LEÇON 43 : Creative Insight — ChatGPT Image 2
+LEÇON 40 : Creative Insight — ChatGPT Image 2
 STATUT DE LA SOURCE : complet
-RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 43
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 40
 ======================================================================
 
 ----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
 
-# 43 — Creative Insight — ChatGPT Image 2
+# 40 — Creative Insight — ChatGPT Image 2
 
 > **Source : document Notion public de la formation**
 > Référencé par : MASTER IA / 29 Ep #47 - ChatGPT Image 2; CRÉATIVE INSIGHT / 21 Ep #47 - ChatGPT Image 2
@@ -4594,14 +4594,14 @@ c'est ici que Nano Banana 2 craque souvent → il "réinvente" le packaging au l
 
 ======================================================================
 MODULE : RESSOURCES NOTION
-LEÇON 45 : Quick Win — Changer l’approche psychologique de ton ads
+LEÇON 41 : Quick Win — Changer l’approche psychologique de ton ads
 STATUT DE LA SOURCE : complet
-RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 45
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 41
 ======================================================================
 
 ----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
 
-# 45 — Quick Win — Changer l’approche psychologique de ton ads
+# 41 — Quick Win — Changer l’approche psychologique de ton ads
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 05 Ep #57 - Changer la psychologie de vos ads
@@ -4743,14 +4743,14 @@ Résultat attendu : ton hit rate passe de 8-10% à 15-20% parce que tu arrêtes 
 
 ======================================================================
 MODULE : RESSOURCES NOTION
-LEÇON 46 : La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
+LEÇON 42 : La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
 STATUT DE LA SOURCE : complet
-RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 46
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 42
 ======================================================================
 
 ----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
 
-# 46 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
+# 42 — La méthode en 4 phases et 12 questions qui décide de chaque créa que tu lances (le mental system des
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 11 Ep #55 - 4 phases, 12 questions pour vos créas
@@ -4968,14 +4968,14 @@ QUELLES métriques définissent une win ?
 
 ======================================================================
 MODULE : RESSOURCES NOTION
-LEÇON 50 : [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
+LEÇON 43 : [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
 STATUT DE LA SOURCE : complet
-RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 50
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 43
 ======================================================================
 
 ----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
 
-# 50 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
+# 43 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 64 Ep #3 - Headlines qui convertissent
@@ -5029,5 +5029,447 @@ Assure-toi qu’elles :
  Utilisent le future pacing pour activer le désir
  Se terminent par un insight puissant et vrai
  Utilisent des mots puissants (powerwords)
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 44 : Stratégie Bid Cap
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 44
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 44 — Stratégie Bid Cap
+
+> **Source : document Notion public de la formation**
+> Référencé par : LIVE REPLAYS / 18 06 Jui. (Matteo) : Scaling, Créativité & Cashflow
+
+## Contenu du document
+
+BID CAP Inflated
+1. PRÉ-REQUIS (check rapide)
+​
+	
+Critère
+
+☐
+	
+3+ créas winners (spend + ROAS prouvés)
+
+☐
+	
+CPA BE + CPA Target chiffrés
+
+☐
+	
+Budget mental : OK pour brûler 30-40% pendant 48h
+Une seule case manquante → tu ne lances PAS Bidap.
+2. SETUP LAUNCH (J0)
+ PHASE 1 — LAUNCH (J0)
+Param
+	
+Valeur
+
+Type
+	
+CBO (Campaign Budget Optimization)
+
+Nombre de campagne
+	
+3-5 with different bid
+
+Bid strategy
+	
+Bid Cap
+
+Budget daily
+	
+Inflated = target spend ÷ 0.35 (≈ 2.5-3x). Ex: want 3k spend → set ~8-10k. Golden point = spend 30-40% of budget.
+
+Bid cap initial
+	
+NCPA BE × 1-1.5x (new-customer CPA, NOT blended)
+
+Nb adsets
+	
+1 (variations audience + créa) (15 ads par adset) si plus new adset
+
+Optimization event
+	
+Purchase
+
+Attribution
+	
+7d click / 1d engagement
+Exemple
+US_CBO_BIDCAP_PRODUCT_30
+US_CBO_BIDCAP_PRODUCT_33
+US_CBO_BIDCAP_PRODUCT_35  - 3.5
+US_CBO_BIDCAP_PRODUCT_37
+US_CBO_BIDCAP_PRODUCT_40
+→ touche rien pendant 48h
+→ chaque semaine on re ajoute nos big winners
+Situation
+	
+Action
+
+Barely spends (Meta not find enough purchase)
+	
+Bid ↑ de 1-3$
+
+Spends good but CPA > target
+	
+Bid ↓ de 1-3$
+
+Spends ~30-40% budget + CPA ≤ target
+	
+ GOLDEN POINT — Don’t TOUCH
+ The 10 bid rules
+1. The bid = the CPA tap. The budget = the ceiling. Never confuse them. You control spend with the bid, not the budget.
+2. You find the right bid ONCE (tuning phase), then you barely touch it again. "Rarely touch the bid."
+3. While tuning: ONE move at a time, then wait 1–2 days before re-judging. Never multiple changes in the same day.
+4. Barely spends → raise the bid (10–15%). Spends but CPA > target → lower the bid (10–15%). Spends 30–40% of budget + CPA on target →  don't touch anything.
+5. If it was working then stops → DON'T touch the bid. It's the creative. Refresh the creative in the ad set, don't kill the ad set.
+6. Way above BE and still no spend = it's the creative/LP, not the bid. Cranking the bid won't save you.
+7. Don't panic on low-CVR days early in the week. It's normal, it's by design — not a reason to touch the bid.
+8. Inflate the budget (never hit) to signal Meta you're ready to scale. To scale, you raise the budget/ceiling — not the bid.
+9. ABO for testing, Bid Cap for printing. Never launch a bid cap on unvalidated creative.
+10. If you do have to move the bid, do it in small steps (10–15%), never a big brutal jump that breaks the learning.
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 45 : Dupliquer une campagne Meta Ads d'un compte à un autre
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 45
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 45 — Dupliquer une campagne Meta Ads d'un compte à un autre
+
+> **Source : document Notion public de la formation**
+> Référencé par : LIVE REPLAYS / 44 25 Avr. (Matteo & Nico) : Ads, Scaling & Croyances
+
+## Contenu du document
+
+Procédure complète pour cloner une campagne Facebook/Meta Ads d'un compte publicitaire vers un autre — même BM ou BM différent.
+Pré-requis
+La même Page Facebook doit être connectée aux deux comptes publicitaires (sinon les Post IDs des créas seront invalides côté destination).
+Si les deux comptes sont sur des BM différents : ça marche quand même tant que la Page est partagée avec les deux comptes pub.
+Étape 1 — Sélectionner la campagne dans le compte source
+Va sur Ads Manager du compte publicitaire source.
+Onglet Campagnes → coche la campagne à dupliquer (1 sélectionnée)
+Onglet Ensembles de publicités → coche TOUS les ad sets de cette campagne
+Onglet Publicités → coche TOUTES les ads de ces ad sets
+ Important : les 3 niveaux doivent être sélectionnés sinon l'export sera incomplet.
+Étape 2 — Exporter en XLSX
+Clique sur le bouton Plus (en haut, à droite de "Aperçu")
+Dans le menu, descends jusqu'à la section Importer et exporter des configurations de publicités
+Survole Exporter → un sous-menu s'ouvre
+Clique sur Exporter les données sélectionnées
+Une fenêtre Exporter les publicités s'ouvre :
+Format → laisse coché Exporter en .xlsx (par défaut)
+Options → ne PAS cocher "Supprimer les colonnes vides" (le skill de nettoyage attend la structure complète)
+Clique Exporter
+Tu obtiens un fichier export_YYYYMMDD_HHMM.xlsx
+Tu obtiens un fichier export_YYYYMMDD_HHMM.xlsx
+ Ne PAS choisir Tout exporter ni Personnaliser l'exportation — il faut bien Exporter les données sélectionnées pour ne récupérer que la campagne cochée à l'étape 1.
+Étape 3 — Nettoyer l'export avec Claude
+L'export contient des IDs liés au compte source qui vont faire planter l'import. Il faut les vider via le skill meta-ads-export-cleaner.
+Option A — Drop des fichiers (méthode rapide, sans installation)
+Ouvre une nouvelle conversation Claude (Opus 4.7)
+Glisse les deux fichiers dans le chat :
+meta-ads-export-cleaner.zip (le skill)
+export_YYYYMMDD_HHMM.xlsx (l'export Meta)
+Tape simplement : "Clean cet export" (ou "nettoie l'export avec le skill")
+Claude lit le skill, applique le nettoyage, et te renvoie un XLSX nettoyé à télécharger
+Option B — Skill installé en permanence (plus rapide pour usage répété)
+Si tu utilises souvent ce workflow, install le skill une bonne fois pour toutes dans tes Anthropic Skills. Après installation, tu glisses juste l'export et tu dis "clean cet export" — Claude déclenche le skill automatiquement.
+Ce que le skill fait : vide les colonnes Ad ID, Ad Set ID, Campaign ID et Excluded Custom Audiences (les IDs source-spécifiques qui bloquent l'import). Tout le reste (créas, ciblage, budget, pixel, etc.) est conservé.
+Étape 4 — Importer dans le compte destination
+Bascule sur le compte publicitaire destination dans Ads Manager (sélecteur en haut à gauche)
+Clique sur Plus
+Dans la section Importer et exporter des configurations de publicités, clique sur Importation groupée des publicités (clic direct, pas de sous-menu — contrairement à "Exporter")
+Upload le XLSX nettoyé (pas l'original)
+Meta valide le fichier → clique Confirmer et importer
+Étape 5 — Vérifications post-import
+La campagne, les ad sets et les ads apparaissent bien dans le compte destination
+Le pixel est bien sélectionné dans chaque ad set (sinon → re-attribuer manuellement)
+Les créas vidéo / images s'affichent correctement (pas de "Media not available")
+Recréer les audiences exclues sur le compte destination (les exclusions ont été vidées par le clean) — sinon tu vas re-cibler tes acheteurs existants
+Définir le budget : Meta importe les budgets mais vérifie qu'ils sont corrects (surtout si devises différentes)
+La campagne est en statut OFF par défaut → l'activer manuellement quand tout est OK
+En cas d'erreur d'import
+Si tu vois "L'ID X n'appartient pas à ce compte publicitaire" sur une autre colonne :
+Video ID / Image Hash : la créa a été uploadée directement dans le compte source au lieu d'être publiée depuis la Page → la re-uploader depuis la Page ou utiliser la méthode Post ID
+Custom Audiences : audience custom liée au compte source → relancer le clean en demandant à Claude de vider aussi cette colonne
+Pixel : pas partagé avec les 2 comptes → le partager dans Business Settings (ne PAS vider la colonne)
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 46 : Contenu signalé
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 46
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 46 — Contenu signalé
+
+> **Source : document Notion public de la formation**
+> Référencé par : LIVE REPLAYS / 99 17 Aoû. (Nico & Lucas) : IA, Nouveautés, VEO3
+
+## Contenu du document
+
+Aller au contenu
+Notion
+
+La page n’est peut-être pas sécurisée
+
+Cette page a été signalée comme contenant du contenu indésirable, illégal ou inapproprié. Si vous faites confiance à cette source, vous pouvez décider de poursuivre
+
+Qu’est-ce que Notion ?
+·
+Écrire au service client
+·
+Conditions générales
+Notion utilise des cookies. Consultez notre Politique en matière de cookies pour en savoir plus.
+Tout accepter
+Tout refuser
+
+## Liens externes cités
+
+- https://www.notion.com/product
+- https://www.notion.com/trust/cookie-notice
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 47 : Creative Insight - 3 New format static à tester
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 47
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 47 — Creative Insight - 3 New format static à tester
+
+> **Source : document Notion public de la formation**
+> Référencé par : CRÉATIVE INSIGHT / 03 Ep #61 - 3 New format static à tester
+
+## Contenu du document
+
+Le Comparatif “Longévité" 
+ Pourquoi ça marche
+Preuve visuelle immédiate qui stoppe le scroll — l'image FAIT la démo, pas besoin de texte
+Élimine l'argumentaire — le viewer JUGE lui-même la supériorité
+Active la loss aversion en montrant la dégradation du concurrent
+Anchoring temporel exact (6 semaines vs 12-18 mois = 3-4× longer perçu)
+Format shopping-list ultra scannable en 2 secondes
+Convertit les sceptiques via preuve visuelle vs claim texte
+Excellent sur marchés Solution-Aware (comparaison directe entre options)
+Pattern-break vs les feeds pleins de UGC classique
+ Tips
+Photographier un vrai produit usé (chaussette 6 mois d'usage vs neuve)
+Ancrer temps exact (jamais "plus long" — dire "3-6 semaines" / "12-18 mois")
+2 states minimum, 4 states max (au-delà = cognitive overload)
+Fond neutre (beige/blanc) pour focus produit
+Flèches directionnelles pour guider l'œil
+Headline 5-7 mots max + subhead 8-12 mots
+Test aussi avec 3 states ("Neuf / 6 mois / 18 mois")
+ Prompt AI 
+Ecommerce product comparison chart, 4 photos of [PRODUCT] arranged in 2×2 grid on soft beige background. Top row: pharmacy/generic version — new pristine (left) → same product after 6 weeks visibly worn stretched (right). Bottom row: premium version — new pristine (left) → same after 18 months still perfect (right). Minimal styling, soft studio shadows, bold sans-serif labels beneath each product ("3-6 WEEKS", "PHARMACY ELASTIC", "12-18 MONTHS", "PREMIUM KNIT-IN"), thin arrows between old and new. Headline top: "[PRODUCT TYPE] BARELY LASTS 6 WEEKS." Subhead: "Our version holds real [BENEFIT] for 12 to 18 months." --ar 4:5 --v 6
+​
+Le Journal Illustré" (Sticker Progress Scrapbook)
+ Pourquoi ça marche
+Casse tous les codes ad — feels like un journal perso, pas une pub
+Style hand-drawn/watercolor = trust signal (pas AI slop, pas corporate polish)
+Progression temporelle = narrative implicite (Month 1 → 2 → 3)
+Placement produit non-intrusif (sticker discret dans le coin)
+Idéal marchés émotionnels : pets, kids, santé, home, wellness
+Fonctionne sur marché Unaware → Problem-Aware
+Format scrapbook active souvenir/journal intime = high dwell time
+Handwritten fonts = intimacy anchor
+Backdrop cork board / cahier / journal = home + authentique
+Excellent pour advertorial funnel (soft entry → deep story)
+ Tips
+Hand-drawn AI illustration (Midjourney "cartoon watercolor sticker" style)
+3 stages max (Month 1 / 2 / 3) — au-delà = confus
+Fond réel photographié (cork board / cahier / journal ouvert)
+Handwritten font (Kalam, Caveat, Homemade Apple, Amatic SC)
+Placement produit = coin, jamais centre (feels non-pushy)
+Copy handwritten aussi = cohérence esthétique 100%
+Micro-transformations visibles panel-to-panel (dog lump rétrécit, pas cure miracle)
+Bien pour storytelling doux, pas pour urgence
+ Prompt AI
+Watercolor sticker illustration on cork board background. Hand-drawn [SUBJECT] in 3 stages labeled "Month 1", "Month 2", "Month 3" showing gradual improvement/transformation. Each illustration is a die-cut sticker with white paper border. Playful hand-drawn arrows in dark grey connect the stages in gentle curves. Small product sticker in bottom-right corner. Handwritten marker-style labels ("MONTH 1" etc.). Warm cozy aesthetic. Cork board texture background with subtle pin details. Headline handwritten below in warm orange marker: "[YOUR HEADLINE — SLOW STEADY WAY TO...]" Subhead: "[Product], a daily [category] for [problem]". --ar 4:5 --v 6
+​
+Le Tableau Noir Pédagogique" (Classroom Chalkboard Educator)
+ Pourquoi ça marche
+Pattern-break radical vs feed (chalkboard = zéro brand code moderne)
+Authority signal implicite (teacher/doctor board = trusted source)
+Format educational active la curiosity ("what's on the board?")
+Bullet points = scannable, pas de mur de texte
+Anatomical illustration = credibility (looks scientific-ish)
+CTA "HERE'S HOW →" force le click pour la suite
+Fonctionne sur marché Unaware → Problem-Aware (education-first)
+Ideal pour funnel advertorial (education → advertorial → LP)
+Handwritten chalk look = anti-corporate = trust boost
+Parfait pour supplements / health / education / mechanism-heavy sell
+Perfect pour golden nugget insight ("why the lump won't leave" = root cause reveal)
+ Tips
+Chalkboard texture réaliste (Midjourney, GPT "chalkboard drawing" style)
+Anatomical illustration médicalement plausible (pas caricature)
+4-5 bullets max (au-delà = wall of text)
+Toujours finir par CTA implicite ("HERE'S HOW →")
+Utiliser stats crédibles ("70-80%", "90 days", "3× more")
+Tease le mechanism sans reveal ("you can wake the defense back up")
+Test versions : anatomie / graphique / diagramme
+Font : Chalk Line, Chalkduster, Marker Felt, ou Just Another Hand
+Excellent pour "root cause insight" ads (golden nugget)
+ Prompt AI
+Chalkboard illustration style, hand-drawn white chalk on dark green/black board with wooden frame. Bold chalk headline at top: "[WHY THE PROBLEM WON'T LEAVE]" (2 lines). Left side: anatomical side profile illustration of [BODY PART] with small chalk annotations pointing to key parts. Right side: bullet list in chalk handwriting: "- not the [wrong cause] / - [common solution] don't reach it / - [X%] get no relief / - [mechanism] has to be rebuilt". Small chalk illustration in corner of a broken shield/barrier with X mark. Closing line in cursive chalk: "you can wake the [defense/mechanism] back up." Arrow drawn pointing right with "HERE'S HOW →" in a hand-drawn box. Dusty chalk texture, educational classroom aesthetic, subtle chalkboard erased marks in background. --ar 1:1 --v 6
+​
+
+ CORE PRINCIPLE La plupart des ads  échouent AVANT que l'image soit faite.
+Ton job en produisant ces 3 formats :
+Faire stopper le scroll via pattern-break visuel (comparaison / scrapbook / chalkboard = tous casseurs de codes ad)
+Faire ressentir quelque chose qu'ils ne réalisaient pas pleinement (root cause insight)
+Les déplacer d'un stade d'awareness à un autre avant le click
+Rester congruent entre image et copy + LP (jamais d'image générique avec copy super spécifique)
+Toujours faire manual research en amont (Reddit, forums, YouTube comments — jamais AI prompt générique)
+═══════════════════════════════════════════════════════
+ PROCESS — Comment produire ces statiques
+═══════════════════════════════════════════════════════
+Étape 1 — Research 
+Reddit / forums de la niche → identifier LE root-cause insight
+Extraire verbatim customer language (jamais reformuler)
+Choisir 1 core problem, 1 golden nugget insight par ad
+Étape 2 — Choisir le format selon le stade d'awareness
+Awareness
+	
+Format recommandé
+
+Unaware / Problem-Aware early
+	
+Format 3, 2 
+
+Problem-Aware 
+	
+Format 3, 2 
+
+Solution-Aware / Product-Aware
+	
+Format 1 (Comparatif longévité)
+Étape 3 — Générer le visuel
+GPT
+Toujours en 1:1
+Générer 4-6 variations
+Test multiple POV
+1st person ("I switched...")
+3rd person ("He tried...")
+Partner POV ("My wife...")
+Étape 4 — Test avec correct landing
+Format
+	
+LP idéale
+
+F1 Comparatif Longévité
+	
+Listicle "[X] boxers compared"
+
+F2 Journal Illustré
+	
+Advertorial storytelling long
+
+F3 Chalkboard Pédagogique
+	
+Advertorial "root cause" education
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 51 : Master x Hover - Partage de résultats CRO
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 51
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 51 — Master x Hover - Partage de résultats CRO
+
+> **Source : document Notion public de la formation**
+> Référencé par : CRO, BOOSTER CA & AOV / 07 Partage de résultats CRO
+
+## Contenu du document
+
+Master x Hover - Partage de résultats CRO
+Table
+Date de création
+Optimisation
+Page
+Intelligems
+RPV
+Résultat
+27 septembre 2025
+Amélioration du guide des tailles
+6 - Product
++7.83
+ Amélioration
+27 septembre 2025
+Ajouter la mention du prix / jour
+6 - Product
++11.31
+ Amélioration
+27 septembre 2025
+Ajout de bullet points des arguments produit
+6 - Product
++3.53
+ Amélioration
+27 septembre 2025
+Ajout du widget Trustpilot sur la fiche produit
+6 - Product
+No Change
+ Neutre
+27 septembre 2025
+Enlever le widget d’estimation de date de livraison
+6 - Product
++14.05
+ Amélioration
+27 septembre 2025
+Ajout du bouton ATC sur la page collection
+5 - Collection
++4.95
+ Amélioration
+27 septembre 2025
+Encadré “Nos clients recommandent cette taille”
+6 - Product
+-6.27
+ Baisse
+27 septembre 2025
+Mise en avant du paiement en 3x sans frais
+6 - Product
++11.14
+ Amélioration
+27 septembre 2025
+Amélioration des images produit
+6 - Product
++11.16
+ Amélioration
+27 septembre 2025
+Encadré “Validé par +1200 pharmacies”
+6 - Product
++13.72
+ Amélioration
+DÉCOMPTE
+10
 
 

@@ -1,6 +1,6 @@
 ---
 module: RESSOURCES NOTION
-lecon: 50
+lecon: 43
 titre: "[PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)"
 duree: ""
 url: "https://www.notion.so/ecom-master/PROMPT-Cr-ez-des-Headlines-qui-convertissent-Pattern-Break-Projection-Insight-205387646c3e80fd8617ea04b5265720?source=copy_link"
@@ -9,7 +9,7 @@ source: notion-public
 maj: 2026-08-13
 ---
 
-# 50 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
+# 43 — [PROMPT] Créez des Headlines qui convertissent (Pattern Break + Projection + Insight)
 
 > **Source : document Notion public de la formation**
 > Référencé par : CRÉATIVE INSIGHT / 64 Ep #3 - Headlines qui convertissent
