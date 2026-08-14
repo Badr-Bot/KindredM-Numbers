@@ -68,7 +68,7 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 
 ## Coûts (grilles officielles = engine.ts, ne jamais approximer)
 - COGS Polo €/bundle 1/2/4 pcs : FR 9,23/15,06/26,76 · ES 9,01/14,87/26,53 · DE 9,36/15,18/26,49 · GB 8,02/13,30/23,65 · BE 9,91/16,29/28,99 · IT 9,97/15,91/27,71. Non listé = max +1,50. Hors palier : g2+(g2−g1)×(qty−2).
-- COGS Gilet €/bundle 1/2/3 pcs : FR 8,90/17,20/25,55 · GB 8,07/15,64/23,45 · CH 11,25/20,78/30,91 · BE 9,59/18,69/27,77 · DE 8,72/16,94/25,15 · ES 8,90/17,29/25,68 · IT 8,98/17,47/25,94. >3 pcs : g3+(g3−g2)×(qty−3).
+- COGS Gilet €/bundle 1/2/3 pcs (prix UPSELL, gilet dans le colis d'un polo) : FR 8,90/17,20/25,55 · GB 8,07/15,64/23,45 · CH 11,25/20,78/30,91 · BE 9,59/18,69/27,77 · DE 8,72/16,94/25,15 · ES 8,90/17,29/25,68 · IT 8,98/17,47/25,94. >3 pcs : g3+(g3−g2)×(qty−3). **GILET PRIMAIRE (commande sans polo, son propre colis) : + packing 3,50 € (FR ×1) / 4,00 € (le reste) PAR COMMANDE, depuis le 02/08** — explication fournisseur du 14/08, vérifiée dans ses factures (#5591 gilet AVEC polo = 8,90 €) et acceptée par Badr (litige levé).
 - Caleçon €/pièce (grille par pays, 04/08, ex-2,00€ partout) : FR 2,46 · BE 2,74 · ES 2,47 · non listé 4,24 (max+1,50). E-Book : 0 €.
 - **Taxe UE** : forfait **3 € par COMMANDE/colis** expédié en UE (pas par produit — confirmé par facture fournisseur du 01/08 : jamais 6/9/12€ même multi-produits, même une commande 100% caleçon est taxée 3€), destination UE seulement (GB/CH/CA/US = 0). Remplace les anciennes règles "3€×produits distincts" (06/07) et "caleçon exempté" (03/08), toutes deux fausses.
 - **Frais : les frais Shopify RÉELS uniquement** (lus par commande, shopifyFees.ts ; repli 3 % si pas encore re-scannée). Le forfait « autres 1 % » est SUPPRIMÉ (Badr 12/08 : « ça ne correspond à rien, je veux les vrais frais » — remplaçait l'ancien « 4 % = Shopify 3 % + autres 1 % »). TVA 5,5 % = PAS un coût (27/07), provisionnée à part (onglet Année).
@@ -76,7 +76,7 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 
 ## Seuils (repères de contrôle)
 - Polo : marge contrib ≈ 62 % → ROAS BE ≈ 1,62× · cible 15 % ≈ 2,13×.
-- Gilet : marge ≈ 70 % → BE ≈ 1,43× · cible 15 % ≈ 1,98×.
+- Gilet : marge ≈ 70 % en upsell ; **en PRIMAIRE (cas Lancaster) le packing +4 €/cmd la ramène à ~63-64 % → BE ≈ 1,57× · cible 15 % ≈ 2,06×** (recalé 14/08 après la levée du litige packing).
 - Dashboard : seuils dynamiques 14 j glissants (jamais figés). Cible = 15 % net (aligné Master 04/08, ex-20 %) : `roasTarget15` = 1/(CM−0,15). Seuils aussi calculés PAR PRODUIT pour les créas (Lancaster→Gilet, sinon Polo).
 
 ## Protocole scaling (Master, validé Badr 03/08) — base : moyenne ROAS réel 3 j
@@ -158,7 +158,7 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 
 ## Factures Panda vérifiées ligne à ligne (14/08) — grilles réelles CA/CH
 - **Audit des 2 factures fournisseur** (20260801 : #4814-5462 · 20260814 : #5463-5995) contre les grilles du moteur : **1 154 commandes comparées au centime — 76 % identiques, taxe juste à 99,7 %, écart global −308 € (1,4 %, moteur trop haut)**. Données versionnées côté scratchpad, méthode : rejouer chaque bundle facturé dans `poloCogsCents`/`upsellCogsCents`/`euTaxCents`.
-- **⚠️ GILET SURFACTURÉ dans la facture du 14/08** : +3,50 €/cmd (×1 FR) à +4,00 € (tout le reste) vs le devis du 31/07 — **153,50 € sur 40 commandes pures** + la part gilet de 5 commandes mixtes. **CONTESTÉ par Badr auprès du fournisseur (message envoyé le 14/08) — la grille GILET du moteur suit le DEVIS, PAS la facture**, tant que le litige n'est pas tranché. Si le fournisseur maintient la hausse : grille gilet à dater du 02/08 + recompute.
+- **⚠️ GILET SURFACTURÉ dans la facture du 14/08** : +3,50 €/cmd (×1 FR) à +4,00 € (tout le reste) vs le devis du 31/07 — **153,50 € sur 40 commandes pures** + la part gilet de 5 commandes mixtes. Contesté le 14/08 puis **LITIGE LEVÉ le jour même** : explication fournisseur — le devis = prix du gilet EN UPSELL ; en PRIMAIRE (son colis) : + packing 3,50/4,00 €/cmd. Vérifiée dans leurs factures (#5591) et acceptée par Badr → supplément encodé (`giletPrimaryParcel`, daté 02/08), resync v12, facture due en entier.
 - **Canada : prix réels intégrés, DATÉS** (`CA_POLO_PRICE_CHANGE_DAY = 2026-08-02`) : polo 8,65/14,60/27,90 → 9,65/15,60/**27,90 inchangé** (vérifié : POLOx4+CALECON = 30,36 € sur les DEUX factures). Caleçon CA **2,46 €** (= FR). L'ancien repli « max+1,50 » surcomptait 2-3 €/cmd (~330 € cumulés) → le net WORLD/Canada réel est MEILLEUR qu'affiché.
 - **Suisse : prix réels** 10,27/17,07/31,44 (constants sur les deux factures, 56 cmd). **Luxembourg : PAS touché** — facturé plus cher que le repli (~+1,30 à +3,00) mais x1 inconnu, on ne complète pas une grille à moitié (10 cmd, sous-compte assumé et signalé).
 - **Long Sleeve (LS, 26 cmd)** : clé + grille `LONG_SLEEVE_DRESS_SHIRT` présentes dans le moteur (valeurs devis) — mais la facture est AU-DESSUS (ex. ×3 FR : 23,49 € facturés vs 19,68 calculés). **Grille officielle demandée au fournisseur** (message du 14/08). 2 cmd Thaïlande non tarifées (« country not covered ») — règle demandée aussi.

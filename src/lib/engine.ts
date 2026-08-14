@@ -297,16 +297,45 @@ function caleconCogsCents(country: string, qty: number): number {
   return qty <= 0 ? 0 : caleconUnitCogsCents(country) * qty;
 }
 
+// ---------------------------------------------------------------------------
+// GILET PRIMAIRE — supplément packing (résolu avec le fournisseur le 14/08).
+//
+// La « surfacturation » de la facture 20260814 n'en était pas une :
+// explication Panda, acceptée par Badr, VÉRIFIÉE dans leurs factures — la
+// grille ci-dessus est le prix du gilet EN UPSELL (glissé dans le colis d'un
+// polo : #5591 GILET+POLOx4 facturé gilet 8,90 €, l'ancien prix). Quand le
+// gilet est le produit PRIMAIRE de la commande (son propre colis), Panda
+// ajoute un packing : +3,50 € (FR ×1) ou +4,00 € (tout le reste) PAR
+// COMMANDE — pas par pièce (observé : ×1 +3,50/4,00 · ×2 +4,00 · ×3 +4,00).
+// Appliqué depuis la facture 20260814, qui commence au #5463 (~02/08).
+// ---------------------------------------------------------------------------
+export const GILET_PRIMARY_SURCHARGE_START_DAY = "2026-08-02";
+export const GILET_PRIMARY_SURCHARGE_CENTS = 400;
+export const GILET_PRIMARY_SURCHARGE_FR_X1_CENTS = 350;
+
+function giletPrimarySurchargeCents(country: string, qty: number, day?: string): number {
+  if (day && day < GILET_PRIMARY_SURCHARGE_START_DAY) return 0;
+  // Sans jour fourni (repères, cartes) : prix COURANTS → supplément inclus.
+  return country === "FR" && qty === 1
+    ? GILET_PRIMARY_SURCHARGE_FR_X1_CENTS
+    : GILET_PRIMARY_SURCHARGE_CENTS;
+}
+
 /** COGS Gilet pour `qty` pièces, livré dans `country`. Paliers directs 1/2/3 ;
- * au-delà, coût marginal basé sur l'écart 2→3 pcs (dernier palier connu). */
-function giletCogsCents(country: string, qty: number): number {
+ * au-delà, coût marginal basé sur l'écart 2→3 pcs (dernier palier connu).
+ * `primaryParcel` = le gilet est le produit principal de la commande (aucun
+ * polo dedans) → supplément packing depuis le 02/08. */
+function giletCogsCents(country: string, qty: number, day?: string, primaryParcel?: boolean): number {
   if (qty <= 0) return 0;
-  if (qty === 1 || qty === 2 || qty === 3) {
-    return giletGridValueCents(country, qty);
-  }
-  const g3 = giletGridValueCents(country, 3);
-  const g2 = giletGridValueCents(country, 2);
-  return Math.round(g3 + (g3 - g2) * (qty - 3));
+  const base =
+    qty === 1 || qty === 2 || qty === 3
+      ? giletGridValueCents(country, qty)
+      : (() => {
+          const g3 = giletGridValueCents(country, 3);
+          const g2 = giletGridValueCents(country, 2);
+          return Math.round(g3 + (g3 - g2) * (qty - 3));
+        })();
+  return base + (primaryParcel ? giletPrimarySurchargeCents(country, qty, day) : 0);
 }
 
 /**
@@ -318,10 +347,16 @@ function giletCogsCents(country: string, qty: number): number {
 export function upsellCogsCents(
   productKey: string,
   country: string,
-  qty: number
+  qty: number,
+  opts?: {
+    /** Jour de la commande (YYYY-MM-DD) — prix datés (gilet primaire). */
+    day?: string;
+    /** true = la commande n'a AUCUN polo : le gilet part dans SON colis. */
+    giletPrimaryParcel?: boolean;
+  }
 ): number {
   if (qty <= 0) return 0;
-  if (productKey === "GILET") return giletCogsCents(country, qty);
+  if (productKey === "GILET") return giletCogsCents(country, qty, opts?.day, opts?.giletPrimaryParcel);
   if (productKey === "CALECON") return caleconCogsCents(country, qty);
   // E-Book : numérique, coût réellement nul. SANS ce garde-fou, la clé passe
   // le contrôle ci-dessous (elle est dans UPSELL_PRODUCT_KEYS) puis va
@@ -539,8 +574,12 @@ export interface OrderCogsTax {
 
 export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
   const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
+  // Gilet primaire = aucun polo dans la commande (le gilet part dans son
+  // propre colis → supplément packing Panda depuis le 02/08).
+  const giletPrimaryParcel = order.poloQty === 0;
   const cogsUpsellsCents = order.upsells.reduce(
-    (sum, u) => sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty),
+    (sum, u) =>
+      sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty, { day: order.day, giletPrimaryParcel }),
     0
   );
   const taxCents = euTaxCents(
@@ -625,9 +664,14 @@ export function computeOrderCogsTaxTolerant(
   const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
   const unknownUpsellKeys: string[] = [];
   let cogsUpsellsCents = 0;
+  // Même règle que computeOrderCogsTax : gilet primaire = aucun polo.
+  const giletPrimaryParcel = order.poloQty === 0;
   for (const u of order.upsells) {
     try {
-      cogsUpsellsCents += upsellCogsCents(u.productKey, order.shippingCountry, u.qty);
+      cogsUpsellsCents += upsellCogsCents(u.productKey, order.shippingCountry, u.qty, {
+        day: order.day,
+        giletPrimaryParcel,
+      });
     } catch (err) {
       if (err instanceof UnmappedProductError) unknownUpsellKeys.push(u.productKey);
       else throw err;

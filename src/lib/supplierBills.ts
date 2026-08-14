@@ -76,12 +76,15 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // 13 914,91 ÷ 12 064,41 = taux 1,1534, cohérent avec le 1,1539 maison).
     // Le fournisseur (Hong Kong) encaisse en USD : c'est le montant à virer.
     totalCents: 1206441,
-    // Gilet surfacturé vs devis : +3,50/4,00 € sur 40 commandes = 153,50 €
-    // (+ part gilet de 5 commandes mixtes, ~20 €). Contesté par Badr le 14/08.
-    disputedCents: 15350,
+    // Litige gilet LEVÉ (14/08) : le fournisseur a expliqué — le devis est le
+    // prix du gilet EN UPSELL ; en produit primaire (son propre colis) il y a
+    // un packing de +3,50/4,00 €. Vérifié dans leurs factures (#5591 : gilet
+    // AVEC polo facturé 8,90 €, l'ancien prix). Accepté par Badr, grille du
+    // moteur mise à jour en conséquence — la facture est due EN ENTIER.
+    disputedCents: 0,
     status: "a_payer",
     paidCents: 0,
-    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534). CORRECTION DEMANDÉE au fournisseur le 14/08 (gilet surfacturé 153,50 €) — paiement en attente de la facture corrigée : régler 11 910,91 € (≈ 13 737,85 $) si besoin de payer avant l'avoir.",
+    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534) — montant à virer. Litige gilet levé le 14/08 (supplément packing du gilet primaire, explication fournisseur vérifiée et acceptée).",
   },
 ];
 
