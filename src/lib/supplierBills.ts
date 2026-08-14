@@ -57,9 +57,12 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     ordersCount: 649,
     totalCents: 1427996, // ligne TOTAL du fichier : 14 279,96 €
     disputedCents: 0,
-    status: "a_payer",
-    paidCents: 0,
-    note: "Vérifiée ligne à ligne le 14/08 : conforme au devis (audit MEMO). 1 commande non tarifée par le fournisseur (#5420).",
+    // SOLDÉE (Badr, 14/08) : virement international de 16 388,40 $ le 06/08
+    // (Settled, Panda Dropshipping Limited, SWIFT SCBLHKHH) — capture fournie.
+    // Taux impliqué : 16 388,40 ÷ 14 279,96 = 1,1476 (taux banque du jour).
+    status: "payee",
+    paidCents: 1427996,
+    note: "Payée le 06/08 : virement 16 388,40 $ (settled). Vérifiée ligne à ligne le 14/08 : conforme au devis. 1 commande non tarifée par le fournisseur (#5420).",
   },
   {
     ref: "Bill 20260814",
@@ -78,7 +81,7 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     disputedCents: 15350,
     status: "a_payer",
     paidCents: 0,
-    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534) — montant à virer si paiement en USD. Gilet contesté : payer 11 910,91 € (≈ 13 737,85 $) tant que l'avoir n'est pas émis.",
+    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534). CORRECTION DEMANDÉE au fournisseur le 14/08 (gilet surfacturé 153,50 €) — paiement en attente de la facture corrigée : régler 11 910,91 € (≈ 13 737,85 $) si besoin de payer avant l'avoir.",
   },
 ];
 
