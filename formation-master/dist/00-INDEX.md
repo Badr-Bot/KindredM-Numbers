@@ -208,38 +208,38 @@ il ne faut jamais répondre à sa place.
 - ✅ **02 — CRO : Le Meilleur Levier de Croissance #2** · 15:31
 - ✅ **03 — CRO : Le Meilleur Levier de Croissance #3** · 18:02
 - ✅ **04 — Process complet du CRO #1** · 25:52
-- 🟡 **05 — Process complet du CRO #2** · 37:38
-- 🟡 **06 — 2 Grandes Leçons CRO sur le Prix** · 8:00
-- 🟡 **07 — Partage de résultats CRO** · 6:03
-- 🟡 **08 — [BONUS Nico] Checklist 2026 & CRO Tips** · 20:15
+- ✅ **05 — Process complet du CRO #2** · 37:38
+- ✅ **06 — 2 Grandes Leçons CRO sur le Prix** · 8:00
+- ✅ **07 — Partage de résultats CRO** · 6:03
+- ✅ **08 — [BONUS Nico] Checklist 2026 & CRO Tips** · 20:15
 
 ## EMAIL & MESSAGING MARKETING
 
-- 🟡 **01 — 0.1 - Introduction** · 3:04
-- 🟡 **02 — 1.1 - Vision et Approche du CRM** · 9:38
-- 🟡 **03 — 2.1 - Setup & Templates** · 9:22
-- 🟡 **04 — 2.2 - Prise en main Klaviyo** · 9:08
-- 🟡 **05 — 2.3 - 4 Types d'Emails** · 5:13
-- 🟡 **06 — 2.4 - Créer des Designs** · 16:58
-- 🟡 **07 — Préambule Module 3 & 4** · 8:42
-- 🟡 **08 — 3.1 - Flows Pré-achat** · 11:01
-- 🟡 **09 — 4.1 - Flows Post-achat** · 6:11
-- 🟡 **10 — Préambule Module 5** · 7:45
-- 🟡 **11 — 5.1 - Les Campagnes** · 10:09
-- 🟡 **12 — 6.1 - KPIs & Performances** · 6:52
-- 🟡 **13 — 6.2 - Analyse d'un Compte en Live** · 4:24
-- 🟡 **14 — SMS & WhatsApp [BONUS]** · 11:10
-- 🟡 **15 — Intro & pourquoi WhatsApp en 2026** 
-- 🟡 **16 — Les règles Meta** 
-- 🟡 **17 — Onboarding** 
-- 🟡 **18 — Opt-in** 
-- 🟡 **19 — Automatiser tes flows WhatsApp** 
-- 🟡 **20 — Campagnes** 
-- 🟡 **21 — L'IA WhatsApp** 
-- 🟡 **22 — Compliance** 
-- 🟡 **23 — Maximise tes drops produits** 
-- 🟡 **24 — Déploie ta marque** 
-- 🟡 **25 — Conclusion** 
+- ✅ **01 — 0.1 - Introduction** · 3:04
+- ✅ **02 — 1.1 - Vision et Approche du CRM** · 9:38
+- ✅ **03 — 2.1 - Setup & Templates** · 9:22
+- ✅ **04 — 2.2 - Prise en main Klaviyo** · 9:08
+- ✅ **05 — 2.3 - 4 Types d'Emails** · 5:13
+- ✅ **06 — 2.4 - Créer des Designs** · 16:58
+- ✅ **07 — Préambule Module 3 & 4** · 8:42
+- ✅ **08 — 3.1 - Flows Pré-achat** · 11:01
+- ✅ **09 — 4.1 - Flows Post-achat** · 6:11
+- ✅ **10 — Préambule Module 5** · 7:45
+- ✅ **11 — 5.1 - Les Campagnes** · 10:09
+- ✅ **12 — 6.1 - KPIs & Performances** · 6:52
+- ✅ **13 — 6.2 - Analyse d'un Compte en Live** · 4:24
+- ✅ **14 — SMS & WhatsApp [BONUS]** · 11:10
+- ✅ **15 — Intro & pourquoi WhatsApp en 2026** · 2:39
+- ✅ **16 — Les règles Meta** · 4:44
+- ✅ **17 — Onboarding** · 5:40
+- ✅ **18 — Opt-in** · 4:46
+- ✅ **19 — Automatiser tes flows WhatsApp** · 5:07
+- ✅ **20 — Campagnes** · 3:11
+- ✅ **21 — L'IA WhatsApp** · 4:08
+- ✅ **22 — Compliance** · 4:14
+- ✅ **23 — Maximise tes drops produits** · 5:06
+- ✅ **24 — Déploie ta marque** · 8:47
+- ✅ **25 — Conclusion** · 3:48
 - 🟡 **26 — Contacter Kanal & Offre** 
 
 ## GÉRER SON SAV +IA by Onially
@@ -435,7 +435,7 @@ il ne faut jamais répondre à sa place.
 ## MASTER RESEARCH
 
 - 🟡 **01 — MASTER RESEARCH** 
-- 🟡 **02 — MASTER PRODUCT FORMULA™** 
+- ✅ **02 — MASTER PRODUCT FORMULA™** · 16:53
 - 🟡 **03 — Marché: Retour d'expérience COMPLET** 
 - 🟡 **04 — Ecom Data 1** 
 - 🟡 **05 — Ecom Data 2** 

@@ -721,7 +721,7 @@ Un bon audit, c'est la base de tout. Sans données solides, tu testes dans le vi
 ======================================================================
 MODULE : CRO, BOOSTER CA & AOV
 LEÇON 05 : Process complet du CRO #2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRO, BOOSTER CA & AOV / leçon 05
 ======================================================================
 
@@ -773,16 +773,78 @@ Le CRO n'est pas une action ponctuelle, c'est un cercle vertueux : tu testes, tu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Deuxième partie, je vais la passer en très rapide parce que j'en ai déjà suffisamment parlé je pense dans la première partie, à le premier module. Si besoin je vous invite à retourner voir le point 5 du premier module pour mieux comprendre la priorisation. Mais en résumé, voici la méthodologie que l'on utilise chez OVEUR. Prioriser les optimisations quand justement grâce à la data, grâce à vos observations, grâce à votre expérience,
+
+[00:21] vous vous retrouvez avec des dizaines d'optimisations. Comment les prioriser ? Nous on utilise tout simplement le système ICE que je vous ai présenté ici avec cet exemple. I pour impact. L'impact qu'on estime que va avoir cette optimisation c'est sur la confidence. Est-ce que justement on est confiant sur le fait que l'optimisation va porter ses fruits ? Et E pour ease, est-ce que c'est simple de mettre en place tout ça ?
+
+[00:43] Est-ce que ça va être un test qui va être complexe ou non ? Est-ce que l'intégration, même le design en amont vont se faire rapidement ? Et on va pouvoir obtenir des résultats rapidement ou non ? Voilà pour cette deuxième partie, une fois de plus, je vous invite à regarder potentiellement de nouveau ce module pour mieux comprendre comment ça se passe de ce côté-là.
+
+[01:04] Troisième partie, évidemment la partie à laquelle on s'attend tous, la partie qui est la plus obvious pour tout le monde, c'est la partie où on lance tout simplement la B test. Avant de le lancer, il faut évidemment le préparer et donc je vais vous montrer tout simplement un exemple. Bien évidemment, le combo gagnant dans notre cas c'est Shopify parce que vous êtes pour l'écrasion de majorité sur Shopify et c'est ce que je vous recommande à tous.
+
+[01:25] Vous tournez sur Shopify donc l'intégration va se passer là, mais la maquette en amont va se passer sur Figma. Si vous faites appel à des professionnels, que ce soit des avances ou juste des freelance, travailleront tous sur Figma parce que c'est ce qui va faciliter très grandement l'intégration sur Shopify derrière. Je sais qu'une majorité d'entre vous le savent, mais il y a aussi beaucoup de personnes qui ne se rendent pas compte de la puissance de ce combo.
+
+[01:49] Quelqu'un qui travaillait concrètement sur autre chose que Figma aujourd'hui pour travailler sur du web, ça n'aurait tout simplement pas de sens. Donc c'était une petite parenthèse. Maintenant, ce que je vous propose c'est de rentrer dans un exemple concret. Je vais vous partager très concrètement ce qu'on a mis en place sur nos clients phares,
+
+[02:10] qui est DetectiveBox que beaucoup d'entre vous connaissent. Tout simplement, on a observé énormément de choses sur leur site. On a mis beaucoup de hypothèses de croissance, les choses qui pourraient leur permettre d'aller beaucoup plus loin, de générer beaucoup plus de revenus. Et l'une des hypothèses que l'on a priorisé, c'est le fait que permettre aux clients de créer leur propre pack,
+
+[02:32] doit permettre d'augmenter le CVR, le TOTR version, sans trop nuire à l'AOV. Je vais vous expliquer tout ça et pour ça, il faut comprendre un petit peu comment fonctionne la marque. La marque, pour vous le faire très simplement, vend des enquêtes. Des enquêtes un petit peu façon Escape Game, mais à domicile, avec justement des boxes comme celles que vous voyez à l'écran.
+
+[02:55] Et elle a à la fois des enquêtes longues qui se vendent une centaine d'euros, approximativement. Et donc là, il n'y a pas de sujet, mais également des short stories, donc qu'ils ont en fait paquées. Vous voyez que vous avez trois enquêtes ici, Cloubella, la grande illusion, la bête de Brocueil. Ces trois enquêtes, elles ont été paquées de façon à ce qu'elles soient vendues, non pas à 30, 40 euros par unité,
+
+[03:16] mais à 100 euros, comme vous pouvez le voir ici, 99 euros, les trois enquêtes. Donc ça, c'était le postulat de base de la marque. On ne voulait pas trop nuire au panier moyen. On voulait conserver un panier moyen dans la lenteau des 100 euros. Donc on ne pouvait pas se permettre de vendre des enquêtes à l'unité, à 30, 40 euros, approximativement. Donc, c'est précisément ce qu'on a venu challenger.
+
+[03:39] On avait cette version A et on est venu là challenger avec cette version B. Alors pour le coup, dans le premier module, je vous parlais de tests qui ne sont pas forcément trop complexes. Là, c'était très complexe. Il y a eu un vrai gros travail. Je pense que vous vous rendez compte de la différence. Directement, on est venu créer un bundle avec une personnalisation assez poussée. L'idée, c'est qu'on donne la possibilité, comme je le disais avec l'hypothèse,
+
+[04:03] on donne la possibilité à tous les visiteurs de choisir s'ils préfèrent acheter une enquête, deux enquêtes ou trois enquêtes. Donc là, choisir une enquête, ok, ça va me coûter 40 euros. Deux enquêtes, 68 euros, j'ai moins 15% de réduction. Et si j'en prends trois, donc la version best seller, où justement, effectivement, on sait ce qui s'est vendu depuis le début, donc c'est nécessairement le best seller, si vous voulez les trois enquêtes, ce sera 96 euros
+
+[04:26] et vous bénéficierrez de 20% de réduction. Et la livraison offerte dans les deux cas, ça aussi, on met énormément avant parce que c'est typiquement le genre de stratégie qui vont pousser l'acheteur à ne pas acheter qu'une seule enquête mais en acheter deux de faire une folie entre guillemets sur son budget parce qu'il sait que derrière, il va pas payer 3, 4, 5 euros de li raison.
+
+[04:47] Derrière, pour rentrer un petit peu plus dans le détail de comment on l'a fait, vous voyez qu'à chaque fois, vous avez un petit bandeau qui vous permet d'avoir plus de détails sur l'enquête pour vous aider justement à choisir la version. Évidemment, ici, c'était la maquette, donc vous avez du Lorem Hilton ici mais bien évidemment que sur le site en live, on a à chaque fois le petit descriptif de chaque enquête.
+
+[05:08] Et voilà, on a tout simplement retravaillé l'ensemble de la page. Comme vous pouvez le constater, ça marche aussi très bien sur mobile avec un bundle qui semble très classique mais encore une fois qu'il y a des vraies particularités. Et le résultat, il a été très intéressant. Comme on pouvait s'en douter, comme tout le monde s'en doutrait entre guillemets, on a augmenté le taux de conversion
+
+[05:30] et on a justement donné la possibilité au visiteur d'acheter pour moins cher. Mais à côté de ça, ce qu'on voulait voir, c'est est-ce que le panier moyen allait énormément baisser ou non en faisant ça. Et donc les résultats, je vous les ai montrés à l'instant, ce sont du coup 12% plus 12% d'augmentation du taux de conversion, plus 8% du revenu par visiteur, plus 10% du profit par visiteur
+
+[05:51] parce qu'on a eu seulement moins 3% de baisse du panier moyen. Donc là encore une fois, ce sont des informations évidemment confidentielles et financilles que je ne peux pas vous montrer. Mais dans l'idée, on a perdu quelques euros de panier moyen là où notre taux de conversion a complètement explosé. Donc le cumul du taux de conversion et du panier moyen, le revenu par visiteur et donc le profit par visiteur, ont explosé.
+
+[06:13] Et donc on a découvert un tout nouveau levier de croissance pour la marque Detective Box. Et ça, c'est un test, en l'occurrence, une fois de plus. Oui, il était radical, oui il était très pertinent, oui il était aussi très complexe, mais comme vous pouvez le voir, il en va aller la peine parce que derrière sont des dizaines pour centaines de milliers d'euros de revenus supplémentaires chaque année pour la marque grâce à un seul test.
+
+[06:36] Et de nouveau, pour faire un petit rapprochement avec ce que je vous expliquais dans le premier module, derrière quand on obtient des résultats de tests qui sont positifs ou négatifs, il faut évidemment aller analyser les résultats et pour ça, je vous ai remis un petit peu le passage. Vous devez tout passer en revue sur Intelligence avec tous les filtres, mobile desktop, new versus returning visitors, etc.
+
+[06:59] Et aussi et surtout les comportements utilisateurs sur Microsoft Clarity qui est l'outil dont je vous parlais avant. Et donc quand on observe tout ça, on se rend compte de nouvelles choses, on émite de nouvelles hypothèses et là, en l'occurrence pour continuer sur cet exemple de Detective Box et que vous puissiez voir aussi le genre d'optimisation qu'on peut faire, là aussi une optimization qui est assez complexe,
+
+[07:20] mais ça va aller clairement le coup de vous la montrer. En permettant aux visiteurs de créer leur pack personnalisé parmi toutes les enquêtes, on devrait augmenter le CVR sans trop nuire à la ouver. Donc je vous le disais juste avant, Detective Box proposait deux enquêtes longues et trois enquêtes courtes qui étaient paquées justement sur ce produit spécifiquement.
+
+[07:41] Là, notre théorie c'est que si on va encore plus loin, donc là, l'art de la track c'était les trois fameuses short series qui étaient concernées par le premier test dont je parlais à l'instant. Là, si on inclut également Good Lock University et le Turo Taro qui sont deux gants stories, donc à l'entraide d'une centaine d'euros, et qu'on crée
+
+[08:02] une nouvelle page avec tout un pack de personnalisation, enfin une possibilité de personnaliser son pack plutôt. À ce moment-là, on peut obtenir des résultats qui sont encore plus insaines. Donc là, on est parti de la page de collection initiale. Vous avez les trois enquêtes possibles. Si vous cliquez sur l'art de la track, vous arrivez donc sur cette page qui a été validée. Mais maintenant, on veut aller plus loin.
+
+[08:24] On dégage complètement cette page en quête, cette page collection et on crée un Mix and Match, une page pack builder si vous voulez. Donc on faute plus quelque chose de très complexe, mais que nous on peut se permettre de faire par rapport au ressources qu'on a et l'expérience qu'on a. Et vous arrivez sur un résultat comme celui-ci avec crée votre pack d'enquête et économisé. Donc vous mettez vraiment en avant l'économie, c'est ça le but bien évidemment.
+
+[08:47] Et on crée une Mix ultra puissante en respectant le branding. On explique le concept. Choisissez les enquêtes, économisez et commandez. Soyez livrés gratuitement sous deux à quatre fours. Et là en fait, en quelques clics, vous avez la possibilité d'avoir tous les détails, mais surtout de commander, de commander en plusieurs quantités et donc de bénéficier de ses réduction. L'idée c'est de pousser un maximum pour qu'un maximum de clients
+
+[09:11] prennent tout simplement cinq enquêtes. Ok, ils auront une super grosse réduction à 35% de réduction, mais sur un panier moyen qui va dépasser les 250-300 euros, c'est totalement ok pour la marque. Ils sont entrés dans les détails de rentabilité, de marge, etc. Donc voilà, une Mix, une base vraiment travaillée et ultra personnalisée pour la marque,
+
+[09:34] pour qu'elle puisse proposer une expérience ultra personnalisée également à ses visiteurs et donc commenter les taux de conversion. Et donc là, en toute transparence, ce test, il est toujours encore. Il devrait se finaliser dans les prochains jours. Donc je suis à l'aise de vous montrer ces résultats. Les résultats que vous avez sous les yeux, ils sont très similaires à ce que je vous montrais juste avant. On a une augmentation là aussi du taux de conversion de 8%.
+
+[09:56] Une augmentation du revenu par visiteur et du profit par visiteur qui est énorme et qui se tradue encore une fois par des milliers d'euros qui sont générés tous les mois supplémentaires qui n'auraient pas été générés tout simplement si on n'avait pas mis en place cette optimisation et pour une baisse du panier moyen qui est ridicule bien qu'on propose des réductions très importantes. On a une augmentation du panier moyen parce que justement
+
+[10:19] plus de clients prennent plus d'enquêtes. Là où certains clients se contentaient de payer peut-être 99 euros ici ou ici, là en fait, si on prend peut-être 99 euros plus une enquête à 40 euros ici. Et donc de façon générale, même si ils ont une réduction on augmente le panier moyen. En tout cas, on le baisse extrêmement peu en l'occurrence et alors que le taux de conversion augmente très fortement.
+
+[10:42] Donc voilà la dernière étape. Je voulais refaire un point sur justement ce fait d'analyser des résultats, d'émettre de nouvelles hypothèses et de continuer en permanence ce process de test and learn. On teste des choses, on apprend et on reteste. C'est un cercle vertueux qu'on doit absolument mettre en place et en l'occurrence qu'on met en place pour beaucoup de nos clients. Je vous invite si tout ça vous intéresse
+
+[11:04] à vous rendre sur notre site, à me contacter que ce soit pour des informations supplémentaires. Si vous voulez quelques conseils, j'aurais pas envie d'aider les membres de la communauté. Et si jamais tout ça vous semble malgré tout assez compliqué malgré toutes les explications que vous avez données et que vous voulez vous faire accompagner par des experts du CRO, n'hésitez pas à tout simplement réserver votre place,
+
+[11:26] découvrir Love, prendre contact avec moi et qu'on puisse discuter de ce qu'on pourrait faire pour votre marque comme on l'a fait pour des dizaines de très grosses marques. Donc voilà, à tout d'abord votre retour sur ce module de discuter avec vous, d'effenger et de connaître un petit peu toutes vos problématiques. On se revoit sur le school et à très vite.
 
 
 
 ======================================================================
 MODULE : CRO, BOOSTER CA & AOV
 LEÇON 06 : 2 Grandes Leçons CRO sur le Prix
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRO, BOOSTER CA & AOV / leçon 06
 ======================================================================
 
@@ -830,16 +892,58 @@ Si tu penses déjà connaître ton prix parce que tu l'as "un peu testé" ou par
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello tout le monde, j'espère que vous allez bien. Je vous fais cette courte vidéo pour vous présenter quelque chose qui peut avoir un impact énorme sur votre business. Concrètement, je vous partage deux grandes leçons en CRO, deux choses que vous devriez absolument appliquer dans votre stratégie aujourd'hui. La première, vous le voyez, c'est le fait de tester son prix. Et je sais que beaucoup d'entre vous ont déjà à peu près testé leur prix.
+
+[00:21] C'est-à-dire qu'une semaine, ils testaient avec je ne sais pas un produit à 30 euros et la semaine suivante un produit à 35 euros. Et ils voyaient un peu l'impact sur le taux de conversion, sur le panneau moyen, etc. Sachez que c'est la première grosse erreur que vous faites, c'est pas comme ça qu'on a béteste. Il faut absolument passer par des outils, par des vraies stratégies d'abé-testing, qui vous permettent vraiment d'aller chercher des statistiques comme celles que vous pouvez voir juste ici.
+
+[00:43] Donc on va avoir évidemment le taux de conversion, le panneau moyen, mais aussi et surtout le revenu par visiteur, le profit par visiteur et beaucoup d'autres statistiques qu'on peut aller chercher. Et comme vous pouvez le constater sur ce test de prix qu'on a mené pour l'un de nos clients, on est allé chercher juste des résultats qui sont complètement exceptionnels sur ce premier test. Donc là, effectivement, près de plus de 26% de taux de conversion,
+
+[01:05] plus 22, 23% de revenu par visiteur, plus 21% de profit par visiteur, ce qui revient concrètement à plus 36 000 euros de bénéfices supplémentaires chaque mois. C'est l'estimation que l'outil nous donne, c'est pas une science exacte. C'est-à-dire que le mois suivant, vous n'allez pas forcément faire exactement ces mêmes chiffres, mais dans l'idée, vous comprenez là où je vais m'en venir, vous avez plus 21% de profit par visiteur et on a une baisse du panneau moyen qui est très faible.
+
+[01:29] Quel est le test qu'on a lancé ? C'est justement donc un test de prix comme je vous le disais. Le client, à la base, il vendait son produit à 39,99. Nous, la stratégie qu'on est venu mettre en place, c'est qu'on ne savait pas forcément si ces visiteurs voulaient un produit à 39,99, peut-être plus cher, peut-être moins cher. Et donc, on est venu lancer un test où, comme vous pouvez le constater, on a la version à 39,99 qui est notre version de contrôle
+
+[01:51] et on est venu baisser de 5 euros le prix, 34,99 et l'augmenter de 5 euros, 44,99. Donc, on a lancé un abécet test. 33%, 34% du trafic voyait cette version, 33% cette version et 33% cette version. Et donc, vous voyez les statistiques, on voit qu'on a complètement explosé le taux de conversion, on est passé d'un 95 à 246 de taux de conversion,
+
+[02:13] alors que notre paniementien, il a baissé de à peine un euro et 30 centimes. Donc, voilà, ça c'est un impact qui est juste colossal et ça se retranscrit justement sur ces statistiques. Comme vous pouvez le constater, on a une probabilité to be the best, qui est à 99%, on n'a aucun doute. Loutine vous fait toutes sortes de calculs pour nous montrer que vraiment, on a la certitude que cette version à 34,99 est bien meilleure
+
+[02:38] que celle à 44,99, mais aussi celle de contrôle à 39,99. Donc là, si vous voulez, la grande leçon c'est de se dire même si vous pensez connaître votre prix, tant que vous ne l'avez pas abétesté et que vous n'avez pas segmenté vraiment vos différents prix pour avoir le sweet spot, le prix qui est parfait et qui maximise votre profit par visiteur, vous ne connaissez pas votre prix. Et ce n'est pas en ce basant sur ce que font les concurrents.
+
+[03:00] Des concurrents, vous en avez très probablement des dizaines, tous vendent à des prix différents. Vous avez certainement essayé de trouver un prix qui semble logique, des choses comme ça. La réalité c'est que chaque marché, chaque marque, chaque Angle Marketing va pouvoir donner un pricing différent. Donc surtout, n'oubliez jamais concrètement de venir tester votre prix.
+
+[03:21] C'est l'une des premières choses que vous devriez faire. Et la seconde chose, une fois que vous avez des résultats qui sont positifs ou négatifs, ça je vous l'ai déjà partagé dans les modules principaux de CRU pour le school. La deuxième chose c'est qu'il faut absolument continuer à tester. Et donc là, ce que je veux vous montrer c'est que une fois que sur ce premier test on a validé le fait que 34,99 c'était le bon prix.
+
+[03:44] On ne s'est pas arrêté en si bon chemin, on a compris que le prix de base n'était pas le bon. Quel est plus cher, ce n'était pas la bonne stratégie. Quel est moins cher, c'était très bien, ça permettait d'avoir des super bons résultats. Et ben on a continué dans cet optique là. On est passé 39,99 à 34,99. Là on va encore sous-ségmenter si vous voulez nos différents pricing.
+
+[04:05] Et là on a testé 34,99 ici, 32,99 ici, 29,99 ici et ici 37,99. Donc vous voyez qu'on est venu vraiment encore une fois affiner pour trouver le bon prix et pareil, encore une fois on est allé chercher des résultats qui sont juste exceptionnels avec un taux de conversion de base puisqu'on l'avait validé sur le premier test qui est passé à 245,246% à peu près.
+
+[04:28] Et là on baissant encore de 5€, on a augmenté de nouveau de plus 20% à peu près de notre taux de conversion en passant à 2,92, donc juste exceptionnel. Et encore une fois tout en ayant un impact sur le panier moyen qui est ultra faible. C'est-à-dire que entre ces deux tests on a baissé concrètement le prix du produit de près, enfin pas de près de 10€ exactement, on est passé 39,99 à 29,99
+
+[04:52] et vous voyez que l'impact sur le panier moyen il a été de moins de 2%, de moins de 3%, mais c'est très très très largement compensé par la hausse du taux de conversion. On convertit plus 1000 commandes ici, plus 1000 ici, à peu près là aussi. Concrètement l'impact il est de nouveau colossal avec un profit par visiteur qui augmente de 28 000€ par mois sur ce test uniquement.
+
+[05:14] Sans compter ce qu'on a déjà débloqué ici avec les 36 000€. Encore une fois je le précise pour être totalement transparent avec on, c'est une estimation. Ça veut pas dire que les 6 prochains mois vous allez taper exactement 30 000€ de plus de bénéfices supplémentaires. Il y a plein de variables mais l'idée c'est que A trafic égal, A si on a tous les facteurs qui sont exactement les mêmes entre ces versions
+
+[05:39] on sait qu'on convertira près de 20% supplémentaires et qu'on ira chercher à peu près 14% de profit par visiteur supplémentaires. Ce qui est jusqu'au loçal et une fois de plus je vous montre on a obtenu la signification statistique, on est à 94% donc concrètement là aussi on a aucun doute sur le fait que ce soit la meilleure version. Donc voilà ce que je voulais vous montrer, 2 grandes leçons. 1. Tester de tester son prix, n'oubliez jamais c'est la première chose que vous devriez tester
+
+[06:02] et je le répète une fois de plus. Testé son prix, ça passe par ce genre de stratégie. C'est pas juste une semaine ou pendant un ou deux jours on teste un prix ensuite on teste un autre prix etc. Ça marche, ça peut vous aider à trouver un produit winner quand vous commencez mais à partir du moment où vous avez une marque qui est en place n'oubliez jamais de tester votre prix et de continuer à tester
+
+[06:24] parce que c'est tester son prix puis continuez à tester tout simplement pour trouver vraiment comme je vous l'ai déjà dit le sweet spot, le point vraiment d'inflexion on dit ok à 29,99 on sait que c'est notre meilleur prix on a testé tellement bas que on ne descendra pas plus et que c'est vraiment le prix qui est optimal. Et voilà le genre d'impact que ça peut avoir sur votre marque
+
+[06:46] concrètement en 2 tests qui ont duré 2 semaines et demi disons une quinzaine, vingtaines de jours plus 0,97 points de taux de conversion ce qui veut dire que là encore une fois vous l'avez vu on est passé à 2,92 là où de base la marque était à 1,95 donc près d'un de pour cent de taux de conversion qu'on a allé gagner
+
+[07:09] 87 000 euros de CA mensuelle supplémentaire, l'estimation et plus 64 000 euros de profit mensuel supplémentaire de nouveau c'est une estimation, une simulation mais ça rendi très long sur les résultats que vous pouvez obtenir en CA O en mettant les bonnes stratégies en place. Donc j'espère que ça vous apportera un maximum de valeur si vous deviez commencer le CA O
+
+[07:30] c'est forcément comme ça qu'il faudrait commencer il y a des infinités de possibilités derrière de tests qu'on peut mettre en place pour justement avoir ce genre de résultats, je vous en ai déjà partagé quelqu'un et je continuerai à le faire mais déjà je pense que là vous avez certainement la chose la plus valuable que vous puissiez voir aujourd'hui pour votre business. J'espère que vous allez mettre en place tout ça
+
+[07:52] et que vous m'enverez des messages en m'expliquant que ça super bien fonctionner pour vous et je vous souhaite un très bon Black Friday.
 
 
 
 ======================================================================
 MODULE : CRO, BOOSTER CA & AOV
 LEÇON 07 : Partage de résultats CRO
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRO, BOOSTER CA & AOV / leçon 07
 ======================================================================
 
@@ -895,16 +999,48 @@ Ne sous-estime jamais un test négatif. Ce que tu pensais être une évidence pe
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Maintenant que vous maîtrisez les bases du CRO et que vous êtes en mesure de créer votre propre roadmap pour votre marque, le but ça va être de continuer à vous apporter un maximum de valeur en continu. Et pour ça je sais que Matteo avait proposé de créer une base de données sur laquelle on va référencer un maximum de résultats d'AB test, de manière à ce que vous puissiez continuer à vous inspirer les uns des autres,
+
+[00:22] sans forcément lire votre marque à chaque fois, mais simplement en partageant les résultats, en partageant un petit peu votre analyse. Et du coup je me suis occupé de créer ce document auquel vous allez avoir accès juste en dessous de cette vidéo. Et le but c'est que chacun d'entre vous, d'entre nous même, je suis le premier justement à participer à ce processus,
+
+[00:43] on puisse ajouter des résultats d'AB test de manière à ce que encore une fois vous puissiez vous en inspirer, voir si ça peut fonctionner pour votre marque et potentiellement tester certaines choses. Donc je vais vous présenter très rapidement ce document de façon à ce que vous puissiez commencer à l'exploiter dès maintenant. Et comme vous pouvez le voir, j'ai déjà ajouté une dizaine d'AB test de résultats qu'on a menés,
+
+[01:06] j'en ajouterai encore beaucoup d'autres, l'idée là c'était simplement d'avoir une petite base et vous inciter, vous donner envie tout simplement d'aller découvrir ces 10 AB tests que j'ai sélectionné et dont je ne pense pas avoir déjà parlé dans les deux précédents modules, donc ça sera vraiment 100% value pour vous de découvrir ces résultats. Et voilà, encore une fois je vais continuer à en ajouter, je compte sur vous aussi pour en ajouter.
+
+[01:31] C'est un petit peu la condition entre guillemets pour que je continue à passer du temps. Ça m'a demandé du temps rien que de mettre ces 10 AB tests, de les sélectionner, d'aller en chercher d'autres. Encore une fois, dans le but de vous apporter un maximum de valeur. Donc non seulement j'attends vos retours de savoir si effectivement c'est utile, si justement ça vaut la peine pour moi de continuer à mettre à jour cette database,
+
+[01:51] mais j'attends aussi de vous que vous participez, je ne peux pas être le seul justement à mettre ce genre de choses en place. Il faut que vous vous entraidez les vins les autres. Donc voilà un petit peu pour l'introduction, maintenant je vais vous montrer concrètement comment ça fonctionne. Je vais aller par exemple, je ne sais pas sur ce test là. Ajoute du wichet trust pilot sur la fiche produit, donc ça c'est le nom du test.
+
+[02:14] De création, on n'y fait pas forcément attention simplement pour pouvoir filtrer que lorsque vous arrivez sur cette database, vous vous rendez bien compte des derniers tests justement de ceux que vous pouvez encore découvrir, qui n'avez pas encore noté. L'hypothèse, c'est juste écrire quelques lignes, quelques mots pour expliquer un petit peu l'idée derrière ce test.
+
+[02:34] La page c'est tout simplement quelle page ça concerne comme le nom l'indique. Vous le verrez ici, je pense que c'est majoritairement de la page produit de toute manière, c'est ce qui est le plus important. On a un test de page de collection, mais j'ajouterai pas mal de choses sur la homepage, sur le menu, la navigation de façon générale, c'est très important. Sur le cartes aussi, on a mené beaucoup de tests sur le cartes, sur les LP, sur le funèles de façon générale.
+
+[02:58] Il y a encore plein de choses que je peux ajouter. Donc voilà comme je vous l'ai dit, je m'en occuperai. Donc oui, là c'est l'hypothèse, la page IntelliGems. Donc c'est simplement mettre le screenshot sur résultat. Si pour XFU et Recreaison, vous ne menez pas vos tests sur IntelliGems, vous pourrez toujours ajouter le screenshot sur résultat de manière à ce qu'encore une fois.
+
+[03:20] Ce qui est le plus intéressant, le plus important, c'est de se rendre compte de l'augmentation du taux de conversion, de l'augmentation en général du panier moyen, et donc de revenir par visiteur, qu'on se rende compte des résultats que ça a généré. Et derrière, le résultat, donc amélioration neutre ou baisse, ça dépend du coup, il faut évidemment du résultat, et derrière RPV, donc je pense que vous l'aurez compris, revenu par visiteur,
+
+[03:43] c'est le résultat qui compte le plus à la fin. Si votre taux de conversion augmente mais que votre panier moyen baisse, si votre conversion augmente davantage, votre revenu par visiteur augmentera. Et vice-versa bien évidemment si c'est le panier moyen qui augmente et le taux de conversion qui baisse. Donc voilà, l'idée c'est de lister ça. Vous voyez que là on a déjà mis des très beaux résultats, j'ai fait exprès aussi de mettre du négatif ou du no change,
+
+[04:06] de manière à ce que encore une fois vous puissiez apprendre de tous ces résultats, de tous ces tests. L'idée c'est vraiment pas de mettre que du positif, je mettrais même ma termes, je pense que si j'y arrive, si on a suffisamment de tests négatifs en l'occurrence, j'essaierai d'en mettre presque un sur deux négatifs, parce que c'est aussi comme ça que vous allez apprendre justement ce qu'il faut tenter, et voilà, ce qu'il faut absolument tester,
+
+[04:29] parce que très souvent vous verrez également que les tests négatifs sont des choses sur lesquelles on était quasi persuadés, enfin ça paraît logique en fait que le résultat aurait pu être, aurait dû être positif, mais en réalité ça arrive parfois que ce soit négatif. Là c'est un très bon exemple avec ce test. Donc là on avait rajouté, je vous laisserai aller découvrir tout ça,
+
+[04:50] mais en gros on avait ajouté une information par rapport au type des tailles, on aidait le consommateur à se pojeter avec la bonne taille, on appuie en plus sur de la social proof, et pourtant le résultat il a été très négatif, baisse du taux de conversion, baisse du panier moyen, et donc je suis revenu par visiteur. Donc petite leçon également par rapport à ça, pourquoi c'est aussi important d'occurrence des tests négatifs,
+
+[05:11] je vous donne encore de la value par rapport à ça. Prenez bien d'en compte qu'à chaque fois qu'on parle d'un test positif, c'est top, ça va rapporter de l'avant, mais réfléchissez bien aussi au fait que si vous lancez une optimisation sans l'avoir testé et que pour x week avec raison elle est négative, potentiellement qu'en fait sans le savoir, vous vous tapez 11 000 euros de chiffre d'affaires de moins chaleuriquement,
+
+[05:32] donc bien évidemment c'est tout ce qu'on veut éviter, et c'est aussi l'une des raisons pour lesquelles on teste. Donc voilà je pense que j'aurai l'occasion d'améliorer un petit peu ce tableau, de façon à ce que ce soit encore plus visuel, encore plus intéressant, qui est encore plus d'insight, mais déjà pour une V1 et pour m'assurer que de votre côté ce soit intéressant, je pense que c'est déjà une très bonne chose,
+
+[05:54] vous avez beaucoup de chance d'être dans la communauté master, justement, et de pouvoir bénéficier de ce genre de choses ultra-valueables, et j'espère que vous en ferez bon usage.
 
 
 
 ======================================================================
 MODULE : CRO, BOOSTER CA & AOV
 LEÇON 08 : [BONUS Nico] Checklist 2026 & CRO Tips
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRO, BOOSTER CA & AOV / leçon 08
 ======================================================================
 
@@ -989,8 +1125,114 @@ Ce qui distingue les boutiques qui scalent de celles qui stagnent, c'est raremen
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo sur la boutique. Je vais vous faire rapidement une petite checklist et quelques tips que vous pouvez appliquer pour avoir un meilleur taux de conversion et des choses vraiment qui sont applicables immédiatement. Ok, que vous soyez débutants, intermédiaires, avancez tout le monde à d'où qu'à prendre de ce que je vais partager et vous allez pouvoir simplement avoir des conseils et simplement avoir une bonne base pour faire votre boutique et améliorer votre page produit, etc.
+
+[00:27] Donc on commence tout de suite avec le thème. Le thème c'est la chose dont la plupart des personnes parlent beaucoup, beaucoup de débutants et intermédiaires font que parler de thème mais c'est la chose la moins importante. Donc j'ai mis en premier pour qu'on en parle pendant 10 secondes et ensuite c'est fini. On utilise le thème shrine, on utilise des thèmes qui sont similaires aussi à shrine, mais évidemment le shrine pro qu'on paye.
+
+[00:48] Refresh et Down c'est également très intéressant, je vous conseille de le lier avec Section Store après vous allez pouvoir avoir tout ce que vous voulez en terme de design en un clic sans savoir codé. Focal Impact Prestige c'est très bien pour du fashion par exemple, c'est des thèmes qui sont clean, simple, efficace. Motion aussi c'est pas mal, overall. Et sinon l'idée dès le moment où vous commencez à scaler, moi typiquement j'ai un dev full time dans mon équipe qui est là pour simplement.
+
+[01:14] Par exemple je lui dis ok cette marque elle a ça qui est incroyable, qui est intéressant, ok va me développer ça, il le fait en quelques heures c'est fait. L'idée c'est que le thème c'est pas très important mais c'est vrai que si par exemple vous payez le shrine vous avez quand même des bonnes bases. Prenez ça en compte, avec ça vous êtes sûr d'avoir des bonnes bases, c'est validé. Et on passe à la suite, si jamais donc concernant l'inspiration que vous pouvez avoir pour votre thème et des nouveautés que vous pouvez apporter c'est très simple.
+
+[01:44] Vous pouvez vous inspirer avec par exemple After Lib, Facebook, Aslibrary, vous allez mettre des mots-clés dans votre niche que le nombre de vos concurrents, enfin que votre produit est. Et vous allez simplement chaque mois peut-être une fois ou deux fois par mois aller voir ceux qui spendent le plus, ceux qui ont le plus d'impression, ceux qui lancent le plus d'ads et bien ok. Sur leur site qu'est-ce qu'ils ont mis en place, qui est nouveau que vous n'avez pas encore et ça va vous permettre de vraiment rester dans le top en termes de CRO.
+
+[02:10] Parce que tout d'un coup il y a quelque chose que beaucoup de personnes commencent à mettre et ça devient banger. Par exemple là maintenant en live je vais vous partager des choses bangers, juste maintenant d'ailleurs. Typiquement lui il est en train de scaler, en tout cas il scale fort il y a quelques mois et j'ai pas analysé récemment mais il scale fort. Et ce qui m'avait impacté sur son site, sur sa page produit etc c'est juste ce petit détail ici.
+
+[02:35] Voilà donc là il y a le monde sa marque, il y a à droite un comparatif, c'est pas juste un simple comparatif, c'est un comparatif qui dit par exemple chip knock off amazon. Ce chip knock off il a été utilisé dans beaucoup d'ads et de clacher les concurrents en même en parlant d'Amazon pour que justement les gens ne vont pas aller sur Amazon si eux ils sont pas sur Amazon. Mais ça c'est vraiment banger et ça ça vaut de l'or.
+
+[02:56] Si vous êtes une marque qui tourne vous savez très bien que ça vaut de l'or. Et c'est des petits détails comme ça à droite à gauche qu'on vient récupérer à chaque fois pour au final avoir une boutique qui est magnifique. Mais ça vraiment honnêtement ça vaut de l'or. Donc on repasse sur notre aperçu et simplement une fois par mois je vous conseille de vous inspirer de ce qui tourne le plus. Ensuite concernant votre page d'accueil, pareil je vais en parler pendant 5 secondes parce que littéralement très peu de clients vont sur la page d'accueil.
+
+[03:23] Mettez une description produit, expliquez pourquoi votre solution c'est top, pourquoi votre produit c'est top. Si vous êtes avec plusieurs produits, plein de produits, ça mettez-le pas forcément. Si vous êtes en mode mono produit, expliquez pourquoi votre produit est la solution idéale. Ensuite image texte basique avec chat gpt, page de collection, les bienfaits du produit, une FAQ et des avis. Page d'accueil magnifique avec ça, vous pouvez vous aider à deux chats gpt bien évidemment.
+
+[03:47] Ensuite au niveau de votre page produit, ce qui est le plus important. L'idée ici c'est qu'un enfant de 5 ans doit tout absolument tout comprendre quand il arrive sur votre page produit. On fait du direct tout, enfin on fait du direct respons, ça veut dire on fait des ads. On fait du tiktok ads, vous savez très bien que les gens ils scrollent, ils scrollent, ils scrollent. Eh ben c'est la même chose avec les boutiques, ils scrollent rapidement, ils vont ok, c'est pas intéressant, c'est intéressant, boom.
+
+[04:11] C'est trop compliqué, ils partent. Il faut qu'absolument un enfant de 5 ans doit tout comprendre dans la plupart des cas. Si vous avez un produit médical extrêmement compliqué c'est autre chose. Mais pour 80% des produits, un enfant de 5 ans doit tout comprendre quand il arrive sur la page produit. Donc évitez les longues phrases, faites en sorte que ce soit simple, faites en sorte que ce soit efficace. Et pourquoi ? Parce qu'on fait vraiment du push marketing, c'est-à-dire qu'on vient pousser nos ads à l'intérieur de l'algorithme des gens.
+
+[04:35] Et c'est pas du pool marketing, le pool marketing c'est quand les personnes vont faire des recherches et donc près de temps etc. Le push marketing c'est on met nos ads à l'intérieur de leur téléphone et on a très peu de secondes pour convertir. Donc c'est très important que ce soit simple et efficace. Et je vais vous partager des astuces maintenant pour que ça soit simple et efficace, qui valent de l'heure.
+
+[04:56] Donc le plus important c'est vos images. Il faut absolument qu'on puisse comprendre le produit rien qu'avec le carousel photo. Les clients ne scrollent pas les shops mais les clients scrollent les photos. On le voit non pas parce qu'on chiffre en ce moment et qu'on fait des résultats intéressants, mais on le voit parce qu'on a installé Microsoft Clarity, comme on le voit à la fin de cette vidéo.
+
+[05:18] Vous savez qu'on peut voir en fait la hit map des useurs et on voit en fait qu'ils ne vont pas très bas de la page produit. Du moins très peu de personnes y vont. En fait les gens ne scrollent pas votre boutique comme ça quand on pourrait le croire. Vous savez qu'on scrollent une page mais ils scrollent les photos comme ça. Les clients ils prennent l'iPhone et ils scrollent de ce côté là les photos.
+
+[05:41] Et du coup c'est important que votre tunnel de vente soit dans le parcours de vos images et pas de votre site. Et évidemment votre site il est aussi important d'ailleurs juste en parlant de sites. Vous pouvez suivre cette trame ici qu'on a déjà partagé à de maintes reprises et je vais le remettre ici en bas de cette vidéo. Vous avez en fait une landing page qui m'a rapporté des dizaines et des dizaines et des dizaines de millions.
+
+[06:03] Juste en suivant cette trame là. Mais justement ici il va falloir suivre cette trame là. Et ça je dirais que c'est pour 99% des produits honnêtement. Même si vous avez un produit médical ça va fonctionner parce que vous pouvez aussi faire des adversariales avant de rediriger cette page. Vous pouvez aussi faire beaucoup de choses et en fashion en réalité il n'y a pas besoin de faire autant. Mais pour tous les autres produits honnêtement c'est intéressant de faire quelque chose de similaire en tout cas.
+
+[06:26] Et le travail ici qui n'est pas forcément indiqué sur cette page ici. Le travail le plus important c'est au niveau des images vous l'aurez compris. Donc on va voir ensemble au niveau des images quoi faire. Alors déjà au niveau des ordres de vos images sur votre page produit. Très simple. Donc là c'est l'ordre. C'est première, deuxième, troisième, quatrième. La première image ici elle doit démontrer le produit de façon clean, neutre et qu'on ait une vision claire du produit.
+
+[06:51] Exemple si je viens sur le shop Muscintim qui a été revendu pour 30M ou 20M je sais plus les chiffres exacts. Très récemment, enfin moins d'un an, environ un an. Eh ben première page produit, première photo produit on voit le produit. Claire simple, efficace. Si c'est un lot de deux, spiquement on voit le lot de deux.
+
+[07:12] Il faut que ce soit simple, efficace, qu'on voit directement ce que c'est. Boom, on voit ce que c'est. Ici ils ont rajouté un petit badge, wineote. Grosso modo quand on arrive sur la page produit on va comprendre le produit qu'est ce que c'est. Et ça c'est surtout plus important quand on fait du fashion ou des bijoux etc. Il faut qu'on ait visuellement exactement ce que le client quand il achètera il aura. Parce que vous avez des clients qui regardent ça ils achètent direct.
+
+[07:33] Ils vont même pas regarder les autres. Donc c'est super important que ce soit la plus claire. Ensuite deuxième image, faites en sorte d'avoir une image animée si vous le pouvez. Donc c'est un gif. Et ce qui fonctionne bien c'est de mettre le top moment de vos ads winners en gif. Et le moment qui est satisfaisant où les clients ils ont eu le hook de regarder ce moment là de la vidéo. Vous allez mettre une image animée.
+
+[07:55] Un exemple pour ça, par exemple ici on est sur VaPure, un shop qui a ské les biens l'année passée. Je sais plus si cette année il se quelle encore, je ne les ai pas suivi. Donc vous pouvez voir qu'ils ont leur image ici et boom ils ont une image animée. Eux par contre ils expliquent aux gens comment l'utiliser à leur produit. Mais voilà une image animée c'est vraiment top sur votre parcours client au niveau des images. Que ce soit la deuxième ou la troisième c'est important d'avoir quelque chose qui hook un peu le client.
+
+[08:21] Parce que vous allez avoir aussi beaucoup de clients qui ne viennent pas forcément de métal ou TikTok. Et avoir quelque chose de visuel comme ça qui bouge c'est top. Proposition de valeur, bénéfice produit. Pour la troisième image je vous conseille d'avoir tout ce qui est bénéfice produit, tout ce qui est proposition de valeur. Si on revient par exemple sur le Musc Intim, bon pouvoir boom bénéfice produit. Et c'est exactement ça qu'il faut faire.
+
+[08:43] Des petits bullet points ici et voilà c'est juste exactement ça qu'il faut faire. Mais encore pourquoi pas encore plus de détails comme ça. Les étapes de comment l'utiliser. Ce type d'image je vais vous mettre ici en bas normalement de cette vidéo. Vous avez plein de sites avec lesquels vous pouvez vous inspirer et ces cadeaux. Ici ensuite ce que vous pouvez avoir comme quatrième image c'est des avis clients avec votre persona.
+
+[09:06] Du social proof, des badges etc. rembourser. Enfin pas forcément satisfait rembourser d'ailleurs. Je ne mettrai pas toujours satisfait rembourser comme dans les top images. Parce que si votre premier bénéfice client slash badge que vous ajoutez sur votre image produit. C'est le fait que vous rembourser les clients s'ils ne sont pas satisfait.
+
+[09:27] Ce n'est pas vraiment un bénéfice en fait. Mettez des vrais social proof. Un peu comme ici on le voit. Ils ont eu une victoire de la beauté etc. Honnêtement moi j'avais skéé un produit chaussure orthopédique. Et j'avais mis quelque chose de similaire. Enfin pas dans cette niche là mais un prix etc. Que mon entreprise avait gagné. Qui était en guillemets inventables avec 4 GPT et c'était vraiment banger.
+
+[09:49] Donc n'hésitez pas à avoir des trucs comme ça similaire. C'est top aussi. Ensuite tout ce qui est statistique, graphique pour les clients qui ont le moins confiance. Qui vient rassurer le fait d'acheter le produit c'est vraiment top. Donc après avoir toutes ces images qu'on vient de dire. Une petite image qui dit par exemple 95% de nos clients sont satisfaits. 95% de nos clients voient une différence après deux semaines.
+
+[10:13] Et là je vais vous montrer deux exemples banger. Deux exemples de boutiques qui chiffrent énormément. Et qui font exactement ce qu'il faut faire quand on parle de images produits. Et boutiques qui convertis en 2025. Vous voyez que c'est pas du blabla. C'est juste la pour value ce que je vous donne.
+
+[10:35] Donc ici on arrive sur une des boutiques. Cette boutique là elle est en train de scale très fort. Elle est à l'heure actuelle avec meta-ads. Ils ont plus de 1000 ads actifs. Et ils font exactement ce que je viens de vous mentionner. Donc là on arrive sur leur page produit. Alors là il y a un petit bug si vous scroller ce sera en français mais chez vous. Normalement c'est en anglais parce que traduction avec VPN.
+
+[10:59] Mais ici on arrive sur la page produit. On a une belle image qui montre le produit. Et eux par contre si vous voulez c'est quelque chose qui nettoie le visage. Et leur ong marketing du fait qu'ils ne sont pas chimiques. Et qu'il y a absolument 0 choses industrielles. Et que c'est vraiment 100% naturel. Il est tellement fort qu'ils sont obligés de le mettre ici. Mais typiquement si ils ne seraient pas autant fort sur ça en mode 0 parafène, 0 para bène, 0 artificiel ingrédient.
+
+[11:24] Si ils ne seraient pas là dedans ils auraient enlevé. Ils auraient juste mis le produit en grand. Ensuite deuxième image. Une cliente. Le persona exact qui donne un avis. Ensuite si vous n'avez pas de changement avec votre peau vous pouvez nous le retourner. En gros ils sont tellement confiants que c'est leur retour de police. Ensuite il y a une vidéo.
+
+[11:46] Donc il y a une vidéo, limite une vsl de 44 secondes d'une cliente qui est compend. Ça c'est vraiment vraiment banger. Ok le client il scroll encore. Il est peut-être un peu douteux. Boom il voit quelqu'un qui ça lui ressemble. Et il voit un avis positif. Nicole qui dit qu'elle a eu des avis. Et qu'on se voit 60 jours à la ud résultat. Enfin là du coup on va 20 jours à la ud résultat.
+
+[12:07] Voilà c'est vrai qu'il y a des bons résultats. Boom ensuite on scroll. Des statistiques comme je vous ai dit. Exactement d'ailleurs ce que je vous ai dit. 98% de success race. Vous êtes pas partie des 2% vous avez votre argent de votre. Un avis traspilote. Très smart. Ok parce que en ce moment j'avais mentionné dans une de mes anciennes vidéos à l'époque de mettre des avis traspilotes ici au lieu des étoiles.
+
+[12:29] Bon il n'y a pas que moi qui le disais bien évidemment mais après j'ai vu énormément de boutiques le faire. Et du coup tout le monde le fait. Mais maintenant peut-être c'est plus smart de mettre les avis traspilotes de cette façon là. On le voit que c'est vraiment écrit. Et c'est vraiment banger. Là je pense que c'est un vrai avis par contre. Ensuite comment utiliser leur système 34 secondes. Une petite vidéo sur comment est-ce que leur système fonctionne. Parce que l'on voit. Use de ud résultat clean.
+
+[12:51] Boom. Et ça c'est vraiment honnêtement. Vous pouvez voir n'importe quelle vidéo de ces héros n'importe quelle formation. C'est le plus gros. C'est la loi de Pareto les images en fait. Ok c'est vraiment vraiment important. Et ça ils sont en train de faire plusieurs millions chaque mois. Et du coup là comment utiliser le système. Minidemment on va pas faire ça avec un produit en fashion vous l'aurez compris. Ensuite next. Une image d'un autre angle où on voit le produit zoomer et on l'utilise.
+
+[13:13] Ensuite on voit que c'est 100% naturel. On voit les badges etc comme je vous ai dit. Bon là c'est plutôt le type de produit. Et ensuite ça n'en finit plus. Ça n'en finit plus. Donc vraiment leur page produit est dans leurs images. On voit les ingrédients de chaque type de produit. On voit l'evel. Donc voilà c'est juste magnifique. Before during after. Honnêtement c'est toute une landing page.
+
+[13:34] Et ensuite ici on peut descendre. On voit qu'il y a la bundle. On voit qu'ils ont la même chose ici. Mais eux ils savent très bien. D'ailleurs ici y'a absolument tout ce qu'on vient de voir dans les images. Eux ils savent très bien que personne scroll en fait. Ils sont venus mettre tout ici les avis. Tout ce qu'il y a à mettre dans les images. Une autre boutique qui fait un travail intéressant c'est celle-ci. On arrive sur la page produit. On voit le produit en utilisation sur un autre angle.
+
+[13:55] On voit des bénéfices de produits. On voit quand on va recevoir le produit à quoi s'attendre. Avec Lyon, la chose que je vous ai dit avant. Et un guide ebook offert aussi gratuit. Eux je pense qu'il pourrait encore plus bosser sur les images. Mais vous l'aurez compris c'est déjà un très bon travail. Donc ça c'est vraiment banger. Il y aura le lien de ces deux boutiques en dessous de cette vidéo. Ensuite au niveau des images. Encore ayez des images des mêmes dimensions.
+
+[14:16] Que chaque image soit de la même dimension. Parce que si vous avez une image carré. Que votre image numéro 2 est un peu plus horizontale. Peu long. En fait ça va se voir dès la première image. En gros en dessous de la première image. Il y aura un texte. Il y aura un guide blanc. Et ça fait relativement beaucoup descendre notre autre conversion. Donc ayez des images des mêmes dimensions.
+
+[14:37] Que ce soit harmonieux. Que votre charte graphique va tout ensemble. Par exemple vous avez un certain type de typographie. Que vous utilisez dans vos ades. Et sur votre site. D'avoir le même type de typographie. Sur le chap et les images. Et soit de A à Z. Tout harmonieux. On passe à la suite. D'autres conseils pour votre page produit. Ce que je peux vous conseiller de faire. C'est d'ajouter un fondateur sur votre page produit.
+
+[15:00] Alors c'est pas sur toutes les niches. Mais sur certaines niches. C'est important soit d'avoir une figure d'autorité. Ou simplement d'avoir un fondateur. On m'aime les deux. Et ça vous pouvez le faire avec LIA. Mais ça ne le fait pas honnêtement. Si les concurrents qui chiffrent le plus ne le font pas. Ok. C'est pas sur tous les produits qui sont intéressants de le faire. Mais sur beaucoup de produits d'ailleurs. Si vous avez vu la recherche produit avec pipiads.
+
+[15:21] Avec le t-shirt de compression. Vous aurez vu qu'il y a le fondateur. Et typiquement cette image là. Vous allez pouvoir la reprendre. Mixer avec ChatGPT. Changer la tête du fondateur. Et avoir la même chose pour votre chat. Ok. Ensuite bundle c'est obligatoire. Si on revient sur notre page. Là on voit le 1 des 3 bundles. Mais ici par exemple même ici. Toujours avoir un bundle.
+
+[15:42] Donc eux c'est de la bonnement. Soit on achète une fois. Soit on s'abonne. En gros ce modo si ce n'est pas le cas. Et il y a toujours un bundle. Typiquement ici. Un sachet, 2 sachets, 3 sachets. Toujours un bundle. Parce qu'il y a des clients. Qui vont acheter tout le temps plusieurs. Tout le temps tout le temps. Ok. Jamais proposer qu'une option. Sauf si c'est du gros I-Ticket. Etc. Vous m'aurez compris. Donc ça c'est super important de tout le temps. Tout le temps.
+
+[16:03] Et pour le bundle. Je vous conseille à l'application Rapid. Donc Rapid Bundle. Très bonne application. On l'utilise. La boutique. Qui se cale le plus. C'est celle-ci qu'on a installée. On a sur le thème shrine. Un bundle qui est déjà préinscrit. Vous allez le voir. Mais on n'a pas tant de customisation qui est disponible. Donc on a préféré utiliser Rapid Bundle.
+
+[16:25] Il est vrai qu'on a aussi beaucoup utilisé Caching Bundle. Mais on a eu un souci avec le free gift justement. Qu'on n'arrivait pas bien à faire avec Caching Bundle. Et finalement on l'a fait avec Rapid. Enfin c'est mon développeur qui l'a fait. On a utilisé cette application là. Donc vous pouvez utiliser cette application. Elle est top. Plus on connaît le founder derrière. Il est top aussi. Il connaît bien les commerces. Donc ça c'est top. Ils ont un savet très réactif.
+
+[16:48] Et même si vous avez quoi que ce soit comme question. En fait vous avez le founder sur les groupes WhatsApp. Que ce soit le groupe WhatsApp du school. Ou groupe WhatsApp de master tout simplement. Il y a le founder de Rapid qui est à disposition pour répondre à toutes vos questions en quelques secondes. Et c'est vraiment top. Encore une fois concernant votre page produit. S'il y a des infos techniques que vous devez mettre. Admettons vous avez un produit dans l'informatique.
+
+[17:09] Et il y a des onglets déroulants pour mettre toutes ces infos. On veut éviter que ce soit compliqué. On veut que ce soit simple. Comme vous l'aurez compris quand on arrive sur la page produit. Il faut que ce soit extrêmement simple. Et s'il y a des infos un peu techniques comme ça. Alors si c'est des infos importantes comme du fashion ou autre. Et que c'est la taille. Oui mettez-le en avant. Mais si c'est technique mettez-le dans des onglets déroulants. Ok. Oui checker ça très facile.
+
+[17:30] Très facile à faire avec Shrine et Section Store. Très facile. Ensuite FAQ. Le but de la FAQ c'est d'enlever les freins clients. Et cette FAQ-là elle va évoluer au long de votre scaling. Tout au long de votre scaling vous allez avoir des nouveaux feedbacks clients. Et ensuite vous allez mettre les nouveaux freins des clients que vous avez réceptionné. Boom, en haut de la FAQ. Et ces bangers comme ça, ça aide vraiment. Ensuite, encore quelques points pour votre page produit.
+
+[17:53] Soyez toujours en promotion. Ça fonctionne vraiment bien. Du moins toujours quelque chose qui indique au client. En ce moment c'est le meilleur moment pour acheter. C'est toujours ce qui fonctionne de plus. Donc en ce moment je suis en train de scaler. Je suis en train de faire de très bons chiffres aux US. Et je suis en promotion. Je suis toujours en promotion. Je suis en summer promotion. Je suis en winter promotion. Je suis en black friday promotion. Et tout le temps une promotion. Si on va un peu sur les tops sites du moment.
+
+[18:15] Modern day. Boom, promotion. Ils sont en train de scaler avec ce mot-clé. Modern days. Ici super spring sales end today. Toujours une promotion. Et en parlant de promotion, du coup ça fait qu'on peut être en réduction. Ici anniversaire va pure. Bon, ça c'est un anniversaire. Mais il y a toujours une raison de pourquoi il faut acheter maintenant. Ok, c'est basique. Mais certaines personnes peuvent l'oublier.
+
+[18:37] Quelque chose qui peut également grandement vous aider, c'est de proposer une réduction sur les premières commandes. Surtout quand vous avez un produit qui se rachète. Ça c'est vraiment, vraiment banger. Idéalement on met 10 à 15% de réduction pour la première commande. Surtout quand c'est quelque chose qui se rachète, c'est banger. On prend l'exemple ici de va pure qui donne 20% avec relax today. Alors à l'époque,
+
+[18:58] il donnait en fait une réduction pour la première commande. Là maintenant il y a deux codes différents. Alors ça faut pas faire. Il y a un code ici 20 et un code 10. Ça il faut pas faire. Mais ce qui fonctionne bien c'est d'avoir un code de première commande. Mais souvent beaucoup de grosses marques aussi font avec des pop-up qu'on arrive sur le site il y a une pop-up. Après un certain temps que le client est passé sur la page, eh bien une pop-up ok, moins 10% et ça convertit très bien.
+
+[19:19] Mais surtout sur les produits récurrents. Si vous n'êtes pas sur un produit qui est récurrent et que vous analysez vos top 5 concurrents et qu'ils ne le font pas, faites le pas. Faites une promotion classique et ça va très bien fonctionner. Donc on arrive à la fin de cette vidéo. J'aimerais juste vous dire que si vous faites déjà du chiffre que votre e-commerce tourne déjà et que vous n'avez pas encore installé mit Microsoft Clarity, installez-le. C'est en plus 100% gratuit et vous allez justement
+
+[19:42] pouvoir voir les hit maps. C'est que les gens pressent le plus et du coup vous allez voir que c'est les images. Mais installez-le. C'est vraiment banger. Ça va beaucoup vous aider. Par exemple vous faites de l'advertoir. Il y a des choses qui c'est intéressant de voir où c'est que les gens cliquent etc. Donc Microsoft Clarity 100% gratuit. Ça vous permet de voir les hit maps clients. Vidéo très courte mais énormément de value. Noledge is not power until it is applied.
+
+[20:04] Donc ce qui vous voulez dire d'Ali Karnighi c'est que je viens de vous partager ça a 0 pouvoir si vous l'appliquer pas. Donc appliquez tout ce que vous pouvez appliquer et faites de l'argent. À bientôt.
 
 

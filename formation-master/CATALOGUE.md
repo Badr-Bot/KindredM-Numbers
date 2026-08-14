@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 268 complètes (52 %)**
+**508 leçons au total · 298 complètes (58 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -220,7 +220,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRO, BOOSTER CA & AOV
 
-8 leçons · 4 complètes · 4 partielles
+8 leçons · 8 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -228,42 +228,42 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 2 | [CRO : Le Meilleur Levier de Croissance #2](transcriptions/cro-booster-ca-aov\02-cro-le-meilleur-levier-de-croissance-2.md) | 15:31 | complet |
 | ✅ | 3 | [CRO : Le Meilleur Levier de Croissance #3](transcriptions/cro-booster-ca-aov\03-cro-le-meilleur-levier-de-croissance-3.md) | 18:02 | complet |
 | ✅ | 4 | [Process complet du CRO #1](transcriptions/cro-booster-ca-aov\04-process-complet-du-cro-1.md) | 25:52 | complet |
-| 🟡 | 5 | [Process complet du CRO #2](transcriptions/cro-booster-ca-aov\05-process-complet-du-cro-2.md) | 37:38 | partiel |
-| 🟡 | 6 | [2 Grandes Leçons CRO sur le Prix](transcriptions/cro-booster-ca-aov\06-2-grandes-lecons-cro-sur-le-prix.md) | 8:00 | partiel |
-| 🟡 | 7 | [Partage de résultats CRO](transcriptions/cro-booster-ca-aov\07-partage-de-resultats-cro.md) | 6:03 | partiel |
-| 🟡 | 8 | [[BONUS Nico] Checklist 2026 & CRO Tips](transcriptions/cro-booster-ca-aov\08-bonus-nico-checklist-2026-cro-tips.md) | 20:15 | partiel |
+| ✅ | 5 | [Process complet du CRO #2](transcriptions/cro-booster-ca-aov\05-process-complet-du-cro-2.md) | 37:38 | complet |
+| ✅ | 6 | [2 Grandes Leçons CRO sur le Prix](transcriptions/cro-booster-ca-aov\06-2-grandes-lecons-cro-sur-le-prix.md) | 8:00 | complet |
+| ✅ | 7 | [Partage de résultats CRO](transcriptions/cro-booster-ca-aov\07-partage-de-resultats-cro.md) | 6:03 | complet |
+| ✅ | 8 | [[BONUS Nico] Checklist 2026 & CRO Tips](transcriptions/cro-booster-ca-aov\08-bonus-nico-checklist-2026-cro-tips.md) | 20:15 | complet |
 
 ## EMAIL & MESSAGING MARKETING
 
-26 leçons · 0 complètes · 26 partielles
+26 leçons · 25 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [0.1 - Introduction](transcriptions/email-messaging-marketing\01-0-1-introduction.md) | 3:04 | partiel |
-| 🟡 | 2 | [1.1 - Vision et Approche du CRM](transcriptions/email-messaging-marketing\02-1-1-vision-et-approche-du-crm.md) | 9:38 | partiel |
-| 🟡 | 3 | [2.1 - Setup & Templates](transcriptions/email-messaging-marketing\03-2-1-setup-templates.md) | 9:22 | partiel |
-| 🟡 | 4 | [2.2 - Prise en main Klaviyo](transcriptions/email-messaging-marketing\04-2-2-prise-en-main-klaviyo.md) | 9:08 | partiel |
-| 🟡 | 5 | [2.3 - 4 Types d'Emails](transcriptions/email-messaging-marketing\05-2-3-4-types-d-emails.md) | 5:13 | partiel |
-| 🟡 | 6 | [2.4 - Créer des Designs](transcriptions/email-messaging-marketing\06-2-4-creer-des-designs.md) | 16:58 | partiel |
-| 🟡 | 7 | [Préambule Module 3 & 4](transcriptions/email-messaging-marketing\07-preambule-module-3-4.md) | 8:42 | partiel |
-| 🟡 | 8 | [3.1 - Flows Pré-achat](transcriptions/email-messaging-marketing\08-3-1-flows-pre-achat.md) | 11:01 | partiel |
-| 🟡 | 9 | [4.1 - Flows Post-achat](transcriptions/email-messaging-marketing\09-4-1-flows-post-achat.md) | 6:11 | partiel |
-| 🟡 | 10 | [Préambule Module 5](transcriptions/email-messaging-marketing\10-preambule-module-5.md) | 7:45 | partiel |
-| 🟡 | 11 | [5.1 - Les Campagnes](transcriptions/email-messaging-marketing\11-5-1-les-campagnes.md) | 10:09 | partiel |
-| 🟡 | 12 | [6.1 - KPIs & Performances](transcriptions/email-messaging-marketing\12-6-1-kpis-performances.md) | 6:52 | partiel |
-| 🟡 | 13 | [6.2 - Analyse d'un Compte en Live](transcriptions/email-messaging-marketing\13-6-2-analyse-d-un-compte-en-live.md) | 4:24 | partiel |
-| 🟡 | 14 | [SMS & WhatsApp [BONUS]](transcriptions/email-messaging-marketing\14-sms-whatsapp-bonus.md) | 11:10 | partiel |
-| 🟡 | 15 | [Intro & pourquoi WhatsApp en 2026](transcriptions/email-messaging-marketing\15-intro-pourquoi-whatsapp-en-2026.md) | — | partiel |
-| 🟡 | 16 | [Les règles Meta](transcriptions/email-messaging-marketing\16-les-regles-meta.md) | — | partiel |
-| 🟡 | 17 | [Onboarding](transcriptions/email-messaging-marketing\17-onboarding.md) | — | partiel |
-| 🟡 | 18 | [Opt-in](transcriptions/email-messaging-marketing\18-opt-in.md) | — | partiel |
-| 🟡 | 19 | [Automatiser tes flows WhatsApp](transcriptions/email-messaging-marketing\19-automatiser-tes-flows-whatsapp.md) | — | partiel |
-| 🟡 | 20 | [Campagnes](transcriptions/email-messaging-marketing\20-campagnes.md) | — | partiel |
-| 🟡 | 21 | [L'IA WhatsApp](transcriptions/email-messaging-marketing\21-l-ia-whatsapp.md) | — | partiel |
-| 🟡 | 22 | [Compliance](transcriptions/email-messaging-marketing\22-compliance.md) | — | partiel |
-| 🟡 | 23 | [Maximise tes drops produits](transcriptions/email-messaging-marketing\23-maximise-tes-drops-produits.md) | — | partiel |
-| 🟡 | 24 | [Déploie ta marque](transcriptions/email-messaging-marketing\24-deploie-ta-marque.md) | — | partiel |
-| 🟡 | 25 | [Conclusion](transcriptions/email-messaging-marketing\25-conclusion.md) | — | partiel |
+| ✅ | 1 | [0.1 - Introduction](transcriptions/email-messaging-marketing\01-0-1-introduction.md) | 3:04 | complet |
+| ✅ | 2 | [1.1 - Vision et Approche du CRM](transcriptions/email-messaging-marketing\02-1-1-vision-et-approche-du-crm.md) | 9:38 | complet |
+| ✅ | 3 | [2.1 - Setup & Templates](transcriptions/email-messaging-marketing\03-2-1-setup-templates.md) | 9:22 | complet |
+| ✅ | 4 | [2.2 - Prise en main Klaviyo](transcriptions/email-messaging-marketing\04-2-2-prise-en-main-klaviyo.md) | 9:08 | complet |
+| ✅ | 5 | [2.3 - 4 Types d'Emails](transcriptions/email-messaging-marketing\05-2-3-4-types-d-emails.md) | 5:13 | complet |
+| ✅ | 6 | [2.4 - Créer des Designs](transcriptions/email-messaging-marketing\06-2-4-creer-des-designs.md) | 16:58 | complet |
+| ✅ | 7 | [Préambule Module 3 & 4](transcriptions/email-messaging-marketing\07-preambule-module-3-4.md) | 8:42 | complet |
+| ✅ | 8 | [3.1 - Flows Pré-achat](transcriptions/email-messaging-marketing\08-3-1-flows-pre-achat.md) | 11:01 | complet |
+| ✅ | 9 | [4.1 - Flows Post-achat](transcriptions/email-messaging-marketing\09-4-1-flows-post-achat.md) | 6:11 | complet |
+| ✅ | 10 | [Préambule Module 5](transcriptions/email-messaging-marketing\10-preambule-module-5.md) | 7:45 | complet |
+| ✅ | 11 | [5.1 - Les Campagnes](transcriptions/email-messaging-marketing\11-5-1-les-campagnes.md) | 10:09 | complet |
+| ✅ | 12 | [6.1 - KPIs & Performances](transcriptions/email-messaging-marketing\12-6-1-kpis-performances.md) | 6:52 | complet |
+| ✅ | 13 | [6.2 - Analyse d'un Compte en Live](transcriptions/email-messaging-marketing\13-6-2-analyse-d-un-compte-en-live.md) | 4:24 | complet |
+| ✅ | 14 | [SMS & WhatsApp [BONUS]](transcriptions/email-messaging-marketing\14-sms-whatsapp-bonus.md) | 11:10 | complet |
+| ✅ | 15 | [Intro & pourquoi WhatsApp en 2026](transcriptions/email-messaging-marketing\15-intro-pourquoi-whatsapp-en-2026.md) | 2:39 | complet |
+| ✅ | 16 | [Les règles Meta](transcriptions/email-messaging-marketing\16-les-regles-meta.md) | 4:44 | complet |
+| ✅ | 17 | [Onboarding](transcriptions/email-messaging-marketing\17-onboarding.md) | 5:40 | complet |
+| ✅ | 18 | [Opt-in](transcriptions/email-messaging-marketing\18-opt-in.md) | 4:46 | complet |
+| ✅ | 19 | [Automatiser tes flows WhatsApp](transcriptions/email-messaging-marketing\19-automatiser-tes-flows-whatsapp.md) | 5:07 | complet |
+| ✅ | 20 | [Campagnes](transcriptions/email-messaging-marketing\20-campagnes.md) | 3:11 | complet |
+| ✅ | 21 | [L'IA WhatsApp](transcriptions/email-messaging-marketing\21-l-ia-whatsapp.md) | 4:08 | complet |
+| ✅ | 22 | [Compliance](transcriptions/email-messaging-marketing\22-compliance.md) | 4:14 | complet |
+| ✅ | 23 | [Maximise tes drops produits](transcriptions/email-messaging-marketing\23-maximise-tes-drops-produits.md) | 5:06 | complet |
+| ✅ | 24 | [Déploie ta marque](transcriptions/email-messaging-marketing\24-deploie-ta-marque.md) | 8:47 | complet |
+| ✅ | 25 | [Conclusion](transcriptions/email-messaging-marketing\25-conclusion.md) | 3:48 | complet |
 | 🟡 | 26 | [Contacter Kanal & Offre](transcriptions/email-messaging-marketing\26-contacter-kanal-offre.md) | — | partiel |
 
 ## GÉRER SON SAV +IA by Onially
@@ -482,12 +482,12 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER RESEARCH
 
-20 leçons · 0 complètes · 18 partielles
+20 leçons · 1 complètes · 17 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | 🟡 | 1 | [MASTER RESEARCH](transcriptions/master-research\01-master-research.md) | — | partiel |
-| 🟡 | 2 | [MASTER PRODUCT FORMULA™](transcriptions/master-research\02-master-product-formulatm.md) | — | partiel |
+| ✅ | 2 | [MASTER PRODUCT FORMULA™](transcriptions/master-research\02-master-product-formulatm.md) | 16:53 | complet |
 | 🟡 | 3 | [Marché: Retour d'expérience COMPLET](transcriptions/master-research\03-marche-retour-d-experience-complet.md) | — | partiel |
 | 🟡 | 4 | [Ecom Data 1](transcriptions/master-research\04-ecom-data-1.md) | — | partiel |
 | 🟡 | 5 | [Ecom Data 2](transcriptions/master-research\05-ecom-data-2.md) | — | partiel |
