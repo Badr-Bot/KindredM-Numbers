@@ -27,19 +27,19 @@ il ne faut jamais répondre à sa place.
 - ✅ **19 — Comment devenir quelqu'un d'ULTRA organisé** · 20:27
 - ✅ **20 — Organiser ses tâches avec Asana et ClickUp** · 18:09
 - ✅ **21 — Comment créer des habitudes qui changent votre vie** · 30:31
-- 🟡 **22 — Exercices pratiques — Affirmation audio** 
-- 🟡 **23 — Métriques & erreurs fatales** 
-- 🟡 **24 — Units economics / contributions Margin** 
-- 🟡 **25 — Les benchmarks à viser (CVR, AOV, ROAS min)** 
-- 🟡 **26 — Analyse de ses premiers chiffres: Quadrant Master** 
-- 🟡 **27 — MASTER PRODUCT FORMULA™** 
+- ✅ **22 — Exercices pratiques — Affirmation audio** · 4:50
+- ✅ **23 — Métriques & erreurs fatales** · 15:46
+- ✅ **24 — Units economics / contributions Margin** · 12:26
+- ✅ **25 — Les benchmarks à viser (CVR, AOV, ROAS min)** · 16:00
+- ✅ **26 — Analyse de ses premiers chiffres: Quadrant Master** · 14:03
+- ✅ **27 — MASTER PRODUCT FORMULA™** · 16:53
 - 🟡 **28 — Les Désirs de Marché** 
-- 🟡 **29 — Les 9 critères essentiels** 
+- ✅ **29 — Les 9 critères essentiels** · 3:57
 - 🟡 **30 — Choisir son marché** 
-- 🟡 **31 — Tutoriel 2026 : Recherche produit de A à Z** 
-- 🟡 **32 — Impressions US: hacks récents pour pépites** · 10:49
-- 🟡 **33 — Sophistication Simplifié (base à connaître)** · 8:18
-- 🟡 **34 — Fichier d'organisation** · 15:38
+- ✅ **31 — Tutoriel 2026 : Recherche produit de A à Z** · 35:38
+- ✅ **32 — Impressions US: hacks récents pour pépites** · 10:49
+- ✅ **33 — Sophistication Simplifié (base à connaître)** · 8:18
+- ✅ **34 — Fichier d'organisation** · 15:38
 - 🟡 **35 — Sourcing & première commande** 
 - 🟡 **36 — Pour aller plus loin dans le détail** · 1:02
 - 🟡 **37 — Logistique et fournisseurs** 
@@ -465,14 +465,14 @@ il ne faut jamais répondre à sa place.
 - ✅ **45 — Introduction & Présentation** · 12:08
 - ✅ **46 — Google Ads Basics** · 21:01
 - ✅ **47 — Stratégie de Structuration Ultime en 2026** · 6:04
-- 🟡 **48 — Paramétrer votre compte** 
-- 🟡 **49 — Setup d’une campagne** 
-- 🟡 **50 — Les stratégies d’enchères** 
-- 🟡 **51 — Focus : Search** 
-- 🟡 **52 — Focus : PMAX & Shopping** 
-- 🟡 **53 — Focus : Demand Gen** 
-- 🟡 **54 — Allocation budgétaire & KPIs** 
-- 🟡 **55 — Bonus [Slide] GMC - Éviter les bans** 
+- ✅ **48 — Paramétrer votre compte** · 21:30
+- ✅ **49 — Setup d’une campagne** · 10:01
+- ✅ **50 — Les stratégies d’enchères** · 22:32
+- ✅ **51 — Focus : Search** · 20:33
+- ✅ **52 — Focus : PMAX & Shopping** · 16:51
+- ✅ **53 — Focus : Demand Gen** · 9:41
+- ✅ **54 — Allocation budgétaire & KPIs** · 15:43
+- ✅ **55 — Bonus [Slide] GMC - Éviter les bans** · 6:44
 
 ## MASTER IA
 

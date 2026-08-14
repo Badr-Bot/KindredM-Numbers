@@ -1538,7 +1538,7 @@ Cette structure n'est pas théorique, elle est conçue pour être adaptée à ch
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 48 : Paramétrer votre compte
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 48
 ======================================================================
 
@@ -1630,16 +1630,130 @@ Ce module est volontairement orienté action et rigueur. Un compte bien structur
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello et bienvenue du coup dans ce module numéro 3, je vais vraiment purement accès tutoriel beaucoup plus parlant pour les débutants, ceux qui n'ont jamais créé de compte Google Earth, ceux qui n'ont jamais créé de compte Google Earth aussi pour le module numéro 4 Donc si vous êtes intermédiaire avancé que c'est des choses que vous avez déjà fait, passez directement module numéro 5, ce sera beaucoup plus intéressant pour vous Et pour ceux qui débutent, ces modules vont être vraiment accès et intéressants pour vous, avec vraiment du click par click sur comment créer votre compte,
+
+[00:26] présentation un peu aussi des espaces, ou trouver les audiences, ou trouver les stratégies en chair et derrière ensuite comment paramettre votre gmc, ce qui va permettre du coup de connecter votre produit Shopify à votre compte Google Earth, pour finir ensuite avec 2-3 tests par rapport au gmc qui seront peut-être inclus dans une vidéo annexe pour les intermédiaires et les avancers aussi, parce que pour le coup ça s'appara tout le monde
+
+[00:48] Et voilà un peu la round map pour ce module là, et ensuite dans le module numéro 4, on vient de vraiment paramettre une première campagne à travers le compte que je vais faire avec vous, qui va être un point aussi tu vas être utile, je fais d'une pierre de cou pour la suite Et on est parti Du coup premièrement, tapez directement que faits compte Google Earth sur Google, vous allez tomber sur le premier manière évidemment sponsorisée Je pense qu'ils ont des bons coups par click chez Google
+
+[01:13] Ce qui est intéressant ici c'est de checker les avoir directement, quand vous avez écrit sur le lien en fait vous avez des avoir ici 400 euros 800, 1200, qui sont en fait le montant à dépenser pour déboquer ce montant là en avoir donc c'est super intéressant Si vous savez que vous avez ce qui est assez rapidement, partez directement sur 1200, en gros vous avez dépensé 2500 euros avec Google Earth
+
+[01:34] au cours de 60 premiers jours pour déboquer la voir, moi c'est ce que je fais constamment et en fait ça va vous le mettre en cliquant sur le RK Maintenant il faut que votre compte soit apparaîtrait, ça va le connecter directement à votre compte donc c'est très simple Donc faites tout de même, je tiens à le dire, même si vous ne vous dépassiez pas, tentez animer sur les 400 euros parce que c'est toujours ça de le grappiller, disez par dehors Un CPA c'est toujours très intéressant, donc pensez à checker ça
+
+[01:58] Dès que votre compte est créé, venez ici, cliquez sur ETA maintenant et cliquez sur votre compte, bougez la zee directement et ça va la signer Voilà, pour les autres, cliquez sur Commencer directement ici et on arrive directement sur l'état d'offre Et l'état d'offre, du coup on arrive ici, donc cliquez sur votre compte, quand pas il faut que vous aillez connecter votre compte pensez à créer un adresse mail dédié, ici nous c'est l'adresse mail de l'agence pour les cons mais pensez à créer un adresse mail dédié
+
+[02:21] et également connecter un workspace que vous avez utilisé et à votre nom de domaine aussi de votre marque Il est hyper intéressant d'avoir tout connecté, je vous expliquerai pourquoi par la suite notamment sur la partie comment éviter les banches j'aime Mais du coup si c'est le nom de votre entreprise, donc la mettez le nom de votre marque, donc marque E Au niveau de l'URL, je vais mettre URL dans le rest, c'est direct, on appuie sur celui-là, venez vérifier votre URL
+
+[02:42] ce qu'on sache de remettre un vrai. Ensuite il a scrapé directement ce qui était le site qu'on vendait dans ce dernier il va donner du coup une inscription, vous ne pouvez pas la tête laisser comme c'est pareil pour les services specific, si vous voyez les trucs qui sont vraiment pas parlants, enlevez-le C'est le cas laissé, on va plus sûr que vous le voyez, association des comptes, donc on viendrait faire la association GMC plus tard
+
+[03:04] Si vous avez déjà une chaîne YouTube qui a été créée par rapport à votre marque, pensez à l'associer ici sinon il faudra le faire plus tard, quand vous allez commencer à faire des annonces en fait directement sur le devant de James sur YouTube de façon de là, donc à portant de leur raconte propre à votre marque, c'est plus parlant pareil pour le GMC, ça va le faire juste après, la fiche d'établissement globalement pas très pertinent intéressant si vous avez un présentant physique mais pas obligatoire, vous pouvez pas appuyer sur Ignore, c'est le terme
+
+[03:30] Ensuite pensez à connecter un Google Analytics, donc là on a déjà tué un pour cette brène là, donc ça appartait automatiquement mais si vous avez pas déjà créé le Google Analytics, c'est très simple, vous avez tout à fait un parallèle, je vais faire un tuto pour ça il y a des millions sur YouTube, et pensez à le faire connecter aussi, directeur et apporter forcément les maitrisques et les audients
+
+[03:52] Ensuite au niveau des objectifs des campagnes, on va passer ces détables, en fait vous avez cliqué sur directement, vous n'êtes pas prêt à créer une campagne parce que là selon on va rentrer dans un processus de création de campagne, version un boarding Google et c'est pas ce qui est intéressant donc on va cliquer directement sur configure uniquement un compte là la facturation par le traitage du compte français, perte, deviseur, évidemment si vous êtes sur d'autres marchés
+
+[04:13] vous êtes sur d'autres pays, émira, US ou autre, vous avisez vous vous affirmez vos parallètes de compte de paiement, donc là ça commence à être intéressant l'offre des lancements, que je vous l'ai dit, pas besoin de le mettre ici, faites que l'appréhension et reliez l'offre en cliquant sur le lien à votre compte, ça se fera directement mais c'est ici ce que vous pouvez faire au niveau du profil de paiement, ajoutez le mettre aussi, juste après
+
+[04:36] au niveau du moyen de paiement, c'est là où ça nous intéresse vraiment pensez à mettre un compte manqueur en premier, et en second backup une carte de crédit il y a le plate-faux, il y a le changement de devise potentiel un compte manqueur, ce sera toujours plus safe, évidemment, le 2 ce sera toujours plus, plus safe donc pensez à faire ça toujours, est-ce que je recommande ensuite ici vous allez mettre, bon ça c'est pas pour chacun mais
+
+[04:58] si vous êtes un raconte stratégique Google, ça peut être intéressant vraiment si vous débutez maintenant les conseils que peuvent être évoqués durant son cours, je ne suis pas forcément pertinent je sais pas si je dirais vous dire, mais en gros moi j'ai tendance à la pointe de nourrissier et vous envoyez, je n'ai juste pas remettre mes conseils au profil de paiement une fois que vous avez validé votre profil de paiement, votre compte a été créé félicitations
+
+[05:20] par rapport à ce que c'est beaucoup plus important aujourd'hui qu'avant, mais on y est donc appuyez sur continue directement et on va rentrer directement dans le backend Google Ads si vous êtes une gens au pointe de net, oui ici c'est une vraie non pure je vais mettre nos, ici c'est le point de main, je vais mettre pas et le responsable c'est nous directement et nous une agence donc nous voilà arrivés dans le backend Google Ads
+
+[05:41] on va pouvoir passer la présentation des différents onglets à disposition donc c'est de cette façon que Google a présenté les choses, on a les onglets principaux ici donc à l'échelle de 5 et d'ailleurs les sous-onglets qui vont s'afficher en fonction du sujet sur lequel vous serez donc la première onglet est l'onglet principal, l'onglet campagne avec une vue d'ensemble de vos campagnes, des performances vue juste ici avec la possibilité de personnaliser la vue
+
+[06:03] selon tout ce que vous souhaitez, les dates, les types de campagnes bref, vraiment tout sur mesdage à chaque fois, les recommandations Google Ads, si tu peux apparaître attention c'est pas toujours pertinent, ce que je vous conseille de faire c'est directement d'aller dans le paramètre d'application automatique ici, de décocher tout ce qui peut être coché, moi c'est décocher automatiquement parce que c'est avec le compte de l'agence mais en gros voilà, moi je décoche tout, je pilote à la mano et on a été préférés avoir quelques cases de cocher
+
+[06:27] sur d'ajustations spécifiques, mais en gros, voilà, partie de principe qu'il vaut mieux tout décocher et après ajuster en fonction de vos besoins vous pouvez essayer de cocher, en gros, vous allez offrir à Google la possibilité d'ajouter des enjeux responsibles sur les autres recherches d'améliorer vos annonces sans votre accord, de souffrir mes démo clés renduant, de souffrir mes démo clés entre autres en fonction bref, bâtir vraiment sans votre accord sur vos campagnes
+
+[06:49] on définit son essai de l'assid, des OSI, bref, tout peut être pilotant automatique bah non, on ne fait surtout pas, parce que ça marche pas très bien pour l'instant peut-être que d'ici un an et demi, deux ans, ce sera possible, c'est aussi leur objectif, il y a ce tout-là mais pour l'instant c'est pas le cas, donc pour les sens en considération c'est super important ensuite on a des différences d'insale, par rapport à vos performances là on va voir l'accès directement au campagne, c'est là où on aura le distingue des différentes campagnes
+
+[07:13] qui viennent apparaître, les paramètres aussi de chacune des campagnes qui seront affichés ici donc attaillant à voir le niveau stonglé par rapport au stagiaire, d'encher, etc les différents tests qu'on prend d'autres en place ils vont s'afficher ici, donc on peut créer des APDs directement du piston gay là, sur deux types de campagnes, rapidement avec deux sortes d'indocérents les compareils frontalement, c'est dans cet onglet qu'on peut faire
+
+[07:35] les audiences avec les zones d'affichage, etc c'est vraiment là que vous allez venir piloter vos campagnes on a l'onglet objectif, là c'est vraiment plus axé autour du tracking ou autour de la conversion on peut avoir la frivition de valeur, c'est par conversion, de par letrages, d'apportation c'est conversion, s'il n'y a pas grand chose à évoquer on va configurer sur des conversions via simproziz, directement, juste après
+
+[07:57] donc pas besoin de faire grand enfos ici pour l'instant when you release a tool, ce qui est intéressant c'est le tool war planner et les audiences vraiment aujourd'hui, pour vous, donc juste ici une petite pénification démo-clé, tu es vraiment le plus intéressant dans le world pour trouver démo-clé, obtenir le volume de recherche et vos prévisions aussi par rapport à ces derniers, je vais vous montrer des screens par les wendy's suivants
+
+[08:20] par rapport à ça, mais hyper intéressant comme outil on a SM rush aussi qui est très connu mais franchement aujourd'hui vous pouvez le tool war planner faire vraiment le taf là où c'était pas forcément le caravans, ce que je fais à chaque fois c'est que je l'utilise les deux pour une pénification de tool mo-clé avant d'encreindre un search et je base des théories entre ce qui est évoqué sur SM rush et sur le tool war planner parce que ça doit être une bonne target à avoir que soit niveau de cpc et durée
+
+[08:44] sinon ce qui est vraiment intéressant ici à capter c'est la partagé sont les audiences par exemple c'est juste ici du coup, c'est ici qu'on va venir configurer toutes les audiences qu'on a pu voir que ce soit les visiteurs, listes, clients ou des combinations personnalisées à chaque fois au niveau des bossées de moins de données, au niveau des audiences on a parlé aussi mais on a du coup ce qui est inarquait, tout ce qui est basé sur vos données, tout ce qui est basé sur les séries de moins de personnes
+
+[09:08] on arrive tout déparamétrable ici si vous voulez avoir plus de détails sur comment on va mettre vraiment une audience de A à Z je pense pas qu'on va faire une vidéo dédiée parce que c'est assez spécifique à dépendre vraiment de du type d'audience que vous voulez paramétrer d'un groupe vous pouvez combiner beaucoup de choses et derrière Google va vous donner une espèce de prévision sur la taille d'audience que ça peut donner peut-être que sur un programme de la campagne je reviendrai aussi
+
+[09:30] en testing ça peut être une façon de vous montrer ça mais si il n'y a pas une vidéo du type d'avantage sur Youtube, n'hésitez pas en tout cas ici tu vas me retrouver par le trajet d'audience pour demander un gêné de lax c'est top, même pour les audiences de ta route et la liste des exclusions aussi par rapport au keyword c'est ici que vous allez trouver, donc là je vous démoplère ce fait ici, par en fait se crocher, un gimmez, crocher ou rien
+
+[09:52] pareil pour les exclusions de marque, donc ici c'est super intéressant de la lutter comme ça vous pourrez aller les exclusions directement, automatiquement dans vos campagnes, donc votre marque entre-haut le reste ça sert à rien de pas être su, c'est plus spécifique je pense que si vous êtes ici que vous les évitez, vous prenez pas la tête avec tout ça concentrez-nous sur le keyword planor pour la pénétration de vos campagnes et la gestion des audiences, des exclusions et de marque ici
+
+[10:14] pour le cible ensuite on a la participation, on va agir une registre FEPS on va le continuer, et pareil pour la partie paramètre du compte donc tout peut être en ligne, ou là vous allez pouvoir donner accès à qui vous voulez ici quand vous donnez accès à quelqu'un, pensez à aller dans sécurité aussi, domaine autorisé, évitez le domaine, à qui vous voulez, vous voulez donner accès parce que si vous vous voulez donner accès à un githar
+
+[10:37] bah skilers.io typiquement là si il n'y a pas de skilers.io dans le domaine autorisé ce ne sera pas possible donc là on va le faire directement parce que ce sera nécessaire mais du coup voilà si vous voulez donner accès à un prestataire ou un membre de votre équipe c'est ici que ça se passe, ensuite vous pouvez jeter accès ici, directeur au niveau du nom de compte donc on ira dire ici, pensez à mettre un nom de compte sur tout ce qui vous en met surtout si vous en mettez plusieurs, c'est important
+
+[10:59] si tu as de super importance au niveau du contact principal d'y rentrer les bonnes infos de façon précise parce que sinon après en termes de cohérence ce n'est pas la même chose, déjà entre les différents troupes que vous connectez GNC, analytics et ce qui est ici ça ne va pas fonctionner, donc pensez à mettre vraiment un mot un adresse mail, le pays de bon numéro de téléphone une bonne adresse mail, une bonne adresse physique aussi évidemment
+
+[11:21] et faites en sorte que ce soit cohérente qu'il y ait différents outils de relier ensuite du coup on passe à la création d'une retransmitter pour pouvoir le relier dire directement après donc là pareil la retransmitter sur Google le premier lien organique cette fois ci pensez à être connecté du coup à votre compte Google ici avec lequel vous avez créé votre account et on va plus chanter en continuant donc on est au niveau de vous décroiler une ou deux
+
+[11:43] est ce que vous avez en magasin, c'est à dire quand vous avez la mullet, je vais te remettre le verrain du site ici, on a pu te le continuer ensuite ils vont demander du coup est ce que vous voulez afficher vos gratuites vos crédits sur Google, sur les histoires organiques je vous conseille de le mettre ça ne pose pas de problème, jetez du coup le nom d'entreprise ici pas le nom de la marque, le nom d'entreprise donc là ils vont vous proposer
+
+[12:04] d'utiliser l'application Google YouTube ad sur PopulSri directement on y donnera après, le plus important c'est la manoeuvre ici, on y rentre toutes ces informations donc là on va sélectionner les pays dans lesquels on est présent, on pense dans France et ensuite là on va voir pour l'ajouter des produits soit faire un appui sur PopulSri directement qui est possible ici, ce qu'on va faire
+
+[12:26] donc on appuie directement sur continue et on va ouvrir ici l'application Google YouTube directement du coup ils vont vous demander associer votre compte Google, merchants, un third et jetez sur associer et jetez que c'est le bon numéro vous avez ajouté les coordonnées décordonnées à votre boutique en ligne oui appuyez sur confirmé directement avec cette télécondition d'utilisation aussi
+
+[12:50] ça a évité ça, un peu cher au niveau d'experiment pareil pour vendre nos produits sur votre chaîne YouTube c'est ici que ça se passe, on pense à connecter créer ma chaîne formage d'embaquée, par ailleurs pour l'instant on va naître ignoré on y reviendra quand ce sera nécessaire à de scale, maintenant on y est actif et connecté donc ça c'est intéressant c'est cool
+
+[13:14] vous reçerez ton lien sur notre champs d'ampteurs ajoutez les infoniés raisons directement pour France par transporteur également et là vous allez ajouter toutes les informations liées à la ligne raison il faut exactement que ce soit les bonnes informations ça c'est primordial parce que si un manque de cohérence
+
+[13:36] ou des choses qui ne sont pas agales entre vos politiques de retour et livraison ce que vous indiquez à Google ici et la réalité Google va le repérer quoi qu'il arrive à un moment ou un autre que ce soit d'un retour client, que ce soit d'un scrapping via leur bot sur votre site et un comparatif, excusez vous ok on pense à être vraiment les bonnes informations je vous recommande c'est de faire une césse immaguelle
+
+[13:58] de livraison spécifique avec toute une information du coin compétit justique je vais faire, bien mais du coup au niveau du temps de traitement, les jours ce qui est intéressant de mettre c'est du lendemain d'aujourd'hui comme ça me comptaille vous allez les jours ouvrés, ça va avoir une 2 jours au niveau du calcul et ajouter du coup le délai entre 3 et 5 plus, si jamais vous êtes à plus sur cette boutique de mémoire on doit être à 3
+
+[14:20] mais je vais mettre 5 et j'en rajouterai plus tard en fonction des politiques et pensez à la théâtre une vraiment de façon précise, vous pouvez revenir dessus après mais une fois que c'est lancé c'est lancé pensez à mettre quelque chose de très précieux il y a une différence du clou il y a des traitements moi c'est pour le coup un jour et des dashoninements qui est totalement sûr ce qui donne une totale des destinations
+
+[14:42] de 0 à 6 jours ouvrés selon les informations de l'un ou l'autre leur ligne de commande si on a une aussi moi de spile mort le soir cette fin de fin ensuite comment qualifiez-vous les frais de port pareil mettez ce que vous avez sur votre site voilà, livraison gratuite appartue une valeur de command spécifique on peut mettre en 5 euros pareil pour les frais de port ensuite tout ce qui est en dessous de la livraison gratuite mettez un prix interféliciste
+
+[15:04] en 92 c'est parfait, très bien ajuster à plus tard ensuite indiquez aux clients les conditions de retour de vos produits, pareil, important de l'indiquer donc la mettez le URL de vos politiques de retour oui j'accepte de faire le retour sur les produits d'effectifs et non-técutures là il faut l'indiquer et en échange du coup oui j'accepte les échanges ou non n'accepte pas les échanges
+
+[15:26] ensuite étendu produit du retour ou légèrement utilisé, BDC9 ça me recommence dès le retour sur un certain nombre de jours je faisais une garantie si plus que 15 jours mettaient 30-60 ce que vous voulez en moyenne en France on a 14 c'est le mai 60 on a un produit qui est vachement garantie, ça fait sens aussi au niveau des méthodes de retour c'est
+
+[15:48] pas possible, principalement on rêve pas de le maitrer tout ça ensuite du coup ce que je vous recommande de mettre en place c'est Symprozis c'est une application Shopify et vous le dansez sur votre shop ça coûte 5 dollars par mois jusqu'à 500 produits et ça permet pas mal de choses c'est des choses que vous pouvez faire en vrai directement
+
+[16:09] via Neltsik, via TaManager ou autre mais ça simplifie vraiment la vie que soit au niveau du paramétrage, du flux produit que ce soit au niveau des visageours que soit au niveau d'automation que vous pouvez mettre en place depuis l'application directement que soit au niveau du setup et puis le tracking il est meilleur globalement quand on se passe par ce tool
+
+[16:31] donc voilà allez-y installez-le dès que vous avez installé Symprozis du coup il a demandé de connecter donc à connecter vous avec le compte tu fais le gap entre votre merchant center et votre adacante vous guérez, il y a un procès du coup ici à sélectionner battous qui est plus magnifique faire ce que je vais vous donner
+
+[16:53] ensuite vous néélectionnez du coup votre merchant center, continuez là par exemple vous ajustez son de vos marchettes etc c'est bon au niveau de l'URL, il y a un transit à vie ou de la compte bon on est beau, ensuite là c'est important de faire ce que je vais faire par rapport au setup de Symprozis déjà c'est le switch
+
+[17:13] vers l'intégration avancée directement, on va aller plus en détail que ce qu'il faut que vous puissiez néélectionnez du coup tous les produits j'ai resté du coup le tâle de productif et le bon which product total would you like to use donc là ajustez si vous optimizez au niveau du SEO pensez à être SEO aussi pensez à être productif directement
+
+[17:35] pensez à être productif title, j'aime bien mettre SEO parce que ça va être ajusté entre les lp et ce qui est vraiment affiché notez aussi si vous voulez envoyer toutes les variantes ou la variante première en ligne, ça c'est pas grave en vous si vous avez des variantes de couleur si vous voulez envoyer des variantes de volume si une idée d'arlen t-shirt ou d'un même complément de vair à un prix X, je sais que des fois il est préféré
+
+[17:57] envoyer la première variante parce que c'est le prix moins cher, c'est ce qui est le mieux de marcher sur chose j'ai tendance à se tourner pareil au niveau des variantes, ajoutez le no c'est pas conforme quelle est la différence entre les produits ensuite toujours submit as in stock si vous le pouvez sinon vous pouvez mettre out of stock au coup il y a un chiffier produit mais si il y a marqué continuez selling when out of stock si tu veux pas sens donc laisser d'activer
+
+[18:19] si tu veux que tu aies d'activer c'est stratégique si tu peux être utilisé, je vous voulez avoir des images différentes entre google et et votre fleu filetier as submit additional images donc là il va venir prendre toutes les premières photos ça dépend moi je conseille d'ajuster en fonction des photos que vous avez ici je vais mettre yes il y a des cacheménaux et le reste on est bon
+
+[18:41] ensuite bien trouver du coup la catégorie de produits si tu pourrais se poursuivre à votre projet donc là moi ça reste un complément alimentaire sur le niveau de d'utiliser personne, tu consommes votre produit, ça rajouter au niveau display donc c'est tout l'interessant voilà le produit leaders bien évidemment, survey by name, nab, sq, njt, ncode pareil, important de cocher ça
+
+[19:03] là est-ce que tu vas être vraiment important de cocher, c'est sale price ou is price en gros il faut autoriser à google du coup d'afficher via synchrozyze le prix en promotion directement sq, c'est normal en termes de conversion, en termes de cta donc pensez à cocher, si votre produit n'a pas de TVR
+
+[19:25] mettez nous, directement suivant d'Europe c'est oui ou bien t'en va et le reste on est bon, c'est le next step donc là, si tu vois Justin Google Ads account donc tu vas pouvoir sqlir directement ici j'allais chier, n'acquis nono soit les mots on appuie sur court term and continue là on a l'init automatiquement le google ads, le match on t'en sonde tu tombe déjà l'un donc ça va tout collecter en fait
+
+[19:47] au niveau d'equisitum, que ce soit synchrozyze Shopify, match on t'en sonde et google attend du coup sur ce bouton ensuite on arrive du coup au setup du tracking automatiquement avec diné, coer, coer, coer c'est up, donc la boom, let's proceed si vous avez un setup via google time manager en propre mettez nous
+
+[20:08] viens cocher tout, diné, coer, coer c'est tout cocher, c'est super important au zéro aussi du coup le tracking les app to cart et du begin checkout là d'ailleurs maintenant on est pas sur napple il c'est là il a proposé de créer une nouvelle dénax dans le paillard on s'est bien vu d'abord et on est bon donc vous allez voir un jour de filtre trial donc là c'est vraiment cool bon après c'est 5€ derrière
+
+[20:30] pas significatif mais ça a l'autant de le tâcher ce qu'interessez aussi de faire c'est d'aller du coup dans tracking tags, juste ici google analytics 4 event tracking setup et un free connected directement c'est aussi un proglé aussi, pareil avec ce point là donc très pratique et super intéressant mais au niveau tracking d'avant comparatif entre les deux ça fait toujours sang du coup on est tout bon, on peut voir que du coup
+
+[20:52] sur objectif récapitulatif des conversions sur le compte google ad on a la conversion d'achat qui a remonté la conversion d'ajout panique qui a remonté la conversion panique, paiement inissé qui a remonté c'est inactif aujourd'hui parce que il n'y en a pas encore une il convient de l'ajouter mais ce sera actif du coup à posteriori et vous pourrez me dire directement depuis hier on est bon, on a notre compte google ad qui est créé on a notre mercant center qui est créé et relié
+
+[21:14] on a notre synprosies qui envoie le flux produit de plan body troops file vers notre compte google ad et en parallèle via synprosies on a pu créer aussi notre compte g4 qui permet de envoyer davantage de data pour la suite ça peut être en main donc on va pouvoir passer à l'étape d'après qui est de créer notre première campagne, c'est parti
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 49 : Setup d’une campagne
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 49
 ======================================================================
 
@@ -1719,16 +1833,70 @@ Ne cherchez pas à tout automatiser immédiatement. Démarrer sur Shopping Stand
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, on est parti pour ce module numéro 4. Tu vas être pareil en format tutoriel sur la création d'une nouvelle campagne sur votre nouveau compte, qui plus est peut-être votre première campagne. C'est le cas, sachant que du coup, on va créer une campagne shopping. Je trouve que c'est la campagne la plus intéressante à vous moquer parce que en termes de pertinence
+
+[00:21] par rapport au e-commerce, c'est ce qui y a de mieux. Il y a plusieurs erreurs aussi à éviter qui sont assez importantes au niveau du paramétrage de votre première campagne shopping. Donc, pré-nordial. Et j'ai visité aussi avec la partie création d'une performance max directement. Mais je pense que si vous êtes débutant, il faut attaquer par la shopping comme évoqué dans la practice récuration. Donc, c'est ce qu'on va faire dès la présent.
+
+[00:43] Allez, c'est parti. Du coup, on se retrouve dans le backend de notre compte. On vient tout juste de créer, tout frais tout neuf. On va directement cliquer sur nouvelle campagne. Ensuite, Google va vous demander l'objectif de votre campagne. Nous aujourd'hui, on a un objectif de vente très clairement. On va venir utiliser un objectif de conversion spécifique, qui est l'objectif de conversion Bacha.
+
+[01:03] Donc, c'est ce qu'on vient de parameter juste dans le module d'avant. Au niveau de Synprosis, on le voit juste ici. C'est parfait. Il n'en va lier aujourd'hui parce qu'il n'y a pas de conversion encore entre le moment de l'expiration et le set de cette campagne. Mais ça va être bon par la suite. Donc, on va pouvoir continuer. Ensuite, tu vas vous demander du coup de sélectionner un titre de campagne. Donc, on a d'abord un smax shopping, de manjane, search, YouTube et disque.
+
+[01:26] Ça, on les a vus dans les modules de présentation par rapport aux bases. On va partir nous sur shopping, juste ici. Ensuite, on va venir associer du coup le compte merchant center qu'on vient de créer juste avant. Là, il me dit que les produits ne sont pas encore apparus. C'est normal. Ils sont en prodécin, conditiation, versus Synprosis. Une fois que ça sera le cas, ça va apparaître directement de son païd. Donc, payez quand même le flux.
+
+[01:47] Ah, pardon, le compte merchant center que vous venez de créer. Ensuite, ils vont vous pousser à créer une campagne d'erfance max, jasique. Tournez-vous vers Shopping Standard. Je l'en ai parlé et je vais parler par la suite. C'est quelque chose d'important. Au départ, quand on s'est parlé de shopping, et ensuite de passer à P-Max, c'est assez clémential. Et vous verrez d'ailleurs dans la durance de ce tutoriel que Google vous...
+
+[02:07] Vous dirige vers ses propres options les plus intéressantes pour lui. D'ici entre P-Max et Shopping. Donc, c'est intéressant de vous faire ce tuto parce que... Il n'y a pas le le piège à éviter sur le lancement de campagne. Donc là, ensuite, au niveau du naming de la campagne, il y a plusieurs stratégies de correction de naming. Une qui est simple à faire, c'est celle-ci. Le gaz à l'intérieur des idées suivantes n'a pas besoin d'apprendre la considération.
+
+[02:28] Donc on est sur une shopping. Avec un objectif d'acquisition. La stratégie non cher, c'est à mettre une max de clics au départ. Au niveau du cpc cible, je le mets ici parce que je le connais. Et je pense qu'on sera plus à 0,9. Et avec ceci, déjà, on sera très l'air d'un de convention de naming. Je pense que c'est optimisable, évidemment. Mais ajuster sur...
+
+[02:49] Vous derrière, si vous avez des outils, ce qui permet de calibrer et de traquer. De façon précise selon vos conventions. Vos différentes actions et vos données de reparting. Je pense qu'en tant que débutant, c'est pas le cas. Donc prenez pas la télé avec ça. Pareil aussi, j'ai l'alternative d'émettre, d'étirer parce que... Parce que UTM, mais c'est pas obligatoire, prenez des espaces. Au niveau du budget, parce que je vous conseille, c'est d'avoir un budget coûtier moyen d'environ 30€ d'ail,
+
+[03:11] minimum sur une première campagne shopping. Ne vous inquiétez pas, s'il n'y a pas de danse, ça va pas cliquer, ça va pas se plaire. Mais 30€ c'est minimum. Passer rapidement à 50€, puis plus. Au niveau de l'encheur, on va le directement maximiser les critiques. Ça on en a parlé, je reparlerai aussi. Les raisons du pourquoi du comment. On va définir une limite d'encheur au coup par qui maximum ici 2,0,9€ par rapport d'encheur.
+
+[03:36] Donc c'est ce que j'ai pu analyser sur T-Route Planner, c'est ce que j'ai pu analyser via SN Rush. Vous pouvez ne pas en mettre. Vous pourriez ce qu'il perd un peu d'argent. En plus, mais c'est pas d'inviter, ça va pas être dans la T-Route. Moi ça pose une capée au niveau de marcher les audiences. De pas en mettre, ça va pas mettre la paix partout. Ça fait sens quand même. Je préfère tout de même en mettre sur une première.
+
+[03:58] Vous pouvez aussi, ici, rajouter vos encheurs pour attirer un nouveau client. Donc on n'a pas nécessaire ici, on n'a pas de focus. Il n'y a pas d'historique. Et priorité de la campagne, dans tous les cas, on aura une seule campagne de chockeying, donc si vous voulez c'est faible, ça pose pas de soucis. Partant du principe que on en aura plusieurs, il se sera forcément une P-Max. Donc la P-Max sera plus élevée parce qu'on s'en va sur les B-Sailors. Donc oui, c'est moyen ou élevé, ça pose pas problème. Au niveau de la zone géographique,
+
+[04:20] c'est le deuxième piège de Google, bien cellulée du coup, les pays, c'est France ou autre. Ici, et surtout bien cliqué sur options de cellulaires géographiques. Au niveau de la partie inclure, sélectionnez présence uniquement, parce que si vous voulez sélectionner présence ou intérêt, Google va décider les personnes situées dans les zones que vous avez incluses. Qui s'y rend régulièrement?
+
+[04:41] Ou qui s'y intéresse? En fait, beaucoup de monde. Alors qu'avec présence, on a relance si les gens qui sont uniquement dans ce pays et qui s'y rendent régulièrement. Ou par exemple s'ils se rendent régulièrement. Donc, primordial de faire ça, parce que là c'est une chronère de target-sign déjà, dans très bien. Produire un magasin, on laisse désactiver, annoncer un caractère politique, guérmette, non, évidemment, on va juste déproduire.
+
+[05:04] Vous avez aussi le positif de préparer la train d'à de début ou de fin, donc ça si vous voulez pas lancer l'artement, vous pouvez vous faire. Option de URL, c'est plus pour la partie. Une UTM, par exemple, qui nous intéressait, c'est au niveau du réseau. Et ça paraît qu'ils l'ont caché. D'avantage maintenant, mais on va venir décocher du coup partenaire du réseau de recherche Google, parce qu'on n'a pas intérêt à diffuser aujourd'hui sur d'autres sites que celui de Google.
+
+[05:26] Parce que Google nous suffit, par contre, si vous voulez élargir vos audiences et vraiment scale, c'est à ce moment-là plutôt qu'on va venir activer les partenaires du réseau de recherche Google A2, parce que ça permet d'élargir. Maintenant, c'est pas logique, je vous le dis, on préfère la priorité. À Google et la qualité aussi de son trafic. Au niveau du nom de Google Annonce, on va mettre...
+
+[05:47] A nous. Au pied, il faut ajouter ce que vous voulez faire. groupe de produits, on va sélectionner tous les produits, on ajoute un après. Ensuite, peut-être suricapturatif, au niveau de la campagne, on est tout beau, rien à signaler, on peut cuivre la campagne. C'est parti. Donc là, ce qui est intéressant aussi de faire, c'est de venir, du coup, ici, dans tous les produits, parce que du coup, on a envoyé tout notre produit dans cette campagne Google Shopping.
+
+[06:10] Peut-être que dans celui, il y a des upselles, peut-être que dans celui, il y a des e-books, peut-être que dans celui, il y a des produits qu'on ne veut pas promouvoir. La ligue, c'est vraiment d'aller sélectionner les produits qu'on veut promouvoir uniquement. Pour ce faire, on va se rendre sur le petit plus ici. On va venir, du coup, subdiviser tous les produits par la digue d'éléments. Ici, on n'a qu'un produit pour l'instant qui est synchronisé,
+
+[06:32] mais ça m'a su cher pour montrer l'exemple. On va venir directement, tu te souviens, enregistrer sans vous déclenter dans cher, ici. Et du coup, on va avoir tous les produits qui vont s'afficher de cette façon. Du coup, on va venir exclure tous les produits. Et les autres produits vont apparaître ici, typiquement. Imaginons que celui-ci, c'est un obéde cellaire. On va le laisser inclus. Par contre, si on envoie d'autres sur les cartes de Pacte V,
+
+[06:53] on peut les exclure, tout comme ici, tout le reste, dans tous les produits. Donc là, on est sûr que ça va mettre en avant uniquement les produits qui sont actifs. Donc là, vous le voyez, ici directement. Et au niveau de la campagne, on va mettre parfait. Ce qui est intéressant de faire, maintenant, c'est directement d'injecter des audiences en observation. Nous avons parlé énormément dans le module sur les bases de Google Ads pour y retourner si vous le souhaitez.
+
+[07:14] Mais du coup, le objectif, c'est d'aller identifier, d'observer si il y a des audiences qui répondent bien, ils s'envoient plus que d'autres pour pouvoir les utiliser dans notre siblage de banjol, Pmax, etc. Donc on vient directement ici, dans audience mode, mot-clé et contenu, on client sur audience. Ajoutez des selects de l'audience ici, sur la campagne entièrement. Et bien faire attention, ne pas appuyer sur siblage, mais sur autorisation.
+
+[07:35] Ok? Et ensuite, on va essayer de chercher, piquement, si on reste sur le collagène, des audiences, que ce soit sur le marché dont une enquête, que ce soit des audiences d'affinité directement, des audiences démographiques ou autres petits, selon vous. Peut-être intéressant d'analyser, d'observer au niveau des conversions
+
+[07:57] ou que vous aurez potentiellement utilisé en siblage directement par rapport à votre produit, afin de valider si c'est pertinent ou non, par rapport à la date d'art. Donc tout de suite, on peut prendre un produit sans napo. Évidemment, lotion et d'attent, quand il visage, ça c'est cool. Les produits qui affilèrent aussi, c'est une audience qui est une enquête étudiée. Et dans cette phase de recherche, c'est cool aussi. Est-ce que les gens sont plutôt végétaliens, attirés par le bio,
+
+[08:20] passionné, santé, de rémunérés en forme? On peut vraiment être précis avec nos audiences, pour s'amuser que d'un point de vue ingénieur ethnique, c'est un monstre sur Google. Ça te fait vraiment être précis par une nouvelle démographie que je te sens dans le lendemain. Propriétaires, est-ce qu'ils sont en fait dans la santé? Est-ce qu'ils sont célibataires? Voilà. Imaginez-nous que je vais observer ces hausse aux audiences,
+
+[08:41] je clique sur enregistrer. Et ensuite, Google n'indra pas m'afficher la date d'art par rapport à ces audiences ici. Donc, quelle audience elle est plus dépensée, quelle audience elle a le meilleur taux de conversion que telle audience? Elle a plus de conversions. Et après, évidemment, il faut pas jeter une colonne spécifique ici. Elle est hyper intéressante et filmordiale aussi dans la gestion de vos campagnes Google. Voilà, on a fini du coup avec le paramétrage de cette première campagne.
+
+[09:02] On a un cours de carré qui est bien paramétré, une première campagne de chocking, qui est bien paramétrée. Il va falloir passer du coup maintenant cet up de votre campagne, idealement, Brain et Search, acquisition en parallèle. Au besoin, n'hésitez pas à me envoyer un message. Vous pouvez répondre à une question pour le paramétrage de ces dernières. Et il y a plein de tuto sur YouTube, c'est-à-dire de campagne plus connue, donc, français.
+
+[09:23] Et il va être temps du coup maintenant de commencer à Spen et d'accumuler la data pour passer au setup de votre Linux, de votre Mangev, de votre surf, Advertisable, etc. etc. d'accumuler un maximum de volume de Spen et de conversion. Aussi juste, petite parenthèse avant d'attaquer sur la partie satellite en chair,
+
+[09:44] juste pour pouvoir modifier votre satellite en chair. Donc c'est directement en cliquant sur le temps que on lâche ici votre campagne. Optimisation du budget et des enchères en chair ici, et vous pouvez voir qu'on a maximisé les clics et qu'il existe d'autres possibilités et ça on va voir juste après durant le volume de mon site. C'est parti.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 50 : Les stratégies d’enchères
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 50
 ======================================================================
 
@@ -1826,16 +1994,134 @@ La clé sur Google Ads, c'est de comprendre que la stratégie d'enchère n'est p
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans ce module numéro 5 concernant les stratégies d'en chair. Retour à la théorie après deux modules plus pratiques sur le setup du compte et de la campagne. L'idée c'est vraiment de comprendre comment fonctionne ces stratégies d'en chair, parce que c'est ce qui va driver vos performances, que ce soit au début, au milieu, ou vraiment en phase de staining pure et dur.
+
+[00:21] Donc c'est primordial, c'est très théorique, mais c'est super important. On va creuser contextuellement de façon précise sur chaque stratégie d'en chair et à la fin de vous faire un petit recap, une synthèse globale pour que vous puissiez assener ça de la meilleure des manières. On le partit. Des stratégies d'en chair, qu'est-ce que c'est ?
+
+[00:41] Du coup ce sont les consignes que vous donnez à l'algo pour orienter vos résultats. C'est ajustable depuis les paramètres de vos campagnes. On l'a plus ou moins vu lors du paramètre à du coup de la campagne dans le module précédent. Mais c'est uniquement ici que ça se passe. Comment ça fonctionne les stratégies d'en chair ? L'algorithme vient en fait analyser le contexte de l'utilisateur.
+
+[01:04] On peut tenir une historique, la probate conversion, toute la data autour de ce dernier. Il vient ajuster les en chairs en fonction de ce contexte-là. Et ensuite il vient optimiser, on continue les campagnes pour la stratégie et par rapport à cette dernière selon les données reçues. Donc en gros c'est vraiment un compas et structure, un ordre qu'on donne à la campagne par rapport à nos ambitions et nos objectifs.
+
+[01:27] Et donc la stratégie d'en chair impacte qui vous touchez, à quel prix, et à quelle entaladité. C'est pour ça que je l'ai souligné de la style précédente, mais les stratégies d'en chair c'est super important. Parce qu'avec une même campagne, avec les mêmes annonces, avec la même qualité, de ce que vous voulez, si la stratégie d'en chair est mal paramétrée ou mauvaise, vous vous foncez dans le mur.
+
+[01:52] Vous pouvez avoir des performances qui sont nulles, totalement. Là où ça peut être le posé, total aussi, si c'est bien d'arrêter. Aïs-Thing, du coup, des stratégies d'en chair qu'on retrouve sur Google Ads. La première c'est maximiser les clics, avec possibilité de capter le coup par clic cible. Donc en gros on dit à l'algorithme, va maximiser le nombre de clics sur mes campagnes.
+
+[02:17] Par contre, le coup par clic cible doit être au maximum de temps. Deuxièmement on a maximisé les conversions, on demande à l'algorithme de maximiser le volume de conversion sur ces campagnes, non pas la valeur de conversion, un petit truc comparatif. On peut brider la campagne avec un ordre de ck à cible, donc dire Google je veux par contre,
+
+[02:41] tu maximises le volume de conversion mais que tu le capes, selon un coup par achat cible de 30€. Je donne un exemple. Ensuite on a maximisé la valeur de conversion, donc cette fois-ci on dit voilà. Google maximise le volume de chiffre d'affaires que je peux générer sur cette campagne. Et si on veut la brider, si on veut le caper, on peut lui imposer un R&R à cible de 200, 300, 400% en fonction des enjeux.
+
+[03:08] Et vous avez. Et dernièrement on a du coup le taux d'impression cible qui est une stratégie en chair moins utilisée que les trois premières. Lastitement. Assez intéressant sur des campagnes de branding, je vais parler plus en détail après. On peut caper du coup avec un taux d'impression cible en pourcentage. Je vais apparaître sur le nono de laft à 100%, à 95% à 90% ou sur un keyword défini.
+
+[03:34] Qui peut être aussi capé en doublement avec un cpc max, donc un coup par fil max. On va apparaître à 100%. Et aussi c'est par fil, on peut imposer une position au niveau du search. Donc soit en haut de la page, donc dans les trois premiers yens pour ne se riser. Soit en position absolue, haute.
+
+[03:57] Donc vraiment en première position. Je crois que je le dis que c'est bien branding parce que c'est facile à monitorer. Maintenant sur d'actualisation c'est moins aviable et c'est moins pertinent. Première stratégie dans search sur laquelle on va deep dive c'est maximiser les clicks. Maximiser les clicks du coup je l'ai évoqué, le fonctionnement il est assez simple.
+
+[04:20] C'est que Google du coup cherche à obtenir le maximum de clicks possible pour votre budget. La logo ne juge pas la qualité du trafic, uniquement le coup par click potentiel. Hyper important. Donc en gros on a du volume mais on perd en qualité. Le but qui fait quand on utilise une stratégie dans search comme maximiser les clicks c'est premièrement d'accumuler de la data. C'est vraiment la clé, il fait la pertinence vraiment de cette stratégie dans search.
+
+[04:47] Cette stratégie est parmi aussi identifiée des mots clés ou des alliances qui génèrent des bons signaux via des audiences en observation principalement ou des mots clés en requêtes larges. Ça parlait aussi dans un compte de zéro sans brille à l'algorithme quand on n'a pas de data, il faut qu'on aille en chercher. Et maximiser les clicks c'est vraiment fait pour ça.
+
+[05:10] La concrète et la recommandation, le lancement d'un nouveau compte ou d'une nouvelle campagne search sans historique. Quand moi je crée un compte, une première campagne search, d'en voir le maximum des clicks, même sur du shopping parce que j'ai besoin d'accumuler de la data rapidement, il faut que ça arrive vite au niveau du testing pour pouvoir passer en maximiser les conversions et un maximiser la valeur de conversion derrière.
+
+[05:31] Donc maximiser les clicks pour ça c'est vraiment top. Vous n'allez pas être les plus rentables c'est sûr. Par contre c'est la stratégie en search qui permet de tester le correctement possible. Pareil si vous voulez coller des requêtes pour filtrer des keywords, des mots clés, pertinents. Avant de passer en cp et en re-sible c'est super intéressant.
+
+[05:52] Donc c'est vraiment utiliser dans une phase 1 sur un budget limité parce que ça peut vraiment se partir à quelques mètres. L'avertissement ne jamais s'en sert à dire pour faire de la conversion c'est vraiment pas l'objectif. Et ne pas garder ces stratégies plus quelques jours, quelques semaines. Dès que vous avez atteint votre target de volée de conversion et que vous pouvez passer à la stratégie dans le cher suivante.
+
+[06:13] Donc c'est vraiment le, si on décompare ça un jeu vidéo, quand on arrive au niveau 1, on est à un maximum des clicks on doit rapidement arriver au 30 conversion, au niveau 30 pour passer au niveau supérieur et à la trace d'après. Et passer à maximiser les conversions ou maximiser la valeur de conversion. C'est un étapes obligatoires sur un compte qui commence à 0.
+
+[06:37] Et intéressant dans cette stratégie en search c'est qu'il peut être japé avec un modèle de coup par click cible uniquement. On peut dire à l'agorithme de ne pas surpayer des clicks. Je sais, il commerce en France, en moyenne. Mais je n'ai pas mal de data. Il reset.
+
+[06:58] C'est intéressant avec la campagne maximisée. Ce qui est intéressant avec la stratégie dans le cher maximisé des clicks, c'est que vous pouvez la caper. Ce qui est intéressant avec la stratégie dans le cher c'est qu'on peut aussi la caper au cp cible. Donc au coup par click cible. C'est à dire qu'on peut définir un coup par click sur lequel il ne peut pas sur un cher rire.
+
+[07:20] Donc il ne peut pas dépasser. Ça permet de briser l'agorithme et de ne pas surpayer vos clicks. Par rapport à la définition de ce coup par click cible, il y a deux possibilités. Soit en lançant, on ajuste selon les cp cp derrière, le coup par click cible. Donc on lance juste en maximiser les clicks sans cp cible. On voit qu'on a un coup par click entre 0,9 et 1,5.
+
+[07:43] Très bien partant sur 0,97,0,90 ou 1 de cp cmax. Et c'est parti. Ou deuxième possibilité. On va adhéder du coup par click théorique du marché via SNRush, Keyword Planner, qui sont des outils SNRush qui est un petit payant. Non propre à Google, le Keyword Planner qui est propre à Google. Donc un peu plus facile à ce niveau-là.
+
+[08:05] Je vous conseille de prendre les deux et de juger les entre deux. C'est ce que je fais. Et de capter directement. Sachant qu'il y a aussi l'information suivante qui est intéressante, c'est qu'on y commerce sur une search en moyenne en France, entre 0,8 et 1,4 euros. Et aux US entre 3 dollars et 5 dollars. Donc vous pouvez aussi partir sur ce principe-là.
+
+[08:27] Et capter, je ne sais pas, 1,2 en France selon votre marché. Et à 4 aux US, dans un premier temps, et voir comment ça rage. Si ça ne diffuse pas, ne foyez plus haut. Si ça diffuse, vous êtes beau. Deuxième stratégie dans le chef, machines et les conversions. Là, on rentre dans le dur, ça commence à être intéressant. On parle vraiment de valeur ajoutée et de rentabilité.
+
+[08:52] Le fonctionnement, c'est que Google machine le nombre total de conversion. Très simple. Donc en gros, voilà, je veux un maximum de ventes, peu importe le panier moyen. Avec une contrainte de CPI-Cible possible. Donc là, on peut le brider et je vais en lire le sujet juste après. En le disant, OK, Max Niz, le nombre total de conversion. Par contre, je ne vais pas dépasser 30 euros par comparage.
+
+[09:15] Ça permet de laisser Google apprendre sans contrainte. Au niveau de la campagne. Donc pas de contrainte théoriquement de CPI-Cible si on ne donne pas. Pas de contrainte de IOI-Cible si on n'y en appose pas. Pas de contrainte aussi de valeur de conversion. Donc de pertinence à ce niveau-là. Par rapport à l'utilisateur, par rapport au prospect. Donc on dit, vas-y, vas chercher les gens qui sont artistes et pas ça.
+
+[09:38] Là, moi, si construire un historique nécessaire pour passer sur des stratégies plus street. Donc avec CPI-Cible, avec valeur de conversion et avec IOI-Cible. Donc c'est une deuxième étape très intéressante. Maintenant, moi, j'ai tendance à faire Max Niz et les kits. En search et shopping. Accumuler une cinquantaine de conversions selon le marché et selon le pays.
+
+[09:59] Ensuite, passer, on va maximiser les conversions. Si j'ai un CPI-Cible assez précis, je peux le capter directement. Sinon je le laisse en brode et j'ai la vis en frontage budget. Pour accès ensuite, passer en valeur de conversion. Ténax en dénarrage ou en demarrageant de scaling, c'est aussi intéressant de mettre. Ce, ce stratégie d'en cher avec un CPI-Cible si vous avez la data. C'est top. Et le volume idéal pour sur-suche est ce que j'évoquais ces 30 pro.
+
+[10:22] Par semaine. Minimum. Mercher et faire. Aux US, vous pouvez aller sur du cinquantaine, 70 face. Attention par contre, ne pas utiliser sur des budgets trop faibles si vous ne captez pas. Parce que vous pouvez rapidement payer 2-3 fois le prix ciblé de votre conversion. Et si vous n'avez vraiment pas de conversion, aujourd'hui ne switchez pas vers cette stratégie d'en cher.
+
+[10:44] Parce que l'aile gouvernement pétiné et ne pas diffuser. Cette stratégie d'en cher, vous pouvez la capter avec un coup par achat cible. Et là, ça commence à être vraiment intéressant. Là, ça va permettre d'optiniser vraiment pour obtenir le plus de volume de conversion tout en respectant un coup par achat cible. Et ça, c'est génial.
+
+[11:05] Parce que du coup en fonction de vos unités d'économie, de vos coqs, de vos niveaux de rentabilité, du coup par achat que vous devez cibler pour être rentable, vous pouvez vraiment brider l'algo pour l'être. Donc si vous avez une target check élevée par rapport au marché et les bonnes hardres, c'est idéal. Pareil, si vous faites du lead gen ou vous avez un quiz,
+
+[11:26] ou en dehors du quiz, vous faites juste du lead gen sur l'activation typiquement. C'est très bien parce que vous pouvez capter la campagne à un coup par lead cible. Et c'est idéal de l'activer après vraiment une phase de maximiser les conversions sans cp à cible. Ropres qui a permis de créer du coin historique clean. Parce que du coup le machine learning est en place et ça tourne.
+
+[11:47] Et inversement, tout le temps, ABT-C c'est de stratégie. J'ai tendance des fois à juste supprimer le CTS-CIM de la campagne et repasser un maximum des conversions au bout de 2-3 semaines pour voir si le marché n'a pas évolué, si il n'y a pas des enjeux de saisonnalité. Au début, quand on se rend compte, on n'a pas forcément 6 enfois là. Donc c'est intéressant parce que sinon vous allez juste rester sur le cac moyen que vous avez mis
+
+[12:08] et réajuster à la hausse à la baisse alors que le marché répondrait peut-être beaucoup mieux à un cac plus élevé ou plus faible. Donc ABT-C, on continue. Attention, tout ce quoi, si c'était un cilier trop bas, zéro diffusion, logique. Donc si vous avez des marques qui sont trop fêtes et que vous pouvez être rentables, H1, essayez de ne pas faire les gaumances sur la marge au maximum si vous voulez être diffusé.
+
+[12:35] Tout de même au départ. OASM stratégie d'en cher et l'enarrivée sur ma préférée la plus importante et plus intéressante, maximiser la valeur de conversion. Comme son nom l'a dit, on va venir maximiser le chiffre d'affaires total généré avec possibilité d'ajouter une contrainte de iOS cible possible. Ça gère lien juste après encore une fois.
+
+[12:56] L'objectif réel, il est simple, maximiser le CA, augmenter la OV. Et les cas concrets d'encommodation, c'est les boutiques avec plusieurs sues. Normalement si vous avez une large organe, c'est super intéressant parce qu'on va aller chercher les utilisateurs de Google qui ont tendance à avoir des paniers moyens assez élevé quand ils consomment. C'est idéal en performance max, on en a une vie conner, c'est top.
+
+[13:20] Petits détails, sans évoquer au début évidemment. Et c'est parfait pour scale parce que la seule limite c'est le marché, votre budget, votre coût, votre conversion et votre capacité d'acquisition. Évitez par contre d'utiliser cette stratégie d'en cher en modo produit. Idealement privilégié de maximiser les conversions, vous pouvez capter au CPAS CYB CIGAL, ABT STA, encore une fois, tout de même, à chaque fois.
+
+[13:43] Mais c'est parce que je recommençais théoriquement d'après mon expérience. Et c'est pas utilisé évidemment dans une phase de tracéon de compte. On passe par maximiser les clics et maximiser les conversions en amont. Ensuite on peut capter au AIOS CYB, donc là, si vous venez de l'état, vous allez vous dire putain c'est royal, je peux imposer un AIOS à mes campagnes.
+
+[14:07] C'est théoriquement le cas, maintenant il faut qu'il y ait un marché, faut que ça répande bien et que l'offre soit intéressante et qu'il vous convertisse si bien l'arrière. Le intérêt du AIOS CYB c'est que ça permet d'obtenir pour obtenir plus de conversion tout en respectant un cadre moyen CYB évidemment, et donc une finie AIOS. Mais recours c'est de passer un AIOS CYB quand votre performance max est mature.
+
+[14:29] Pareil un peu à l'image du max con que l'on veut juste avant. Il vous fait 30, 50 pâches à semelle, 50, 70 pâches aux US, pareil sur demand jaune, vous pouvez switcher sur un AIOS CYB. C'est idéal pour maintenir une large contribution stable tout en vaccinisant le caline. Et par contre faites attention, si votre AIOS CYB est trop, vous n'avez pas diffusé,
+
+[14:50] si votre AIOS CYB est trop bas, vous scalez mais vous perdez la mentalité. Pour savoir si vous êtes trop ou trop bas c'est très simple, véférez-vous au budget à l'ouest total dépensé. Donc sur imaginez, vous donnez des nids d'eurodeil sur une campagne à Google et en dépense du coup 7000 à la fin de la semaine, vous êtes à 100% du budget dépensé.
+
+[15:14] Si vous ne pouvez augmenter, vous êtes trop bas au niveau d'AIOS. A l'inverse, si vous êtes à 70%, si vous êtes trop haut, vous imposez à Google les mentalités qui est trop élevées par rapport à ce que le marché vous proposez. Il faut réduire l'AIOS. Dernière stratégie en chef, maximisez le taux d'impression.
+
+[15:37] C'est assez animatif, ça coisse pas mal à la partie branding. C'est pour ça que j'ai voulu intégrer parce que je l'utilise, mais ce n'est pas ce qui va vous permettre de générer le maximum de chiffre d'affaires. Le fonctionnement est assez simple, Google vise un % d'apparition, exemple 80%, 90%, 100% sur une requête.
+
+[15:58] Vous pouvez ajouter deux parallètes, le taux d'impression sim, donc vous pouvez imposer 100% typiquement. Et le coût par clickmax, donc pas 1€, 2€, 50 centimes en fonction de ce que vous voulez faire. Les objectifs sont simples, c'est dominer une requête spécifique. Si vous voulez être No.1 sur une requête, à part entière, c'est intéressant.
+
+[16:22] Et sur du branding, protéger votre brain avec ce type de stratégie, c'est ideal, c'est plus efficace. Parce que vous allez le moins gaspiller votre argent par la fenêtre et être précis sur les utilisateurs sur lesquels il faut le mettre. Et on casque, on crève forcément du coup, on a la campagne de branding défensive, évidemment.
+
+[16:42] On a le Black Friday, les soldes, les activations autres. Pour être sur une groupe de domination, ça fait vraiment sens de build, quelque chose dans ce sens-là. Et pour les campagnes très hautes funèles, genre une search exact, Speakman sur l'adv. J'ai fait des tests, ça marque super mal. Imaginez que vous avez un funèle autour du collagène pour reprendre ça. Et vous voulez être No.1 sur réduire les rides du visage après 40 ans.
+
+[17:08] Vous pouvez l'être assez facilement avec cette stratégie d'en cher. Et du coup, mettre en avant votre advertoiol. En regard avec cette voiture. Et l'artistement tout de même ne pas utiliser pour d'utilisation. Jamais, parce que on est over-caqué avec cette stratégie d'en cher. Et je vous le montre juste après pourquoi.
+
+[17:29] Du coup, mon setup idéal sur une campagne de branding, ça j'ai voulu ajouter parce que c'est vraiment loquable pour faire No.1. On empêche de y compte, de venir chercher ta draine et maintenir un cpc le plus bas possible. Et ne pas avoir spend en branding. Donc jeter ton argent par la fdèvre. Il te faut un tour de pression à 100%. Tu peux baisser à 95% si ton cpc est trop haut. Par rapport à ce que tu as pu avoir en max close.
+
+[17:50] Donc ça a ajusté. Au niveau du placement, sélectionne en haute page. Top of page. Ce n'est pas top absolu. Ce sont deux choses différentes. Top absolu c'est vraiment No.1. Haute page c'est suffisant. Avant qu'il y ait vraiment une guerre concurrentielle extrême. Et qu'il y a un concurrent qui t'arcelle. À ce moment là ça refaire sens. Mais si c'est assez soft, c'est juste des campagnes compétiteurs que tu as en face.
+
+[18:13] Pas besoin. Tu vas éviter de gaskier ton argent. Et cpc max, c'est tout le grand. Enfin, on le brène, c'est encore 0x4 et 0x8. C'est rarement au-dessus. Si ce haut-dessus a juste... C'est pas beau. Du coup, petite slide pour résumer un peu. Et vous permet de visualiser de façon imagée.
+
+[18:34] Les stratégies d'en cher. Donc partons du principe que la taille de l'audience, c'est le cercle noir. Et que plus vous descendez en bas, plus vous êtes rentable. Maximiser les clicks, c'est la stratégie d'en cher qui va vous permettre d'atteindre la plus grosse taille d'audience concrètement. On a ensuite maximiser la conversion, qui va venir réduire la taille de l'audience forcément.
+
+[18:55] Parce qu'on va aller poser un objectif différent et plus précis à l'algorithme. Par contre, on va être plus rentable. Maximiser la valeur de conversion également, ça revient à la même chose. Donc on vient poser un objectif plus précis à Google, on va aller en la rentabilité. Et dès qu'on ajoute du coup un objectif ROS, cpa cible, cpscible, encore une fois on réduit d'arrestissement la taille de l'audience.
+
+[19:18] Évidemment la taille n'est pas représentative, précisément de la taille du marché. Mais c'est pour vous imaginer un peu les propos. Donc après, avec ça, ça va vous de faire votre tambouille en fonction de votre brain, votre marché, vos comptuants, vos compétences. Et la tam acceptale sur Google
+
+[19:39] par rapport à ces derniers éléments. Derrière cela, du coup, pour régimer de façon synthétique, tout ce que j'ai évolué. Parce que ça faisait beaucoup, je pense d'un coup. Donc avoir ce petit recap, c'est top. Deux colonnes, objectifs, ici, utilisation, ici. On va recap par rapport à chaque stratégie non chère et chaque méthode de caping.
+
+[20:01] Donc en maximiser les clics, l'objectif c'est colléter de la data. L'utilisation c'est principalement au lancement d'un compte, une campagne. Maximiser les conversions. L'objectif c'est construire une historie de conversion pour passer à l'étape d'après. C'est à utiliser, idéalement, au lancement d'une témax ou à la phase 2 du campagne search ou shopping.
+
+[20:22] Maximiser la valeur de conversion. L'objectif c'est vraiment d'augmenter le chiffre d'affaires générées. À utiliser en phase de scaling, tout simplement. Et ensuite, par rapport aux différentes méthodes de caping, le CTA cible, termine maîtriser le coût d'acquisition. À utiliser vraiment si vous avez des marges hautes ou si vous faites du lotchiket. À comparer avec Airwaysil, évidemment, chaque fois,
+
+[20:43] je mets toujours ces deux stratégies d'enchaire en concurrence en abat testing. Donc faites de même. Vous n'avez jamais sûre de ce qui peut mener leur chère entre ces deux. Airwaysil, l'objectif c'est rentabilité plus scaling. À utiliser sur des pémax, sur vos searches, sur vos demandes gels, en phase de scaling, dès que possible. Et le CPC cible et tout d'un pression.
+
+[21:06] Cible est un pour objectif une domination sur un rectivoire précis. Principalment, brending. En termes d'utilisation. Voilà, on a fini avec les stratégies d'enchaire. J'espère que c'était assez clair globalement sur vraiment l'intérêt de bien masterf ces différents éléments dans Google Ads. C'est la synthétique n'hésitez pas à la scrim,
+
+[21:28] à la mettre en corrélation avec la slide de structuration finale de votre adaconte du module 2 de le mois. Et de vous faire peut-être une roadmap. C'est ce que j'attends ça faire de mon côté. J'ai tout un process des opys par rapport à chaque typologie de balle. N'hésitez pas à faire de même par rapport à Vodemap. Donc je vais lancer mon compte, je vais naître la search.
+
+[21:50] Acquisition, la search brain, la shopping. Je vais être en maximiser des kits sur les 3 campagnes au départ. Ensuite la brain, je la passe en Tick. Ensuite je passe en maximiser les conversions sur la search acquisition et sur shopping. Ensuite la shopping, je la passe en P-Max. Et je la passe en maximiser la barre de conversion. Déjà t'arrêter en conversion. Une sorte de process. C'est assez simple à faire, réellement, avec ces informations-là.
+
+[22:13] Et je suis déroulé et avisé par rapport à votre marché et votre marque. On passe maintenant au focus. Ça va être super intéressant. On va pouvoir dip dive sur chaque typologie de campagne. Elle est plus profonde sur tous les éléments pour vraiment scalez. Et on attaque directement la première, qui est le search. C'est parti.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 51 : Focus : Search
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 51
 ======================================================================
 
@@ -1941,16 +2227,130 @@ Le Search, c'est le canal où l'intention est déjà là, tu ne crées pas la de
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue du coup dans ce module 6 qui est le premier focus et quoi mieux que de commencer avec le search, le site de campagne plus historique, plus parlant quand on évoque Google Ads, avec pour objectif derrière ce module de vous permettre de capturer toute la demande existante.
+
+[00:20] Et plus encore, vous verrez pourquoi dans un tiers ce temps. Et... Oui c'est bon on peut attaquer directement. On a parlé durant les derniers modules, il y a beaucoup d'avantage au search. C'est le trafic et avec la plus forte intention d'achat, on est sur d'oréquipation intentionniste. Si il y a une due marché, donc on crée pas l'attention ou la capture.
+
+[00:44] Ça permet un contrôle total sur le silage et les vésibles. On vient d'être un message précis, devant, des recherches précises. Arrête de reposer aussi des meilleures options pour des produits nécessaires, une explication détaillée parce qu'on ferait diriger non pas uniquement la page cronie, non pas uniquement le site en ligne, la page d'acquête, mais aussi garder des pages spécifiques.
+
+[01:06] Et donc à ce moment là c'est très intéressant. Même au niveau du titre, des descriptions, on peut appuyer nos propos en parallèle de ce qu'on n'a plus tapé la personne pour nous trouver. Les inconvénients forcément ayant là, c'est une scalabilité limitée, parce qu'on dépend du volume de recherche, des coups par qui généralement plus élevés que les autres formats.
+
+[01:28] Un format textuel uniquement, donc moins engendrant qu'une vidéo innemable. Même si on peut jeter quelques images, jeter qu'il y a un X pour être au fait de la taille de la danse, ça reste quand même assez limité. Rapidement, six étapes, j'ai vraiment voulu commencer ce slide pour pas en faire l'autopik principal parce que ce n'est pas l'intérêt de ce module de la formation, mais je voulais quand même vous expliquer comment créer une bonne avance search
+
+[01:50] simplement aujourd'hui. Déjà dans le format temps, étape numéro 1, tout de repartir sur une danse responsive. C'est que si je fonce sur le nieux, j'ai tout à l'étester. Et que normalement, on n'a pas lieu, même sur les billes courtes. C'est en gros, yannos, où on envoie une quinzaine de titres, des descriptions, des images, des logos, un URL,
+
+[02:11] différents composants et en fait Google ajuste par rapport... ou d'un pas historique qui peut avoir, par rapport à l'algorithme en lui-même, pour pochiner et créer la danse parfaite qui répond le plus à la demande de l'utilisateur. Alors c'est en fait non. Si par contre, c'est une nouvelle annonce que vous créez, nouvelle campagne à nouveau compte,
+
+[02:31] décocher, y'a une option dans les paramétrages qui s'appelle optimiser selon les performances, parce que du coup, Google va donner à commencer à optimiser des patterns de titres plus descriptions, plus images, alors qu'il n'y a même pas de conversion, il ne sait même pas ce que c'est que la performance. Donc attendez d'avoir à l'image un peu de la stratégie d'enjère, 30, 50 conversions pour activer cette option.
+
+[02:55] Qui est réservement intéressant. Act scale. 3e point, faites rédiger vos titres et bonne description via l'arpe, en insistant sur votre objectif dans vos portes. J'ai hésité à ajouter cette information, voilà comment faire un bon ticket, comment faire une bonne description, comment faire un bon composant, voire même ajouter une taille par rapport au coup de l'arp, effectivement aujourd'hui c'est même plus quelque chose que je fais.
+
+[03:18] J'ai un GPT dédié, qui, selon des points très faciles, aurait dit que je détestrais des minutes de description parfaite. Donc aucun intérêt à vous proposer de le faire de façon manuelle. Foncer l'arp, ça fait que c'est... payable. Aucun intérêt à me palitiser. Donc faites-lui aussi pour Google. Si il y a un endroit où on peut le faire pour Google, c'est ici.
+
+[03:40] Etapes numéro 4, t'as des images, brain au maximum, une vingtaine. Faites tourner, allez tester. Globalement, c'est une arpe de mieux, c'est des éléments trade-running très produits quand c'est d'un autre produit. Trade-running quand c'est d'un autre branding. Et sur la d'artorial, le Croyus afx-centralis. Bon, c'est tout pour ajouter le fanicon, le NEM que sur Votite.
+
+[04:01] Je vois trop de fois des annonces avec un fanicon, un logo différent du site réel. Ça peut s'apparenter à Dyscam. On perd en CTR. Globalement, ça a été un détesté. Donc évitez mettez le NEM. Et dernier élément, implementez des composants suivants au maximum.
+
+[04:21] Les liens annexes. Donc c'est les petits liens, vous savez, sous forme de deux colonnes, souvent une arre de 3,4 ou deux. Ça permet de prendre un maximum de place sur le search, sur le mobile. Si vous n'avez pas ça, vous pouvez passer à côté de 40, 50% de la taille d'une recherche mobile. Donc c'est mon angel au contraire.
+
+[04:43] Donc avec, typiquement comme il y a annexes, les best sellers, les avis unis, on peut rédiriger leur T-Sum nous vers Discovery Pack vers Effect, vers la page de contact. Enfin on peut vraiment mettre pas mal de liens à un blog ou autre. Au niveau du prix, aussi. Vitesse composalat, c'est vraiment intéressant. Ça permet de mettre en avant un route produit directement sur le table,
+
+[05:04] sur votre annonce. Pareil sur la partie promotion, dès que vous avez des promotions, ça le mettra en avant. Les extraits structurés, toujours intéressant, ça rajoute du texte. Ça peut rajouter de trois mots pour venir coqueriter, c'est intéressant. Et l'infobule aussi, ça rajoute du texte. Des composants par rapport aux faits de Boussa-Hélène-Y France, que vous allez aller aux zones gratuées.
+
+[05:24] Ouais, il y a la fondature. Et pareil, il y a peut-être vos idées. À vous sortir une erreur. Texte envoyé par rapport aux femmes. Du coup, on va commencer par deux éléments. Le brand design et l'acquisition. Donc la segmentation entre ces deux types de campagnes sur le search. En passant du coup à chaque poste sur les objectifs,
+
+[05:46] le pourquoi c'est important, le type de paramétrage qu'il faut pour tout le factin de compagnie. Et sur Drainings, on a un peu passé de sué avec son symgne sur la partie stratégie non cher. La lignée, c'est quand même d'aller plus loin. Et en bonus, j'ai rajouté la partie Adderthal, qui est quand même un truc non-angligeable que j'utilise beaucoup. C'est marf, excellent bien aux US. C'est marf, je suis très bien.
+
+[06:08] En France, de plus en plus, les gens commencent à être de plus en plus habitués à cette typologie de de l'onimpage. D'arrêt suite en malmine, ça marche très très bien. Ils sont encore plus avar de, pas avar, pas du tout, ils sont encore plus friands plutôt de ça. Donc foncer. L'objectif, c'est de capturer des recherches sur votre marque
+
+[06:30] et d'empêcher les concurrents, c'est pas issué. C'est important parce que vos concurrents doivent acheter votre nom de marque et vous voulez vos ventes. Tout simplement, vous pouvez le faire aussi. De nombreuses fois, on a dîler avec des brèdes en mode on se positionne pas, vous ne vous positionnez pas. Il y a souvent des des cas assez amusants, des cas assez particuliers parce que c'est
+
+[06:52] c'est une bonne guerre. Mais ça peut être confituel. Donc à l'au bout de gérer une terrie par rapport à ça. Je pense que globalement, vous allez tout vous poursuivre sur sur le nom de marque de vos concurrents et je n'ai pas besoin d'empêcher. Les annonces faites 410% de la visibilité sur mobile. C'est vrai, c'est pour ça que c'est important. Personne ne scroll globalement.
+
+[07:12] Au moins de juste scroller sur la partie organic, mais ça faut être éduxier aussi au fait que c'est des adornes sponsorisées en amour. C'est aussi important parce que vous captez des clients les plus chauds. Mais bon, c'est forcément de crémeux. Et ça accumule forcément de l'adaptat pour l'ago. C'est vraiment pour moi une des raisons les plus importantes d'avoir cette campagne.
+
+[07:34] Entre l'accumulation d'adaptat et la sécurité, c'est les deux choses. Périson. Au niveau du pari des frais, on en a parlé. Et mot-clé à ciblés sont en mot-clé exact, souvent. Non-marque, non-marque plus sa vie, non-marque plus la production. On peut mettre un petit nom de marque en exclétion. Exact.
+
+[07:54] C'est totalement enjouable, ça ne peut pas de problème. Ça ne peut pas de problème. C'est ce que je recherche autour de votre marque. Bon, ça est escure tout de même. C'est mot-clé de vos autres campagnes. Si vous ne voulez pas faire du branding à toute patate, dans tous les sens sur toutes vos campagnes, ça paraît s'il te plait. Mais c'est primordial, sinon vous avez juste jeté de l'argent par les fenêtres. Cette campagne est faite pour ça. Ne n'avoutez pas votre mot-marque sur vos autres campagnes sur charge en acquisition.
+
+[08:16] Tarian Demandjen par Airbmax. À main que vous avez un obitue avec l'immigration de data. Ça ne fait pas de sens. Au niveau de l'enchef, tout a créé son style. On en est parlé précisément dans le module sur la stratégie d'enchef. Le max conversion, il faut que ça ne traînera aussi. C'est moins de 6. Il y aura plus de pensée. Par contre, vous avez plus de chances invisibles.
+
+[08:39] Donc à fond d'ailleurs. Au niveau des annonces, bien mettre en avant vos avantages uniques et des séquelles à clair. Ils ont rapidement garantie suffisuité. Les gens sont là pour acheter globalement. Ou au plus froid, se renseigner pour acheter derrière. Donc, allez. On passe maintenant du coup sur la campagne acquisition.
+
+[08:59] Le haut des campagnes, évidemment. Ça dépend d'avant. De votre niveau de scaling. L'objectif avec ces dernières, c'est de capturer les utilisateurs qui cherchent un produit comme le vôtre. Mais qui ne connaissent pas encore votre marque forcément. Donc en gros, ils sont dans une intention d'achat. Ils sont un problème où on leur apparaît de quelque chose sur lequel ils veulent s'en renseigner.
+
+[09:20] Présentons-leur votre produit. Pourquoi c'est important ? Parce que c'est là que vous allez acquérir de nouveaux clients. Clairement. C'est souvent par contre plus compétitif que de l'aide forcément. Mais c'est crucial pour croître. Et l'attention d'achat est présente. Pareil de ça juste avant. Les gens sont prenait nos nerfs. Si vous avez un peu des notions de niveau de awareness,
+
+[09:41] on est clairement sur cette tranche-là. C'est pas un titre de campagne à négiger. Jamais. Il y a des comptes où franchement on fait 40% du site d'affaires du compte via cette campagne. Sur vraiment de l'acquisition cure. Mofou, tofu. Donc ne la négigez pas.
+
+[10:01] Même avec l'aide d'Etherefance Max et de la Demandge. Au niveau du carnet drive, assez simple aussi. Démocrécibler. En mot clé exact. Categorie produit. Prolème solution. Characteristic plus produit. Ensuite, vous pouvez la mettre les mêmes. Pareil en expérience exact. C'est ce que j'ai tendance à faire davantage. Au niveau de l'enxerve, maximiser les conversions
+
+[10:21] peut passer en target.es. Comme évoqué. Plus 50 conversions. Plus si vous êtes marché U.S. Il y aura plus 30 à buffets. 7080. Si vous êtes interprécié à 30, vous pouvez switcher. Au niveau des annonces. Mettre les bénéfices claires en avant. Pas juste des caractéristiques. Là, on vient vraiment closé la personne. Ajouter du trust aussi. Et des incitations récits rapides.
+
+[10:43] Donc voilà, plus d'1 000 clients satisfaits. Livraison 48 auprès. Guaranti satisfaits ou remboursés. Made in France. Alors là, vous pouvez aller à faune. Arriller ici. Proixième type de campagne search. Que j'aime vraiment bien. Et qui permet vraiment de faire la différence. Sur cette splogie de campagne. Parce que ça parlait vraiment de débloquer.
+
+[11:05] Des volumes. Débloquer des tailles. D'audience. Débloquer des tailles de marché. C'est la dartariel. Rapid point sur la dartariel. C'est un model on impage. façon fake art de blog. Comme vous pouvez voir juste. Juste ici. On a des titres comme un art de blog. On a un rédacteur. On parle d'un problème spécifique.
+
+[11:28] Et derrière, on vend une solution. Que ce soit ici de bijoux. Que ce soit ici. Une ceinture pour le dos. Etc. Etc. Oui. Suicide. Juste ici. Donc c'est. Ça commence quand même à être de plus en plus réprenu en France. Ça marche quand même beaucoup moins en France que. On a le bain aux US ou UK.
+
+[11:48] Mais. Ça l'en est quand même des faires de belles choses. Et vous expliquez juste après pourquoi. L'intérêt c'est de s'il y a des stades de consensus plus élevées. Auquel on n'aurait pas accès à la guise search. Aïtisation classique. Il n'y a aucune concurrence aussi en France. Ça c'est un avantage indéniable. Personne ne le fait. Franchement si vous le faites déjà sur retradacan. Vous êtes dans le temps 1% de l'aveuement.
+
+[12:11] De ce qu'il le faut. Les CPI sont forcément plus bas. Parce que personne ne le fait. Et donc la rentabilité plus élevé. Pour sa part, il faut. Avoir. Une team CRO. Vraiment costaud pour faire des attailles de qualité. Et les adapter spécifiquement à Google. Difficile de reprendre son métard. Maux pour mots.
+
+[12:33] Et des envoyés sur Google. Nous on a tendance à faire faire des. Des LP dédiés à Google. Pourquoi ? C'est pertinent. C'est très simple. En gros avec. Encore une fois l'exemple du collagène. Qui est un peu le fil des connecteurs. On sait du coup sur. Du search actuation classique.
+
+[12:53] Un mot plé comme meilleur collagène pour la peau. On se positionnerait forcément là-dessus. C'est intéressant c'est cool. Bon on y va. C'est une audience qui est most aware. Donc en termes de niveau de barnesse. On est quand même. Plus bas que. Que je suis lent. Comment se débarrasser des rides. Naturellement. Là on est plus problemes aware. Difficile voire quasiment impossible.
+
+[13:14] De se positionner là-dessus. Sur search acquisition. Parce que. Les gens sont pas là pour aller sur un site vendeur. Mais cherchent. De la formation. Même si vignement ça est testé. Mettant un café ou alors proposer une solution. Qui leur parle davantage. Tu répond vraiment à leur fondament. Et leur est dirigé après.
+
+[13:35] Apostarii. Vers. La chapeau de produit. Ça fait plus de. Une expérience. Meilleur. Et ça vous différencie grandement. En termes de coup. C'est hyper significatif. Là dessus vous aurez beaucoup plus de concurrence. Un coup par chicat 2 euros. Facilement. Un coup par qui est beaucoup moins cher.
+
+[13:57] Plus sur le keyword. Problem aware. Au niveau du tout de conversion. Ça peut être plus élevé. Ça peut être moins élevé. Ça peut être activalant. Mais théoriquement. Advertisement. Si vous êtes. Très chars. Peuille vous avez un copi-arrêteur. De ce nom. Vous pouvez taper du 6% c'est facilement. Là au véglement reste le même. Avant vous avez un chenel avec zepsale. De taré.
+
+[14:18] Et à ce moment là vous pouvez même aller plus loin. Sur la partie Advertisement. Que sur la partie. Web site classic. Le coup par achat. Il est largement insérieur. Et oui. C'est une vaste moche. Par ailleurs. Donc. Ça a beaucoup de test. Évidemment vous n'aurez pas les. Les mêmes vaux murs. Les mêmes vaux limitéoriquement.
+
+[14:39] Sur cette campagne. Mais testé franchement. Et au moment de dire une nouvelle. Pour se faire. Je vous ai fait un petit tuto. Je n'ai pas vous abandonné comme ça. Elle est juste. Cette information. Qu'à faire étape pour lancer. Votre première campagne. Advertisement. En search. Etapes numéro 1. Adaliste. Et l'air. C'est associé.
+
+[15:00] Google ad. C'est pas le gars solo. Dans la cour de récré. Et qui n'en parle pas. Ça communique. C'est pertinent. Avec. Toutes. Vos campagnes social ads. Que ce soit. Métapes. Interesse. Toque. Je veux prendre les. Et comme pendant. Globalement. On se voit tous ces cas de. Parcidision. Et là. Ça. Un exemple.
+
+[15:21] Donc. Les hook. Les points. Les points. Tu enlèves. Par. De. Botox. Cerme tes peaux. Cheveux. Ongle. Etc. Etc. Ensuite. Tu vas générer 5 à 10 mots clés. Par. Angle. Donc. Il est. Juste avant. Mais dans le bien.
+
+[15:42] Mon clé long. Crème. Et intention directe. Un mot clé. Le mot clé. Avec. Beaucoup de mots. Le mot clé. Les. Intensions. Et. Acheter. Avis. Meilleur. Donc. De là on peut en sortir. Typiquement 4 angles. Commence de débarrasser des rides. Sans injection. Le meilleur collagène.
+
+[16:04] Beauvin. Solution. Cheveux. Cassant. Ongle. Fraschine. Que ferme. Et là on est uniquement sur la vente d'un complément collagène. Placide. Ensuite on se rend directement dans le. Dans le. Pladeur. Google ad. Ou. Same rush pour. Pour les puristes. Les deux fonctionnent très bien.
+
+[16:24] Enfin. Les deux fonctionnent. Le plus grand synergie. Si on voulait le préciser à chaque fois. Je remarquais que. Il était les deux en face. Et le jeu du milieu était le bon. Donc. On va voir. Peut-être. Un coup de deux. Asarm. Et souvent. Dans ce dernier. Vous allez rentrer du coup. Et du chaleur mot clé. Donc collagène. Bien fait. Meilleur collagène.
+
+[16:45] Collagène articulation. As. Déléronie. Collagène. Tout le mot clé. Quelle est le meilleur collagène pour la peau. Tous les mots clés. En lien avec les différents angles. Que vous avez. Sélectionné. Par rapport à ça. Vous allez avoir. Nom de recherche mensuelle. Le d'arrestation sur trois mois. La d'arrestation sur l'année. La concurrence. Si elle est élevée ou non. Les taux d'entression.
+
+[17:06] Le chef. En haut de base. Et en haut de page. Fourchette pose. Fourchette base. Et on peut voir. Juste. Que le collagène. Bien fait. Ils sont. Bien fait. Du collagène. C'est assez intéressant. Très tassinant. On va qu'est-ce que vous pouvez chiner. Parce qu'on est sur des. Très faibles. Entre 10 et 045. Et il y a un volume de recherche.
+
+[17:27] Assez conséquent. Donc pas de spécificement. On peut s'envoyer en intérature et là-dessus. De façon très précise. Quelles sont les 9 fiches. Que vous avez les mains. Sur le corps. On met en avant. On se le joue. Une fois que tu as analysé dans le tour. Planeur. Tu as dit que je peux utiliser ta liste. Deux mots clés. Par ce biais. Donc un analysiématrique. Comme je l'ai dit. Ok clé. Chilstrait en place.
+
+[17:48] Donc je suis crémé. Mon plié. A faible volume. Rampasse. Les situations personnelles. De Google. Et reboubâchent à vote par intention. Par volume et par coup par clé. Donc c'est par les mots clés à fort volume cpc. Des mots clés niche. Pour ne pas nous envoyer en fait les termes faibles dans des groupes trop compétifs. Parce qu'ils n'ont aucune chance de pop. Il dit c'est quand même de pop sur des mots clés à faible volume.
+
+[18:11] Faut que personne ne va. Pour ces raisons là. Et d'aller rapide. 4, 5, 6, 10 ventes par jour. Par ce biais. Là ça fera vraiment de sens. La suite, constituons un Advertisral. Donc glides-le autour de ces mots clés. En gardant l'intention de recherche. L'angle comme base. À chaque fois. Et après les formats qui fonctionnent.
+
+[18:32] Un Advertisral. Là c'est plus du CRO. J'aurais quand même noté quelques-uns pour vous aiguiller. Dessayez les avis d'experts. Donc présentez l'Advertisral. Comme un conseil dans cette série du secteur. Pour les gens qu'on est outillés avec chocolat gêné narin. Et c'est bien fait c'est terrible. Les histoires de transformation. Pareil à voir après. Ça marche très bien. Le 5 reason wise. Donc formalistical.
+
+[18:53] Pour expliquer pourquoi votre produit est la meilleure solution. Et en comparatif. Ça aussi c'est intéressant. Si le top 5 des meilleures collagènes. Pour la peau. Ou meilleures collagènes bovins en 2004. Plus encore. Maintenant que vous avez tout ça. Il est temps de suturer. De lancer. Et ensuite de scaler.
+
+[19:15] Se faire une campagne. Paradislatariol. Ok. Donc on va pas commencer à mettre plusieurs ADP. Dans une même campagne. C'est compliqué à gérer. Ça peut paraître fat. Mais en vrai ça se fait plutôt bien. Si vous avez une bonne convention de main-me. Ensuite un groupe d'annonces par hand. Comme présenté juste avant. Et ensuite un testing.
+
+[19:36] Je conseille 2 à 4 cas de spin en testing. Paradislatariol. Pour valider ou non la bonne ou non performance. Et sans redescent qui party-ward par mot-clé. Pour jurer des performances aussi décédées. Et ensuite. Moi c'est ma méthode de. De filtrage. Par tout de conversion. A adapter vraiment à chaque fois. À votre marché.
+
+[19:57] Mais au-delà de 2% je supprime. Entre 2 et 3 je laisse en face d'observation. Au-dessus crois je scale. Et je fais ça à scale. Et on a des putains d'adultins. On a fini du coup. AlexSomoDuny Nero6. Le premier focus. Sur les searches. Vous avez maintenant tout tes infos. Pour lancer et de faire. Et de faire. Maintenant tout tes infos.
+
+[20:17] Pour lancer et scale. Votre campagne de branding. Votre campagne d'acquisition. Et votre campagne Advertorial. De format search. Vous avez plus cas. Maintenant on va passer au gros dossier. Qui vous intéresse tous. Qui est l'Adder Performance Max. Et on enchaîne directement.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 52 : Focus : PMAX & Shopping
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 52
 ======================================================================
 
@@ -2032,16 +2432,110 @@ Google est un outil algorithmique qui fonctionne d'autant mieux qu'on lui donne 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] On est parti pour le module Uninero 7 de cette formation Google Ads avec le deuxième focus, un des plus importants parce que c'est le type de cop mode qui va vous permettre de générer le plus de shit-ff, le plus de profits et qui va vraiment venir transformer l'IA Google en directeur machine-icache pour votre marque donc c'est le objectif durant cette présentation, c'est de parer déjà
+
+[00:22] des avantages en communions de performance max Du gros débat performance max vs shopping performance max fidonnie, donc uniquement sur la partie shopping j'y arriverai juste après et je vais vous parler de deux éléments super intéressants que sur l'escript pour optimiser au performance max
+
+[00:44] et deuxième élément, une product de playtation qui est tips, une méthode qui est arrivée vraiment là en 100 octobre qu'on a pu tester sur novembre avec les différentes activations que vous avez faillées et ça marche très très là donc je vais vous la partager et voilà, on est parti
+
+[01:08] du coup comme sœur je vais commencer avec un liste de les avantages de performance max vs les inconvénients c'est important de comprendre toujours pour recontextualiser mes propos les avantages premiers c'est que ça permet d'accéder à tous les canaux Google en une seule compagne, j'en ai parlé dans le module numéro 1 avec la présentation des diffusions mais du coup dans performance max on a autant le search
+
+[01:30] le shopping, le discovery youtube et display, donc ça regroupe vraiment tout le panel de canaux de diffusion de Google c'est vraiment l'avantage du meuroir donc ça a vraiment tout exploité on exploite aussi quelque chose d'autre qui est liable pour trouver les meilleurs audiences et l'algorithme Google Ads et Sonya sont vraiment vraiment pertinents, la ou sur le search c'est plus compliqué à part avec les responsibles
+
+[01:53] et les audiences sur lesquelles il peut jouer là on vient vraiment l'exploiter à fond et troisième point c'est idéal d'utiliser ce type de campagne pour scaler comme les autres campagnes, platform parce que c'est celle qui va vraiment aller sortir de ses zones de confort et aller chercher des audiences auxquelles on n'aurait même pas pensé que ce soit sur des signaux d'observations ou même ceux qui sont actifs
+
+[02:17] les inconvénients parce qu'il y en a quand même ça fonctionne un peu comme une boîte noire, c'est crèze opaque on a un peu de contrôle sur optimization même si c'est plus en plus que le cas au départ ça n'était pas du tout et progressivement ils sont de compte qu'ils nous en font un peu quand même du contrôle donc avoir si Google tant vers le fait de nous laisser du contrôle au maximum je ne pense pas, c'est pas dans l'incarée
+
+[02:39] parce que ça limite ça favorise l'accès aussi à la site de campagne par les débutants et eux ça va par contre les cpc à la façon de diffuser leurs annonceurs totalement donc voilà c'est un peu dedans à ce niveau là ça peut cannéliser ça peut cannibaliser d'autres campagnes ici cmh structurés notamment sur la partie branding principalement
+
+[02:59] mais aussi sur la partie search, shopping, display, youtube parce que bah on va diffuser partout donc moi le parallèle cmh structuré on peut juste faire double on et en fait négatimer la structure d'un troisième élément ça nécessite un historique de conversion solide pour performer c'est algorithmic, c'est exploité par dia à 100% il faut le nouvel faire un amour parce que sinon ils vont pas collaborer ensemble ça va aller n'importe où
+
+[03:22] et vous allez juste avoir des performances mauvaises ou ne pas diffuser dans le meilleur dément donc ça passe pour que je le débat à la question je pense que j'ai le plus grossu sur les 12 18 derniers mois c'est est ce que performance max en fidonis est plus intéressant qu'une campagne shopping déjà pour les contexte à l'isée on peut sur Google ads
+
+[03:42] par le biais d'une performance max isoler uniquement le fait de diffuser en goût à la shopping par isoler chaque canot de cette façon par contre le flux shopping on peut si jamais on n'ajoute pas de contenu textuel donc un os entre autres de contenu vidéo écréat pour displayer et youtube Google va diffuser uniquement sur la partie shopping parce que c'est tout ce qui
+
+[04:04] aura à disponibilité et on se rend compte que globalement le fait de faire une performance max en fidonis est beaucoup plus intéressant à de scale qu'il ne peut pas de shopping seul pour les raisons je vais voter pour l'algorithme du coup le pmax en fidonis il y a utilisé les gaules pour optimiser les placements donc on exploite vraiment tout panel
+
+[04:25] algorithmique de Google sur la shopping classique on est vraiment plus basiste ça se base sur le flux produit ça parait on avait parlé dans les différents types de cilage mais le flux shopping est une façon de cilier les personnes et shopping classique ça parait on avait parlé du coup dans la partie en module 1 sur les différents types de cilage mais votre flux shopping est un outil de cilage à part entière
+
+[04:48] sur le campagne shopping classique la pointe du optimisation maintenant pmax en fidonis forcément ça s'optimise de façon algorithmique donc il y a de l'auto apprentissage meilleur capacité d'apprentissage global et dans le pointe du cilage aussi ça s'affine avec le temps beaucoup plus efficacement que sur une shopping classique car sur une shopping classique c'est moins intelligence ça décide plus de micro gestion
+
+[05:09] avec de l'itération de la btc au niveau des flux au niveau des titres au niveau du prix des choses qu'on peut faire aussi sur pmax sur le menu mais qui sont climatiales en shopping classique l'imprim du évolutivité on a la meilleure scaling point n'est pas grand chose de plus à réaliser on peut vraiment les chercher plus de volume en pmax là où en shopping classique on est que l'unité en volume et en riche sont normales
+
+[05:31] là où par contre shopping intéressant c'est qu'en termes de visibilité on a plus de transparence et tout fier il fallait la performance par produit au niveau du flux et d'imprim du contrôle on a plus de contrôle sur les enchères et le cilage là où on a encore ce que j'ai oké justement sur la slide précédent c'est qu'on a moins de visibilité ou de l'ovalence qui se passe en back-up côté pmax donc voilà c'est quelque chose qui nous parle beaucoup nous en temps pédia buyer on a besoin de ces infos là
+
+[05:53] pour vraiment micro optimiser et aller chercher pas le 2080 justement le 8020 les 20% restants là où si vous vous entend que en temps fondateur de brame vous voulez juste cet up in pmax et pas vous prendre le test c'est égal parce que c'est très simple à paramétrer en résumé du coup pmax est beaucoup plus intéressant en fin de nuit que shopping
+
+[06:13] un point de vue plus produit à ce qu'il est évidemment pourquoi ce qu'est parce que tu faut commencer encore une fois comme évoqué dans la partie structuration avec une compagnie de shopping selon moi toujours aujourd'hui même si il commence par avec de max c'est possible aussi certains le faut c'était ta lancienne de faire ce que je fais mais au moins je suis sûr de ce que de ce que je fais mais du coup commencer avec une shopping atteindre 30 50 conversion 70 en fonction de votre marché
+
+[06:35] et passer transformer votre shopping en compagnie de la France max parce que oui vous pouvez transformer votre campagne de shopping en performance max directement ça qui est pensé fait pour ça donc il faut le faire et c'est une raison pour laquelle il faut aussi fonctionner de cette façon rapidement et je ne voulais pas l'éterniser vraiment sur ce sujet parce que ça dépend vraiment quand une fin de votre produit
+
+[06:56] donc là c'est beaucoup de qui appartient mais je voulais vous parler de l'optimisation de votre produit directement à travers la gmc mais ici directement par contre déjà là d'après vous quand vous voyez ces deux au-dessus qui sort tout droit du full shopping j'ai vraiment fait une screen justement de façon à l'actoire j'ai pas pris les les cartes orfaits les plus nues ou autre j'ai pris ce que j'ai trouvé vraiment là pour faire un cas concret
+
+[07:17] selon vous qu'il est la meilleure photo produit qu'elle est la meilleure titre qu'elle est la meilleure fiche de la sangle globale rapidement directement pense-moi d'accord celle-ci est quand même beaucoup plus pertinente sur combien d'encolage j'ai encore une fois et je vais expliquer pourquoi déjà à gauche on est sur un titre qui est trop long il y a trop de répétition à bénéfice clière ça arrive à la fin et encore on est se trappé parce que
+
+[07:38] parce que justement on l'a fiché trop long il n'y a pas de moquerie d'intention aussi c'est que ces problèmes-là il y a un nombre marqué répété nova collagène nova culturel même si c'est une série de produits dans ce cas là c'est un problème de naming et ça n'a pas de sens de faire double haut il n'y a pas de différenciant genre le produit est badal l'image est brouillante c'est passé pour des greens ou un smoothie on voit juste le produit juste ici rapidement
+
+[07:59] même si c'est une lage un peu la installe fonctionne mais pas de cette façon pas rien un peu abstrait aussi on n'a pas d'aller clients on a des frais d'hypérision en UV voilà bref avec ça vous n'allez pas aller bien loin et même en retard de pricing on est assez évé par rapport au bords faits donc globalement on peut mieux faire Google ici ne comprend pas l'usage exact du produit donc forcément vous avez un CTC qui est plus haut
+
+[08:20] et une diffusion ou moins pertinente ici avec la marque M du coup le mot clé principal en tout début ça c'est parfait compéentement alimentaire en perfection pure glow ça parle le no product même c'est intéressant parce que pure glow aussi c'est c'est qualitative ça parle aussi c'est une claim donc c'est cool des bénéfices et usage clair
+
+[08:41] sont aussi affichés donc pure glow ça rentre à persévérée sur le ciel on a l'actif clé avec le zinc qui est ajouté dedans on a la marque en 20 titres donc c'est un bon placement ne le mettez jamais au début ça s'arrive à moins que vous soyez Nike et encore ça fait encore moins sens le produit est centré et lisible simple même si ce type de photocrewd vous différencie pas tellement
+
+[09:03] là vu que le branding est sympa et le produit parle ça fait sens mais vous pouvez aussi abetisser d'autres formes n'hésitez surtout pas le P aussi au gramme ça dans les compétences c'est super intéressant de le mettre Fred y raison pas cher c'est un comparateur de P si vous pouvez avoir y raison offerte il est à l'eau aussi c'est piquement vous pouvez pas remettre même si c'est pas un manquin
+
+[09:24] avec quelques chips peut savoir qu'on peut parler user rough mais le fait de réaliser aux fans d'affichés c'est pas le cas forcément sur le site et le visage du client forcément au billetoir c'est très marginal sur le produit car il est un peu parfait ça prend un peu de temps le temps se mettre un jour mais il faut faire et là vous que l'on comprend parfaitement l'intention la diffusion est au bon public et c'est pas ce qu'on peut faire
+
+[09:44] et la conversion ça a forcément meilleur donc on peut voir mais on n'est pas sur les haine produits copi et collé mais sur les termes de six civillaires et le comparatif est intéressant mais ça ce que pour visualiser mes propos là je vais vous parler du premier acte shopping que je voulais évoquer que sont les scripts là ça va parler un peu un peu audaire de si vous voulez pas vous prendre la tête de ce type de shopping vous pouvez passer on est vraiment sur sur l'optilisation
+
+[10:05] et de automatisation donc ça se prédence sous cette forme voilà ça te ressemble à rien on dit comme ça et je vous explique plusieurs défais en quoi ça consiste donc ça c'est un script qui a été éliminé en 2004 qui a été mis à jour plusieurs fois il en existe des dizaines de scripts sur Google ad et c'est rarement un atout majeur quand on quand on veut pousser le niveau d'optilisation de ces ad-accounts
+
+[10:27] ça termine beaucoup de choses dans le clip produit typiquement avec le label Azure FeuBoost c'est un script que tu ajoutes en fait à ton compte ça te permet de donner de la visibilité sur ce que performance max fait réellement on parait d'opacité et bien là ça vient de rencontrer justement ça ce qu'elle a pas sur tous les pas sur tous les sujets mais ça que permet quand même de créer des ajustements automatiques en fonction donc ça reste intéressant
+
+[10:48] comment ça fonctionne bah en fait on ajoute directement des labels sur chacune décoversion PMAX au niveau de setup n'hésitez pas à vous rendre directement sur le lien je mettrai comment peut-être en bas de cette vidéo et qui vous donnera justement ce script la bel-Azure FeuBoost alors et ça termine du coup de s'indé dans vos campaigns PMAX les produits qui ne performent pas ceux qui performent moyennement
+
+[11:09] ceux qui performent beaucoup de façon automatique du coup comment ça se présente de façon visuelle je préfère t'imager ça parce que dit-je dit comme ça sur la salle précédente ça peut ne pas être parlant du tout en gros Google et ce script voient dispatch les produits selon leur label typiquement on a trois campaigns performance max une campagne c'est peut-être temps de ça faire
+
+[11:29] normalement avec ce script une campagne avec des low performers une campagne avec les low performers une campagne high performers dans ces campagnes on a différents stratégies d'enjeun donc soit une stratégie d'enjeun avec un target terroir dans Pro 8 pour les low performers 2.5 pour les needs 4 pour les high et au niveau du spend sur la première campagne on a la seconde row day la deuxième 400 row day
+
+[11:50] la troisième 1200 row day ça permet du coup d'ajuster en fonction des signalités des tendances du marché et des busts peut-être voir en extérieur de Google Ads les différents produits donc en gros si aujourd'hui le collage en pétite de Vital Proteins c'est un high performers il est dans la campagne du spend plus et on a rose
+
+[12:10] sur ce produit en priorité par contre si du jour au lendemain il baisse en performance il est transféré directement vers notre campagne et on investira plus que 400 euros d'ail dessus avec un target terroir est beaucoup plus faible pareil pour les low performers qui du jour au lendemain je sais pas si on est sur quelque chose en lien avec la digital indé dans ces clivaires ça marchera mieux et du coup ça pourra passer de l'auquare formance l'été à high performance l'hiver de façon automatique
+
+[12:31] pareil pour la partie perd de quoi on sait qu'à mon été ça fonctionne bien et l'hiver moins et ben c'est juste aussi automatiquement donc ça c'est vraiment bien pour avoir une structure de campagne PMAX optimisé et qui s'optimise aussi seul selon vos critères pour rouler personne qui en livraient avec des haïtres assez larges ça fait vraiment sens
+
+[12:52] et si vous allez ne serait-ce que 5, 6, 8 produits qui se peinent quand même un petit peu sur sur Google ça fait sens de de faire ça comme ça Hack shopping numéro 2 et le dernier un peu de cette de cette section PMAX c'est vraiment le product duplication là on est vraiment sur quelque chose qui est arrivé à je dis RRR
+
+[13:12] et 2 mois maximum ça se présente de ces façons en fait on vient multiplier votre visibilité sans se peindre supplémentaire au niveau du flux shopping qui s'affiche à vos prospects donc là on le voit très bien on aura 3 produits no valable juste ici c'est le même quasiment à chaque fois c'est des variants juste avec des angles différents mais pourtant ils affichent
+
+[13:34] les 3 sur les mêmes pages on s'intermère vraiment d'être omniprésents et de cloisonner la totalité quasiment du flux shopping j'ai vu des produits, j'ai fait des tests ou des fois sur un keyword en lien précis reprenez mon exemple du collagène compéreux collagène vous pouvez avoir 5 fois le même produit avec 5 photos différentes 5 techniques différentes qui renvoient à la même page produite
+
+[13:56] le principe des simples du coup on prend un seul produit donc on crée plusieurs listings shopping autour d'intention et de recherche différentes donc même produit, même URL a 10 produits uniques par contre pour chaque gradation ça s'est clé parce que si on se passe par le niveau de la compréhension ça se passe dans GNC tout ça ou aussi directement pourquoi ça fonctionne ? bah Google ne regarde pas en fait si URL est identique
+
+[14:16] pas sur le shopping Google regarde juste si chaque listing apporte une valeur distinte donc un nouveau titre obligatoire avec un nouvel an idealement il ne faut pas que ce soit côté collé vraiment de ce qui marche le mieux une nouvelle description un nouveau positionnement donc il y a une intention d'utilisateur différent on l'a vu avec le coup VS euh... Faradwitz le genoux pardon VS le dos
+
+[14:36] et Google récompense la pertinence donc plus de habilité plus de la suite de conversion donc si chacune de vos annonces est pertinente Bingo vous pouvez apparaître sur une semaine de recherche sur 5 fiches différentes et ça on l'a testé nous sur le
+
+[14:58] 3 à 4 6 mois ce sera plus gable n'hésitez pas à faire des recherches sur la product du application shopping avant de commencer à faire un setup mais rapidement sur le vendredi même si oui il y a Black Friday il y a de l'actuation etc on a des brines sur lesquelles on a fait l'actuation et pourtant ça était quand même efficace le produit est apparu en moyenne 4 fois plus euh... enfin sur 4 fois plus le trafic est passé globalement de 200 clicks
+
+[15:19] par jour à 800 j'ai une sécheflame mais c'est 4 ou c'est pareil on l'a eu des pics vraiment à 1600 clicks par jour sur les annonces en destin donc ça c'est très intéressant en dehors de l'activation et globalement le spend n'a pas bougé celle de la partie en fait a explosé donc on parle vraiment à plus de gens mais plus de gens pertinents selon votre amence selon votre échec produit et c'est ça vraiment
+
+[15:39] petit fait la différence donc vous avez juste un plus de trafic même niveau de spend les cp c'est plus faible et un taux de conversion meilleur par contre c'est un gros bow banger faut juste bien le switch sur les deux pensées et au point de fois basé vous sur la data votre écart socialise par rapport aux angles et aux hypothèses d'ailleurs chaque angle et il t'aille aussi un niveau des photos produits c'est quand important voilà on est bon du coup par rapport à ce module
+
+[16:00] concernant les profits max et shopping vous avez maintenant toutes les informations globalement par rapport à ce ce type de campagne que ce soit au niveau du setup des flux que ce soit au niveau des différents arcs que j'ai pu évoquer pour vous permettre d'améliorer vos performances que ce soit aussi au niveau de la transition shopping d'affirmance max j'ai pas été dans le pari
+
+[16:22] le trash plus réduire de la campagne mais pareil si vous voulez avoir le meilleur tistres les merdescriptions n'hésitez pas c'est lié pour ça ça va vraiment vous aider avec un montage pt par un micro autour de google ça fonctionne très bien en tout cas c'est des questions quand même faut un vasoil disponible et on passe directement au psy garnier montu ferre le demand gen c'est un type de campagne
+
+[16:42] vraiment intéressant pour scale version meta sur google bon tu es juste à partir vous avez tout ce qu'il faut jusqu'à présent et pas ça allez tabnate
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 53 : Focus : Demand Gen
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 53
 ======================================================================
 
@@ -2117,16 +2611,70 @@ On est actuellement en phase 2 du cycle d'adoption de Demand Gen, c'est le sweet
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok on est parti du coup pour ce module numéro 8 avec un focus ici l'admangement.jn c'est le dernier focus du coup qu'on va voir on a eu le search les Pmax et les shopping et on passe maintenant sur l'admangement.jn c'est la révolution gun j'ai une diversion met up parce que vous allez comprendre ça s'apparente plus ou moins à de la création d'accaptation d'intention
+
+[00:21] alors on était plus sûr de l'intention sur les différentes campagnes que j'ai puis évoqué au préalable donc c'est différent c'est incroyable parce que en tant que médiabayer en google ça parlait enfin de faire quelque chose de différent et on est sur un niveau d'adoption qui est encore très orli bon il y a beaucoup de choses à faire je vous explique ça j'ai tout à fait
+
+[00:43] it's time c'est l'heure si y'a bien un timing sur lesquels c'est intéressant de se lancer à faux au niveau de manjjn c'est celui ci et je vais vous expliquer pourquoi en faisant très simple en prenant une vie un peu macro de la stratégie des plateformes d'acquisition globale que ce soit mes tapes interesse du toque tabou là ou encore google c'est à chaque fois les mêmes phases
+
+[01:04] pour chaque nouveau canal d'acquisition il y a une première phase qui est la phase d'adoption juste ici donc la phase numéro 1 dans laquelle on vient tester au niveau de google du coup tester et améliorer le canal on a une phase numéro 2 de monétisation donc il faut qu'on a fait adopter qu'on a testé et amélioré le produit on le met à disposition des amateurs et ils peuvent
+
+[01:26] commencer à monotiser dessus du côté google avec des features basiques d'ajouté des cpm loups pour attirer les gens et commencer à se penne fort et c'est vraiment là le suite spot où c'est vraiment intéressant profiter à fond de cette nouveauté ensuite on a une phase du scaling des revenus sur ce canal de diffusion
+
+[01:48] donc là c'est un peu aujourd'hui ce que pmax tout le monde est au courant de comment ça fonctionne tout le monde qui appele une patate tout le monde est armé galère de balance sur sur l'outil pour derrière en faisant une phase de stabilisation où là c'est plus de nouveauté le site pour le search le shopping et on va vraiment stabiliser le produit pour un éclat en studio d'une à terre parfaite pourquoi je vous ai vu ça
+
+[02:09] très simple avec des manjènes on est plus poil entre ce que j'ai vu qu'est-ce que c'est que ce soit en france ou aux uss les uss sont forcément plus en avance par rapport à ça parce qu'ils ne voient que ça aux exclusivités en amour mais dans une phase de mon initiation donc la phase 2 par rapport à de manjènes donc là Google vient acheter des basic features
+
+[02:31] tous les jours mais qui sont vraiment efficaces enfin tous les jours non mais souvent on a des cpm qui sont là-bas ils ne font qu'augmenter globalement donc ça c'est possible qu'en niveau France on s'en a même peut-être déjà ici tu vois et donc on est dans un sweetpot qui nous permet vraiment de profiter de de ce qu'elle l'acquisition à 100% voilà je souhaitais ça intéressant de recontexturiser un peu l'évolution de ce nouveau canal
+
+[02:52] qui nous permet de comprendre le potentiel petite introduction du coup directement à demandjènes avant de passer aux choses sérieuses demandjènes du coup c'est une campagne complète multi-classement on en a parlé durant le module sur les bases de Google Ads ça comprend YouTube, Discovery, Gmail principalement donc on n'a pas le réseau search on n'a pas le réseau shopping on est vraiment voilà dans les objectifs différents
+
+[03:13] de ces canaux parce que là on va venir créer la demande avant qu'elle n'existe donc éduquer, inspirer attirer les utilisateurs aux tunnels qui ne connaissent pas encore forcément votre mafd ou votre produit un peu à l'image juste qu'on peut avoir sur meta encore une fois ou type top ou autre au niveau du contenu on est sur de la créa donc de la vidéo de la statistique et on a aussi du texte
+
+[03:34] on a de copies forcément sur ces clés un peu à l'image du meta donc si vous êtes familier avec cet autre canal d'acquisition vous allez être en zone de confort il y a très peu de barrières à l'entrer encore une fois si vous êtes sur meta très simple vous vous prenez... bon là il y a le sorti top ça marche très bien donc vous prenez toutes vos créa
+
+[03:55] Winnerf c'est le super film sur meta et juste vous les adaptez via les normes et les conditions rouges qui se linient juste en dessous je vous l'allait créer sûrement en dessous de cette vidéo aussi mais en gros il vous explique du coup les différents formats à adopter pour correspondre parfaitement aux modèles de diffusion sur Demangel et vous les envoyez sur Youtube
+
+[04:16] directement dans votre compagne de Demangel évidemment à scale les créa on les a remarqués on a bêté c'était beaucoup de choses dans ce sens là les créa meta purtif en que ce soit sur meta ce ne sont pas forcément des winners sur Youtube il y a deux trois trucs à ajuster c'est des audiences quand même qui sont un peu différentes un peu à l'image de si vous faites meta vers tu-tok ou tu-tok vers meta
+
+[04:36] il y a deux trois trucs quand même à ajuster que ce soit au niveau des hook que ce soit au niveau des formats que ce soit au niveau des b-roll du montage en lui même ça a pareil, compliqué d'expliquer à chaque fois parce que c'est sur mesure en fonction de votre brain mais pour commencer faites simple n'ajoutez que au niveau du format et envoyez sur Youtube
+
+[04:57] et après vous allez comprendre si tu fonces à une liste on se moine là le setup idéal est également assez simple commencer en terme de siddlage avec une look like de Hope As Bair donc les logges sont déjà achetées depuis Shopify pensez tout même à mettre optimization de siddlage en off dans les parametrages de la compagne
+
+[05:17] pour l'instant et faire un pan image de toute la partie structure à son campagne et de compte que j'avais ok dans la phase d'acquisition de data vraiment on va pas laisser le chance à l'algorithme de partir un peu en KKW vraiment du que voilà de mes enceintes à hache de l'air valer cibler et cibler les personnes qui leur ressemblent à travers la look like
+
+[05:39] et ensuite partir sur du brode donc là vraiment sans audience et par contre passer au niveau du carrel et rage optimization de siddlage en on et là les fontre sont en l'algorithme et bonne chance globalement mais ça marche très très bien parce que l'algorithme est très efficace au niveau des ad groupes vous faites un asset mix entre statiques et vidéos
+
+[06:01] et escure par contre les fil base ads sinon les ads dans le fin du coup YouTube directement on va se concentrer uniquement sur la partie short c'est quand même le truc le plus important bien escure les tablettes et les TV du siddlage certains portes de campagne dans l'aggloméance c'est des choses qui ne fonctionnent pas vous ne prenez pas la tête là dessus tablette ça peut mais c'est très rare ça dépend vraiment du niveau de responsif
+
+[06:23] de votre site derrière c'est très très très pertinent sur tablette pourquoi pas pas de target CPA sur les 30 fois les jours comme évoqué on y va vraiment en mode accumulation data et après en termes de budget conseil de commencer à 50€ d'oeil en Europe 100$ aux us 80$ si si vous vous inquimisez
+
+[06:43] mais vous ne prenez pas plus la tête que ça et ensuite derrière vous pouvez vous pouvez capter les détails de CPA directement page de destination votre pp vous ne prenez pas la tête que ce soit vos pages produits si ils fonctionnent le mieux vos listes de tueur et vos ad-laterioles vous pouvez vraiment adapter un peu de l'annuation de meta une campagne, une lp
+
+[07:05] tout le même à chaque fois et des souhaits quelle est l'importance des créats et des audiences dans une campagne de mon genel un peu une loge de meta encore une fois c'est ultra important parce que les audiences Google globalement elles sont plus étudiasques les audiences meta sur de l'intention pure comme évoqué parce que ça la base sur une
+
+[07:26] historique de recherche précis de la géologue des achats Google Pay des appels de ruin, enfin en fait énormément de des éléments et aussi surtout des intentions commerciales que ce soit des requêtes, des clics, des abondons paniers sur les sites de concurrents et teta donc là on est relance sur surtout quelque chose de très précis donc faites bien l'intention parce que nos résidences c'est une campagne qui évoque à l'échelle mais concentrez-vous comme évoqué
+
+[07:47] lors du module sur la stratégie d'encher sur le fait d'observer quelles sont les meilleures audiences pour votre maft une fois ces phases d'observation effectuées passées les rétiles sur des campagnes type Pmax ou autre et ensuite venez les appartir sur Ademange, on est vraiment sur une campagne de scaling c'est pas quelque chose qu'on fait au début donc vous devez normalement avoir fait ça en amont
+
+[08:08] parce que sinon ça va juste spendre le vent autre système hyper intéressant à scale on est vraiment passé dedans la récemment depuis septembre c'est le sud-âge brode voilà faites confiance à la Google encore une fois un peu l'image des cilio sur meta mais en gros votre créat est égal au vote targeting exactement la même chose que sur meta
+
+[08:29] ok si votre Demangean est d'apparater ne fonctionne pas tout même comme meta c'est pas la faute de Google mais vraiment votre nature concentrez-vous là dessus ok? il faut itérer, itérer, itérer, faire du volume, adapter si vraiment votre meta ne fonctionne pas sur Google, adapter les à Google etc etc etc etc abtc en volum en continu et relancer
+
+[08:51] voilà on a fini avec le module sur la partie Demangean vous avez rendu toutes les clés pour lancer votre première campagne si vous êtes déjà dans cette phase de scaling de votre hose n'hésitez pas vraiment à tester ce modèle de ne pas le faire parce qu'il est vraiment intéressant ne faites pas d'erreur par contre au niveau des audiences ne passez pas un brode directement ne faites pas l'égourment et prenez le temps de vous conscrire c'est vraiment l'intention dans laquelle il faut être quand on est sur Google Ads
+
+[09:13] et après vous aurez vraiment quelque chose qui vous permet de faire de l'activation pure sur Google et tout son canal de diffusion on passe maintenant au module prochain qui est le dernier module sur la partie budget et KPI la location budgetaire, comme on l'a dit intelligemment et suivre les bons KPI pour steler ça va venir vraiment englober tout ce qu'on aura pu évoquer durant les derniers modules
+
+[09:35] et venir vous donner l'écrit pour piloter parfaitement votre compte partir
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 54 : Allocation budgétaire & KPIs
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 54
 ======================================================================
 
@@ -2210,16 +2758,102 @@ La structure de ton compte Google Ads, c'est ce qui fait la différence entre sc
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans ce module Ninero9, budget et KPi. L'objectif est très clair, c'est de vous permettre d'allouer intelligemment et suivre les bons KPIs pour scalez. Maintenant que vous avez toutes les bases pour permettre de lancer, optimiser et scalez vos campagnes, il faut comprendre comment vous pouvez et vous devez optimiser vos budgets par rapport à ces dernières. Et sur quel KPI vous devez vous baser
+
+[00:22] pour savoir si vous pouvez appuyer ou non. C'est l'objectif de cette vidéo de ce module et on est parti directement. D'abord dans un premier temps commence à voir si votre allocation de budgetaire est magérieux. Si vous avez déjà un compte qui tourne, c'est une slide qui est super importante. Pour savoir ça, il n'y a pas besoin d'un docteur en data. Il y a vraiment que quatre signaux d'alerte à surveiller en permanence qui sont récients.
+
+[00:43] Le premier c'est de savoir si une campagne de suture performe toutes les autres par trois ou quatre fois le volume de sphène et du chiffre d'affaires. C'est d'ailleurs que la reste du compte en fait n'a pas assez de budget pour apprendre et que vous scalez à travers un groupe d'étrongue. Vous allez forcément accliner tes bords. Deuxième signal à surveiller est ce que vous avez une taffé en smax qui cannibalise votre search.
+
+[01:03] Si vous voyez vos requêtes de brin typiquement ou non brin basculé dans vos performances max, c'est un signe que vos budgets sont mal distribués ou que vos sculptures de compte évaluant. Vous pensez toujours à vérifier ça. Troisième signal est ce que votre coût par achat augmente sans raison externe. Typiquement voilà, il n'y a pas de changement de marché, pas de saisonnalité. Ça me souvient dire que votre budget ne nourrit pas les bonnes campagnes.
+
+[01:25] C'est très normal de l'identifier. Mauvaise répartition à ce signal. Et enfin du coup quatrième signal à surveiller est ce que votre shopping fait beaucoup d'higilité, mais presque pas de conversion. Si c'est clair ça veut dire que vous payez du trafic trop large, pas assez qualifié. Souvent parce que votre taffé en smax prend toute l'intention et que votre shopping récupère pas des liettes. C'est bien sûr une shopping cat show comme on l'avait hoqué dans la partie de situation. Si un seul de ces signe va par un fait c'est vraiment l'histoire d'allocation, de mauvaise allocation.
+
+[01:50] Et si plusieurs signe va par un sur un même temps là on est vraiment sur un problème plus structurel. Et vous êtes vraiment en train de vous tirer une balle dans le pied quelque part dans la structure de votre compte. Même si il faut la faire auditer, il faut la repenser. Ensuite j'ai voulu vous donner de par mon retour d'expérience de part la d'affailles de plus récuver de la situation au Difference de la Vacante. Que j'ai pu gérer les répartitions idéales. Seulot, AKPY, votre spend monthly.
+
+[02:11] Et on va commencer directement par le premier en dessous de 24 par mois. Donc si vous avez un nouveau compte, un spick non, ou si vous avez un compte tour, mais en dessous de 24 spend par mois. Là la partie que je peux le conseiller, c'est 60% du spend en shopping. Focus sur les nest sellers, 30% sur la partie search.
+
+[02:33] Et 10% sur la partie performance max. Pour le di-search c'est aussi la partie branding. Évidemment, n'est-ce pas en train de faire 100 à 6% maximum. Et avec une stratégie d'en cher, un retour d'influential. Si vous êtes entre 24 par mois et 44 par mois, là ça switch. On est plus sur le 40% faupine, 40% performance max et 20% search.
+
+[02:56] Ça dépend aussi vraiment de l'argent, on a des marchés sur lesquels on a davantage de percentage de parts en search. Parce qu'on a des keywords, des types de carrettes, des marchés, des produits qui sont vraiment focuss uniquement. Shopping et des max, parce qu'on a des avantages compétitifs pris. Pays ou autres, typiquement. Au-dessus de 54 par mois, on commence à être sur du sérieux.
+
+[03:18] On va pouvoir commencer à plug les éléments intéressants, typiquement la demand gel, et répartir davantage sur la performance max pour se caler et expendre. Donc on est entre performance max et demand gel, 70% du spend, 10% en search, 100% en shopping. M6 c'est mon prioritaire. Je n'ai les cons sur lesquels je n'ai plus de shopping. Et quand j'ai shopping, ça peut être une pémaxe en shopping de haut en ligne.
+
+[03:39] Donc voilà. A ce niveau de spend, on peut aussi ajouter évidemment la partie à l'atrium. Pour aller plus sur un point de spend, 70, 80, en cas par mois, un marché francophone, 100K. Les USD par mois, côté US. Vous pouvez l'anoutter, ça va présenter en moyenne 10 à 15% du spend, à ce qu'elle n'en est jamais sur des 20, 30, 40, 50%.
+
+[04:02] Les critères à prendre en considération sur les vente paft, dont vous l'avez hoqué, les compétences de produits, les appareils visuels du produit ou not, le niveau de concurrence et l'histoire de conversion. C'est aussi ça qui va faire que ça flutue ou not et vous expliquer juste à fait pourquoi. Avec un exemple pratique. C'est uniquement si le produit devant de l'éducation, il faut ajuster par rapport au search.
+
+[04:22] Vous allez avoir potentiellement plus de requêtes intéressantes sur les gammes pushing les, comme je l'ai voté. 10, 15% de spend en plus. Pémaxe en venir réduire. C'est sur le shopping et le Pémaxe on va venir ajuster à ce niveau-là. Vous pouvez tenter de le dire. Dans une nette d'épigades pédagogiques, à l'institule ou autre, ça va vraiment faire sens.
+
+[04:44] A ça, on va plus rapidement que si c'est un produit visuel de déco. Si le produit visuel, comme je l'ai voté, le côté mode, déco, des spritements, des shirts, etc. Là, le shopping va forcément me répondre le gamme à ceci le search au mois. Donc, prioriser à fond. C'est vraiment là, en termes de spend. Et dernière possibilité,
+
+[05:04] nouveau compte, évidemment. Évidement, le search et le shopping. Plus qu'à 20% facile du stand dessus. Et encore une fin, pas de performance max, pas de campagne algorithmique, avant 30, 50, 100, 100 mois. 70 pour les US, pour les années 100. Autre élément inter-interessant, et qui n'est pas forcément très utilisé,
+
+[05:26] c'est les ajustements dans Chef de portefeuille. En gros, c'est la possibilité de pouvoir booster le site de conversion sur mobile. Le spend, c'est pouvoir diminuer les enchères sur les emplacements peu rentables. C'est pouvoir aussi tester le beatcap sur les montres les plus chers, exemple, ce décontuant. Normalement, vous pouvez ajuster vos enchères
+
+[05:46] selon plein de critères intéressants. Et du coup, adapter, par rapport à votre produit, à votre marché, là, vous pouvez vous permettre d'investir davantage. Je n'ai pas fait un tuto, ou tout, globalement, ajuster vos enchères de portefeuille, mais vous pouvez me renseigner. Le baccain, comment ça fonctionne, c'est très simple. Et ça permet vraiment d'aller chercher de 80 à 20. Mais 10% restants d'obtéviation,
+
+[06:08] vous ne pouvez pas faire, si vous laissez un bout de. Deuxième possibilité, qui est vraiment, vraiment, vraiment, vraiment très intéressante, c'est d'obtéviser le tracking de vos conversions selon vos obétifs. On va aller faire un focus sur les deux, la partie cash-show, la partie acquisition de nouveaux acheteurs, parce que c'est sucre important, et ça fait vraiment la différence
+
+[06:29] avec la compte. Le stress que la BST, ça fait tout le sens. Vous pouvez, du coup, avoir un objectif de profitabilité sur l'achat numéro 1, nos objectifs cash-flow, avec dans ce cas-là, un intérêt d'avantage sur le fait de cette table de valeurs de conversion sur la marge de contribution uniquement. C'est tout de même, vous pouvez dire, à Google, bah voilà, une conversion, on le dit, voilà, mon produit est à 40 euros. La conversion, c'est 40 euros.
+
+[06:51] L'avantage de contribution, on sait que, d'un fait calcul d'écoles et de volumetés économiques, vous êtes à 25, et bah vous faites remonter votre compte dans Mebacan et votre adaconte. Ça fait du coup l'algo et vous croyez pas que ça vous optimisez pour la profiléité uniquement et vous pouvez, au niveau des stratégies d'enchaire, adapter et ajuster selon ce capitre, donc c'est super intéressant. Vous pouvez optimiser, du coup, pour l'explication de nouveaux clients,
+
+[07:13] en faisant un set-up, du coup, sur un tarif de conversion uniquement sur les new customers. Ça, ça fait vraiment sens, si vous avez déjà des enjeux de skating force, une grosse LTV, une grosse rétention globale, et que vous êtes convaincu de la qualité de votre produit et du fait que vous pouvez, dans les paris du time intervalle, n'est facilement sur le long terme, à tout simplement avec un set-up d'abonnements, ce que nous espérons à l'être en place.
+
+[07:35] Pour ce faire, on va commencer par le articash flow, c'est assez simple, pour le coup, pour le procès détaillé encore, n'hésitez pas à demander à la charge d'EPT il va vous faire un étable 2 et un étable 3 et un étable 4, c'est pas intéressant, je vous fais ça en vocale. Mais du coup, la première état c'est via Google Tag Manager, vous pouvez l'exploser comme ça. Donc c'est simple, vous vous créez une liste de marges de moyens par produit dans le tableur,
+
+[07:57] sortez vos unités qu'on n'est, vous les avez forcément déjà sur la cheat quelque part, intégrer les dans GTM, directement Google Tag Manager, publier et c'est parti. Ah c'est simple, pas forcément prépressif, par contre si c'est les modifications, il faut le faire directement depuis le tableur. Donc, ne pas oublier d'ajuster vos marges si il y a de la chance.
+
+[08:22] Deuxième méthode, c'est de bien un tool server type Elevah, que vous devez sûrement connaître. Là c'est simple du coup, vous vous faire remonter l'event d'achat, par le build of tool et modifier l'event d'achat par produit avec un marge mine. Donc vous le devez dire voilà mon produit, il y a une coûte 50 euros, il coûte 25. Et c'est la marge pour les soldats product. Ensuite vous vapez ce champ à Google dans la configuration
+
+[08:44] server-side. Ça c'est plus technique mais ça se fait assez bien aussi pareil avec Elevah. Donc franchement moi je prévise l'event d'Elevah à de scale pour un testing Google tannerger et assez suffisant. Ensuite si vous voulez optimiser pour l'acquisition de nouveaux clients pareil c'est assez simple, ça peut pas être
+
+[09:05] compliqué mais ça ne l'est pas forcément. Suffit de définir du coup qu'est-ce qu'a un new customers déjà, on est par un autre de conversion. On ajuste en la conversion achat et expiurodience de tous tes anciens acheteurs. Simple. Ensuite on va renforcer ça avec un custom dans l'achetiste. On apporte régulièrement en fait une liste tous les acheteurs existants. Je sais que nous voulons le faire
+
+[09:26] B-Wiki parce que c'est ce qui marche le mieux à la dignitaire. Donc elle pourrait éviter que Google ne les compte à nouveau. Du coup je vais faire B-Wiki c'est ça rien de faire. Tout le monde non plus toutes les semaines avant que vous ayez des volumes d'antesque et que vous êtes en train de mettre les abeilles sur Rise ou Grun. Mais globalement si vous le faites en B-Wiki sur ma chaine francophone
+
+[09:47] ou 2M3M ou 1M1M1 Et dernier point du coup par l'écrège des campagnes la fois c'est bien l'option cible et uniquement les nouveaux clients comme objective application. C'est très margable parce que sinon il va pas savoir qui se passe tu vas juste ne pas diffuser parce qu'il n'y a pas de problème. Tu dois aller chercher. Et retour d'expérience en moyenne on a plus qu'100% de profilabilité
+
+[10:09] month to month en utilisant ces méthodes. Donc vraiment 40% c'est considérable maintenant ça dépend vraiment de ton objectif mais c'est qu'à 6 mois on a obtenu 60% et globalement sur la méthode de suivi à la profitabilité c'est pareil, tu as forcément une rentabilité qui va être meilleure tu vas moins diffuser peut-être mais ce sera
+
+[10:31] selon tes objectifs. Maintenant que vous savez du coup comment ajuster vos budgets sur quel cas vous baser aussi pour les ajuster et vous avez ces petits tips pour la partie des conversions selon vos objectifs on va passer à un rapide plan d'action qui résume un peu tous les modules qu'on a pu voir c'est un peu une conflitement de ce qu'on a pu voir durant les derniers modules. Qu'est-ce que
+
+[10:53] vous pouvez faire ? Est-ce que vous devez faire maintenant que vous avez toutes ces informations ? C'est important de le mettre sur papier pour permettre de vous de vous suturer. Les actions emmenées sur les prochaines semaines déjà du coup si vous n'avez pas la data count si vous n'avez pas déjà de de de comptes et de campagnes, tu as vraiment créé et t'as rien fait de votre data count de la façon dont je le dis plus t'as c'est
+
+[11:15] pareil pour la partie Google technology pareil pour la partie Fuse-Shouting ensuite, tu as créé vos premières campagnes on est à le setup, on a déjà parlé de search, une drain, une acquisition une campagne shopping plus en parallèle c'est d'être ces audiences en observation pour derrière pour pouvoir profiter de la data pack sur les campagnes algorithmiques 3ème point, accumuler de la data
+
+[11:37] itérer et améliorer ce que j'ai en dégoûté plus changer vos stratégies d'enchère donc voilà accumuler de la data, c'est avec les stratégies d'enchère comme maximiser les clics, maximiser les conversions sans caping y a coups par achats ou R o s c l e ensuite itérer si oui ça marche pas ou que tout va améliorer vos amours et vos fiches produits et ensuite améliorer
+
+[11:59] avec un changement de vos stratégies d'enchère sur un axe curve, ou un maximiser la barre de conversion avec un caping dès que vous avez passé la 50-70ème de conversion, comme c'est dernier ensuite on transforme ces shopping en Pmax plus on s'augmente ce que j'ai évoqué tout le temps peut-être le script la balizer donc l'operfarme de nique de farmer
+
+[12:21] d'est-celleur, si vous mettez pas script juste d'estcelleur en Pmax et le reste dans la shopping cachole 6ème point, tester votre première campagne avec votre top 5 cra-winner si vous avez plus n'hésitez pas mais faut pas non plus noyer de l'algo j'ai fait cette erreur là de envoyer une trentaine de cra-winner dans la dacons
+
+[12:43] il n'a pas suggéré de commencer avec 5 et aller y progresser c'est un peu plus de temps mais c'est un peu plus de temps mais c'est un peu plus de temps c'est un peu plus de temps c'est un peu plus de temps c'est un peu plus de temps donc on commence avec 5 et aller y progresser c'est pareil à chaque fois sur tous les types de campagnes il faut aller y progresser
+
+[13:05] ensuite ajouter vos évacations budgetaires selon vos niveaux de spend on en a parlé de 0 à 20 vous avez des informations, ensuite vous pouvez y tirer et adapter en fonction de votre main avant dernier point le setup du tracking jusqu'à présent ne partez pas sur un tracking ou cash flow ou les customers, vous prenez pas la TPXA
+
+[13:27] ça va trop brider l'algorithme c'est pas ce dont on a besoin au départ par contre arrivez à cette structure de compte avec votre demande genty tournes, votre Pmax qui est là, votre shopping en cash flow qui est là, vos searches qui sont toutes paramètres faits avec en plus petit plus et une campagne l'adverteriol, c'est le moment de tester avec peut-être un doublement de la Pmax un setup tracking, un customer
+
+[13:49] et ou marre le contribution en amethystine et dernier point scale, il n'y a pas de secret appuyé ou en télébudget itéré dupliqué ajoutez de nouveaux produits tester, ce que j'ai invoqué sur la partie de mon jeune tester ce que j'ai invoqué sur la partie shopping avec des différents types sur la product duplication etc itéré, scale
+
+[14:11] micro-manager et vous allez pouvoir profiter et bénéficier du plus impotentiel de ce canal d'activation vous avez maintenant du coup toutes les cartes en main on a fini avec cette formation on a vraiment eu le plus de boucs parfaits pour pouvoir construire une campagne propre, un compte propre lancer vos premières campagnes, optimiser vos signaux bâtir vraiment un écosystème
+
+[14:33] Google Earth qui tient vraiment la route vous pouvez tout faire de vous-même, ça fonctionne très bien et j'en suis très reconnaissant d'avoir mon retour sur le fait de voilà, je lancais ma campagne ça marche, j'ai fait ça ça ça ça ça voudrait dire que ce que j'ai transmis à de la valeur, il a été utilisé d'abonnéssions maintenant voilà, je sais que ça prend un temps fou c'est du focus d'oraux sur ce qui sera assez rare mais vous pouvez aussi faire
+
+[14:55] déjà plus de 100K par mois, un M2M 3M par mois plus et c'est impossible donc si vous faites déjà 100K par mois et que vous voulez déjà déléguer cette partie là parfaitement, génie non calendier juste en dessous pour qu'on puisse en parler si vous n'êtes pas réunisité surtout pas apprendre un call, ce sera avec grand plaisir pour pouvoir discuter pour pouvoir voir si on peut trouver des synergies maintenant si vous préférez
+
+[15:17] d'exécuter vous-même c'est trop bien vous avez tous six faux pour aussi mon illaide donc comment c'est pas amus, pas amours mais envoyez moi un message clair structuré à vos questions ou autre et si c'est le cas j'irai prendre vraiment une précision pour vous aider à avancer voilà, à vous maintenant de faire de Google Ad non arrête putain de lever de croissance pour vos brain
+
+[15:39] et des chers et tout tiens
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 55 : Bonus [Slide] GMC - Éviter les bans
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 55
 ======================================================================
 
@@ -2325,8 +2959,42 @@ Google favorise la transparence et la cohérence. Un compte bien structuré, ave
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et l'autre monde, j'espère qu'on dirait bien qu'on se retrouve du coup dans ce module supplémentaire, petit bonus qui découvre vraiment de la question que je reçois le plus pour le coup, vraiment. Et c'est propre une typologie de e-commerce, quand même. Et c'est la question des banes GNC, donc comment les éviter et comment réagir en cas de banes
+
+[00:21] pour pouvoir continuer à run vos campagnes sur Google Ads. Et ce qu'elle a, on est parti. Ça va être assez rapidement, tout l'écart. Déjà, voilà un peu le playbook pour éviter le ban de votre compte sur Google Ads Transcenter. Premièrement, avoir toutes les pages légales sur votre site.
+
+[00:44] Donc les mentions légales, les politiques de livraison, de confinantilité, les politiques de retour et de renseignement, les conditions générales de vente, les conditions générales d'utilisation, etc. Vraiment avoir toutes les pages légales dans le footeur de votre site avec des URL qui fonctionnent, qui redirigent vraiment vers les pages et avec des pages derrière qui sont bien structurées,
+
+[01:07] qui sont légalement OK, et avec toutes les informations nécessaires par rapport à ces dernières. Deuxième élément important, n'avoir aucune page 404 sur ma site, parce que Google n'aime pas ça et privilige du coup une expérience titulataire parfaite, parce que c'est ce qui fait que les gens restent aussi sur les autres recherches.
+
+[01:31] Pour ça, je vous invite à utiliser des links à Checker qui est assez intéressant, il y en a d'autres, il y en a plein d'explicits comme ça, pour essayer de repérer du coup quelles sont les URL mortes que vous pouvez avoir sur les sites qui va dire « je vais avoir une erreur 404 ». Autre élément, avoir une page à propos. C'est quelque chose qui aide. Donc avoir une page à propos avec une photo du founder, ça peut être quelqu'un d'autre que vous,
+
+[01:57] il va vous d'être créatif par rapport à ça. Mais une page à propos vis-à-vis de l'entreprise, des histoires, rendre humain tout ça, c'est quelque chose que Google scrap et que j'aime s'évaluer. Avoir une page « Contactez-nous » dans le footer, ça c'est hyper important, qui comprend du coup ces trois alémas, donc une adresse physique,
+
+[02:18] un email de contact et un numéro de téléphone fonctionnel, j'entends. Pareil pour le mail de contact. Donc voilà, vous avez ces trois éléments là, dans la page « Contactez-nous ». Cinq éléments, éviter des conditions de retour incohéantes entre votre site et votre partage en Sankar.
+
+[02:40] Je voulais montrer le coup dans ce paramétrage de la Dacons, mais vous pouvez indiquer du coup dans GMC des conditions de retour, avec un nombre de jeux au vrai, au déclenchement de la commande, jusqu'à la réception chez le client. Si c'est différent entre votre site, votre politique du coup de retour,
+
+[03:03] et ce que vous rentrez dans GMC, ça peut porter à confusion et ça, il faut éviter. Autre point, du coup, pas de différence entre le prix site et les prix de votre flux. Ça, c'est primordial, ça saute cash. Théoriquement avec SIM Prozit, c'est possible, c'est pour ça que j'utilise. Tout est mirage ou venteur réel, donc il n'y a pas de problème. Mais si vous faites tout à la main d'eau, attention.
+
+[03:26] Et supprimez les incohérences sur tout site. Faut vraiment tout soit carré, qu'il n'y ait pas d'incohérences globale. C'est un peu le résumé de tout ce que j'ai hoqué. Mais si c'est marqué fabriqué en France sur un fruit produit, que ce n'est pas fabriqué en Pologne, typiquement, ça ne fait pas sens. Et ça, les bottes de scrapping de Google peuvent le voir assez facilement.
+
+[03:48] Je parle de ce télément là, mais c'est surtout globalement. Il faut que tout soit cohérent. Il n'y ait pas des discours différents entre différents pages éroquettes. Important. Vous pouvez avoir des LPs. Il n'y a pas de soucis. Il y avait des messages différents, des éléments différents. Mais si vraiment sur des points clés, il y a de l'incohérences, ça porte à confusion du côté de Jameson.
+
+[04:11] Les petits bonus juste ici, prenez un compte Google World Space, payant avec le nombre de domaines de votre boutique. Typiquement, si vous avez créé votre adacante, votre GMC et votre boutique avec le même URL, et que c'est un URL Google magnifique,
+
+[04:31] si c'est pas le cas ou tout de même pour un compte World Space, ne vous inquiétez pas. Mais il y a des théories comme quoi, et moi par sécurité, j'essaie de le faire aussi tout de même à chaque fois. Google valoresque 2 demandent davantage les adresses mail et les comptes qui payent concrètement leurs outils. Donc ça, un petit plus, ça vaut le coup de le faire.
+
+[04:52] Éthériquement, c'est quelque chose que vous allez utiliser. En tous les cas, ça coûte 6€ par mois. Donc faites-le, ça vaut le coup. Comment agir du coup en cas de blocage ? Le process, il est assez simple. Tous les éléments, si dessus, du coup, je viens d'évoquer, vérifier tout, donc repasser sur tout ça. Si tout est OK et que vous voyez plus aucune incohérence,
+
+[05:16] et tous les éléments sont pertinents, il est l'heure du coup de faire une demande d'examen directement depuis GMC de votre compte. Et apprendre à concéler à son parcours, c'est qu'au-delà de 3 examens, il y en a qui disent que c'est 2, ça dépend vraiment. Peut-être qu'il y a eu ce partenaire, des fois Google est plus laxiste.
+
+[05:38] Mais par contre le principe que déjà 2, ça commence à être chaud. 3, c'est trop tard, clairement. Votre domaine est blacklisté et vous pourrez plus être débattus sur un nom même. Donc si c'est ton cas, migre tout, vers une belle adresse email, que ce soit ton Shopify, ton GMC, ton Atacante, ton Google Workspace. Migre tout, change tout.
+
+[06:00] Idealement, pour éviter de faire des liens, si tu peux mettre une autre entité sur le site au niveau des politiques et des pages légales, c'est mieux. Maintenant, je sais que c'est pas forcément faisable, c'est pas simple dans les faits. Mais voilà, un reset global inécessaire. J'espère que ce petit bonus vous aura aidé.
+
+[06:23] Gardez la check-in de côté. Si vous avez la moindre question, n'hésitez pas à me contacter. Si je peux vous aider, ce serait grand plaisir. J'espère que vous aurez le moins de fois possible besoin de repasser sur ce module bonus. Et que, si c'est le cas, vous pouvez maintenant réagir assez facile.
 
 

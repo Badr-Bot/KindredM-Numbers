@@ -2454,7 +2454,7 @@ Le vrai levier, ce n'est pas la discipline, c'est l'identité. Avant de changer 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 22 : Exercices pratiques — Affirmation audio
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 22
 ======================================================================
 
@@ -2511,16 +2511,40 @@ Tu vas aussi comprendre pourquoi les musiques de fond ne sont pas choisies au ha
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Aujourd'hui, on va voir quelque chose de sous-exploité et extrêmement puissant. Je vous ai préparé des affirmations ultra persuasives pour vous brainwash le cerveau. C'est juste une petite vidéo juste pour vous expliquer. Simplement, je vous ai mis un accès ici à des affirmations.
+
+[00:27] Il y a plusieurs types d'affirmations. Il y a affirmations d'IK, affirmations 150K, affirmations 20K, 150K. Simplement, c'est des affirmations qui vont être adaptées à votre objectif. Vous commencez les commerces ? Celui-ci est pour vous. Vous êtes déjà avancé ?
+
+[00:48] Vous êtes entre 20 et 50 et plus 150. Ce sont des affirmations qui ont été conçues spécifiquement pour vos brainwash le cerveau. C'est-à-dire ces affirmations ultra puissantes. Je vais vous montrer un exemple.
+
+[01:19] Je me sens bien quand je me réveille. Vous allez vous sentir extrêmement bien à les écouter. Et simplement, ce que vous devez faire, c'est les écouter chaque matin. Minimum 5 fois par semaine. Et plus vous les écoutez, plus ça va être efficace. Par contre, je conseille de faire des rotations.
+
+[01:40] C'est-à-dire, pour que ça reste toujours puissant que vous l'écoutez, faites des rotations avec d'autres types d'affirmations. Je vous ai mis d'autres affirmations ici et là. Ce sont des informations, des types de transformations, qui sont aussi très puissantes, qui vont venir vous transformer à votre vibration, comment vous sentez, comment vous percevez les choses, comment vous percevez vous-même. Donc ça va augmenter votre estime de soi,
+
+[02:01] vos sentiments de puissance, votre bien-être au quotidien. Et vous allez devenir beaucoup plus riche à l'intérieur et attirer beaucoup plus de richesse à l'extérieur. Vraiment, j'insiste, c'est ultra puissant. Je l'ai donné à plusieurs de mes amis. Et ça a marché pour tout le monde. C'est-à-dire pour tout le monde, c'était des changements massifs. Pour moi, c'était un changement massif.
+
+[02:21] Quand j'ai commencé à le faire honnêtement, je me fixais des objectifs comme ceci. Et je disais un tenu au bout d'un certain temps, puis après j'ai mis un autre objectif et je dis, mais c'est un glitch. Et vraiment, je dirais, si vous devez faire une seule habitude, c'est ça, dix minutes, à peu près, entre cinq et dix minutes par écoute. Et vous pouvez écouter plusieurs fois par jour.
+
+[02:44] Ce qui est important, c'est d'écouter le matin, quand... pas quand vous vous réveillez, mais dans l'heure où vous réveillez, ou le soir quand vous êtes un peu fatigué. Là où c'est que vous terez. Cerveau, il est en mode un peu hypnose et vous savez que ça va plus influencer votre subconscient. Donc vraiment très important, fixez-le dans votre de-tracking.
+
+[03:07] Ça doit être fait chaque jour, chaque jour, et vous pouvez alterner. Et je vous ai mis aussi le cheat, si vous voulez modifier, si vous voulez créer vos propres méditations, vous pouvez regarder de chat du BT, faire des variations, etc. Donc voilà, très important. Et je vous ai mis aussi pour celui-ci, enfin je vous ai mis des musiques de fond, des musiques travaillées, donc c'est pas n'importe quelle musique, je vous mets pas juste au hasard.
+
+[03:29] C'est des musiques travaillées qui vont me permettre de, en fait, influencer votre cerveau, de créer des certaines ondes. Donc je vais vous montrer. Donc je vous ai mis, par exemple, pour ceux qui connaissent le canon de Pachabel, donc c'est une musique, je crois que c'est la musique la plus puissante en termes de dons de positif qu'elle vous procure,
+
+[03:52] donc elle réduit le stress, elle amére vous de concentration, elle équilibre votre état émotionnel, et elle stimule le cerveau droit. Donc vous allez stimuler deux cerveaux grâce à cette musique. Elle peut réguler votre système nerveux, donc ça c'est chat du BT qui l'a dit, et collection sacrée à l'hormonie universelle. Donc en gros, ils disent qu'il y a une cinémétrie musicale
+
+[04:14] et une progression qui évoque les lois de la nature et le cosmos créer une sensation d'alignement intérieur. Donc c'est pas pour rien, je vous ai mis des trucs ultra puissants qui marchent vraiment, et je sais que ça va marcher pour vous, et il suffit juste d'écouter. Vous allez voir, c'est un énorme glitch, et je me devais de les mettre dans Master pour vous, parce que si vous voulez vraiment réussir,
+
+[04:36] je pense que c'est quelque chose de primordial. Et ça vous allez voir nulle part ailleurs, du moins pour l'instant, surtout dans un programme e-commerce, mais je vous garantis, c'est GameChanger. C'était Mateo, à votre succès, à bientôt.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 23 : Métriques & erreurs fatales
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 23
 ======================================================================
 
@@ -2580,16 +2604,100 @@ Objectif : **comprendre les chiffres clés pour analyser la santé d’un busine
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello à tous, donc bienvenue dans ce module sur les mathématiques du e-commerce. Aujourd'hui on va voir ensemble les chiffres qui sont les plus importants que tu dois absolument connaître quand tu lances ou que tu gères une boutique en ligne. Donc je sais que les chiffres, ça peut faire peur. Mais je te promets une chose, c'est qu'à la fin de cette vidéo, tu vas vraiment comprendre chaque métrique, tu vas savoir à quoi elle sert et surtout tu vas savoir pourquoi elle soit cruciale pour ton business.
+
+[00:26] Donc on va essayer au maximum de ne pas faire de jarbes en compliqué et de tout simplifier. Donc dans un premier temps ce qu'on va voir ensemble, ça va être les 7 métriques clés qui sont absolument à maîtriser pour avoir une vision complète de la santé de ton business. Donc avec ces 7 métriques là, déjà si tu arrives à les maîtriser, tu auras une longueur d'avance d'environ 90% sur la majorité des débutants.
+
+[00:49] Donc c'est parti, on y va. Tout d'abord le ROI. Donc le ROI en anglais, le return on ad spend. Donc en français, le retour sur la dépense publicitaire, c'est en gros la réponse à cette question. Pour chaque euro que je mets en publicité, combien d'euros est-ce que je récupère en vente ? Donc la formule, elle est très simple.
+
+[01:11] Donc pour calculer ton ROI, tu fais ton revenu de toutes les pubs que tu as générés, divisé par tes dépenses publicitaires. Donc on va prendre un exemple. Si tu prends 100 euros que tu dépenses en pubs, par exemple Facebook, et que grâce à ces pubs, tu vas générer 400 euros de vente, alors ton ROI sera de 4.
+
+[01:35] Donc concrètement, ça veut dire que pour chaque euro investi dans ta pub, tu as récupéré 4 euros. Donc ça paraît super, mais attention, un ROS de 4 ne veut pas dire que tu as gagné 4 euros. Ça veut juste dire que tu as généré 4 euros de chiffre d'affaires. Donc on va voir pourquoi cette notion-là, elle est importante dans la suite de la vidéo.
+
+[01:56] Et pourquoi c'est très important de différencier ton chiffre d'affaires de ton profit. Ensuite, la deuxième métrique, c'est le coût d'acquisition client. Donc le coût d'acquisition client, c'est combien ça te coûte d'acquérir un client. Et donc la formule ici, c'est ta dépense marketing divisé par tes nouveaux clients.
+
+[02:16] Donc on va prendre cet exemple-là. Si tu dépenses 1000 euros en pub ce mois-ci et que tu obtiens grâce à ces pubs 50 nouveaux clients, et bien alors ton coût d'acquisition client sera de 20 euros. C'est vraiment le montant que tu payes pour obtenir un seul client grâce à tout ce que tu mets en place. Et donc pourquoi c'est important ?
+
+[02:38] C'est important parce que si ton client, il te coûte 20 euros à acquérir, mais il te rapporte que 15 euros de profit, ça veut dire que tu vas perdre l'argent à chaque vente. Donc là, par exemple, tu perds 5 euros à chaque vente. C'est pour ça qu'il est très important de pouvoir mesurer ce coût d'acquisition client et on va voir pourquoi dans le reste de la vidéo. Ensuite, on a le Aov.
+
+[02:59] Donc l'Aov, c'est l'aventure value, donc en gros ton panier moyen. Et donc l'Aov, c'est le montant moyen que chaque client dépense quand il passe une commande sur ta boutique. Donc la formule pour le calculer, c'est ton revenu total divisé par le nombre de communs. Donc par exemple, ici si tu as un revenu de 10 000 euros et que tu as fait 200 commandes, alors ton Aov est de 50 euros.
+
+[03:26] Et donc du coup on peut se demander donc pourquoi c'est une maîtrise clé ? Et bien alors, tout simplement parce que plus ton panier moyen est élevé, plus tu as de marge pour absorber tes coûts de pub et rester donc rentable. C'est pour ça que les upselles, les bundles, les obgroupés sont très importants parce qu'ils vont contribuer tout ça à augmenter ton Aov.
+
+[03:47] Donc pour ceux à qui ça ne parle pas quand ils disent upselles ou bundles etc. c'est toutes les petites ajouts qu'on peut trouver parfois à la fin. Quand on passe un achat, on peut avoir une proposition d'ajouter un item à sa commande. Et bien ça, ça fait partie des stratégies qui sont mises en place pour augmenter son Aov. Ensuite, nous avons la marge brute.
+
+[04:08] La marge brute c'est ce qui reste après le coup produit. Donc une fois que tu as payé tous les coûts qui sont reliés à ton produit, on parle donc de marge brute ou de gross profit en anglais. Et donc pour le calculer, on fait le prix de vente moins le coût du produit. Donc ça c'est comme on dit aussi en anglais cost of good soul.
+
+[04:31] Donc pour te donner un exemple, imaginons que ici on a un produit, donc ça c'est le produit global, que tu vends du coup à 50 euros. Si tes coûts de ton produit sont de 15 euros, alors ta marge brute sera de 35 euros. Il faut savoir qu'en e-commerce, on vise généralement une marge brute de à peu près 70 à 80%.
+
+[04:53] Pourquoi ? Parce que si ta marge elle est en dessous de 60%, ça va être très difficile d'être rentable, parce qu'il faut que tu prennes en compte qu'on doit rajouter les pubs, les frais d'envoi, les shipping, etc. Ensuite on a le coût par clic. Donc qu'est-ce que le coût par clic ? En gros, c'est combien tu payes à chaque fois que quelqu'un clique sur ta publicité.
+
+[05:16] Et donc pour le calculer, on fait la dépense publicitaire que l'on divise par le nombre de clics. Donc si tu dépenses au 200 euros et que tu obtiens 400 clics, alors ton coût par clic est de 50 centimes. Attention par contre, à une erreur que l'on veut fréquemment voir, c'est que un coût par clic qui est bas, c'est bien.
+
+[05:39] Mais attention parce que ce clic compte, c'est vraiment la qualité des clics. On préfère payer 1€ par clic et avoir des gens qui vont acheter, que payer 20 centimes par clic et avoir des victeurs qui repartent sans rien acheter. Donc ça c'est très important à faire la différence. Ensuite nous avons le 7R en anglais, c'est le clic through rate. Donc en gros, c'est le taux de clic.
+
+[06:02] Est-ce que ta pub donne envie de cliquer ou non ? Pour le calculer, on fait le clic divisé par les impressions. Donc les impressions, ce sont le nombre de fois auquel tu as vu ta publicité, multiplié par 100. Donc pour prendre un exemple, imaginez que ta pub a été vue 10 000 fois
+
+[06:23] et que 200 personnes ont cliqué dessus. Ça veut dire que ton clic through rate est de 2%. Donc ce que ça va te permettre de savoir, c'est que le CTR va te dire si ta pub citée est attractive ou pas. En gros, généralement ce qu'on dit, c'est que si ton clic through rate est très bas, ça veut dire que ta pub elle donne pas envie de cliquer.
+
+[06:44] Généralement c'est que le visuel peut ne pas être assez attractif, ou ton accroche n'est pas assez bonne. On peut revoir l'accroche, le visuel ou le message. Et généralement ce qu'on dit, c'est qu'un clic through rate au dessus de 1% est correct, mais au dessus de 2%, c'est bon. En dessous de 1%, par contre ta pub n'attire pas.
+
+[07:06] Et cette fois-là, il va falloir retravailler ce qu'on a dit juste avant. Ensuite, nous avons le coût pour 1000 impressions. Le CPM. Donc le CPM, ça va te permettre de savoir en gros combien tu payes pour que ta pub soit affichée 1000 fois. Pour le calculer, on fait la dépense publicitaire divisé par le nombre d'impression fois mille.
+
+[07:30] Il faut savoir que le CPM va varier beaucoup selon pays, la période de l'année et la qualité de ta pub. En France, on se dit que généralement un CPM entre 5 et 15 euros c'est assez courant en période normale. Et pendant les périodes comme par exemple Black Friday ou Noël, tu peux avoir un CPM qui va littéralement exploser parce que tout le monde fait de la pub en même temps.
+
+[07:54] Donc ça c'est important de le savoir. Ce qu'il faut vraiment savoir par rapport à ça c'est que tu ne contrôles pas directement le CPM et tu ne peux pas le contrôler mais par contre tu peux influencer en créant des pubs de qualité que les plateformes comme par exemple Meta ou Tiktok vont vraiment favoriser. Donc voilà, on a fait le tour des sept métriques qui sont essentiels
+
+[08:15] et donc on va faire un petit récapitulatif rapidement. Donc le ROS c'est donc le retour sur les dépenses publicitaires. Donc revenu pub divisé par dépense pub. Le coût d'acquisition au client, donc le coût par nouveau client, c'est ta dépense marketing divisé par tes nouveaux clients. Ton panier moyen là OV c'est tes revenus divisé par ton nombre de commandes.
+
+[08:38] Ta marge brude c'est ta marge après les coûts de produits. Donc tu fais le prix de ton produit moins les cost of goods sold donc les coûts produits. Ensuite les coûts par clic donc ta dépense pub divisé par les clics. Ton taux de clic de clic to rate donc c'est les clics divisé par impression multiplié par 100.
+
+[09:00] Ton CPM donc ton coût pour mille vues qui sont les dépenses divisé par les impressions. Vous pouvez retrouver de toute façon ce document en dessous de la vidéo pour pouvoir avoir ça sous les yeux et pouvoir vraiment avancer sur ces métriques qui sont importantes pour votre business. Maintenant nous allons voir ensemble les cinq erreurs qui sont fatales
+
+[09:22] et pourquoi 90% des députants échouent sur les chiffres et comment du coup vous pouvez au maximum l'éviter. Donc l'erreur numéro une des débutants c'est vraiment l'obsession du chiffre d'affaires et de se focaliser là dessus au lieu du profit. C'est vraiment l'erreur la plus courante.
+
+[09:42] Tu vas entendre des gens en dire je fais 50 000 euros par mois, 100 000 euros par mois etc. Mais en fait quand tu creuses un peu leur business il se peut même lui perdre de l'argent. Parce que le chiffre d'affaires si tu n'as pas de profit ce n'est que du vent. Et je voudrais que vous reteniez juste une phrase. Le revenu c'est de la vanité, le profit c'est de la réalité.
+
+[10:03] On voit par exemple ici. On peut avoir quelqu'un qui va avoir un business qui fait un chiffre d'affaires de 100 000 euros par mois mais qui a des coûts autos finalement de 105 000 euros par mois. Donc au final ils sont en perte de 5000 euros. Donc quand on fait le calcul de cette façon là c'est beaucoup moins impressionnant. Par contre quelqu'un qui va faire 20 000 de chiffre d'affaires mais qui a des coûts de 10 000
+
+[10:25] et ben il aura plus 10 000 à la fin et donc du coup c'est des chiffres qui sont beaucoup plus intéressants. Et donc qui sont ceux sur lesquels il faut vraiment vous concentrer. Ensuite l'erreur numéro 2 c'est ne pas connaître ces vrais chiffres. Il faut savoir que beaucoup de débutants ne savent pas combien leurs coûts réellement infiant.
+
+[10:48] Ils savent pas quelle est l'oeuvre, les marges ou combien ils dépensent de frais, de paiement et de shipping. Et donc ça vraiment c'est une erreur énorme parce que si tu ne connais pas tes chiffres tu ne peux pas prendre de bonnes décisions. C'est comme si on te disait tu conduis une voiture sans tableau de bois. Donc tu ne sais pas vraiment à quelle vitesse tu roules, tu ne sais pas combien il te reste de sang.
+
+[11:09] Donc tu as des chances d'aller droit d'endure parce que du coup tu ne peux pas conduire une voiture, ça va voir si elle métrique là. Et bien c'est pareil tu ne peux pas corander un business, conduire ton business si tu ne sais pas quelle métrique regarder. Donc chaque mois la règle c'est vraiment quand tu dois pouvoir connaître ton cours d'acquisition client, ta marge, ta contribution margine et ton profit net sans exception.
+
+[11:29] Il faut surtout pas oublier de prendre en compte les frais de paiement les remboursements en leur entour les coûts des logiciels, des applications etc. les télés et taxes. Il faut vraiment tout mettre en place pour pouvoir avoir une visue 360 de son business et pouvoir piloter ses opérations. Scaler sans comprendre sa rentabilité. Donc scaler ça veut dire augmenter ses dépenses publicitaires pour vendre plus.
+
+[11:53] Mais ce dont on ne se rend pas forcément compte quand on commence c'est que scaler s'est multiplié. Donc ça veut dire que si tu multiplies une perte, tu obtiendras une catastrophe. Donc par exemple, là tu pars sur un petit volume. Donc tu fais 10 ventes. Donc tu es super content d'avoir fait 10 ventes mais ces 10 ventes là elles te font moins 5 euros à chaque fois.
+
+[12:15] Donc si tu fais 10 ventes moins fois moins 5 euros à chaque fois ça fait un déficit de moins 50 euros. Donc ça reste gérable. Par contre si tu n'as pas conscience de cette perte que tu fais parce qu'elle te semble minime et que tu décides de scaler parce que tu t'arrêtes sur le fait que tu es fait par exemple 10 ventes et bien si tu scales à plus grande échelle
+
+[12:35] tu vas te retrouver à faire par exemple 1 000 ventes à moins 5 euros pour chaque ventes. Et donc ça va résulter à environ moins 5 000 euros. Moins 5 000 euros sur un business c'est pas possible. Donc tu vas vraiment partir en faillite. Donc c'est pour ça qu'il faut vraiment préparer ces unites économiques avant d'augmenter son budget publicitaire
+
+[12:57] et de chercher à scaler. Une autre erreur qui est très commune pour les débutants c'est de confondre le ROS et la rentabilité. C'est assez facile quand on commence de penser ok j'ai S de 3 donc je suis rentable. Mais pas forcément. Il faut savoir que le ROS il ne prend en compte que les revenus et la dépense des pubs.
+
+[13:18] Il ne tient pas en compte du coût du produit, du shipping, des frais de paiement ni des frais fixes que tu peux avoir comme par exemple les abonnements shopping de failles, les salaires, les logiciels et donc un ROS par exemple de 3 avec une marge brûle de 30% tu vas perdre de l'argent. Par contre un ROS de 2 avec une marge brûle de 80% tu peux être très rentable.
+
+[13:39] Donc le ROS seul il ne suffit pas. Il faut toujours le regarder vraiment en lien avec ta marge. Ensuite une autre erreur c'est de ignorer les coûts cachés. Les coûts cachés ils peuvent littéralement tuer un profit et souvent quand on commence on a tendance à ne pas vraiment considérer ces frais là ou ne pas avoir l'impression qu'ils vont avoir une impact sur notre business
+
+[14:01] parce que par exemple ils peuvent avoir un petit pourcentage. Et donc les frais cachés ça peut être par exemple les frais de transaction. Par exemple strike, paypal etc. qui vous prennent à chaque fois moins de 2% sur chaque vente etc. Les retours par exemple, les renvoursements peuvent y avoir aussi les paiements des âts. Selon ça on ne se rend pas compte
+
+[14:22] parce que ce sont des petits montants mais ni bout à mou ça peut faire des montants qui sont conséquent. Et encore plus depuis qu'il y a l'intelligence artificielle avec des outils qu'on a tendance à multiplier qui coûtent à chaque fois 20, 30, 40, 50, parfois même 200€ par mois selon l'utilité qu'on a. Et donc cumuler les uns avec les autres ça peut aussi ramener à faire de grands sommes par la suite. Les taux de change, les taux de création.
+
+[14:44] Par exemple si vous prenez pour faire des lus de gc, des photographes etc. Donc tous ces petits coups ils s'additionnent et peuvent facilement représenter 10 à 15% de ton chiffre d'affaires. Et donc si tu ne les comptes pas tu crois être rentable alors que tu ne les pas. Pour vraiment présumer cette vidéo il faut vraiment que tu apprennes des métriques par coeur.
+
+[15:05] Ton ROS, ton coup d'adquisition client, ton Aov, ta marge pour ton CPC, CTR, cpm ça va vraiment être tes outils de base. Ensuite il faut vraiment que tu évites les 5 erreurs que l'on a vu ensemble parce qu'elles peuvent être fatales pour ton business. Ne te fiches pas au chiffre d'affaire seul. Connais tes vraies chiffres. Ne scale pas un business qui soit non rentable
+
+[15:26] et ne confond pas ROS et prefi. Et surtout fais attention au coup caché. Et donc voici sur ces premiers points et dans la prochaine vidéo ce qu'on va voir ça va vraiment être beaucoup plus concret. On va calculer ensemble, le premier type de gagner de par ventes pour être rentable réellement. C'est ce qu'on appelle les unites économiques. Et donc on voit ça juste après.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 24 : Units economics / contributions Margin
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 24
 ======================================================================
 
@@ -2657,16 +2765,84 @@ Beaucoup de gens confondent chiffre d'affaires et profit. Un ROAS à 3 peut cach
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello ! Donc on se retrouve pour la deuxième vidéo sur ce module des maths du e-commerce. Dans la vidéo précédente on avait vu les sept métriques essentiels pour sa marque e-commerce. Et maintenant on va passer à un niveau supérieur, c'est-à-dire qu'on va répondre à la question que tout le monde devrait se poser avant le même de l'ancien pub. Combien est-ce que je gagne réellement à chaque vente ?
+
+[00:23] Parce que, qu'on se le dise, un gros spoiler, ce n'est pas parce que tu vends un produit de 50 euros que tu vas gagner 50 euros et même j'ai envie de dire, loin de là. Et c'est d'ailleurs là que la plupart des gens qui commencent à écombre se font piéger. Donc on va voir ça ensemble. Et donc dans un premier temps, on va voir et on va parler des unites économiques. Les unites économiques en français, c'est tout simplement l'économie d'une seule vente.
+
+[00:48] Donc on prend une vente, une seule, et on regarde exactement ce qui rentre et ce qui sort. C'est vraiment la base de tout. Si une seule vente n'est pas rentable, alors 100 ventes ne ne seront pas non plus. Et 1000 en commun. Donc qu'est-ce que c'est exactement les unites économiques ? C'est l'analyse de la rentabilité directe d'une seule commune.
+
+[01:09] Donc on oublie les loyers, les salaires, le chien, etc. On regarde juste. Est-ce que cette vente précise ma rapportée de l'argent ? Si on vous comprend un petit peu plus un exemple, si une vente te rapporte 10 euros de profit, alors 1000 ventes te rapporteront 10 000 euros de profit. On est d'accord. Mais du coup, dans le sens inverse, si une vente te fait perdre 2 euros
+
+[01:32] et que du coup tu décides de skier, ça va pouvoir vraiment d'amager. Ça va grouler énormément. Et donc, pour bien comprendre le système des unites économiques, il va falloir comprendre exactement la soumise d'une vente. Donc prenons un exemple très concret ici. Par exemple, on avait votre produit qui est à 50 euros. Et puis, ensuite, on va s'austraire tous les coups qui sont donc liés à cette vente.
+
+[01:55] Donc on va avoir le coût du produit ici qui est 10 euros. On fait de le coût de la livraison, moins 5 euros. Stripe, Pépal qui sont les frais qui sont appliqués quand tu le mets en vente ton produit, donc c'est les frais bancaires. Et les frais de publicité, donc 20 euros. Une fois que tous ces frais seront déjà de ta main, le profit net qui restera sera de 13 euros 50 pour cette vente.
+
+[02:16] Et donc les 13 euros 50, c'est le profit du produit et c'est ce qu'on rappelle la contribution marginale. C'est ce qui te reste pour payer tes frais fixes et on va y revenir de toute façon plus dans les tailles sur tous ces sujets là. Et donc voici la formule à retenir pour le profit net par vente. C'est-à-dire le prix de vente moins les coûts variables, c'est-à-dire le produit, les livraisons, les frais, etc.
+
+[02:38] moins le coût d'acquisition, la pub, etc. Et donc c'est ça qui nous donne le profit sur le produit. C'est ça du coup les unites économiques. Ni plus, ni moins. Si ce chiffre est positif, tu gagnes de l'argent à chaque vente, c'est négatif, tu en perds. Et c'est là que beaucoup de gens se trompent parce qu'ils vont regarder plutôt le prix de vente et le coût de produit en super. C'est 40 euros de marge.
+
+[02:59] Sauf que du coup ils oublient justement tous ces coûts variables à prendre en compte, c'est-à-dire les frais libérés, etc. le coût de la pub. Et c'est vraiment crucial parce que ça peut changer tout le cours de votre business. Parce que tout simplement, si tes unites économiques ne fonctionnent pas, ben rien ne fonctionnera. Tu peux avoir le plus beau signe du monde d'un produit incroyable si, à chaque vente,
+
+[03:20] tu perds 2 euros, plus tu vends, plus tu vas perdre. C'est juste mathématique. Donc avant de dépenser un seul euro en pub, il faut que tu te poses et que tu fasses ce calcul parce que c'est non négociable pour avoir un business qui fonctionne correctement. Maintenant, on va aller un peu plus loin dans ce concept. C'est que la contribution magazine, elle a 3 niveaux.
+
+[03:41] C'est vraiment ce qui va te permettre de voir exactement où va ton argent, vraiment couche par couche. Pense à ça vraiment comme un entomnoir où en haut tu vas avoir vraiment ton chiffre d'affaires et à chaque niveau, du coup, tu enlèves des coûts jusqu'à ce qu'à la fin, ils te réellent vraiment ton profit. Et c'est vraiment celui-ci qu'il faut que tu es en tête parce que c'est ça qui est le plus important
+
+[04:03] pour ton business. C'est vraiment le seul chiffre qui compte pour payer les charges fixes et te payer toi-même. Donc on va aller un peu plus dans les détails de chacun des niveaux. Donc le premier niveau, c'est la contribution margin one, cm one. C'est vraiment la marge brut, le point de départ de ta rentabilité. Donc ici, le calcul, c'est prix de vente.
+
+[04:25] Donc ici on a l'exemple de 50 euros, moins le coût de produit, donc cost of goods sold, et donc moins 12 euros, ce qui nous donne la contribution margin one de 38 euros. Et ce qu'on voit ici, c'est que cela représente 76% de marge. Donc c'est hyper important d'avoir ce taux ici parce qu'on se dit généralement que l'objectif à viser
+
+[04:46] c'est 70 à 80% de marge brut sur la cm one. Attention, par contre, si la cm one est en dessous de 60%, il sera mathématiquement très difficile d'être rentable parce qu'il y a encore de nombreux coûts à éviter par la suite. Ensuite, le deuxième niveau, c'est la cintou. Ici, on va venir enlever les coûts qui sont variables
+
+[05:07] liés à la libre raison et aux frais de la commune. Donc pour le calculer, on prend la cm one qu'on a calculé juste avant, donc 38 euros auquel on enlève la libre raison, dans l'exemple, moins 6 euros, et les frais de paiement, donc qui sont 3% 1,1. Et cela nous donne du coup la contribution margin 2, 30,50 euros. Et enfin, le troisième niveau, donc c'est le plus important,
+
+[05:28] c'est la contribution margin fuite, donc la cm 3, c'est ce qui reste après avoir payé donc la publicité. Donc pour le calculer, c'est simple, on prend la cm 2, donc la marge logistique, qui était d'eau, 30,5 auquel on enlève le coût de la pub, donc les coûts acquisition. Et cela nous donne du coup la contribution margin free, qui est de 12,50 euros ici,
+
+[05:50] soit 25% de mon temps. Donc à quoi serve cet argent ? Cet argent va ensuite venir payer les charges fixes, donc le loyer, les logiciels, payer les salaires, les frilances, investir potentiellement dans les stocks de l'entreprise ou les investissements divers et enfin te payer toi-même. Ce qu'il faut savoir, c'est que si ta cm 3 est positive,
+
+[06:11] ça veut dire que ton business a vraiment une chance de surri. Si elle est négative, tu perds de l'argent à chaque vende et donc il faut vraiment réagir immédiat. Donc récapitulons avec un schéma qui va être simple avec l'image de l'antho noire. Donc en haut, on a le revenu global ici. Donc c'est l'argent qui rentre. Ensuite on a la contribution margin one, donc la marge brute auquel on va venir enlever
+
+[06:33] les coûts de produits. Donc on s'est dit qu'on se basait à peu près sur une cible de 70 à 80% de taux après cela. Ensuite la contribution margin two, qui est après la logistique et les prix de paiement. Et enfin la contribution margin three, c'est vraiment le moteur de business et c'est celle où on va venir retirer la pub
+
+[06:56] pour vraiment avoir notre profit avant le retrait final des fri fixes au PECS. Et donc avec cet antho noire et ce schéma tu as vraiment la réalité de chaque vente. C'est pour cela qu'il faut vraiment pouvoir optimiser à chaque niveau. Maintenant on arrive dans la partie la plus importante de cette vidéo parce qu'on va parler de la différence entre gagner vraiment de l'argent
+
+[07:18] et croire un gamin. Donc on va comparer ici deux entrepreneurs Alice et Bob. Donc Alice a première vue, parce que le roi s'est fait un chiffre d'affaires de 100 000 euros versus Bob qui fait un chiffre d'affaires de 50 000 euros. Donc là, à première vue, on pourrait dire forcément Alice, c'est incroyable, elle fait 100 000 euros par mois. C'est le but ultime de tous les gens qui commencent.
+
+[07:40] 100 000 euros par mois, c'est un seuil. Sauf que si on regarde plus en détail, on voit que la marge net de Alice allait de 10%. Donc sur ces 100 000 finalement, elle va avoir un profit net de 10 000 euros versus Bob qui a une marge net de 40%. Ce qui fait un profit net de 28%. Donc Alice, pour pouvoir faire ce chiffre d'affaires là,
+
+[08:01] elle aura certainement besoin de plus, de stress, parce que du coup, elle va pouvoir gérer certainement plus d'équipes, plus de transactions, etc. Donc un business avec une activité beaucoup plus importante alors que Bob fait vraiment beaucoup moins d'activités, donc moins de chiffre d'affaires, et pourtant a une marge net qui est beaucoup plus intéressante, ce qui fait qu'il a moins de stress et moins de gestion
+
+[08:23] sur son business. Ensuite, on l'avait évoqué brièvement dans la première vidéo sur les salles métriques essentielles à savoir en commerce le ROS peut être trompeur, peut te mentir. Parce que ce qu'on voit, parfois sur un manager, tu vas voir où tu as ton ROS de 3, tu te dis, si je dis un final, je triple ma mise. Parce que à la base,
+
+[08:44] si je lui ai mis bien certainement le temps et que je gagne 3 fois ça, je suis forcément rentable, c'est ce qu'on peut se dire à première mort. Sauf que comme on l'a vu, la réalité du compte-en-ment, qu'elle peut être encore différente. Parce que effectivement, sur ta grande tâche 60 euros, tu vas avoir la pub. Mais derrière, tu peux avoir aussi tous tes produits, tes coûts produits, tes produits raisons, tes frais, etc.
+
+[09:05] qui vont potentiellement coûter aussi en certain temps très cher. Et donc dans un cas comme ça, tu peux avoir un ROS de 3, mais finalement avoir un profinet de 2 euros. Donc finalement, tu travailles très dur pour gagner tout simplement 2 euros par mois. Et donc, de vous en prochain demander, quand est-ce que l'on peut vraiment, dans ce cas, de l'argent ?
+
+[09:26] Et bien, c'est tout simple. Si ta CM3 ne vous fasse pas t'effrayer, tu vas me brûler du cash chagno. Par contre, si chaque ROS de CM3 est au-dessus des frais-fises et du profit net réel, là, tu es vraiment dans une zone de profit. Encore une fois, ce n'est pas le chiffre d'affaires qui paye le loyer, c'est ta CM3. Et pour aller encore plus loin,
+
+[09:47] il y a une métrique ultime que les meilleurs écommercants surveillent. C'est le ratio LTV sur co-d'acquisition client. Et donc, qu'est-ce que c'est ? La LTV, c'est la lifetime value. Plus précisément, c'est combien un client te rapporte au total sur 3, 6 ou 12 mois. Et donc, le co-d'acquisition, comme l'a vu, c'est combien tu as payé une fois pour accueillir ce client.
+
+[10:08] Imagine que tu as fait une campagne d'un, ce qui t'a permis d'accueillir un client. Ensuite, tu vas dans ta base email et par rapport à certaines stratégies marketing, tu vas pouvoir le recontacter pour qu'il continue d'acheter chez toi. Donc, ça veut dire que tu ne perds plus les co-d'acquisition sur ces clients-là, mais que du coup, la valeur que lui, il a chez toi, donc, ça, lifetime value, on va continuer devant ce ratio-là.
+
+[10:32] C'est la valeur à l'île à prix du client salage après marge brut. Donc, le ratio lifetime value cost of acquisition client, c'est la valeur à l'île client, donc, après la marge brut divisé par le co-d'acquisition. Et donc, pour donner un exemple, si un client te rapporte il marie non 130 euros de marge brut sur 90 jours et qu'il te coûte 60 euros
+
+[10:54] à acquérir, tu vas avoir un ratio qui va être 22,17. Et donc, l'objectif en général, c'est d'avoir un ratio d'au moins 3 pour 1. Ça veut dire que chaque heure investie pour acquérir un client rapporte au moins 3 euros de marge brut sur ça du lieu de vie. Donc, si ton ratio, il est en-dessous de 2, généralement, il faut agir, soit baisser
+
+[11:15] ton coût d'acquisition client en améliorant tes pubs, soit il va falloir augmenter la MTV, donc la lifetime value de ton client en faisant revenir tes clients et acheter plus souvent. Donc, pour résumer cette vidéo, il y a 3 règles d'or. Donc, la première règle d'or c'est calcul tes unités économiques
+
+[11:36] avant ce qu'elle ait. Si une vente n'est pas rentable, 100 ventes ne le souvient pas non plus. Avant de dépenser 1 euro de plus en pub, à surtout que chaque vente au rapport de l'avant. On ne se calme pas, une perte. La deuxième lève, c'est de l'amendement de maîtriser 3 niveaux de contribution margin. C'est vraiment ton tableau de bord de rentabilité.
+
+[11:57] La marge brûte ne suffit pas. C'est la marge après-pume, donc ta 6e frites, pété facture et ton salaire. Et enfin, la troisième règle te fit jamais juste au chiffre d'affaires ou au ROS. Ce qui compte vraiment, c'est le profit net, ce qui reste vraiment en t'approche à la fin du mois. Donc, dans la prochaine vidéo, ce qu'on va voir, ce sont les benchmark,
+
+[12:18] c'est-à-dire les chiffres cibles que tu dois viser débutant pour t'assurer que ton business est sur la bonne voie. On voit ça, ensemble, juste après.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 25 : Les benchmarks à viser (CVR, AOV, ROAS min)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 25
 ======================================================================
 
@@ -2716,16 +2892,104 @@ Sans benchmarks, tu pilotes à l'aveugle. Ces chiffres ne sont pas des théories
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans cette troisième et dernière vidéo sur les mathématiques du e-commerce. Donc on a vu dans les vidéos précédentes les métriques essentielles, on a vu comment calculer ce que tu gagnes vraiment par vente. Maintenant la question qu'on peut se poser c'est, c'est quoi un bon chiffre ? Parce que savoir calculer son taux de conversion c'est bien, mais savoir si par exemple 1% c'est
+
+[00:22] bien ou c'est nul, c'est encore nul. Donc ce qu'on va voir aujourd'hui ce sont les benchmarks, donc les chiffres de référence que tu dois viser quand tu débutes en e-commerce. Il faut savoir que des benchmarks ce sont des repères. C'est vraiment ta boussole qui va te dire instantanément si ton business est en bonne santé ou si il est malade. Donc pour donner un ordinateur, au-dessus ou égal au benchmark, tout va bien.
+
+[00:46] Ça veut dire que tu peux accélérer et dépenser plus, ça les signaux au vert pour ton business. Par contre tout ce qui est en dessous du benchmark ça va être danger. Il faudra arrêter ce qu'elle est et réparer le problème le plus rapidement possible. Donc son benchmark c'est comme si tu pilotais les yeux fermes. Et donc avant de parler de cinq métriques individuellement, on va commencer par la vue dans son.
+
+[01:06] Donc quand tu fais du chiffre d'affaires, cet argent il serait parti en quatre grandes catégories. Et donc voici le benchmark à l'isée. Donc tout d'abord les profits. Donc c'est ce que tu veux garder. Le benchmark c'est 15% de ton chiffre d'affaires doit être du profit. Donc si tu fais 100 000 euros tu devrais réaliser 15 000 euros de profit approximatif.
+
+[01:27] Ensuite tu vas avoir les coûts produits. Donc ça, ça inclut les shipping, les frais de produits eux-mêmes, ce qu'on appelle les cost of goods sold au sens large. Et ça devrait représenter environ 35% de ton chiffre d'affaires. Ensuite on a le marketing et la publicité qui devrait représenter entre 35 et 40% aussi.
+
+[01:48] Attention là-dessus, il y a beaucoup de gens qui commencent, qui ont tendance à dépenser au-delà de 40 à 50% en publicité. Ça c'est beaucoup trop. Et enfin il y a les OPEX. Donc là ça va être vraiment les salaires, les outils, les abonnements, etc. Tout ça recommande en tout cas pour le départ, surtout pour le départ,
+
+[02:08] parce qu'une fois que le business grandit, ça peut être un peu différent. Mais pour l'heure qu'on commence, il faut rester autour d'environ 10%. Donc maintenant qu'on a vu ça, on va pouvoir aller vraiment dans le chaque détail de chaque métrique. Donc la première métrique, c'est le taux de conversion, le CVR. Pour vous donner un exemple, le taux de conversion va vous permettre de savoir exactement, par rapport au nom de visiteurs de votre page,
+
+[02:32] combien on a acheté. Donc par exemple sur 100 visiteurs, combien on a acheté. Idealement, ce qu'on recommande, c'est de viser un nom qui est supérieur à 2,5 pour être confortable. Si on prend ce nom là, par exemple, ça veut dire que sur 100 personnes qui vont arriver sur ton site, au moins 2 à 3 personnes devraient acheter. Si tu es en dessous de 2%, ça veut dire qu'il va y avoir un problème.
+
+[02:55] Voilà, je peux te dire que c'est un problème de ton site. Donc par exemple, il va être lent, il va être pas forcément très attrayant. Il va pas donner confiance entre 1,5 et 2,5%. On est dans une zone moyenne, donc c'est assez standard. Tu peux être rentable si ton panneau moyen est élevé. Et ensuite, on va avoir, donc au-delà de 2,5%.
+
+[03:18] Donc c'est là ce qu'on recommande. Donc ça, c'est une zone safe, zone où vous pouvez y aller. C'est excellent. Ça veut dire que ton site, il est converti bien. Tu peux accélérer la pub parce que tu as tout aligné de ton côté. Ensuite, on va avoir le MER ou Blended Airways. Donc la métrique qui est une des métriques les plus importants pour ta rentabilité.
+
+[03:40] Donc c'est Marketing Efficiency Ratio. Donc c'est quoi exactement ? Si tu veux, c'est comme ton ROS, il va prendre en compte tout ton chiffre d'affaires et toutes tes dépenses, Facebook, Google, etc. Dans la première vidéo, on avait beaucoup parlé de ROS, mais le ROS, c'est souvent ce que te dit Facebook ou Google pour leur plateforme.
+
+[04:02] Mais attention, parce que parfois, Facebook ou même Google peuvent s'attribuer des ventes qu'ils n'ont pas faites. C'est pour ça qu'il est vraiment important d'utiliser le MER ou le Blended Airways, comment vous l'appelez, parce que c'est vraiment le ROS global. C'est le même fonctionnement, sauf que c'est à une vue échelle de votre business
+
+[04:23] avec des chiffres. C'est vraiment pas basé sur une hypothèse, mais sur des faits réels de ce que vos chiffres disent. Donc c'est très sien parce que du coup, tu prends ton chiffre d'affaires total et tu le divises par tes dépenses en Marketing Total. Donc tes dépenses Facebook, tes dépenses Google, email, influence, tout ce que tu as utilisé pour ton Marketing Global.
+
+[04:44] C'est vraiment l'argent qui rentre, diviser, pas l'argent qui sort pour le Marketing. Et donc là, ce qu'on recommande, c'est vraiment pour avoir un objectif healthy. C'est un Blended Airways ou un MER qui est supérieur à 3. Donc en gros, ce que ça veut dire, c'est que pour un euro dépensé, tu dois rentrer au total 3 euros de suite à cette dépense.
+
+[05:05] Donc on va donner un exemple. Si tu fais 100 000 euros par exemple de chiffres d'affaires et que tu vas dépenser 30 000 euros en Marketing au total, et donc du coup, ce sera très sain. Si ton MER est dessin en dessous de 2,5, ça, c'est fragile. En dessous de 2, ça va vraiment être l'alarme totalement rouge. Tu travailles pour les plateformes publicitaires et pas pour toi.
+
+[05:26] Si on regarde cela sous un autre angle, les dépenses Marketing Total, elles ne doivent jamais dépasser les 33 % de ton chiffre d'affaires. C'est mathématique. Si tu dépenses moins d'un tiers, c'est-à-dire environ 33 % de ton chiffre d'affaires en pub, et ton MER sera forcément supérieur à 3. Donc si tu es au-dessus de 33 % il va y avoir 3 coupables possibles.
+
+[05:49] Donc le premier, ce sont des crits. Elles peuvent être soit fatiguées, soit elles ne approchent pas assez l'attention. Donc l'action à faire là, ça va être vraiment d'essayer de faire de nouvelles campagnes, de nouvelles vidéos, images. Qui vont potentiellement booster tes publicités. Ensuite, le deuxième coupable, ça va être ton site. Donc tu vas payer pour des clics qui ne convertissent pas.
+
+[06:10] Ce que ça peut venir au niveau de ton site. Donc là, ce qu'il va falloir faire, c'est améliorer la page produit. Et il va falloir vraiment identifier qu'est-ce qui peut coincer à ce niveau-là. Et enfin, le dernier point, c'est ton panneau moyen est trop bas. Et il ne peut pas supporter du coup le cours de la pub. Donc ce qu'il faut faire à ce moment-là, c'est ajouter par exemple des bundles, des objets, des stratégies marquettiques qui vont vraiment te permettre de booster
+
+[06:34] ton Aov et d'augmenter le prix que les gens vont payer sur ton site. Ensuite, on va parler forcément de la Aov, donc le panneau moyen. C'est vraiment la métrique qui peut tout changer. Mais il n'y a pas de chiffre universel parce que ça va vraiment dépendre de ton secteur et tes produits. Mais je peux quand même vous donner une règle générale.
+
+[06:54] Plus ton Aov va être élevé, plus tu as de marge de main-d'oeuvre pour acquérir des clients. Pourquoi ? Eh bien, je vais vous donner un exemple. Donc par exemple, là, si vous avez un Aov qui est de 40 euros et que vous avez des coûts d'acquisition client qui sont de 20 euros, vous avez déjà 50% d'impact sur votre chiffre d'affaires. Et donc là, le reste pour votre produit plus marge est seulement de 20 euros.
+
+[07:17] Donc c'est une mission impossible par rapport à tous les coûts qui vous restent ensuite à mettre dessus. Par contre, du coup, si vous avez un Aov à 80 euros et vous avez des coûts d'acquisition client qui sont de 20 euros, l'impact sur le chiffre d'affaires est de 25% seulement. Là, c'est un exemple. Mais c'est pour vraiment illustrer mes propos. Donc là, vous aurez 60 euros qui va vous rester pour le produit plus la marge.
+
+[07:41] Donc là, vous êtes assez confortable. L'objectif, c'est vraiment de viser un Aov qui va être supérieur à 60, 70 euros minimum pour pouvoir vraiment absorber les coûts de la pub. Il faut toujours penser qu'il va falloir ajouter les coûts de la pub à vos coûts pour calculer vos produits. Et donc comme on l'a vu aussi, pour pouvoir augmenter ton Aov,
+
+[08:01] tu peux proposer des « McDonald's », c'est-à-dire des « Lowe » de produits. Tu peux proposer un produit complémentaire au moment de l'achat. Il y a vraiment pas mal de techniques marketing pour vraiment augmenter ces astuces. Tu peux aussi, par exemple, faire une raison gratuite, avoir un certain montant pour inciter les gens à ajouter des articles pour arriver à ce montant-là et ne pas payer la livraison. Ensuite, on a le « Contribution de margin », donc le « CM Free ».
+
+[08:24] Le benchmark à miser en tant que pourcentage de mon chiffre d'affaires, c'est un minimum de 25%. Si vous êtes en dessous de 15%, ça va vraiment être le danger parce que vous pouvez jamais couvrir tous les free-fixes, le loyer, les logiciels, etc. Vous risquez vraiment la faillite se fait dessus. Entre 15 et 25% de contribution margin, vous êtes sur une zone moyenne.
+
+[08:46] C'est une zone de survie. Là, ça va vraiment te permettre de payer les factures, mais il reste vraiment très peu de profit à la fin. C'est pour ça qu'on cible vraiment 25 ou plus parce que là, vous êtes à vraiment une zone de profit. Ton business d'entrain est sain et va générer du cash pour vraiment investir ou te payer. Pour rappel, le contribution margin Free,
+
+[09:09] c'est la marie brut au moins logistique pour la pub, divisé par le chiffre d'affaires. Et donc, qu'est-ce que tu fais si ta contribution margin est en dessous de 25% ? 20%. C'est vraiment un signe que quelque chose ne va pas. Soit tes coûts produits vont être trop élevés, soit ta pub coûte trop cher, soit te pris de vente et trop bas. Donc, il va falloir que tu réfléchisses à tous ces aspects là pour trouver
+
+[09:32] la façon stratégique d'augmenter ta contribution margin et donc d'être beaucoup plus profitable. En plus, des métriques de croissance qu'on ne vient juste de voir. Il y a des benchmarks opérationnels que tu dois surveiller pour que ton business tourne bien. Donc, ces benchmarks opérationnels, ce sont les costs of good sold, donc les coûts du produit.
+
+[09:54] Généralement, ce qu'on conseille, c'est de rester en dessous de 40% de ton chiffre d'affaires et idéalement de viser entre 30% à 35%. Si tes costs of good sold ne passent 40%, alors ta marge, elle va être trop faible. Donc, dans ce cas, il faut essayer vraiment de renégocier tes prix avec les fournisseurs ou alors si la négociation n'est pas possible, il va falloir que tu cherches
+
+[10:15] des alternatives moins chères ou alors que tu augmentes tes prix. Les free-fix, donc les OPEX, ils doivent rester en dessous de 10% de ton chiffre d'affaires, surtout quand tu débutes. Encore une fois, c'est quelque chose qui peut être beaucoup plus flexible avec le temps et l'augmentation de la taille de ton business. Mais pour commencer, il faut vraiment rester en dessous de cela.
+
+[10:37] Donc, ça inclut les salaires, les abonnements, les loyers situés en le temps, les prestataires, etc. Le but, c'est que, en tant que débutant, tu devrais avoir très peu de free-fix, parce que le moins de prix possible, c'est un avantage. Profiles-en pour garder cette ligne le plus basse possible, le plus longtemps possible pour toi. Donc, le nombre de créatives publicentaires
+
+[10:57] à lancer par mois, donc, un conseil au minimum 20 créables par mois. Parce que plus tu te test de pub, plus tu as de chance de trouver celle qui fonctionne. Et ça, c'est quelque chose que Nico et Matteo ont souvent illustré dans leurs propos. Parfois, tu peux avoir une ade qui va exploser et qui va te permettre de générer les trois quarts des revenus de ton business.
+
+[11:19] Donc, c'est important de pouvoir tester des créats. Ensuite, le nombre de promotions marketing par an, il faut au moins trois. Les promos comme le Black Friday, les soldetés ou le lancement de nouveaux produits, ça va vraiment venir booster ton chiffre d'affaires. Et du coup, par la même occasion, ça va permettre d'affaire des clients à mon groupe de bas généralement trois emails par semaine.
+
+[11:42] Il faut savoir que l'email marketing est un des canaux les plus rentables. Ça coûte presque rien et surtout, il te permet de faire revenir tes clients existants sans payer de pub. Concernant les délais, généralement, un conseil pour les délais de production. Il faut viser au moins de 45 jours. Plus tes délais sont courts, meilleur va être ta trésorie. Pareil pour le stock.
+
+[12:04] Il faut viser moins de 90 jours d'inventaire. Trop stock, c'est de l'argent immobilisé qui ne travaille pas. On en a parlé aussi dans la vidéo précédente, mais le ratio entre la valeur vie, client, le lifetime value et le coût d'acquisition. Idéalement, il doit être d'au moins trois pour un. En dessous de deux, tu es dans un zone rouge.
+
+[12:25] C'est-à-dire que tu perds de l'argent ou tu steaks. Ça va être impossible de se caler sans casser d'abord. Entre deux et trois, tu es dans une zone 7, donc ton business est en table. Tu peux croire ce baissement, mais sûrement. Et au-delà de trois, c'est vraiment de ce zone d'excellent. Là, tu as une machine à cash, tu peux investir massivement en pub, tu gagneras toujours. La règle d'or, c'est de toujours de viser trois pour un.
+
+[12:46] Tu mets un euro, tu récupères trois euros. Ce point est important parce que quand tu as acquis un client, il est important que ce client, tu puisses au maximum le faire réacheter avec toi. Donc ça peut être tout simplement le relancer avec des emails pour qu'il réachète sur ton site. Donc le faire revenir et réacheter.
+
+[13:08] Tu as ce client, tu l'as acquis une seule fois. Il faut maintenant pouvoir l'entretenir et le re-soliciter pour qu'il puisse réacheter chez toi. Ça, c'est une énorme value que tu peux avoir. Et ça peut vraiment avoir un impact positif sur ton business. Et donc, j'ai fait un récap ici de tout ce qu'on avait ensemble, de tous les belles smarts pour que tu puisses avoir tout.
+
+[13:30] Il faut que tu le captures. Ça sera en fichier joint à cette vidéo. Il faut vraiment que ça devienne ta Bible. C'est cette capture d'écran. Ça va vraiment te permettre de gérer beaucoup de choses de ton business. Donc en repliant ta marche brute, idéalement super à 65% pour pouvoir avoir assez de place pour payer ta pub. Ton conversion rate doit être au-delà de 2,5%.
+
+[13:50] Il faut que tu puisses prouver que ton site est ton off place. Ton Aov, donc panier moyen doit être supérieur à 60 euros idéalement. Encore une fois, ça dépend de ton business. Et c'est indispensable d'avoir un panier moyen qui soit assez haut pour pouvoir absorber le coût d'acquisition de ta pub. Un MR, donc blended airways, qui doit être supérieur à 3.
+
+[14:10] On revit pour 1 euro dépensé au total. Idealement, tu en rentres 3. Les dépenses marketing, il faut qu'elles restent en-dessous de 33% de ton chiffre d'affaires. Il ne faut jamais dépenser plus d'un tiers de ton CA en pub. C'est un point critique. Pareil, cost of goods sold, tes coûts produits, il faut rester en dessous de 40% de ton chiffre d'affaires.
+
+[14:32] Si c'est plus, ton projet coûte trop cher à produire. Tes OPEX, quand tu commences, on a dit moins de 10% de ton chiffre d'affaires. Il faut que tu bières de ta structure légère, surtout au début. Ensuite, ta contribution margin, il faut qu'elle soit supérieure à 25%. Ceux qui restent vraiment pour payer, t'es frais fixe. Voilà, c'est vraiment important. Et enfin, ton profinet, il faut qu'il soit supérieur à 15%.
+
+[14:54] Et là, ça va être vraiment l'argent que tu mets dans ta poche à la fin. Donc là, ton plan d'action maintenant pour ton business, il va falloir que tu déçoues le fichier qui est en dessous et que tu puisses remplir tes chiffres sur les derniers jours. Il ne faut pas tricher. Ça va vraiment te donner un diagnostic qui va te permettre de voir la ligne ou l'écart avec le benchmark
+
+[15:15] et voir si tu es en zone rouge. Ensuite, il faut que tu mettes un focus. Choisis une seule métrique à réparer cette semaine. Donc, par exemple, si ton conversion rate est mauvais, oublie le ROAS pour l'instinct, il va falloir que tu te concentres sur cette métrique. Donc, prendre des décisions par rapport à ça, petit peu à petit, mais il faut que tu répartes tes métriques qui ont des problèmes.
+
+[15:35] Et ensuite, l'orituel, il faut que tu fasses un point tous les lundis, tous les lundis matin, peu importe un jour que tu te donnes ou tu vas pouvoir étudier tes chiffres et prendre des actions qui sont liées à ce que tu vas lire de ces chiffres-là. Le commerce, ce n'est pas de la magie, c'est des mathématiques. Métris tes chiffres et tu maîtriseras ton business et ta liberté.
+
+[15:57] Maintenant, t'as toutes les cartes en main. À toi de vrai.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 26 : Analyse de ses premiers chiffres: Quadrant Master
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 26
 ======================================================================
 
@@ -2771,16 +3035,92 @@ Ne change jamais tout en même temps, c'est l'erreur numéro un des débutants. 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo. Ça s'adresse à toutes les personnes qui vont tester MetaAds, qui sont encore débutants en e-commerce et que vous voulez un peu comprendre les chiffres, quoi modifier après vos premiers testings, est-ce que c'est les créatives, est-ce que c'est le site, etc. Est-ce qu'il faut tout modifier ?
+
+[00:21] Et simplement ça c'est le framework, marketing. Quand vous lancez vos premières ads, qu'est-ce qu'il faut suivre ? Ok, c'est que l'erreur des débutants et la plupart des personnes le font, on avait l'erreur quand vous avez des mauvais résultats, c'est que vous changez tout en même temps. Et nouvelles créatives, nouveaux sites, nouveaux produits,
+
+[00:42] nouveaux budgets, etc. En fait, vous modifiez alors que peut-être c'est que une certaine partie du funnel. Ok, donc ce que je vous partage aujourd'hui, vous allez pouvoir le retrouver simplement dans la description, parce que c'est un grand doc, je ne vais pas parcourir tout, mais je vais parcourir les choses les plus importantes que vous devez avoir en tête. Ok, on commence tout de suite.
+
+[01:04] La règle d'or, c'est jamais de changer plus une variable à la fois quand vous faites vos premiers testings en tant que débutants et que vous avez dépensé par exemple 300, 400 en ads et que vous avez quelques ventes, il va falloir analyser de manière un peu plus précise que de tout modifier et tout d'un coup même de changer de produit
+
+[01:26] que peut-être vous passez à côté d'un excellent winner, un gros gros banger. En e-commerce, surtout quand on débute, on a plusieurs choses qu'on peut analyser à chaque fois, mais je dirais que ça revient toujours à ces deux grosses métriques. Donc on a le CPC, ce qu'on paye à chaque fois qu'un visiteur clique sur notre publicité. Donc quand on a nos publicités sur meta,
+
+[01:48] eh bien là il y a notre publicité. Combien on paye à chaque fois que quelqu'un clique dessus ? Et cette métrique là, ça va refléter la qualité de nos créatives, de notre message et de l'effacacité de nos créatives. Ensuite on a notre taux de conversion qui est simplement en notre funnel, donc Shopify en général.
+
+[02:09] Et avec ces deux métriques, on peut savoir sur quoi travailler quand ça fonctionne pas. Donc taux de conversion c'est sur 100 personnes combien convertissent. Pour vous donner une idée, aux US ça peut être différent, mais en Europe, récemment là avec des boutiques qui ont cartonné,
+
+[02:30] la boutique avait un Aov à genre 40, et le taux de conversion est à 3, 3,5. En France, en Europe c'est un peu la moyenne, d'un bon taux de conversion que vos ads marchent bien, que votre site marche bien, ça peut être 2% et être très rentable,
+
+[02:51] ça dépend bien évidemment de votre panier moyen. Plus vous avez un panier moyen, un Aov plus élevé, plus votre taux de conversion va être élevé, ce qui est logique. Donc après il va falloir faire simplement vos calculs avec l'IA pour savoir si vous avez un bouton de conversion par rapport à votre Aov. Et en général, qu'importe le prix, en France si vous avez un taux de conversion à 1%,
+
+[03:13] ça commence à être très mauvais. Pour être très rentable avec 1%, mais si c'est en dessous de 1%, en général, ce n'est pas le top. Après nous on se scale beaucoup, beaucoup aux US, et ça c'est un exemple pour avoir un ordre d'idée. Donc ici on a le premier cadran qui peut vous aider. En haut ici, les deux parties du haut, c'est si votre taux de conversion est élevé.
+
+[03:35] C'est HV taux de conversion. En bas c'est si votre taux de conversion est faible. À gauche c'est si votre CPC est élevé. Donc vos coûts par clic, que les personnes pressent sur vos publicités sont élevés, plus ça c'est élevé, plus c'est mauvais. Ok c'est le contraire du taux de conversion. Et les CPC ici, plus ils sont faibles, mieux c'est.
+
+[03:58] Donc premier cas de figure, on a notre taux de conversion qui est élevé, nos CPC qui sont faibles, c'est banger. Vous avez bien bossé sur le message, vous avez bien bossé sur les créatifs, le site fonctionne bien, tout fonctionne, vous avez bien scaylé, augmenter le budget et vous allez pouvoir chiffrer. Ok, donc n'augmentez pas de 500% d'un coup, si vous êtes débutant, mais augmentez
+
+[04:20] petit à petit, 20% tous les jours, ça va très bien même doubler si vous êtes encore à un faible budget. Scaylé. Si vous avez votre taux de conversion qui est faible, mais vous avez des CPC qui sont faibles, donc les CPC c'est que vos ades, ça coûte vraiment pas cher, mais vous avez un bon message,
+
+[04:41] vous avez des bonnes créatifs, mais votre site n'est pas assez bon. Là, vous va falloir faire un tour sur le site que vous avez fait. Et simplement, voir vos concurrents, regarder s'il n'y a pas sur mobile en tout cas, aller sur mobile, regarder s'il n'y a pas quelque chose qui coince. Peut-être que c'est votre offre aussi qui n'est pas attrayante,
+
+[05:02] alors que votre créatif le son. Donc là va falloir vraiment voir aussi vos créats qui on spend le plus, quel est vraiment le message, et ensuite sur votre LP, c'est d'avoir quelque chose de similaire. Regarder notre vidéo sur les offres, regarder nos vidéos sur le module sur le taux de conversion, regarder aussi mes hacks de 2026
+
+[05:23] sur les taux de conversion, comment faire les images, etc. Ça va grandement vous aider. Et peut-être même que vos clients il y a encore trop d'objections, et je vous partage encore quelques hacks après dans ce cas de figurant. Ensuite, si votre CPC est faible, et que votre taux de conversion est faible, là il y a à peu près tout à revoir.
+
+[05:45] Donc souvent, on commence quand même par les créatives, c'est quand même sûrement les créatives qui ne fonctionnent pas bien, et revoir votre offre, reanalyser les concurrents, comment est-ce que eux font qui le chiffre ? Peut-être que vous loupez, vous êtes passés à côté de la plus grande des choses, et si vous avez un tout conversion élevé,
+
+[06:06] mais des CPC élevés, là c'est simple, votre site converti, mais vos créatives ne convertissent pas. Donc il va falloir retravailler sur les créatives, revoir la partie de de Matteo sur les créatives, revoir la partie du message, remplisser les docs qu'on a vus avec Thomas aussi dans le module sur Manus,
+
+[06:27] ou les autres modules sur vraiment le message type, remplisser les docs avec l'IA pour vraiment connaître votre personne au mieux, et parler mieux à votre client, et ça peut grandement aider. Ça c'est à faire quand vous commencez à se pénper un peu, et pour analyser les résultats au mieux. Je pourrais résumer, si ça fonctionne bien,
+
+[06:48] profitez-en pour ce qu'il y ait, les débutants, j'ai noté ici que, je vois souvent cet erreur avec les débutants, c'est qu'ils veulent améliorer ce qui fonctionne déjà. Parfois vous avez un taux de conversion à genre 5, 6, et vous voulez modifier le site, ajouter ça, ajouter ça, ajouter ça, mais parfois c'est juste simplifier le site, ou ne pas toucher le site,
+
+[07:10] qui va faire que vous allez esqualer. Donc ça c'est important. Si vous avez un taux de conversion élevé, le site c'est bon. Il va falloir juste travailler sur les créatives, faire un mesure et esqualer. Ensuite au niveau des créatives. Donc quand vous avez des cpm qui sont élevés, c'est pas dans 100% des cas, le problème de votre créative et de votre message.
+
+[07:32] Il faut vraiment aller dans le business manager et regarder, est-ce que c'est mon CTR qui est faible, ou mon CPC. Parfois c'est le CPC qui est juste beaucoup trop élevé. Et parfois c'est pour des raisons même que... Voilà, vous avez beaucoup beaucoup beaucoup de concurrence. Vous avez peut-être même vos assets meta,
+
+[07:53] donc vos assets meta, vos outils meta qui sont pas clean. Un point important avec les débutants, que beaucoup de débutants oublient c'est de garder votre business manager clean. Garder par exemple dans la facturation n'ayez jamais une facturation impayée. Soyez sûr que votre carte passe tout le temps.
+
+[08:15] Soyez sûr que ça soit clean au lieu de meta. Si vous avez des ads, des anciennes ads qui étaient bloquées, supprimez-les. Parce que quand il y a des choses qui sont bloquées en rouge dans la smanager, meta n'aime pas trop, ça signale, ça donne des alertes et ça peut augmenter vos cp.
+
+[08:37] Peut-être même que votre boutique meta a vu quelque chose qui n'aime pas. Donc le thème, vous avez utilisé un thème spécial et ça fait que meta n'aime pas ça. Vous payez quelque chose de super simple dans ce module foundation. On vous partage des choses simples qui fonctionnent.
+
+[08:59] Si vous avez eu beaucoup de bannes ou de blocages par avant avec meta, essayez un nouveau setup. Essayez un nouveau profil avec un nouveau business manager. Essayez aussi d'autres ad account, des ad account agents. Ça c'est pour ceux qui on spend un peu plus. Essayez des ad account agents. Tout d'un coup votre cp. peuvent descendre. C'est plus rare
+
+[09:21] que les ctr, mais ça peut arriver que c'est juste vos cp. qui sont beaucoup trop élus. Si vos cp. sont bas et que tout est goûte là-dedans, c'est vraiment le ctr. Donc il va falloir changer vos créatives et votre message. Bien regarder le module de Matteo et de Thomas sur le doc avec Lia sur remplir son persona. Ça va grandement vous aider et être game changer pour vous.
+
+[09:43] Concernant si vous avez un souci avec le taux de conversion que vos cps. sont goûtes mais que votre conversion n'est pas bon. Là, je vous ai déjà dit ce qu'il faut faire mais vous pouvez aussi simplement demander à vos proches etc. Est-ce que votre site c'est simple à comprendre est-ce qu'on peut acheter facilement
+
+[10:05] en scrollant en quelques secondes il faut vraiment que tout soit simple. Et aux us la rarité de l'urgence ça cartonne. Vraiment ça cartonne et ça a un maximum de tous les autres points qu'on vous partage dans le scope. Et pour le cas de figure où il faut tout corriger, moi je vous conseille de corriger les choses étape par étape.
+
+[10:27] La première chose que vous pouvez faire c'est votre créative et le hook et si vraiment de revoir vos créatives parce que souvent les débutants qui se lancent en Icom pensaient que vous faites des belles créatives mais honnêtement les créatives elles sont vraiment pas bien. Sur le marché français pendant longtemps les créatives étaient ridicules
+
+[10:49] et il faut vraiment revoir les créatives, revoir votre hook et travailler bien sur ça et ça peut être game changer. Ensuite est-ce que ensuite le reste comme ensuite quand vous convertissez bien que ça commence à tourner
+
+[11:10] vous avez encore des choses à optimiser pour votre erreur sur l'insécissement. On a deux choses, on a le tout de conversion et le panier moyen. Donc le panier moyen ici c'est Aov Average Order Value en anglais. Et grosso modo c'est paré-carrant ici c'est Aov élevé, ici c'est Aov
+
+[11:32] faible, ici c'est toute conversion faible et toute conversion élevée. Si vous avez un tout de conversion élevé et un Aov élevé c'est parfait. Et si vous avez par contre un Aov faible mais un tout de conversion élevé là il va falloir jouer avec des bundles. Regardez vos concurrents en listez vraiment 5 à 10 concurrents regardez si ils n'ont pas des upsells dans leur carte
+
+[11:53] souvent même parfois en fait sur ordinateur on va pas voir dans le carte leur upsell, il va falloir prendre le mobile et regarder comment leur carte sur mobile c'est un petit hack pour les upsells les upsells du panier chez certains concurrents c'est uniquement visible sur mobile. Pareil au niveau du bundle
+
+[12:14] peut-être faites une meilleure offre avec un Aov élevé plus élevé et vous allez voir que ça convertit mieux. Faites des cadeaux peut-être avec à partir d'un certain nombre d'achats et simplement on regarde avec aussi lia, clôte ou cheljpt si votre Aov est correcte dans votre niche comparé à vos concurrents.
+
+[12:37] Et ensuite simplement ici si votre taute conversion est faible votre Aov est faible simplement modifier votre offre, tester encore et peut-être ensuite il faut changer de produit. Et ici si votre taute conversion est faible mais votre Aov est élevé il va falloir changer la manière
+
+[13:01] dont vous mettez le message sur votre LP, sur vos images sur vos créatives et tout d'un coup ça peut être game changer pour vous. Donc il y a tout sur le Google Doc que j'ai mis ici. Ici je vous ai mis quand vous débuter ce que vous pouvez checker
+
+[13:22] après honnêtement je ne conseille pas de checker toutes les 24 heures, toutes les 48 heures quand vous faites une modification personnellement je modifie parrain après minimum je dirais 7 jours pour que vraiment ça l'ait fait et voilà ça c'est mon conseil.
+
+[13:43] Quand vous modifiez quelque chose regardez pas tout de suite à l'heure près les modifications attendent. Et ici j'ai mis quelques benchmarks cause US on a et qui peuvent vraiment donc les commerces sont en mathématiques ça dépend honnêtement uniquement de ça et vous pouvez faire des millions et des millions.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 27 : MASTER PRODUCT FORMULA™
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 27
 ======================================================================
 
@@ -3051,9 +3391,97 @@ Le e-commerce en 2025-2026 est un jeu de mathématiques. Ceux qui comprennent le
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:05] Master Product Formula, les 12 fondamentaux d'un produit capable de monter à plusieurs millions de chiffres d'affaires par mois et surtout de perdurer. Vraiment la formule à suivre si vous voulez créer une marque et perdurer dans le temps, créer une marque sur le marché US Worldwide, créer une marque que vous allez pouvoir revendre et pas simplement faire une boutique qui va mourir dans deux trois mois. C'est une vidéo très importante à regarder et surtout si vous avez de l'expérience en e-commerce et que vous avez un certain cashflow à disposition et que vous voulez vraiment
+
+[00:32] faire une marque à succès en worldwide et pas juste en Europe. Ce que je vais vous partager c'est vraiment de la data après avoir visionné ces derniers mois plus de 100 millions d'attespends, d'avoir être autour de personnes qui font 5 millions par mois en étant associés avec des personnes qui font des dizaines et des dizaines de millions et vraiment c'est le blueprint à suivre et c'est vraiment 12 points à être sûr pour valider votre lancement de marque. C'est vraiment différent des autres vidéos que j'ai pu faire par exemple dans le module
+
+[00:58] QuickWins sur ma stratégie de cashflow, sur comment vraiment faire du cash avec tic-tocats avec des produits en fashion etc. Là vraiment c'est différent. Allez on commence tout de suite avec les 12 points à avoir et ça c'est 12 points en guillemets facultatifs. Au plus vous avez de ces points au mieux ce sera et au plus vous allez pouvoir perdurer. Ok premier point, le TAM, Total Adressable Market. Très simple, toujours commencé par le potentiel total du marché, un produit scalable doit se trouver dans une catégorie où la demande est
+
+[01:22] gigantesque, pas une micro niche qui limite votre spend. On a déjà mentionné des dizaines et des dizaines de faux avec Matteo. Quand vous avez un grand TAM, vous avez la possibilité de faire plusieurs millions par mois. Vous connaissez beaucoup de personnes qui font 3 millions, 5 millions, 4 millions, 6 millions, 10 millions par mois. Ils sont tous dans des niches où le TAM est énorme. Par exemple des t-shirts que tout le monde porte. C'est vraiment un point important. Je vous donne des exemples de marché position énorme, par exemple la beauté, ce qui est santé, ce qui est bien-être, ce qui est maison, ce qui est animaux,
+
+[01:48] tout ce qui est des accessoires parfums, etc. C'est grosse niche, c'est banger. Ok donc très très important de vider des marchés où c'est qu'il y a des millions et des millions de clients potentiels. Une fois que vous commencez à bien chiffrer, vous n'allez pas être limité à genre 54 de spend. Ok, point numéro 1, super important. Et pour s'assurer que le TAM est énorme, simplement vous allez regarder sur les spy tools comme brand search, trend trap ou autre.
+
+[02:13] Vous allez simplement regarder sur SimulareWeb, s'ils ont beaucoup de visiteurs, s'ils ont beaucoup d'adjectives, je conseille minimum 100 ads actifs. Ah bon, que vous ayez, grand minimum 5 concurrents qui ont minimum 100 ads actifs, ça c'est vraiment un bon indicateur. Et minimum 50 à 100 cas de visiteurs mensuels, grand, grand, grand minimum chez vos concurrents pour être sûr que ça soit quelque chose de safe pour pouvoir scaler et faire plusieurs millions par mois.
+
+[02:37] Un point de vue important également, l'intensité du problème, le pain level. Donc simplement, un produit qui scale vite s'attaque à une douleur forte, une douleur ressenti, c'est une motivation d'achat immédiat. Une personne qui se réveille tous les matins avec un mot, la douleur au dos, il se réveille du lit, il a mal au dos etc. Il sera plus en plein à acheter votre produit de manière plus rapide, vous allez avoir une autre conversion plus élevée, vous allez pouvoir avoir beaucoup d'angle marketing aussi différent, vous allez pouvoir simplement être plus virale avec des créatives qui touchent directement au problème.
+
+[03:04] Et j'ai aussi mis le framework d'Ormosi qui s'adapte complètement à ça, avec la valeur perçue. Si vous appliquez le framework d'Ormosi, que j'ai déjà mentionné à plusieurs reprises, vous allez avoir une offre qui a tout de suite plus de valeur perçue. Juste pour faire court, parce qu'on peut faire beaucoup d'argent avec des objets de décoration, par exemple ça c'est un objet de décoration, un livre de décoration, vous pouvez faire de l'argent avec ça, mais votre scaling sera un peu plus limité qu'un produit qui résout un problème fort.
+
+[03:30] Quand quelqu'un achète un produit de décoration, c'est quelque chose qui est bien à avoir, nice to have. Mais quand le problème, par exemple il est un mot de coup, c'est un need to have, c'est quelque chose qu'on doit avoir, et du coup le scaling il est massif. Ensuite numéro 3, est-ce que c'est visible, visuellement, super important ? Le produit d'en montrer une transformation en une seconde, ça rejoint un peu ce que je vous ai déjà dit, des dernières vidéos sur la classe rôme, est-ce qu'il y a un effet, wow, est-ce qu'il y a une transformation puissante ?
+
+[03:56] On voit une peau pleine de boutons et ensuite on voit une peau magnifique, est-ce qu'on voit une peau sur courbée et ensuite bien ? Est-ce que vraiment il y a cet effet wow, ou on voit visuellement ça fonctionne à 100% ? Par exemple on voit des t-shirts à compression qui sont faits à destination de personnes d'hommes de plus de 40 ans, qui sont un peu forts, là visuellement on met le t-shirt, on est tout de suite plus fit,
+
+[04:18] effectivement oui il y a un vent après en moins de 3 secondes, si le client ne comprend pas en 3 secondes ce qu'il gagne, votre scaling sera bien plus limité, si votre produit c'est un peu, il faut réfléchir, comprendre ce que votre solution fait, vous allez pouvoir peut-être faire de l'argent au début, etc, mais vous n'allez pas pouvoir scalez massivement, et vous allez voir quelque chose, un pattern qui revient, si vous vous analysez Brain Search, vous analysez Trend Track,
+
+[04:39] vous analysez les créatives, les brands qui scale, on dit ici en e-com, vous voyez que les créatives vraiment, visuellement déjà ça impacte, et surtout on voit un avant après, avant et après ça doit être évident, numéro 4, est-ce que le produit vraiment résout un problème ? Effectivement dans la classroom, je vous ai partagé des stratégies TikTok, CacheFlo,
+
+[05:00] faire du cash rapidement, et oui on peut faire de l'argent, avec des produits en dîme et moyen, le client reçoit le produit, il n'est pas déçu, mais il n'est pas non plus satisfait au point d'aller appeler tous ses amis, ok j'ai acheté ça, regardez c'est Banger, vous pouvez faire beaucoup d'argent, j'ai fait beaucoup beaucoup beaucoup d'argent avec ça, mais au bout d'un certain temps,
+
+[05:20] si vous avez de l'expérience du CacheFlo, c'est beaucoup plus intéressant de construire quelque chose sur le long terme, et d'ailleurs avec des produits moyens, et ce qu'on vous montre aussi avec nos stratégies, nos hacks, le module de créatives de mathéo pour savoir faire des angles puissants, marketing, nos insider, nos glitchs qu'on vous partage, j'ai fait qu'on pouvait faire beaucoup beaucoup de argent avec, encore mieux si vous appliquiez tout ça, à faire un empire, à faire quelque chose,
+
+[05:42] ou c'est que les clients sont satisfaits et que surtout le point le plus important, c'est en gros, vous regardez toutes vos ads, est-ce que les promesses que vous faites à l'intérieur, vous délivrez ce que vous dites? et si c'est le cas, c'est Banger, parce que vous allez pouvoir ensuite envoyer du mailing, les clients sont plutôt satisfaits, ils vont pouvoir recommander, vous allez pouvoir faire des offres d'abonnement, vous allez pouvoir faire des bells of the upsell,
+
+[06:04] vous allez pouvoir envoyer des campagnes d'esms, les clients vont bien vous noter sur TrustPilot, il y a un effet cumulé qui s'active quand vous avez un produit qualitatif, ou du moins qui répond la promesse de vos ads, admettons vous vous dites ok, en moins de 45 jours, vous avez la peau éclatante. Si c'est le cas, et même si c'est le 40-30 jours, les clients seront ultra satisfaits, il y aura du bouche à l'oeil, vous allez pouvoir faire du gifting,
+
+[06:26] vous voyez plein de créateurs et c'est Banger. Donc ça c'est quelque chose à prendre en compte. C'est que dans votre liste de produits, vous vous hésitez en deux produits, si un des produits, ils ont vraiment, vraiment le problème, c'est Banger. Et surtout, en fait, au plus vous avancez avec des années d'expérience en e-com, c'est exponentiel le choix, il est exponentiellement important de choisir le produit qui réduit vraiment
+
+[06:48] bien le problème, parce que, comme j'ai dit, Fébou de Neige. Ensuite, point numéro 5, la différenciation immédiate. Si le client ne voit pas pourquoi ton produit est unique, il pense que c'est une copie. Là, typiquement, on lance aux US dans la niche beauté un produit qui dès le départ, on est beaucoup mieux que les concurrents. La plupart des concurrents sont Made in China. Nous, c'est Made dans un pays qui a absolument Banger pour ce produit. Dès le départ, on a une différenciation,
+
+[07:10] juste douce ces produits, parce que vous pourrez très bien faire de Chine. Mais différenciez-vous dès le début avec un soit un meilleur packaging, plus minimaliste, plus simple à comprendre, un meilleur design. Ça, ça peut être tout simple. Une efficacité supérieure vos concurrents, ils proposent de pousser vos cheveux en 45 jours, vous venez de pousser les cheveux en 10 jours, c'est fini, vous avez fait trop d'argent. Les ingrédients, les ingrédients en plus
+
+[07:32] safe, véganes, naturelles, une application simplifiée, comme je l'ai mentionné des angles que les concurrents n'ont pas encore fait. On peut avoir un guillemets un peu le même produit, mais trouver un nouvel angle. On pense par exemple aux ceintures nomisk qui étaient pour contrer les mots des règles des femmes, au lieu d'aller cibler les femmes, ils ont ciblé les hommes. En mode, c'était offré-le comme un cadeau.
+
+[07:54] Du coup, ça change la manière d'en refaitre le packaging, du coup. Ensuite, ça est positionnement en premium. En gros, ça, c'est absolument Banger, ce que je vous ai dit avec le produit qu'on lance. Là, en plus, c'est l'irnée semaine, je répare, je répare des cpm, je répare de la hausse des ades, etc. En fait, c'est absolument Banger parce que nous, c'est d'office mieux. Les concurrents sont de travail à votre place
+
+[08:16] d'éduquer le marché sur quel est le produit et pourquoi, surtout, ils ont besoin de ce produit, pourquoi ils ont besoin de eux, etc. Et nous, on est mieux que tous les concurrents. Nos angles marketing, c'est ça. Notre prix est plus élevé, on peut se permettre d'acquérir plus, etc. Et voilà, c'est absolument Banger. Et application simplifiée, ça peut être par exemple comme l'exemple de la créatine, on l'apprend en poudre, et en fait, on a la version en Gumi, qui est absolument Banger.
+
+[08:38] Et bien évidemment, si les clients voient la différence tout de suite, c'est vraiment Banger. Et pas juste le packaging, idealement. C'est vrai qu'à un certain moment, si vous prenez un produit très, très, très, très concurrentiel, vous allez avoir genre 50, 60, 100 concurrents, et il faut vraiment, dès le départ, avoir une offre qui est meilleure que les concurrents et du coup, le produit aussi qui diffère dès le départ, surtout si vous avez beaucoup, beaucoup de concurrents. Et ça, vraiment, c'est le cas
+
+[09:00] pour se lancer en worldwide. Mais cette transition immédiate, elle n'est pas forcément nécessaire si vous reprenez des US pour faire en Europe. Ça je le rappelle. Vous pouvez devenir multimionnaire en Europe sans être différent. Numéro 6, unité économique. Les mathématiques du business. C'est probablement le point le plus important pour les personnes qui veulent ce qu'il est très, très, très fort. Sur les quatre derniers mois, j'ai analysé environ 100 millions d'Adspends, vu simplement dans mon cercle proche, des partenaires,
+
+[09:22] des associés, des médias builleurs, des insiders. J'ai vu énormément d'Adspends, et la vérité est toute simple. Bicommerce en 2025-2006, c'est un jeu de mathématiques. Quand on comprend nos mathématiques, on gagne. Quand on les comprend pas, on perd. Sur la marque qu'on est en train de lancer, qu'on run déjà en Europe, on est bien rentable, qu'on lance aux US, on s'attend à des coûts plus élevés. On s'attend à un business un peu près différent.
+
+[09:44] Du coup, on s'est posé et on a bien fait tout proprement. Et si vous hésitez entre, encore une fois, de marque, prenez la marque qui fait plus de sens mathématiquement aussi. Peut-être que c'est quelque chose qui peut se racheter, qui sera beaucoup mieux. Peut-être que c'est un produit qui a une plus forte valeur perçue que vous allez pouvoir vendre, beaucoup plus cher. Et par conséquent, le business sera plus simple. Vraiment, faites un
+
+[10:06] forecasting, comme Sophia le montre dans la partie stratégie avancée et qui est pas avancée. Il semble qu'elle partage des fichiers de forecasting. Alors si c'est pas le cas fait avec JJPT, on va le lancer le cas. Ok, est-ce que ça fait sens mathématiquement? Est-ce que on se peine beaucoup? Est-ce que notre coût de produit, notre coût de shipping, ça fait sens? Ou alors c'est peut-être mieux de partir sur l'autre ou est-ce que avec les réabonnements
+
+[10:28] de stratégie, ça va être de spend un mois, le premier mois en mode break even et juste commencer à gagner de l'argent dès le mois 2 ou dès le mois 3 peut-être. Mais souvent c'est le mois 2 en réglage général. En tout cas nous on a run beaucoup de supplément récemment. Et c'était le mois 2 où on était bien en place en temps premièrement, on était break even. Et ça c'est quelque chose d'important à se poser et à faire des mathématiques et à calculer tout ça.
+
+[10:50] Demandez à JJPT ce que ça veut dire si c'est du signal pour vous. Mais mettez ça en place, analysez le business. C'est des mathématiques, les commerces sont en 2026 et simplement soyez smart et lancez la chose qui fait le plus de sens et qui va rapporter. Et énormément de marques aux US. Soit c'est un Aov vraiment très élevé, soit quelque chose qui se rachète et c'est pas un produit à 20$. Minimum fois 3 en marge brut, idealement 4. Ton MR, cible, doit être
+
+[11:12] réaliste dès le début. Et comme je vous ai dit le reste, c'est exactement comme je vous ai dit. Ensuite, une recette, l'Aov suffisant. Les coups publicitaires augmentent chaque jour mais évidemment, votre Aov si votre Aov est bas, vous restez fragiles et vous pouvez pas squelé. Vous allez vous faire écraser par ceux qui ont les mathématiques plus solides. Donc ça je l'ai mentionné juste avant je ne vais pas passer trop tant de dessus mais grosso modo, aux US je vous conseille un Aov à 75$, 150$,
+
+[11:34] grand minimum, enfin, idealement au plus c'est au mieux c'est mais après il va falloir vraiment avoir un produit de qualité. Et vous pouvez avoir ici un Aov peut-être à 50$ aux US si c'est de l'abonnement. Et sinon honnêtement on ne lanceait rien si c'est pas pour vendre quelque chose qui est de la grande chance. Je vous conseille vraiment vraiment pas. En Europe, c'est différent. Vous pouvez scaler des produits à 20€
+
+[11:56] j'ai beaucoup scalié à mes débuts avec des produits sur un 24€ en plus c'est plutôt facile à vendre quand c'est dans cette zone là donc si vous êtes débutant ok, vendez en Europe, vendez des produits à 30€ etc ok pas de soucis mais si vous voulez scaler et faire beaucoup beaucoup d'argent vous allez voir que les grosses marques en Europe même appliquent ça elles appliquent un Aov avec minimum 70, 80, 90, 100€ ok donc super important
+
+[12:18] et si vous appliquez ça justement sur le marché européen, énorme opportunité parce que vous allez pouvoir s'en plus que la majeure partie des autres reconnaissance. En Europe 8, capacité d'itération, un produit scalable et un produit qui peut évoluer. Exemple d'itération nouvelle couleur, nouvelle variante, édition limitée, bundle, récomposition packaging différent, amélioration continue basée sur le feedback. Effectivement si vous avez un produit admettons vous en avez un
+
+[12:40] un point à la fin de votre checkout vous demandez des feedbacks clients ou à la fin de votre e-mail admettons votre shampoing les clients le reçoivent au bout de trois jours. Vous envoyez un e-mail au bout de 20 jours pour récolter les avis clients. Si il y a des clients qui se plaignent de l'odeur du shampoing mais que tous vos concurrents ont la même chose vous allez pouvoir
+
+[13:02] améliorer justement cet odeur par exemple faire en sorte que ce soit un point positif et ensuite vous allez avoir simplement une version numéro 2 que vous allez itérer et votre produit sera mieux que les concurrents et vous allez pouvoir scaler. Si vous avez un produit qui permet de faire plus d'itération c'est aussi un point en plus. Mureneuf résilience publicitaire, super super important surtout en worldwide quand vous voulez scaler pour pas être figé à un personnat type
+
+[13:24] je vous explique. Quand vous vendez par exemple on vend un shampoing on vend un shampoing qui fait pousser plus les cheveux. Si votre shampoing il peut faire pousser juste les cheveux par exemple d'un père persona admettons un homme de 60 ans qui a les cheveux gris etc. et que les hommes de 30 ans ne peuvent pas l'utiliser privilégier le produit
+
+[13:46] qui peut utiliser le persona d'homme de 50 ans et d'homme de 30 ans comme ça dans vos ades vous allez pouvoir avoir plus de créateurs et plus de nouvelles angles marketing vous allez pouvoir targetter avec meta. Donc pareil c'est un petit point mais qui est important si vous avez le choix de produit ou c'est que ça c'est équivaut. Si vous allez avoir capacité simplement de faire plus avec le même produit, targetter plus de monde
+
+[14:08] targetter plus de type de créateur c'est banger. Et aussi par exemple plusieurs styles si votre produit vous permet de faire énormément de créateurs différents du type UGC, humor, POV podcast, micro trottoir choisissez plutôt ça parce que vous allez pouvoir vraiment créer beaucoup de créateurs et aujourd'hui c'est ça qui est pris. Point numéro 10 également valider votre
+
+[14:30] simplement concept avant de choisir de partir sur une marque honnêtement prenez peut-être un peu plus de temps pour valider votre idée de brand avec plusieurs sources typiquement valider avec Tiktok shop est-ce que vraiment ça commence aussi à être trendy ça peut être très récent à valider et voir qui a de la demande avec Alucdata ou FastMos alors regardez les Amazon Reviews avec Helium 10 aussi l'extension
+
+[14:52] regardez ce que ça commence à bien être en augmentation regardez Google Trend si c'est quelque chose qui augmente avec Simrush ou d'autres search volumes voir si il y a de la demande regardez avec les spy tool, trend track, brand search ou autre, regardez vraiment si il y a pas mal de concurrence plus il y en a en vrai mieux c'est on va lancer quelque chose à l'international profitez aussi du fait que dans notre Classroom
+
+[15:14] on partage des Insider Meta simplement vous allez pouvoir voir le spend réel sur l'Asmanager des concurrents par exemple ici j'ai une spy list de quelques concurrents et ici je vois ok au gros qu'on fait un spy on peut aller sur le l'Asmanager de la personne et voir exactement combien de spend à chaque créatif et là vraiment on valide
+
+[15:35] pour suivre à 500% la marque tout simplement profitez vraiment de ça c'est vraiment un glitch et ça vous trouvez nulle part ailleurs on utilise pas mal et ça nous permet de faire beaucoup d'argent les Insider en etement c'est un gros gros glitch ça coûte à peu près 300€ le spy à peu près peut-être moins si vous venez de master c'est un énorme glitch
+
+[15:57] surtout que vous allez créer une marque qui va faire plusieurs millions par mois 200€ dans un spy votre monde non plus le top 3, top 4 de vos concurrents confirmez bien que qui font vous allez pouvoir être différents les ads qui sont leurs top ads ça va pouvoir aller faire, c'est banger plus il y a de signaux bien moins au premier de risque
+
+[16:19] il s'en a encore une fois c'est pour le worldwide en Europe vous voyez quelques concurrents vous allez pouvoir chier pour faire un récord, un product ça n'existe pas vraiment qui existe un produit qui fait sens bien le marquer été comment c'est par le TAM, ensuite problème transformation, différenciation vos mathématiques et ensuite le produit c'était tout pour cette vidéo, on se retrouve pour la deuxième vidéo où on parlait de la matrice de différenciation du produit
+
+[16:41] comme normalement comment créer un produit différent parce que là je vous ai expliqué par exemple mettre un formulaire mais il y a 2-3 autres spécificités à voir et à connaître et let's go
 
 
 
@@ -3163,7 +3591,7 @@ _(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 29 : Les 9 critères essentiels
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 29
 ======================================================================
 
@@ -3226,9 +3654,31 @@ Quand on débute, on a tendance à vouloir le produit "parfait" mais l'objectif 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo concernant quelques critères pour les débutants, si vous êtes déjà expert, vous êtes pas obligé de regarder cette vidéo, elle sera toute manière très courte. Vous pouvez passer à la prochaine vidéo si vous avez déjà chiffré énormément, vous savez très bien. Donc on parle ici, pour toutes les personnes qui n'ont jamais chiffré, il y a quand même deux, trois petits points à prendre en compte avant de sélectionner un produit.
+
+[00:20] Ok, donc je passe très rapidement en revue, je vais simplement vous parler de neuf critères qui sont facultatifs pour certains, mais que si ça résout un peu à tout ça, vous êtes dans une plus grande chance de faire plus d'argent que si ce n'est pas le cas et dans la légalité, etc. Ok, je commence tout de suite avec les neuf critères basiques pour un produit en 10 megas.
+
+[00:41] Première chose, si ça répond à un problème ou un besoin qui est très fort, ça sera beaucoup plus simple pour vous de faire beaucoup, beaucoup d'argent. Si c'est un produit qui est en ce moment viral ou que c'est un produit qui visuellement a fait un effet ou a ou qu'on le voit, ce sera plus simple de le vendre parce qu'avec nos stratégies, qu'on utilise principalement meta, TikTok,
+
+[01:01] c'est quand même beaucoup de visuels parce qu'on arrête les gens quand ils se scrollent et ça vient simplement beaucoup aider, mais ce n'est pas obligatoirement le cas, c'est juste en plus. Ok, ensuite il faut avoir une marge très élevée. Si vous êtes débutant, je vous conseille pas forcément de partir sur un produit qui est récurrent au début, si vous n'avez pas beaucoup de cash à disposition ou alors beaucoup d'expérience.
+
+[01:23] Donc faites en sorte d'avoir un produit qui a une forte marge. Donc je dirais minimum x3 x4 comparé à vos coûts de produits quand on parle de prix de vente, évidemment. Ensuite, on a mis ici preuve sociale existante. Ça signifie simplement que sur les réseaux sociaux, quand vous êtes débutant pour des critères qui sont basiques,
+
+[01:43] en fait c'est bien que le produit est quand même un peu à droite à gauche du contenu. Ça va beaucoup vous aider pour la création de vos premières ads, vos premiers mash-up, etc. Et tout ira plus vite. Et aussi, qui est des reviews sur Amazon, sur TikTok, etc. concernant votre produit pour voir vraiment que le produit fonctionne vraiment.
+
+[02:04] Ce n'est pas un arnaque, ce n'est pas un produit... Souvent il y a des produits un peu high-tech qui sortent, mais qui ne sont pas vraiment réels. Et faites en sorte que ce soit vraiment quelque chose qui existe, qui a pas mal de reviews, peut-être des vidéos YouTube qui en parlent. Et même pour vos créations de contenu par la suite, ça va grandement vous aider. Ok ? Donc ça c'est un critère aussi à prendre en compte. Ensuite, si le produit est simple d'utilisation, si vous êtes débutant, ça va grandement vous aider.
+
+[02:28] Parce que vous n'allez pas devoir faire des VSL extrêmement longs. Et faire des vidéos de 30 secondes suffira pour vendre et faire beaucoup, beaucoup d'argent avec votre produit. En fait, au plus vous êtes débutant, au mieux c'est que ça soit simple. Maintenant, si vous voulez partir sur un produit où il y a besoin de faire des VSL, etc. et que votre concurrent le fait à la perfection, il n'y a pas de problème. Mais c'est juste quelque chose de facultatif en plus.
+
+[02:49] Ok ? À prendre en compte quand vous êtes débutant. Évidemment, aucun problème légal ou doignier. Faites en sorte de pas vendre des produits de contrefaçon ou autre. Et au niveau de la douane, je vous conseille si vous êtes débutant de partir sur des produits qui sont légers, pas trop grands. J'ai tendance à dire pas de produits liquides, mais en réalité, tellement de produits qui se vendent très bien et qui c'est du liquide.
+
+[03:09] Mais faites attention quand c'est liquide, le prix du shipping peut rapidement aller à la hausse. Si votre produit est difficilement trouvable en magasin, ça c'est vraiment top aussi. Donc simplement, le fait d'avoir votre produit, c'est un angle marketing, parce que les autres ne l'ont pas, en physique, etc. Si c'est une nouveauté, ça c'est top. Facilité de comprendre son immédiat. En réalité, on l'a déjà mis, c'est un peu comme la simplicité de l'utilisation.
+
+[03:33] C'est honnêtement la même chose pour moi. Et également, s'il y a possibilité d'avoir des upselles, c'est vraiment top avec votre produit. Si par exemple, vous en avez des choses sur orthopédie, vous allez pouvoir vendre des semelles. Donc c'est un point en plus si vous pouvez vous permettre d'offrir des upselles et de quelque chose qui se réachète par la suite, quelque chose qui se recharge, etc. C'est top. Donc voilà pour les critères.
+
+[03:55] On se retrouve dans la prochaine vidéo. À bientôt.
 
 
 
@@ -3262,7 +3712,7 @@ _(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 31 : Tutoriel 2026 : Recherche produit de A à Z
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 31
 ======================================================================
 
@@ -3314,16 +3764,208 @@ Ne cherche pas un produit "au feeling", base-toi sur des données. Un produit qu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Salut tout le monde, j'espère que vous allez bien, je me présente, moi c'est Ali et c'est moi qui m'occupe de l'archège produit pour Product Radar. Pour ceux qui ne connaissent pas Product Radar, c'est un module qui a dans le school ou du lundi ou vendredi, il y a un produit winner qui est présenté pour le school. Et du coup je m'occupe de l'archège produit pour ça. Et à côté j'ai un généraliste en Europe où je fais du mass testing. Et du coup je fais d'archège produit chaque semaine et je vais vous montrer comment je fais pour trouver des dizaines de produits winner chaque semaine.
+
+[00:26] Et pour ça c'est simple, on va faire ça en cinq étapes. Du coup au programme je vais vous montrer par quoi, par où commencer. C'est du coup on va pas chercher un produit au feeling, on va se baser sur des métriques. Je vais vous présenter quel métriques regarder, comment les trouver. Et après on va regarder les tous qu'on va utiliser, comment je vais vous montrer en live, comment je les utilise et qu'est ce qu'on considère comme un winner, à partir de quel métriques.
+
+[00:50] Et après on va sélectionner un produit pour faire une recherche concurrentielle. Pour savoir combien on a de concurrences en notre marché sur ce produit là. Du coup pour commencer on va se baser au début sur meta et le trafic. Meta du coup c'est insta et Facebook. Pourquoi on se bat sur ça ? Parce qu'on va principalement faire de la pub sur meta.
+
+[01:11] Du coup on va essayer de trouver des gens qui sont rentables, qui se quêlent sur meta pour après importer ça sur notre marché. Et le trafic aussi parce que plus un site a du trafic, plus une personne ramène des gens sur son site, c'est qu'il y a de l'intérêt pour son site et ses produits. Du coup pour metter à la maîtrise qu'on va regarder c'est les impressions. Qu'est ce que c'est les impressions ? C'est assez facile.
+
+[01:32] C'est les nombres de vues qu'à chaque pub. Et c'est des vues payantes. Plus une personne dépense en pub, plus elle a d'impression. Et c'est comme ça qu'on arrive à savoir si une ad est winneuse parce que personne ne va dépenser des milliers d'euros sur une ad qui n'est pas rentable. Et du coup ça va être un indicateur. Et aussi on va se baser sur le nombre d'ads.
+
+[01:55] L'évolution du nombre d'ads. Par exemple si une personne passe de 20 ads actifs à 150 la semaine d'après, c'est un bon id avec indicateur. Et la durée aussi c'est depuis quand même temps la personne et le tour. Du coup la deuxième maîtrise ce sera le trafic. Ce sera le nombre de visiteurs qu'on a par mois. Et pour ça on va utiliser des extensions. Là j'ai mis similar web mais en fait trendtrek et brainsearch ils ont ça.
+
+[02:16] Et ce sera la même donnée partout parce qu'ils utilisent tous la même API qui est la API de similaire web. Il faudrait juste faire attention. C'est que similaire web sous-estime le trafic de fois 5 à fois 10. Du coup quand c'est affaîché à 10 000 visiteurs en réalité on est plus à 50 000 voire 100 000. Du coup faut faire attention à ça. J'ai mis aussi que avoir le nombre de visiteurs comme ça ça ne me sert à rien de voir qu'il y a 10 000 visiteurs.
+
+[02:40] C'est plutôt voir la courbe et voir l'évolution chaque mois du nombre de visiteurs. Je vais montrer comment on regarde ça. Par exemple quand je viens sur ce site là, je clique sur les extensions. Et ici on peut voir qu'il y a 171 000 visiteurs trafics sur le mois de janvier. Et surtout c'est autant sur le mois d'avant du coup.
+
+[03:00] Et savoir qu'il y a 160 000 on sait que c'est beaucoup. Mais le plus important c'est surtout de voir le graphique ici. On peut voir l'évolution. On peut voir qu'il est passé de 20 000 de 30 000 à 160 000. Il a fait un fois 5. C'est énorme. Et du coup là on peut voir que la personne est en train de scale. Et que du coup la produit est winner. Au contraire si on avait vu qu'en août il était à 160 000 et redescend à 30 000.
+
+[03:25] C'est qu'il est en déclin, c'est qu'il est en train de descale. C'est beaucoup moins intéressant. Je préfère trouver des boutiques où c'est en train d'exploser. Et aussi quand c'est stable et qu'il y a beaucoup de trafics. Souvent c'est des bougies qui sont déjà assez stable. Et c'est un peu moins intéressant. Le produit peut être intéressant. Mais moi je préfère quand c'est des tendances que le trafic est bas au début et qu'il explose.
+
+[03:49] C'est là où on peut trouver les meilleures opportunités. Et du coup maintenant qu'on a vu ça, comment on va s'organiser. Ça sera très simple juste avec un petit sheet. Dans d'autres formations des fois on voit qu'il y a des sheets très compliqués. Je préfère faire au plus simple. Après, à vous de vous organiser comme vous voulez et mettre vos data. Je vais vous montrer mon sheet. Il est vraiment très très simple. Je vais le faire en live. C'est simple.
+
+[04:10] Je mets juste le site, le nom de date, le trafic. Et après je vais mettre ici les impressions. Et c'est les seules data dont j'aurais besoin. Après en optionnel pour vous, vous pouvez mettre le marché. Pour voir il vient de quel marché. Et après vous pouvez mettre ajouter le coup AZ1, AZ2 comme ça. Et mettre les top AZ2 du concurrent.
+
+[04:32] Moi je préférerais pas me casser la tête. C'est juste faire comme ça. Et vraiment simple. Et ça suffit du coup pour répertorier toutes les sites qu'on va trouver dans la recherche produit. Vous aussi aussi qu'on va utiliser pour notre recherche produit. Je vous ai mis les liens dans la présentation. Et on va principalement focus meta-haz libri qui est déjà gratuit.
+
+[04:54] Et qui est super complet. Du coup je vous présente l'Azibari. La Zibari c'est la bibliothèque publicitaire de meta. En gros c'est un site qui a été fait par meta. On peut trouver du coup tous les sites de tout le monde. Il suffit juste de mettre le nom de domaine de la personne. Pas tout laisser de tout le monde mais on peut trouver toutes les personnes qui sont en train de puber. Il suffit juste de mettre le nom de la personne. Et on va trouver ses pages et trouver toutes ses ades.
+
+[05:15] Et ce qui est bien déjà c'est gratuit. Et en plus c'est vraiment la donnée brute. Il y aura zéro délai. Il y a vraiment tous où il y a toujours un petit délai de une, deux semaines avant que ça apparait sur les 12. Alors que là c'est vraiment ça apparaît en moins de 24 heures. Et chaque personne qui fait une pub sur meta, bah son appare sur la Zibari. Du coup c'est vraiment super puissant. On peut tout trouver.
+
+[05:36] Que ce soit pour la recherche concurrentielle ou pour la recherche produite c'est super puissant. Et comment on va trouver les concurrents sur la bibliothèque. Je vais vous montrer avec des mots-clés. Je vous montrerai après en live. Et ce qu'on va regarder du coup ce sera le nombre d'impression. Le nombre de pubs. Et depuis quand on a été créé les pubs. Parce qu'on a aussi les dates de création. Et pour ça on a reabsent de l'extension Brain Search et Pippie Spy.
+
+[05:59] Je vous ai mis les liens ici. Et cette extension totalement gratuite. Ok du coup nous voici sur la Zibari. Ici on va venir en la section de l'EPI. Ici au début pour la démonstration je vais mettre France. Après le but c'est de se re-usrer. Et ici du coup je vais mettre toutes les publicités. Et après le but ça sera de chercher dans notre marché européen. Et regarder les winners là-bas. Voir si ça n'a pas été lancé dans votre marché et le lancer.
+
+[06:21] Si vous êtes par exemple débutant je vous conseille souvent la France. Vu que c'est francophone. C'est de chercher par exemple en Allemagne. Des winners sur la Zibari. Et regarder si ça n'a pas été lancé en France. Et après lancé en France. Et du coup là pour l'exemple. On va prendre la France. Et ici on va mettre des mots-clés que les gens pourraient mettre dans leur ad-copie. Par exemple ici je vous ai mis une liste de mots-clés.
+
+[06:45] C'est une liste déjà de base. Mais après je vous conseille de trouver vos propres mots-clés. Et je vais montrer comment on trouve d'autres mots-clés à l'infini. Par exemple je vais mettre livraisons gratuites. Et là on va tomber sur tous les gens qui ont fait des ades sur Facebook. Et qui ont mis livraisons gratuites dans leur ad-copie.
+
+[07:06] Le truc c'est qu'on va tomber. On peut tomber aussi sur Temu, sur Carrefour, sur plein de trucs. Et c'est là que l'extension prenne certes chez l'intéressance. C'est que ici dans paramètres on peut mettre Shopify Filter. Et à plus là. Et du coup là on va tomber que sur des boutiques Shopify. Et aussi une deuxième métrique ici. On a dit que du coup on se basait sur les impressions. Et l'extension prenne certes ce qu'elle va faire c'est qu'elle va calculer
+
+[07:29] combien d'épenses une ades grâce au CPM. C'est le coût par 1000 vues. Ici moi je mets 9. Et de bas c'est 9. Et je vous conseille d'élever ces 9. Et du coup là on estime que la personne elle paye chaque 1000 vues elle paye 9 euros. Et du coup quand on va check le spend, par exemple on check le spend ici.
+
+[07:51] On voit qu'elle a fait 7000 en vue. Avec un CPM à 9 euros ça nous fait environ 60 000 euros dépensés. Peut-être que cette personne elle a dépensé sur 7 ads 60 000 euros. Elle va pas se dépenser 60 000 euros c'est la barre rentable. Du coup là on sait que déjà ce produit c'est un produit winner. Et aussi ça c'est spend daily.
+
+[08:14] C'est combien d'épenses par jour. En gros ce que la calcul est simple c'est que l'extension qu'elle fait elle prend le spend total elle divise et parle le nombre de jours. Et ça nous fait à peu près le spend daily. Le spend daily c'est vraiment intéressant. Parce que par exemple on peut tomber sur une ades qui a spend de 60 000 euros. Mais qu'elle date depuis 2023 ce qui est énorme. Et ça se trouve maintenant en ce moment elle spend plus.
+
+[08:36] Et du coup ce qui fait que le spend daily va être bas. Et ça nous intéresse pas. Le nouveau but surtout au regard du spend daily c'est de voir des créres qui spend beaucoup. Récemment du coup. Par exemple si on voit qu'elle a créé la spend que 1000 euros mais qu'on voit qu'on se fait des liles à 200. C'est-à-dire que c'est un nouveau produit qui a été lancé il n'y a pas longtemps. Et qui spend déjà 200 euros par jour.
+
+[08:58] Là c'est beaucoup plus intéressant qu'une ades comme ça qui date depuis 2023. Qui date depuis trop longtemps. Après là on a des ads qui date depuis longtemps. C'est parce que là c'est trié par impression décroissante. Du coup là on ne tente que sur les top ads qui se le qui ont spend le plus. Du coup là c'est intéressant. Du coup pour trouver les top ads en ce moment.
+
+[09:21] Le truc c'est qu'on peut tomber aussi en ces ades qui date depuis longtemps. Du coup 2023. Là c'est top ça va sur septembre mais même septembre c'est beaucoup. Et déjà là on peut tomber sur des boutiques intéressantes. Par exemple là on peut voir Flytex. Pour pouvoir voir ça tête de septembre, novembre ça tête de plusieurs mois. Nous on préfère trouver des produits vraiment récents.
+
+[09:42] Après là on peut tomber en tombe comme sur des grosses boutiques. On passe un petit peu ici et on arrive ici. On regarde le trafic. Voilà 50 000 et comme je le dis là ça c'est des boutiques que j'aime bien. C'est que là c'était un peu stable et là d'un coup il explose. C'est que ça n'est plus le produit là en ce moment il est en train d'exploser. Là c'est du coup c'est une bonne idée de prendre ce produit et de lancé sur un autre marché.
+
+[10:04] Et du coup là ça nous fait déjà un produit intéressant. Ce que je viens ici du coup c'est que je mets le site. Le nom de date je viens ici. On est ouvert la page, on voit il y a 540. Le trafic je vois il y a 60 000. Et la impression ce qui est cool avec l'extension Brain Search c'est que vous pouvez mettre du coup check auto et scroll.
+
+[10:29] Et du coup ça va check tout le spend des ads. Et on peut voir que ici ça s'accumule. Et là on pourra voir combien elle dépense daily. Au total on peut voir le conclu il dépend déjà mille euros par jour que les premières ads. Ce qui est énorme. Là j'ai pas le temps de tout analyser mais là juste prendre par exemple ici la première ad qui spend le plus.
+
+[10:55] Et on peut voir que la première ad elle spend déjà 600 daily ce qui est pas mal. Qu'on a pu voir c'est des ads qui datent d'un moment. Ce que du coup ce qu'on va faire c'est qu'on va mettre récent. Et du coup là ça charge. Voilà mais vu qu'on veut pas avoir des ads qui viennent de te lancer on veut pas avoir les testings.
+
+[11:17] C'est que moi ici dans date je vais avoir recul de quelques jours par exemple le 21. Et si vous avez trop de fashion, trop de bijoux je vous conseille aussi de mettre du coup que les vidéos. Là on va mettre vidéo et images. Si jamais c'est ici dans format peut mettre soit que vidéo. Et comme ça on évite de tomber sur trop de fashion.
+
+[11:38] Là ça va. Par exemple là on a un masque collagène. Ce qu'on va faire c'est que chacun va pouvoir un produit drop qui est intéressant. On va venir ici ouvrir. Du coup je vais les fermer. On venir ici ouvrir. Et on va sur l'extension on mettre check all. Et ça va commencer à check tout seul.
+
+[11:59] Pendant que nous on continue à scroller. Ça c'est top. Voilà on a déjà vu cette page là. Là on a un produit intéressant. Du coup je vais ouvrir ici. Ça c'est quoi ? C'est un produit drop intéressant. Du coup chaque fois je vais venir ici. Et je vais venir ouvrir à chaque fois. Là on a un prot en tirant flement.
+
+[12:23] J'ouvre. Et du coup après je vais venir ici check all. Et je vais laisser check. Et je vais laisser comme ça. Et le but là c'est pas que ça la vidéo dure trop longtemps. Du coup je vais pas faire toute la recherche.
+
+[12:45] Mais le but c'est vraiment de scroller scroller scroller. Et dès que vous pouvez... Ça fait trop longtemps que vous scroller. C'est de trouver de nouveaux mots clés. Du coup soit depuis les mots clés ici. Qui changent pas mal. Après la technique pour avoir des mots clés en illimité. C'est de voir du coup les adscopies des gens. Par exemple ici là je vois offert spécial. Ce que je vais faire c'est que...
+
+[13:07] Je vais mettre offert spécial. Et du coup après là je peux scroller à l'infini. Et là je vais mettre quoi ici. Par exemple si vous voulez chercher un produit pour la skin care. On mettez une peau plus lisse. Boom. Venez ici vous chercher. Après il me se trouvait aussi des trucs brode. Du coup jusqu'à 50%. Tasse des bons mots clés.
+
+[13:29] Là je peux voir ici aussi. Tac, tac. Et à quoi. Sans changer votre outil. Des trucs comme ça. Et même ici là. Je peux mettre votre plat. Des barre de regainance si je cherche dans cette niche là. Plus de 160 000 femmes à l'emporter. Ça c'est bien. Ça se fait satisfaire au rembourser 30 jours. Et je vais venir.
+
+[13:50] Et après du coup je vais juste répéter le process. Ou je vais scroll. Je vais ouvrir les pages intéressantes. Je vais check leurs spend. Une fois que j'ai plus de mots clés. Je vais check dans leur adscopie. Et puis si je viens. Imaginez que j'ai déjà scroll. J'en peux plus. Les vont en faire de 48 heures. C'est pas mal. En 15 000 par jour. Ça c'est un bon mot clé. Je mets 5 000 par jour.
+
+[14:11] Et après il suffit juste du coup. Mettre par le plus récent. Filtre avec les jours d'avant. Et après une fois qu'on a fait ça. On aura plein de boutiques ici. Et qui sont en train d'être analysés. Et ce qu'on va faire. Ce qu'on va venir ici du coup. Là je vais mettre stop analyse. Et je vais appuyer ici sur daily.
+
+[14:33] Pour moi une bonne ade intéressante. C'est à partir de plus de 70 euros à daily. Celle-là elle n'est pas intéressante. Par contre là on peut voir qu'une ade à plus de 100 euros daily. Ça c'est intéressant. Ok c'est un bon prod. Ce que je vais faire c'est que. Je m'ont traficé aussi. Mais en moins on sait qu'il a des. Une ade qui se pende.
+
+[14:54] Ce que je vais faire c'est que du coup je vais le mettre ici. Et là je le mets là. Je mets les ades et tout ça. Ici. Plus ce qui est intéressant c'est qu'on peut voir. Sur toutes les pages cumulées. Là on peut voir qu'ils se pènent en moins 500 euros daily. Ce qui est pas mal. Celle page les fermé. Là on peut voir ici.
+
+[15:15] Sur mes daily. Il a 60. 60 c'est un peu peu. C'est proche de 70. Du coup je l'ai remis mais c'est pas un produit. Forcément encore winner. Peut-être c'est un peu trop. En plus il a depuis janvier. Mais il se pène pas autant daily. C'est pas top. C'est à dire que le produit.
+
+[15:35] Il n'est pas encore super skillable. Mais je l'aurais quand même mis dans la liste. Ici. On peut voir qu'il se pende 4 daily. C'est vraiment un peu 2 daily. En next. Ici on n'a pas check. Du coup là je vais le bug là.
+
+[15:56] C'est parce que je ne suis pas login. Sur un profil facebook. Du coup là il faut dire juste. Il faut connecter sur facebook. Et ça remarche. Ici le bug il persiste. Juste d'aller supprimer les cookies dans votre Chrome. Ou changer de navigateur. Du coup tout ce qui se pende plus de 70. Du euro daily. Je le réporterai ici.
+
+[16:17] Après le plus intéressant du coup c'est. De venir ici. Et de mettre. Des mots clés par exemple en allemand. Je ne sais pas si c'est écrit comme ça. Du coup je vais mettre. Ici. Allemagne. Et de chercher dans notre marché. Je vais lancer en France.
+
+[16:38] Je ne vais pas forcément regarder. Ce qui tourne en France mais plutôt regarder ici. Je ne sais pas si c'est juste que j'ai écrit. Non là j'ai que 6 résultats du coup c'est faux. Juste vérifier comment on écrit. Du coup j'ai essayé de trouver 50% de réduction. Ok l'année ago. J'ai mis 50% de réduction en allemand. Là ce sera la même méthode. Du coup je mets le Shopify. Ici au lieu de mettre par impression je mets les plus récents.
+
+[17:00] Quoique ici on pourrait même mettre des croissants. Vu qu'on nous a de marché. On a l'impression de voir aussi des top spender. On va essayer de trouver des produits assez récents. Du coup je mets ici. Top. Si je trouve trop de fashion, trop de bijoux. Je ne cherche pas forcément ça. Je vais mettre fit video. Là il suffit de scroll. Là on a un produit santé.
+
+[17:22] Et là c'est la même méthode qu'en France. Il suffit juste de check le spend. Je ne vais pas faire ça pendant toute la vidéo. Mais je pense que vous avez compris. Il suffit juste de reprendre ces mots-clés. Trouver nouveaux mots-clés. Des traduire dans plusieurs langues. Du coup ça prend beaucoup de temps. C'est très chronophage. Mais en moins vous avez des données.
+
+[17:44] Vous avez des produits très récents. Dans les autres tools vous n'allez jamais trouver des produits aussi récents. En faisant cette méthode. Qui prend du temps. Mais en moins vous allez avoir des produits récents. Et si vous allez trouver vos propres mots-clés. Et vos propres marchés. Vous allez trouver des produits que personne trouve. Et qui ne sont même pas disponibles dans les tools. Du coup c'est vraiment banger. Et en plus c'est gratuit.
+
+[18:06] Je vous conseille de prendre du temps. Sur Brain Search. C'est aussi lourd. Parce que chaque semaine il va scraper des boutiques. Là on peut voir 6 millions de boutiques. Et chaque semaine il scrape. Chaque 2 semaines je crois. Et il scrape à chaque fois des centaines de milliers de boutiques. Du coup. Il y aura plus 10 millions de boutiques sur Brain Search. Et c'est vraiment lourd.
+
+[18:28] Il scrape tous les boutiques. Et après il prend la data. Et ils ont sur leur trafic. Et leur nombre de dates. Et c'est vraiment cool. Et on va pouvoir jouer avec les fitre ici. Pour trouver plein de boutiques winneuses. Moi ce que j'aime bien faire. Je vois que vous avez les... Ici. Je me souviens plus où ils ont mis.
+
+[18:50] Ok. Ici vous avez des presets. Du coup là ils sont vraiment bien. Par exemple USF Top Performer. Apply. Et du coup là vous avez déjà des bons fitre. Moi je vais montrer les fitres que j'utilise moi souvent. Du coup. Dans trafic moi je vais mettre
+
+[19:12] minimum 500. Pour avoir un maximum de trafic pas 0. Et ici je vais mettre leur maximum 50 000. Parce qu'une boutique qui a plus de 100 000 trafics c'est déjà une boutique qui est déjà grosse. 50 000 c'est déjà pas mal. Et je vais mettre entre 10 000 et 50 000. Et je vais apply. Ici dans la je vais mettre minimum 50 az
+
+[19:34] parce qu'une boutique qui a moins de 50 az active se vencer pas ouf. Après market ça dépend de vous. Là vu qu'on avait les autres tours on a cherché beaucoup en Europe. Là je vais mettre peut-être plus le big four. Je vais mettre du coup US. Et après vous pouvez aussi ajouter des applications.
+
+[19:56] Par exemple si vous voulez chercher des trucs à recueil vous mettez recharge, une application pour les abonnements. Moi ce que j'aime bien aussi pour le drop c'est mettre catching bundle parce que presque tous les drop shippers ils ont ça. Et aussi peut-être moon bundle. Et mettre ces deux trucs là. Et là on va tomber sur plein de drop shippers qui sont en train de scale.
+
+[20:18] Et ici je mets soit par az active ou sinon je mets par add scaling. C'est l'évolution des az. Je suis sur top et tic de drop. Je suis sur top et tic. On peut voir que la s'est pas fait. On peut voir que la s'est en train d'exploser. Il a 64 az active. Exploser encore c'est pas beaucoup mais
+
+[20:38] il est en train de potentiellement scale. Ah ouais et important. J'ai oublié. La tata de création du site c'est moi je vais mettre moins d'un an. Là on va mettre 6 mois. Comme ça on a vraiment des boutiques récentes qui viennent d'exploser. Je trouve même que c'est un produit trader. On peut voir que la boutique a été créée en moins de 6 mois.
+
+[21:00] Ah bon là elle est pas ouf. Et on peut voir ici le trafic. Moi je préfère quand ça explose comme ça. Par exemple ici. On va mettre par trafic. Et là on a un truc de calçon qui est pas mal, qui a commencé à avoir beaucoup de trafic. C'est une boutique qui est en train
+
+[21:26] d'exploser. Ça cesse la fashion. On a regardé ça. Et là vu que c'est le Ramadan je pense c'est pour ça qu'il est en train de cartonner. On peut voir qu'il a énormément d'aide et qu'il est en train d'exploser. Ça pour moi c'est parfait. Et du coup vous pouvez reprendre ça et balancer
+
+[21:47] en Europe et en France. Après vous pouvez mettre ça aussi pour faire rechercher par exemple. Là on avait cherché en Allemagne. Et faire la même chose. Et après je vous invite à faire un propre filtre, jouer avec vos filtres. Et c'est comme ça vous allez vous différencer des autres. Mais là on peut voir qu'il y a un gros winner. Un gros winner qui vient d'exploser.
+
+[22:09] C'est top. Et Brenture c'est vraiment un banger. Vu que je vous ai présenté Brenture je vous présente le citron Trek qui est tout le similaire. Moi je préfère Brenture parce qu'il y a beaucoup plus de data. Vous en avez un peu de voir qu'il y a 1,5 million de shops alors que Brenture je me l'enlève à 6 millions. Il y a 5 fois plus de shops sur Brenture. Brenture.
+
+[22:31] Je préfère Brenture. Mais ce que j'aime bien c'est leur 2 présélections qui sont top scaling et weekly gem. Du coup j'aime bien 1 ou 2 fois par mois venir ici dans le top scaling par exemple. Et juste scroller et regarder ce qu'il y a. Et là c'est vraiment simple et suffisant de scroller et sélectionner les produits qui vous intéressent.
+
+[22:53] Weekly gem c'est pas mal aussi. Et voilà. Il n'y a pas grand chose à faire dessus. Il suffit juste d'aller sur ces 2 trucs. Calo Data. Calo Data c'est un tool qui répertorie les winners sur Tiktok shop. Pourquoi cette fois on regarde Tiktok shop c'est parce que Tiktok shop c'est là où il y a les nouvelles trends. Du coup un produit qui peut être sur Tiktok shop
+
+[23:15] c'est vraiment une opportunité de le lancer sur Meta et profiter de cette nouvelle trend qui arrive sur Tiktok et la lancer du coup sur Meta. Et si vous lancez en Europe moi je vous conseille justement de regarder les top winners ici et juste de scroller et regarder les top winners qui vous intéressent. Et un truc qui est vraiment lourd avec Calo Data c'est que vous allez avoir
+
+[23:37] du contenu en illimité par exemple. Vous vous dites ok je vais lancer cet ensemble. C'est ici. Vous avez chaque Tiktok avec le nombre de revenus. Du coup là vous avez les ad-winners. Vous pouvez même traduire ça avec agent
+
+[23:58] reproduire ça en IA. Et après balancer ça en France. Et après c'est que vous avez énormément de contenus. Là vous avez 4 pages. Encore là c'est pas beaucoup parce que le produit est récent. Des fois vous allez avoir 40 pages de vidéos et ça vous fait 40 pages pour faire des b-rolls faire des mashups. C'est vraiment lourd. Et ici
+
+[24:20] ce que je vais vous donner du coup c'est launch date c'est mettre 30 jours. C'est-à-dire que les top spenders qui ont été lancés il y a moins de 30 jours comme ce produit c'est le produit qu'on avait vu au début j'avais très peu de trafic. Je crois on va s'en cesser ça. Et là on peut voir que le produit a été écrit il y a moins de 30 jours et là j'ai fait 400 000 ventes c'est un vraiment banger. Et là vous avez peut-être une opportunité
+
+[24:42] à lancer en Europe ou même directement aux États-Unis. Et après du coup je vais sur premier ça l'autre type d'ésolée c'est que ici vous allez avoir tout le monde va tomber sur le premier page du coup tout le monde va lancer ces produits là.
+
+[25:03] Ces produits souvent sont très saturés. Le truc c'est que ça va jusqu'à max page du coup 40. Du coup avec le plan normal que le peur des gens désolé c'est page 50 et quand on va jusqu'à 50 on va faire ça. Mais du coup il suffit juste de venir ici dans Revenu
+
+[25:26] et de taper la dernière casse et là on va pouvoir scroll jusqu'à 50 pages et du coup là on va tomber sur des produits que peu de gens vont parce que personne ne peut pas de gens vont jusqu'après la page 50 et là vous avez des produits qui font beaucoup de ventes du coup 200 000 par mois sur TikTok Shop et que vous pouvez lancer du coup
+
+[25:48] en Europe. Et maintenant on va voir dans quel ordre utiliser les tools je vous conseille fortement du coup l'Azibari qui est déjà gratuit mais qui est super complet qui est un peu chronopage ça prend beaucoup plus de temps que les autres tools mais en moins vous avez vraiment la data brute et si vous passez beaucoup de temps ou vous trouvez les mots clés vous pouvez vraiment trouver beaucoup beaucoup de boutiques. Et après je vous conseille de si ça prendra un tool payant
+
+[26:10] bah c'est prendre de vrais de search qui est très utile pour la recherche concurrentielle aussi et qui est aussi très très complet et avec des bons filtres on peut vraiment tout trouver et plus tard prendre qu'à le data. Comment je sais que ce sont mes produits et qu'est ce qu'on considère comme un winner c'est que déjà les correctivités du marché qu'on a vu c'est dès que ça se dépense plus de 70€ à daily et moi je réglage ici l'évolution du trafic des ads
+
+[26:32] je montre aussi une fonction sur brain search qui est vraiment cool et comme ça vous n'avez pas besoin de faire ça manuellement et aussi de voir plus le produit les récents, plus le shop, les récents, plus les ads elles sont récentes mieux c'est que du coup c'est nouveau et on peut et plutôt qu'un produit qui se penne énormément qui m'est qui se penne depuis déjà un an plusieurs mois c'est beaucoup plus difficile de rentrer
+
+[26:54] de rentrer en compétition avec eux et souvent il y a déjà beaucoup de compétitions sur ce produit là parce que si il date depuis aussi longtemps il y a déjà d'autres personnes qui ont lancé bien avant vous je préfère miser sur des produits qui sont vraiment assez récents et qui sont en train de péter depuis plusieurs semaines ou voir en haut de mois et après ces quartiers que je vous ai mis en plus après je pense que après je pense que Nico va vous montrer
+
+[27:16] plusieurs détails de ça je vais se renviens sur cette boutique du début c'est une boutique américaine et comme je vous ai dit ou même UK, non américaine on peut voir que le marché c'est que le problème je vais mettre en petit c'est qu'on peut pas voir pendant que ça va, ici on va check
+
+[27:38] voilà ça va mettre parce qu'ils se pennent aussi un petit peu voilà ça nous ça veut nous mettre ça nous ee ee et tout ça ils se pennent que en aux US et aux US il n'y a pas encore cette fonction là bon le bon édicateur c'est que c'est trié par ordre décroissant du coup là on sait que ces ads là c'est les top spender on sait que là c'est les 4 c'est le top spender de sa page
+
+[28:00] ça c'est déjà un bon édicateur mais là on peut pas savoir si l'adz c'est la personne combien les spend non pour avoir déjà l'évolution c'est un indicateur qu'on aura du coup soit track si on a d'a compte mais il faut payer 300€ et ça prend du temps et on vous a pas track toutes les boutiques américaines vous allez vous ruiner
+
+[28:22] ou soit voir l'évolution du trafic et des ads on peut voir qu'il y a 530 adjectifs c'est déjà un bon édicateur comme on a vu ici c'est que c'est en train d'exploser c'est un énorme indicateur du coup là on sait déjà que c'est une boutique winnose après ce qu'on peut faire c'est aussi c'est track à tout spectre et ici même ici on peut chercher
+
+[28:42] le nom de la boutique comme ça on va pas enceindre le nom de la boutique sinon on va dans spectre sinon là je ne veux pas attendre que ça charge du coup je vais juste ici et là j'ai un peu voir la bonne situation de trafic qui est en train d'exploser et là on peut voir que les 30 derniers jours qu'on met il avait d'ads
+
+[29:04] et là on peut voir que ça fait pas qu'une semaine qu'il a 530 adactifs ça fait vraiment un mois qu'il a beaucoup d'ads on peut même voir dans all il a beaucoup d'ads actifs depuis très longtemps et une personne qui a beaucoup d'ads actifs depuis très longtemps c'est Bonsin on peut voir que ça évolue assez bien et du coup là on a vraiment toutes les data sans pouvoir avoir le spend pour savoir que ce produit est
+
+[29:26] les winners et on n'a même pas besoin de track de spikes on a d'un compte du coup la dernière étape c'est l'analyse concurrence 16 une fois qu'on a trouvé un produit c'est comment on fait pour trouver les autres concurrents sur ce produit pour cet exemple là on va sélectionner cette boutique là par exemple là j'ai sélectionné cette boutique
+
+[29:48] qui a 200 adactifs on va essayer de voir je sais qu'il a plusieurs produits on va essayer de voir c'est quoi ces produits qui spend le plus du coup je juiste track c'est top spend 2 là c'est déjà trié par impression du coup là on n'a que les tops spend 2 au début on peut voir que c'est celle là fait centimillion d'impression
+
+[30:10] spend plus de 60 000 euros 3 secondes par jour du coup on va sélectionner celle là pour la recherche pour la recherche concurrentielle et on va voir si il y a des concurrents dessus en France du coup quand on a vu ici une étape simple c'est juste de trouver des mots clés par rapport à ça au plein review traduit en français je vais mettre la brosse pour chat
+
+[30:32] et je vais mettre du coup ici France brosse pour chat et là on a on peut voir c'est ce que c'est un produit en plus voilà on a trouvé déjà un concut français
+
+[30:58] non ça nous sert à trouver d'autres winners mais là on a trouvé un produit un concurrent je pourrais rajouter aussi du coup le Shopify filter comme c'est un n'a que les boutiques Shopify mais déjà là on peut voir qu'on a un concurrent ça c'est avec la des barilles
+
+[31:19] on peut mettre du coup ce qu'interesse de faire aussi alors j'ai fermé la page voilà c'est de voir les mots clés de son ascibarie son ascopie et traduire traduire je vais venir ici
+
+[31:39] et voir les mots clés ici par exemple éliminer le sous-poil mort ou essayer de faire des mots clés assez simple je vais mettre éliminer les poils les poils et peut-être même les poils de chat mais on réussit à éliminer les poils et là on retombe du coup sur le concurrent d'avant et là on va tomber sur un autre concurrent
+
+[32:01] du gros avec l'ascibarie on peut trouver plein de concurrents comme ça après j'ai mis brain search déjà avec l'extension comme si je viens ici ça marche bien pas tous les coups mais c'est IA similar store et du coup
+
+[32:23] on peut voir les boutiques similaires ça c'est notre boutique allemande qui se cale bien normalement un peu en déclin mais à un moment on a vu justement au Q4 qui se cale bien et là on peut trouver des concurs ici et aussi on peut trouver des concurs juste en mettant des mots clés là
+
+[32:44] brosse chat et du coup là ça va nous trouver tous les concurrents qui ont brosse pour chat sur leurs boutiques et là on peut mettre en français et ça va traduire automatiquement dans un truc et langue du coup vous n'avez pas besoin de mettre plein de mots clés à la fois enfin traduire les mots clés à chaque fois et
+
+[33:13] là ça pas à l'heure de mieux marcher il faudrait mettre des mots clés mais il y a cette méthode là et après une moitié de ce que j'aime bien c'est qui marche souvent, c'est de faire recherche par image de venir ici et là on va tomber sur plein de boutiques qui ont repris les images du concurrent
+
+[33:33] et là on a trouvé plein de vraiment beaucoup beaucoup beaucoup de concurrents qui ont copié cette personne ça l'on peut voir cette personne on peut voir ici la du trafic ça le fait des ads on peut voir qu'elle est en suisse on peut voir lui et l'en plus c'est un fr non lui par exemple il tourne plus
+
+[33:54] apparemment mais avec recherche par image on trouve vraiment beaucoup beaucoup de concurrents mais je dirais là où vous trouvez le plus de personnes c'est adibari et recherche par image en tout cas c'est là où je trouvais le plus de personnes après une search aussi c'est puissant mais il faut mettre les mots clés là je vais pas que la vidéo soit trop longue mais il faudrait mettre plein de mots clés et aussi je viens de m'en montrer j'ai oublié de vous représenter les extensions en pipi spy
+
+[34:16] moi j'utilise juste pour une seule raison c'est ici dans product on peut voir il y a combien de temps elle a été créée la page assez fascinante ça me permet juste pour ça sans plâcher que il a créé un an même si en vrai ça veut rien dire mais par exemple si on tombe sur une boutique où je vois que la personne a la créé le produit il y a 10 jours
+
+[34:38] et que sur l'azibari et espagna 500 daily je me dis que c'est un mille heure c'est une opportunité de fou parce que la personne a la créé le produit et la page produit il y a moins de 10 jours et elle est déjà en train de scale sur ce produit du coup il faut être rapide et voilà pour la recherche concurrentielle
+
+[35:00] ok maintenant on a fait le tour de la présentation juste pour vous dire que j'ai fait une vidéo plus avancée dans le module master research et comme data 1 et bon du coup pour l'instant je vous conseille pas de la regarder parce que vous allez vous perdre et je vous conseille du coup en fait si vous êtes débutant je vous conseille pas de la regarder je vous conseille déjà de faire vos premières charges produits déjà avec ce qu'on a vu aujourd'hui et plus tard une fois que vous avez déjà fait vos premières charges produits
+
+[35:22] de voir cette vidéo qui présente 2, 3 autres tools et des infos en plus mais qui pour l'instant vont peut-être vous perdre ou ce sera trop dans les détails du coup je vous conseille déjà de commencer avec ce qu'on a vu aujourd'hui
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 32 : Impressions US: hacks récents pour pépites
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 32
 ======================================================================
 
@@ -3375,16 +4017,68 @@ La compétition n'est plus un obstacle, c'est une mine d'or. Les marques qui per
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouveauté dans la bibliothèque publicitaire, comme vous le savez, on l'a mentionné sur nos podcasts et je l'ai mentionné dans les derniers live, dans la bibliothèque publicitaire meta, on a la possibilité maintenant également aux US de voir le filtre sur simplement les impressions.
+
+[00:20] Et c'est absolument game changer parce qu'en utilisant ensuite Brain Search, on peut faire des combinaisons pour trouver simplement des pépites en un rien de temps. Donc là par exemple je suis sur une brand aux US mais Megaline, il tourne aussi aux Juke et un peu partout, c'est une brand qui fait des bons chiffres, ITK.
+
+[00:41] Et ici je mets simplement un filtre, trier par, ici ça c'est nouveau, donc c'est nouveau ça fait à peu près un mois et en gros on peut filtrer par impression. Avant on ne pouvait pas, maintenant on peut faire ça aux US, ce qui signifie que quand vous trouvez des brands qui sont récentes, qui ont beaucoup d'ads actifs et
+
+[01:04] que l'on peut filtrer par le nombre d'impression, on peut voir ces top ads et ensuite on peut les relancer, on peut relancer exactement ces ads là, genre en Europe ou sur le marché avec quelque chose qui change, être différent et pouvoir chiffrer facilement. À l'époque c'était impossible, on était obligé de faire des spies, du coup ça c'est vraiment, c'est vraiment quitté. Ok, donc je vais vous partager un filtre qu'on utilise qui est absolument Bangers,
+
+[01:28] donc personnellement j'utilise Brain Search pour faire ça. Donc ici je suis sur Brain Search, c'est nouveau en la disposition, ici j'ai mis vers le haut, c'est un compte démo si jamais pour Master, je vais l'utiliser d'ailleurs pour Mooshilow, le shop qu'on utilise, qu'on vous montre dans Master One.
+
+[01:51] Donc là je vais aller dans Discovery, Discovery c'est la partie meta ads, librairie de Brain Search et ici Brain Librairie, c'est là où vous avez toutes les boutiques Shopify qui existent, vraiment il y a toutes les boutiques. Ça change des autres spy tools qui ne sont pas autant nourris, là il y a vraiment genre 6.5 millions. Donc ici Discovery et je crée sur en haut ici comme ça c'est
+
+[02:13] bien comme j'aime on va en grand et ici au niveau des filtres on peut épingler aussi ce que j'ai mis. Donc moi je vous conseille d'épingler ce que j'ai mis, ils sont intéressants donc niche, ad count, ad count ça signifie le nombre active à un concurrent, donc par exemple ici je pourrais mettre minimum 150 ou 200
+
+[02:37] pour voir vraiment des brands qui sont intéressants, qui ont beaucoup d'ad, ce qui signifie qu'ils font beaucoup de testing au niveau des créatives et on va pouvoir en fait voir quels sont celles qui ont le plus d'impression sur toutes leurs ads, c'est important de mettre quand même beaucoup d'ad. Ici je vais mettre Applague, ensuite ce que j'aime bien mettre ça c'est vraiment un
+
+[03:00] hack pour trouver des brands qui commencent à skier les forts et pour pouvoir le lancer en Europe ou aux US, que ça c'est vraiment brode ce que je montre. Ensuite je vais vous montrer dans une autre vidéo je pense l'utilisation de niche qui est nouveau dans Brain Search qui absolument banger et ça c'est pour
+
+[03:20] toutes les personnes qui ont une marque déjà qui tourne, vous pouvez utiliser ce filtre niche et simplement mettre ensuite dans votre niche, sélectionner votre niche et ensuite vous allez pouvoir trouver des concurrents directs et indirects et dans tous les US voir dans votre niche direct ou indirect quels sont
+
+[03:41] les types de créatives, les types de messages qui convertissent le plus et boum vous faites ça en Europe vous allez avoir vraiment beaucoup de banger. Là je vais faire l'exemple de si on veut lancer une nouvelle brain. Ici par exemple je vais mettre aussi Filter, je vais mettre Market, je vais mettre les US et je vais mettre aussi au niveau du trafic
+
+[04:01] politique, je vais les pingler aussi c'est important de l'avoir. Là par exemple je vais mettre minimum 100 000 visiteurs. Il faut savoir que les visiteurs sont traqués avec similares web, similares web c'est souvent divisé par 5, par 6, par 7, quand c'est du meta-ad, quand c'est du Google Ad c'est différent
+
+[04:22] et par conséquent si à minimum 100 000 visiteurs en règle générale la brain fait minimum 500 000 par mois de chiffre d'affaires donc c'est des brains qui sont intéressants. Et ce que j'aime bien faire au niveau des créatives qu'on peut voir ici c'est de
+
+[04:43] mettre sur les trois derniers mois. Donc là déjà on a filtré par minimum 100 000 visiteurs sur leur boutique ils ont minimum 150 ads actifs et ça a été créé maximum les trois derniers mois et ce qui est
+
+[05:10] banger c'est ici qu'on peut filtrer par les top ads rank le plus d'impression et ça honnêtement ça honnêtement c'est de chiter, ça honnêtement c'est insane. Donc ici comment fonctionne ce ranking on gros c'est peut-être pas facile à comprendre si vous n'avez jamais utilisé mais on gros si vous
+
+[05:33] voulez au plus le rank est bas au plus à dire qu'il y a d'impression on gros c'est comme sur un podium le numéro 1 c'est le premier c'est celui qui gagne le plus donc au plus c'est bas au mieux c'est on gros ici quand c'est 1 c'est la meilleure ad de toutes leurs ads. On peut voir ici ils ont 200 ads bas celle là c'est la meilleure ad de chez eux et juste en faisant comme ça vous
+
+[05:59] trouvez de 1 des brand pepite qui scale fort et qui sont récentes vous trouvez de 2 des créa banger parce là du coup toutes ces créa là sont absolument insane on peut regarder par exemple 3 2 1 et la top créa de chez eux d'une brand qui est récente qui a minimum 100 000 visiteurs et ça c'est la meilleure ad c'est comme un hook en mode ugly ad mais qui cartonne
+
+[06:26] et en même temps on trouve une brand banger ça vous fait en europe en allemagne j'avais déjà chiffré sur ça il y a 5 ans peut-être pas forcément ce produit même mais peut-être qu'avec ce type d'ads bah vous allez pouvoir faire pas mal donc voilà vous trouvez des ad pepite et
+
+[06:46] des new brand qui commencent à scale ça ici ça je assure vous faites en europe ça se connaît bien ça c'est le fait d'avoir des chaussures où il ya vos 5 doigts de pied qui sont qui ont de la place ça c'est banger donc voilà ce que je voulais partager honnêtement j'ai trouvé vraiment
+
+[07:11] beaucoup beaucoup de pepite surtout une fois que vous avez une brand vous pouvez utiliser l'onglet niche et justement mettre tous les filtres que je viens de mettre mais avec la niche donc où c'est que vous êtes et vous allez honnêtement trouver énormément d'ads winneuse à refaire en europe de manière de manière simple ok ce qu'on peut faire aussi c'est de mettre ceux
+
+[07:36] qui ont le plus d'ads simplement ceux qui ont le plus d'ads qui tournent donc voilà j'espère que ça va vous aider à trouver des ades de pepite et des brand pepite et là je vous assure que vous faites un petit tour vous jouez un peu avec les filtres vous mettre plus de trafic pour trouver normalement que des gros gros grosses pepite par exemple si je vais être minimum 500
+
+[07:58] mille visiteurs aux us les trois derniers mois et là du coup je filtre par top rank donc en fait automatiquement je vois uniquement la meilleure ad qui a le plus d'impression de chacune de ses brand bon parfois il y a plusieurs fois la même brand mais là vous vous avez juste de l'or dans devant vos yeux et ça c'était jamais aussi facile d'avoir autant d'or devant vos yeux ok
+
+[08:22] là honnêtement là toutes ces ades c'est à refaire en europe vraiment il y a vraiment le blueprint sur comment faire de l'argent devant vos yeux ok après j'aime bien mettre et j'aime bien mettre le format vidéo et peut-être un peu plus de filtres et voilà jouez un peu avec les filtres
+
+[08:45] et vous allez trouver vraiment des choses à banger oubliez pas on a la meilleure offre de partenariat avec brent sur je vous avais moins 30% et act pour profiter du fait qu'il y ait le nombre d'impression qui soit visible mais faites attention quand même je vais vous dire pour les grosses marques les brent qui sont là depuis longtemps en fait si vous pouvez aussi trouver des ades qui sont
+
+[09:07] là en mode juste awareness et en mode juste on se peine on se peine pour parce qu'on est une grosse marque et on se permet de se mettre genre par exemple nike qui va se pendent énormément et avoir énormément d'impression mais c'est pas quelque chose qui est là pour vendre donc faites juste la différence quand vous voyez une une grosse marque c'est pas toujours le cas que c'est vraiment
+
+[09:30] la meilleure ades qui est là que pour vendre ok parce que quand on est une grosse marque pas toutes les ades qui ont beaucoup d'impression sont là pour vendre donc c'est pour ça que je vous ai dit de prendre des choses qui sont récentes de genre trois mois max enfin max ça peut être six mois mais vous avez compris et de regarder les boutiques qui sont pas non plus à genre 10 millions
+
+[09:51] de visiteurs mais qui ont genre minimum 100 000 et vraiment vous allez trouver des pépites qui commencent à skêler et c'est exactement ça que l'on peut reprendre et s'inspirer pour chiffrer en Europe et même aux us ok c'était nico à bientôt
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 33 : Sophistication Simplifié (base à connaître)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 33
 ======================================================================
 
@@ -3510,16 +4204,58 @@ La rapidité et l'agilité sont tes plus grands atouts en tant que débutant. Ne
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo très importante pour les débutants. On va parler de sophistication et d'awareness. Beaucoup de débutants prennent les deux ensemble. En réalité, on peut faire comme ça, mais j'aimerais que vous compreniez la différence entre les deux quand on est débutant surtout. Et on va surtout parler de deux concepts qui viennent de se lire là, breakthrough advertising, que je vais vous mentionner en fin de vidéo.
+
+[00:29] Donc concrètement, si vous êtes débutant, ce que vous devez savoir au moment de choisir votre produit, on a quelque chose qui s'appelle la sophistication. Ok, on a la sophistication du marché qui existe. Et en gros, c'est l'état du marché et la awareness, c'est l'état d'esprit de votre client par rapport au produit. Ok, donc la sophistication.
+
+[00:52] Ce que vous allez utiliser avant de faire vos créatives pour choisir votre bonne opportunité, pour choisir le bon produit. En gros, quand vous recherchez un produit avec les outils qu'on vous a montrés, il est important de suivre les filtres et les conseils qu'on vous a partagés, parce qu'overall vous aurez un taux de réussite plus grand si vous suivez ça.
+
+[01:15] En gros, quand vous allez piocher un produit qui commence à avoir de la force traction, mais qui n'est pas encore la force traction depuis longtemps, vous avez un coût d'avance sur pas mal de concurrents qui utilisent d'autres logiciels et d'autres méthodes pour chiffrer en tant que débutant, pour ensuite faire du cash, et ensuite avoir des créatives banger, et ensuite trouver des nouvelles choses,
+
+[01:36] vous aurez pouvoir chiffrer plus tard sur un produit où la sophistication est plus complexe en tant que débutant. Mais ce qu'on vous partage comme méthode, c'est parce qu'on connaît la sophistication du marché du e-commerce, et on sait que quand on prend un produit qui commence à péter, c'est vraiment super intéressant. Donc, une chose à prendre note, si vous suivez ce qu'on vous partage ici dans les vidéos,
+
+[02:05] en principe vous avez un taux de réussite qui sera relativement élevé. Mais si vous suivez les mêmes outils que tout le monde, et bien simplement vous allez vendre des mêmes choses que tout le monde, et du coup vous allez aller au même endroit, vous allez perdre l'argent. Parce que sur les tools que nous on ne vous partage pas, mais que d'autres personnes partage,
+
+[02:26] en fait il y a toujours les mêmes produits. Alors que sur les tools qu'on utilise nous, comme Brain Search ou autres, il y a des millions et des millions de produits, vous allez pouvoir choisir par rapport à ces produits avec les critères qu'on vous a donnés, et là vous allez avoir quelque chose qui sera correct. D'ailleurs si vous voulez plus d'informations sur ce qu'est-ce que la sophistication du marché, je vous ai mis un texte ici, c'est simplement en dessous de cette vidéo.
+
+[02:50] Et juste le contraste, pour que vous comprenez pourquoi ne pas suivre d'autres conseils ou d'autres logiciels, parce qu'en fait vous allez trouver un produit, ou c'est qu'il y a un marché qui est déjà trop sophistiqué, donc c'est-à-dire qu'il y a beaucoup d'icommerçants. Et si il y a beaucoup d'icommerçants, bah ça va faire monter les cpm,
+
+[03:10] et vous avec un budget qui est limite et peu d'expérience, vous allez vous faire écraser par les marques qui sont déjà là, et qui ont des années d'expérience, et même qui savent toutes les nouvelles updates avec Meta, avec Andromeda, et si la perfection les petits personnels, les petites poches, et vous n'allez juste pas pouvoir chiffrer. Donc quand vous faites vos recherches produits, et que par exemple vous prenez quelque chose qui est des US,
+
+[03:32] ce que vous voulez faire en France, recherchez sur Brand Search, recherchez sur Dottool, soyez sûr qu'il n'y ait pas 20 d'autres concurrents en France. Mais si il y a genre 3 concurrents qui viennent juste de commencer, c'est totalement ok, mais on essaie juste d'éviter la casse en tant que débutant. Et donc la sophistication c'est important, la sophistication c'est le nombre de concurrents que vous avez sur un certain produit marché.
+
+[03:53] Ok, vous prenez quelque chose des US, il y a peu de personnes en France, peut-être que c'est quelque chose de banger. Ok, peut-être parfois c'est aussi trop tôt, donc faut juste faire attention, trop tôt, parce que je vais vous expliquer à la Warnes, mais en gros si on reprend le chilagit qui a été bien connu il y a genre un an, deux ans,
+
+[04:14] aux US ça pétait très fortement, et en France ça pétait juste quelques mois après. Et la façon dont on vendait le chilagit au début aux États-Unis, c'était la même façon dont il fallait le vendre en France. Or beaucoup d'y commerçants avaient fait l'erreur de prendre le marketing
+
+[04:34] du présent aux États-Unis, ou c'est que les clients étaient déjà aware du produit, et on essayait de faire ça en France et ça ne pas marchait, parce qu'ils parlaient que d'offres, que de prix, qui étaient descendus etc. et ils expliquaient pas l'histoire du chilagit etc. Donc il y a quand même quelques produits au fait d'attention, mais dans la grande majeure partie des cas, si c'est Trending aux US, ce qu'il y a encore très peu de concurrents en France,
+
+[04:55] c'est souvent une très très bonne opportunité, et souvent on peut juste copier les mêmes messages. Mais il y a certains produits où faut faire attention. Donc s'il y a beaucoup beaucoup beaucoup de concurrents, et que vous êtes expérimenté c'est Banger, mais en tant que débutant je ne vous le conseille pas. Donc c'est ça la différence. Donc on parle d'Awareness, c'est surtout pour les créatives.
+
+[05:18] C'est surtout là où c'est qu'on vous explique les 5 niveaux d'état de conscience du client, et la mathéo et les autres personnes dans le school vont tout vous expliquer au moment de faire les créatives. C'est là où vous allez voir rentrer en détail sur votre persona, rentrer en détail sur pourquoi cette créative marche bien,
+
+[05:39] quel pain point qu'elle met sa j'en cible, et on va pouvoir faire la même chose. Donc c'est quelque chose de différent. On n'utilise pas ça pour trouver le produit Pepitre, quand on est débutant, on utilise la sophistication. Donc voilà. Est-ce que quand vous avez fini votre recherche, quand vous êtes sûr d'aller sur un produit,
+
+[06:00] est-ce qu'il n'y a pas trop de concurrents sur le pays en question, ou est-ce qu'il y a 3, 4, ça va très bien. Mais si on a des dizaines et même 15 qui utilisent littéralement le même message marketing, en tant que débutant, c'est pas ce qu'on conseille. Et ça peut être contradictoire parce qu'on vous conseille surtout des produits à Fortam. Mais c'est pour ça que c'est important de toujours regarder les produits d'Octradar,
+
+[06:21] ou alors toujours regarder sur Brentsearch. Chaque semaine, il y a des nouveaux produits qui sont updatés et utilisez bien les filtres et les hacks qu'on vous partage dans ce school parce que ça vaut des millions. On a fait plusieurs millions, juste avec ces petits, enfin plusieurs dizaines, plusieurs vingtaines de millions, plusieurs trentaines de millions, juste avec ces filtres qu'on vous partage
+
+[06:42] et ces des filtres vraiment pépites. Ok, et vraiment utiliser l'avantage que vous avez en tant que débutant, c'est la rapidité et l'agilité à lancer rapidement les choses. Ok, je vous ai mis ici un livre que je vous recommande à 100%. C'est ce livre-là que je l'ai mentionné.
+
+[07:03] Il se liait en une à deux heures, donc achetez-le. Si vous pensez faire du business online, il va grandement vous aider. Et vous allez comprendre qu'en fait, tout ce vent, mais en le lisant, vous allez aussi comprendre que utiliser des glitchs quand on débute, ça peut être la chose la plus rentable que vous pouvez faire.
+
+[07:24] Ou si, j'ai mis le livre en complet, parce que ça c'est juste un résumé du livre, mais un résumé qui est très bien fait. Je vous ai mis le livre en couplet ici, en lien Google Doc. Vous allez pouvoir aussi le glisser dans vos IA pour valider votre produit, valider vos créatives. C'est un livre qui vaut 500 dollars.
+
+[07:44] Donc voilà, profitez-en. C'est tout pour la sophistication simplifier les bases à connaître.
 
 
 
 ======================================================================
 MODULE : 0 to 1 : MASTER ONE
 LEÇON 34 : Fichier d'organisation
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : 0 to 1 : MASTER ONE / leçon 34
 ======================================================================
 
@@ -3572,9 +4308,75 @@ Le fichier en lui-même n'est pas magique, ce qui compte, c'est la régularité 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvelle vidéo sur le fichier de recherche produit, ça va grandement vous aider pour trouver vos produits gagnants, vous organiser pour savoir quel produit il lancez. Grosso modo, ce qu'il faut comprendre ici, c'est que en réalité, le fichier pour une recherche produit, c'est pas une chose de magique. Vous pouvez trouver des produits et les lancer tout de suite et faire beaucoup d'argent.
+
+[00:24] Il n'y a pas forcément besoin de l'utiliser ça, c'est bon pour les personnes qui aiment bien être organisées. Et surtout, dans les prochaines vidéos, vous allez voir qu'on va parler de recherche concurrentielle. Et à ce moment-là, ce fichier sera bien utile. Donc on aura un fichier de recherche concurrentielle plus poussé.
+
+[00:45] Grosso modo, de lister vos produits et savoir lesquels vous lancez, ça va grandement vous aider. Si je peux vous faire une moyenne pour tous les débutants, ce que je donnais à l'époque quand je faisais des accompagnements, c'était minimum rechercher 20 produits minimum. Et une fois que vous avez sélectionné 20 produits,
+
+[01:06] à ce moment-là, vous pouvez faire une recherche concurrentielle sur ces produits-là. En général, on sélectionnait sur toute la recherche 2 à 3 produits, qu'on allait en profondeur voir la concurrence pour savoir oui ou non est-ce qu'on va les lancer. Avec le niveau de la personne. Et là, pour faire simple, ça dépend vraiment de votre type de recherche de la produit.
+
+[01:32] Si oui ou non, vous allez faire une recherche concurrentielle. Si vous faites du Google Ads, vous allez relativement faire moins de recherche concurrentielle parce que vous allez pouvoir tester énormément de produits à moins de recours. Donc c'est pas les mêmes stratégies, vous l'aurez compris. Donc on commence, je vais juste vous faire un exemple de... je vais faire une recherche produite en live-là,
+
+[01:53] et puis je vais lister tous les points ici, comme ça, vous allez voir comment utiliser ce fichier. Le fichier sera simplement en bas de cette vidéo-là. Et vous allez pouvoir le télécharger et l'utiliser. Donc très simple, moi je viens par exemple avec FHPT. Et je viens lui demander...
+
+[02:14] Ouais, je vais simplement lui demander un petit produit que je vais pouvoir mettre. Donc là, la caméra bug, c'est pas grave. Ici, je vais simplement prendre un produit au hasard. Il a pas mal d'Ad. 150, c'est pas non plus ouf.
+
+[02:39] Et donc on va voir quel est le produit. Ok, c'est un ex-support. On a aussi pas mal de TAM parce que ça aide à dormir. Donc, satisfiquement, je viendrai le mettre ici. Ensuite, je viens mettre le lien du concurrent.
+
+[03:00] Juste ici, je vais mettre le nom du produit ex-support for sleep. Ici, je viens mettre le statut de votre lancement. Donc là, l'occurrence, on va rien mettre. Mais si vous allez commencer à le tester, vous allez pouvoir mettre que vous êtes en train de tester ce produit.
+
+[03:23] Ici, j'aime bien mettre à la date à laquelle la première créative pour le produit en question a été créée. Donc pour ça, je descends tout en bas et je viens filtrer par active. Et voilà, ça a été créé le 14 mai 2004.
+
+[03:45] Donc en fait, on peut voir qu'il tourne depuis plus d'un an. Et c'est une bonne chose, une nouvelle chose. Parce que ça a déjà été bien fait. En plus, il est en Europe. Donc on peut voir en fait le nombre d'impression. Donc on presse ici sur voir les détails de la publicité, transparence de l'Union européenne. Et ici, on peut voir le nombre d'impression, la couverture.
+
+[04:08] Cette couverture là, c'est simplement le nombre d'impression. Donc le nombre de fois à laquelle cette image a été vue, c'est souvent ouf, il est revu à la baisse. Ah si jamais. Mais là, on n'est pas en recherche produit. Donc ici du coup, 14 mai. Donc ça date quand même. Yes, 150 croix environ.
+
+[04:31] On va mettre le nombre exact. Ouais, 150. Nom de visiteurs. On va mettre simila web. Et ici on peut voir que c'est très très très très bien. C'est une très belle courbe. C'est une courbe magnifique. Et ça typiquement, c'est revu à la baisse. Pour moi, de 3 fois 4, des fois 5.
+
+[04:54] Parfois même fois 10, quand c'est au début d'un scaling. Mais souvent, c'est quand même pas fois 10, c'est peut-être fois 5, fois 3. Donc en gros, les 30 000 visiteurs ici ont un été. Pour moi, il y en a plus de 100 000. Et en plus, c'est le mois d'avant. Donc pour moi, ils sont en train de bien scaleer.
+
+[05:17] Et du coup, 29 000, 9 4. Mais courbe au montante. Ensuite, le lien de la Let's Bray Facebook pour vous retrouver. Le prix de vente.
+
+[05:39] Qui est à son 48 dirhams. Ça fait 35 euros 60. 35 euros prix de vente.
+
+[06:01] Et prix d'achat. Ici, on a exactement le même produit. Je pense que c'est plutôt... C'est très similaire.
+
+[06:22] Très très similaire. C'est le même. C'est exactement le même. Juste la couleur. C'est celui-là. Celui-là, il est un peu plus gris. Donc avec le shipping, on a ce produit à 4 francs suisses. Ici, il est 2. Mais du coup, ici, il est 4, 1 centime. Mais je pense qu'il y a à chaque fois la livraison.
+
+[06:44] On conseille un prix qui est si bas. Donc ici, si on met... Livraison gratuite, 4. Donc ça passe de 4, 1 centime à 4. Donc 4 francs suisses, ça fait environ 5 euros. On est à un prix d'achat 5 euros. Là, on peut directement voir.
+
+[07:05] On a un multiple qui est très intéressant. Ensuite, on peut voir si vous trouvez des créatives sur Meta, TikTok, qui ont beaucoup d'impression. Et que c'est vraiment une créative qui se démarque de toutes les autres. Là, vous allez pouvoir mettre le nombre d'impression K7 créative en particulier. Alors si vous utilisez Minia et Hatshpai Uzi, vous pouvez mettre le nombre de likes, etc.
+
+[07:29] Prudemment, ce n'est pas si utile que ça de mettre ça. Mais ici, mettez plutôt tout leur top créatif. Donc typiquement, ici, on a trouvé ce produit-là. Et apparemment, il chiffre en Europe également. On peut voir Transparence Ue. Mais en fait, vous allez simplement preser sur voir les détails de la publicité.
+
+[07:53] Transparence de l'Union Européenne. Boom. Et vous allez voir toutes les créatives. Vous allez voir le nombre de couvertures. Alors, il y a plein d'extensions qui vous permettent de faire ça en un clic. Et en fait, ça vous permet de ne pas faire de clic en plus. Mais vous pouvez simplement aller dans, on va les détails de la publicité.
+
+[08:14] Et ici, essayez de checker quand ça en Europe. Quel créative a le plus de couverture. Et puis ensuite, mettre ces liens de cette créative là. OK. Donc admettons que c'est celle-ci qui a le plus, ou celle-ci qui a le plus d'impression. Je viens ici priser sur ça, copier le lien ici. Donc voilà, c'est celui-là qu'on vient de mettre ici dans les créatives.
+
+[08:38] Nous, c'est ce qu'on fait à chaque fois. Ça nous permet de voir les top créatives. Si vous voulez mieux être agasin encore, vous pouvez priser ici sur Insérer une colonne à gauche et mettre le nombre d'impression qu'à chaque créative, ça vous êtes sûr quand vous allez lancer le produit, de analyser les bonnes créatives. Et c'est un gain de temps, en fait.
+
+[09:01] Pour savoir quelle créative y terrait et l'encerrait. Ici, vous allez mettre le lien aliexpress.com et lien 1688. Pourquoi 1688 ? Ça va vous permettre simplement de mieux négocier avec les agents. Avoir un prix fournisseur à plus bas, parce que si vous en avez le lien aliexpress aux agents,
+
+[09:22] ça ne fait pas très pro. Et si c'est un, il suit suite, l'agent va se dire que vous connaissez quand même un minimum la Chine. Et ce sera relativement plus bas le prix qui va vous donner. Pour l'exemple, je vais juste mettre ce lien ici aliexpress. Quelque chose qui est simple, efficace, rapide. Quand vous n'êtes pas encore en train de lancer les produits,
+
+[09:43] vous pouvez numéroter les produits. On va encore la produit numéro 1, numéro 3. C'est comme ça avec votre équipe. Vous allez pouvoir vous organiser. L'idée, c'est d'en sourcer un maximum, de commencer à voir un peu ce qui marche en ICOM, si vous êtes débutant. Et les chiffres sexy ici, c'est le nombre d'adds actifs qu'a le concurrent, le nombre de visiteurs. Ça, c'est deux métriques très intéressantes.
+
+[10:06] Et en Europe aussi, regardez, du coup, le nombre d'impression, il y a énormément d'impression. Et que la date de création de cette ads là, donc moi, j'ajouterai encore ici, date de création, elle est récente, comparée, donc on l'a mis ici, mais si le concurrent, comme celui-là, beaucoup d'adds, c'est intéressant de mettre la date de création par adds. Vous ajoutez ici un, boom,
+
+[10:28] un serrillon de colonne à gauche, à chaque créative. Et voir le nombre d'impression qui augmente chaque jour. Vous allez pouvoir analyser le nombre d'impression. Si vous voyez qu'il y en a une qui commence à avoir énormément d'impression, potentiellement, effectivement, ça, c'est intéressant. D'ailleurs, l'enclin de la fichier, il sera en bas de cette vidéo-là. Et je vous laisse du coup la télécharger.
+
+[10:49] Vous allez devoir en fait préciser ici sur fichier, créer une copie, sinon vous n'allez pas pouvoir l'utiliser. Ok, donc fichier ici en haut à gauche, créer une copie, et vous allez pouvoir l'utiliser. Let's go. Je crois que la vidéo s'est coupée brutalement. Et ce que je voulais dire à la fin, c'est que les chiffres qui sont les plus sexy à prendre en compte, c'est vraiment
+
+[11:12] la date de création, déjà de la page. Si c'est un shop monoproduit, plus la page est récente et il y a un nombre d'adds élevés, c'est intéressant. Et au plus combiné à ça, il y a du nombre d'impression, et bien dans ce cas-là, c'est encore plus intéressant. Mais ce qu'il faut regarder principalement,
+
+[11:35] c'est les ads que vous allez mettre ici, les créatives. Si c'est aux US, il y a un nombre d'impression avec Hatspire, etc. Sinon, voir avec Insider, qu'on peut vous partager les contacts dans le module Tools et Contacts. Et si c'est Europe,
+
+[11:57] vraiment la chose la plus importante, c'est le nombre d'impression. Quand est-ce que l'adds a été lancé ? Si la page a beaucoup d'adds actifs, et ça, c'est vraiment un nombre recherché. Nombre d'adds, date, nombre d'impression, etc.
+
+[12:20] Ça, c'est vraiment les métriques qui vous montreront que c'est vraiment une ads qui print.
 
 
 

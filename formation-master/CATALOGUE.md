@@ -1,12 +1,12 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 109 complètes (17 %)**
+**624 leçons au total · 128 complètes (20 %)**
 
 
 ## 0 to 1 : MASTER ONE
 
-82 leçons · 20 complètes · 62 partielles
+82 leçons · 31 complètes · 51 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -31,19 +31,19 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 19 | [Comment devenir quelqu'un d'ULTRA organisé](transcriptions/0-to-1-master-one\19-comment-devenir-quelqu-un-d-ultra-organise.md) | 20:27 | complet |
 | ✅ | 20 | [Organiser ses tâches avec Asana et ClickUp](transcriptions/0-to-1-master-one\20-organiser-ses-taches-avec-asana-et-clickup.md) | 18:09 | complet |
 | ✅ | 21 | [Comment créer des habitudes qui changent votre vie](transcriptions/0-to-1-master-one\21-comment-creer-des-habitudes-qui-changent-votre-vie.md) | 30:31 | complet |
-| 🟡 | 22 | [Exercices pratiques — Affirmation audio](transcriptions/0-to-1-master-one\22-exercices-pratiques-affirmation-audio.md) | — | partiel |
-| 🟡 | 23 | [Métriques & erreurs fatales](transcriptions/0-to-1-master-one\23-metriques-erreurs-fatales.md) | — | partiel |
-| 🟡 | 24 | [Units economics / contributions Margin](transcriptions/0-to-1-master-one\24-units-economics-contributions-margin.md) | — | partiel |
-| 🟡 | 25 | [Les benchmarks à viser (CVR, AOV, ROAS min)](transcriptions/0-to-1-master-one\25-les-benchmarks-a-viser-cvr-aov-roas-min.md) | — | partiel |
-| 🟡 | 26 | [Analyse de ses premiers chiffres: Quadrant Master](transcriptions/0-to-1-master-one\26-analyse-de-ses-premiers-chiffres-quadrant-master.md) | — | partiel |
-| 🟡 | 27 | [MASTER PRODUCT FORMULA™](transcriptions/0-to-1-master-one\27-master-product-formulatm.md) | — | partiel |
+| ✅ | 22 | [Exercices pratiques — Affirmation audio](transcriptions/0-to-1-master-one\22-exercices-pratiques-affirmation-audio.md) | 4:50 | complet |
+| ✅ | 23 | [Métriques & erreurs fatales](transcriptions/0-to-1-master-one\23-metriques-erreurs-fatales.md) | 15:46 | complet |
+| ✅ | 24 | [Units economics / contributions Margin](transcriptions/0-to-1-master-one\24-units-economics-contributions-margin.md) | 12:26 | complet |
+| ✅ | 25 | [Les benchmarks à viser (CVR, AOV, ROAS min)](transcriptions/0-to-1-master-one\25-les-benchmarks-a-viser-cvr-aov-roas-min.md) | 16:00 | complet |
+| ✅ | 26 | [Analyse de ses premiers chiffres: Quadrant Master](transcriptions/0-to-1-master-one\26-analyse-de-ses-premiers-chiffres-quadrant-master.md) | 14:03 | complet |
+| ✅ | 27 | [MASTER PRODUCT FORMULA™](transcriptions/0-to-1-master-one\27-master-product-formulatm.md) | 16:53 | complet |
 | 🟡 | 28 | [Les Désirs de Marché](transcriptions/0-to-1-master-one\28-les-desirs-de-marche.md) | — | partiel |
-| 🟡 | 29 | [Les 9 critères essentiels](transcriptions/0-to-1-master-one\29-les-9-criteres-essentiels.md) | — | partiel |
+| ✅ | 29 | [Les 9 critères essentiels](transcriptions/0-to-1-master-one\29-les-9-criteres-essentiels.md) | 3:57 | complet |
 | 🟡 | 30 | [Choisir son marché](transcriptions/0-to-1-master-one\30-choisir-son-marche.md) | — | partiel |
-| 🟡 | 31 | [Tutoriel 2026 : Recherche produit de A à Z](transcriptions/0-to-1-master-one\31-tutoriel-2026-recherche-produit-de-a-a-z.md) | — | partiel |
-| 🟡 | 32 | [Impressions US: hacks récents pour pépites](transcriptions/0-to-1-master-one\32-impressions-us-hacks-recents-pour-pepites.md) | 10:49 | partiel |
-| 🟡 | 33 | [Sophistication Simplifié (base à connaître)](transcriptions/0-to-1-master-one\33-sophistication-simplifie-base-a-connaitre.md) | 8:18 | partiel |
-| 🟡 | 34 | [Fichier d'organisation](transcriptions/0-to-1-master-one\34-fichier-d-organisation.md) | 15:38 | partiel |
+| ✅ | 31 | [Tutoriel 2026 : Recherche produit de A à Z](transcriptions/0-to-1-master-one\31-tutoriel-2026-recherche-produit-de-a-a-z.md) | 35:38 | complet |
+| ✅ | 32 | [Impressions US: hacks récents pour pépites](transcriptions/0-to-1-master-one\32-impressions-us-hacks-recents-pour-pepites.md) | 10:49 | complet |
+| ✅ | 33 | [Sophistication Simplifié (base à connaître)](transcriptions/0-to-1-master-one\33-sophistication-simplifie-base-a-connaitre.md) | 8:18 | complet |
+| ✅ | 34 | [Fichier d'organisation](transcriptions/0-to-1-master-one\34-fichier-d-organisation.md) | 15:38 | complet |
 | 🟡 | 35 | [Sourcing & première commande](transcriptions/0-to-1-master-one\35-sourcing-premiere-commande.md) | — | partiel |
 | 🟡 | 36 | [Pour aller plus loin dans le détail](transcriptions/0-to-1-master-one\36-pour-aller-plus-loin-dans-le-detail.md) | 1:02 | partiel |
 | 🟡 | 37 | [Logistique et fournisseurs](transcriptions/0-to-1-master-one\37-logistique-et-fournisseurs.md) | — | partiel |
@@ -458,7 +458,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER ACQUISITION
 
-55 leçons · 46 complètes · 9 partielles
+55 leçons · 54 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -509,14 +509,14 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 45 | [Introduction & Présentation](transcriptions/master-acquisition\45-introduction-presentation.md) | 12:08 | complet |
 | ✅ | 46 | [Google Ads Basics](transcriptions/master-acquisition\46-google-ads-basics.md) | 21:01 | complet |
 | ✅ | 47 | [Stratégie de Structuration Ultime en 2026](transcriptions/master-acquisition\47-strategie-de-structuration-ultime-en-2026.md) | 6:04 | complet |
-| 🟡 | 48 | [Paramétrer votre compte](transcriptions/master-acquisition\48-parametrer-votre-compte.md) | — | partiel |
-| 🟡 | 49 | [Setup d’une campagne](transcriptions/master-acquisition\49-setup-d-une-campagne.md) | — | partiel |
-| 🟡 | 50 | [Les stratégies d’enchères](transcriptions/master-acquisition\50-les-strategies-d-encheres.md) | — | partiel |
-| 🟡 | 51 | [Focus : Search](transcriptions/master-acquisition\51-focus-search.md) | — | partiel |
-| 🟡 | 52 | [Focus : PMAX & Shopping](transcriptions/master-acquisition\52-focus-pmax-shopping.md) | — | partiel |
-| 🟡 | 53 | [Focus : Demand Gen](transcriptions/master-acquisition\53-focus-demand-gen.md) | — | partiel |
-| 🟡 | 54 | [Allocation budgétaire & KPIs](transcriptions/master-acquisition\54-allocation-budgetaire-kpis.md) | — | partiel |
-| 🟡 | 55 | [Bonus [Slide] GMC - Éviter les bans](transcriptions/master-acquisition\55-bonus-slide-gmc-eviter-les-bans.md) | — | partiel |
+| ✅ | 48 | [Paramétrer votre compte](transcriptions/master-acquisition\48-parametrer-votre-compte.md) | 21:30 | complet |
+| ✅ | 49 | [Setup d’une campagne](transcriptions/master-acquisition\49-setup-d-une-campagne.md) | 10:01 | complet |
+| ✅ | 50 | [Les stratégies d’enchères](transcriptions/master-acquisition\50-les-strategies-d-encheres.md) | 22:32 | complet |
+| ✅ | 51 | [Focus : Search](transcriptions/master-acquisition\51-focus-search.md) | 20:33 | complet |
+| ✅ | 52 | [Focus : PMAX & Shopping](transcriptions/master-acquisition\52-focus-pmax-shopping.md) | 16:51 | complet |
+| ✅ | 53 | [Focus : Demand Gen](transcriptions/master-acquisition\53-focus-demand-gen.md) | 9:41 | complet |
+| ✅ | 54 | [Allocation budgétaire & KPIs](transcriptions/master-acquisition\54-allocation-budgetaire-kpis.md) | 15:43 | complet |
+| ✅ | 55 | [Bonus [Slide] GMC - Éviter les bans](transcriptions/master-acquisition\55-bonus-slide-gmc-eviter-les-bans.md) | 6:44 | complet |
 
 ## MASTER IA
 
