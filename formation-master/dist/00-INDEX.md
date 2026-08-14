@@ -140,38 +140,38 @@ il ne faut jamais répondre à sa place.
 - ✅ **01 — Opportunité Creative Insight** · 1:45
 - ✅ **02 — Analyse créative [exemple]** · 10:56
 - ✅ **03 — Ep #61 - 3 New format static à tester** · 10:57
-- 🟡 **04 — Ep #62 -   Raw Talking Heads & statiques animés** 
-- 🟡 **05 — Ep #57 - Changer la psychologie de vos ads** 
-- 🟡 **06 — Ep #58 - Styles d'ads cartoons qui performent** 
-- 🟡 **07 — Ep #59 - Débloquer de nouveaux avatars et ethnies** 
-- 🟡 **08 — Ep #60 - Créer une musique pour vos ads** 
-- 🟡 **09 — Ep #53 - Skill Native Ads Copy via Claude Code** 
-- 🟡 **10 — Ep #54 - 4 phases, 12 questions pour vos créas** 
-- 🟡 **11 — Ep #55 - 4 phases, 12 questions pour vos créas** 
-- 🟡 **12 — Ep #56 - Créer des UGC IA ultra réalistes** 
-- 🟡 **13 — Ep #48 - Différents Style & Concepts d'Ads Winner** 
-- 🟡 **14 — Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2** 
-- 🟡 **15 — Ep #50 - 'Official Apology Statement' Framework** 
-- 🟡 **16 — Ep #51 - Skill AI Ads Modulable** 
-- 🟡 **17 — Ep #52 - Repliquer format organic en ads** 
-- 🟡 **18 — Ep #44 - Master Copy Mining** 
-- 🟡 **19 — Ep #45 - Nouveau Hook** 
-- 🟡 **20 — Ep #46 - ADS Cartoon IA** 
-- 🟡 **21 — Ep #47 - ChatGPT Image 2** 
-- 🟡 **22 — Ep #40 - Stratégie des Ads Controversées** 
-- 🟡 **23 — Ep #41 - Comprendre le CPMR** · 8:27
-- 🟡 **24 — Ep #42 - 4 types de hooks psychologiques** · 8:27
-- 🟡 **25 — Ep #43 - Native Static Ads IA Cloning** · 8:27
-- 🟡 **26 — Ep #36 - Discredit : Stratégie de vente puissante** · 11:36
-- 🟡 **27 — Ep #37 - Le pouvoir de la preuve visuelle** · 11:36
-- 🟡 **28 — Ep #38 - Stratégie de marque à + de 100M$** · 11:36
-- 🟡 **29 — Ep #39 - Ugly Taste / Look / Live test** · 11:36
-- 🟡 **30 — Ep #32 - 10 winning itérations pour une win ads** · 7:45
-- 🟡 **31 — Ep #33 - Jeter la pierre au Vilain (Tips de film)** 
-- 🟡 **32 — Ep #34 - Publicités statiques natives- (Ad Copy)** 
-- 🟡 **33 — Ep #35 - Comment créer 108 ads qui convertissent** · 11:36
-- 🟡 **34 — Ep #28 - Diversité dans les créatives** · 10:01
-- 🟡 **35 — Ep #29 - Narrrative Ads** · 6:50
+- ✅ **04 — Ep #62 -   Raw Talking Heads & statiques animés** · 6:22
+- ✅ **05 — Ep #57 - Changer la psychologie de vos ads** · 12:08
+- ✅ **06 — Ep #58 - Styles d'ads cartoons qui performent** · 8:32
+- ✅ **07 — Ep #59 - Débloquer de nouveaux avatars et ethnies** · 8:06
+- ✅ **08 — Ep #60 - Créer une musique pour vos ads** · 13:56
+- ✅ **09 — Ep #53 - Skill Native Ads Copy via Claude Code** · 8:06
+- ✅ **10 — Ep #54 - 4 phases, 12 questions pour vos créas** · 10:52
+- ✅ **11 — Ep #55 - 4 phases, 12 questions pour vos créas** · 8:06
+- ✅ **12 — Ep #56 - Créer des UGC IA ultra réalistes** · 8:58
+- ✅ **13 — Ep #48 - Différents Style & Concepts d'Ads Winner** · 7:21
+- ✅ **14 — Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2** · 7:33
+- ✅ **15 — Ep #50 - 'Official Apology Statement' Framework** · 9:48
+- ✅ **16 — Ep #51 - Skill AI Ads Modulable** · 8:23
+- ✅ **17 — Ep #52 - Repliquer format organic en ads** · 9:40
+- ✅ **18 — Ep #44 - Master Copy Mining** · 8:35
+- ✅ **19 — Ep #45 - Nouveau Hook** · 2:13
+- ✅ **20 — Ep #46 - ADS Cartoon IA** · 11:13
+- ✅ **21 — Ep #47 - ChatGPT Image 2** · 11:31
+- ✅ **22 — Ep #40 - Stratégie des Ads Controversées** · 5:14
+- ✅ **23 — Ep #41 - Comprendre le CPMR** · 8:27
+- ✅ **24 — Ep #42 - 4 types de hooks psychologiques** · 8:27
+- ✅ **25 — Ep #43 - Native Static Ads IA Cloning** · 8:27
+- ✅ **26 — Ep #36 - Discredit : Stratégie de vente puissante** · 11:36
+- ✅ **27 — Ep #37 - Le pouvoir de la preuve visuelle** · 11:36
+- ✅ **28 — Ep #38 - Stratégie de marque à + de 100M$** · 11:36
+- ✅ **29 — Ep #39 - Ugly Taste / Look / Live test** · 11:36
+- ✅ **30 — Ep #32 - 10 winning itérations pour une win ads** · 7:45
+- ✅ **31 — Ep #33 - Jeter la pierre au Vilain (Tips de film)** · 8:44
+- ✅ **32 — Ep #34 - Publicités statiques natives- (Ad Copy)** · 8:37
+- ✅ **33 — Ep #35 - Comment créer 108 ads qui convertissent** · 11:36
+- ✅ **34 — Ep #28 - Diversité dans les créatives** · 10:01
+- ✅ **35 — Ep #29 - Narrrative Ads** · 6:50
 - 🟡 **36 — Ep #30 - Curiosité + Reverse Psychology** · 9:35
 - 🟡 **37 — Ep #31 - Techniques Psychologiques Coca-Cola** · 11:32
 - 🟡 **38 — Ep #23 - AI Review Mining Prompt** · 3:14

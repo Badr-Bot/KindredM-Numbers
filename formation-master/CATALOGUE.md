@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 168 complètes (26 %)**
+**624 leçons au total · 200 complètes (32 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -149,45 +149,45 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRÉATIVE INSIGHT
 
-64 leçons · 3 complètes · 61 partielles
+64 leçons · 35 complètes · 29 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | ✅ | 1 | [Opportunité Creative Insight](transcriptions/creative-insight\01-opportunite-creative-insight.md) | 1:45 | complet |
 | ✅ | 2 | [Analyse créative [exemple]](transcriptions/creative-insight\02-analyse-creative-exemple.md) | 10:56 | complet |
 | ✅ | 3 | [Ep #61 - 3 New format static à tester](transcriptions/creative-insight\03-ep-61-3-new-format-static-a-tester.md) | 10:57 | complet |
-| 🟡 | 4 | [Ep #62 -   Raw Talking Heads & statiques animés](transcriptions/creative-insight\04-ep-62-raw-talking-heads-statiques-animes.md) | — | partiel |
-| 🟡 | 5 | [Ep #57 - Changer la psychologie de vos ads](transcriptions/creative-insight\05-ep-57-changer-la-psychologie-de-vos-ads.md) | — | partiel |
-| 🟡 | 6 | [Ep #58 - Styles d'ads cartoons qui performent](transcriptions/creative-insight\06-ep-58-styles-d-ads-cartoons-qui-performent.md) | — | partiel |
-| 🟡 | 7 | [Ep #59 - Débloquer de nouveaux avatars et ethnies](transcriptions/creative-insight\07-ep-59-debloquer-de-nouveaux-avatars-et-ethnies.md) | — | partiel |
-| 🟡 | 8 | [Ep #60 - Créer une musique pour vos ads](transcriptions/creative-insight\08-ep-60-creer-une-musique-pour-vos-ads.md) | — | partiel |
-| 🟡 | 9 | [Ep #53 - Skill Native Ads Copy via Claude Code](transcriptions/creative-insight\09-ep-53-skill-native-ads-copy-via-claude.md) | — | partiel |
-| 🟡 | 10 | [Ep #54 - 4 phases, 12 questions pour vos créas](transcriptions/creative-insight\10-ep-54-4-phases-12-questions-pour-vos.md) | — | partiel |
-| 🟡 | 11 | [Ep #55 - 4 phases, 12 questions pour vos créas](transcriptions/creative-insight\11-ep-55-4-phases-12-questions-pour-vos.md) | — | partiel |
-| 🟡 | 12 | [Ep #56 - Créer des UGC IA ultra réalistes](transcriptions/creative-insight\12-ep-56-creer-des-ugc-ia-ultra-realistes.md) | — | partiel |
-| 🟡 | 13 | [Ep #48 - Différents Style & Concepts d'Ads Winner](transcriptions/creative-insight\13-ep-48-differents-style-concepts-d-ads-winner.md) | — | partiel |
-| 🟡 | 14 | [Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2](transcriptions/creative-insight\14-ep-49-ads-storyboard-avec-seedance-2-0.md) | — | partiel |
-| 🟡 | 15 | [Ep #50 - 'Official Apology Statement' Framework](transcriptions/creative-insight\15-ep-50-official-apology-statement-framework.md) | — | partiel |
-| 🟡 | 16 | [Ep #51 - Skill AI Ads Modulable](transcriptions/creative-insight\16-ep-51-skill-ai-ads-modulable.md) | — | partiel |
-| 🟡 | 17 | [Ep #52 - Repliquer format organic en ads](transcriptions/creative-insight\17-ep-52-repliquer-format-organic-en-ads.md) | — | partiel |
-| 🟡 | 18 | [Ep #44 - Master Copy Mining](transcriptions/creative-insight\18-ep-44-master-copy-mining.md) | — | partiel |
-| 🟡 | 19 | [Ep #45 - Nouveau Hook](transcriptions/creative-insight\19-ep-45-nouveau-hook.md) | — | partiel |
-| 🟡 | 20 | [Ep #46 - ADS Cartoon IA](transcriptions/creative-insight\20-ep-46-ads-cartoon-ia.md) | — | partiel |
-| 🟡 | 21 | [Ep #47 - ChatGPT Image 2](transcriptions/creative-insight\21-ep-47-chatgpt-image-2.md) | — | partiel |
-| 🟡 | 22 | [Ep #40 - Stratégie des Ads Controversées](transcriptions/creative-insight\22-ep-40-strategie-des-ads-controversees.md) | — | partiel |
-| 🟡 | 23 | [Ep #41 - Comprendre le CPMR](transcriptions/creative-insight\23-ep-41-comprendre-le-cpmr.md) | 8:27 | partiel |
-| 🟡 | 24 | [Ep #42 - 4 types de hooks psychologiques](transcriptions/creative-insight\24-ep-42-4-types-de-hooks-psychologiques.md) | 8:27 | partiel |
-| 🟡 | 25 | [Ep #43 - Native Static Ads IA Cloning](transcriptions/creative-insight\25-ep-43-native-static-ads-ia-cloning.md) | 8:27 | partiel |
-| 🟡 | 26 | [Ep #36 - Discredit : Stratégie de vente puissante](transcriptions/creative-insight\26-ep-36-discredit-strategie-de-vente-puissante.md) | 11:36 | partiel |
-| 🟡 | 27 | [Ep #37 - Le pouvoir de la preuve visuelle](transcriptions/creative-insight\27-ep-37-le-pouvoir-de-la-preuve-visuelle.md) | 11:36 | partiel |
-| 🟡 | 28 | [Ep #38 - Stratégie de marque à + de 100M$](transcriptions/creative-insight\28-ep-38-strategie-de-marque-a-de-100m.md) | 11:36 | partiel |
-| 🟡 | 29 | [Ep #39 - Ugly Taste / Look / Live test](transcriptions/creative-insight\29-ep-39-ugly-taste-look-live-test.md) | 11:36 | partiel |
-| 🟡 | 30 | [Ep #32 - 10 winning itérations pour une win ads](transcriptions/creative-insight\30-ep-32-10-winning-iterations-pour-une-win.md) | 7:45 | partiel |
-| 🟡 | 31 | [Ep #33 - Jeter la pierre au Vilain (Tips de film)](transcriptions/creative-insight\31-ep-33-jeter-la-pierre-au-vilain-tips.md) | — | partiel |
-| 🟡 | 32 | [Ep #34 - Publicités statiques natives- (Ad Copy)](transcriptions/creative-insight\32-ep-34-publicites-statiques-natives-ad-copy.md) | — | partiel |
-| 🟡 | 33 | [Ep #35 - Comment créer 108 ads qui convertissent](transcriptions/creative-insight\33-ep-35-comment-creer-108-ads-qui-convertissent.md) | 11:36 | partiel |
-| 🟡 | 34 | [Ep #28 - Diversité dans les créatives](transcriptions/creative-insight\34-ep-28-diversite-dans-les-creatives.md) | 10:01 | partiel |
-| 🟡 | 35 | [Ep #29 - Narrrative Ads](transcriptions/creative-insight\35-ep-29-narrrative-ads.md) | 6:50 | partiel |
+| ✅ | 4 | [Ep #62 -   Raw Talking Heads & statiques animés](transcriptions/creative-insight\04-ep-62-raw-talking-heads-statiques-animes.md) | 6:22 | complet |
+| ✅ | 5 | [Ep #57 - Changer la psychologie de vos ads](transcriptions/creative-insight\05-ep-57-changer-la-psychologie-de-vos-ads.md) | 12:08 | complet |
+| ✅ | 6 | [Ep #58 - Styles d'ads cartoons qui performent](transcriptions/creative-insight\06-ep-58-styles-d-ads-cartoons-qui-performent.md) | 8:32 | complet |
+| ✅ | 7 | [Ep #59 - Débloquer de nouveaux avatars et ethnies](transcriptions/creative-insight\07-ep-59-debloquer-de-nouveaux-avatars-et-ethnies.md) | 8:06 | complet |
+| ✅ | 8 | [Ep #60 - Créer une musique pour vos ads](transcriptions/creative-insight\08-ep-60-creer-une-musique-pour-vos-ads.md) | 13:56 | complet |
+| ✅ | 9 | [Ep #53 - Skill Native Ads Copy via Claude Code](transcriptions/creative-insight\09-ep-53-skill-native-ads-copy-via-claude.md) | 8:06 | complet |
+| ✅ | 10 | [Ep #54 - 4 phases, 12 questions pour vos créas](transcriptions/creative-insight\10-ep-54-4-phases-12-questions-pour-vos.md) | 10:52 | complet |
+| ✅ | 11 | [Ep #55 - 4 phases, 12 questions pour vos créas](transcriptions/creative-insight\11-ep-55-4-phases-12-questions-pour-vos.md) | 8:06 | complet |
+| ✅ | 12 | [Ep #56 - Créer des UGC IA ultra réalistes](transcriptions/creative-insight\12-ep-56-creer-des-ugc-ia-ultra-realistes.md) | 8:58 | complet |
+| ✅ | 13 | [Ep #48 - Différents Style & Concepts d'Ads Winner](transcriptions/creative-insight\13-ep-48-differents-style-concepts-d-ads-winner.md) | 7:21 | complet |
+| ✅ | 14 | [Ep #49 - Ads Storyboard Avec Seedance 2.0 & GPT2](transcriptions/creative-insight\14-ep-49-ads-storyboard-avec-seedance-2-0.md) | 7:33 | complet |
+| ✅ | 15 | [Ep #50 - 'Official Apology Statement' Framework](transcriptions/creative-insight\15-ep-50-official-apology-statement-framework.md) | 9:48 | complet |
+| ✅ | 16 | [Ep #51 - Skill AI Ads Modulable](transcriptions/creative-insight\16-ep-51-skill-ai-ads-modulable.md) | 8:23 | complet |
+| ✅ | 17 | [Ep #52 - Repliquer format organic en ads](transcriptions/creative-insight\17-ep-52-repliquer-format-organic-en-ads.md) | 9:40 | complet |
+| ✅ | 18 | [Ep #44 - Master Copy Mining](transcriptions/creative-insight\18-ep-44-master-copy-mining.md) | 8:35 | complet |
+| ✅ | 19 | [Ep #45 - Nouveau Hook](transcriptions/creative-insight\19-ep-45-nouveau-hook.md) | 2:13 | complet |
+| ✅ | 20 | [Ep #46 - ADS Cartoon IA](transcriptions/creative-insight\20-ep-46-ads-cartoon-ia.md) | 11:13 | complet |
+| ✅ | 21 | [Ep #47 - ChatGPT Image 2](transcriptions/creative-insight\21-ep-47-chatgpt-image-2.md) | 11:31 | complet |
+| ✅ | 22 | [Ep #40 - Stratégie des Ads Controversées](transcriptions/creative-insight\22-ep-40-strategie-des-ads-controversees.md) | 5:14 | complet |
+| ✅ | 23 | [Ep #41 - Comprendre le CPMR](transcriptions/creative-insight\23-ep-41-comprendre-le-cpmr.md) | 8:27 | complet |
+| ✅ | 24 | [Ep #42 - 4 types de hooks psychologiques](transcriptions/creative-insight\24-ep-42-4-types-de-hooks-psychologiques.md) | 8:27 | complet |
+| ✅ | 25 | [Ep #43 - Native Static Ads IA Cloning](transcriptions/creative-insight\25-ep-43-native-static-ads-ia-cloning.md) | 8:27 | complet |
+| ✅ | 26 | [Ep #36 - Discredit : Stratégie de vente puissante](transcriptions/creative-insight\26-ep-36-discredit-strategie-de-vente-puissante.md) | 11:36 | complet |
+| ✅ | 27 | [Ep #37 - Le pouvoir de la preuve visuelle](transcriptions/creative-insight\27-ep-37-le-pouvoir-de-la-preuve-visuelle.md) | 11:36 | complet |
+| ✅ | 28 | [Ep #38 - Stratégie de marque à + de 100M$](transcriptions/creative-insight\28-ep-38-strategie-de-marque-a-de-100m.md) | 11:36 | complet |
+| ✅ | 29 | [Ep #39 - Ugly Taste / Look / Live test](transcriptions/creative-insight\29-ep-39-ugly-taste-look-live-test.md) | 11:36 | complet |
+| ✅ | 30 | [Ep #32 - 10 winning itérations pour une win ads](transcriptions/creative-insight\30-ep-32-10-winning-iterations-pour-une-win.md) | 7:45 | complet |
+| ✅ | 31 | [Ep #33 - Jeter la pierre au Vilain (Tips de film)](transcriptions/creative-insight\31-ep-33-jeter-la-pierre-au-vilain-tips.md) | 8:44 | complet |
+| ✅ | 32 | [Ep #34 - Publicités statiques natives- (Ad Copy)](transcriptions/creative-insight\32-ep-34-publicites-statiques-natives-ad-copy.md) | 8:37 | complet |
+| ✅ | 33 | [Ep #35 - Comment créer 108 ads qui convertissent](transcriptions/creative-insight\33-ep-35-comment-creer-108-ads-qui-convertissent.md) | 11:36 | complet |
+| ✅ | 34 | [Ep #28 - Diversité dans les créatives](transcriptions/creative-insight\34-ep-28-diversite-dans-les-creatives.md) | 10:01 | complet |
+| ✅ | 35 | [Ep #29 - Narrrative Ads](transcriptions/creative-insight\35-ep-29-narrrative-ads.md) | 6:50 | complet |
 | 🟡 | 36 | [Ep #30 - Curiosité + Reverse Psychology](transcriptions/creative-insight\36-ep-30-curiosite-reverse-psychology.md) | 9:35 | partiel |
 | 🟡 | 37 | [Ep #31 - Techniques Psychologiques Coca-Cola](transcriptions/creative-insight\37-ep-31-techniques-psychologiques-coca-cola.md) | 11:32 | partiel |
 | 🟡 | 38 | [Ep #23 - AI Review Mining Prompt](transcriptions/creative-insight\38-ep-23-ai-review-mining-prompt.md) | 3:14 | partiel |
