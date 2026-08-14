@@ -2,9 +2,9 @@
 module: MASTER ACQUISITION
 lecon: 33
 titre: "🆕 Outscale ton concurrent"
-duree: ""
+duree: "3:14"
 url: "https://www.skool.com/master/classroom/4d936265?md=04891cf741284a41aed1bb0f2e135297"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -82,6 +82,22 @@ Cette technique s'adresse à des annonceurs qui ont déjà un funnel validé et 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, petit golden nuggets, comment outskill ton compétiteur ? Ok, ça ça va être pour quelqu'un qui veut vraiment détrôner un gros compétiteur en place et qui a les moyens. Ce type là a été partagé par par quelqu'un en fait qui fait plusieurs millions par mois et qui
+
+[00:21] est dans une niche très très prisée et simplement il m'a expliqué que lui aux us dans la niche de la beauty ok ce qui fait pour outskill des compétiteurs c'est technique là ok et cette technique là marche on l'a retesté et d'autres personnes vont valider. Le but simplement c'est de venir prendre la place du compétiteur sur le même public c'est-à-dire si quelqu'un marche
+
+[00:46] dans un marché avec un produit sur une pôle d'audience basée nous on va venir aller prendre cette pôle d'audience. La technique c'est quoi ? C'est de faire un spy insider ok c'est-à-dire on va venir spyer le compétiteur et on va venir voir ces budgets ces bides qu'il a s'il fait des big cap ou cos cap et simplement nous on va viser
+
+[01:08] le même CP avec le compétiteur mais qu'un budget plus élevé c'est-à-dire qu'on va arriver et on va bien sûr ça c'est c'est une technique avancée c'est-à-dire que vous avez déjà funnel validé vous avez déjà des crawinous validés et ça va être juste un tips médiabye pour vous permettre de passer devant et vous ce que vous allez faire c'est mettre plus de budget que le compétiteur avec
+
+[01:30] plus un bid ou un cos cap plus élevé donc vous ce que vous allez faire c'est que vous allez voir le compétiteur vous allez voir ok lui il a des compagnes on va dire à Dica s'il a des compagnes de bid il a 40 s'il a des compagnes de cos cap il a 25 ok le bid sera plus intéressant que le cos cap je parle et que du bid ici parce que le cos cap ça fonctionne un peu différemment donc on va dire il a 42 bid vous ce que vous allez faire c'est mettre
+
+[01:54] 20 30 40 avec un bid à 41 par exemple 42 mais pas très loin de ce qu'il est mais juste en fait pour montrer un méta vous êtes plus avantageux que lui et que vous pouvez prendre le bid si vous avez un beau taux de coversion de rété des bonnes créatifs ok ça c'est juste pour passer devant niveau médiabye donc le but c'est de passer devant avec plus de budget ok de mettre par exemple trois fois plus de budget 30 cas à 42 et
+
+[02:19] ensuite de baisser le bid parce que là vous allez gagner les enchères et ensuite vous baisser gentiment et après si vous êtes rentable va vous allez pouvoir augmenter simplement le budget donc ces techniques là elle a apprend à précaution pourquoi parce que sur les premiers jours vous serez certainement pas rentable parce que mais t'as vous de la voir si vous êtes meilleur que lui et ensuite vous allez commencer à être rentable au prix
+
+[02:41] qui est venu et vous allez pouvoir ensuite diminuer légèrement le bid donc c'est une technique pour prendre des poules d'audience et vite avoir beaucoup de budget en fait sur une compagne et et sur le compétiteur ça va l'impacter aussi parce que lui simplement il va voir une baisse en fait dans ses résultats parce que il devra augmenter son bid ou augmenter son budget
+
+[03:02] et si il reste pareil elle va se boucler gagner l'encharre donc voilà technique très très inventée gros golden nuggets pour ceux qui veulent ceux qui tournent à au budget à cette émette de la météo

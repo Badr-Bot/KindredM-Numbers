@@ -447,24 +447,24 @@ il ne faut jamais répondre à sa place.
 - ✅ **27 — 🆕 35k-100k Day Protocole** · 2:13
 - ✅ **28 — 🆕 100k-300k+ Day Protocole** · 3:53
 - ✅ **29 — 🆕 Maintenir un compte en bonne santé** · 5:02
-- 🟡 **30 — 🆕 L'algorithme Meta, ce que personne ne te dit** 
-- 🟡 **31 — 🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day** 
-- 🟡 **32 — 🆕 Les erreurs fréquentes et instabilité** 
-- 🟡 **33 — 🆕 Outscale ton concurrent** 
-- 🟡 **34 — 🆕 Prise de décision - Du testing au scaling** 
-- 🟡 **35 — 🆕 Le protocole de prise de décision** 
-- 🟡 **36 — 🆕 Processus de testing** 
-- 🟡 **37 — 🆕 Marquer et dispatcher les ads winneuses** 
-- 🟡 **38 — 🆕 Calculer son BE ROAS** 
-- 🟡 **39 — Scaler Post AndroMeda sur Meta - Playbook Complet** 
-- 🟡 **40 — Scaler Post AndroMeda - Playbook Complet 2/4** 
-- 🟡 **41 — Scaler Post AndroMeda - Playbook Complet 3/4** 
-- 🟡 **42 — Scaler Post AndroMeda - Playbook Complet 4/4** 
-- 🟡 **43 — TikTok Ads - Partie 1** 
-- 🟡 **44 — TikTok Ads - Partie 2** 
-- 🟡 **45 — Introduction & Présentation** 
-- 🟡 **46 — Google Ads Basics** 
-- 🟡 **47 — Stratégie de Structuration Ultime en 2026** 
+- ✅ **30 — 🆕 L'algorithme Meta, ce que personne ne te dit** · 19:33
+- ✅ **31 — 🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day** · 17:46
+- ✅ **32 — 🆕 Les erreurs fréquentes et instabilité** · 16:45
+- ✅ **33 — 🆕 Outscale ton concurrent** · 3:14
+- ✅ **34 — 🆕 Prise de décision - Du testing au scaling** · 25:56
+- ✅ **35 — 🆕 Le protocole de prise de décision** · 19:41
+- ✅ **36 — 🆕 Processus de testing** · 12:08
+- ✅ **37 — 🆕 Marquer et dispatcher les ads winneuses** · 15:55
+- ✅ **38 — 🆕 Calculer son BE ROAS** · 12:23
+- ✅ **39 — Scaler Post AndroMeda sur Meta - Playbook Complet** · 10:52
+- ✅ **40 — Scaler Post AndroMeda - Playbook Complet 2/4** · 8:57
+- ✅ **41 — Scaler Post AndroMeda - Playbook Complet 3/4** · 11:20
+- ✅ **42 — Scaler Post AndroMeda - Playbook Complet 4/4** · 12:40
+- ✅ **43 — TikTok Ads - Partie 1** · 16:19
+- ✅ **44 — TikTok Ads - Partie 2** · 14:27
+- ✅ **45 — Introduction & Présentation** · 12:08
+- ✅ **46 — Google Ads Basics** · 21:01
+- ✅ **47 — Stratégie de Structuration Ultime en 2026** · 6:04
 - 🟡 **48 — Paramétrer votre compte** 
 - 🟡 **49 — Setup d’une campagne** 
 - 🟡 **50 — Les stratégies d’enchères** 

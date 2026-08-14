@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 91 complètes (14 %)**
+**624 leçons au total · 109 complètes (17 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -458,7 +458,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER ACQUISITION
 
-55 leçons · 28 complètes · 27 partielles
+55 leçons · 46 complètes · 9 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -491,24 +491,24 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 27 | [🆕 35k-100k Day Protocole](transcriptions/master-acquisition\27-35k-100k-day-protocole.md) | 2:13 | complet |
 | ✅ | 28 | [🆕 100k-300k+ Day Protocole](transcriptions/master-acquisition\28-100k-300k-day-protocole.md) | 3:53 | complet |
 | ✅ | 29 | [🆕 Maintenir un compte en bonne santé](transcriptions/master-acquisition\29-maintenir-un-compte-en-bonne-sante.md) | 5:02 | complet |
-| 🟡 | 30 | [🆕 L'algorithme Meta, ce que personne ne te dit](transcriptions/master-acquisition\30-l-algorithme-meta-ce-que-personne-ne-te.md) | — | partiel |
-| 🟡 | 31 | [🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day](transcriptions/master-acquisition\31-strategie-bid-cap-inflated-de-10-a-100k.md) | — | partiel |
-| 🟡 | 32 | [🆕 Les erreurs fréquentes et instabilité](transcriptions/master-acquisition\32-les-erreurs-frequentes-et-instabilite.md) | — | partiel |
-| 🟡 | 33 | [🆕 Outscale ton concurrent](transcriptions/master-acquisition\33-outscale-ton-concurrent.md) | — | partiel |
-| 🟡 | 34 | [🆕 Prise de décision - Du testing au scaling](transcriptions/master-acquisition\34-prise-de-decision-du-testing-au-scaling.md) | — | partiel |
-| 🟡 | 35 | [🆕 Le protocole de prise de décision](transcriptions/master-acquisition\35-le-protocole-de-prise-de-decision.md) | — | partiel |
-| 🟡 | 36 | [🆕 Processus de testing](transcriptions/master-acquisition\36-processus-de-testing.md) | — | partiel |
-| 🟡 | 37 | [🆕 Marquer et dispatcher les ads winneuses](transcriptions/master-acquisition\37-marquer-et-dispatcher-les-ads-winneuses.md) | — | partiel |
-| 🟡 | 38 | [🆕 Calculer son BE ROAS](transcriptions/master-acquisition\38-calculer-son-be-roas.md) | — | partiel |
-| 🟡 | 39 | [Scaler Post AndroMeda sur Meta - Playbook Complet](transcriptions/master-acquisition\39-scaler-post-andromeda-sur-meta-playbook-complet.md) | — | partiel |
-| 🟡 | 40 | [Scaler Post AndroMeda - Playbook Complet 2/4](transcriptions/master-acquisition\40-scaler-post-andromeda-playbook-complet-2-4.md) | — | partiel |
-| 🟡 | 41 | [Scaler Post AndroMeda - Playbook Complet 3/4](transcriptions/master-acquisition\41-scaler-post-andromeda-playbook-complet-3-4.md) | — | partiel |
-| 🟡 | 42 | [Scaler Post AndroMeda - Playbook Complet 4/4](transcriptions/master-acquisition\42-scaler-post-andromeda-playbook-complet-4-4.md) | — | partiel |
-| 🟡 | 43 | [TikTok Ads - Partie 1](transcriptions/master-acquisition\43-tiktok-ads-partie-1.md) | — | partiel |
-| 🟡 | 44 | [TikTok Ads - Partie 2](transcriptions/master-acquisition\44-tiktok-ads-partie-2.md) | — | partiel |
-| 🟡 | 45 | [Introduction & Présentation](transcriptions/master-acquisition\45-introduction-presentation.md) | — | partiel |
-| 🟡 | 46 | [Google Ads Basics](transcriptions/master-acquisition\46-google-ads-basics.md) | — | partiel |
-| 🟡 | 47 | [Stratégie de Structuration Ultime en 2026](transcriptions/master-acquisition\47-strategie-de-structuration-ultime-en-2026.md) | — | partiel |
+| ✅ | 30 | [🆕 L'algorithme Meta, ce que personne ne te dit](transcriptions/master-acquisition\30-l-algorithme-meta-ce-que-personne-ne-te.md) | 19:33 | complet |
+| ✅ | 31 | [🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day](transcriptions/master-acquisition\31-strategie-bid-cap-inflated-de-10-a-100k.md) | 17:46 | complet |
+| ✅ | 32 | [🆕 Les erreurs fréquentes et instabilité](transcriptions/master-acquisition\32-les-erreurs-frequentes-et-instabilite.md) | 16:45 | complet |
+| ✅ | 33 | [🆕 Outscale ton concurrent](transcriptions/master-acquisition\33-outscale-ton-concurrent.md) | 3:14 | complet |
+| ✅ | 34 | [🆕 Prise de décision - Du testing au scaling](transcriptions/master-acquisition\34-prise-de-decision-du-testing-au-scaling.md) | 25:56 | complet |
+| ✅ | 35 | [🆕 Le protocole de prise de décision](transcriptions/master-acquisition\35-le-protocole-de-prise-de-decision.md) | 19:41 | complet |
+| ✅ | 36 | [🆕 Processus de testing](transcriptions/master-acquisition\36-processus-de-testing.md) | 12:08 | complet |
+| ✅ | 37 | [🆕 Marquer et dispatcher les ads winneuses](transcriptions/master-acquisition\37-marquer-et-dispatcher-les-ads-winneuses.md) | 15:55 | complet |
+| ✅ | 38 | [🆕 Calculer son BE ROAS](transcriptions/master-acquisition\38-calculer-son-be-roas.md) | 12:23 | complet |
+| ✅ | 39 | [Scaler Post AndroMeda sur Meta - Playbook Complet](transcriptions/master-acquisition\39-scaler-post-andromeda-sur-meta-playbook-complet.md) | 10:52 | complet |
+| ✅ | 40 | [Scaler Post AndroMeda - Playbook Complet 2/4](transcriptions/master-acquisition\40-scaler-post-andromeda-playbook-complet-2-4.md) | 8:57 | complet |
+| ✅ | 41 | [Scaler Post AndroMeda - Playbook Complet 3/4](transcriptions/master-acquisition\41-scaler-post-andromeda-playbook-complet-3-4.md) | 11:20 | complet |
+| ✅ | 42 | [Scaler Post AndroMeda - Playbook Complet 4/4](transcriptions/master-acquisition\42-scaler-post-andromeda-playbook-complet-4-4.md) | 12:40 | complet |
+| ✅ | 43 | [TikTok Ads - Partie 1](transcriptions/master-acquisition\43-tiktok-ads-partie-1.md) | 16:19 | complet |
+| ✅ | 44 | [TikTok Ads - Partie 2](transcriptions/master-acquisition\44-tiktok-ads-partie-2.md) | 14:27 | complet |
+| ✅ | 45 | [Introduction & Présentation](transcriptions/master-acquisition\45-introduction-presentation.md) | 12:08 | complet |
+| ✅ | 46 | [Google Ads Basics](transcriptions/master-acquisition\46-google-ads-basics.md) | 21:01 | complet |
+| ✅ | 47 | [Stratégie de Structuration Ultime en 2026](transcriptions/master-acquisition\47-strategie-de-structuration-ultime-en-2026.md) | 6:04 | complet |
 | 🟡 | 48 | [Paramétrer votre compte](transcriptions/master-acquisition\48-parametrer-votre-compte.md) | — | partiel |
 | 🟡 | 49 | [Setup d’une campagne](transcriptions/master-acquisition\49-setup-d-une-campagne.md) | — | partiel |
 | 🟡 | 50 | [Les stratégies d’enchères](transcriptions/master-acquisition\50-les-strategies-d-encheres.md) | — | partiel |

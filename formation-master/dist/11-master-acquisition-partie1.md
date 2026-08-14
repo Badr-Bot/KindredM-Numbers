@@ -1,4 +1,4 @@
-# MASTER ACQUISITION
+# MASTER ACQUISITION (partie 1/2)
 
 _Transcriptions de la formation MASTER. Source unique de vérité._
 
@@ -4656,7 +4656,7 @@ Toujours traiter la cause racine d'un problème plutôt que le symptôme, et ne 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 30 : 🆕 L'algorithme Meta, ce que personne ne te dit
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 30
 ======================================================================
 
@@ -4771,16 +4771,122 @@ Le vrai message ici, c'est de ne jamais suivre les recommandations Meta à l'ave
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, l'algorithme meta expliqué en UBD Tra avec le nombre de minutes. J'espère vous faire quelque chose de concis en moins de... Allez, 16 minutes. Pour vous comprenez l'algorithme, ça va être très important. On veut que vous deveniez des masters. Ok, donc pour ça, vous devez comprendre l'algorithme à l'heure actuelle en 2026. La majorité des e-com-gays se pensent que faire de la pub Facebook, c'est du hasard
+
+[00:23] alors que c'est pas du hasard. Ok, faire de la pub rentable sur meta, c'est à la fois un art et une science. Et la science, elle s'explique à travers un algorithme. Ok, je vais vous expliquer l'algorithme et vous auriez ensuite ce doc, bien sûr, pour revoir, nourrir vos IA et vraiment tout comprendre. Donc, ce qu'il faut savoir, c'est que chaque fois que quelqu'un ouvre Instagram, il voit une ade, il y a une fenêtre de 2000 millisecondes
+
+[00:46] pendant laquelle Facebook fait des calculs hallucinants. Il y a un machine learning pour décider quel ade lui montrer. Donc sur une fenêtre de 200 milliseconds, c'est des dizaines de millions d'arts qui sont en compétition pour cette seule impression. Vous êtes en impression en compétition contre des dizaines de millions d'arts. Donc voici le process en quatre étapes, ok ? Vous êtes là.
+
+[01:08] Ensuite, il y a le retrieval, il va venir récupérer. Light ranking, il va venir faire un tri. Heavy ranking, il va faire un tri profond. Auction, il va venir mettre l'encher finale. Toutes les infos que je vous donne, ça vient de meta, ok ? J'invente rien. C'est quelque chose qui est tangible, donné par meta, ok ? Pour comprendre l'algorithme et comment l'algorithme fonctionne.
+
+[01:31] Et c'est validé par mes propres expériences. Donc l'étape 1, Retrieval, c'est la plus intensive d'attache pour meta. Donc à ce stade, on a des dizaines de millions d'arts en compétition pour une seule impression. Et Facebook doit peut-être terminer. Est-ce que ces stats seront même remotely permanentes pour cet utilisateur ? Donc en gros, est-ce que ces stats-là vont pouvoir targeter quel type de personne ?
+
+[01:55] Donc meta, il va analyser ton OOCC en premier, il va analyser ton format, mais principalement, il va analyser tout ce qui est au départ de l'arts. Donc ton OOCC, qu'est-ce que tu montres dans ton OOCC, quel type de visage, quel message pour comprendre en fait à qui de personnes il va pouvoir montrer, ok ? Donc il va analyser ton OOCC, ton format, ta démographie, des personnes visibles dans la créa, ta copie, enfin ton copie,
+
+[02:17] ton script, tes thumbnails, même ta landing page. C'est-à-dire que toutes ces variantes-là, ça peut changer le résultat de votre arts. C'est pour ça qu'un simple OOCC différent peut permettre d'une arts de être pas winners à Spen500K, ok ? Et l'update en Dromeda, ce qui a tout changé, c'est qu'en Dromeda, maintenant, c'est une mise à jour du process retrieval.
+
+[02:38] C'est-à-dire que dans ce process-là, dans cette étape-là, que ça change, ok ? Et comme c'est tout en haut de la file, en Dromeda, c'est ultra important. Je l'ai déjà expliqué dans le school, mais là je voulais expirer d'une autre manière. En Dromeda, maintenant, c'est une mise à jour du process retrieval parce que l'IA est maintenant utilisé pour créer des publicités
+
+[03:03] et aussi pour l'algorithme. Donc en gros, l'ancien modèle de tri ne tenait plus parce que maintenant, il y a trop de volume. Donc, meta, anticipez ceci. Donc résultat, maintenant, Facebook regarde maintenant, principalement, t'as créa pour déterminer ton targeting et pas ce que tu parmiens dans ton asset. Je vous rappelle rien. C'est exactement pour ça que tu vois tes audiences customes ou calais qui intéressent, moins capables de soutenir du budget.
+
+[03:24] La créa fait le haut targeting. Je vous le répète. Donc la nouvelle norme, c'est du bro de targeting à dont t'es plus en sélection bro d'audience, vraiment le plus bro de possible avec vraiment en parsimonie sur le contrôle qu'on donne à Facebook. Il y a des choses qu'en fait, il ne faut pas laisser Facebook agir. Je suis le premier à dire qu'il faut faire confiance à l'algorithme mais il y a certains points qu'il ne faut pas faire confiance.
+
+[03:46] Je vais vous expliquer ensuite quoi. Donc, garde toujours en tête. Facebook est une boîte noire. Tels clients, ils veulent ton oseil. Facebook, c'est comme des chinois. Ils veulent juste notre oseil. Il faut le savoir. Donc ensuite, étape 2, light ranking. Il fait un très rapide. Pas grand chose à dire. Ici, on passe de millions d'ats à milliers. C'est un premier filtre rapide.
+
+[04:07] Là, je n'ai pas plus de données que ça sur ça. Donc pour l'instant, il n'y a rien à faire. Il n'y a rien à expliquer. Ensuite, l'étape 3, heavy ranking. C'est le cœur du game. C'est là que ça se passe vraiment. En fait, on va passer de milliers d'ats à quelques centaines d'ats. Et c'est ici que l'équation entre en jeu. Facebook, il avait publié une documentation officielle sur cette équation. C'est pour ça que je vous le dis.
+
+[04:28] Et ensuite, il en retirait. Je ne sais pas pourquoi mais il en retirait. Mais on peut encore la retrouver et moi je vous la donne ici. Donc ça, c'est quelque chose que peu de personnes ont. Mais en gros, comment mes taffes sont heavy ranking. C'est la totale value. OK, c'est égal. Ce qu'on maximise au niveau advertiser,
+
+[04:48] qu'est-ce qu'on va venir maximiser notre nous, c'est-à-dire en fonction de notre. Notre adse et qu'est-ce que ça va venir maximiser en termes d'expérience client. Qu'est-ce que ça veut dire? Ça veut dire que l'advertiser value,
+
+[05:09] l'advertiser value, c'est le bit fois l'estimate action rate. Ça veut dire quoi? L'estimate, c'était rate fois l'estimate click to conversation rate. C'est-à-dire à quel point les gens vont cliquer sur l'adse et à quel point ça va venir convertir. OK. Et dedans, il y a aussi un aspect de engagement de la personne. Ça, c'est user experience.
+
+[05:31] OK. Mais là, on est dans un point de vue d'adse. Ce qui veut voir meta, c'est OK. Donc, votre adse est performant et génère des conversions. Donc, à quel point ton adse est pertinente pour l'utilisateur, Facebook récompense historiquement les ades avec un CTRLV. OK. En te donnant des cpm plus bas. C'est-à-dire que c'est une très bonne adse. Si je clique, meta va être récompensée. Si ça convertit bien, meta va être récompensée.
+
+[05:52] C'est pour ça que je le répète. Et encore plein de gens ne sont pas d'accord. Mais il ne faut pas avoir, en fait, une landing page qui convertit pas très bien. Enfin, renvoyer un trafic qui convertit pas très bien comme Applevin, du Nativats ou par en petit-tok sur la même landing page que meta. Parce que meta va voir que ton conversion arrête diminue
+
+[06:12] ou n'est pas bon et ça va pénaliser tes ades. OK. Donc, c'est pour ça qu'il ne faut pas faire ça. Si vous avez un canot, autre que meta qui vous a envoyé du trafic, n'utilisez pas la même landing page. Sinon, ça va venir au pénalisé, au point de vue meta. Et nous, on l'a expérimenté. Et vous pouvez l'experimenter. Testez-le et vous verrez. Donc, l'estimier de CTRLV s'en fait bien plus que le CTRLV seul.
+
+[06:36] Quand je dis estimier de CTRLV, c'est pas juste CTRLV seul. C'est une combinaison de toutes et saufs métriques. OK. C'est CTRLV, CPC, CPM ou CREATE, old rate. Cospère 3vue. En gros, c'est tout ce qui va venir mesurer l'engagement et le clique. OK. C'est pour ça que vous pouvez avoir des CPM à 40 avec une ade qui n'est pas forcément bonne et tant qu'une ade qui est plus mieux un CPM à 320.
+
+[06:59] On s'est exagéré mais vous avez plus quelque chose à 20. OK. Ensuite, maximisez l'expérience du utilisateur. Ça, c'est la partie de l'équation qui protège Facebook, OK. Qui est très importante pour Facebook. Il faut une bonne ade. C'est aussi d'un côté, il ne faut pas détruire l'image des utilisateurs parce que Meta, ce qu'il veut, c'est que les plus en plus utilisateurs
+
+[07:20] utilisent la plateforme et qui restent. Sans ça, Meta, il ferait juste de l'argent sur les advertisers. On vous a demandé de ne pas donner et il n'y aurait plus personne à qui montrer les ades. OK. Vous comprenez le cheminement. Donc, Facebook te dit en gros, je veux que tes ades soient ultra pertinents pour utilisateur. Je veux que tu transformes tes clics en conversion. Et je veux que tu ne fasses pas chier mes utilisateurs. En gros, c'est ça. Si tu coches ces trois cases, tu vas gagner les impressions, tu vas battre tes compétiteurs. OK.
+
+[07:42] Donc ça, c'est à prendre en compte. Et dedans, le watch time est important. C'est pour ça que de bonnes vaisselles qui tu entends, qui fait engager la personne, qui crée des émotions à la personne, la personne va partager de personnes, elle va commenter, elle va mettre gem. Ça va venir performer à ce que Meta voit qu'il y a une bonne expérience utilisateur. C'est pour ça que je recommande de faire des compagnes engagement,
+
+[08:05] de faire des faux commentaires Meta, parce que ça va venir descendre les cpm. Meta, il va voir des commentaires, il va voir des gemmes, il va voir que les gens partagent, ça va venir faire descendre vos cpm et augmenter la variété de l'as. OK. Vraiment très important. Et ça, mais pas 0,5% de personnes le savent. Ils le font vraiment. Ensuite, les tapes 4, c'est l'encher finale.
+
+[08:29] Là, on est passé de millions à quelques centaines, voire moi. Maintenant, c'est l'encher. Celui qui l'a plus haut en chair, selon l'équation du dessus, gaine l'impression. Et tu peux jouer avec différentes méthodes de bidding. Le West Coast, OK, ça, c'est Facebook gère pour toi. Qu'au Scrap, tu fixes les coûts max de l'acquisition de la client. Au Scrap, tu fixes le bid max que tu vas mettre. OK. Ça, c'est des techniques pour où te scale tes compétiteurs.
+
+[08:52] Tu te values, tu veux où te scale tes compétiteurs, tu as un peu d'argent, tu vas venir faire un spy Meta, tu vas venir regarder à combien ils ont de CPA, si ils ont des bid caps, tu peux regarder leurs bid caps, et tu vas venir bidder plus haut, à perte au départ, jusqu'à que tu récupères tout son trafic. OK. Tu vas gagner le bid. Ça, c'est une technique avancée. Si tu veux où te scale un compétiteur, que peu de personnes savent et que moi, je vous le révèle ici.
+
+[09:15] Target AirOS, ça aussi, ça dépend, si vous avez en fait un bon funnel ou un site avec plusieurs produits par exemple un site de vêtements, OK, ou c'est que les gens peuvent avoir un plus gros panier moyen, ça c'est très performant. Pareil pour de la cosmétique. Si vous avez un seul produit et pas un funnel, c'est que l'AirOS peut augmenter, ça peut être moins pertinent. Maintenant, je vous conseille de tester les trois.
+
+[09:37] Les quatre. Mais ça, c'est ce qui est de base. Donc le truc à comprendre, je connais des ads qui ont dépensé 5 chefs par jour uniquement sur du low-est cost et qui ont imprimé. On connaît d'autres qui tournent uniquement sur le bid cap. Ce que vous savez, c'est que c'est pas le bid cap qui est la clé. Là, je vous explique juste en fait à quel point chacun deux peut venir un levier sur le business.
+
+[09:58] Donc la visualisation complète du process, je vous ai amené ici, je ne peux pas vous montrer, on vous est compris. Maintenant, trois concepts supplémentaires à maîtriser. La learning phase, OK, la fameuse phase d'apprentissage. Là, officiellement, META te dit que tes ads passent par une phase de learning pour acquérir des conversions
+
+[10:19] et apprendre sur ton client, puis sort d'une phase mature avec des résultats prévisibles. OK ? Mais la vérité brutale, c'est quoi ? C'est que tes ads sont toujours en train d'apprendre. Il n'y a pas vraiment de learning phase qui stabilise la vie. Tout meurt au moment donné. C'est-à-dire que tes ads, elles passent la learning phase et ce n'est pas qu'elles s'envolent. C'est que certaines ads sont de la revue aussi très courte qui peut chuter juste après. OK ?
+
+[10:42] Donc, si tu dépenses moins d'un à qu'un par jour, c'est normal qu'il y ait des fluctuations. OK ? Ce n'est pas que la learning phase, c'est normal qu'il y ait des fluctuations. Facebook, Facebook, c'est une plateforme émotionnelle. C'est des humains derrière, comme toi et comme moi. Donc, tu peux pas être super consistant. Il y aura toujours des mauvais jours et des bons jours. Parce qu'il y a toujours des humains et il y a toujours des choses que tu ne maîtrises pas.
+
+[11:03] Ce que vous savez, c'est qu'ils ne regardent pas au jour le jour, regardent sur une fenêtre de 7 jours. Et si sur 7 jours, c'est vraiment un tendance baissière, c'est que ça risque de baisser. Si ça attende au tiers, ça risque de monter. Mais tu auras des hauts débats, des hauts débats, c'est normal. Si ce n'est qu'au départ, souvent, ça va bien. Parce que là, tu as touché, tu commences et tout est beau. Ce n'est pas toujours le cas, mais ça peut être comme ça.
+
+[11:25] Et au bout d'un moment, dès que la marque a un peu plus de temps, en général, 2 à 3 ans, il y a un cap à passer. Il a les CP augmentés et là, il faut être solide. Ok. Non, on l'a vécu là sur une marque. Sur la troisième année, c'était un challenge. Ok. Et je connais 5 personnes qui aussi ont eu une phase, ce qui devait passer de la 2 à 3e année pour leur marque.
+
+[11:46] Et sur ces 4 personnes, les 4 ont vendu. Parce que les 4 n'ont pas réussi à surpasser cette période. Ok. Mais ils ont eu raison, parce qu'ils n'ont plus revoit d'un bon prix. Ok. C'est pour ça que quand on achète des brands et qu'on a acquéris, qu'on a eu une certaine croissance, des brands qui ont fait 2 ans ou 4 ans,
+
+[12:08] c'est totalement différent. Mais après, il faut continuer à croître. Bref, si tu veux du super consistant, va sur Google. Mais de toute façon, il faut du Google à côté. Ok. C'est ça qui va venir stabiliser. Meta, ça peut être un consistant, mais ça va venir nourrir l'écosystème. Je le rappelle. Ensuite, 2, le signal quality. Meq. Et conversion à pays.
+
+[12:30] En gros, les performances. Meta dépend aussi de la qualité des données que tu lui renvoies. Plus la data est propre, mieux il peut apprendre que tes clients et réduire ton coût par acquisation au long terme. Comment vérifier ? Va dans Event Manager et tu regardes ton score emq. Event Match Quality. C'est pas une corrélation totale. Tu vas avoir un manque à gagner. C'est pour ça que j'encommande 2 setup des outils comme WeTrack,
+
+[12:53] WeTrack Set Top, e-merc, c'est bien aussi e-merc. Et c'est à peu près les 2 qu'on utilise. Ok. Et après, d'analyser des outils d'autorisation comme triple way. Plan gratuit, setup pour analyser les résultats. Ok.
+
+[13:13] Ensuite, la diversité créative. Donc ça, je vous redonne encore des explications. Je préfère toujours vous surexpliquer parce que je veux vous donner des masters. Ok. Je fais pas comme la plupart des gourous qui vous disent une fois. Et voilà, c'est posé. Non, moi si c'est important que je vous réexplique, je vous réexplique et je vous remets. Comme ça, vous venez des masters. Et si on crée des masters.
+
+[13:35] Donc depuis, Andromeda, une narrative s'installée. Tu dois pomper des netmeux concepts, pas des variations. Ok. C'est ce que les gens pensent. C'est faux. Les variations sont toujours hautement efficaces. Mais la vraie mécanique au sein de l'ad set, il y a plusieurs ads. Ok. Talad 1, c'est un nouveau concept original. Ensuite, talad 2, c'est un autre hook. Talad 1, c'est un autre format.
+
+[13:56] C'est une autre démographie. Mais tout ça, c'est pas un net new total. Ok. C'est juste des nouvelles manières d'iterrer. L'ad set, en gros, l'ad set entier représente un nouveau concept. C'est-à-dire que quand on va venir faire un nouvel ad set, il y a un nouveau concept. Mais à l'intérieur, tu peux avoir 4 angles, 4 approches différentes, 4 hooks différents, 4 premières, 6 secondes différents.
+
+[14:18] Ce qui se passe souvent, c'est ton variation numéro 2, finit par le vrai winner. Alors que ton concept original net new est un loser. Ok. Donc si tu vas skipper les variations, tu aurais conclu que le concept était mort. Alors qu'il fallait juste tester le bon hook dessus. C'est pour ça que je recommande, en gros, ça veut dire quoi ? C'est que je recommande de toujours, en fait, faire 4 variations si tu fais du net new.
+
+[14:41] Et d'iterrer aussi des winners en faisant des autres hooks, en faisant des autres formats, en touchant des autres avatars, etc. Mais bref, ça vous retrouve dans les créatifs. C'est juste pour faire un petit rappel, pour être sûr d'être toujours aligné. Ok ? Il ne faut pas faire que du net new depuis Andromeda. Tu peux faire aussi des iterations. Donc prendre une net, ce qui marche bien, de changer le hook, de changer les 6 premières secondes,
+
+[15:02] de parler à un autre avatars, etc. Ok ? Ensuite, les 3 TKW concrets. Pour rappeler, ta targeting, arrête au bon lac, les customes on diance, le K-Lac, etc. Ta targeting, tu perds ton temps. Ok ? Juste un rappel. 2. Fais des cracks et stop le dom-scroll. Plus facile à dire qu'à faire, c'est surtout le sujet de trigé de copéwriting,
+
+[15:23] que vous allez voir, et que le module hook, dans les créatifs, c'est ce que j'en parle, c'est le plus important. Le hook, c'est le plus important. C'est là que tu vas battre, en fait, tous tes compétiteurs. Tu as des bons hooks, tu vas venir outskiller, tous tes compétiteurs. Bien sûr, c'est là que tu as la désiré, la performance, et tu vas venir convertir. 3.
+
+[15:44] Ne flingues pas avec UX. Soit pas le scammer qui pourrait les plateformes, mais Facebook, c'est une erreur. Ok ? Important. Petit mot de fin, comment fonctionne le game réellement ? Là, je vais te dire ce que les autres ne te disent pas. Tout ce que je viens d'appliquer, tout ce que je viens d'expliquer, pardon, c'est pas parler, c'est pas parler de livres,
+
+[16:05] c'est pas parler de livres. C'est pas parler de livres. C'est Facebook qui l'a documenté, mais ensuite retiré. Ok ? C'est des informations qui étaient données par Meta ou des gens qui travaillent chez Meta. Ok ? Ce que je donne, c'est... c'est... c'est... c'est... c'est... c'est pas juste... ce que moi je pense. Donc Facebook, c'est une boîte fort profit américaine côté en bourse. On peut supposer
+
+[16:26] qu'ils ne font pas tout dans les règles de leur propre documentation. Comme la plupart des boîtes, ils pressent les cours d'inventeur pour maximiser leurs revenus. Ils bouchent les petits qui causent 99% de leur mot de tête. C'est pour ça qu'ils bannent facilement, mais les gros annonceurs, eux, ils sont pas bannés. Ok ? Et c'est pour ça que tu vois des adacons de bannis sans raison,
+
+[16:47] des adrefusés, des business manager fermés, des comptes de bannis, des bannes de wave, sur, en fait, des petits joueurs. Et sur les grands joueurs, ça se passe pas comme ça. Du moins, moins. Et pourquoi par vague ? Parce que Meta est public. Ils répondent à leur actionnaire. Selon les earnings, reportes trimestriels, ils vont venir resserrer ces guidelines. C'est-à-dire,
+
+[17:09] ils vont faire des vagues de banes, pas ce qu'ils ont fait. Ils ont eu des... selon l'amour, selon les résultats qu'ils ont, en fait, ils vont venir agir. C'est pour ça qu'en fait, il y a des bannes. Meta, c'est jamais... il faut s'accrocher, parce que des fois, Meta update l'eugorithme, des fois Meta banne, et c'est par vague. Ok ? C'est comme ça que ça fonctionne. Ou Meta se relâche quelques mois plus tard,
+
+[17:30] et ça revient, ok. Il y a toujours des périodes où c'est que c'est... Meta est sympa, ok. C'est exactement pour ça qu'une personne qui run un format date ce qui passe, et qu'un autre run la même créat et se fait rejecter. Facebook ne joue pas par ses propres règles, ok. C'est important à comprendre. Donc que faire une seule règle ? Question everything. Exemple concret, sur le truc du KPI et MQ,
+
+[17:52] signal qualité, théoriquement, plus l'MQ est élevé, plus mieux Facebook devrait optimiser. En pratique, j'ai des setups, service side, hyper propre, avec un MQ à 9, 8, 9, 9, et j'ai aussi un compte avec opportunité score 0, qui est bien plus rentable que n'importe quoi. C'est-à-dire, ne croyez pas Meta sur parole. N'utilisez pas,
+
+[18:13] je veux dire, n'utilisez pas, surtout pas, je vous le dirai, n'utilisez pas les recommandations Meta, ok. Parce que pour l'instant, ce qui est recommandé, c'est bootsheet, ok. Je sais pas pourquoi une recommande, mais tous les optimisations optimisation advantage, c'est du bootsheet, ok. Activer juste,
+
+[18:34] relevé commentaire, ça je vous l'ai déjà dit. Ça rappelle, ok. Quand Meta te dit ça, ce paramètre d'acquisition il va très dur de 11%, n'écoute pas, pense pas toi-même, ou teste-le, ok. Parce que ce qu'il faut savoir, c'est ce classe que je vous dis, peut-être qu'il y a certains trucs qui s'évaluent pour certains comptes, ou certaines niches, ou pas importe, mais surtout, ne vous commencez pas à appliquer parce que Meta te dit ça, ok.
+
+[18:56] Ça c'est l'erreur numéro 1 et je veux pas que ça t'arrive. Donc là, petite minute de silence pour tous ceux qui ont écouté, écouté les suggestions Meta, et qui ont appliqué, ceci va baisser ton coup par résultat de 11%, qui ont vu le rat se partir en couille. Petite minute de silence pour cela. Je vous rassure, ça m'a arrivé à moi aussi,
+
+[19:17] et c'est quelque chose que je teste encore, je challenge encore, c'est-à-dire, Meta me propose des trucs, bien souvent je vais dire non, mais des fois je vais tester. C'est un truc nouveau qui me paraît cohérent, ne sautez pas dessus, ok, c'est pas ça qui va changer le game. Et si il y aura un truc qui change un game, on vous le dira. C'était Matéo, Meto, tchachaa.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 31 : 🆕 Stratégie Bid Cap Inflated - De 10 à 100K/Day
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 31
 ======================================================================
 
@@ -4881,16 +4987,110 @@ Le mindset clé ici, c'est la patience et la discipline : on ne touche presque j
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo mais tellement importante. Je vais vous expliquer la stratégie de Bitcap inflatate. C'est la stratégie qui permet de passer de 10 à 150 à 1 million d'euros. Ok, je n'ai pas fait 1 million d'euros, mais je vais le faire et je pense que c'est ça vraiment qui est GameChanger.
+
+[00:21] Si je vous dis ça, c'est simplement parce que ceux qui font 1 million d'euros le font. Ils font cette stratégie-là et ça permet d'avoir beaucoup de spend et d'avoir en fait des très bons comparés de tas des très bons ROS. Donc c'est l'outil le plus rentable pour imprimer à grande échelle.
+
+[00:43] Ok, c'est-à-dire quand vous avez un funnel validé, quand vous avez des ads validés, quand vous avez tout qui est validé et que vous voulez un coup de pouce niveau médiabye pour rajouter quelques centaines de cas de spend par jour, c'est l'outil qui vous faut. Ok, ce n'est pas un outil miracle, mais par contre ça va vraiment vous aider en phase de ce que ça marche bien. Ok, c'est 100 fois plus efficace que le soft scaling parce que ça, ça va être stable.
+
+[01:05] Donc ça c'est le screenshot de mes comptes, dans les comptes là on était le 5 juin. Et ce qu'il faut savoir c'est que je ne m'astore pas encore cette technique. Je ne spende pas encore un million d'euros avec cette technique, mais on va le faire cette année. Donc si j'ai des updates au niveau de cette stratégie là, je vous la donnerai.
+
+[01:27] Ça, ça me vient directement de personnes qui font plus d'un MDI avec cette technique. Ok, ce n'est rien qui est sorti de mon chapeau, c'est simplement des méthodes qui m'ont été transmises. Ok, et que j'applique. Donc là on peut voir sur une journée avec 64 budgets, ça spende un peu près 13% à 7K et pour un coup par achat à 24 pour nous c'est très bien.
+
+[01:51] Et là par exemple un coup par achat à 19, donc en fait on a des fantastiques retours sur l'investissement avec ces campagnes sauf que là ça spende pas énormément sur ces ces là. Ok, donc vous allez comprendre, mais les campagnes inflatèdes, ça va être principalement quand ça spende un niveau de budget. Ok, le but c'est de passer sur des budgets comme ceci, à du 504 de spend.
+
+[02:15] Je vais mettre un peu plus petit. Sur du 504 de spend, xa spende 3K, 1K, 1K, 1K et met un héro s un coup par résultat vraiment très très bas. Vous voyez les coups de par résultat sont vraiment très bas, beaucoup plus bas que la moyenne en fait du reste. Ok, le golden point, ça c'est pour vous montrer au plus bas que ça peut faire.
+
+[02:42] C'est à dire si vraiment ça spende pas énormément, vous aurez des coups par résultat vraiment très bas et vous pourrez dupliquer des campagnes, il y a avoir du 4 spend, du 4 spend, du 4 spend et là il y a encore plein de campagnes derrière. Ok, maintenant ce qu'on recherche, le golden point, je vous le dirai ensuite, c'est d'avoir 30 à 40% du budget. Ça c'est le golden point. Ok, si là sur les 60, ça spende, je suis très mauvais en calcul, 60 000 x 40, ça spende 24K,
+
+[03:13] à ce niveau là je suis très content, très très content. Ok, et après j'ai qu'à juste à augmenter à 500K. C'est là qu'on peut vraiment rajouter beaucoup de spend. Donc le principe, le bid c'est contrôle du CPA et le spend. Ok, c'est le vrai robinet. Le budget c'est le plafond. On le gonfle, il n'est jamais atteint. C'est ça la principe d'un flintet.
+
+[03:34] Ok, mais ça signale la métal que tu peux absorber. Donc en fait on va acquérir beaucoup plus de trafic et on va gagner des enchères juste par le budget. Ok, c'est un truc important à comprendre. Le créage c'est le moteur du volume. Donc ne jamais confondre le bid et le budget. On le contrôle le spend par le bid et pas par le budget. Ok, si ça spende pas, on va pas augmenter le budget.
+
+[03:58] C'est qu'il y a un problème de créative ou de bid. Donc les pré-requis avant de faire ça, vous avez un funnel qui marche. Ok, vous avez un funnel qui marche, vous êtes en face de scaling. En face de scaling. En phase de scaling. Idealement plus de 30KD. A DKD c'est ok. Mais idéalement en face de scaling. DKD plus.
+
+[04:21] Vous avez 3 créa-winners avec des spend et ROS prouvés, plus de 50-90, chacune. Ok, minimum 3. Ce que vous allez faire, on regarde déjà les pré-requis. Donc CPA break event plus CPA target chiffré. Vous savez vraiment vos chiffres. Et ok, pour brûler peut-être 30 à 40% du budget pendant 48 heures.
+
+[04:44] Vous ne serez pas peut-être rentable directement en 24 heures. Il faut être ok de brûler du budget peut-être pendant 48 heures. Mais quand on peut brûler quelques cas et en faire des dizaines, ça vaut la peine. Donc le setup. Vous allez faire une CBO avec 3-5 compagnes ou plus avec des bid différents. Ok, la stratégie bid cap, budget inflated.
+
+[05:05] C'est-à-dire qu'on va commencer avec un budget assez élevé. Je vous expliquerai ensuite après. Donc le bid cap initial, on va être aux alentours du nouveau customer CPA. Ok, c'est-à-dire pour un nouveau customer, c'est quoi votre CPA break event ? Si c'est de 30, on va commencer entre 30 et 40.
+
+[05:26] 5 max, max. Évidemment, on commence au plus bas. Et si ça se pende pas, on augmente le bid. On ne commence pas trop pour pas que ça se pende trop éparentable. Donc on va faire un ad set avec 15 ads max. Si vous avez plus de 15 banger ads, vous pouvez faire un deuxième ad set.
+
+[05:47] Mais je commencerai au départ avec 15 ads max. On met l'ad set par la suite. Donc pour chez 7 day click, 7 day click, pas de 1 day view. Justement je vous l'aide, je vais bien montrer, bien expliquer, mais je vais le barrer. 7 day click important.
+
+[06:08] Vous pouvez mettre un spend limit pour que si un bid haut, il ne s'en bat le pas. Si vous êtes à 504 budget et qu'il y a un problème quelcombe et qu'il spend 504, vous pouvez mettre un spend limit sur l'ad set pour pas qu'il se pende plus de 10K, 20K, 100K.
+
+[06:28] Donc ça vous pouvez le faire. Naming, on va appeler compagne. Ça dépend de votre naming, mais nous on va nommer que c'est bid cap. On va nommer aussi que c'est un flatté. Un flatté d'ici. Et ensuite on va mettre le bid. Donc là si j'avais un nouveau customer CP à break even à 30, je partirais 30, 33, 35, 37, 40.
+
+[06:53] Ok, je commencerai là. Et ensuite je vous montrerai en fonction du spend. Donc je vais vous expliquer comment ça marche. Donc là vous partez avec vos compagnes. On va rien toucher pendant 48 heures. Donc le budget, ça dépend. Ça dépend. Attendez, je n'ai pas mis ici.
+
+[07:17] Alors, je sais que j'ai mis mon petit... Alors je l'avais mis avant. Attendez, je vais juste vous remettre. Ok, donc le budget, ça dépend en fait du budget. Le gars qui m'a donné ses techniques, lui il fait plusieurs compagnes à 10KD. Ok, il commence à 10KD. C'est un budget qui est élevé. Donc il ne fait plutôt entre 1 et 5KD pour commencer.
+
+[07:39] Parce que vous savez jamais comment ça va réagir. Et ensuite vous pouvez simplement doubler le spend quand c'est profitable sans aucun problème. Donc si on veut viser 3K, idéalement, il faudra setup quelque chose de 10K. Ce qu'il faut savoir, c'est que ça dépense 30-40% et il vous setup quelque chose à 300$. Ça va pas être inflaté. Donc automatiquement mettez minimum 1000 pour vraiment avoir un gain en termes de bid.
+
+[08:04] Ok, c'est-à-dire que le meta vous voit que c'est un gros spender. Donc la phase de lunch, ça c'est le recap. Donc ça va ressembler à ça. Bitcap 30, 33, 35, 37, 40. Ok. Donc là on ne touche à rien pendant 48 heures.
+
+[08:25] On va venir regarder où c'est que ça spende, où c'est que ça ne spende pas. Pourquoi? Et analyser. En gros, qu'est-ce qui va se passer? Ce qu'il faut savoir c'est que les bids ne sont pas gagnés au jour le jour. Ok, peut-être que meta va gagner des bids et qu'ensuite ça va se répercuter 48 heures après. Donc c'est pour ça qu'il faut laisser 48 heures parce que ça n'a rien d'optimiser au jour le jour. Ok, ce qui risque d'arriver c'est que peut-être celle-ci va spender peut-être 0.
+
+[08:48] Ok, donc celle-ci va peut-être spender 0. Celle-ci va peut-être spender... Donc si on a un budget de 1K, 1K ici, 1K, peut-être celle-ci va spender 200. 200, et oui, peut-être 1. Ici, 1K, peut-être qu'ici elle va spender 500, et oui, 250.
+
+[09:14] Ok, 1K, celle-ci va spender 2K, et oui, peut-être 1.8. Et ici, peut-être qu'elle va spender 2K aussi, et oui, 1K, peut-être. Ok, donc en gros, vous allez venir analyser au bout de 2 jours, voilà, qu'est-ce qui se passe, qu'est-ce qui est parentable, etc.
+
+[09:35] Et vous allez venir adapter les bids. Donc je vais vous montrer ensuite comment. Donc si meta pende, a spende, on va venir augmenter le bid de 10 à 15%. Basiquement, c'est plutôt de 1 à 3 dollars ou euros, ok, je vais mettre dollars. Je vais venir descendre le bid de 1 à 3 dollars.
+
+[09:56] Donc là, à place de 35, on va peut-être mettre 37 ou 36, ok. On n'a assez pas de mettre les mêmes bids que là. Donc, admettons que celle-ci ne spende pas assez, on va y mettre 34, ok, ou 35 directement. Pour voir en fait si elle peut aussi avoir un OS de 2.5. Et ce qu'on va faire, c'est qu'on va venir cut les vraiment mauvaises des 48 à 72 heures.
+
+[10:27] Donc là, c'est vraiment si on n'arrive rien à rattraper. Voilà que l'OS, il est bas, ou celui-là, pareil, il spende trop, on a descendu, descendu, et l'OS, il remonte bas. Malgré le fait qu'on est descendu ici ou c'est à 37, c'est la campagne qui est foc-top, ok. Ce qu'il faut comprendre, c'est que des fois, vous avez des campagnes, ce n'est pas parce qu'il y a les mêmes créatives,
+
+[10:49] il y a le même bid qu'elle va être plus autant performante que les autres. Faites le test, lancez la même campagne, 5 fois, 100 bid cap, les mêmes créatives, même post-ID, même modules, etc. Vous allez avoir 5 résultats différents, ok. Nous, ce qu'on veut, c'est juste une campagne winner sur laquelle on va pouvoir sceler. Donc si ce n'est pas rentable, après avoir ajusté, vous coupez, ok.
+
+[11:10] Il n'y a pas de règles précises, simplement vous essayez de descendre le bid, vous voyez que c'est toujours pas rentable, au bout de 3 jours par rentable, on coupe, ok. Donc que le mauvais est-ce des 3 jours par rentable, après optier. C'est-à-dire que vous avez optimisé, vous avez descendu le bid et il se passe 3 jours, c'est toujours pas rentable, on coupe, ok.
+
+[11:32] Si le spend est ok, voilà, ça je l'ai dit, on descend le bid. Si le spend, il est à 30 à 40%, ça c'est Golden Point, ok. C'est-à-dire que si on est à là, bingo. Là, on est bingo et ce qu'on va faire, c'est qu'on va venir augmenter le budget. Double budget. Donc là, on va passer à 2K, 4K, 8K, 16K, etc.
+
+[11:57] Et si ça continue, c'est parfait, ok. C'est ce qu'on veut obtenir. Donc les 10 règles du bid. Le bid, c'est l'orbiné du CPA, le budget, c'est le plafond. On contrôle le spend par le bid, ok. C'est important. C'est-à-dire que c'est en fonction du bid, ça va spend. C'est pas par le budget. Donc c'est la différence par rapport aux autres campagnes.
+
+[12:19] On trouve le bon bid une fois, puis on ne touche presque plus, ok. Ça c'est quand vous avez ça, là, et que ça spend pareil, on ne va pas toucher le bid. C'est-à-dire, les mauvais jours, gardez le même bid, ok. Gardez le même bid, qu'on t'est juste sur d'autres campagnes pour avoir des bids différents. Mais on ne change pas trop le bid, ok. Très important. C'est l'erreur que je faisais moins.
+
+[12:40] Moi, j'essayais toujours changer le bid. Le dimanche, c'était bien. Le lundi, ça descendait. Je changeais le bid. Le mardi, je changeais le bid. Et puis, au final, après, j'étais plus rentable. Donc vraiment important, là, quand vous avez votre compagnie winner, avec le bon bid, etc., ça spend parfaitement, on ne touche plus, quasiment, ok. Si ce n'est des petits ajustements pour voir, en fait, si vous avez pour chercher plus de spend ou pas, ok. De tester, de monter peut-être à 36, 35, 5, pour voir qu'est-ce qui se passe.
+
+[13:05] C'est ok. Mais ne commencez pas à faire des changements drastiques. Pendant le tuning, un seul changement à la fois, puis attendre un deux jours, ok. On ne change pas le budget et le bid. C'est soit l'un, soit l'autre. Puis on laisse voir les résultats pendant un deux jours. À peine de spend, bid plus à 15%, spend, mais c'est pas ok.
+
+[13:25] Ça, c'est l'erreur que je faisais d'ici. On augmente légèrement si ça se spende pas. Et on diminue si ça se spende trop et pas rentable. Maintenant, si ça se spende trop et c'est rentable, ok. Ça, ça arrive, ça, c'est une campagne de bid classique. Simplement, ça n'a pas dû être inflaté. Donc, vous pouvez la garder. Si vous avez une campagne ici, c'est que l'EURS, on va être à 250. Vous pouvez la garder.
+
+[13:46] Simplement, vous pouvez tester de diminuer légèrement le bid pour voir si ça tient. Mais ça, sinon, c'est une campagne de bid classique. Une campagne de bid classique, c'est que ça se spende quasiment tout le budget. Un bon EURS, ok. Sauf que des fois, l'EURS, il va chuter. C'est-à-dire, ça ne va pas être autant haut que ça. Ça risque plutôt d'être un point sept et vous allez rester dans des eaux profitables,
+
+[14:09] plus profitables que le reste, mais vous ne serez pas sur ces EURS-là, ok. Vous ne serez pas ici à des CPA bien plus bas que la moyenne. Donc, si vous avez des campagnes comme ça, c'est ok. Vous pouvez essayer de tester, de diminuer le bid légèrement pour voir si ça peut se spender un peu moins et plus profitable. Sinon, continuez comme ça, ok.
+
+[14:31] Ça marchait puis ça s'arrête. Ne touche pas le bid, c'est les créas, ok. C'est-à-dire, il faut refraîcher les créas dans la tzette. Donc, on va venir rajouter chaque semaine nos big winners. Très au-dessus du bénéficier break even et toujours pas de spend, c'est la créa, l'ALP et pas le bid, ok. Ça, c'est une technique qui marche seulement si tu es scale. Ça ne va pas sauver. C'est-à-dire, si tes créas ne sont pas solides,
+
+[14:52] si elles ne marchent pas ailleurs dans les autres campagnes, là, ça ne va pas faire de miracle, ok. Très important à savoir. Pas paniquer sur les jours à faibles conversion de rate au début de semaine, ok. Ok, important. gonfle le budget, jamais atteint pour s'en aller à meta que tu es prêt à scale. Pour scale, tu montres le budget et le plafond pas le bid, ok. Donc, si tu as 60 cas, tu passes à 180,
+
+[15:15] ensuite à 500, tu montres à meta vraiment que tu es prêt à spend. Ok, mais tu ne vas pas augmenter ton bid pour spend plus de 50% du budget. Habio pour tester, bid cap pour imprimer. Jamais de bid cap sur créa non validé. Ça, je le répète. Si tu dois bouger le bid petit pas, 10 à 15% jamais un souper utile, sinon ça casse le lerni, ok.
+
+[15:36] Tu peux même tester ensuite des bids, de ce que tu es à... On le faisait avant, ça marchait beaucoup mieux. Ou c'est que par exemple, tu es à 40, ok. Et tu vas venir tester 40, 10, 40, 20, 40, 30, etc. Ok, parce qu'il y aura des bids qui sont beaucoup plus profitables, des microbids, ok.
+
+[15:58] Ça se fait, c'est moins game changer, mais ça se fait encore. Quand ça ralentit après quelques semaines, c'est la créa pas le bid, ok. Donc c'est pas la technique que je vous ai donnée, c'est simplement vos créa. Donc là, il faut constamment alimoter votre machine de créatif pour avoir des nouvelles créativinus qui spend à ajouter dedans, ok.
+
+[16:19] Et concrètement, tant que vous avez des winnus, vous pourrez spend de plus en plus. Donc là, je vous ai mis un petit résumé il a traduit bid cap, je sais pas si c'est la bonne traduction, il semble que c'est bid cap en français, je sais pas. Donc en gros, avec les actions à faire.
+
+[16:40] Donc voilà, technique vraiment très très avancée. Là, vous avez les techniques utilisées par des gens qui font plus d'amiander, par nous, qui nous permettent de spend à des très bons CPA. Simplement, ne dépensons pas tout le budget. Et ça, l'audience que vous avez touché, en fait, elle est bien parce qu'elle est différente de restes que vous avez touchés
+
+[17:01] en vos campagnes de grand volume, ok. Comme j'ai dit, le bid ici, le budget que vous allez mettre conséquent, ça va venir montrer un métail, il permet d'être un grand, en fait, et de gagner les enchères devant les autres, juste par le budget déjà, ok. Donc regardez aussi l'impact sur votre compte que ça, parce qu'en règle générale, quand on commence le bid cap, qu'on rajoute ça, ça va venir vous aider
+
+[17:22] à augmenter le spend sur les autres campagnes aussi, ok. Très important à prendre en compte. Ce n'est pas juste une technique pour être rentable en bid, ça va vous permettre de supporter plus de spend sur les autres campagnes aussi. Donc voilà, c'était Mathéo, gros, gros, valus aujourd'hui. N'hésitez pas à nous envoyer dans le school quand ça marche et nous montrer vos meilleurs résultats.
+
+[17:44] C'était Mathéo, à bientôt. Ciao.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 32 : 🆕 Les erreurs fréquentes et instabilité
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 32
 ======================================================================
 
@@ -5013,16 +5213,106 @@ Accepte qu'une partie de tes résultats dépend de facteurs hors de ton contrôl
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok les erreurs fréquentes et instabilité. Donc petite vidéo juste pour faire un rappel puis peut-être vous redonner des choses qui peuvent vous sauver la vie et vous réconforter. Donc voici les plus erreurs fréquentes que je vois en media buying. Donc c'est les pièges qui tuent les comptes et évite en déjà la moitié et tu es déjà devant
+
+[00:22] dans le top 1% en fait des médias buyers. Ok. Donc je vais vous expliquer quels sont les conseils que je peux vous donner. Pour être un bon médias buyer et les erreurs fréquentes à éviter. Donc la première c'est juger sur un seul jour 3D rolling idéalement. Il y a toujours des bons jours et des mauvais jours. On vend à des êtres humains.
+
+[00:43] Vous vous rappelez on vend des êtres humains il y a des bons jours et des mauvais jours et ça à tous les niveaux. Ok. Les grandes maires, les grandes brandes. Je vais faire un mix entre maires et brandes. Les grandes brandes ont des mauvais jours. Ones des bons jours mais ce qui compte c'est d'être profitable sur le moins. Donc en régénéral on regarde sur une fenêtre de trois jours et on essaie de voir si on est en phase descendante sur 7 jours.
+
+[01:08] Phase descendante ou ascendante sur 7 jours. Ok. C'est ça qui compte. C'est comme le trading il y a des hauts il y a des pas il y a des hauts des pas mais est-ce que ça monte ou est-ce que ça descend. Ok et si ça monte c'est positive si ça descend faut agir. Décider sur le ROS meta
+
+[01:29] c'est une erreur au lieu de regarder sur le profit blended surtout quand vous commencez à spend on regarde pas juste le ROS meta on regarde après majoritairement le CPA et le profit blended. Ok c'est ce qui compte le plus. C'est ce que j'en ai déjà parlé c'est vraiment la plus grande métrique. Ok parce que meta alimente Google parce que meta alimente les autres canaux
+
+[01:53] donc il n'y a pas que le ROS meta. Si on est profitable on a 20% de marge sur notre PNL enfin sur notre délit tracking et on continue comme ça. Si ça chute et là on va pouvoir commencer à optimiser sur meta. Mais c'est pas une indication absolue. Ensuite une autre erreur c'est de confondre le ROS des compagnes et la rentabilité globale
+
+[02:14] sans prendre en compte l'impact cross canal. L'impact cross canal. Ok même si le ROS meta est au break even peut-être qu'après Amazon et Google vous êtes rentable avec les emails vous êtes rentable. Donc vraiment faites attention dans vos décisions et analysez toujours le profit blended quand vous faites des changements sur meta. Coupez tout trop vite avant la fin du learning sans voler une significatif.
+
+[02:38] Faites attention à faire trop de changements rapidement et laissez assez de temps à meta. Ok idéalement trois jours. On coupe pas un truc à moins trois jours. C'est idéalement croire qu'un bénéfice break even unique existe. Il dépend de ton spend. Donc ce que je veux dire par là.
+
+[02:58] Il n'y a pas un unique ROS break even. On va pas te donner ton ROS break even c'est un huit. En fait si tu spend dix cas sans cas cinq cents cas par mois il va changer. Ok ça j'explique dans le module ROS. En fait il va changer parce que tu vas venir amortir des coups. Mais je l'expliquerai.
+
+[03:19] Ok c'est juste pour t'expliquer que t'as pas un ROS break even figé. En scaling, scale est trop fort d'un coup. Cinquante cent pour cent ça peut casser le learning. Donc idéalement des paliers de vingt pour cent. Sauf si c'est crazy. Mais attention à faire du surf scaling trop fort. Et après pattern ascendant. Ok ça a rien de faire un jour sans cadet.
+
+[03:40] Et ensuite après ça chute. Et pas serrantable. Ce qui compte c'est combien tu arrives à spender sur le mois. C'est pas juste de faire un skinshot à 100 cadet. Ok très important. Sur le bid cap scale est le budget au lieu du bid plus du plafond. Comme je l'explique dans la stratégie bid cap. On modifie pas les deux d'un coup.
+
+[04:01] Mais je vous invite à regarder le module bid cap inflaté. Pousser le budget quand le cpm monte. Cpm R monte. Comme je l'ai dit le cpm R c'est un indication de saturation. Ok c'est-à-dire si vous augmentez le budget vous risquiez d'ici quelques semaines. Avoir une chute de vos cpm. Ok c'est quasiment mathématique.
+
+[04:24] Pas de protection anti sur dépense. Si vous avez des campagnes inflatés de cost cap etc. Vous n'êtes pas à l'abri qu'il y a des jours c'est que ça va spend. Vous avez cinquante quatrièm de budget ça peut spend 50 cas. Donc toujours mettre des protections anti dépense. Vraiment c'est important. Vous pouvez simplement mettre des règles. Règle sur meta. Ou spend limit dans la tset.
+
+[04:47] Ou règle auto magic x. Sur l'outil magic x. Ensuite en créa confondre l'intération et la variation. Dizat dans la même zone psychologique. Meta on garde une et puni le cpm. Ok. Là il faudra voir le module comment vraiment itérer.
+
+[05:11] En gros l'erreur que font beaucoup de personnes c'est qu'en fait il veut le avec une créa en tournée 10. Comme ce qui était avant Andromeda. Le problème c'est que je le répète tout le temps. Si on prend une créa et on va en tournée 10. Meta va garder une seule entité. Du coup le cpm va monter et on va pas arrêcher de nouvelles personnes. Du coup ça reste de pénaliser.
+
+[05:32] Donc il faut vraiment avoir une diversité psychologique. Et avoir vraiment des changements précis. Ok. Ce n'est pas juste un hook c'est qu'on change le hook et on améliore aussi la vitesse etc. Mais ça je l'explique dans le module créatif. Éducation dump. Feature sans transformation. Brand as error. Hand au lieu de butt so.
+
+[05:56] Ça c'est plus un point de vue créa mais quand vous scriptez, idéalement dans votre script, on est plus sur de copywriting, il faut pas rajouter du et et mais on est plutôt sur une narration. Mais donc. Mais donc. En fait c'est comme ça qu'on raconte une histoire. Je l'ai mis ici parce que c'est une erreur très fréquente.
+
+[06:21] En gros je vois des scripts c'est que c'est cette canette et en plus de ça en aluminium. Et comme ça. Et comme ça. Et comme ça. Et en fait on perd en engagement et on ne captif pas avec un bon script. Il doit être tourné de manière cette canette là. Permets au sportif
+
+[06:42] qui sont des idrattés de ces idrattés. Mais. Elle n'est pas en plastique. Donc elle est meilleure pour la santé. Vous voyez à quel point en fait on va venir justifier ce qu'on dit avant. Ça permet de renforcer et d'avoir un script beaucoup plus puissant. Bah ils disent oui je ferai un détail. Détail dans le module copywriting qui sortira.
+
+[07:03] D'ici quelques mois après l'été. Addlandp qui ne match pas ok. Ça c'est un gros erreur. Je pense que ça c'est moins courant maintenant. Les gens sont plus aware. Pas assez de volume créatif. Ça pareil. Le volume c'est quelque chose de très simple.
+
+[07:23] Vous n'arrivez pas à spend plus. Vous avez des at-winner quand vous testez. On va dire sans at. Vous avez comme des at-winner. Si vous en testez 500. Vous n'arrivez plus d'at-winner. Vous n'arrivez plus de spend. Conte et infra ignorer la santé du compte. Donc vraiment ne pas regarder taux d'orager. Pas de backup à compte. De pas contrôler avec insider en cas de mauvais résultat.
+
+[07:46] Dès que vous avez des mauvais résultats ok. Sur 7 jours. Prenant insider. Fait un check de vos comptes pour voir si y'a pas un problème là. Sinon ça ne servait rien de faire toutes les changements sur lp et crée à, etc. Ne ne pas surveiller la saturation riche. Ft, Ftr, Cpmr. Si le coup par achat spike dans les 2 et 4 semaines.
+
+[08:10] Donc on le check toujours le taux de saturation. Enfin le riche de saturation. Cpmr c'est le meilleur indicatif. Ça c'est un peu plus poussé. Je l'explique dans un autre module. Mais vraiment votre but c'est d'acquérir des nouveaux clients. Maintenant instabilité. Pourquoi tu as des montagnes rustes? Ok. Donc il y a 3 contrôles que tu ne contrôles pas.
+
+[08:31] Donc les gens ne sont pas des robots comme je l'explique avant. C'est hors de compte contrôles. Parfois ils sont juste par mois d'achat. Il y a des périodes. Même si t'en produisais Evergreen et des périodes c'est que ça marche moins bien. Pour toutes les marques. C'est comme ça. Le marché il peut être instable. Il peut y avoir la bourse, la guerre, des changements politiques. Il peut y avoir des choses que tu ne maîtrises pas. Les devs de métal, l'algos, ce qu'il faut savoir c'est qu'ils changent.
+
+[08:55] Ok. Comme je l'explique dans le module comprend l'algos. L'algos change. Donc ça sort de dans contrôle. Nous quand Andromeda est passée sur le compte, ça nous a fait mal. Ok. C'était en dehors de notre contrôle. Ensuite, vos actions sont dans votre contrôle. Ensuite ta stratégie des ads, c'est sur ton contrôle, c'est le seul vrai levier. Ok. Donc n'essayez pas de lutter contre ça. Le seul vrai levier c'est ta stratégie.
+
+[09:18] Ce que tu contrôles, ok. Si tu fais des ads product aware dans un marché saturé ou sur un désir tendance, ta performance en montagne de russe sera garantie. Donc ce qu'il faut savoir, c'est que quand tu recommences le dropshipping principalement on va prendre des ads qui marchent bien sur un produit tendance en ce moment-là. Et souvent, on va venir surfer sur le fait qu'il y a beaucoup de gens qui sont product aware.
+
+[09:43] Il y a beaucoup de gens qui ont vu cette canette éviante qui vient de sortir en canette et ils veulent l'acheter. C'est-à-dire qu'ils vont voir une ad, ils vont l'acheter. Même s'ils l'ad c'est pas forcément bonne. Même s'ils l'ad c'est pas forcément product aware. Même s'ils l'ad c'est solution envers, ils vont voir ok, ça parle de cette canette, je veux l'acheter. Ça marche très bien. Puis après, une fois que des gens product aware ont été satisfaits et qu'il faut aller targetter des personnes qui sont moins product aware,
+
+[10:07] eh bien là ça marche moins bien. Ça c'est exactement ce qui se passe avec les débutants de dropshipping. En fait ils surfent sur des produits parce qu'ils pensent que le produit s'épuise alors que c'est juste en fait les audiences qui ont target. Très important à comprendre. Donc pourquoi ? Parce que tu défend de tout ce que tu ne contrôles pas. Que les gens soient prêts à acheter sur ton marché jour là
+
+[10:28] que ils soient sur la plateforme sur le jour de loi, que META serve de tonat à la bonne personne, que les concurrents existent sans l'espace de nouvelles offres, qu'aucun nouveau concurrent sort une nouvelle solution. Donc ce qu'il faut pas faire, c'est rester sur des product aware, des désir tendances, dépendre du marché, de l'humour des gens de META, paniquer ou changer de stratégie, de mes débans du jour à l'autre, ok ?
+
+[10:49] Je connais des gars, ils m'ont dit je m'attends, je sais pas ce que j'ai fait, j'ai paniqué et j'ai tout niqué. En gros, des fois de supprimer des campagnes, d'augmenter le budget trop fortement et casser une campagne, paniquer pas, ok ? Ça reste des chiffres, ça reste des humains, juste paniquer pas et des decisions rationnelles, pas émotionnelles.
+
+[11:10] Tester un nouveau produit pour sauver les perves, changer de processus créatif en plein creux et te plaindre que ça marche pas, ok ? Ce plein d'ass… c'est quelque chose de… éviter de vous plaindre quand il y a des mauvaises performances, il y a des mauvaises performances et il faut juste trouver des solutions et être celui qui trouve des solutions quand il y a des mauvaises performances, ok ? Donc ce qu'il faut faire, c'est pas les trois leviers,
+
+[11:32] c'est plutôt la formule que j'en parle et j'en parle tout le temps. Donc c'est simplement… vous avez de prendre conscience qu'il y a plusieurs… ça s'a formulé à 100 millions, donc je vous invite à revoir le… le modèle que j'en parle. Mais en gros, vous avez ce composant qui fait une ad-swin, ok ? Vous avez des messages, il faut un avatar et un stage de awareness,
+
+[11:55] il faut un concept, c'est-à-dire UGC, etc. Il faut une approche psychologique que c'est plus poussé, c'est-à-dire comment on va venir scripter l'AZ, et ça va être gentil, et ça va être plus agressif. Là, tu risques de mourir si tu continues comme ça. Pour t'arrieter, on fait différentes personnes, ok ? Il y a des personnes qui réagissent mieux à la peur, qui réagissent mieux si c'est un conseil amical
+
+[12:17] ou qui réagissent mieux avec un… un approche psychologique vraiment très doux, ok ? Ça va toucher différentes personnes. Et coherence index, c'est comment est-ce que ces messages-là sont alignés ensemble pour, en fait, impacter l'abattard, l'audience. C'est-à-dire que si on va venir montrer une ad qui est micro trottoir,
+
+[12:40] eh ben, on va pas faire une approche très agressive, ok ? On va pas montrer des… des footages en forme de mash-up, ok ? Donc, il y a une cohérence par rapport à ces différents éléments ensemble pour que ça s'harmonise, ok ? Donc, ce qu'il faut faire, c'est varier, en fait, ces ongles-là, ok ?
+
+[13:04] C'est-à-dire que ne faites pas qu'un stage à warnaise, testez différents stages à warnaise. Si ça marche pas, ne testez pas qu'un avatar, testez un autre avatar. Ne testez pas qu'un concept micro trottoir, testez d'autres concepts, ok ? Vous gardez tout ce qui est ici et vous testez une base du calcul, ok ? Ce qu'il y a le plus d'impact, c'est vraiment mesager oncle ici et concept.
+
+[13:29] C'est-à-dire que si vous avez tout le reste ici, juste en changeant de message, en changeant le concept, vous avez pour appeler beaucoup d'argent sans être un NAS de copy-writing. Ensuite, quand on va venir être sur le plus à warnaise, enfin, le différenciage à warnaise, là, il va falloir maîtriser un peu mieux le copy-writing. Mais si vous êtes ici, vous allez maîtriser, pas que j'explique exactement comment le faire. Donc, montant en warnaise,
+
+[13:51] transformer les scolaires en client. Donc là, prendre quelqu'un avec zéro attention d'acheter et l'amener à acheter, c'est comment vous allez venir nourrir votre funèles. Donc, vous pouvez aussi monter le marché, inviser Premiere One Hour et en fait, targetter des clients top of funnels et ensuite, ça va venir nourrir votre funèles. Ça, c'est un niveau plus avancé. Vous savez que vous allez venir les éduquer
+
+[14:12] avec des VSL, avec des ades pour montrer One Hour, les divertir, faire des funèles congolents qui continuent le parcours client, c'est-à-dire, pour une hour, vous allez leur envoyer sur un adversarial, pour ceux qui sont un peu plus à war, sur un liste de club, ou sur une landing page, etc. Et ensuite, une offre trop belle
+
+[14:33] pour passer aujourd'hui, donc, l'offre, c'est vraiment game changer. Si vous voulez prendre une part de marché, vous devez avoir une offre fantastique et vous devez avoir plusieurs offres, ok ? Vous devez avoir plusieurs offres, parce qu'il y a des clients qui ne vont jamais acheter du gratuit, parce qu'ils n'aiment pas le gratuit et qui vont acheter, c'est à 50% offre. Pourquoi pas avoir du 50% offre et du gratuit ?
+
+[14:54] Pourquoi pas avoir des prix à 39, et des prix peut-être à 49, avec une offre différente, ok ? Qui va venir parler d'une manière différente. Donc ça, vraiment très important, de varier ces offres, c'est de se pendez et de tester, je dirais, au moins deux offres par mois, ok ? Vous faites une campagne, faites une campagne,
+
+[15:15] un cas, mettez vos tops créatifs dedans, adaptez à l'offre, si l'offre vous en parlez dans la créative, et regardez ce que ça donne. Et c'est comme ça que vous allez pouvoir capitaliser sur plusieurs offres. En général, les grandes brennes ont plusieurs offres, ok ? Et en France, les gens sont trop, oui, à 39,
+
+[15:37] ou ensuite, il a 49, ça a posé problème. Le problème, c'est qu'en fait, quand vous faites une offre, vous avez touché des autres personnes, vous avez pas touché les mêmes personnes. Donc en fait, principalement, ils vont pas voir que votre produit est 49. Et même s'il est à 49 et qu'il n'achète pas, et qu'après ils achètent à 39, attend mieux pour vous, en fait. Simplement, ils ont juste vu que, une fois que le prix est descendu, ok ?
+
+[15:59] Et les gens, souvent, ne se rappellent pas. On ne se rappellent pas de l'offre de tous les produits. Et ils ne se rappellent pas, je crois qu'il y a des études qui lui donnent le monde que les gens oublient vraiment les prix, ok ? Donc ils oublient votre offre. C'est pour ça que il y a des brennes qui le font, c'est de laisser le même prix quasiment toute l'année, ok ? Mais c'est pas quelque chose que je conseille. Ça dépend des produits, ça dépend des niches.
+
+[16:21] C'est pas quelque chose qu'on va parler ici. Donc, mais ils offrent une offre irrésistible, cassent la dépendance au timing, la personne achète maintenant pas quand elle sera prête. Ça, c'est vraiment Gangeanger. Donc, vraiment très bonne, irrésistible. La personne, elle achètera chez vous maintenant. Et ça, ça vous fera gagner tout le reste. Ça rendra votre media buying, vos créativocs, au plus simple. Donc voilà, c'était Matoha Matoha.
+
+[16:43] Tchao !
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 33 : 🆕 Outscale ton concurrent
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 33
 ======================================================================
 
@@ -5101,16 +5391,32 @@ Cette technique s'adresse à des annonceurs qui ont déjà un funnel validé et 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, petit golden nuggets, comment outskill ton compétiteur ? Ok, ça ça va être pour quelqu'un qui veut vraiment détrôner un gros compétiteur en place et qui a les moyens. Ce type là a été partagé par par quelqu'un en fait qui fait plusieurs millions par mois et qui
+
+[00:21] est dans une niche très très prisée et simplement il m'a expliqué que lui aux us dans la niche de la beauty ok ce qui fait pour outskill des compétiteurs c'est technique là ok et cette technique là marche on l'a retesté et d'autres personnes vont valider. Le but simplement c'est de venir prendre la place du compétiteur sur le même public c'est-à-dire si quelqu'un marche
+
+[00:46] dans un marché avec un produit sur une pôle d'audience basée nous on va venir aller prendre cette pôle d'audience. La technique c'est quoi ? C'est de faire un spy insider ok c'est-à-dire on va venir spyer le compétiteur et on va venir voir ces budgets ces bides qu'il a s'il fait des big cap ou cos cap et simplement nous on va viser
+
+[01:08] le même CP avec le compétiteur mais qu'un budget plus élevé c'est-à-dire qu'on va arriver et on va bien sûr ça c'est c'est une technique avancée c'est-à-dire que vous avez déjà funnel validé vous avez déjà des crawinous validés et ça va être juste un tips médiabye pour vous permettre de passer devant et vous ce que vous allez faire c'est mettre plus de budget que le compétiteur avec
+
+[01:30] plus un bid ou un cos cap plus élevé donc vous ce que vous allez faire c'est que vous allez voir le compétiteur vous allez voir ok lui il a des compagnes on va dire à Dica s'il a des compagnes de bid il a 40 s'il a des compagnes de cos cap il a 25 ok le bid sera plus intéressant que le cos cap je parle et que du bid ici parce que le cos cap ça fonctionne un peu différemment donc on va dire il a 42 bid vous ce que vous allez faire c'est mettre
+
+[01:54] 20 30 40 avec un bid à 41 par exemple 42 mais pas très loin de ce qu'il est mais juste en fait pour montrer un méta vous êtes plus avantageux que lui et que vous pouvez prendre le bid si vous avez un beau taux de coversion de rété des bonnes créatifs ok ça c'est juste pour passer devant niveau médiabye donc le but c'est de passer devant avec plus de budget ok de mettre par exemple trois fois plus de budget 30 cas à 42 et
+
+[02:19] ensuite de baisser le bid parce que là vous allez gagner les enchères et ensuite vous baisser gentiment et après si vous êtes rentable va vous allez pouvoir augmenter simplement le budget donc ces techniques là elle a apprend à précaution pourquoi parce que sur les premiers jours vous serez certainement pas rentable parce que mais t'as vous de la voir si vous êtes meilleur que lui et ensuite vous allez commencer à être rentable au prix
+
+[02:41] qui est venu et vous allez pouvoir ensuite diminuer légèrement le bid donc c'est une technique pour prendre des poules d'audience et vite avoir beaucoup de budget en fait sur une compagne et et sur le compétiteur ça va l'impacter aussi parce que lui simplement il va voir une baisse en fait dans ses résultats parce que il devra augmenter son bid ou augmenter son budget
+
+[03:02] et si il reste pareil elle va se boucler gagner l'encharre donc voilà technique très très inventée gros golden nuggets pour ceux qui veulent ceux qui tournent à au budget à cette émette de la météo
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 34 : 🆕 Prise de décision - Du testing au scaling
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 34
 ======================================================================
 
@@ -5217,16 +5523,156 @@ Arrêtez de vous fixer sur des paliers psychologiques comme le "1K par jour", ce
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, vidéo très très importante. Comment prendre vos décisions ? On a pris le temps de vous faire un arbre, décision que vous en avez juste à suivre et qui marchera dans la plupart des cas. Et ici, justement, vous le montrez et je vais vous expliquer comment prendre ces décisions du testing au scaling, c'est-à-dire de 0 jusqu'à faire des dizaines
+
+[00:25] de cas de spend par jour. Donc le but c'est d'avoir pour vous un chemin clair décision à suivre de manière rationnelle et non émotionnelle. Donc la phase 0, c'est le setup, c'est-à-dire que là votre but c'est de performer. Ok, votre but c'est tout votre budget, ce sera du testing. Ok, parce que vous ne savez pas si c'est validé. Donc vous, qu'est-ce
+
+[00:45] que vous devez faire, je le rappelle, c'est avoir un minimum de variable que vous testez. C'est-à-dire que vous allez prendre des ads qui sont prouvé pour être winner. Vous allez prendre une offre qui est prouvée pour être winner. Vous avez une landing page qui est prouvée pour être winner. Bref, je ne me rappelle pas, enfin je ne me répète pas ici, vous faites simplement du copy meaning de quelque chose qui marche. Et pour les
+
+[01:06] ads c'est pareil, vous lancez pas vos pro-tres ads en premier, vous allez lancer ce qui est prouvé, ok, avec votre propre footage. Ok, donc là c'est du copy meaning. Ok, l'offre c'est une offre validée, landing page c'est une version validée du compétiteur avec vos propres footage. Ok, mais tout doit être déjà validé. Tout est bien set up et là vous allez commencer en 100 et 310 euros par jour en fonction de vos budgets. 100 c'est ok,
+
+[01:32] 300 c'est ok, c'est sur US, 100 c'est peut-être pas assez. Ok, ensuite la phase 1, donc là c'est le test initial. Donc là vous avez un ou deux jours pour voir si c'est rentable, c'est pas rentable. Vous avez deux cas de figure, soit c'est rentable, vous passez au pré-scaling, soit c'est pas rentable, vous passez à phase de sauvetage. Là encore,
+
+[01:54] trop de personnes dans le jargon et commesse parlent de scanning, alors que le scanning pour moi, le scanning c'est dès qu'on est à 3-4 budgets, ok. C'est pas avant, c'est du pré-scaling, c'est pour ça que les gens disent que je suis en train de scale, ça passe pas, pas c'est pas du scanning, c'est du pré-scaling, ça tourne à trop pas budget. Et c'est pas rentable, c'est pas forcément que ça marche pas, c'est qu'une phase de
+
+[02:14] sauvetage. Pourquoi cette approche ? Parce que moi ce que je veux c'est que vous apprenez et que vous donnez des masters en e-commerce. Et un master en e-commerce, il apprend et il change pas juste de produit ou de brand, juste parce que ça marche pas. Il a compris pourquoi ça marche pas ou au moins il a tenté de sauver, ok. Bien sûr tout dépendra de votre budget
+
+[02:35] et en fonction de notre budget vous pourrez réduire les fenêtres. Si vous avez 500 euros et que vous faites 100 euros, il va falloir tester cinq jours. Donc faire la phase de sauvetage et voir rapidement et prendre rapidement des décisions. En sachant que l'art de ce que j'ai fait c'est pour perdre le moins d'argent pour si puis pour maximiser les chances de réussir votre
+
+[02:58] lancement de brand, de produit, de skype à porte. Donc en gros la phase de sauvetage, vous allez regarder où c'est que ça fuit. Et l'action principale qui va venir rentrer toujours, ok, c'est toujours injecter de nouvelles cra. Une cra peut vous permettre d'être rentable même si avant votre funèle avait des conversions red faibles, etc. Parce que ce qu'il faut savoir c'est que c'est pas seulement si vous avez une conversion de red faible que c'est le site,
+
+[03:20] c'est peut-être la cra qui est pas assez puissante. Une seule cra peut tout changer. C'est pour ça que toujours injecter des cra c'est ce qui peut être game changer, ok. Mais maintenant pas trop de cra non plus. Ça va être une cibo et vous avez injecté 20 tats et vous venez en injecter 100 sur un spend de 100 euros, ça va pas le faire. C'est pour ça qu'il faut faire du copy meaning et être sûr de ce que vous injectez et prouver ou du moins des grandes chances de réussir. Donc en gros on vous a
+
+[03:47] donné le cadran pour prendre des décisions en phase de sauvetage. C'est si le conversion de red est élevé et le cpc est élevé aussi, c'est à dire c'est un mauvais cpc, vous avez des cpc trop élevés. Il va falloir corriger les cra. C'est à dire la page converti bien, converte orienté pas
+
+[04:08] mal mais au niveau meta ça vous coûte cher. Donc là il va falloir corriger au niveau media buy, faire de nouvelles cra peut-être les tester une page partnership si vraiment vous avez le temps et la possibilité d'essayer de nouvelles cra. Si vous avez un conversion de red faible mais cpc good, là c'est du bon trafic c'est à dire que les cra sont pas mal, au niveau meta
+
+[04:31] c'est pas mal mais il y a peut-être quelque chose qui bloque, il y a peut-être une offre qui est pas assez forte, il y a peut-être des objections qui sont pas résolues etc. Donc là votre but à vous c'est de revoir le funèle, de revoir votre analyse marketing, de revoir ok quelles sont les potentiels objections. Ok je parle d'un vêtement mais il n'y a pas de size start ou je parle d'un vêtement mais je parle pas de retour possible. Du coup il y a des objections par réduit et une
+
+[04:57] objection par réduit ça peut faire chuter le taux de conversion. Ou peut-être juste un truc incohérent sur le site et un seul truc incohérent c'est ça qui marche pas, c'est ça qui cruel en fait avec l'icom c'est que un seul bottleneck vous tue au taux de conversion quand vous commencez. C'est à dire quand vous êtes lancé, vous avez du trafic, vous êtes rentable, vous tournez déjà plusieurs milliers par jour, c'est une baisse de conversion c'est ok mais au départ vous devez percer,
+
+[05:20] au départ vous devez montrer un méta je suis de qualité, je convertis bien etc c'est dire c'est dur ok c'est pour ça que moi je peux lancer 5 shops si je peux faire des erreurs et au départ ça pardonne pas et une erreur ça fait que le conversion de retraite est pas très bon et au départ quand tout est en train de tester et ben ça fait que vous êtes rentable ok. Et si vraiment
+
+[05:44] tout est mauvais là il faut faire de bing swing, je vais vous montrer dans l'arbre de décision mais là il va falloir faire revoir tout et tester une nouvelle offre du moins l'améliorer, rajouter de nouvelles créages, revoir l'alp qui est à toi corrigé, décide de tout est ok on peut se caler. La phase de sauvetage donc là c'est ce que vous expliquez on va venir faire de nouvelles
+
+[06:09] landing page possible, faire de nouvelles offres possible, renforcer le mécanisme aussi, ça dépend vraiment de votre recherche. Si vous recherchez et que vous avez fait une landing page similaire aux compétiteurs et qu'il y a des trucs pas clean sur le site on va déjà corrigé la landing page, si tout est pareil aux compétiteurs ben là peut-être il faut faire une nouvelle landing page,
+
+[06:29] il faut faire peut-être quelque chose de différent, peut-être il faut prendre une landing page qui est prouvée sur un autre marché, admettons que vous lancez de la fashion mais vous prenez une landing page qui est prouvée en cosmétique et vous la lancez avec une offre peut-être un peu plus agressif. Mais d'entrée moi ce que je vous dirais en premier c'est changer l'offre, si l'offre est pas assez sexy, réduisez les objections ou attendez un nouveau mécanisme ou tout,
+
+[06:52] si vous faites un big swing ou tout, ça dépend vraiment de votre produit et vous devez analyser, faire un analyse marketing et voir en fonction de ça qu'est ce que vous devez faire, ok. Là je donne juste comment prendre des décisions, je vous donne pas des conseils pratiques parce que ça dépendra vraiment du cas par cas et ça c'est juste des astuces, c'est vos outils que vous avez pas utilisé pour reverser cette situation. Je fais un topo, moi je lance un site, c'est que j'ai
+
+[07:19] la landing page qui est comme le compétiteur, ça prend pas, je vais regarder d'abord au point de vue créa, si les créa c'est des créas similaires qui ont des bons résultats, c'est l'offre, c'est peut-être que c'est trop compétitif et que là avec mon offre ça ne s'intéresse pas, je suis arrivé trop tard ça ne s'intéresse pas, donc là je fais mon offre, plus le mécanisme, moi je vais rajouter un meilleur mécanisme et un meilleur offre, et une meilleure offre pardon,
+
+[07:41] admettons que je vends des, qu'est ce que je peux prendre des chapeaux, non pas des chapeaux, c'est peut-être pas assez parlant, je vends des, voilà, de la cosmétique un fontain, et que tout le monde est sur l'offre 1 plus 1 et que tout le monde est avec un mécanisme du fontain pour l'épau, on va dire bronzé, ok, je sais pas c'est un fontain spécial pour l'épau bronzé,
+
+[08:09] et ben moi je vais introduire un mécanisme, lui essayer de trouver quelque chose dans le produit, peut-être je sais pas, il y a quelques particules, il y a 5% d'un ingrédient et je vais dire, je vais renforcer ce mécanisme, je vais dire que ce fontain là, grâce à le dioxyde de master, c'est, il permet de sublimer le teint de ceux qu'on n'a pas bronzé, ok, et en plus mon offre,
+
+[08:34] j'aurai une offre peut-être un peu plus sexy, peut-être que ce sera du 2HT4 offert, un truc vraiment différent, mais qui marche aussi, et je vais tester différentes offres, peut-être du 2HT4 offert, peut-être le 1HT il va être plus cher que le compétiteur, mais le 2HT2 offert va être plus avantageux, comme ça les gens vont se dire ok,
+
+[08:57] le produit il est une meilleure qualité et en plus ça l'offre est meilleur, donc il y a plein de techniques qu'on fait pour percer ici, simplement ça dépend vraiment de votre étude de marché. Donc là je vous dirai dans l'arbre d'arbre-ressance, mais là vous êtes en table, vous êtes en prescaling, toujours par en table on kill, ça sert à rien de dépenser trop, vous avez fait tout ce que vous pouvez, au bout de 10 jours maximum on coupe, ok,
+
+[09:17] sauf que si vous remerciez les résultats, je rappelle toujours, c'est pas le budget total que vous avez investi, c'est les fenêtres de dernier jour, parce que mes tas ils sont fous, combien vous avez dépensé avant, si vous avez fait des changements, et que maintenant c'est rentable, c'est maintenant ça compte, ok, donc regardez toujours les dernières fenêtres. La phase de prescaling, le but c'est de valider un skilling,
+
+[09:38] ok, c'est pas encore un skilling, le but c'est de valider, et là on va venir monter plus agressivement pour en fait être sur des gros volumes de spend, plus vous allez monter rapidement, enfin plus vous allez monter sur le niveau de spend, plus ça va être simple pour vous, plus vous aurez du budget pour tester, et plus vous allez prendre la place sur le marché, et plus vous allez faire de bénéfices, et en fait la vie est belle,
+
+[09:59] ok, c'est à dire que ça sert à rien de mourir entre 300 et 500 à montant à hauteur de 20%-30%, parce qu'à bas budget en fait, vous pouvez augmenter le budget de cette manière-là, ok, c'est pas un chiffre absolu, ça marche très bien de faire 300 à 450, ça marche aussi de faire 300-500, simplement le but ici, c'est que si vous avez quelque chose qui est solide, meta,
+
+[10:19] il va pas chercher 10 000 poules d'audience, pardon, il va vous donner juste une poule d'audience à peine plus grande, parce que le spend il est minimum, ok, c'est à partir de 3000, que si vous passez de 3000 à 10 000, que la meta est de OK, il y a là, je vais te donner encore plus de poule d'audience, et là, vous risquez d'être pas rentable, là vous pouvez être agressif,
+
+[10:39] parce que le budget il est minimum, ok, donc on ne monte jamais à la veuque, on se base toujours sur le MR Profit au backend, donc je me répète, regardez pas votre iOS, vous regardez votre profit au Daily Daily, parce que le iOS, vous pouvez vous tromper,
+
+[11:00] si vous débutez, vous pouvez tromper, et moi je vais pas vous perder d'argent, moi je vais vous regarder, ok, là, hier, j'ai fait 20% de marge, ou j'ai fait 10%. Et en fonction de ça, vous augmentez le budget, vous êtes rentable, vous augmentez, et bien sûr, vous augmentez sur les campagnes, quand vous avez bon iOS, vous avez une seule campagne, vous vous augmentez juste le budget, c'est pour ça qu'on vous conseille
+
+[11:20] de partir avec une seule campagne au départ. Vous avez toujours injecté des créas, la diversité, nouveaux angles, nouveaux avatars, pas 50 variations du même, sinon cpmr va monter. Donc à nouveau, vous n'iterez pas, sur une créa qui marche, en faisant 50 variations, pareil, juste un petit changement, vous avez juste en fait augmenté vos cpmr et avoir vos cpmr
+
+[11:42] et un peu baisser vos performances du moment de diversité. Ce que vous allez faire, c'est faire des changements malins, comme j'explique. Vous allez continuer de faire du copymeaning, ok, vous allez reprendre des winning ads, et continuez à dupliquer. Au départ, là, ce qu'on veut, c'est lancer des trucs sûrs, ok, on ne va pas faire dix mille testing. On va venir itérer sur ski spend,
+
+[12:03] c'est-à-dire, il y a un message que vous avez fait, bah là, vous allez faire d'autres formats. Ok, vous avez fait un message en statique, vous allez attester le mime message, en début d'un hook. Vous allez venir améliorer vos ads actuels, c'est-à-dire, vous avez des ads ski spend, vous allez venir regarder dans votre ads, qu'est-ce que vous pouvez améliorer ? Vous allez mettre des meilleurs footages, vous allez venir améliorer le copywriting, peut-être vous parlez pas assez de...
+
+[12:25] vous ajoutez pas assez d'éléments copywriting, donc peut-être mettre plus d'urgence, vous rajoutez à la fin, ok. Et aujourd'hui seulement, il y a 50%, plus les livraisons enfertes. Vous pouvez rajouter aussi du seuil seul proof. Et vous mettez des différents hooks, des peut-être meilleurs hooks que vous avez, mais pas sur un message différent, ok. C'est-à-dire si votre hook, c'est...
+
+[12:46] Qu'est-ce que j'ai pris comme exemple avant, pour les chapeaux, ce chapeau est devenu viral aux États-Unis, bah là, vous regardez par rapport aux autres, aux votre audience, et ce chapeau est un game changer pour les hommes qui aiment le western, ok. Donc un truc plus précis, et des footages différents, ok. Le but c'est d'avoir une ads meilleure que votre ad-winner,
+
+[13:07] mais différente, sinon Meta va considérer les deux comme même identité ID. Vous pouvez aussi améliorer le mécanisme. Souvent, les compétiteurs, ils ont des ads qui marchent, mais comme ça marche, c'est peut-être pas forcément qu'ils ont un bon mécanisme direct. Et vous, comme vous arrivez après, vous devez avoir un meilleur mécanisme. Ok, les gens, ils vont regarder deux chapeaux.
+
+[13:27] Ils ont déjà vu le chapeau de ces chapeaux et encore, et vous arrivez sur le marché, mais votre chapeau, vous, il permet de sécher automatiquement. Ah, wow, c'est nouveau, c'est différent. Le mécanisme est différent. Du coup, votre ad-slap peut venir banger. Donc le mécanisme vend très très important. D'avoir des footages et ce qui est plus précis par rapport à la batares. Donc si vous connaissez votre batares,
+
+[13:48] vous savez que c'est quelqu'un western et que vous foutez, ils montrez juste des personnes de différents tâches. Montrez chapeaux, à la piscine, etc. Vous allez faire quelque chose de précis vous allez me montrer dans western. Ok, des gens qui habitent dans le Texas. Vraiment très important. Ça, c'est vraiment le glitch qui peut vous faire, si vous êtes là, et rentable, à être très rentable
+
+[14:10] et monter à des très hauts budgets, très rapidement. Donc la boucle quotidienne, on la verra après mais en gros, vous montez sous ce niveau-là et si vous n'arrivez pas à monter minimum 10-15% de marge, ça dépend. Moi, je mettrais presque 15 ou départ. Enfin 15, pas 10.
+
+[14:31] À nouveau, c'est devez être rentable total. C'est-à-dire que si vous avez des frais de mon procédure, etc. Comptez-les. Ensuite, si vous avez des frais fixes comme les OPEX, etc. Ne les comptez pas directs. Parce que vous ferez fixe. C'est logique. Plus vous augmentez le spend, plus ça les amortie.
+
+[14:52] Si vous avez 50 cas de OPEX des équipes, vous n'avez pas à être rentable avec 300 budgets. C'est normal. Donc là, il faut augmenter 15% de marge brut sans compter vos frais fixes. Parce que plus vous spendez, plus ça va être simple. Ensuite, la phase de scaling, c'est validé. Et là, on va venir, ce qui est progressivement jusqu'à 30 kd.
+
+[15:14] Là, on va plus passer des barrières comme ça. Grosse erreur. Sauf si votre produit est fantastique, ça se peut. Ça dépend. Mais en régénéral, vous devrez augmenter progressivement pour arriver à 30 kd. Ensuite, quelque chose à savoir. Donc le mythe des 1kd, souvent, vous voyez, je ne parle jamais de 1kd,
+
+[15:36] parce que c'est une barrière mentale. Quand quelque chose prend, tu peux aussi vite monter à 5k qu'à d'hk et tu as fait 1kd. Si vous avez un ROS, on va dire 2.5, vous allez être en 4 jours. Donc en fait, quand ça prend, le but c'est de monter à 3k de spend. Là, on n'est pas sur du kd, on est sur
+
+[15:58] de spend. Ça change tout. Ici, on est master. On se concentre sur le spend. Parce que c'est le spend qui donne le kd. Le kd n'est pas magique. Le spend est plus vizuré de kd. Et comment on spend ? On a besoin de kd et d'un final performant. Comment on optimise le kd et le final performant ? C'est des mathématiques.
+
+[16:20] Ce n'est pas de la magie. Donc souvent, le 1kd, c'est une barrière mentale. Je sais que c'est bien. Ça peut changer des vies, de gagner du 300 euros dans votre poche chaque jour. Mais, vous pouvez gagner beaucoup plus. Avec le même effort. Et ça, c'est simplement une barrière mentale. Donc là, il faut déjà l'enlever. Sachez que,
+
+[16:42] dans master, vous avez accès aux informations master. Si vous pouvez faire un kd, vous allez pouvoir faire 3 kd. 10 kd. Mais vous êtes à quelques jours de ça. Donc la logique du skill, quand une campagne prend, le skill devient surtout une question de budget. Pas de récapselu, mais une logique. Petite augmentation et croissance
+
+[17:03] plus stable, grosse augmentation, accéder plus rapidement d'aller nouvelles audiences, parfois moins qualifiées. Comme ça, ça fonctionne. C'est pour ça qu'augmenter trop vite, si la structure créative ne suit pas, les résultats peuvent baisser. Parce que vous allez toucher plus de personnes, peut-être des personnes qui vous auront de moins en moins acheté. Du coup, il vous faut des créatives plus en plus solides.
+
+[17:23] Et c'est pas parce que vous avez un funèl qui est validé pour faire du 2 kd, qui va être validé pour faire du 5 kd. Parce que plus vous augmentez le budget, plus ça va être dur de convaincre les gens, plus il va falloir un bon essander et un bon avouer etc. Et plus vous vous durez dans le temps aussi. C'est pour ça qu'une fois que vous activez la machine, il va avoir un travail permanent de nourrir cette machine-là
+
+[17:45] avec des améliorations de revenus par visiteurs et des nouvelles créatives. Ce qui change vraiment après 5 kd. Donc avant 5 kd, tu cherches des winners, tu test des angles et tu observes c'est que ça dépense. Après 5 kd, tu identifies des patterns, tu industrialises les créas et tu fixes les bottlenecks. Tu fais plus et mieux. Et plus ça.
+
+[18:07] La point de vue macro au stratégie, c'est juste ça. Vous allez venir identifier pourquoi ça se pende, qu'est-ce que vous avez fait, quel message, quel type de créative. Ok, on va faire plus de ceci. Est-ce qu'on a des bottlenecks ? Oui, là au v il est trop bas. On a des... Les gens, ils ne regardent pas assez des vidéos. C'est-à-dire le watch time il est faible. Ok, on va faire des vidéos peut-être
+
+[18:29] différents plus UGC. Et ensuite, on a des conteste des créatives, on a deux gagnantes. Ok, si on en fait 100, on en aura 20. Et 20, on va passer à 50 kd. Donc on va venir créer, je rappelle, la bio testing après 5 kd, à peu près. Et on agitera simplement les mineurs,
+
+[18:51] à de sa potentielle dans la CBO de base. Donc les 3 leviers dans l'ordre, pour scaler, c'est fixer les bottlenecks. Donc ça c'est le plus important. Donc on va faire tout le business. Avant de faire plus, il va falloir fixer s'il y a des éléments qui cassent la conversion. Ajouter du volume, ça sert à rien si vous avez
+
+[19:13] en fait un trou dans l'auto noir. Par exemple, vous avez une offre qui est trop faible. Ou une LP incohérente par rapport à la créa, ou vous avez un avatar mal défini, vous avez un hook qui attire un mauvais audience, ou vous avez des sépaires instables pour les créas. Tant que le goulot d'étranglement n'est pas corrigé, ça sert à rien de mettre,
+
+[19:35] de mettre plus de volume. Sinon vous avez juste brûlé de l'argent. Et ça va pas vous rapporter beaucoup. Ce qui est très important, c'est toujours de regarder est-ce que tout est de renvers. Est-ce que le taux de conversion est bien, est-ce que la OV est bien, est-ce que le site n'a pas de problème? Est-ce que j'ai bien mon paye, mon processeur qui est proche de mon paye ou c'est que je vends? Sinon
+
+[19:57] vous avez un point de conversion. Ça, ça rappelle, si vous êtes aux US et avez un paye-mon-pancéseur en Afrique ou en Europe, vous perdez 0,5 de conversion à peu près. Donc en fait, ici, avant de scaler, avant de faire plus, il va falloir fixer Bode.NIC et faire mieux. C'est-à-dire que vous devez avoir,
+
+[20:19] quand vous ajoutez 20 créas, vous devez avoir un hit rate correct. Vous devez avoir 10 ou 5% minimum en dessous de ça. Beaucoup plus de volume, vous avez juste brûlé votre monnaie. Donc il faut améliorer la qualité, revoyez le module créatif, revoyez ce que je dis d'un point de vue psychologique, revoyez votre analyse d'avatar pour comprendre, ok, pour mon avatar
+
+[20:41] là, pourquoi, mon autre question, il n'est pas inséid. Est-ce que je parle vraiment bien de son désir? Est-ce que j'utilise le bon angle, un angle qui est prouvé, etc. Et ensuite, une fois que ça s'est fixé, plus de volume. Ça c'est le plus simple. C'est vraiment le plus simple. C'est tellement simple de faire plus de volume. Là, si je voudrais, je pourrai me fixer de faire 10 000 ads par semaine, c'est faisable.
+
+[21:03] Simplement, c'est juste d'un point de vue opérationnel. Pour faire 10 000 ads, si je devais le faire, j'engage des créatives stratégistes, j'engage plus de video-éditeurs, je m'emplace du gifting avec des micro-influ, quelqu'un qui contacte plein de micro-influ, ou plusieurs personnes, des dizaines de personnes, des centaines de personnes qui contactent des milliers d'influ
+
+[21:25] qui nous envoient du contenu et qui est testé automatiquement. Ensuite, protéger ce qui fonctionne. Donc, à ce stade-là, donc là, je rappelle, c'est ce qui est, le job n'est plus d'innover sans arrêt, mais c'est de nourrir ce qui marche et de ne pas casser le système. J'ai trop connu d'amis qui m'ont dit, putain, j'ai fait de la merde.
+
+[21:47] J'ai testé un truc, je suis passé à 25K, j'ai injecté 500A direct, ou j'ai coupé, j'ai lancé sur un nouveau Hada Conte, ou j'ai fait un rebranding, ou... c'est tellement des histoires que j'ai entendues, s'il vous plaît. Vous avez un truc qui marche, on ne coupe jamais un truc qui marche. Vous allez venir juste nourrir le système,
+
+[22:09] optimiser. On injecte des créas, on ne la détruit pas. Ensuite, le vrai levier, ça je le répéterai toujours, créer des condors. Vous n'êtes pas là pour faire des ads une heure, vous êtes là pour faire des putain de condors, des ads qui peuvent spend 500K. Et ça, non non non pas. Toujours, et c'est votre optique, parce qu'une ads comme ça, elles drivent tout votre compte.
+
+[22:31] Une ads condors, banger ads, pardon, vous allez avoir direct votre compte. D'un jour, du jour au lendemain, votre compte tout devait rentable. Cette ads là, prend quasiment tout le spend, tous les autres ads ont des meilleurs ROS grâce à celle-ci. Et ça, c'est votre but. Mais cette ads là, on la crée pas d'un coup. Cette ads là, on la crée en analysant
+
+[22:53] les paternes, en optimisant des ads winners, jusqu'à en fait avoir quelque chose de banger. Donc, il faut constamment améliorer vos scripts et vos ads. Une ads winner, on ne reprend pas une autre ads winner comme ça. On va venir analyser pourquoi les winners. La mettre sur tribe v2, par exemple. Je ferai un process assez poussé
+
+[23:14] actuellement, mais je ferai un process. Regardez qu'est-ce que j'ai mis comme footage. Regardez quel anglicité est rapide. Constamment améliorer. Ensuite, oublie ta marge de 40%, cherche le maximum de profit. Ce qui compte, c'est pas ta marge, c'est combien de profits par jour. Bien sûr, il faut avoir un minimum de marge, en dessous de 7%, c'est risqué.
+
+[23:36] Sauf si vous êtes une grosse brène qui fait plusieurs millions par mois. Mais, ce que vous voulez, c'est faire plus de profit par jour dans votre poche. Donc, faire 30% de marge à 14 jours, ça fait 3000. Faire 15% de marge à 100KD, ça fait 15000. C'est bien mieux. Je vous garantis, ça change une vie.
+
+[23:58] Et ça amortit toutes les charges fixes. Donc, arrêtez de protéger votre marge. Si vous pouvez avoir plus de profit, faites-le. Mais par contre, comme avec minimum de marge. Je dirais 15%, 10%, c'est bien. 100KD plus. Et ensuite, activez le funèle qui nourrit l'écosystème. N'oubliez pas, il n'y a pas que META.
+
+[24:20] META, c'est l'écosystème numéro 1 pour nourrir la demande, pour venir acquérir de nouveaux clients, pour en fait toucher beaucoup, beaucoup de personnes. Ça crée l'impulsion. Et ensuite, vous allez avoir des poules d'audience qui vont venir aller sur Amazon, sur Google, sur YouTube, que vous pourrez convertir avec les SMS. Bref, vous aurez en fait énormément de personnes. Il peut-être aussi des personnes,
+
+[24:42] enfin, beaucoup de personnes, que vous n'allez pas convertir direct. Et qui en fait, par la suite, vont convertir sur META à force de revoir, peut-être voir d'autres angles, peut-être voir d'autres approches psychologiques. Parce que vous avez touché quelqu'un avec une approche trop brutale, ok? Quelqu'un avec une approche de la peur, ok? Attention, qu'est-ce que j'ai pris comme exemple avant, on va dire, pour un paire
+
+[25:04] de cheveux, attention, si tu commences à perdre tes cheveux, les filles ne voudront plus de toi, etc. Il veut quelque chose de très agressif, ok? Il y a la personne, l'avatar B, en Franck, qui est quelqu'un qui est très joyeux, etc. et qui ne fonctionne pas avec la peur, qui fonctionne avec la motivation et la joie. Mais ça n'a pas convaincu. Mais par contre, vous aurez déjà vu. Et le jour, c'est que vous faites une hâte avec une approche psychologique.
+
+[25:26] Joie, par exemple, avec une hâte où vous savez qu'il y a plusieurs personnes qui ressemblent à Franck, qui ont la joie de vivre, la joie de retourner s'entraîner, de retourner côtoyer, on va dire, la vie sociale avec ses nouveaux cheveux. Mais c'est vraiment un moule de joie.
+
+[25:48] Ben, lui, ça va lui parler. Et là, il va acheter. Ok? Donc, c'est juste un petit rappel. Donc, voilà, on va se retrouver de l'autre côté pour voir l'arbre de décision.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 35 : 🆕 Le protocole de prise de décision
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 35
 ======================================================================
 
@@ -5326,16 +5772,122 @@ Ne rien lancer au hasard. Chaque décision doit être basée sur des données co
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors vidéo très importante, le protocole de décision. Donc je tiens à dire que pourquoi on a créé ceci ? Parce que simplement dans les lives, vous m'avez dit, Matteo, ça serait bien en fait d'avoir un protocole, un truc, parce qu'on a juste à suivre bêtement. Et comme je vous répète toujours, on développe le school quand ça vaut.
+
+[00:22] Donc merci pour cette info là, on a fait un protocole de prise de décision, parce que vous allez pouvoir juste suivre, c'est-à-dire de 0 à plus en cadet. Donc les pré-requis. Donc là vous avez un marché qui est validé, vous avez un compétiteur qui scale, vous avez un stage de sophistication abordable, une audience patronichée, un angle, des
+
+[00:46] angles clairs qui sont prouvés, ok ? Et une demande prouvée, ok ? Vous ne lancez pas n'importe quoi. Là vous avez suivi master et vous allez venir lancer quelque chose que vous êtes confiant que ça marche, ok ? Jour 0, c'est-à-dire avant ça, vous avez fait des copies meaning des ads et compétiteurs, si ça 15 ads vidéo, si ça 15 ads statiques, idéalement différents angles, vous savez que
+
+[01:08] vous allez venir reprendre, vous êtes venu reprendre en fait les mérites du compétiteur et vous avez mis vos footage. Vous avez une offre qui est validée, la même que le compétiteur, ok ? Vous n'avez pas innové. Vous avez une landing page validée, pareil que le compétiteur, avec votre propre footage, etc. Vous n'avez pas copié totalement et vous avez un final sans bug. Vous avez contrôlé de A à Z votre final, c'est-à-dire que la page s'ouvre pour
+
+[01:33] regarder sur mobile, sur desktop de haut en bas, tous les éléments, tous les éléments. Il ajoute au panier, vous regardez ce qui se passe. Tout est cohérent, il ajoute au checkout, tout est cohérent, il paye tout est cohérent, il fait un achat test, ok ? Ça c'est la base de la base. Ensuite, vous avez lancé votre CBO, comme on a dit, qui sont 300 euros, vous vous
+
+[01:54] créez-t-il dedans, tout est ok, tout est bien lancé. Vous allez venir attendre 48 heures, ok ? Il se peut que jour 1, il est zéro vente, mais il se peut que jour 1, ça se démarre vite, mais pas à porte. Il faut quand même laisser 48 heures pour que Meta démarre la machine, teste, optimise, trouve des audiences.
+
+[02:15] La plupart des gens disent 3 jours, mais je sais qu'ici beaucoup de personnes peuvent être proches du BJ, donc j'ai mis un truc assez tight, parce qu'au bout de 48 heures, maintenant, alors c'est que je tourne cette vidéo, vous aurez des résultats, vous aurez déjà des insights. Et moi ce que je veux, c'est pas brûler votre monnaie, c'est la protégie. Donc jour 2, vous êtes rentable ou pas ? Je chose à savoir, c'est pas rentable.
+
+[02:39] De votre test rentable ? Enfin oui, là, en l'occurrence, soit rentable le jour d'avant, soit routable les 2 jours. Donc vous êtes rentable sur les 2 jours ? Oui ou non ? À nouveau, c'est pas rentable avec votre ROS, c'est vous êtes rentable dans votre poche. Vous avez du profit qui rentre dans votre poche.
+
+[03:00] Je parle pas de nourrir vos OPEX, enfin de couvrir vos OPEX, je parle juste, vous avez vos ads, moins les coups shipping, moins les frais de procession, etc. vous êtes rentable. Sinon, là on va passer en face de sauvetage. Si oui, on va passer en face de prescaling. Donc d'abord, on va partir dans le meilleur des cas.
+
+[03:22] Vous pouvez être bien les choses, vous serez souvent dans ce cas là. Ça démarre bien, on est rentable, il y a de là. On commence le prescaling. Donc là, la faible pour prévalider un prescaling, c'est qu'on est rentable au backend. Les 2 derniers jours, est-ce que les 2 derniers jours, on est rentable ? Pas juste hier, est-ce que les 2 derniers jours, on est rentable ? Il y en a plus de 15% de marge.
+
+[03:44] Au départ, 15% de marge minimum. Vous pourriez peut-être atteindre 30, vous pourriez peut-être atteindre 50, ça dépend. Donc là vous êtes, vous avez de la marge, non. On attend encore 24 heures. Si vous n'êtes pas rentable, non, pardon. Il manque un nom ici, je vais juste le rajouter.
+
+[04:08] Ok, donc je résume. On attend 24 heures, vous êtes rentable ? Oui. Ok, on commence à augmenter le budget. Non, on réduit de nouveau. On attend 24 heures, rentable ? Oui. On augmente le budget ? Non, on réduit encore. Et à chaque fois, on ajoute des créatives. Ok ? Quelques créatives, des trucs qu'on est sûrs, on tente.
+
+[04:29] On attend 24 heures, on est rentable ? Toujours pas. On repart en face de sauvetage. Ok, là, je vous rappelle, on est en face de presqu'init. Le but c'est d'augmenter le budget ici. Il y a une condition ici, c'est... C'est garder minimum 100 euros de l'art de budget.
+
+[04:57] Et en dessous de ça, ça va être compliqué. Tout ça, c'est le minimum. Ici, je mette comme là. Ça n'a rien de descendre à du 25, 50. Je dirais 75, vraiment, max des max.
+
+[05:18] Donc ça, dans la pierre des cas, non, vous repartez en face de sauvetage, on va voir avant. Si oui, en fait, vous allez monter le budget de 500. 750, 1000 à 1500, 1800, 2000, 3000, etc. Fois 2 si petit, plus 30% si vous êtes près des 3000. Si vous voyez que votre Airwes chute un petit peu,
+
+[05:39] là, vous pouvez monter peut-être à 2005. On monte petit à petit. Mais si tout est parfait, on augmente rapidement. Le but, c'est d'arriver le plus vite possible à 3KD, 2 spend. Et on ajoute toujours des nouvelles créatives importantes. On ajoute toujours des nouvelles créatives. Dès que les 3K par jour sont atteints, là, on passe en face de scaling. Avant ça, on n'est pas en face de scaling.
+
+[06:02] C'est pour ça qu'ici, on ajoute des créatives qu'on a de la confiance dedans. On optimise les choses et on ne fait pas n'importe quoi. Si on n'est pas rentable, ok, c'est-à-dire que là, jour 2, on n'est pas rentable. Ce qui arrive aussi beaucoup. Moi, personnellement, les braînes que j'ai lancées, pour beaucoup, les grosses braînes que c'est qu'on a fait,
+
+[06:25] des dizaines de millions, on était dans cette phase-là. Je ne sais pas pourquoi, ça n'a jamais été clair. J'ai eu des phases, c'est qu'on perdait de l'argent au départ, on a dû optimiser et puis ensuite une Banger Hat, enfin une Hat Winner qu'on a ensuite converti en Banger Hat et les choses sont passées comme ça. Mais concrètement, les Créats et l'offre nous ont toujours sauvés.
+
+[06:47] Donc ensuite, vous êtes pas rentable. Face de sauvetage. Là, vous allez venir faire un diagnostic. Vous allez venir regarder où c'est que ça fuit. Bon conversion de rate, mais mauvais cpc. Ok, on va venir ajouter des nouveaux Crats, des nouveaux Hooks. On va venir tester de nouveaux angles, on va venir tester de nouveaux mécanismes.
+
+[07:08] C'est certainement un problème de Créats. Ensuite, mauvais conversion de rate. Donc là, ça convertit pas très bien. Il est un peu mis, pas à droite, c'est pas grave. Mais il y a un bon cpc, le cpc il est bas. Donc là, il y a quand même quelque chose qui se passe bien au niveau des Créats, au niveau Mediabye. Ce qu'on va faire, c'est qu'on va venir revoir.
+
+[07:29] Il doit peut-être avoir un problème au niveau du final. Il y a peut-être une erreur qui manque. Donc là, on va revoir le final, on va optimiser tout ce qu'il y a above default. Above default, tout doit bien convertir. On réduit les objections. Objections répondues. Ok. Et on analyse aussi avec Microsoft Clarity.
+
+[07:51] Là, vous pouvez installer Microsoft Clarity qui est gratuit. Et vous allez pouvoir voir, ok, qu'est-ce que font les personnes sur votre site? Ok, on voit qu'il ne se croit même pas sur les images où il se croit vos images et ensuite il part. Donc il faut peut-être améliorer les images. On voit qu'en fait, le bouton à ajouter au panier n'est pas assez grand, je ne sais pas. Vous allez venir voir qu'est-ce qui se passe sur votre site.
+
+[08:13] Pourquoi? C'est rentable sur Meta, mais ce n'est pas rentable sur le funèle total. Parce qu'il y a un conversion de rate faible. Et vous pouvez aussi ajouter Nouvel Créat. Toujours ajouter Nouvel Créatif. Toujours. Mais le focus, il va être là. Donc je vais mettre bonus.
+
+[08:33] Ensuite, vous avez en fait des CPC corrects et conversion de rate corrects, mais marge faible. Ok? Ça peut arriver, ça arrive mais assez souvent. Ça nous a arrivé récemment. Et parce qu'on lance brut sans upsell, etc. Donc là, ça se peut que vous aille des cpm élevés,
+
+[08:54] ça se peut que vous aille juste des bonus métriques, mais simplement, il vous manque un petit coup de pouce. Donc là, ce que vous allez faire, c'est ajouter upsell, ajouter les e-mail, tester un nouveau bundle. Par exemple, vous êtes sur du 1.ht.1 offert. Et juste ça. Peut-être que si vous achetez 2.ht.3 offert, vous allez augmenter automatiquement la OV
+
+[09:15] et être beaucoup plus rentable direct. Donc là, vous allez venir optimiser votre Aov principalement pour essayer de basculer en rentable. Ok? Juste d'ajouter des e-mail upsell, peut vous permettre d'être rentable si vous êtes plus ou moins pas rentable mais avec une marge faible.
+
+[09:36] Ok? Ensuite, juste descendre un peu. Pas très joli. Ah, pour le frein après. Voilà. Ensuite, donc là, vous avez optimisé. Vous êtes en jour 5 après lancement. Vous avez laissé un peu de temps.
+
+[09:56] Si vous avez un budget serré, vous pouvez, dès que vous vous optimisez, là, regardez le lendemain qu'est-ce qui se passe. Donc le lendemain, vous allez avoir des résultats. Si vous êtes vraiment serré, vous pouvez prendre des additions au jour 4. Mais normalement, vous faites des changements, vous ajoutez des créards, vous vous regardez ce qui se passe. Rentable? Oui. Ok, parfait.
+
+[10:17] On passe au prescaling. Ce que je vais montrer avant, on repart ici. Non. Ok, là, il va falloir faire des bingswings. Il va falloir re-analyser, faire une re-analysed marketing. Regardez les compétiteurs. Regardez les compétiteurs. Revoir en fait, est-ce que vous avez bien copié ce que vos compétiteurs?
+
+[10:39] Qu'est-ce que vos compétiteurs ont fait que vous n'avez pas fait, etc. Donc là, Nouvelle LP, Nouvelle Offre. Et on continue, enfin, Nouvelle LP est possible voir Nouvelle Offre. On continue d'agéter des créards. Donc là, ça va être ultra important. En thèse des nouveaux angles, en thèse des nouveaux mécanismes, bref, on fait le plus d'efforts possibles.
+
+[10:59] Donc là, on fait pas mal d'efforts pour essayer de sauver. Ok? C'est là que beaucoup de personnes se trompent, parce que pour elles, c'est pas du tout rentable. Enfin, ils n'arrivent pas à remonter. Ils pensent que c'est pas une perdu. Si c'est pas rentable et que ça marche pour un compétiteur, que ça marche pas pour vous, c'est-à-dire que vous faites une erreur. Et donc ça, ça peut vous sauver. Ou pas. Et si ça vous sauve pas,
+
+[11:21] vous êtes toujours pas rentable, là, on coupe. Mais si vous êtes rentable, on passe, on passe de fresh killing. Et si vous avez un mauvais CPC, mauvais Conversion Direct, vous allez se déparer, ça ne sent pas bon. Là, on change tout direct. On ne va pas passer cinq jours. On change tout direct pour être rentable. Donc là, la chose à savoir, c'est qu'en fait, ici,
+
+[11:43] vous serez pas en jour six. Vous serez en jour directement, jour 3. Ensuite, phase de scaling. Là, c'est la phase où vous allez tous arriver ici. Vous allez dans school tous, tous parce que simplement vous avez les bonnes informations et tous vous avez y arriver. Donc, comment ça se passe en scaling ?
+
+[12:04] Donc là, vous êtes à 3K par jour de spend. Ça peut faire du CKD, DKD selon votre iOS, voire plus. Donc c'est joli. Là, on change des vies. Vous voyez que avant de changer des vies, il y a des choses qui se passent. Ok. Ça ne passe pas du jour au lendemain. Il y a des efforts de votre part et c'est normal. Je vous ai à savoir que là je vous donne un peu tous les 4 figures
+
+[12:27] mais ça se peut très bien que vous commencez avec vos CISATLA, CISATLA et que juste en augmentant le budget, vous arrivez en scaling. Ok. Ça arrive bien sûr, ça arrive. Ça arrive même souvent. Mais moi je vous donne tous les 4 figures pour que n'importe qui, même ceux qui ont un chemin plus difficile, puisse arriver ici. Donc là, phase de scaling, on atteint les KPI's cibles.
+
+[12:50] Donc les 3 derniers jours plus hier, on est rentable. Ok. Donc c'est-à-dire qu'hier on est rentable. Hier on a eu une bonne marge, on a eu 25% de marge, 20% de marge. Ok. On atteint nos KPI's cibles qui nous sont propres. Moi ce que je conseille à cette phase-là, c'est d'abord 15% de marge. On a 15% de marge ou 20. Hier c'était bien.
+
+[13:11] Les 3 derniers jours dans l'ensemble, c'était rentable. C'est-à-dire on est en phase ascendante. Très important. On n'est pas en phase descendante parce que des fois, on a un bon jour hier mais ça ne va pas. Du coup, ça ne sert à rien d'augmenter sinon on est juste de perturber. Ok. On veut consolider l'algorithme. Donc là, on est rentable. Est-ce que plus de 70% de la performance vient de l'attribution click basette.
+
+[13:33] Des fois c'est juste du view. Des fois, vous avez juste lancé des emails. Vous êtes dans une phase c'est que bref, vous allez venir regarder est-ce que c'est bien attribué au click. Si vous avez setup comme on a dit du 7 day click 1 day engagement, ça va être bon en testing. Si vous avez d'autres setups, il va falloir vraiment regarder que dans votre attribution sur meta. Et je vais montrer comment, juste maintenant, que ce soit click basette.
+
+[13:58] Je vais juste montrer. Ok. Je suis juste allé faire un screen sur un de mes comptes pour vous montrer. Donc simplement, vous avez clické sur colon vue et attribution et ça va vous ouvrir comme ça. Et là, on va voir les résultats. Donc là, on voit que les résultats chez nous, l'occurrence pour ce produit, cette
+
+[14:19] brand, vue à un jour, vous voyez, il y a 40, sur 740, il y a très peu en fait qui sont attribués sur la vue. La plupart sont 7 jours ou un jour. Vous voyez que là, en un jour, en fait, les gens ne voient plus une pub ils achètent. Donc vous, ce que vous avez de focus, c'est ça. Là, ça, c'est, ça, c'est, ça, c'est good ça.
+
+[14:41] Ok. Ça, c'est très, très good. Plus vous avez de vue à un jour, plus vous êtes en direct response, plus vous êtes bon en direct response, ça ne veut pas dire que vous êtes, vous êtes un business sable, vous pouvez construire très bien un business sable avec du 7 day click. C'est le but. Ok. Sur des trucs, on va dire plus le ticket, ça, c'est le top. Ça, c'est vraiment le top.
+
+[15:03] Donc voilà, là, on voit que c'est très sain. Là, on pourrait augmenter les budgets. Donc ensuite, je remonte. Donc oui, on augmente le budget selon ce barème là. Ok. Donc on a une marge en 0 et 10%. On ne fait rien ou on peut désqueler gentiment juste pour montrer un métal.
+
+[15:23] Ok. On veut du meilleur résultat. On a une marge correcte. Là, on peut augmenter 10 à 20%. On a une bonne marge. Là, on augmente de 20 à 30% chaque jour. Et là, on a une marge plus. On peut augmenter de 40 à 100%. On peut même doubler. Là, si vraiment on a une bonne marge, la Hero S3, moins 3KD, je passe à, on va dire, 5K.
+
+[15:45] On va peut-être plus. Ok. Sinon, on attend encore 24 heures. Là, on a la performance qui n'est pas bien attribuée. On attend encore 24 heures. On peut voir un peu plus de data parce que là, c'est peut-être juste pas solide. C'est les gens qui ont vu la publicité mais ont eu beaucoup d'attributions sans avoir cliqué.
+
+[16:08] C'est pas bon. Donc on n'attaque pas les résultats cibles. Donc là, est-ce qu'on est sous le capillage break even ? C'est-à-dire, on n'est pas en table. On perd de l'argent. Oui. Est-ce qu'on a attendu 72 heures avant de prendre ceci ? C'est-à-dire 3 jours. On a 3 jours où c'est que c'est pas bon. Non. On attend encore 24 heures. C'est-à-dire que là, on n'est pas en table les 3 derniers jours.
+
+[16:29] On n'est pas en table. On n'a pas attendu assez d'hours. On attend 3 jours. Ok. Et ensuite, on recommence ici. Ok. On a attendu les 3 jours. Oui ou non. Et si on a attendu les 3 jours, là, est-ce qu'on a spent minimum ? C'est-à-dire, est-ce qu'on a descendu le budget constamment ? Non.
+
+[16:51] C'est-à-dire qu'on n'est pas à notre phase minimum. Donc on descend le budget. Le budget minimum, c'est votre budget. Je dirais que si vous étiez à 300, ok, à 3KD, ça peut être simplement en-dessous de 3KD.
+
+[17:12] On retombe en phase, cette phase-là. En gros, pour que ça soit clair, là, on est en phase de scaling. C'est-à-dire que vous êtes en décision medebai day-to-day. Mais ça se peut que ça ne se passe pas bien, vous descendez le budget constamment. Ok. Vous descendez le budget et puis vous arrivez à un moment à 300 ou 100 dollars. Ok.
+
+[17:33] Donc là, on ne baisse plus. On repasse en phase de sauvetage. Donc là, on va repasser en phase de sauvetage. Je vais le remettre ici. On repasse en phase de sauvetage. Et on ne baisse pas le budget. Donc là, on repasse.
+
+[18:04] Je vais mettre pause, je vais faire gagner une. Donc je résume pour cette partie délicate. Vous êtes 3 jours par rentable. Concrètement, vous descendez le budget. Et vous descendez le budget. Vous êtes toujours par rentable, vous descendez le budget. Et vous arrivez à un moment, soit ça remonte. Soit vous avez atteint le plafond. Vous êtes trop bas et là, vous repassez en phase de sauvetage. Ok. Concrètement, voilà comment prendre des décisions.
+
+[18:27] Donc dites-le-nous si tout est clair. Mais concrètement, une fois que vous êtes en phase de scaling, que vous allez dire valider un truc, ça va être augmentation de budget, descendre le budget principalement. Mais je sais clair et j'espère que c'est clair que là, vous injectez toujours des crares. Là, vous êtes en phase, comment l'expliquer, c'est que vous avez une campagne à bio testing, vous injectez les bio, vous scalez,
+
+[18:48] vous êtes, voilà, vous faites tourner le business. Là, je vous montre juste au niveau médiabye comment prendre les décisions. Quand vous êtes en phase de scaling. Concrètement, on augmente toujours le budget. Vous pouvez se spender le plus rapidement possible, c'est de faire le plus de profit chaque jour. Et si ça ne va pas, on baisse le budget. Je rappelle, chaque jour entre minuit et une heure, vous pourrez montrer à l'agorhyphe que vous n'êtes pas content. Et pour voir qu'il ajoute.
+
+[19:09] Des fois, juste de descendre de 10-15%, ça suffit. Donc là, je pourrais mettre même 10-15%. Vous montrez juste un métat et là, je ne suis pas content. Et le lendemain, il va optimiser. Et quand vous augmentez, là, je suis content. Et il comprend que vous êtes content. Vous avez eu le budget avec moins de bonnes marches. Là, je vous garantis. Vous allez continuer à avoir cette marche-là. Parce que mes tables, vous gardez une marche plus sérieuse.
+
+[19:31] Donc, montez vraiment en fonction de votre marche. Donc voilà, c'était Mathéo. J'espère que ça a pu vous aider. Et j'espère que vous allez pouvoir scalez tous et moi. Allez, à bientôt. Tcha-tcha.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 36 : 🆕 Processus de testing
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 36
 ======================================================================
 
@@ -5426,16 +5978,80 @@ Au-delà de la mécanique, l'idée clé à retenir est que la rigueur et la disc
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors je vais vous révéler le créatif testing process exact, même process qu'on utilise à l'interne juste traduit en français et adapté pour vous. Donc je vais vous le démontrer en live, vous allez avoir le même process qu'on donne à l'interne pour lancer le testing des créatifs.
+
+[00:20] Ok ? Donc en gros c'est quoi ? C'est le process sur comment lancer un testing de créatif proprement. Les jours de lancement que je conseille et qu'on utilise à l'interne c'est du mardi au vendredi. Ok ? On lance pas lundi et si vous avez des week day, ne lancez pas durant ce jour week. Ok ? Vous savez que vous avez des bestes de
+
+[00:41] performance et idéalement on veut que ce soit live pour le week end. C'est pour ça que le vendredi, ça peut être samedi, ça peut être ok. Les fenêtres de lancement entre minuit et sept heures, pas après sinon ça s'optimise mal et les quatre règles d'or, c'est les erreurs les plus fréquentes et ceux qui impactent le plus. C'est advantage créatif, seulement relevant commande. C'est quoi ? Je vous montre des images. Vous savez c'est tous ces images
+
+[01:03] que Meta propose automatiquement et en fait en un beau l'avoir testé plein de fois c'est pas pertinent sauf relevant commande. Pour l'instant à l'heure que je tourne cette vidéo, si il y aura des updates, je vous abdéterai. Donc ça c'est vraiment ce qu'il faut veiller à avoir en premier, surtout que Meta l'active
+
+[01:23] automatiquement. Donc il faut toujours le contrôler. Ensuite, une autre erreur et ça je vous l'info ici, c'est des fois ça, ça sélectionne le placement, c'est dire qui va vous dire ça c'est mieux c'est recommandé. Alors qu'il faut toujours laisser original, sinon ça peut croper l'image. Donc ça aussi ça impacte les performances énormément. Ensuite si l'adcopie et le titre ne matchent pas
+
+[01:47] avec l'alp et l'offre, là aussi c'est un problème. Et lancer trop tard ça aussi ça peut impacter les performances. Et ce qui est important c'est toujours vérifier chaque ad avant la mise en ligne. Donc le process est up une si vous êtes à plus de 3K de spend et que vous avez une campagne abiotesting. Donc je vous rappelle
+
+[02:07] le process au départ pour renait tout dans une cibo. Ensuite une fois que vous avez 3K de spend par jour, vous faites une abiotesting. C'est que en peu près 20% de votre budget va être alloué au testing des créatifs. Donc si vous êtes dans ce cas là, vous allez venir créer un nouvel ad set dans votre abiotesting. Dans cet ad set là, vous allez mettre 3 à 6 ads dedans. Le budget
+
+[02:28] environ 2,5 fois votre cpa. Ça peut être moins, ça peut être plus, ça dépend vraiment de votre budget. Si vous avez un Aov à... je vais donner un exemple, je prends juste la calculette là qui sont mon autre écran. Vous avez un Aov à 30, un cpa à 30 pardon, point 2,5, ça offre un budget à 75. En règle
+
+[02:48] générale, 2 à 2,5 c'est ok. Ce qu'il faut c'est laisser après vous verrez dans l'arbre de décision, 2 à 3 jours pour prendre des décisions. Donc il ne faut pas que ça vous mette mal si vous laissez 3 jours. Au volume par défaut, 2 à 3 copies, ad copies, 2 à 3 titres et une description. Et vous avez mis ad copies.
+
+[03:15] Là, vous savez que vous n'avez pas organisé vos ad copies. Donc si vous avez différents product, vous pouvez mettre les différents product ici avec le numéro de produit. Et au niveau de l'adcopie, vous les mettez par angle, exemple adcopie anti-acné. La page, c'est un adcopie pour la page branded, c'est-à-dire votre marque ou white listing ou pour les deux. Et votre texte
+
+[03:38] ensuite vous avez votre texte là. Donc adcopie 1, adcopie 2, adcopie 3 et de line 1, et de line 2 et de line 3. Descriptions. C'est simplement ce qui vient sous la pub meta. Pour le testing en abion, on fait du 7 day click, 1 day engagement view. Ça c'est ok. Après je rappelle en scaling, c'est 7 day click only. L'audience, c'est idotique au premier
+
+[03:59] lancement, même pays, même langue. On ne teste pas d'autres paramètres. On excluse les acheteurs et l'adset doit être live entre minuit et 7 heures du matin. Le naming de l'adset, il est nommé comme ceci. Creative testing, le mois en cours et le numéro de la semaine. C'est-à-dire creative testing april 2. Et ensuite, le nom du batch qu'on vient injecter. Par exemple AD 428v3. Ok, c'est un exemple.
+
+[04:23] Ensuite, si vous renez en une CBO, donc vous êtes à moins 3KD de Spend et que vous avez qu'une CBO, donc vous, votre but, c'est d'animenter la CBO pour Spend à maximum. Ok? Donc là ce que vous allez faire, c'est créer un nouvel adset dans la bio testing. Si vous
+
+[04:43] avez qu'un adset qu'à moins de 15h, vous pouvez rajouter dedans. Sinon vous créez un nouvel adset. Vous allez mettre un minimum budget de Spend, entre 10 et 15 dollars. Ok? Et vous allez laisser 2 jours, ce minimum d'adspend. Ok? Comme ça, vous allez venir demander à META,
+
+[05:05] de Spend et de su, pour voir si il y a du potentiel. Si vous ne le faites pas, META peut ne pas Spend et de su et très vite juger votre vos ades. Tandis que si vous mettez ça, vous êtes sûr que META va au moins voir si il y a du potentiel dedans. Ok? Il va dépenser 20 mal, 30 mal. Toujours avec ce volume, 2-3 copies, 2-3 titres aussi. Une description, vous avez
+
+[05:27] mis la copie d'hybrari. 7 day click only, audience pareil, pareil, pareil et la page. Et ça je crois que je le mets aussi ici. Ça manquait juste ici, je vous le rajouter. Un type ce qu'on fait, c'est en fait, on teste 50% de l'adset avec la braine page,
+
+[05:48] c'est-à-dire votre marque et 50% avec une page tiers. C'est-à-dire une page magazine ou l'éat du pont ou docteur du pont. En fait c'est une page qui ne ressemble pas à votre marque. Ok? Et pourquoi faire ceci? Parce que comme je l'avais dit expliqué,
+
+[06:09] vous pouvez avoir des meilleures performances avec des pages white listing ou partnership ou juste une page que vous avez créée d'un docteur ou d'une autre personne. Et nous, ce qu'on fait, c'est que si vous avez 6 à 5 à l'encer par exemple, il y aura 3 qui vont être au nom de la marque et 3 qui vont être avec une autre page. Donc voilà, le naming pareil.
+
+[06:32] Et ensuite l'étape 2. Juste avant l'étape 2, en fait, là je vous ai montré comment tout cet up de base, mais après une fois que vous avez l'adset, vous le dupliquez simplement chaque semaine quand vous lancez vos ads. C'est très simple. Et ça c'est la méthode manuelle, mais après il existe d'autres applications comme admanage,
+
+[06:53] par exemple, qui permet de le faire en 2 minutes, mais qui coûte un petit peu. Donc là je vous montre déjà la méthode manuelle et puis ensuite une fois que vous savez faire ça et que vous voulez gagner le temps, vous pouvez passer à la méthode ad 27. Nous, tous les médiabayeurs assistants qu'on prend, ils lancent toujours manuelle pour être sûrs qu'ils soient minusieux, pour être sûr qu'ils appliquent tout le process. Et ensuite une fois qu'ils maîtrisent, là on peut leur donner un tool IA qui peut lancer à la base de faire 10 minutes par batch,
+
+[07:18] faire en 1 minute. Donc l'étape 2, là on va voir la checklist. Donc là vous allez venir, pardon, vérifier chaque point avant de publier. Donc vous allez voir que le nom de l'adsmatch, exactement, cueil, ce n'est pas cropé. Donc là on laisse toujours original. Ensuite on va venir sélectionner une miniature. Donc une miniature, ça a un impact important sur la vidéo et vous
+
+[07:44] allez toujours venir sélectionner manuellement. C'est-à-dire vous allez toujours choisir une miniature vous-même. En gros vous allez choisir une miniature qui communique clairement l'anglais de la publicité. Enfin c'est des exemples. C'est-à-dire il peut s'agit d'une partie du hook. Ça peut montrer une image étrange ou inhabituelle. Le but c'est que ça attire l'attention. Et vraiment
+
+[08:06] la tester et retester et de nombreux médias-béliens en parlent. Les miniatures ça impacte les performances. C'est la première chose que les gens voient. Du coup c'est un impact sur les gens que vous allez arrêter et sur votre thumb stop score. C'est-à-dire le pourcentage de personnes qui vont venir s'arrêter au bout d'une seconde. Ok c'est pas le hook score, c'est les views une seconde
+
+[08:30] divisé par le nombre de clics. Et si aucun n'est bon dans votre ad, donc je vais vous montrer juste après sur un compte, vous allez pouvoir créer vous-même. Comment créer vous-même ? On vous a mis ici un con de voie exemple. Vous avez des exemples d'adcopy winner et des exemples aussi qui marchent bien. Ça c'est un tip. Ce que je peux vous donner qui marche très
+
+[08:54] bien c'est qu'on met le produit sur ce fond bleu et ça capture naturellement l'attention. Par contre vous vous en avez ceci. Vous pouvez mettre ce produit sur ce fond bleu, voir avec des numéros ça marche vraiment bien. Vous avez un autre exemple avec des numéros, un autre exemple avec des numéros. Ça c'est juste pour reprendre ce concept ici avec des numéros. Ok ? Donc c'est juste pour vous donner quelques exemples qui marchent bien. Donc vous aurez
+
+[09:17] différentes manières dans lesquelles ça va être présenté. C'est-à-dire pour certaines ads ça va se présenter comme ceci. Pour certaines ads l'ad va être là et vous aurez juste à cliquer aussi sur l'ads pour changer la miniature. Donc vous cliquez ici et là vous aurez ici vignette et vous pouvez choisir manuellement ou importer. Là importer peut choisir votre image.
+
+[09:38] Et ici la pour sélectionner par exemple qui marcherait très bien c'est d'avoir une réaction ici et un visage proche. Ça je sais que ça marcherait bien. Par exemple ceci pourrait aussi bien marcher. Ceci aussi par exemple. Voilà les trois que j'aurais sélectionné par exemple
+
+[10:00] manuellement. Donc là je vous ai dit comment le tutoriel on go tuto. Ensuite l'URL il faut vérifier qu'il correspond bien au produit ou contenu que l'adcopie et le titre match avec la LP et l'offre. Donc simplement les adcopies que vous avez mis. Si vous changez d'angle admettons
+
+[10:22] que vous tariez été un produit pour Acne et que un angle c'est pour les 50 plus il y a un autre c'est pour les les compagnons qui offrent à leurs compagnes pour les hommes qui offrent à leurs compagnes il faut adapter c'est important parce que meta va lire aussi votre adcopie et votre titre et c'est quelque chose de très important. Ça je répète depuis longtemps que c'est important et on a
+
+[10:44] très bien vu que l'année passée les natives ads ont explosé et que les gens lisent entièrement l'adcopie. Donc l'adcopie, l'adline tout ce qu'il y a autour de la vidéo ça impacte énormément ok ? Métal, li. La page facebook c'est la bonne. Advantage créative toutes les désactivées sauf relevant comment. Attribution on a bio 7 day click 1 day view et en cbo 1 day click only.
+
+[11:08] Le pixel est bon multi adversize on ok ça ça peut simplement dire que vous allez être mis avec avec d'autres qui ont des publicités similaires. C'est-à-dire que quelqu'un qui va être intéressé à du voyage va avoir votre ad sur un sac de voyage par exemple. Si vous faites ça non vous ne
+
+[11:29] serez pas avec ces ads là. Vous perdez une opportunité. Je recommande si vous voulez vous pouvez tester très bien quand vous se quélez de dupliquer et non avoir une qui est activée et une qui est désactivée. Vous pouvez tester aussi. Donc rien de avec d'activer sauf relevant comment tout ça en désactive en désactive et c'est un peu près tout. Donc concrètement concrètement c'est très
+
+[11:58] simple mais il faut respecter ceci et il faut respecter d'abord un naming correct parce que tout ceci ça va être important ensuite pour vous retrouver. Donc voilà.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 37 : 🆕 Marquer et dispatcher les ads winneuses
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 37
 ======================================================================
 
@@ -5524,1677 +6140,92 @@ Le mindset clé ici, c'est de ne pas laisser passer le moindre signal positif : 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors comment marquer et dispatcher les winning hats ? Donc à nouveau, là c'est encore en anglais parce que le titre n'a pas encore été traduit, mais c'est le notre process tel quel et c'est un process très très important. Donc vous avez beau en fait tester des créatives, ensuite il faut exploiter ces créatives et les scaler.
 
+[00:21] Et je vais vous montrer en gros quoi faire. Donc le SOP c'est quoi ? C'est que déjà vous allez venir identifier les winners et potential winners. Il y a quelque chose que peu de personnes vous mentionnent c'est les potential winners. Et je vais vous expliquer qu'est ce que c'est et comment faire. Donc vous, ce que vous allez regarder, vous allez regarder votre vos hats dans toutes les campagnes et campagne à bio aussi.
 
+[00:46] Plus campagne à bio. Mais en gros vous allez regarder toutes les nouvelles hats qui pourraient potentialement être winners et potentialement être des potential winners. Donc vous allez regarder sur les sets à 14 derniers jours quel hat correspond à ces critères. Et je n'inclure pas les retargettings. Vous avez des hats spécialisés pour retargetting.
 
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 38 : 🆕 Calculer son BE ROAS
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 38
-======================================================================
+[01:08] Gardez-les dans les campagnes retargetting. Donc vous allez essayer de voir des winners. Des winners c'est quoi ? C'est des hats qui ont plus de six ventes et qui ont 10% de marge. Ce qui est moins un ROS qui vous fait plus de 10% de marge. Ces hats là on va les marquer comme winners. Parce que pour nous c'est des potentialement des winners. Je mets six ventes avant on avait 10, avant on avait 15, avant on avait un minimum de spend.
 
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+[01:32] Mais maintenant à l'heure actuelle dès qu'un petit signal il faut les exploiter. C'est à dire si vous êtes en a bio testing il faut les injecter en cibo. Et au pire des cas ça spend. Donc je rappelle ce process là c'est si vous testez en a bio. Si vous êtes en cibo il n'y aura rien à faire. Parce que vos hats seront déjà là.
 
-# 38 — 🆕 Calculer son BE ROAS
+[01:59] Donc là vous êtes en a bio, vous allez venir regarder quelles hats. Ouais c'est plutôt que a bio. Pourquoi je mets aussi ? Parce que potentialement en fait vous aurez des hats en cibo. Ou dans d'autres campagnes pas importe. Qui vont pouvoir potentialement être injectés en zombie.
 
-`Section Skool : MEDIA-BUYING`
+[02:21] Voilà pourquoi j'ai mis votre campagne. Bref je résume. Donc vous allez venir regarder dans vos campagnes a bio. Trouver des hats qui ont un rOS, 10% de marge. Et que vous allez pouvoir injecter dans les campagnes winning. Ok je vais prendre un exemple. Ok donc là j'ai pris un exemple sur un indaconte qu'on a.
 
-## Ce que la leçon annonce
+[02:43] Là on prend les 14 derniers jours et on va voir les hats en a bio testing qu'on a lancé. Et on va voir ici, ça lague un peu, toutes les potentialement hats winner qu'on a. Donc simplement, juste la règle qu'il faut mettre c'est que nous on va vouloir que nous on a publicité
 
-> **Source : page de la leçon (texte Skool)**
+[03:05] ne contient ni win ni potential. Ok c'est le naming qu'on a mis. Et là on va voir toutes les nouvelles winners que notre media buyer assistant pas encore vu aujourd'hui.
 
-**Ressources : **
-[Lien du notion](https://ecom-master.notion.site/Calculer-son-BE-Roas-3a7387646c3e801ba6f8e12c78963c3f?pvs=74)
+[03:25] Donc là vous voyez c'est toutes les nouvelles hats winner qu'on a avec les spend. Et ça c'est tout des winners. Ok vous pouvez mettre ici en vert si jamais vous pouvez mettre mise en forme conditionnelle et simplement ajouter une règle. Vous pouvez le mettre aussi une marge de 20% c'est au dessus de 179. Comme nous par exemple on met en vert.
 
----
+[03:46] Vous voyez là on a des hats à 218 ça c'est ultra intéressant. Là on a du 30, je pense presque 40% de marge. Donc c'est ultra intéressant. Et vous pouvez faire d'autres règles, ça c'est juste un petit tips. Et donc c'est ces hats là qu'on va venir sélectionner.
 
-### Introduction
+[04:08] Donc on va venir les sélectionner ici, bla bla bla, tous les winners. Et ensuite on va les modifier une par une. Donc ça c'est par rapport aux winners. Donc là on va identifier les winners, c'est encore plus de 60 et un rwess minimum 10% de marge. Elle on va les marquer win. Je vous explique juste après comment. Et on va les dispatcher ensuite en cybio skinning.
 
-Découvre comment calculer ton vrai ROAS break even pour arrêter de piloter tes campagnes à l'aveugle.
+[04:28] Ensuite on va détecter les potentiels winners. C'est des hats qui ont plus de 60 mais qui ont rwess qui sont à peu près au rwess break even. C'est à dire que nous notre rwess break even il a 1.2 on va dire. On va prendre des hats qui sont à peu près 1.2, 1.3, 1.4, entre rwess break even et 10% de marge. Ok, c'est ça de cela. C'est des potentiels winners.
 
----
+[04:49] En fait on va pouvoir les injecter en cybio. Et si mettez à spin dessus et que c'est rentable, tant mieux. Si c'est pas rentable ou ça se peine pas, on agira en conséquence. Mais en fait on a remarqué qu'en 2026 on avait des potentiels hats winners en un bio. Et en fait en ce cas, c'est à dire que quand on les met en cybio, elles alimentaient la campagne et les spendaient et beaucoup plus rentables qu'en un bio.
 
-### Ce que tu vas apprendre
+[05:12] Et des fois non, mais ça vaut la peine de tester en fait. Il faut pas manquer une hat. Et ensuite on a des hats qui ont moins de 60 mais qui ont un très bon rwess break even. Un très bon rwess. Donc là pareil si vous avez des hats qui ont du très bon rwess, j'ai un 20%, plus de 15%. Vous pouvez les injecter.
 
-Dans cette vidéo, tu vas apprendre à calculer précisément ton ROAS break even en tenant compte de tous les coûts cachés (shipping, frais, discounts) que la plupart des gens oublient, grâce à un calculateur concret basé sur ton AOV et tes COGS. Tu vas aussi comprendre comment le ROAS break even évolue en fonction de ton niveau de dépense (spend), pourquoi plus tu scales, plus ta marge peut augmenter même à ROAS constant, et comment structurer ton opex et ton objectif d'EBITDA pour piloter ta rentabilité réelle.
+[05:33] La plus importante c'est que vous identifiez tous les potentiels winners que vous avez. Il est winner et que vous les mettez en cybio et ensuite de voir si ces hats là peuvent venir des vrais winners. Ensuite on a tous les potentiels winners mais qui sont en dessous du rwess break even. Des hats qui ont fait plus de 60, qui spendent en bio. C'est à dire qu'on fait des résultats mais vraiment pas bons.
 
----
+[05:57] Mais vous avez plus de 60. Eux on va les injecter directement en zombie. Donc on ne prend que les hats non marqués. Les hats ont déjà été marqués. Je vous rappelle, simplement on identifie l'hats. On va venir la marquer ici avec un nommage, un eming propre. Et ensuite on la dispatche. Ces hats là sera dispatché une seule fois. Et sera gardé active en bio.
 
-### Mindset / Vision
+[06:19] Très important, ça reste active tant que c'est rentable. Et je vais juste les noter rest active en nabio tant que rentable. Et vous allez pouvoir simplement vérifier que aucune hat gagnante n'a été manqué. Simplement vous mettez hat name quand tu es un win ou pot.
 
-Ne jamais décider sur le ROAS d'une campagne, mais toujours sur le profit total généré. Un bon ROAS peut cacher du retargeting massif sans acquisition réelle, tandis qu'un ROAS moyen peut être largement rentable si le profit global augmente. La vraie question à se poser à chaque ajustement de budget : est-ce que mon profit total monte ou baisse ?
+[06:44] Donc l'étape 2, une fois que vous identifiez les hats, vous allez venir les sélectionner. Vous allez venir les nommer. Simplement vous gardez le nom de l'hats et vous allez venir rajouter win. Le nom du mois et le nombre de semaines. C'est à dire là on est en août 1. On va mettre August 1.
 
----
+[07:09] Et ensuite ça c'est le post ID. Voilà comment chercher son frame ça vous n'avez pas besoin d'avoir. Ça c'est une process interne parce que nous on dit ce frame et en gros c'est un tutoriel si il ne trouve pas. Parce que au tout départ on n'avait pas un naming, promotion propre.
 
-### Timestamps
+[07:32] Et on avait des hats qui étaient un peu difficiles à trouver. Mais si vous suivez le process ça va gommer ceci. Vous n'avez pas retrouvé vos hats facilement. Donc voilà comment nommer l'hats. Et si vous avez besoin de rechercher le lien frame, vous allez aller sur frame et vous allez rechercher votre hats. Et vous allez vérifier que c'est exactement le même hat. Ensuite vous avez nommer votre hats.
 
-00:00 - Définir le ROAS BE
-00:59 - Calculer sa marge réelle
-01:23 - Utiliser le sheet AOV et coûts
-05:18 - ROAS variable et effet du scaling
-09:33 - Prendre ses décisions selon le profit total
+[07:54] Vous allez la reporter sur le sheet. Vous allez donner un exemple de comment nous on utilise. C'est même outil. Ce l'utilia ça sera certainement amélioré par la suite. Donc vous aurez une update de cet outil. Simplement ici vous allez mettre le type. C'est un net winner ou winner update. Ici c'est qui c'est qui fait ce job.
 
----
+[08:17] Donc là ça sera votre rôle du media buying assistant. Et ça peut s'appeler Nusday Christine. L'année, le week, la plateforme, meta, TikTok, appiter et sa plovine. Le numéro d'adaconte. Votre shop, votre produit, nom de hats, le post-id très important. Et ensuite en remplissant tout ça, ça va vous donner le nom de hats marqué.
 
-### Lexique
+[08:39] Ok. Donc directement avec le post-id et tout ici. Ici vous allez pouvoir mettre c'est si vous faites un process de Facebook comment et Instagram comment. L'URL Facebook et Instagram. Et ça vous pouvez le retrouver ici. Simplement sur meta vous allez venir ici vous connectez et cliquez sur le petit...
 
-**ROAS break even** : Le seuil de rentabilité de tes dépenses publicitaires, c'est-à-dire le ROAS minimum en dessous duquel tu perds de l'argent. Il se calcule ainsi : 1 divisé par la marge brute en pourcentage. 
+[09:03] Donc là simplement ici dans aperçu. Et là vous aurez le lien Facebook et le lien Instagram. Donc là vous allez mettre le lien de frame. Le batch de frames si vous avez plusieurs hats vous allez mettre aussi le lien des plusieurs batchs.
 
-**ROAS (Return On Ad Spend)** : Indicateur qui mesure le chiffre d'affaires généré pour chaque euro dépensé en publicité. Un ROAS de 2 signifie que pour 1€ dépensé, tu génères 2€ de chiffre d'affaires. Attention : un bon ROAS ne garantit pas un bon profit.
+[09:27] Parce que ça reviendra dans les process suivants. Par exemple si vous injectez sur TikTok vous n'avez pas venir injecter juste l'ads winner que vous avez sur meta. Vous allez injecter avec les différents hooks. Des fois ça prend avec les différents hooks aussi. Votre spend, votre iOS, le purchase, cpa si besoin, language, landing page, la page.
 
-**AOV (Average Order Value)** : La valeur moyenne d'une commande, calculée sur l'ensemble des produits/bundles vendus dans ton funnel. Exemple cité : un t-shirt à 29,90€ et une chemise à 50€ peuvent donner un AOV moyen de 40€ selon la répartition des ventes.
+[09:48] Et comme ça vous aurez toutes les informations. Et ensuite chaque semaine vous aurez notre process. Vous allez revoir cet ads winner qui était là la semaine passée. Si maintenant combien il est. Il a il sera peut-être à 50 ventes. Et toujours un OS2 2. Ce sera bon forcément un beaeger hat. Ça je vous laisse ici juste pour vous aider.
 
-**COGS (Cost Of Goods Sold)** : Le coût de fabrication/achat du produit vendu, exprimé en valeur ou en pourcentage du prix de vente. Dans l'exemple, la chemise coûte 10€ et le t-shirt 5€, donnant des COGS moyens autour de 30% de l'AOV.
+[10:10] Mais simplement c'est petit checklist. Une fois que vous avez dispatché vous pouvez le mettre ici. Une fois que vous avez dispatché en interaction campagne vous allez voir ensuite vous allez pouvoir le mettre ici. Faites le Facebook command phase. Ça il n'y a pas besoin pour vous. Et si un super visor qui a vérifié que la phase de commentaire a été fait. Juste un checklist. Juste si on a un interne. Bien sûr les bravaux après d'améliorer, de simplifier comme vous avez besoin.
 
-**CPA (Cost Par Achat)** : Le coût moyen pour acquérir une vente/un client via la publicité. Dans l'exemple, un CPA de 26€ correspond au ROAS break even ; en dessous de ce CPA, la vente reste rentable.
+[10:34] Donc vous reportez sur le sheet et ensuite vous allez venir dispatcher sur meta. Donc ça je l'ai mis en étape 4 mais ça peut être très bien fait. Avant de dispatcher, avant de mettre sur le sheet. Ce qu'il faut c'est juste que vous regardez la méthode qui convient le mieux. Les deux sont égales. Simplement vous trouvez les ads sur meta, vous les sélectionnez. Vous les reportez sur le sheet et vous dispatchez.
 
-**CPM** : Le coût pour 1000 impressions publicitaires. Un CPM élevé n'impacte pas forcément le ROAS final si d'autres métriques (CTR, taux de conversion) compensent.
+[10:55] Pour moi c'est la manière la plus logique. Donc vous allez venir les dispatcher dans les campaigns CBO scaling. Dans votre campaign CBO scaling. Donc si vous allez une, vous allez dispatcher dans une. Si vous avez plusieurs, c'est le monde en plusieurs. Mais normalement vous en avez une CBO master. C'est qui est au volume. Et vous allez simplement venir ajouter un nouvel ad set dedans. Avec le nom du mois écrit winner.
 
-**CTR (Click Through Rate)** : Le taux de clics sur une publicité, c'est-à-dire le pourcentage de personnes qui cliquent après avoir vu l'annonce. Améliorer son CTR peut compenser un CPM élevé.
+[11:18] Par exemple après le winner smush. Et vous allez mettre une limite de dépense minimum. En régénérale c'est la OV x 2 divisé par 7. Si vous voulez vraiment être cartésien. Nous on met entre 10 et 15 balles. Voir plus selon la OV. Attribution se fait des clics et on utilise le même post à 10. Très important.
 
-**Conversion rate (taux de conversion)** : Le pourcentage de visiteurs qui finalisent un achat après avoir cliqué sur la publicité. Un des leviers à tester pour améliorer sa rentabilité globale.
+[11:39] Quand vous dupliquez l'ad, ici. Vous allez venir dupliquer comme ceci. Là, sélectionnez l'ad et vous dupliquez. Dupliquez ici. Très important. Si vous faites pas ça.
 
-**OPEX (charges opérationnelles)** : Les charges fixes de l'entreprise (équipes, outils, loyers, etc.), indépendantes du volume de ventes. Elles sont prises en compte après le calcul de la marge brute pour obtenir l'EBITDA.
+[11:59] Si vous prenez l'ancienne méthode de post à 10 en allant ici. Vous allez perdre les commentaires instagram. Et en faisant ça, vous allez garder exactement telle quelle. Votre ad avec le social proof etc. Donc ça c'est très très important. C'est même le plus important. Ensuite les réglages advantage plus off. Sauf comment. Et vous pouvez cocher la case R sur le sheet.
 
-**EBITDA** : Le profit opérationnel de l'entreprise après déduction des charges fixes (opex), avant impôts et amortissements. C'est l'indicateur de rentabilité réelle du business, au-delà du simple ROAS publicitaire.
+[12:21] Pourquoi on fait dans un nouvel ad set ? Et pourquoi on n'inject pas dans un ad set existant ? Vous pouvez ajouter dans un ad set existant. Simplement. Ça peut arriver qu'un ad set qui a plus de 15 ads. Métat va pas dépenser sur les nouvelles ads. Ça c'est sûr que Métat va dépenser. Parce qu'on va venir mettre une minimum d'aspen. Ensuite si vous a injecté dans un ad set fatigué ou superformant.
 
-**Contribution margin (marge de contribution)** : La marge générée par les ventes avant déduction des charges opérationnelles (opex). Elle permet de voir combien chaque euro dépensé en pub rapporte réellement en marge brute.
+[12:44] Métat va venir garder les patterns historiques. Donc si la set super forme déjà. Même une adse gagnante des fois ne sera pas gagnante dans cet ad set. Donc nous on a déjà fait le test. On a injecté dans un ad set fatigué. On a injecté dans un nouvel ad set. Dans un nouvel ad set la même ad avait des meilleures performances. Donc un nouvel ad set permet à Métat d'apprendre 100 B historiques. Et on démarre avec une totité d'apprentissage neuf.
 
-**Benefit of scale** : Le principe selon lequel, à ROAS constant, plus on augmente le budget publicitaire, plus la marge/profit en valeur absolue peut augmenter, car les charges fixes ne croissent pas proportionnellement au spend.
+[13:07] Ça évite de polluer déjà un ad set déjà équilibré. Mais si un ad set performe bien tu peux ajouter. Une ou deux créa. Mais pas trop d'un coup. Là on dispatch pas vers zombie. Ça sera dans un autre process. Et si besoin tu peux dispatcher aussi tes winning ads. Que tu trouves dans des landing page différentes.
 
-**New Customer CPA** : Le coût d'acquisition calculé uniquement sur les nouveaux clients (hors clients recyclés/existants). Une métrique clé pour évaluer la vraie croissance, car le retargeting peut gonfler artificiellement un bon ROAS.
+[13:27] Par exemple tu as des adversariales et tu vois que tu as des ads qui fit bien. Tu peux les dispatcher dans les adversariales. Par contre ça sera juste pas le même post ID important. Ensuite l'étape 5. On va venir mettre à jour les bangers. Donc là simplement chaque semaine quand tu fais ton analyse.
 
-**Retargeting** : Stratégie publicitaire qui cible des utilisateurs ayant déjà interagi avec la marque (souvent des clients existants). Un fort ROAS basé sur du retargeting massif ne reflète pas une vraie acquisition de nouveaux clients.
+[13:51] Tu vas venir voir les ads que tu as dispatchés. Et tu vas venir voir celle qu'on plus de 50 ventes. Et elle on va les marquer banger. Simplement à la place du win on va noter banger. Comme ça ça va pouvoir juste être une manière de le détruire plus simplement. Et ensuite ça va être rentré dans ce process là qui est un process suivant.
 
-**Triple Whale** : Plateforme d'analyse de données e-commerce permettant de suivre les vraies performances (profit, ROAS, pacing quotidien) à partir des données backend Shopify, plutôt que des chiffres bruts affichés par Meta.
+[14:13] Etape 6. Ça c'est optionnel mais je conseille fortement. En plus des Facebook command c'est de faire de crée une campagne engagement. Une campagne engagement c'est quoi ? Vous allez venir créer une campagne d'engagement. Créer un ad set. Mettre un budget faible. Ça peut être 5 à 10 dollars. Vous allez venir empilier les ads ensemble.
 
----
+[14:34] Vous vous dîtes le même post ID. Et vous allez venir tacheter des pays où c'est que ça coûte pas cher d'avoir des engagements. Et ça va faire quoi ? Ça va montrer et gonfler l'engagement sur votre ad. C'est-à-dire que vous allez avoir beaucoup plus de commentaires, beaucoup plus de gemmes, beaucoup plus d'interactions. Et ça va faire descendre vos cpm et augmenter vos performances de votre ad sans scanning. C'est vraiment sous côté et ça marche très très bien depuis longtemps et encore maintenant.
 
-### Tags (Pour optimisation de recherche Skool)
+[14:58] Donc là je vous ai mis quel pays targeté si vous avez une ad son anglais. Philippine, Afrique du Sud. C'est top. Ça coûte quasirien. Et ça va venir vous booster vos commentaires et vos socials proofs gratuitement et naturellement. Français, Maroc. Par exemple, Espagnol, Mexique. Allemagne, bah Allemagne, Autriche. Donc si la campagne n'existe pas, simplement on crée une.
 
-`ROAS break even` `media buying` `dropshipping` `profit e-commerce` `Triple Whale`
+[15:19] C'est très simple à faire. Donc voilà le process de dispatch. Donc pour résumer, vous avez vos ads en bio et vous allez venir les mettre en cibo et ensuite mes tabs à spend ou pas. Je rappelle vous mettez un minimum de spend ici et ça vous allez venir l'enlever si c'est pas performant mais ici performant.
 
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 39 : Scaler Post AndroMeda sur Meta - Playbook Complet
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 39
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 39 — Scaler Post AndroMeda sur Meta - Playbook Complet
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Maîtriser Meta Ads en 2025 : le playbook complet avec Andromeda.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, je te partage le playbook exact qui nous a permis de dépenser plus de 10 millions d'euros sur Meta Ads en moins d'un an, avec les nouvelles règles imposées par l'algorithme Andromeda.
-
-Tu vas apprendre comment fonctionne le nouvel algorithme Andromeda et ce qu'il change concrètement pour tes campagnes. Tu vas voir quelles structures de compte adopter en 2025 (plus simples, plus performantes), comment produire des créatives qui passent le filtre anti-doublon de Meta, pourquoi l'analyse macro prime désormais sur l'analyse créative individuelle, et comment utiliser le Creator Partnership pour booster tes résultats. À la fin, tu auras un système opérationnel pour scaler ton ad account sereinement.
-
----
-
-### Mindset / Vision
-
-Meta amplifie tout ce que tu mets dans le système, en bien comme en mal. La clé en 2025, c'est la diversité créative, la patience algorithmique et l'analyse globale. Ceux qui s'adaptent vite auront un avantage compétitif massif sur les autres.
-
----
-
-### Timestamps
-
-00:00 - Playbook Meta 2025
-00:48 - Andromeda expliqué
-01:55 - Nouvelles règles de performance
-06:03 - Créatifs et partenariats
-06:45 - Anti-doublons et itérations
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Meta Ads 2025` `Andromeda algorithme` `publicité Facebook` `créatives publicitaires` `structure de campagne` `scaling Meta` `Creator Partnership` `stratégie pub e-commerce` `ads manager` `ROAS`
-
-## Ressources
-
-- [Lien Playbook Complet](https://ecom-master.notion.site/Comment-Scaler-en-2025-Sur-Meta-PLAYBOOK-COMPLET-271387646c3e80a98f8bcc78550b491c)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 40 : Scaler Post AndroMeda - Playbook Complet 2/4
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 40
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 40 — Scaler Post AndroMeda - Playbook Complet 2/4
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Pourquoi Meta veut un système de Creative diversifié, et comment le construire.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas comprendre comment structurer un vrai système de créatives publicitaires sur Meta : angles marketing, messages, concepts, formats, stages d'awarness et avatars. Tu verras concrètement, avec l'exemple d'un pantalon, comment multiplier les créatives à partir d'un seul produit sans tout tester en même temps, et éviter ainsi de brûler ton budget inutilement. Tu apprendras aussi comment itérer intelligemment en ne changeant qu'une variable à la fois, exactement comme en A/B testing.
-
-Pour aller plus loin, la vidéo aborde les stratégies avancées pour scaler : constituer des équipes créatives en compétition, intégrer des agences pour briser les effets de signature, développer un flywheel d'affiliés et de créateurs, et utiliser l'IA pour itérer massivement sur ce qui fonctionne déjà.
-
----
-
-### Mindset / Vision
-
-La diversité créative, c'est pas faire plus, c'est tester intelligemment. Un seul produit peut générer des dizaines de créatives performantes si tu suis un process structuré plutôt que de tout lancer en même temps.
-
----
-
-### Timestamps
-
-00:00 - Ce que Meta attend
-00:24 - Angles, messages, concepts
-01:25 - Stages d’awareness
-03:15 - Process de test créatif
-06:17 - Équipes, agences et IA
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`publicité Meta` `creative strategy` `Facebook Ads` `scaling e-commerce` `système créatif` `UGC` `awarness stages` `diversité créative` `affiliés whitelisting` `IA publicité`
-
-## Ressources
-
-- [Lien Playbook Complet](https://ecom-master.notion.site/Comment-Scaler-en-2025-Sur-Meta-PLAYBOOK-COMPLET-271387646c3e80a98f8bcc78550b491c)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 41 : Scaler Post AndroMeda - Playbook Complet 3/4
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 41
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 41 — Scaler Post AndroMeda - Playbook Complet 3/4
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comment structurer tes publicités Meta en 2025 pour maximiser tes ventes e-commerce.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir exactement quels types de contenus publicitaires créer pour couvrir tout ton funnel Meta, du haut jusqu'au bas, et comment le nouvel algorithme favorise les marques qui jouent la carte de l'authenticité et du créateur. Tu vas apprendre à construire une bibliothèque créative solide (témoignages UGC, founder story, before/after, objections, discreditation des concurrents), à mettre en place un système de gifting avec des micro-influenceurs, et à prendre des décisions de media buying basées sur des règles claires plutôt que sur ton instinct.
-
----
-
-### Mindset / Vision
-
-En 2025, le vrai avantage concurrentiel ne vient plus du budget publicitaire, mais de la connexion émotionnelle. L'algorithme Meta expose désormais les acheteurs potentiels à toutes les solutions du marché en même temps, celui qui gagne, c'est celui qui crée une vraie relation avec son audience. Le founder story et l'authenticité ne sont plus des options : ils sont le levier principal.
-
----
-
-### Timestamps
-
-00:00 - Comprendre le funnel
-00:24 - Créatives UGC et founder story
-03:36 - Ads comparatives et preuves
-05:31 - Creator partnerships et gifting
-07:41 - Media buying et structure 2025
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`publicité Meta` `UGC e-commerce` `media buying 2025` `créateur de contenu` `Meta Advantage Plus` `funnel publicitaire` `micro-influenceurs` `founder story` `stratégie publicitaire` `e-commerce scaling`
-
-## Ressources
-
-- [Lien Playbook Complet](https://ecom-master.notion.site/Comment-Scaler-en-2025-Sur-Meta-PLAYBOOK-COMPLET-271387646c3e80a98f8bcc78550b491c)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 42 : Scaler Post AndroMeda - Playbook Complet 4/4
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 42
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 42 — Scaler Post AndroMeda - Playbook Complet 4/4
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Maîtrise la structure Meta Ads 2025 qui scale vraiment.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir comment structurer tes campagnes Meta Ads de manière consolidée pour maximiser tes résultats en 2025 : la bonne architecture en 3 campagnes max (testing, scaling, retargeting), comment alimenter l'algorithme avec les bonnes créatives au bon rythme, la méthode du triple lancement pour identifier la campagne à fort potentiel dès le départ, et comment diagnostiquer si ton problème vient de tes créas, de ton funnel ou de ton offre. Tout est concret, actionnable, et basé sur des comptes qui dépensent réellement.
-
----
-
-### Mindset / Vision
-
-La publicité Meta, ça ne se joue plus sur la micro-optimisation ou la segmentation à outrance. En 2025, l'algorithme veut de la consolidation, de la diversité créative et de la constance. Moins tu perturbes l'algo, plus tu lui donnes de matière de qualité, plus il t'en donne en retour. C'est ce changement de mindset, du contrôle obsessionnel vers la confiance accompagnée de bonne data, qui sépare les comptes qui plafonnent de ceux qui scalent.
-
----
-
-### Timestamps
-
-00:00 - Structure scaling evergreen
-01:44 - Dupliquer pour démarrer fort
-02:57 - Testing : ABO vs CBO
-04:51 - Retargeting et diagnostic
-07:13 - Récap et conclusion
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`meta ads 2025` `structure campagne facebook` `CBO scaling` `nursery testing` `créatives publicitaires` `algorithme meta` `media buying ecommerce` `retargeting facebook` `publicité facebook avancé` `stratégie ads`
-
-## Ressources
-
-- [Lien Playbook Complet](https://ecom-master.notion.site/Comment-Scaler-en-2025-Sur-Meta-PLAYBOOK-COMPLET-271387646c3e80a98f8bcc78550b491c)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 43 : TikTok Ads - Partie 1
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 43
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 43 — TikTok Ads - Partie 1
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Découvre comment exploiter TikTok Ads pour générer des revenus quotidiens, avec un retour d'expérience concret et des stratégies actionnables.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas apprendre à identifier si TikTok Ads est fait pour toi (profil, budget, niche), comment repérer des opportunités produits en utilisant PiPiAds pour trouver des concurrents forts sur Meta mais absents sur TikTok, quels types de produits performent le mieux (fashion, cosmétique, bijoux, suppléments, AOV sous 60€), comment structurer ton set up technique (comptes semi-agence à 30€ pour éviter la TVA, business center, pixel WeTracked), et quelles stratégies media buying fonctionnent en ce moment (Smart+, duplication de campagnes, focus créatives).
-
----
-
-### Mindset / Vision
-
-Le message central de cette vidéo est clair : TikTok Ads est avant tout un jeu de créatives. Peu importe la stratégie du moment, elle évolue constamment, ce qui fait la différence sur le long terme, c'est ta capacité à produire des créatives qui convertissent. L'exemple de Reda, 21 ans, 40k de CA en une seule journée, en est la preuve directe.
-
----
-
-### Timestamps
-
-00:00 - Intro et mindset TikTok Ads
-00:18 - Créatives et prérequis
-01:32 - Pour qui TikTok Ads
-03:37 - Trouver des opportunités produits
-08:29 - Setup comptes et stratégies
-
----
-
-#### Lexique
-
-**TikTok Ads** : La plateforme publicitaire de TikTok permettant de diffuser des annonces payantes. C'est l'équivalent de Meta Ads mais sur TikTok : vous payez pour montrer vos publicités aux utilisateurs de l'application. Exemple : diffuser une pub vidéo pour un produit fashion auprès d'utilisateurs TikTok en France.
-
-**Meta** : La société propriétaire de Facebook et Instagram, et par extension leur plateforme publicitaire (Meta Ads). C'est la référence en matière de publicité e-commerce, souvent utilisée avant de se lancer sur TikTok.
-
-**Créatives** : Les visuels ou vidéos publicitaires utilisés dans une campagne. Sur TikTok, elles font toute la différence entre une campagne rentable et une campagne qui échoue.
-
-**Scaling** : Le fait d'augmenter progressivement le budget publicitaire et le chiffre d'affaires d'une boutique. Exemple : passer de 1000€ à 50 000€ de chiffre d'affaires mensuel grâce au scaling.
-
-**Ad spend** : Le montant total dépensé en publicité. C'est un indicateur qui permet de savoir combien d'argent une marque ou un concurrent investit dans ses campagnes.
-
-**PiPiADS** : Un outil de "spy" (espionnage) permettant d'analyser les publicités des concurrents sur TikTok. Il permet de voir quelles publicités tournent, depuis quand, et avec quelle URL, pour identifier des opportunités.
-
-**TikTok Creative Center Ads** : Un outil gratuit fourni par TikTok pour rechercher des publicités et tendances sur la plateforme. Alternative gratuite (mais moins complète) à PiPiADS pour analyser les annonces existantes.
-
-**AOV (Average Order Value)** : La valeur moyenne d'une commande. Sur TikTok, un AOV en dessous de 60€ fonctionne généralement mieux. Exemple : si vos clients dépensent en moyenne 45€ par commande, votre AOV est de 45€.
-
-**Compte semi-agence** : Un type de compte publicitaire TikTok Ads acheté via un intermédiaire plutôt que créé directement. Il permet de cibler plusieurs pays sans payer certains frais liés à l'enregistrement d'une société locale. Exemple : acheter un compte semi-agence à 30€ pour éviter la TVA.
-
-**TVA (dans ce contexte)** : Une taxe supplémentaire prélevée par TikTok sur l'ad spend si le compte est enregistré avec des informations de société locales. En utilisant un compte semi-agence, on peut légalement éviter de payer cette taxe supplémentaire.
-
-**Business center** : Un espace centralisé sur TikTok Ads regroupant plusieurs comptes publicitaires. Il permet de gérer plusieurs ad accounts (un par boutique ou marché) sous une même structure.
-
-**Ad account** : Un compte publicitaire individuel utilisé pour lancer des campagnes. Chaque boutique ou marché peut avoir son propre ad account, ce qui permet d'avoir des solutions de secours en cas de blocage.
-
-**Pixel** : Un outil de tracking installé sur un site pour suivre les actions des visiteurs (achats, ajouts au panier, etc.). Il permet à TikTok de savoir si les publicités génèrent des ventes, pour ensuite optimiser la diffusion.
-
-**WeTracked** : Un outil de tracking publicitaire recommandé pour les débutants sur TikTok Ads. Simple à installer, il offre un essai gratuit de 14 jours et un support réactif pour configurer les événements de conversion.
-
-**Ayros / Northbeam** : Des outils de tracking plus avancés, recommandés une fois qu'on atteint 50 à 100 commandes par jour. Ce sont des solutions plus poussées que WeTrackAd, utilisées à plus grande échelle.
-
-**CBO (Campaign Budget Optimization)** : Un type de campagne où le budget est optimisé automatiquement au niveau de la campagne plutôt qu'au niveau des groupes de publicités. TikTok répartit lui-même le budget entre les différentes publicités selon leurs performances.
-
-**ABO (Ad set Budget Optimization)** : Un type de campagne où le budget est fixé manuellement pour chaque groupe de publicités. Contrairement au CBO, l'annonceur garde un contrôle plus précis sur la répartition du budget.
-
-**Smart+** : Une fonctionnalité de campagne automatisée sur TikTok Ads. Elle simplifie la gestion des campagnes en laissant l'algorithme optimiser davantage, réduisant le besoin de gestion manuelle des enchères.
-
-**Bid cap** : Une stratégie d'enchère où l'on fixe un montant maximum que l'on est prêt à payer pour un résultat (achat, clic, etc.). Exemple : fixer un bid cap de 15€ par achat pour éviter de payer plus cher.
-
-**FastMoss** : Un outil d'analyse de tendances et de produits, notamment utilisé pour TikTok Shop. Il permet de repérer les catégories de produits qui cartonnent sur TikTok.
-
-**Dropshipping** : Un modèle de vente en ligne où le vendeur ne stocke pas les produits, mais les fait expédier directement par un fournisseur. C'est souvent le point de départ pour tester des produits rapidement avant de potentiellement créer une marque.
-
-**TikTok Shop** : La fonctionnalité e-commerce intégrée directement dans l'application TikTok. Elle permet de vendre des produits directement via la plateforme, en complément des publicités classiques.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`tiktok ads` `drop-shipping` `créatives` `smart-plus` `media-buying` `pipiads` `comptes-semi-agence` `e-commerce` `scaling` `fashion`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 44 : TikTok Ads - Partie 2
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 44
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 44 — TikTok Ads - Partie 2
-
-`Section Skool : MEDIA-BUYING`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Maîtriser le testing et le scaling sur TikTok Ads, ce qui fonctionne vraiment en ce moment.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas découvrir une méthode concrète pour lancer, tester et scaler tes campagnes TikTok Ads efficacement. Tu vas apprendre quelle structure de campagne utiliser selon que tu fais déjà du Meta ou non, quel budget minimum prévoir pour un testing rentable, comment identifier tes créatives gagnantes en 24-48h, et surtout comment scaler agressivement en recréant tes campagnes from scratch toutes les 48h, sans les dupliquer. Tu repartiras avec des actions directement applicables : exclusion d'audience, itérations musique par pays, Spark Ads, Pop Cards, et refresh de metadata.
-
----
-
-### Mindset / Vision
-
-La clé sur TikTok, c'est la vitesse. Les créas se consomment vite, les algos évoluent vite. Celui qui teste le plus grand nombre de créatives avec le bon process gagne. Ce n'est pas une plateforme où l'on "set and forget", c'est une plateforme où l'on itère en permanence.
-
----
-
-### Timestamps
-
-00:00 - Intro et objectifs
-00:43 - Setup testing TikTok Ads
-02:42 - KPIs et scaling agressif
-06:05 - Stratégie Meta → TikTok
-08:01 - Quick wins créas et optimisations
-
----
-
-#### Lexique
-
-**TikTok Ads** : Plateforme publicitaire de TikTok permettant de lancer des campagnes payantes. Contrairement à Meta, les créatives s'y consomment plus vite, ce qui demande un renouvellement fréquent. 
-
-**ABO (Ad Set Budget Optimization)** : Structure de campagne où le budget est réparti au niveau de l'ad set plutôt qu'au niveau de la campagne. Recommandée pour démarrer un testing quand on n'a pas encore de données sur Meta.
-
-**CBO (Campaign Budget Optimization)** : Structure de campagne où le budget est optimisé automatiquement par la plateforme au niveau de la campagne entière. Utilisée pour scaler les créatives gagnantes une fois le testing validé.
-
-**Smart+** : Nouveau type de campagne automatisée par IA sur TikTok Ads, avec un algorithme encore récent. Peut très bien performer ou pas du tout, donc à tester en parallèle d'une CBO classique plus stable.
-
-**Cost Cap** : Réglage d'enchère permettant de plafonner le coût moyen par résultat. Mentionné comme sujet approfondi dans une prochaine vidéo.
-
-**Bid Cap** : Réglage d'enchère fixant un plafond maximal par enchère individuelle. Comme le Cost Cap, il sera détaillé dans une vidéo à venir sur les KPIs avancés.
-
-**ROAS** : Retour sur investissement publicitaire (Return On Ad Spend), c'est-à-dire le chiffre d'affaires généré pour chaque euro dépensé en publicité. Cité comme l'un des deux indicateurs principaux à suivre avec le coût par achat.
-
-**CPA (coût par achat)** : Montant dépensé en publicité pour obtenir une vente. Indicateur clé pour juger si un testing est rentable par rapport au seuil de rentabilité (break even point).
-
-**CTR** : Taux de clic (Click-Through Rate), qui mesure le pourcentage de personnes ayant cliqué sur une publicité après l'avoir vue. Sert à évaluer l'accroche d'une créative.
-
-**CPM** : Coût pour mille impressions, c'est-à-dire le prix payé pour que la publicité soit affichée mille fois. Sur TikTok, les CPM sont généralement plus bas que sur Meta.
-
-**Break Even Point** : Seuil de rentabilité, le point où le chiffre d'affaires généré couvre exactement les coûts publicitaires. Sert de référence pour décider de scaler après 24 à 48h.
-
-**Full Broad** : Ciblage publicitaire sans restriction démographique ou d'intérêt, laissant l'algorithme trouver l'audience. Stratégie recommandée pour le testing initial avec un budget minimum de 150 à 250€/jour.
-
-**Spark Ads** : Format publicitaire TikTok permettant de sponsoriser directement une vidéo organique (déjà publiée) plutôt que de créer une nouvelle publicité. Exemple : reprendre son meilleur contenu organique et le transformer en Spark Ads pour booster sa portée.
-
-**Pop Cards** : Cartes visuelles interactives qui s'affichent pendant la lecture d'une publicité TikTok, généralement pour mettre en avant un gros call-to-action après quelques secondes de visionnage.
-
-**Metadata** : Ensemble de données techniques associées à un fichier vidéo ou image, permettant à TikTok de détecter si un contenu a déjà été utilisé. Rafraîchir la metadata via un outil dédié permet de faire passer une vidéo pour un contenu totalement neuf.
-
-**Ad Set Creative Plus** : Fonctionnalité TikTok permettant de regrouper plusieurs créatives dans un seul ad set. Utile pour tester rapidement un grand nombre de vidéos gagnantes en une seule campagne.
-
-**KPI** : Indicateur clé de performance (Key Performance Indicator) utilisé pour évaluer la réussite d'une campagne, comme le CPA, le ROAS, le CTR ou le CPM.
-
-**SKU** : Référence unique identifiant un produit dans une boutique. Mentionné pour illustrer la gestion de plusieurs produits différents sur une même boutique.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`tiktok ads` `testing campagne tiktok` `scaling tiktok` `CBO tiktok` `stratégie publicitaire tiktok` `créatives tiktok` `smart plus tiktok` `dropshipping tiktok` `publicité ecommerce` `tiktok ads 2024`
-
-## Ressources
-
-- [DOCUMENT - TIKTOK PROCESS](https://docs.google.com/document/d/1Za0r6_ZK1-bkPom9qGrvdYwrGZ0An9EbsaN1uQ2lqGs/edit?tab=t.0)
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 45 : Introduction & Présentation
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 45
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 45 — Introduction & Présentation
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Bienvenue dans cette masterclass Google Ads.
-
-Informations complémentaires :
-
-Notre agence : [https://www.kibers.io](https://www.kibers.io)
-
-Format d’accompagnement possible = Done for you (gestion complète Google Ads)
-
-Critère minimum : faire plus de 70k€ de CA mensuel en moyenne sur les 3 derniers mois.
-
-👉 Réservez votre appel ici : [https://calendly.com/kibers/call-introduction-30](https://calendly.com/kibers/call-introduction-30)
-
-__
-
-Coaching / Consulting 1:1 avec Victor
-
-👉 Réserver votre appel ici : [https://calendly.com/kibers/r1-victor](https://calendly.com/kibers/r1-victor)
-
-__
-
-📩 Une question liée à la formation ?
-
-Vous pouvez écrire à [victor@kibers.io](mailto:victor@kibers.io)
-
-Merci de bien contextualiser votre message (site, pays, niveau de spend, problématique précise) afin d’éviter les allers-retours inutiles et être certain d’avoir un retour pertinent.
-
----
-
-### Introduction
-
-Maîtriser Google Ads de A à Z pour scaler ton e-commerce de façon rentable et autonome.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette formation, tu vas découvrir comment construire un système Google Ads qui performe en continu, que tu sois débutant ou avancé. Tu apprendras à structurer ton compte correctement, à paramétrer ton tracking, à lancer et optimiser tes campagnes (Search, Performance Max, Shopping, Demand Gen), et à prendre des décisions pilotées par le profit. L'objectif : soit gérer toi-même tes campagnes en totale autonomie, soit déléguer intelligemment avec la lucidité stratégique pour détecter les erreurs et maximiser ton retour sur investissement.
-
----
-
-### Mindset / Vision
-
-Google Ads est encore trop souvent mal compris, "trop cher", "trop complexe", "pas fait pour l'acquisition". La réalité : c'est le canal le plus puissant s'il est bien maîtrisé. Il ne suffit pas d'activer des campagnes, il faut penser en intention d'achat, boucher les passoires de ton tunnel de conversion, et exploiter la demande que tu génères déjà.
-
----
-
-### Timestamps
-
-00:00 - Bienvenue et format
-01:44 - Présentation et agence
-05:00 - Objectifs de la formation
-07:53 - Mythes vs réalité Google Ads
-09:58 - Sommaire et modules à venir
-
----
-
-#### Lexique
-
-**Google Ads** : Plateforme publicitaire de Google permettant de diffuser des annonces sur le moteur de recherche, Shopping, YouTube et son réseau de sites partenaires. Exemple : lancer une campagne pour capter les internautes qui recherchent activement un produit similaire au tien.
-
-**Media buying** : Métier consistant à acheter et piloter des espaces publicitaires (ici sur Google Ads) pour le compte d'une marque, en optimisant budget et performance. Exemple : un media buyer ajuste quotidiennement les enchères et budgets d'une campagne pour améliorer sa rentabilité.
-
-**Google Partner** : Certification officielle attribuée par Google aux agences ou professionnels démontrant une expertise avérée sur ses outils publicitaires. C'est un gage de crédibilité auprès des clients.
-
-**Google Ads Impact Awards** : Récompense internationale décernée par Google aux meilleures campagnes ou approches créatives sur Google Ads.
-
-**KPI (Key Performance Indicator)** : Indicateur clé de performance : une donnée chiffrée utilisée pour mesurer l'efficacité d'une campagne (ex : ROAS, coût par acquisition, taux de conversion).
-
-**Demand Gen** : Type de campagne Google Ads axé sur la génération de demande, diffusée sur YouTube, Discover et Gmail. Il permet de toucher des prospects en haut du tunnel d'achat, avant même qu'ils recherchent activement un produit.
-
-**Performance Max (Pmax)** : Type de campagne automatisée de Google Ads qui diffuse simultanément sur tous les réseaux (Search, Shopping, YouTube, Display, etc.) via l'intelligence artificielle, en visant un objectif de performance unique.
-
-**GMC (Google Merchant Center)** : Plateforme Google où l'on référence son catalogue produit (prix, stock, images) pour pouvoir diffuser des campagnes Shopping ou Performance Max. Sa validation est une étape technique indispensable avant de lancer ce type de campagne.
-
-**Stratégies d'enchère** : Méthodes utilisées pour définir comment et combien une campagne va enchérir automatiquement ou manuellement pour chaque opportunité publicitaire, afin d'atteindre un objectif (conversions, ROAS, clics...).
-
-**Campagnes Search** : Campagnes Google Ads diffusées directement dans les résultats du moteur de recherche, en réponse à une requête tapée par l'utilisateur. Elles ciblent une intention d'achat déjà existante.
-
-**Campagnes Shopping** : Campagnes affichant des fiches produits (image, prix, nom) directement dans les résultats Google, particulièrement adaptées à l'e-commerce.
-
-**Campagnes Merchant** : Campagnes s'appuyant directement sur les données du Merchant Center pour promouvoir les produits d'un catalogue, en complément des campagnes Shopping et Performance Max.
-
-**Retargeting** : Technique publicitaire qui consiste à recibler des internautes ayant déjà interagi avec une marque (visite du site, panier abandonné, etc.) pour les inciter à revenir et convertir.
-
-**Branding** : Ensemble d'actions publicitaires visant à développer la notoriété et l'image d'une marque, par opposition aux actions orientées directement vers la conversion immédiate.
-
-**Tunnel de conversion** : Parcours complet qu'un client potentiel traverse, de la découverte d'une marque jusqu'à l'achat. "Boucher les passoires du tunnel" signifie capter les prospects à chaque étape pour éviter de les perdre en route.
-
-**Scaling** : Fait d'augmenter significativement les budgets et les résultats d'une campagne tout en conservant (ou en améliorant) sa rentabilité.
-
-**Tracking** : Ensemble des outils et configurations techniques permettant de mesurer précisément les actions des utilisateurs (achats, clics, visites) pour alimenter les données de campagnes Google Ads.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`google ads` `e-commerce` `acquisition payante` `performance max` `google shopping` `scaling` `media buying` `campagnes google` `formation google ads` `skool`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 46 : Google Ads Basics
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 46
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 46 — Google Ads Basics
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comprends Google Ads de A à Z avant de lancer ta première campagne.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module fondamental, tu vas apprendre le rôle exact de Google dans un funnel e-commerce (captation d'intention vs création d'attention), la différence entre chaque canal de diffusion (Search, Shopping, Display, YouTube, Discovery, Demand Gen, Performance Max), les trois types de correspondance de mots-clés et quand les utiliser, les 5 types d'audiences Google et comment les exploiter en observation ou en ciblage, ainsi que le fonctionnement du système d'enchères automatiques (Smart Bidding) et les 3 facteurs qui déterminent qui apparaît, et à quel prix.
-
----
-
-### Mindset / Vision
-
-Ce module pose les fondations sur lesquelles tout le reste repose. Que tu sois débutant ou expérimenté, comprendre que Google est avant tout un outil de captation de demande existante change radicalement la façon dont tu structures tes campagnes. Tes résultats ne dépendent pas uniquement de ton budget, ils dépendent de la qualité des signaux que tu envoies à l'algorithme, de la force de ta marque et de la pertinence de ton offre face à l'intention du marché.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi Google compte
-01:42 - Canaux Google Ads clés
-06:09 - Demand Gen et Performance Max
-07:58 - Ciblage mots-clés et audiences
-16:52 - Enchères et Quality Score
-
----
-
-#### Lexique
-
-**Shopping (canal de diffusion)** : Canal publicitaire visuel type marketplace, qui affiche votre produit (photo, prix) directement face à la concurrence. Exemple : recherche "complément collagène" → plusieurs produits similaires s'affichent côte à côte avec prix et photo.
-
-**Search** : Le canal historique de Google basé sur les recherches textuelles, avec la plus forte intention d'achat après le Shopping. Ce sont les annonces textuelles qui apparaissent en haut des résultats Google quand vous tapez une requête.
-
-**Discovery** : Format publicitaire basé sur des créas visuelles diffusées dans les flux Google (application mobile, Chrome, YouTube feed, Gmail). Ce sont des publicités qui apparaissent pendant que vous scrollez, similaires à ce qu'on voit sur les réseaux sociaux, mais sur l'écosystème Google.
-
-**Display** : L'un des canaux les plus anciens de Google, utilisé pour le remarketing et la visibilité de marque grâce à des CPM très bas. Ce sont les bannières publicitaires qu'on voit sur des sites web ou blogs.
-
-**YouTube Ads** : Format publicitaire vidéo diffusé avant, pendant, après une vidéo YouTube, ou en Shorts. Idéal pour éduquer, faire connaître sa marque et créer de l'awareness grâce à des créas fortes.
-
-**Demand Gen** : Type de campagne qui regroupe Discovery, Display et YouTube Ads, avec pour objectif de créer de la demande auprès d'audiences froides et scalables. C'est l'équivalent Google d'une campagne Meta classique, basée sur du contenu créatif pour susciter l'intérêt.
-
-**Performance Max (PMax)** : Type de campagne qui regroupe Discovery, Search, Shopping, YouTube Ads et Display en une seule campagne automatisée. C'est la campagne "tout-en-un" qui exploite tout l'écosystème Google pour trouver les clients les plus pertinents.
-
-**Funnel (tunnel de conversion)** : Le parcours qu'un client traverse, de la découverte d'un produit jusqu'à l'achat. On distingue généralement le haut (découverte), le milieu (considération) et le bas (achat) du funnel.
-
-**ToFu / MoFu / BoFu** : Acronymes désignant les 3 étapes du funnel : Top of Funnel (découverte), Middle of Funnel (considération), Bottom of Funnel (achat/conversion).
-
-**Mots-clés à correspondance exacte** : Type de ciblage par mots-clés (noté avec crochets) où l'annonce n'apparaît que si la recherche correspond précisément au mot-clé défini. Exemple : mot-clé [complément collagène] → n'apparaît que pour cette recherche exacte.
-
-**Expression exacte** : Type de ciblage (noté avec guillemets) qui autorise Google quelques variations autour du mot-clé principal. C'est le type de mot-clé le plus recommandé pour débuter. Exemple : "complément collagène" peut aussi déclencher "meilleur complément collagène".
-
-**Expression large** : Type de ciblage sans crochets ni guillemets, qui laisse Google interpréter largement l'intention derrière une recherche. Très puissant mais risqué pour un débutant, car Google peut afficher vos annonces sur des recherches éloignées de votre offre.
-
-**Mots-clés négatifs** : Liste de mots ou expressions pour lesquels vous ne voulez surtout pas que vos annonces apparaissent. Ça évite de gaspiller du budget sur des recherches non pertinentes. Exemple : exclure "gratuit", "Amazon", "arnaque".
-
-**Ciblage par audience** : Méthode de ciblage qui consiste à cibler des groupes de personnes définis par leurs comportements ou caractéristiques, plutôt que par des mots tapés.
-
-**Observation (audience)** : Utilisation passive d'une audience, où Google se contente d'analyser ses performances sans orienter la diffusion vers elle. C'est une phase d'analyse avant de décider si l'audience vaut la peine d'être ciblée activement.
-
-**Targeting (audience)** : Utilisation active d'une audience, où Google diffuse les annonces uniquement aux personnes qui en font partie.
-
-**Audiences d'affinité** : Audiences basées sur des profils comportementaux à long terme (ex : sportifs, foodies). Ciblage assez large, utile en haut de funnel.
-
-**In-market** : Audiences ciblant des personnes actuellement en phase d'achat actif sur un segment spécifique. Exemple : cibler les personnes actuellement en recherche active de compléments alimentaires.
-
-**Remarketing** : Ciblage des personnes ayant déjà interagi avec votre site (visiteurs, paniers abandonnés, acheteurs). C'est le terme Google pour désigner le retargeting.
-
-**Customer match** : Méthode consistant à envoyer à Google vos propres listes de clients ou leads pour qu'il trouve des profils similaires. Très puissant car basé sur votre propre data plutôt que sur des estimations de Google.
-
-**Lookalike** : Audience générée par Google à partir de profils qui ressemblent à vos meilleurs clients existants. Équivalent des audiences similaires sur Meta.
-
-**Flux produit** : Le fichier contenant toutes les informations sur vos produits (titre, description, prix, images, disponibilité) que Google utilise pour le Shopping. Plus votre flux est complet et optimisé, mieux vos produits sont référencés.
-
-**Auction time bidding (système d'enchères en temps réel)** : Système utilisé par Google depuis 2018 où chaque enchère est recalculée individuellement à chaque impression, en fonction du contexte utilisateur.
-
-**Score de qualité** : Indicateur algorithmique basé sur le CTR attendu, la pertinence de l'annonce et l'expérience de la landing page. Plus votre score de qualité est élevé, moins vous payez pour une même position.
-
-**CTR (Click-Through Rate)** : Taux de clics, c'est-à-dire le pourcentage de personnes qui cliquent sur votre annonce après l'avoir vue.
-
-**CPC (coût par clic)** : Le montant payé à Google à chaque clic sur votre annonce.
-
-**CPM** : Coût pour mille impressions, c'est-à-dire le prix payé pour que votre annonce soit vue 1000 fois.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `e-commerce` `Search Ads` `Shopping Ads` `Performance Max` `Smart Bidding` `ciblage audience` `mots-clés` `funnel acquisition` `publicité Google`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 47 : Stratégie de Structuration Ultime en 2026
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 47
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 47 — Stratégie de Structuration Ultime en 2026
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Construire la structure de compte Google Ads idéale pour scaler en 2026.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module, tu vas découvrir la structure de campagnes Google Ads utilisée au quotidien sur des comptes réels : Search Branding, Search Acquisition, Shopping, Performance Max Bestsellers, YouTube Remarketing et Demand Gen. Tu comprendras le rôle précis de chaque campagne, comment les combiner pour maximiser le ROI, et dans quel ordre les lancer pour accumuler de la data efficacement dès le départ.
-
----
-
-### Mindset / Vision
-
-Cette structure n'est pas théorique, elle est conçue pour être adaptée à chaque type de brand (monoproduit, large gamme, bestsellers multiples, objectifs court terme…). L'idée n'est pas de tout lancer en même temps, mais de construire progressivement un compte solide, cohérent et scalable.
-
----
-
-### Timestamps
-
-00:00 - Objectif du module
-00:44 - Structure Search idéale
-01:36 - Shopping et Performance Max
-02:45 - YouTube et Demand Gen
-03:49 - Déploiement progressif et ajustements
-
----
-
-#### Lexique
-
-**Search** : Le type de campagne publicitaire Google Ads le plus connu, basé sur les mots-clés tapés par les internautes. C'est la base de toute stratégie d'acquisition sur Google. Exemple : une campagne Search vous permet d'apparaître quand quelqu'un tape "acheter [votre produit]" sur Google.
-
-**Campagne branding** : Campagne Search destinée à sécuriser, protéger et dominer les recherches liées à votre marque. Elle apparaît quand un internaute tape directement le nom de votre marque, pour éviter qu'un concurrent capte ce trafic.
-
-**Campagne acquisition** : Campagne Search visant à être présent sur des mots-clés précis, en dehors du nom de marque, pour capter de nouveaux clients.
-
-**Campagne advertorial** : Campagne Search qui permet d'être présent sur des requêtes plus larges, sur lesquelles on n'aurait pas pu se positionner avec du Search classique.
-
-**Campagne Catch All** : Campagne (souvent Shopping ou PMax flux produit uniquement) qui couvre l'intégralité de la gamme produit, même les produits à faible volume. Elle capte des ventes ponctuelles sur des produits peu vendus, en complément des campagnes ciblées.
-
-**Performance Max (PMax)** : Type de campagne Google Ads automatisée qui diffuse sur tous les réseaux (Search, Shopping, YouTube, Display, etc.) à partir d'un seul flux produit ou d'assets créatifs. Exemple : isoler ses best-sellers dans une campagne PMax permet théoriquement d'obtenir le meilleur ROI du compte.
-
-**Shopping** : Format de campagne Google Ads qui affiche directement les produits (image, prix, nom) dans les résultats de recherche.
-
-**Demand Gen** : Format de campagne Google Ads (anciennement lié à Discovery/YouTube) qui diffuse des créas visuelles sur plusieurs placements (Gmail, YouTube, Discover). Décrite comme la campagne préférée pour diffuser massivement les best-sellers.
-
-**YouTube remarketing** : Campagne vidéo ciblant une audience qui a déjà interagi avec la marque, utilisée pour soutenir la notoriété et la rétention.
-
-**MUR (Marketing Unit Return / ROI marchand)** : Indicateur de rentabilité mentionné pour évaluer la performance d'une campagne, que ce soit sur les nouveaux clients ("new customer MUR") ou de façon globale ("MUR global").
-
-**Best-sellers** : Les produits les plus vendus d'une gamme, isolés dans des campagnes dédiées (PMax, Demand Gen) car ils génèrent le plus gros retour sur investissement.
-
-**At scale** : Expression désignant une structure de compte conçue pour grossir en volume tout en restant performante, applicable à plusieurs marques ou budgets.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `structure de compte` `Performance Max` `Demand Gen` `Search Acquisition` `Google Shopping` `stratégie publicitaire` `scale e-commerce` `campagnes Google 2026` `ROI Google Ads`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 48 : Paramétrer votre compte
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 48
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 48 — Paramétrer votre compte
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Comment créer et connecter ton compte Google Ads + Merchant Center (tutoriel complet débutant).
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module, on pose les fondations techniques de ta stratégie Google Ads : création du compte, connexion à Shopify, configuration du Merchant Center et mise en place du tracking.
-
-Tu vas apprendre à créer ton compte Google Ads en récupérant les avoirs de lancement (jusqu'à 1200€ à débloquer), paramétrer ton Merchant Center avec les bonnes politiques de livraison et de retour, connecter ton catalogue produit Shopify via l'app Google & YouTube, configurer le tracking des conversions (achat, ajout au panier, initiation de paiement), et préparer ton compte pour lancer ta première campagne dans le module suivant. À chaque étape, les erreurs classiques à éviter sont pointées (paramètres automatiques à désactiver, cohérence des informations entre les outils, etc.).
-
----
-
-### Mindset / Vision
-
-Ce module est volontairement orienté action et rigueur. Un compte bien structuré dès le départ, c'est moins de problèmes de suspension, de données fiables et une base solide pour scaler. Prends le temps de tout paramétrer correctement maintenant, tu t'éviteras des corrections coûteuses plus tard.
-
----
-
-### Timestamps
-
-00:00 - Roadmap du module
-01:02 - Créer un compte Google Ads
-04:03 - Configurer paiement et accès
-05:38 - Tour du back office Ads
-11:26 - Merchant Center et Shopify
-
----
-
-#### Lexique
-
-**GMC (Google Merchant Center)** : Plateforme qui héberge le catalogue produit d'une boutique pour l'afficher dans Google Shopping et les annonces produits. C'est le pont entre votre boutique (ex : Shopify) et Google Ads pour afficher vos produits. Exemple : dans la vidéo, le GMC est connecté à Shopify via l'application Synprosis.
-
-**CPA (coût par acquisition)** : Coût moyen dépensé en publicité pour obtenir une conversion (achat, lead, etc.). Plus votre CPA est bas, plus votre publicité est rentable.
-
-**CPC (coût par clic)** : Montant payé par l'annonceur à chaque clic sur son annonce. C'est l'un des indicateurs de base pour évaluer le coût d'une campagne.
-
-**ROI (retour sur investissement)** : Indicateur mesurant le gain généré par rapport à l'argent investi en publicité. Un ROI cible permet de définir jusqu'où vous êtes prêt à dépenser pour gagner de l'argent.
-
-**Keyword Planner** : Outil gratuit de Google Ads pour trouver des mots-clés, leur volume de recherche et leurs prévisions de coût. C'est l'outil de référence pour préparer une campagne de recherche (search).
-
-**Semrush** : Outil payant tiers d'analyse SEO/SEA permettant d'étudier des mots-clés et la concurrence. Un complément au Keyword Planner pour affiner ses choix de mots-clés.
-
-**Demand Gen** : Format de campagne Google Ads axé sur la génération de demande via des visuels engageants sur YouTube, Discover, Gmail, etc. Utile pour toucher une audience large avec du contenu visuel avant qu'elle ne cherche activement votre produit.
-
-**Performance Max (PMax)** : Type de campagne automatisée de Google Ads qui diffuse sur tous les réseaux (Search, Display, YouTube, Shopping...) via un seul flux. Simplifie la diffusion mais demande un bon paramétrage des audiences et du flux produit.
-
-**Audience in-market** : Segment d'utilisateurs que Google identifie comme étant activement en recherche d'un produit/service similaire au vôtre. Permet de cibler des personnes déjà en intention d'achat.
-
-**A/B test** : Méthode consistant à comparer deux versions (ex : deux stratégies d'enchères) pour voir laquelle performe le mieux. Permet de prendre des décisions basées sur des données plutôt que des suppositions.
-
-**GA4 (Google Analytics 4)** : Outil d'analyse web de Google permettant de suivre le comportement des visiteurs et les conversions sur un site. Indispensable pour mesurer la performance de vos campagnes publicitaires.
-
-**Synprosis** : Application Shopify facilitant la gestion du flux produit, le tracking et l'automatisation entre Shopify, GMC et Google Ads. Simplifie des tâches techniques normalement complexes à paramétrer manuellement. Exemple : "ça coûte 5 dollars par mois jusqu'à 500 produits" et permet de connecter GMC, Google Ads et GA4 en quelques clics.
-
-**Dynamic Remarketing** : Format publicitaire qui réaffiche automatiquement les produits consultés par un visiteur pour l'inciter à revenir. Un excellent moyen de récupérer des visiteurs n'ayant pas acheté du premier coup.
-
-**Conversion Tracking** : Système de suivi des actions importantes réalisées par les visiteurs (achat, ajout au panier, etc.). Sans ce tracking, impossible de savoir si vos campagnes sont rentables.
-
-**Google Tag Manager** : Outil permettant de gérer les balises de tracking d'un site sans toucher au code. Utile si vous avez déjà un système de tracking personnalisé à connecter.
-
-**CTR (taux de clic)** : Pourcentage de personnes ayant cliqué sur une annonce par rapport au nombre de fois où elle a été affichée. Un CTR élevé indique une annonce attractive et pertinente.
-
-**TVA** : Taxe sur la valeur ajoutée appliquée aux produits vendus, notamment en Europe. Doit être correctement configurée dans GMC pour l'affichage légal des prix.
-
-**Domaine autorisé** : Paramètre de sécurité Google Ads précisant quels domaines mail peuvent recevoir un accès au compte. Sans cette étape, impossible de donner accès à un collaborateur avec une adresse mail externe.
-
-**Add to Cart / Begin Checkout** : Événements de conversion correspondant respectivement à l'ajout d'un produit au panier et au début du processus de paiement. Ce sont des micro-conversions utiles pour analyser le tunnel d'achat avant l'achat final.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `Merchant Center` `Shopify` `tracking conversions` `e-commerce` `campagne Shopping` `flux produit` `débutant Google Ads` `paramétrage compte` `Simprosys`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 49 : Setup d’une campagne
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 49
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 49 — Setup d’une campagne
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Créez votre première campagne Google Shopping de A à Z, sans faire les erreurs classiques.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce tutoriel, vous allez apprendre à configurer une campagne Google Shopping Standard sur un compte tout neuf : choix du bon type de campagne (et pourquoi éviter la Performance Max au départ), liaison avec le compte Merchant Center, paramètrage du budget minimal, stratégie d'enchère au CPC, sélection géographique correcte (le piège de la cible "intérêt" vs "présence"), exclusion des mauvais produits, et ajout d'audiences en observation pour enrichir la data dès le départ.
-
----
-
-### Mindset / Vision
-
-Ne cherchez pas à tout automatiser immédiatement. Démarrer sur Shopping Standard vous permet de comprendre ce qui performe avant de déléguer le contrôle à Google. C'est la base solide sans laquelle toute stratégie d'enchères intelligentes restera fragile.
-
----
-
-### Timestamps
-
-00:00 - Lancer une campagne Shopping
-00:52 - Objectif et Merchant Center
-02:19 - Budget, enchères et ciblage
-06:03 - Produits et audiences
-08:59 - Bilan et prochaines étapes
-
----
-
-#### Lexique
-
-**Campagne Shopping** : Format de campagne Google Ads qui affiche vos produits directement avec image, prix et nom via un flux produit synchronisé (Merchant Center). C'est la campagne recommandée pour démarrer en e-commerce car elle est très pertinente pour la vente en ligne.
-
-**Performance Max (PMax)** : Type de campagne automatisée qui diffuse sur tous les réseaux Google (Search, Shopping, Display, YouTube) avec un maximum d'automatisation. À utiliser après avoir accumulé de la data, une fois qu'on a des best-sellers identifiés, plutôt qu'en tout premier lancement.
-
-**Merchant Center** : Plateforme Google où est hébergé et synchronisé le flux de produits (prix, stock, images) qui alimente les campagnes Shopping et PMax.
-
-**Objectif de conversion d'achat** : Type d'objectif configuré (ici via Syncrosis) qui indique à Google Ads que l'action à optimiser est l'achat effectif sur le site, et non un simple clic.
-
-**Stratégie d'enchère "Maximiser les clics"** : Stratégie d'enchère automatique où Google optimise pour obtenir le plus de clics possible avec le budget disponible. Recommandée en phase de démarrage, avant d'avoir assez de data pour des stratégies basées sur la conversion.
-
-**CPC cible / CPC maximal** : Coût par clic que l'on est prêt à payer. Le CPC maximal plafonne le prix payé par clic, basé sur une analyse du marché (ex. via Keyword Planner ou SEMrush).
-
-**Keyword Planner** : Outil gratuit de Google Ads permettant d'estimer les volumes de recherche et les coûts par clic moyens pour des mots-clés, utilisé ici pour calibrer le CPC cible.
-
-**Semrush** : Outil tiers d'analyse SEO/SEA permettant d'étudier la concurrence et les coûts publicitaires sur un marché donné.
-
-**Option de ciblage géographique "Présence uniquement"** : Paramètre qui restreint la diffusion aux personnes physiquement présentes dans la zone ciblée, contrairement à "Présence ou intérêt" qui inclut aussi les internautes qui s'intéressent à cette zone sans y être. Exemple : cibler uniquement les personnes réellement en France, et non celles qui recherchent simplement des infos sur la France.
-
-**Réseau de partenaires de recherche Google** : Option permettant de diffuser aussi les annonces sur des sites partenaires de Google, en plus de Google lui-même. Décochée en début de campagne pour prioriser la qualité du trafic Google, puis activée plus tard pour scaler.
-
-**Groupe d'annonces / Groupe de produits** : Sous-ensemble d'une campagne dans lequel on organise les produits ou annonces à diffuser.
-
-**Audiences en observation** : Segments d'audience (centres d'intérêt, démographie, marché) ajoutés à une campagne sans restreindre le ciblage, dans le but d'analyser leurs performances (taux de conversion, dépense) avant de décider de les utiliser en ciblage actif.
-
-**UTM** : Paramètres ajoutés à une URL permettant de tracker précisément la source du trafic dans des outils d'analyse (ex. Google Analytics).
-
-**Flux produit** : Fichier de données contenant l'ensemble des produits (nom, prix, image, ID) synchronisé depuis une boutique en ligne vers Google Merchant Center.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Shopping` `Google Ads débutant` `campagne Shopping Standard` `Merchant Center` `stratégie enchères Google`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 50 : Les stratégies d’enchères
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 50
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 50 — Les stratégies d’enchères
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Maîtrise les stratégies d'enchère Google Ads pour piloter tes performances.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module, tu vas comprendre en profondeur comment fonctionnent les 4 stratégies d'enchère de Google Ads : Maximiser les clics, Maximiser les conversions, Maximiser la valeur de conversion et le Taux d'impression cible. Tu vas apprendre quand utiliser chacune d'elles selon la maturité de ton compte, comment les caper intelligemment (CPC cible, CPA cible, ROAS cible) pour ne pas brûler ton budget, et comment construire une roadmap progressive, du lancement à la phase de scaling, pour maximiser ta rentabilité sur chaque type de campagne (Search, Shopping, Performance Max).
-
----
-
-### Mindset / Vision
-
-La clé sur Google Ads, c'est de comprendre que la stratégie d'enchère n'est pas un détail technique : c'est l'ordre que tu donnes à l'algorithme. Avec les mêmes annonces et le même budget, une mauvaise stratégie peut plomber tes résultats, là où la bonne les décuple. Maîtriser cette logique, c'est passer d'un compte qui dépense à un compte qui performe.
-
----
-
-### Timestamps
-
-00:00 - Comprendre les stratégies d’enchères
-02:07 - Panorama des options Google Ads
-04:03 - Maximiser les clics pour démarrer
-08:42 - Conversions et valeur ROAS
-15:29 - Impression share et synthèse finale
-
----
-
-#### Lexique
-
-**Stratégie d'enchère** : Les consignes données à l'algorithme de Google Ads pour orienter les résultats d'une campagne (qui toucher, à quel prix, avec quelle rentabilité). Exemple : choisir "Maximiser les clics" pour dire à Google de privilégier le volume de trafic.
-
-**CPC (coût par clic)** : Le montant payé par Google Ads à chaque clic sur une annonce. On peut le "caper" (plafonner) pour éviter de surpayer le trafic. Exemple : un CPC cible de 1€ signifie que l'algorithme ne doit pas dépasser ce prix moyen par clic.
-
-**CPC cible / CPC max** : Une contrainte optionnelle qu'on ajoute à une stratégie d'enchère pour empêcher l'algorithme de dépasser un certain coût par clic. Exemple : capper "Maximiser les clics" à 0,90€ pour ne pas exploser le budget sur des clics chers.
-
-**Maximiser les clics** : Stratégie d'enchère où Google cherche à obtenir le plus de clics possible pour le budget donné, sans juger la qualité du trafic. Utile pour accumuler rapidement de la data au lancement d'un compte ou d'une campagne, mais pas pour générer des ventes.
-
-**Maximiser les conversions** : Stratégie d'enchère où Google maximise le nombre total de conversions (ventes, leads, etc.), sans tenir compte de leur valeur. Peut être plafonnée avec un CPA cible. Sert d'étape intermédiaire pour construire un historique avant de passer à des stratégies plus précises.
-
-**Conversion** : Une action de valeur réalisée par un utilisateur suite à une publicité (achat, lead, inscription). C'est la mesure de base utilisée par la plupart des stratégies d'enchères.
-
-**CPA (coût par acquisition/achat)** : Le montant moyen dépensé en publicité pour obtenir une conversion. On peut définir un "CPA cible" pour dire à Google de ne pas dépasser ce coût par conversion. Exemple : un CPA cible de 30€ signifie que chaque vente ne doit pas coûter plus de 30€ en publicité en moyenne.
-
-**Maximiser la valeur de conversion** : Stratégie d'enchère où Google cherche à maximiser le chiffre d'affaires total généré (et non juste le nombre de ventes), en allant chercher les utilisateurs avec un panier moyen plus élevé. Idéale en phase de scaling, avec possibilité de contrainte ROAS cible.
-
-**ROAS (Return On Ad Spend)** : Le retour sur investissement publicitaire, exprimé en pourcentage : chiffre d'affaires généré divisé par le budget publicitaire dépensé. Un "ROAS cible" de 300% signifie que chaque euro dépensé en pub doit générer 3€ de chiffre d'affaires.
-
-**Taux d'impression cible** : Stratégie d'enchère qui vise un pourcentage d'apparition de l'annonce sur une requête donnée (ex : 90%, 100%). Principalement utilisée en branding pour dominer une recherche spécifique ou protéger sa marque.
-
-**AOV (Average Order Value / panier moyen)** : La valeur moyenne d'une commande sur une boutique. Plus l'AOV est élevé, plus il est pertinent d'utiliser la stratégie "Maximiser la valeur de conversion".
-
-**Performance Max (PMax)** : Type de campagne Google Ads automatisée qui diffuse sur tous les canaux (Search, Display, YouTube, Shopping, etc.) à partir d'un seul flux. Mentionnée comme un contexte typique pour utiliser "Maximiser la valeur de conversion" ou le ROAS cible en phase mature.
-
-**Demand Gen** : Format de campagne Google Ads axé sur la génération de demande (anciennement Discovery), diffusé sur YouTube, Gmail et Discover. Cité comme un des canaux où appliquer un ROAS cible en phase de scaling.
-
-**Search (campagne de recherche)** : Type de campagne Google Ads qui diffuse des annonces textuelles sur les résultats de recherche Google. Sert d'exemple principal pour illustrer la progression entre les différentes stratégies d'enchères.
-
-**Shopping** : Type de campagne Google Ads qui affiche des fiches produits (image, prix, nom) directement dans les résultats de recherche.
-
-**Requête large (broad match)** : Un type de correspondance de mots-clés qui permet à Google de diffuser une annonce sur des recherches proches du mot-clé défini, sans contrainte stricte. Utile en phase "Maximiser les clics" pour collecter des signaux sur des mots-clés pertinents.
-
-**Lead gen (génération de leads)** : Type de campagne visant à obtenir des contacts qualifiés (formulaire, quiz) plutôt que des ventes directes. Peut être plafonnée avec un "coût par lead cible", similaire au CPA mais appliqué aux leads.
-
-**Semrush** : Outil payant d'analyse SEO/SEA permettant d'analyser les coûts par clic théoriques du marché. Utilisé en complément du Keyword Planner pour estimer un CPC cible réaliste.
-
-**Keyword Planner** : Outil gratuit propre à Google permettant d'estimer les coûts par clic et volumes de recherche des mots-clés. Considéré comme plus précis que SEMrush car directement lié aux données de Google Ads.
-
-**Top of page / position absolue haute** : Deux niveaux de position d'annonce sur la page de résultats Google. "Top of page" signifie apparaître parmi les premiers liens sponsorisés, "position absolue haute" signifie être exactement en première position.
-
-**COGS (Cost Of Goods Sold)** : Le coût des marchandises vendues, c'est-à-dire le coût de fabrication ou d'achat d'un produit. Utilisé pour calculer la rentabilité et déterminer le CPA cible ou ROAS cible acceptable pour rester profitable.
-
-**CAC (Coût d'Acquisition Client)** : Le coût total dépensé pour acquérir un nouveau client. Similaire au CPA mais parfois utilisé à l'échelle du client plutôt que de la conversion.
-
-**TAM (Total Addressable Market)** : La taille totale du marché potentiel adressable pour une marque sur une plateforme donnée.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `stratégies d'enchère` `ROAS cible` `CPA cible` `Performance Max` `maximiser les conversions` `Google Shopping` `lancement campagne` `scaling e-commerce` `enchères automatiques`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 51 : Focus : Search
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 51
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 51 — Focus : Search
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-#### Introduction
-
-Focus Search : capturer toute la demande avec Google Ads.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module, tu vas apprendre à maîtriser les campagnes Search Google Ads de A à Z, de la structure à la stratégie d'enchères, en passant par la rédaction d'annonces et le ciblage par mots-clés. Tu repartiras avec une méthode concrète pour lancer 3 types de campagnes Search complémentaires : branding (protéger ta marque), acquisition (capter de nouveaux clients) et DSA (débloquer des volumes inexploités via des landing pages éditoriales). Chaque étape est orientée rentabilité : segmentation des mots-clés par intention, optimisation des composants d'annonces, règles de filtrage par taux de conversion.
-
----
-
-### Mindset / Vision
-
-Le Search, c'est le canal où l'intention est déjà là, tu ne crées pas la demande, tu la captures. Comprendre la différence entre branding et acquisition sur Search, c'est la clé pour ne pas gaspiller ton budget et construire une machine à data qui alimente tout le reste de ton compte Google Ads.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi le Search
-01:39 - Créer une annonce efficace
-05:36 - Branding vs acquisition
-10:56 - Landing pages type advertorial
-14:45 - Plan d’action et conclusion
-
----
-
-#### Lexique
-
-**Search** : Type de campagne Google Ads basé sur des requêtes textuelles tapées par les utilisateurs. Exemple : une personne qui tape "meilleur collagène pour la peau" dans Google.
-
-**Annonce responsive** : Format d'annonce où l'on fournit plusieurs titres, descriptions, images et logos, et où Google assemble automatiquement la combinaison la plus performante selon la demande de l'utilisateur.
-
-**Optimiser selon les performances** : Option dans les paramétrages Google Ads qui laisse l'algorithme ajuster automatiquement les combinaisons de titres/descriptions. À activer seulement après avoir accumulé 30 à 50 conversions, sinon Google optimise sans données fiables.
-
-**CTR (taux de clic)** : Pourcentage de personnes qui cliquent sur une annonce par rapport au nombre de fois où elle est affichée. Un favicon incohérent avec le site fait baisser le CTR car cela ressemble à une arnaque.
-
-**Liens annexes (sitelinks)** : Petits liens complémentaires affichés sous l'annonce principale (ex : FAQ, avis, contact), organisés en colonnes. Ils augmentent la place occupée par l'annonce sur mobile.
-
-**Extraits structurés** : Composants d'annonce qui ajoutent du texte supplémentaire (ex : "Livraison France, gratuite") pour enrichir le message.
-
-**Infobulles (callouts)** : Petits textes additionnels affichés dans l'annonce, mettant en avant des avantages (livraison, garanties, etc.).
-
-**Stratégie d'enchère** : Méthode utilisée par Google pour définir combien dépenser par clic ou conversion (ex : taux d'impression cible, maximiser les conversions, Target ROAS).
-
-**Taux d'impression cible** : Stratégie d'enchère visant à apparaître un certain pourcentage du temps pour des recherches ciblées, souvent utilisée en branding pour dominer la visibilité.
-
-**Max conversion (maximiser les conversions)** : Stratégie d'enchère où Google dépense le budget disponible pour générer le plus de conversions possible.
-
-**Target ROAS (tROAS)** : Stratégie d'enchère visant un retour sur dépense publicitaire cible (ex : viser un ROAS de 300% signifie 3€ de revenu pour 1€ dépensé).
-
-**ROI (retour sur investissement)** : Mesure de la rentabilité d'une campagne, comparant le gain généré au coût investi.
-
-**Mots-clés exacts / expression exacte** : Types de correspondance de mots-clés dans Google Ads. L'exact ne déclenche l'annonce que pour une requête très précise ; l'expression exacte est plus flexible mais garde le sens du mot-clé.
-
-**Mots-clés à exclure (négatifs)** : Mots-clés que l'on empêche de déclencher une annonce, utilisés ici pour éviter que le nom de marque ne soit ciblé dans les campagnes d'acquisition.
-
-**Demand Gen** : Type de campagne Google Ads visant à générer de la demande via des formats visuels sur YouTube, Discover, Gmail, etc.
-
-**Pmax (Performance Max)** : Type de campagne Google Ads automatisée qui diffuse sur tous les canaux Google (Search, Display, YouTube, Shopping...) à partir d'un seul objectif.
-
-**Awareness (niveaux de conscience)** : Échelle qui décrit à quel point une audience est consciente de son problème ou de la solution. Exemple : "problem aware" (conscient du problème) vs "most aware" (connaît déjà la marque/produit).
-
-**MOFU / TOFU** : Acronymes pour "Middle of Funnel" et "Top of Funnel", désignant les étapes intermédiaires et hautes du tunnel de conversion, où les prospects sont moins avancés dans leur intention d'achat.
-
-**Advertorial** : Landing page conçue comme un faux article de blog (avec un ton rédactionnel) qui présente un problème puis introduit une solution/produit. Exemple : un article "Comment se débarrasser des rides naturellement" qui redirige ensuite vers un produit anti-âge.
-
-**CPC (coût par clic)** : Montant payé par l'annonceur à chaque clic sur une annonce.
-
-**AOV (Average Order Value / panier moyen)** : Valeur moyenne d'une commande, utilisée pour évaluer la rentabilité d'une campagne.
-
-**Upsell** : Technique consistant à proposer un produit ou une option supplémentaire plus chère au moment de l'achat pour augmenter le panier moyen.
-
-**Keyword Planner** : Outil gratuit de Google Ads permettant de rechercher des mots-clés, leur volume de recherche, leur concurrence et leur coût par clic estimé.
-
-**Semrush** : Outil payant tiers d'analyse SEO/SEA, utilisé ici en complément du Keyword Planner pour affiner la sélection de mots-clés.
-
-**Mot-clé longue traîne** : Mot-clé composé de plusieurs mots, généralement plus spécifique et moins concurrentiel qu'un mot-clé générique. Exemple : "comment se débarrasser des rides sans injection" plutôt que "collagène".
-
-**CRO (Conversion Rate Optimization)** : Discipline visant à optimiser une page ou un funnel pour maximiser le taux de conversion.
-
-**Listicle** : Format de contenu structuré en liste (ex : "5 raisons pour lesquelles...") utilisé pour rendre un article ou une publicité plus digeste et engageant.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads Search` `campagne acquisition` `branding Google Ads` `DSA campagne` `mots-clés intention d'achat` `structure compte Google Ads` `annonces responsive search` `keyword planner` `taux de conversion` `stratégie d'enchères`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 52 : Focus : PMAX & Shopping
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 52
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 52 — Focus : PMAX & Shopping
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Performance Max & Shopping : transformez Google en machine à cash.
-
----
-
-### Ce que tu vas apprendre
-
-Dans ce module, tu vas découvrir comment structurer et optimiser tes campagnes Performance Max pour maximiser ton chiffre d'affaires sur Google. Tu apprendras à comprendre les avantages et limites de Performance Max, à choisir entre PMax et Shopping classique (et pourquoi PMax fil dédié gagne presque toujours), à utiliser des scripts d'automatisation pour trier tes produits par niveau de performance, et à exploiter la méthode "Product Duplication Shopping", une stratégie toute récente qui multiplie ta visibilité sur une même recherche sans budget supplémentaire.
-
----
-
-### Mindset / Vision
-
-Google est un outil algorithmique qui fonctionne d'autant mieux qu'on lui donne la bonne structure. Arrête de micro-gérer chaque enchère et commence à penser en systèmes : bons flux, bons signaux, bonne architecture de campagnes. C'est là que se joue la vraie performance.
-
----
-
-### Timestamps
-
-00:00 - Objectifs du module 7
-01:12 - Avantages et limites PMax
-03:30 - PMax feed only vs Shopping
-06:56 - Optimiser les fiches produit
-09:50 - Scripts et duplication produit
-
----
-
-#### Lexique
-
-**Performance Max (PMax)** : Type de campagne Google Ads qui diffuse automatiquement sur tous les canaux Google (Search, Shopping, Discovery, YouTube, Display) via une seule campagne pilotée par l'IA. Elle est idéale pour scaler quand les autres campagnes plafonnent, car elle explore des audiences que l'annonceur n'aurait pas identifiées manuellement.
-
-**Performance Max feed-only** : Version de Performance Max où l'on n'ajoute aucun contenu textuel ou vidéo, ce qui force Google à ne diffuser que sur Google Shopping. Exemple : si vous ne fournissez qu'un flux produit sans assets créatifs, votre PMax ne tournera que sur le Shopping.
-
-**Shopping (campagne Shopping classique)** : Format de campagne Google Ads basé uniquement sur le flux produit, avec moins d'automatisation mais plus de contrôle sur les enchères et le ciblage. Recommandé pour démarrer un compte avant de basculer vers PMax.
-
-**Flux produit (flux Shopping)** : Fichier contenant les informations de vos produits (titre, prix, image, description) envoyé à Google via Merchant Center. C'est à la fois la source de données de vos annonces Shopping et un outil de ciblage à part entière.
-
-**Signaux d'audience (signaux d'observation)** : Données fournies à Google pour orienter (sans restreindre) le ciblage IA d'une campagne Performance Max, comme des listes de clients ou centres d'intérêt.
-
-**Historique de conversion** : Ensemble des données de conversions passées d'un compte, utilisé par l'algorithme pour apprendre et optimiser la diffusion. Sans historique solide, Performance Max ne parvient pas à bien performer.
-
-**Target ROAS (ROAS cible)** : Stratégie d'enchère automatique visant un retour sur dépense publicitaire précis. Exemple cité : 1,8 pour les produits peu performants, 2,5 pour les moyens, 4 pour les meilleurs.
-
-**Mot-clé d'intention** : Terme dans le titre ou la description d'un produit qui reflète clairement son usage (ex : "anti-imperfections" plutôt qu'un nom de gamme répété), aidant Google à comprendre le produit et donc réduire le CPC.
-
-**CPC (coût par clic)** : Montant payé par l'annonceur à chaque clic sur une annonce. Une fiche produit mal optimisée entraîne un CPC plus élevé car Google comprend moins bien l'intention d'achat.
-
-**Script Google Ads** : Petit programme (JavaScript) que l'on ajoute à un compte Google Ads pour automatiser des tâches d'optimisation, comme le tri ou l'étiquetage de produits selon leurs performances.
-
-**Labelizer Flow Boost** : Script spécifique évoqué dans la vidéo qui ajoute des labels sur les conversions PMax pour segmenter automatiquement les produits en low/mid/high performers, chacun dans une campagne distincte avec son propre budget et ROAS cible.
-
-**Low / mid / high performers** : Catégories de produits classés selon leur niveau de performance (conversions), utilisées pour répartir le budget publicitaire de façon différenciée (ex : 100€/jour pour les low, 400€ pour les mid, 1 200€ pour les high).
-
-**Product duplication** : Technique consistant à créer plusieurs fiches Shopping pour un même produit (même URL, même ID produit) mais avec des titres, images et angles différents, afin d'occuper plusieurs positions sur une même recherche. Exemple : un complément articulaire décliné en "douleur au genou" et "douleur au dos" avec deux fiches distinctes.
-
-**Compliance (Merchant Center)** : Ensemble de règles imposées par Google pour valider les fiches produits ; dans le cas de la product duplication, chaque variante doit apporter une valeur distincte (titre/angle différent) pour ne pas être rejetée.
-
-**Demand Gen** : Type de campagne Google Ads évoqué en fin de vidéo comme équivalent des campagnes "sociales" (façon Meta) mais diffusées sur l'écosystème Google, destiné à scaler la notoriété et la demande.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Performance Max` `Google Shopping` `campagne Google Ads` `optimisation flux produit` `scripts Google Ads`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 53 : Focus : Demand Gen
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 53
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 53 — Focus : Demand Gen
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Demand Gen : le canal Google qui change tout pour scaler vos campagnes.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu vas comprendre pourquoi la Demand Gen de Google est aujourd'hui le levier d'acquisition le plus sous-exploité et potentiellement le plus rentable du marché. Tu vas apprendre concrètement : comment positionner ce canal dans ta stratégie globale, à quel moment le lancer (et pourquoi le timing est crucial), comment structurer ta première campagne Demand Gen étape par étape (audiences, créas, budget, exclusions), et comment réutiliser tes créas Meta en les adaptant au format Google pour maximiser tes résultats sans repartir de zéro.
-
----
-
-### Mindset / Vision
-
-On est actuellement en phase 2 du cycle d'adoption de Demand Gen, c'est le sweet spot. Les CPM sont encore bas, la concurrence est limitée, et ceux qui se lancent maintenant prendront une avance considérable avant que le canal se sature. Ne rate pas cette fenêtre.
-
----
-
-### Timestamps
-
-00:00 - Pourquoi Demand Gen
-00:51 - Cycle adoption → monétisation
-02:59 - Demand Gen : définition
-05:02 - Setup campagne et ciblage
-08:02 - Scaling et bonnes pratiques
-
----
-
-#### Lexique
-
-**Demand Gen (Demand Generation)** : Format de campagne Google Ads récent, diffusé sur YouTube, Discovery et Gmail, qui vise à créer la demande avant qu'elle n'existe (contrairement au Search qui capte une intention déjà présente). Exemple : utilisée pour faire découvrir un produit à une audience qui ne connaît pas encore la marque.
-
-**PMax (Performance Max)** : Type de campagne Google Ads automatisée qui diffuse sur tous les réseaux Google (Search, Shopping, Display, YouTube, etc.) à partir d'un seul objectif de performance. Mentionnée comme le canal actuellement en phase de "stabilisation".
-
-**CPM (Coût Pour Mille)** : Indicateur représentant le coût payé pour 1000 affichages d'une publicité. Des CPM bas signifient qu'il est moins cher de toucher du monde, ce qui est avantageux en phase de lancement d'un nouveau canal.
-
-**Lookalike** : Audience créée par une plateforme publicitaire à partir des caractéristiques d'une audience source (ex : vos anciens acheteurs) pour trouver des profils similaires. Exemple : créer une lookalike de vos clients Shopify pour toucher des prospects qui leur ressemblent.
-
-**Broad (ciblage large)** : Stratégie de ciblage où l'on ne définit aucune audience spécifique et où l'on laisse l'algorithme de la plateforme choisir qui verra la publicité, en se basant sur la performance des créas. Recommandée seulement après une phase d'acquisition de données.
-
-**Optimisation de ciblage** : Paramètre Google Ads permettant à l'algorithme d'élargir automatiquement l'audience définie pour trouver plus de conversions. À désactiver en début de campagne (phase de collecte de data), puis à activer une fois que l'algorithme a suffisamment de données.
-
-**Target CPA (Coût Par Acquisition cible)** : Stratégie d'enchère où l'on indique à Google un coût maximum souhaité par conversion, et l'algorithme optimise les enchères pour l'atteindre. Déconseillée durant les 30 premiers jours d'une nouvelle campagne, le temps d'accumuler des données.
-
-**Feed based ads** : Format publicitaire diffusé dans le fil d'actualité YouTube (par opposition aux formats vidéo courts/Shorts). Recommandé de les exclure au profit du format Shorts, jugé plus performant.
-
-**A/B testing** : Méthode consistant à tester plusieurs versions d'un même élément (créa, audience, etc.) pour identifier celle qui performe le mieux. Présentée comme essentielle pour itérer sur les créas Demand Gen.
-
-**AdScale** : Fonctionnalité Google Ads récente permettant de scaler les campagnes en misant sur le ciblage broad et la confiance en l'algorithme, en s'appuyant surtout sur la qualité des créas.
-
-**LP (Landing Page / Page de destination)** : Page web vers laquelle un internaute est redirigé après avoir cliqué sur une publicité. Exemple : pages produits, listicles ou advertorials utilisés comme LP pour les campagnes Demand Gen.
-
-**KPI (Key Performance Indicator)** : Indicateur clé de performance utilisé pour mesurer et suivre l'efficacité d'une campagne publicitaire.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `Demand Gen` `acquisition payante` `scaling e-commerce` `campagne Google` `YouTube Ads` `stratégie publicitaire` `Meta vs Google` `créa vidéo` `growth marketing`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 54 : Allocation budgétaire & KPIs
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 54
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 54 — Allocation budgétaire & KPIs
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-### Introduction
-
-Dans ce module, tu vas apprendre à allouer intelligemment ton budget Google Ads pour maximiser tes résultats selon ton niveau de dépense.
-
----
-
-### Ce que tu vas apprendre
-
-Dans cette vidéo, tu découvres comment répartir ton budget publicitaire entre Shopping, Performance Max et Search en fonction de ton spend mensuel (< 20k€, 20-40k€, +50k€). Tu apprends à identifier les 4 signaux d'alerte qui révèlent une mauvaise allocation budgétaire, à optimiser le tracking de tes conversions sur la marge de contribution, et à acquérir de nouveaux clients de façon rentable grâce aux stratégies d'enchère adaptées. Résultat : jusqu'à +40% de performance en appliquant ces méthodes.
-
----
-
-### Mindset / Vision
-
-La structure de ton compte Google Ads, c'est ce qui fait la différence entre scaler ou stagner. Avant d'augmenter les budgets, il faut s'assurer que chaque euro est au bon endroit, c'est ça, la vraie optimisation.
-
----
-
-### Timestamps
-
-00:00 - Objectif budgets et KPIs
-00:31 - 4 signaux de mauvaise allocation
-02:01 - Répartition du budget par spend
-05:21 - Optimiser enchères et conversions
-10:34 - Plan d’action et conclusion
-
----
-
-#### Lexique
-
-**KPI (Key Performance Indicator)** : Un indicateur clé de performance utilisé pour mesurer l'efficacité d'une campagne publicitaire. Exemple : le coût par achat ou le ROAS sont des KPI utilisés pour juger si une campagne performe bien.
-
-**Shopping (campagne Shopping)** : Type de campagne Google Ads qui affiche directement vos produits (image, prix, nom) dans les résultats de recherche. Idéal pour les produits visuels comme la mode ou la déco.
-
-**Performance Max (PMax)** : Type de campagne automatisée par l'IA de Google qui diffuse sur tous les canaux (Search, Display, YouTube, Shopping) à partir d'un seul objectif. Elle nécessite un minimum de conversions par mois pour bien fonctionner.
-
-**Search (campagne Search)** : Campagne publicitaire basée sur les mots-clés tapés par les internautes dans Google. Elle inclut notamment les requêtes de marque (brand) et hors marque (non-brand).
-
-**Demand Gen** : Format de campagne Google Ads axé sur la génération de demande, utilisé pour toucher de nouveaux clients à plus grande échelle, généralement à partir d'un certain niveau de dépense.
-
-**Advertorial** : Contenu publicitaire au format éditorial (article, landing page pédagogique) utilisé pour éduquer le prospect avant l'achat, notamment via une "LP pédagogique" ou un listicle.
-
-**ROAS (Return On Ad Spend)** : Le retour sur investissement publicitaire, c'est-à-dire le chiffre d'affaires généré pour chaque euro dépensé en publicité. Exemple : un ROAS cible est utilisé comme stratégie d'enchère pour piloter la rentabilité.
-
-**Coût par achat (CPA)** : Le montant moyen dépensé en publicité pour obtenir un achat. Une hausse anormale de cet indicateur, sans raison de marché, signale souvent une mauvaise allocation budgétaire.
-
-**Enchères de portefeuille** : Stratégie permettant d'ajuster automatiquement les enchères selon des critères précis (appareil, emplacement, mot-clé) pour optimiser le budget. Exemple : booster les enchères mobile si le site convertit mieux sur mobile.
-
-**Google Tag Manager (GTM)** : Outil gratuit de Google permettant d'implémenter des balises de tracking sans toucher au code du site. Utilisé ici pour faire remonter la marge de contribution comme valeur de conversion.
-
-**Elevar** : Outil de tracking "server side" utilisé pour envoyer des données de conversion plus précises et fiables à Google, notamment la marge par produit plutôt que le prix de vente.
-
-**Marge de contribution** : La part du prix de vente qui reste après déduction des coûts variables (COGS). Exemple : un produit à 40€ avec 25€ de marge fera remonter "25" comme valeur de conversion à Google, pour optimiser la rentabilité réelle plutôt que le chiffre d'affaires brut.
-
-**Customer Match List** : Liste d'audience importée dans Google Ads contenant les emails des clients existants, utilisée pour les exclure des campagnes d'acquisition de nouveaux clients.
-
-**Script Labelizer** : Script mentionné pour segmenter automatiquement les produits en "low performer", "mid performer" et "best seller" afin de mieux répartir les campagnes Shopping et Performance Max.
-
-**LTV (Lifetime Value)** : La valeur totale générée par un client sur toute la durée de sa relation avec la marque. Une LTV élevée justifie d'investir davantage dans l'acquisition de nouveaux clients, même à perte initiale.
-
-**COGS (Cost Of Goods Sold)** : Le coût de revient d'un produit (fabrication, achat). Utilisé pour calculer la marge de contribution réelle d'un produit.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Ads` `budget publicitaire` `Performance Max` `Shopping Ads` `optimisation des conversions` `acquisition nouveaux clients` `stratégie d'enchères` `Google Ads e-commerce` `allocation budgétaire` `scaling Google Ads`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
-
-
-
-======================================================================
-MODULE : MASTER ACQUISITION
-LEÇON 55 : Bonus [Slide] GMC - Éviter les bans
-STATUT DE LA SOURCE : partiel
-RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 55
-======================================================================
-
------ SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
-
-# 55 — Bonus [Slide] GMC - Éviter les bans
-
-`Section Skool : GOOGLE ADS`
-
-## Ce que la leçon annonce
-
-> **Source : page de la leçon (texte Skool)**
-
-Vous avez maintenant toutes les bases pour exploiter Google Ads comme un véritable canal d’acquisition pour votre marque.
-
-Vous pouvez appliquer ces frameworks vous-même, construire votre structure et itérer.
-
-Si vous êtes déjà en phase de scaling et que vous souhaitez aller plus vite, plus proprement, plusieurs options existent.
-
-Kibers – Agence Google Ads & Growth E-commerce :
-
-[https://www.kibers.io](https://www.kibers.io)
-
-Réservé aux marques qui font 70k€+ de CA mensuel en moyenne sur les 3 derniers mois.
-
-👉 Réservez votre appel ici : [https://calendly.com/kibers/call-introduction-30](https://calendly.com/kibers/call-introduction-30)
-
-Coaching / Consulting 1:1
-
-Pour les fondateurs qui veulent garder l’exécution en interne tout en étant challengés sur la stratégie, la structure et le scaling.
-
-👉 Call 1:1 : [https://calendly.com/kibers/r1-victor](https://calendly.com/kibers/r1-victor)
-
-📩 Contact direct : [victor@kibers.io](mailto:victor@kibers.io)
-
-Merci de structurer vos messages (contexte, chiffres, objectifs) pour une réponse efficace.
-
----
-
-### Mindset / Vision
-
-Google favorise la transparence et la cohérence. Un compte bien structuré, avec une vraie identité d'entreprise (adresse physique, email pro, numéro de téléphone), n'est pas seulement moins susceptible d'être banni, il performe mieux. Traitez votre présence en ligne comme une vraie boutique professionnelle, pas un site expédié à la va-vite.
-
----
-
-### Timestamps
-
-00:00 - Intro et objectif
-00:36 - Fondations légales du site
-01:48 - Confiance et cohérence boutique
-04:15 - Bonus : email pro Workspace
-05:02 - Que faire en cas de blocage
-
----
-
-#### Lexique
-
-**GMC (Google Merchant Center)** : Plateforme Google qui héberge votre flux produits pour diffuser vos annonces Shopping. C'est le compte qui peut être "banni" si votre site ne respecte pas les règles de Google. Exemple : si vos prix affichés sur GMC ne correspondent pas à ceux du site, GMC peut suspendre votre compte.
-
-**Ban (bannissement de compte)** : Suspension du compte Merchant Center par Google, empêchant la diffusion des annonces Shopping tant que le problème n'est pas corrigé.
-
-**Google Ads** : Plateforme publicitaire de Google permettant de diffuser des campagnes, notamment les campagnes Shopping alimentées par GMC.
-
-**Playbook** : Ensemble d'étapes ou de bonnes pratiques à suivre méthodiquement pour atteindre un objectif, ici éviter un ban GMC.
-
-**Pages légales** : Ensemble des pages obligatoires d'un site e-commerce : mentions légales, politique de confidentialité, politique de livraison, politique de retour/remboursement, CGV, CGU. Elles doivent être accessibles et fonctionnelles dans le footer du site.
-
-**CGV (Conditions Générales de Vente)** : Document qui encadre les règles de vente entre le site et ses clients (prix, paiement, livraison, retours).
-
-**CGU (Conditions Générales d'Utilisation)** : Document qui définit les règles d'usage du site internet par les visiteurs.
-
-**Footer** : Bas de page d'un site web, où sont généralement placés les liens vers les pages légales, contact, etc.
-
-**Page 404** : Page d'erreur affichée quand un lien mène vers une URL qui n'existe plus. Google pénalise les sites qui en contiennent trop car cela nuit à l'expérience utilisateur.
-
-**Dead Link Checker** : Outil en ligne permettant de scanner un site pour repérer les liens morts (menant vers des erreurs 404).
-
-**Page "À propos"** : Page présentant l'entreprise, son histoire et idéalement son fondateur (avec photo). Elle humanise la marque et est valorisée par Google/GMC.
-
-**Page "Contactez-nous"** : Page devant contenir obligatoirement une adresse physique, un email de contact fonctionnel et un numéro de téléphone valide.
-
-**Conditions de retour** : Règles définissant le délai et les modalités pour retourner un produit. Elles doivent être identiques entre le site et les informations renseignées dans GMC.
-
-**Ad account (compte publicitaire)** : Compte Google Ads utilisé pour créer et gérer les campagnes publicitaires, relié au compte GMC pour diffuser les produits.
-
-**Flux (feed produit)** : Fichier ou connexion qui transmet automatiquement les informations produits (prix, stock, description) de votre boutique vers GMC.
-
-**SynchroZ** : Outil cité par l'intervenant permettant de synchroniser en temps réel les prix et informations produits entre le site et GMC, évitant les incohérences.
-
-**LP (Landing Page)** : Page d'atterrissage, souvent utilisée pour une campagne publicitaire spécifique. Elle peut avoir un message différent de la page produit classique, sans que cela pose problème, tant qu'il n'y a pas d'incohérence sur les points clés.
-
-**Google Workspace** : Suite d'outils professionnels payants de Google (mail, drive, etc.). Utiliser un compte Workspace payant avec le nom de domaine de sa boutique est présenté comme un signal de confiance positif pour Google.
-
-**Demande d'examen** : Procédure à réaliser directement dans GMC pour demander à Google de revérifier un compte suspendu, une fois tous les problèmes corrigés.
-
-**Blacklisté** : État d'un nom de domaine définitivement banni par Google, ne pouvant plus être débloqué sur ce même domaine, nécessitant de migrer vers une nouvelle adresse.
-
----
-
-### Tags (Pour optimisation de recherche Skool)
-
-`Google Merchant Center` `suspension GMC` `ban compte Google Ads` `e-commerce Google Shopping` `politique de retour Shopify` `pages légales boutique en ligne` `flux produit Google` `débloquer compte GMC` `e-commerce dropshipping`
-
-## Transcription
-
-> **Source : audio**
-
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[15:41] Ça, ça va rester deux jours. Reste deux jours. Donc voilà, important. Très, très important. Là, vous avez notre process telle qu'elle de dispatch des potosielles winners.
 
 
