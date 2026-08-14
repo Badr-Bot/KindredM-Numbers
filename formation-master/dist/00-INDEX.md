@@ -418,19 +418,19 @@ il ne faut jamais répondre à sa place.
 
 ## MASTER ACQUISITION
 
-- 🟡 **01 — Ce que les formateurs ne vous disent pas** 
-- 🟡 **02 — Les différents niveaux de conscience #1** 
-- 🟡 **03 — Les différents niveaux de conscience #2** 
-- 🟡 **04 — Les différents niveaux de conscience #3** 
-- 🟡 **05 — Les différents niveaux de conscience #4** 
-- 🟡 **06 — Créer un Condor (Partie 1)** 
-- 🟡 **07 — Créer un Condor (Partie 2)** 
-- 🟡 **08 — Analyse Marketing** 
-- 🟡 **09 — Scripter ses ads (Partie 1)** 
-- 🟡 **10 — Scripter ses ads (Partie 2)** 
-- 🟡 **11 — Scripter ses ads (Partie 3)** 
-- 🟡 **12 — Production (Partie 1)** 
-- 🟡 **13 — Production (Partie 2)** 
+- ✅ **01 — Ce que les formateurs ne vous disent pas** · 35:29
+- ✅ **02 — Les différents niveaux de conscience #1** · 10:22
+- ✅ **03 — Les différents niveaux de conscience #2** · 8:41
+- ✅ **04 — Les différents niveaux de conscience #3** · 10:28
+- ✅ **05 — Les différents niveaux de conscience #4** · 10:12
+- ✅ **06 — Créer un Condor (Partie 1)** · 15:55
+- ✅ **07 — Créer un Condor (Partie 2)** · 11:17
+- ✅ **08 — Analyse Marketing** · 29:22
+- ✅ **09 — Scripter ses ads (Partie 1)** · 10:22
+- ✅ **10 — Scripter ses ads (Partie 2)** · 10:21
+- ✅ **11 — Scripter ses ads (Partie 3)** · 12:30
+- ✅ **12 — Production (Partie 1)** · 10:25
+- ✅ **13 — Production (Partie 2)** · 9:08
 - 🟡 **14 — Sourcing (Partie 1)** 
 - 🟡 **15 — Sourcing (Partie 2)** 
 - 🟡 **16 — Custom GPT pour créa** 

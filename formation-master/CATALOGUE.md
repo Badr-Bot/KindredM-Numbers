@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 63 complètes (10 %)**
+**624 leçons au total · 76 complètes (12 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -458,23 +458,23 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER ACQUISITION
 
-55 leçons · 0 complètes · 55 partielles
+55 leçons · 13 complètes · 42 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Ce que les formateurs ne vous disent pas](transcriptions/master-acquisition\01-ce-que-les-formateurs-ne-vous-disent-pas.md) | — | partiel |
-| 🟡 | 2 | [Les différents niveaux de conscience #1](transcriptions/master-acquisition\02-les-differents-niveaux-de-conscience-1.md) | — | partiel |
-| 🟡 | 3 | [Les différents niveaux de conscience #2](transcriptions/master-acquisition\03-les-differents-niveaux-de-conscience-2.md) | — | partiel |
-| 🟡 | 4 | [Les différents niveaux de conscience #3](transcriptions/master-acquisition\04-les-differents-niveaux-de-conscience-3.md) | — | partiel |
-| 🟡 | 5 | [Les différents niveaux de conscience #4](transcriptions/master-acquisition\05-les-differents-niveaux-de-conscience-4.md) | — | partiel |
-| 🟡 | 6 | [Créer un Condor (Partie 1)](transcriptions/master-acquisition\06-creer-un-condor-partie-1.md) | — | partiel |
-| 🟡 | 7 | [Créer un Condor (Partie 2)](transcriptions/master-acquisition\07-creer-un-condor-partie-2.md) | — | partiel |
-| 🟡 | 8 | [Analyse Marketing](transcriptions/master-acquisition\08-analyse-marketing.md) | — | partiel |
-| 🟡 | 9 | [Scripter ses ads (Partie 1)](transcriptions/master-acquisition\09-scripter-ses-ads-partie-1.md) | — | partiel |
-| 🟡 | 10 | [Scripter ses ads (Partie 2)](transcriptions/master-acquisition\10-scripter-ses-ads-partie-2.md) | — | partiel |
-| 🟡 | 11 | [Scripter ses ads (Partie 3)](transcriptions/master-acquisition\11-scripter-ses-ads-partie-3.md) | — | partiel |
-| 🟡 | 12 | [Production (Partie 1)](transcriptions/master-acquisition\12-production-partie-1.md) | — | partiel |
-| 🟡 | 13 | [Production (Partie 2)](transcriptions/master-acquisition\13-production-partie-2.md) | — | partiel |
+| ✅ | 1 | [Ce que les formateurs ne vous disent pas](transcriptions/master-acquisition\01-ce-que-les-formateurs-ne-vous-disent-pas.md) | 35:29 | complet |
+| ✅ | 2 | [Les différents niveaux de conscience #1](transcriptions/master-acquisition\02-les-differents-niveaux-de-conscience-1.md) | 10:22 | complet |
+| ✅ | 3 | [Les différents niveaux de conscience #2](transcriptions/master-acquisition\03-les-differents-niveaux-de-conscience-2.md) | 8:41 | complet |
+| ✅ | 4 | [Les différents niveaux de conscience #3](transcriptions/master-acquisition\04-les-differents-niveaux-de-conscience-3.md) | 10:28 | complet |
+| ✅ | 5 | [Les différents niveaux de conscience #4](transcriptions/master-acquisition\05-les-differents-niveaux-de-conscience-4.md) | 10:12 | complet |
+| ✅ | 6 | [Créer un Condor (Partie 1)](transcriptions/master-acquisition\06-creer-un-condor-partie-1.md) | 15:55 | complet |
+| ✅ | 7 | [Créer un Condor (Partie 2)](transcriptions/master-acquisition\07-creer-un-condor-partie-2.md) | 11:17 | complet |
+| ✅ | 8 | [Analyse Marketing](transcriptions/master-acquisition\08-analyse-marketing.md) | 29:22 | complet |
+| ✅ | 9 | [Scripter ses ads (Partie 1)](transcriptions/master-acquisition\09-scripter-ses-ads-partie-1.md) | 10:22 | complet |
+| ✅ | 10 | [Scripter ses ads (Partie 2)](transcriptions/master-acquisition\10-scripter-ses-ads-partie-2.md) | 10:21 | complet |
+| ✅ | 11 | [Scripter ses ads (Partie 3)](transcriptions/master-acquisition\11-scripter-ses-ads-partie-3.md) | 12:30 | complet |
+| ✅ | 12 | [Production (Partie 1)](transcriptions/master-acquisition\12-production-partie-1.md) | 10:25 | complet |
+| ✅ | 13 | [Production (Partie 2)](transcriptions/master-acquisition\13-production-partie-2.md) | 9:08 | complet |
 | 🟡 | 14 | [Sourcing (Partie 1)](transcriptions/master-acquisition\14-sourcing-partie-1.md) | — | partiel |
 | 🟡 | 15 | [Sourcing (Partie 2)](transcriptions/master-acquisition\15-sourcing-partie-2.md) | — | partiel |
 | 🟡 | 16 | [Custom GPT pour créa](transcriptions/master-acquisition\16-custom-gpt-pour-crea.md) | — | partiel |

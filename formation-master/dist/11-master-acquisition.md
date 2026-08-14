@@ -5,7 +5,7 @@ _Transcriptions de la formation MASTER. Source unique de vérité._
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 01 : Ce que les formateurs ne vous disent pas
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 01
 ======================================================================
 
@@ -114,16 +114,210 @@ La plupart des gens pensent que créer de bonnes creatives, c'est être "créati
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Ok, alors comment créer des créatives Windows ? Je vais vous expliquer ici ce que les formateurs ne vous disent pas. Donc beaucoup d'informations que vous allez voir, vous ne les aurez jamais vus auparavant. Parce que les gens ne vont pas assez loin, les gens ne le disent surtout pas. Mais moi je veux vraiment que vous compreniez comment construire des créatives Windows,
+
+[00:23] qu'elles sont toutes les choses à savoir pour que vous puissiez ensuite avoir le processeur pour créer des AdWinus. Donc il y a bien plus que juste avoir des idées, juste avoir des inspirations d'AdWinus. En fait il faut comprendre tous les codes des plateformes, les codes psychologiques pour créer des AdWinus. Et c'est ce que j'ai fait l'effort de vous expliquer de la manière la plus simple et concise possible.
+
+[00:47] Tout d'abord, ce qu'il faut savoir c'est que les créatives, si vous faites du pay-médiat, c'est-à-dire si vous faites la publicité sur Facebook, TikTok etc. C'est le plus gros levier pour ce qu'elle est. Les créatives c'est ce qui permet de rapporter 80% d'odgif d'affaires voie plus avec le 20% d'efforts.
+
+[01:14] C'est-à-dire vous vous concentrez simplement sur faire de bonnes créatives, injecter ça sur meta, avoir du bon volume et vous allez imprimer de l'argent. Donc vraiment si vous voulez faire de l'argent, ne focussez-vous seulement sur cette partie-là, sur comment faire des créatives sur le media buying et vous allez faire énormément d'argent.
+
+[01:37] Et personnellement c'est ce que j'ai fait et on a pu faire énormément d'argent juste avec ça. Et vous allez vite voir que si vous appliquez des actions massives, la chance n'existe plus. Si vous mettez en place un vrai process de créatives et que vous créez des créatives de qualité selon ce que je vais vous dire après et que vous mettez du bon volume chaque semaine, c'est sûr que vous allez se caler et c'est sûr que vous allez avoir des résultats que vous n'avez jamais eu auparavant.
+
+[02:02] Donc ça c'est vraiment juste la formule, c'est d'avoir du volume, c'est-à-dire beaucoup de créatives, de la qualité, chaque créativ va être fait à qualité sinon ça n'aura rien de voir du volume. Du moins vous allez miser trop sur la chance d'avoir la diversité, c'est-à-dire ça n'aura rien de faire que des statiques, une image avec juste changer une chose sur l'image, il faut avoir des images, des vidéos, des sujets, etc.
+
+[02:27] Ça vous permet de se caler et c'est exactement ce que vous mettez à, même s'il y a d'autres choses à savoir que je vais vous partager après. Mais si vous mettez en place, pas importe à quel niveau vous êtes, vous allez se caler. Et justement en parlant de niveau, en parlant de fourchette, donc ça j'ai déjà expliqué peut-être que vous avez déjà vu certaines présentations,
+
+[02:49] c'est mes recommandations par rapport au niveau que vous êtes. Donc si vous faites en 0 et 200 000 euros, de toute manière il va falloir tester en 5 et 10 batchs par semaine, jusqu'à trouver ce qui marche, ensuite yterrer sur ce qui marche, mais entre 0 et 200 000 euros, 10 batchs en 5 et 10 batchs par semaine. Voir plus, c'est très bien, mais ça serait le minimum.
+
+[03:11] Ensuite en 200 000 euros et 500 000 euros, là, 10-15 batchs. Et quand je dis batch, je ne me suis pas exprimé clairement, c'est batch de 4 variations minimum. C'est-à-dire là on est sur 40 hattes semaine minimum. Après un batch, ça peut être plus que 4 hattes, ça peut être par exemple un batch de vidéo avec 8 ouc différents,
+
+[03:33] donc ça peut être même 81 hattes. Mais en général, 4 hattes par batch est très bien. Mais faut toujours avoir de la diversité, ne pouvez pas faire que une seule vidéo, ne pouvez pas faire que une seule statique. Donnez à Facebook plusieurs variations, c'est très très important. Ensuite en 500 000 euros, 15 à 30 batchs, en 1 m en plus 30 batchs plus, c'est en fait les targets pour vous situer.
+
+[03:57] Ça peut être vu à la hausse, ça peut être vu à la baisse, ça dépend de votre marché, ça dépend de votre niche. Mais c'est vraiment les fourchettes à avoir. Mieux ou à avoir ça au minimum et adapté en fonction de vos besoins. Mais concrètement, ne pourrez jamais trop tester d'arts.
+
+[04:20] Simplement ça demande un peu de budget, donc par rapport à votre spend, si vous testez correctement 30 batchs, vous devez avoir de la qualité. C'est à dire, si vous testez plus de 30 batchs, il n'y a aucun winner, ça sert à rien de tester 500.
+
+[04:42] Il doit y avoir un problème au niveau de la qualité, ou au niveau de votre offre, de votre site. Donc en fait, le volume c'est bien, mais il faut que derrière il y ait de la qualité. Si vous êtes à ce niveau-là et vous testez beaucoup d'arts, il n'y a rien qu'à winner, il faut se poser des questions. Ce n'est peut-être pas que lesarts, peut-être c'est au niveau desarts, c'est au niveau de votre site, peut-être il y a quelque chose qu'il faut régler.
+
+[05:05] Donc c'est pour ça que le volume fois la qualité, très important. Ça c'est un rapport de nosarts, par exemple au moins d'août, sur une brand qui est sur différents marchés. C'est toutes lesarts winners qu'on a obtenues, il y en a encore quelques-unes, en une semaine.
+
+[05:31] Et là on voit, il y a desarts qui sont potentiels des twins, donc on les met quand même. C'est-à-dire, elles ont fait 7 ventes et les restes 2.26, elles ont fait 11 ventes et les restes 3.35. Et après il y en a des qui ont commencé à être banger, c'est-à-dire qu'on fait 148 ventes et les restes 2.45, qu'on fait 23 ventes et les restes 2, ça commence à être solide.
+
+[05:52] Donc ça, si vous mettez en place un bon process, c'est ce que vous allez venir générer chaque semaine. C'est des nouvellesarts winners comme ça et en ayant des nouvellesarts winners, ça garantit un scaling et des résultats futurs stables. Parce qu'il faut savoir, c'est que souvent vous avez des mauvais résultats actuellement, parce que par le passé vous n'avez pas fait les actions qui vous amènent là aujourd'hui. Et ce qu'il faut faire c'est chaque semaine, anticiper le futur pour skiller.
+
+[06:16] Et il n'y a pas de miracle pour simplement regarder les plus grosses brands de rats librairies et des rats qui sont actifs, elles ont toutes beaucoup d'arts actifs. Donc si les grosses brands qui scale, qui font un truc classique, si je dis pas de bêtises de 100 M l'année comme Shepard Mind aussi dans ces volats, elles ont plus de 400 rats actifs, et bien vous devez faire de même.
+
+[06:41] Vous devez vous aspirer d'elles. Donc les erreurs les plus courantes que je vois au sujet des créatifs, il y en a beaucoup. Mais je vais vous donner ceux qui sont les plus fréquentes. Le premier c'est la qualité. C'est-à-dire, il y a vraiment un problème de qualité, faire du volume.
+
+[07:02] C'est quelque chose que certains arrivent à faire mais la qualité n'est vraiment pas bonne, incompréhensible de tes récresponses. Il y en a beaucoup qui pensent que faire des créatifs c'est envoyer à des acteurs UGC, avoir un ton d'acteurs UGC et puis ensuite avoir quelques winners. C'est mal produit. Ils ne savent pas qu'un acteur est un persona.
+
+[07:24] Si votre acteur est type marocaine, elle va impacter difficilement les autres avatars. Ou elle va toucher très fortement les avatars marocaines. Ils ont très bien sauvé le marché français pour la cosmétique. Mais souvent, vos types de produits sachez qu'un UGC va venir toucher un avatard. Donc le potocé de scaling va être moins grand.
+
+[07:46] Et ça, c'est ce que personne vous dit parce que le marché des UGC marche bien. Il y a des agences, etc. Il y a des contents de créateurs. Mais un UGC créateur, souvent le scaling n'est pas très haut parce qu'il va venir toucher une audience assez ciblée. Tandis qu'il y a des mash-ups, c'est-à-dire que si il y a plusieurs personnes, si il y a une voix off, c'est plus neutre, si c'est bien scripté, ça peut être vainqueur.
+
+[08:09] Mais personnellement, le meilleur ad qu'on le plus scale est, c'est des ads que l'on ne voit pas, parce que ce n'est pas UGC, on sait que c'est une voix off, c'est des mash-ups, c'est bien travaillé, c'est scripté, sans direct réponse, sans le verre après. Donc le but, ce n'est pas juste de produire des publicités qu'on l'aie pro, qu'on l'aie bien, qui font cliquer. Cette ère, si derrière, on ne prépare pas la personne à acheter, ça ne sert à rien.
+
+[08:34] Nous, ce qu'on veut, c'est des forums iOS et capacité de scaling. La plupart des personnes, ils ne savent pas ce que c'est créatif, ils pensent que c'est juste créatif, c'est-à-dire avoir des idées, avoir des idées géniales, mais non, en fait, c'est de la psychologie, c'est du marketing, c'est du copywriting. C'est comment faire prendre une décision, quelqu'un qui ne vous connaît pas,
+
+[08:56] à simplement acheter votre produit. Et en plus de ça, comment indiquer à Facebook quelle personne vous laisse s'y pler ? Ça, c'est quelque chose que les gens ne nous mentionnent pas assez, c'est que votre publicité va faire le targeting sur Facebook, c'est fini les intérêts. Vous avez du brode, vous avez une créative qui est écrit d'une manière spécifique,
+
+[09:17] qui va venir targeter quelqu'un de spécifique, c'est-à-dire une même créative. Statique va pas venir targeter les mêmes créatives vidéos, parce qu'il y a des personnes qui sont plus facilement cachées par des statiques, il y a des personnes qui vont plus facilement regarder les vidéos avec son son son, en plus vous avez de la diversité, mieux c'est. Et ça, je pense que je vais me répéter,
+
+[09:39] ou peut-être si vous suivez les podcasts, je me répète beaucoup, passer les fondamentaux et parce que ça marche. Et aussi, ce qu'il faut prendre en compte, c'est que peut-être que votre personne, quand elle est dans le métro, elle va pas regarder le même type de créative que quand elle est chez elle couchée sur son canapé. Donc en fait, comme je l'ai dit avant, il faut avoir la diversité.
+
+[10:00] Il faut avoir la diversité, c'est moins ça, on verra après je vous donnez, après des astuces. Ça c'est ce que la plupart des personnes n'ont pas assez, c'est qu'elles n'ont pas un vrai process qui produit en masse des créatives de qualité justement. Et ça c'est ce qu'il faut setup. Ça ce qui est un problème de quantité, c'est qu'elles n'exploitent pas assez les winners du passé.
+
+[10:21] C'est-à-dire, je pense que vous avez peut-être, si vous avez déjà un certain niveau, tous eu une ad-sweeneuse, mais vous n'avez pas été arrêté. Et si vous êtes au début, c'est-à-dire, si vous n'avez pas encore eu vos premières ad-sweeneuses, je vais vous expliquer ce que vous n'avez surtout pas manqué. Quand vous avez une ad-sweeneuse, ça vous donne des indications. Si elle est winnese, c'est qu'il y a des raisons. Donc déjà, il faut comprendre ces raisons-là
+
+[10:43] avec des analyses de KPI. Et il faut y térer. Une ad-sweeneuse peut potentiellement devenir une ad-binger. C'est-à-dire un condor qui dépense plus de 500K sur une salade. On en a eu plusieurs et ça n'a jamais été la première ad-sweeneuse qu'on testait. Ça n'a jamais été le nouveau concept. On a appris qu'on a fait des variations.
+
+[11:04] Et au final, c'est devenu une ad-binger. Parce qu'on a créé différentes variations. Et on a aidé qu'on mieux réagique d'autres. Il y en a des qui sont devenus très très bonnes. Donc quand vous avez une ad-sweeneuse, il faut y térer. C'est-à-dire, il faut tester différents hooks. Il faut regarder si il y a des parties que vous pouvez améliorer. Vous améliorer des parties.
+
+[11:25] Ça, je vous donnerai aussi le process. Il faut avoir du learning. Si vous avez une ad-sweeneuse, elle n'avait pas de vidéos. De sons, par exemple. Et vous, toutes les autres ad-sweeneuses ont du son. Donc peut-être qu'il faut réfléchir. Si peut-être tester sans son, vous allez être meilleur. Donc ça, c'est un learning. Donc en fait, vous allez venir apprendre.
+
+[11:46] Plus vous testez, plus vous avez à avoir de data, plus vous allez pouvoir apprendre. C'est comme ça qu'après, vous allez pouvoir avoir de plus en plus d'ad-sweeneuse. Parce que vous allez apprendre. Vous saurez ce qui réagit mieux avec votre audience. Ensuite, vous n'avez pas le bon message par rapport au stage de conscience de votre prospect.
+
+[12:06] Ou du niveau de sophistication du marché. Ça, je vous expliquerai après aussi. C'est qu'en fait, il n'y a pas tout le monde qui est conscient de la même manière de votre produit. Admettons que je parle d'un épilateur laser. Il y a ceux qui connaissent l'épilateur laser.
+
+[12:28] C'est-à-dire les femmes qui ont déjà entendu parler, qui ont déjà lu peut-être des magazines et qui savent que l'épilateur laser a allumé repulsé. C'est bien. Donc eux, le message que vous allez leur donner, ça n'a pas de vendre, de faire découvrir ce qu'est l'épilateur laser. Elles savent, elles, qu'elles ont besoin. Et je vous explique en détail après.
+
+[12:49] C'est pourquoi acheter votre épilateur laser. C'est un exemple. Tandis qu'il y en a des qui savent même pas que ça existe un épilateur laser qui en fait font toujours à la cire, c'est douloureux. Et elles, il va falloir simplement juste leur parler du problème qui est rencontractuellement. Donc vous épilez, c'est douloureux.
+
+[13:11] Mais savez-vous qu'il existe une solution pas douloureuse qui enlève les poils dix fois plus efficacement que la cire. Par exemple. Donc en fait, c'est d'avoir le bon message. Et vous allez voir en créatif, c'est ça. C'est avoir le bon message qui résonne par rapport à votre audience. Et niveau de sophistication de marché, c'est des choses que...
+
+[13:37] On n'a quasiment pas. Je commence à en parler, ça commence à se propager. On m'a fait voir que certaines personnes reprennent même des scrims type de ce que j'explique dans mes vidéos. Ou dans mes présentations et en mines de leur formation payante. Mais bref, c'est pas grave. Je suis même fondant par rapport à ça.
+
+[13:58] Comme ça, le marché s'améliore. Ça fait simplement des bases au niveau copyrighting. J'ai rien révolutionné, c'est des bases au niveau copyrighting. Bref, puis de la part, donc le niveau de sophistication de marché, c'est votre lumière pulsée sur le même niveau. Le marché global à quel niveau le marché est éduqué par rapport à ce produit.
+
+[14:24] Donc là, pareil, si on vient d'introduire ce numéro PC, il va être au niveau 1. Et si il est au niveau avancé, ça prendra un t-shirt. Un t-shirt tout le monde connaît, ça existe de plein de temps, on n'a plus besoin de vendre le t-shirt. Donc là, c'est différent paramètres qu'il faut prendre en compte pour délivrer votre message. Je vous expliquerai après plus d'ailleurs.
+
+[14:48] Vous savez peut-être comment pas mesurer. C'est vrai que beaucoup de personnes ne savent même pas comment mesurer les résultats d'une créative. Elles regardent que le CTR ou le ROS. Et ils ne savent pas comment analyser. Des mesures basées comme le hook-rate, le thumb-stop, c'est-à-dire la première seconde qui peut indiquer à quel point votre miniature ou première seconde de votre vidéo est bonne.
+
+[15:13] Le hook-rate, c'est votre 3re seconde, le whole-rate, c'est ensuite, après le hook, comment les gens restent, ces désindications pour voir quoi changer, pour voir ce qui résonne ou ce qui ne résonne pas. Je vous donne un exemple tout bête. Vous avez une créative qui a un faible hold-rate, qui a un bon crit, qui a un faible hold-rate,
+
+[15:34] et des résultats ok moyen et roast moyen. Vous voyez qu'il y a un mauvais hold-rate, c'est-à-dire que les gens après le hook ne restent pas. Et en fait, dans votre créative, vous avez peut-être un acteur blanc avec votre arrêté des renois. Et en fait, le hook, captive,
+
+[15:55] et votre avatar, qui est des renois par an, qui vous l'est arrêté lâche après, parce que vous avez montré un blanc dans votre hold-rate. Ou peut-être que vous avez un hook-rate juste après votre hook qui n'aptive pas attention et les gens partent. Donc il faut simplement juste changer ça pour que vous avez le résultat de votre créative.
+
+[16:17] C'est des genres de métriques à mesurer. Vous voyez que vous avez un mauvais CTR, que tout est bon mais vous avez un mauvais CTR, et vous voyez que dans votre call to action, vous n'avez pas d'urgence, ou c'est pas clair, et simplement, c'est des hypothèses ensuite attestées. Vos créatives ne sont pas assez solides pour du gros scaling.
+
+[16:39] Vous ne résonnez pas, c'est avec votre avatar. Ça, c'est le plus gros problème de tout le monde, il n'y a pas pris les top brands US, mais je vois beaucoup de grosses brands en France qui ont des créatives qui durent deux semaines, trois semaines, un mois, et qui n'arrivent pas à créer de solid bangers. Et pour créer de solid bangers, c'est du travail,
+
+[17:00] c'est avoir un message parfait, savoir une créative parfaite, et personne ne voit si loin que ce que je vais vous montrer, que ce que je vais vous expliquer juste après. Donc commence quel est grâce à de bonnes créatives. Je vais juste me répéter, mais il faut vraiment que ça rentre. Donc les créatives permettent de trouver une audience.
+
+[17:23] Selon votre type de créative, selon le message que vous avez mis dans votre créative, selon le visage que vous avez mis dans votre créative, vous allez targetter une audience. Les créatives, c'est une première impression que vous allez venir donner. Donc c'est aussi une manière de éduquer par rapport à votre marque
+
+[17:44] ou votre produit. Ça doit générer une émotion et ça doit faire acheter au jour. Idéalement, c'est ça. C'est du direct réponse. Ce n'est pas du branding, ce n'est pas de la wariness. Vous devez avoir une première impression, qui est bonne, mais après vous devez générer une émotion et faire acheter au jour. Le reste, c'est des marques en Coca-Cola
+
+[18:07] qui peuvent se permettre de dépenser des millions et de convertir jour 30 ou jour 360 en son fou. Ce qui compte, nous, quand on veut avoir du ROS, c'est de faire convertir au jour 1. Donc il faut avoir le bon message à la bonne audience. Idéalement, le bon. Ce ne peut pas avoir le bon message à la bonne audience si c'est trop tard. Bah c'est trop tard.
+
+[18:28] Si vous avez une veste révolutionnaire qui permet de garder au chaud et qui est ultra stylée, vous mettez le bon message, bonne créative, à la bonne audience. Si on était, c'est mort. Donc le timing aussi important, on oublie de souligner, mais n'oubliez pas que le timing est important.
+
+[18:49] Pareil, si vous avez le bon message à la bonne audience, mais que ce n'est pas un bon moment parce que c'est passé, par exemple, c'est que le marché a un stage trop avancé, et bien les messages changent. Par exemple, vous sortez un t-shirt, un débardeur, un débardeur où ce n'y a pas de manches. Admettons qu'on est au début, c'est qu'on invente le débardeur.
+
+[19:11] Les gens au chaud, ils ne savent pas comment sortir, ils transpirent des épaules, etc. Et vous avez simplement montré votre débardeur. Voilà, j'ai inventé un t-shirt sans manches. Et vous montrez des hommes musclés et toutes les personnes, tous les hommes musclés, viriles, qui veulent montrer leur épaul, ils vous trouvent un débardeur.
+
+[19:32] Donc ça, c'est le bon message, au bon moment, à la bonne audience. Mais si vous parlez de ce même message, maintenant, ok, un t-shirt sans manches aux épaules pour les hommes qui veulent avoir moins chaud, etc. Eh bien, ça ne va plus du tout marcher. Parce que le marché a évolué,
+
+[19:53] il va y avoir d'autres messages, il va y avoir d'autres mécanismes. Donc, par exemple, ce serait un débardeur qui permet de ne pas transpirer à un prix moins cher qu'un café, etc. Donc, les messages changent au niveau des timings. Donc ça, il faut bien se rappeler de ça. Ensuite, quelque chose aussi
+
+[20:14] que les gens m'en souhaitent. Les gens ne parlent que des créatives, de la créativité, mais les créatives, ça permet de créer une relation avec des tiktok ou meta. C'est-à-dire que vous n'avez pas seulement la qualité de votre créativ, il y a aussi comment ça va être perçu par l'algorithme pour que vous mettez des cpms plus bas pour que vous donniez les meilleurs audiences, etc. Donc, il faut bien comprendre,
+
+[20:35] ça, je vais donner les codes de l'algorithme pour que meta vous mettez en avant. Parce qu'il faut avoir de super créatives, mais si vous avez des cpms à 150, si meta ne vous le met pas en avant, ça va être dur. Ça, c'est juste une héro, ça doit être sur la slide après.
+
+[20:55] Donc, personne à angle message. Ça, c'est quelque chose de très important et j'ai fait un schéma pour vous comprenner. Il y a différents avatars pour votre produit. Il y a différents angles. Il y a différents messages. Ça veut dire qu'il y a une infinité de créatives
+
+[21:16] que vous pouvez faire, parce que vous avez ici votre avatar, votre angle. Je vais vous faire un dessin, je vais faire un petit dessin juste pour vous compréner.
+
+[21:36] Vous avez votre avatar ici. Ça, c'est l'avatar. Sous cet avatar-là, mettons qu'on vend notre débardeur. Voilà, notre débardeur révolutionnaire, parce que les gens ne transpirent pas. Vous savez qu'il coûte 2 dollars, le débardeur.
+
+[21:57] Vous avez différents avatars. On est sur une personne, un mal, 25, 35 plus, qui va à la salle qui a des épaules dessinées et qui veut ce débardeur pour vous montrer en été. Ça, c'est votre persona. Vous avez un autre persona ici. Personne à... Je vous montre là. Pardon.
+
+[22:19] Vous avez un autre persona ici. Lui, c'est un homme 40 ans plus, qui transpire beaucoup et qui a un peu de graisse et qui pourrait être intéressé pour des débardeurs de différentes raisons. Ensuite, derrière les angles. Là, il y a différents angles.
+
+[22:45] J'ai un dessin très mal, mais c'est juste pour vous compréner. Là, il y a différents angles. Et ces angles-là, c'est des angles d'approche sur lesquels vous allez pouvoir récomposer les messages. Donc, je reprends pour mon avatar jeune. Il veut avoir des épaules saillantes. Donc là, il y a l'angle épaules dessinées. Où il veut simplement avoir
+
+[23:09] moins chaud en été. Donc là, il y a différents infinités d'angles. Certains qui marchent mieux. D'un d'autres qui résonnent mieux que d'autres. Là, lui, il veut simplement moins transpirer. Il veut aussi avoir moins chaud. C'est un même angle. Mais ce n'est pas le même avatar. Ça, c'est deux mêmes angles.
+
+[23:30] Par exemple, mais pas les mêmes avatars. Et après, plein d'autres angles. Et au niveau des angles, il y a différents messages. C'est-à-dire, pour l'angle, il ne veut pas transpirer. Il y a un angle qui est peut-être qu'il a une maladie. Ça va targuer tout ce qu'une maladie qui transpire beaucoup. Peut-être qu'il est juste quand il va à l'agile.
+
+[23:51] Il ne veut pas transpirer quand il va à l'agile. Il y a différents messages pour lesquels on veut véhiculer le désir. Il y a une infinité de messages. Il y a plein de messages. Certains ne vont pas résonner. Certains qui vont résonner. Il y a toute une qualité de copier-writing,
+
+[24:12] de scripting pour toucher des millions de personnes et trouver des audiences très scalable. Il y a des audiences, peut-être que cette poche-là, de la maladie de transpiration qui va venir toucher pas beaucoup de personnes, mais il y a de l'argent à les prendre. Il y a peut-être ces deux audiences-là qui est simplement un t-shirt, un débardeur qui coûte 2 dollars,
+
+[24:33] qui est énorme. Et elles, elles touchent beaucoup d'avatar. Elles touchent peut-être pas les avatars de personnes qui veulent... Je me suis mal exprime. Elles touchent peut-être pas certains avatars. Par exemple, il y a un type d'avatar que c'est que ces deux audiences qui ne coûtent pas cher,
+
+[24:53] ça les intéresse pas peut-être les avatars. Les hommes 45 ans plus riches, ça ne va pas les intéresser. Donc, eux, ils ne vont pas être touchés par cet angle-là. Mais il y a beaucoup d'avatar, beaucoup de personnes qui vont être touchées par cet angle-là. Donc en fait, ce que vous vous comprenez, c'est qu'il y a une infinité de possibilités pour un seul produit. C'est pour ça que, quand je dis que vous pouvez
+
+[25:14] escaler un million avec un seul produit, si vous faites un bon travail de créatives et d'angle de messages, un seul produit, si il est escalable, si il a pas mal d'angles, il y a énormément d'argent à aller chercher. Parce que toutes ces poches sont des poches d'audience, en fait. C'est que dedans, vous pouvez étarguer des angles des messages donnés. Donc ça, c'est quelque chose de très important à savoir.
+
+[25:35] J'espère que ça a été clair. Donc en fait, sur deux vidéos similaires, une peut être escalée un million tandis que l'autre peut échouer un cas de spend. C'est peut-être pas que la créative, c'est peut-être pas la qualité de votre créativité. Mais c'est le message derrière. Donc ça, il faut bien que vous compreniez. Donc c'est bien beau. Je vois beaucoup sur Twitter, sur YouTube, tant anglophone que francophone, des analyses de créa.
+
+[25:57] Mais personne ne parle OK. En fait, ta créa, simplement, elle touche à une poche d'audience trop petite. C'est pour ça que t'arrives plus à se chaler. Peut-être la créa, elle est parfaite derrière et que, en fait, c'est juste l'audience. Et pour trouver ces deux dans cela, ça va passer par l'analyse marketing, par la recherche. C'est en faisant des recherches que vous allez pouvoir trouver ces deux dans la
+
+[26:18] recherche. Peut-être que vous allez pouvoir trouver ces différents types d'audience. Peut-être que vous allez regarder que pour les t-shirts, on reprend l'exemple des débardeurs. Vous allez regarder que pour les t-shirts, l'audience d'hommes, 45 ans plus, qui veulent un peu cacher leurs ventres, énormes. C'est celle qu'est-ce qui est parmi les concurrents. Ce n'est pas directement le même produit que vous,
+
+[26:39] mais c'est inspirant pour votre produit. On vous a l'intention de tester cet angle-là en premier. Parce qu'il y a une infinité d'angles. Donc les premiers angles sont prouvé. Peut-être que là, ça va être un autre angle que vous avez vu sur une veste. Une veste passionnante du débardeur. L'angle, c'est confort. Ou une fonction qui permet d'un déo de rende ne pas transpire.
+
+[27:00] En fait, tout ce qui va venir se rapprocher de votre produit, vous allez venir vous inspirer et tester des angles et des messages prouvé. Vous n'avez également rien sortir de votre tête. Un créatif, un bon créatif stratégiste, un bon travail de créatif, ce n'est pas sortir des idées de sa tête, c'est sortir ce que le marché veut. Et simplement lui donner ce qu'il veut et lui donner
+
+[27:21] avec l'hormon le bon message. C'est ça. Donc voilà, j'espère que ça, c'était clair. Donc ensuite, comme j'ai dit,
+
+[27:43] ce n'est pas juste de créanat, c'est parfait avant. C'est des vrais bons messages à l'audience la plus scalable. Là, j'ai mis un exemple. C'est un exemple que peut-être vous avez vu si vous avez regardé ma vidéo sur la présentation que j'avais fait à mon mastermind. Pour des blades de rasoir, il y a une publicité A et une publicité B. C'est le même design, c'est un joli, mais simplement le message
+
+[28:04] est différent. Là, ça met le best blade ever, la meilleure lame de rasoir. Et là, là on dit que en gros Q-Pack, ça coûte vraiment 40 dollars, je ne crois pas. Et c'est qu'on est sur un audience de prix.
+
+[28:24] By the way, une audience de prix, quand vous allez pouvoir montrer que votre produit coûte moins cher, que tout ce qu'il y a sur le marché, ça va venir toucher toujours une énorme audience d'achat. Énorme, parce que l'angle de prix fonctionne pour tout. Si vous arrivez et vous vendez un iPhone, exactement, un iPhone, ça a un peu plus compliqué.
+
+[28:45] Je n'ai pas pris le bon exemple. Vous vendez un produit, c'est que les gens se disent un wear, c'est-à-dire comme un t-shirt, comme des bijoux, vendez une chaîne en or qui coûte peut-être 300 balles et vous la vendez à 20, et c'est de l'or. Vous allez vous toucher énormément d'acheteurs, parce que les gens veulent toujours acheter moins cher. Donc vous allez toucher énormément de personnes. Bref,
+
+[29:06] pour dire que vous pouvez avoir la même créative, la même qualité, c'est-à-dire qu'elle ne va pas être scalable, c'est-à-dire qu'elle va être très scalable. Et, by the way, c'est vraiment une ad-swinneuse. Pas pour moi, mais je prends toujours des exemples de choses réelles. Donc, il y a aussi l'algorithme
+
+[29:27] qu'il faut comprendre. Le but, c'est pas juste de générer des lits, de générer des personnes qui vont venir sur votre site pour pas cher. Le but, c'est que meta et tiktok vous mettez en avant. Vous devez avoir des green indicators. Votre créative, elle doit, elle doit collaborer en voie avec eux. Et pour collaborer avec eux, il faut leur offrir une bonne expérience.
+
+[29:48] C'est-à-dire que vos utilisateurs aient une bonne expérience sur votre marché. Je vous garantis que vous venez d'être une ad-swinneuse, très bien coopérité, avec du marketing très fort et que vous n'aimez pas. C'est-à-dire qu'il y a des gens qui mettent des emoji négatives ou c'est que les gens peut-être ne commentent pas ou commentent négativement. Ça va pas marcher.
+
+[30:09] Donc, pour comprendre, vous devez comprendre comment les algoritmes fonctionnent. Donc ça va être subjeté si ça se subjet, mais pour l'instant ça fonctionne comme ça. Sur tiktok, vous avez une phase de test. C'est assez différent de l'organique parce que l'organique vous avez touché une petite poche d'audience et ensuite, vous avez une fonction de comment elle réagit. Vous allez venir toucher une plus grosse poche d'audience et ensuite une plus grosse poche d'audience.
+
+[30:31] Sur LAT, c'est assez différent. Vous allez venir toucher une audience, une poche d'audience qui n'est pas non plus énorme, mais quand même assez grosse, qui n'est pas qualitatif ou qui n'est pas bonne ou mauvaise. Ils vous donnent une audience pour avoir vos chances. Et ensuite, ils vont venir analyser comment
+
+[30:52] les... Quelles expériences vos utilisateurs vont avoir. C'est bon, c'est pas mauvais. Est-ce qu'il y a du watch time, des interactions, des ventes. Et ensuite, si c'est bon, ils vont booster vos traits. Sinon, vous serez pénalisés. Et c'est pourquoi, sur tiktok, il y a des chutes assez rapides. Parce que souvent, au départ, vous allez avoir des bons heroes, mais après,
+
+[31:13] c'est pas assez solide et tiktok, vous enlève le bon trafic et ça chute. Il y a ça et il y a aussi que sur tiktok, une creative est revue beaucoup plus facilement que sur meta. Et si une creative est revue par la même personne, souvent, elle va zapper.
+
+[31:34] Et donc, comme elle va zapper, tiktok va voir que les gens sont moins, moins intéressés et parce qu'en fait, c'est aussi beaucoup de gens qui ont déjà vu votre créatif et donc, il va venir baisser vos... il va venir baisser vos créatifs. Donc, il faut respecter ça pour réussir sur tiktok, c'est d'avoir du watch time, c'est-à-dire captiver l'attention
+
+[31:55] et faites en sorte que les gens restent jusqu'à la fin. Très important, ça doit être dynamique, etc. On verra les codes. Il doit y avoir des ventes. Si derrière, vous n'avez pas de ventes, tiktok se dit ok, mais vous auriez sur quoi ? Il n'y a pas de qualité. Ça doit être qualitatif. Bien sûr, si vous avez une hâte, ce n'est pas HD ou c'est que...
+
+[32:16] il y a des foutes de basse qualité, ou c'est qu'il y a des scènes un peu touchy qu'il n'aime pas trop, il ne s'arrougeait pas. Et également, il faut aussi avoir des interactions. Moins important, mais si les gens commentent, si les gens en mettent j'aime, c'est tout des points que vous allez avoir. Et chose à savoir sur tiktok, c'est que vous pouvez aussi exclure
+
+[32:37] ce qu'on vu, vous dire votre vidéo plus de secondes. Comme ça, il va venir montrer votre vidéo seulement à ceux qui n'ont pas vu votre vidéo. Ceux qui n'ont pas vu, qui n'ont pas vu seulement des secondes. Ils n'ont pas vu les deux secondes. Ça, c'est un petit hack pour éviter d'avoir une fatigue plus rapide.
+
+[32:57] Ensuite, sur Meta, ils font pas mal d'updates, mais, au dernier novel, c'est toujours un peu similaire à tiktok, donc il y a le watch time qui est important. Il y a les ventes aussi derrière la conversion entre le watch time et les ventes. Il faut que ça convertit, il faut que que le trafic qu'il envoie
+
+[33:17] convertisse. Il faut qu'il y ait des interactions aussi, très important les interactions, les commentaires, les j'aime. C'est quelque chose que Facebook aime parce que les gens restent sur la plateforme et pour eux, ça donne des points. Donc, vous allez vite voir que plus vous avez d'interactions, plus vous vous cpm et votre coût de créatives va descendre. Donc, pour ça, je vous conseille de mettre en place des faux commentaires
+
+[33:38] sur vos créatives une fois qu'elle commence à marcher, de faire aussi une campagne d'interactions sur vos créatives. Vous prenez simplement le post-addit où vous faites une campagne d'interaction et vous envoyez sur des pays où c'est que ça vous coûte pas cher de faire des interactions, c'est-à-dire au Maroc, si vous êtes sur le marché français ou Maroc, ou Madagascar, etc. c'est que les gens parlent français et c'est que ça vous coûte pas cher.
+
+[33:59] Si vous êtes aux U.S. au Sud-Afrique, sur un peu tous les pays ou ce qu'ils ont parlé anglais et vous allez vite avoir beaucoup d'interactions, beaucoup de j'aime de commentaire ça va venir faire baissez-vous cpm votre créative va pouvoir devenir plus facilement viral. Personnellement, toutes les créatives qu'on le dépensez le plus elles ont toutes eu des interactions, beaucoup d'interactions naturelles
+
+[34:19] et on force aussi. Il y a aussi la qualité avec le score page. Bien sûr, votre page a un certain impact sur le créatif, c'est une chose qui est différente de méta, de TikTok. Et après, vous pouvez voir si la qualité ranking dont vous mettriques, simplement vous tapez qualité ranking
+
+[34:39] et vous allez vite voir si vous êtes above, medium ou avirage, ou avirage, pardon, ou below et également, vous devez être avirage ou above. Donc voilà, c'était tout pour cette vidéo.
+
+[35:01] C'est assez technique. Je comprends qu'il y a peut-être pas mal de choses nouvelles. C'est pour ça que que la plupart des personnes ne sont pas aussi loin et ne prennent pas le temps d'expliquer tout ça, chose que je fais parce que je veux vraiment que vous comprenez que vous agissez exactement comment moi j'agis et que vous criez ensuite des créatives à la chaîne et que ça vous aide aussi
+
+[35:22] pour tout ce qui est travail de copier rating. La prochaine vidéo, on va parler des niveaux de conscience. Allez, à tout de suite.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 02 : Les différents niveaux de conscience #1
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 02
 ======================================================================
 
@@ -197,16 +391,70 @@ La majorité des dropshippers copient des créas sans comprendre le marché auxq
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, on est dans la suite du module « Comment créer des ad souineuses » Là, on va aller un peu plus au profondeur, on va aller voir sur des choses qui vont vous permettre de comprendre en fait comment fonctionne la psychologie de l'acheteur et ce que ne comprennent pas 99% des dropshippers même des brands, surtout sur le marché francophone.
+
+[00:21] Donc on va parler des stages de conscience. Donc je l'ai déjà parlé un peu précédemment, j'ai dit qu'on allait aller au plus en profondeur, que je vais aller faire l'effort de vous expliquer un peu plus en profondeur même si je l'ai déjà fait. Là on va comprendre techniquement quels sont les différents stages de conscience du prospect. Ça va vous permettre en fait de comprendre à quel point un produit et un marché est scalable
+
+[00:45] et comment s'adresser à votre audience. Comme on l'a dit, le message c'est la clé. Donc il faut comprendre les stages de conscience de vos prospects pour avoir le bon message. Donc techniquement, ça se décompose sur une forme de pyramide. Donc ce qu'il faut savoir c'est que moi j'aventris rien. Moi j'ai simplement, j'ai reconstruit cette pyramide mais je l'ai appris de top
+
+[01:09] copérateurs en fait, les meilleurs copérateurs depuis la nuit des temps, donc ils vendaient déjà avant l'air des réseaux sociaux avec ces codes qui fonctionnent, peu importe l'air du marché parce que c'est des principes psychologiques. Donc ce qu'il faut savoir c'est qu'on a deux choses. Ça c'est la taille du marché, c'est-à-dire plus on monte, plus la taille du marché est énorme et ça c'est plus c'est simple, plus ça va être difficile.
+
+[01:35] Donc en fait tout ce qui va être très très scalable, ça va être très difficile à toucher parce qu'il va falloir avoir le bon message, les bons codes de créatifs pour pouvoir s'adresser à ce marché et tout ce qui est en bas, ça va être beaucoup plus simple, c'est-à-dire un message simple, une créative simple mais la taille du marché est très basse. Et en fait la plupart des gens qui font du dropshipping, leurs produits ne durent pas
+
+[01:57] parce qu'en fait ils copiculent une ad et l'ad est basé sur la trend qui met en avant un produit et pour beaucoup en fait c'est juste du produit capable, je m'explique. Ici c'est une audience de personnes qui connaissent le produit, c'est-à-dire ils savent ce que c'est que des chaussures orthopédiques et telles chaussures orthopédiques
+
+[02:20] ont déjà vu la troubelle et ils veulent l'acheter. Donc en fait une créate toute simple qui met en avant la chaussure orthopédique et l'offre, et bien ça va venir convaincre ces genres de personnes et donc si vous avez au bon moment une image de ces chaussures orthopédiques quand on est en trend et vous montrez juste l'offre avec l'image, ça va cartonner mais par contre ça va pas être très scalable.
+
+[02:40] Et après vous avez beau faire plein de variations de cette image là, si il taggait toujours les autres sourires et bien vous n'arrivez plus à ce qu'elle est et ce n'est pas vos produits morts, c'est simplement votre message par rapport au stage et au niveau de conscience du marché n'est pas le bon. Donc là je ne sais pas si vous comprenez ce que j'explique mais ça va vraiment vous permettre de comprendre comment créer des
+
+[03:04] choses solides et durer dans le temps. Là ce qu'on veut c'est durer dans le temps avec un seul produit comme on peut une milquée au maximum, comme on peut aller toucher tous les stages de prospects avec les créatives. Donc ça c'est la première phase, c'est si aware mais je vais expliquer plus en détails ensuite. Donc ça c'est les premiers choses à savoir, c'est la taille du marché et conscience que plus vous allez
+
+[03:25] venir monter ici puis c'est scalable donc c'est ce qu'on veut, nous ce qu'on veut en fait c'est à regarder toutes les parts du gâteau. On ne veut pas faire que ça, on veut le faire mais on ne veut pas manquer ces parts là parce que là c'est dire qu'il y a des énormes parts de marché à aller chercher et faire l'effort dans une créative qui peut se quitter et vous rapporter un million de dollars, ça vaut la peine. Ensuite ici c'est le niveau de sophistication du marché.
+
+[03:51] Donc ça c'est d'un point de vue général, c'est pas d'un point de vue de prospects, le marché à quel point il est évolué. Je n'en ai parlé déjà précédemment, j'ai dit que j'allais plus en profondeur. Donc en fait c'est quand votre produit est arrivé sur le marché, à quel niveau maintenant il est ? Un t-shirt ça fait longtemps qu'il est sur le marché donc les t-shirts c'est le niveau 5 parce que tout le monde sait ce que c'est des t-shirts, c'est ultra
+
+[04:14] saturé, il y a des t-shirts de toutes sortes et en en train de développer des t-shirts avec des autres mécanismes pour différents vatars etc. Mais si vous venez avec un t-shirt avec la même proposition de valeur que les autres ça va pas marcher. Donc ça je vous montre le niveau 5 mais on va commencer par le niveau 1. Le niveau 1 c'est l'océan bleu, c'est à dire que quand vous arrivez avec un produit c'est que c'est tout nouveau
+
+[04:35] pour le marché. C'est à dire le marché n'a jamais vu ce produit. Donc il sait pas ce que c'est et il va falloir si le produit est compliqué éduquer le marché. Et là par contre il y a une oncérante personne à toucher parce que vous êtes le seul. Donc ça c'est un peu le rêve entre guillemets mais souvent
+
+[04:57] les produits c'est un peu plus compliqué parce qu'il va falloir faire le travail d'éducation et quand vous faites le travail d'éducation et que vous allez commencer à faire de l'argent il y a d'autres acteurs qui vont venir et ensuite on va être dans le niveau 2. Donc le niveau 2 je dirais c'est le meilleur parce que ça veut dire que votre marché connaît déjà le produit il y a du désir beaucoup de désir il y a des acteurs qui se mettent en place et il y a énormément d'argent à aller chercher parce que là si vous êtes le
+
+[05:20] premier et bien c'est vous qui allez ramasser tout l'argent. Donc là en fait ici vous êtes arrivé avec un produit on va dire un champon 1 non pas un champon 1 c'est déjà connu vous êtes arrivé avec une brosse pour les cheveux qui fait repousser les cheveux. Le personnage n'a jamais vu ça c'est un oncé en bleu donc là ça marche en plus de ça une brosse c'était
+
+[05:42] déjà connu mais une brosse pour faire pousser les cheveux là on a niveau 1. Le personnage n'a jamais vu ça c'est incroyable c'est incroyable donc là si vous êtes début déjà vous commencez à faire pas mal d'argent mais il y a beaucoup gens qui sont sceptiques donc en fait votre marketing il va être très orienté à partir de ça à partir de problèmes à wear solution à wear mais
+
+[06:02] pas mais pas au niveau de producteur parce que les gens en fait ne connaissent pas la brosse de cheveux pour faire repousser les cheveux ça rien de leur dire acheter ma brosse pour faire repousser les cheveux ils vont dire mais je sais même pas ce que c'est donc là vous parlez au niveau du problème vous avez des problèmes de cheveux vous perdez vos cheveux d'aller c'est pire je ne sais plus exactement comment traduire et bien nous on a inventé une brosse la
+
+[06:23] première d'un à faire repousser les cheveux donc là en fait votre message il va être là en niveau 2 les gens qui commencent à connaître donc gentiment fait même le fait de montrer une brosse ça va venir marcher c'est là que je dis il y a le plus d'argent à faire parce que avec des simples marketing vous allez venir convaincre ce qu'on déjà été éduqué là niveau 3 le marché est de plus en plus éduqué donc là ça se complexifie il va falloir avoir des
+
+[06:47] meilleures propositions de valeur donc ma brosse elle faire pousser les cheveux parce que elle a un mécanisme mieux elle a l'humilien à lumière rouge par rapport aux autres brosses de cheveux où c'est la meilleure qualité où vous faites en vous faites parler votre branding et votre position sur le marché par rapport aux autres donc là il ya plus de compétition c'est intéressant c'est de là sont
+
+[07:09] intéressants il y a beaucoup d'argent à les chercher et gentiment bien juste le fait de montrer son produit ça va aussi et niveau 4 là c'est saturé c'est dire il ya beaucoup de personnes qui sont mis sur cette brosse à cheveux il ya plein de brosse à cheveux différentes et là va falloir être très bon copérating va falloir avoir bon branding et niveau timing si vous arrivez et que vous
+
+[07:31] avez le même copie tout concurrent bah vous allez venir manger des miètes parce que lui l'aurait été avant il aurait éduqué le marché avant il aura déjà la confiance des compétiteurs avant donc quand vous copiez quelque chose qui est au niveau 4 et que vous espérez faire d'argent et bah vous allez venir manger des miètes vous pouvez faire un peu d'argent mais vous allez venir manger des miètes il faut être meilleur pour ça il faut
+
+[07:52] falloir où ce qui est le concurrent des concurrents et pour ça c'est toute une stratégie qui prend du temps ça peut pas se faire en une semaine ça peut pas se faire en une semaine ça peut se faire en travaillant des bonnes hattes en venir en venez chercher toutes les stages de prospects en éducant sous votre marque mais vous devez créer un positionnement unique en fait et pareil pour le level maximum la level maximum
+
+[08:16] il faut même travailler au niveau de son produit si vous arrivez avec le même produit que les autres ça va être c'est compliqué de manger il va falloir trouver un unique mécanisme différent et vous trouvez un marché différent c'est dire on reprend l'exemple de la brosse bah vous c'est une brosse qui utilise des ondes magnétiques et ça ça jamais été vu sur le marché et les ondes
+
+[08:38] magnétiques c'est pas néfaste par rapport à l'humid rouge donc en fait simplement pour créer un mécanisme pour avoir un ossemble ici mais vous pouvez pas vous battre en fait dans le level 5 ça va être très difficile ça va être très difficile et vous allez venir manger des maires donc là ce que vous devez faire c'est essayer de retrouver un ossemble ça peut être avec un unique mécanisme peut être avec un nouveau marché c'est à dire la brosse des cheveux est à regarder toutes les femmes et vous venez ok mais c'est
+
+[09:01] une brosse de cheveux qui permet de faire repousser les poils aux chiens et là il y a une grosse demande il paraît vous allez être sur un ossemble parce que personne n'avait touché cette cette part là donc en fait le but c'est pas de se battre le but c'est pas de se différencier forcément quand on est dans le niveau là le but c'est d'avoir quelque chose que le
+
+[09:23] marché veut et de leur montrer que vous c'est une meilleure solution pour vous simplement donc j'ai montré l'exemple avec la brosse mais ça peut être avec n'importe quel produit basique pour un bijou si vous venez avec le bijou c'est très saturé on peut pas juste montrer votre bijou il faut vraiment qu'il soit extrêmement beau qui est un branding derrière qui serait pas cher
+
+[09:44] ou sinon qu'il y a un unique mécanisme ok bah ce bijou là il fait perdu poids et bah là boum un nouveau ossemble mais si maintenant il y a déjà pas mal de bijoux qui font perdu poids peut être que vous faites perdu poids de la manière la plus simple en fait il va falloir augmenter votre promesse donc ça c'est au niveau du du market sophistication le velle donc comme ça vous comprenez un peu l'e-commerce ici vous voyez que c'est bien plus que les
+
+[10:07] créatives c'est vraiment qu'on prend l'e-commerce nous ce qu'on veut ici c'est que dans ce dans ce school c'est créer des masters en e-commerce c'est créer des géants des 8 figures 9 figures c'est ce qu'on veut et c'est ce que vous allez devenir si simplement vous appliquez des conseils qu'on vous donne
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 03 : Les différents niveaux de conscience #2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 03
 ======================================================================
 
@@ -278,16 +526,62 @@ Un bon copywriting ne vend pas un produit, il parle au bon prospect au bon momen
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Donc, Most Aware, là les prospects connaissent notre produit. Ils ont besoin, ils prévoient de l'acheter, ils ont juste besoin d'une DNR incitation à acheter. Donc je vais prendre un autre exemple que la brosse. Je vais prendre... Qu'est-ce que je peux prendre comme exemple ?
+
+[00:22] Oui, oui, oui, oui, je vais prendre un exemple. Je vais essayer de trouver un bon exemple qui pourrait parler. Donc, ok, c'est un champ point qui permet d'éviter d'avoir des cheveux qui se cassent et les cheveux qui tombent.
+
+[00:42] Ok, c'est déjà bien adverte à l'esprit. Les gens connaissent ce que c'est. Ils savent qu'ils veulent acheter vos champs points. Mais ils ont juste besoin d'un coup de pouce. Ok, donc là vous mettez juste des créatives simples qui montrent le champ point à l'offre. Et les gens, ah oui, ce champ point je voulais l'acheter, boum, l'offre est intéressant et ils achètent.
+
+[01:03] Donc là, pour gagner des facteurs importants, ça va être le timing et la meilleure offre. Parce que les gens connaîtront les offres, connaîtront le prix du produit par rapport au marché et il y aura juste besoin d'un facteur timing. Donc ça c'est, on va dire, le plus simple. L'audience c'est très peu scélable, mais il faut pas oublier les targetés. C'est-à-dire, si vous avez une marque, il ne faut pas oublier de continuellement faire des ads qui parlent de votre offre.
+
+[01:25] Parce que vous éduquiez, vous faites des ads plus séquissants, pas à ouer. Et ensuite, à un moment, il y a des gens qui veulent juste acheter. Donc moi je le conseille, c'est d'avoir une marque et nous on le fait. Et souvent c'est du gros, gros spend. C'est au bout d'un moment où vous reprenez vos meilleures créatives et simplement, vous allez venir changer de début de la créative, vous allez mettre, là on a l'offre la plus basse jamais vu et vous parlez de votre offre.
+
+[01:50] Et souvent, et nous pour nous, là on est en train de dépenser plus de 500 cas sur une créative, c'est ça. On a repris notre dernière créative qui marchait mieux, une des créatives qui marchait mieux, et qu'on est venu mettre au départ de la créative, ça c'est notre meilleur offre de tous les temps. Vous achetez et vous avez un cadeau plus 60% de réduction.
+
+[02:11] Et là, cela est en train de dépenser énormément. Parce que tout en amont, on a travaillé des autres stages de conscience. Donc il ne faut pas oublier de toujours faire ça. Le dents c'est plus petite, mais là actuellement on peut se caler parce qu'il y a un aspect de timing, c'est que là il y a beaucoup de gens qui sont aware du produit et qui ont vu qu'il attendait juste la meilleure offre et là on leur offre. Donc ne pas oublier de toujours la faire.
+
+[02:33] Ensuite, on a Product Aware. Donc Product Aware, il est sûr du produit, il est sûr que les champons c'est ce qui convient le mieux à son problème. Il ne veut pas essayer d'autres choses, il ne veut pas essayer des casquettes, il ne veut pas essayer des brosses. Il sait que le champon c'est le meilleur des choses. Maintenant il va venir comparer les marques. C'est peut-être quelqu'un qui va venir regarder ce ramasone, qui va venir regarder
+
+[02:56] qu'est-ce que fait tel marque, tel marque. Mais il sait que le champon c'est le meilleur produit. Donc là il faut délivrer le bon message dans l'ordre. C'est-à-dire si vous parlez directement de votre produit, sans discréditer les autres, sans expliquer pourquoi le vôtre est mieux, vous allez venir manger pas grand chose.
+
+[03:20] Ça va être difficilement scréable. Parce que dans sa tête, lui sa préoccupation c'est lequel est le mieux. Et la meilleure moyen pour convaincre que le vôtre est le meilleur, c'est de discréditer les autres. Il existe différents champons et le nôtre, c'est celui qui est le plus apprécié. Parce qu'il a six, parce qu'il a cet avantage unique, parce qu'il a le prix, parce qu'il a un mécanisme unique.
+
+[03:46] Par exemple, vous avez un champon naturel et les autres c'est pas naturel. Et rien que le fait de le dire, les gens, je vais acheter là. Donc là il y a cette partie de discrédite qui est très importante. Je vous montrais des exemples d'adess après. Et après c'est aussi créer un meilleur pic émotionnel. C'est-à-dire, vous avez une adse et que vous ressentez une émotion, mais il va venir acheter chez vous.
+
+[04:08] C'est pour ça que travailler beaucoup d'adse, d'avoir du volume d'adse, vous allez dire, boom, boom, prendre des parts de marché. Et prouver la superité, c'est aussi montrer que dans votre adse, que votre produit c'est le meilleur ou celui qui l'a besoin maintenant. Mais en grande partie, juste le fait d'avoir du volume d'adse qualitatif, ça va venir prendre toutes les parts de marché.
+
+[04:30] Parce que vous allez venir captiver les acheteurs, c'est que vos concurrents à ce moment de moins d'adse, ils ne captivront pas. Donc simplement, le fait de se montrer, c'est vous qui allez prendre la part du marché. Ensuite, solution envers. Donc le prospect, il sait qu'il a un problème.
+
+[04:51] Il sait c'est quoi le problème. Il connaît plusieurs solutions différentes, mais c'est pas qu'il y a votre produit qui peut le résoudre. Donc là, il sait qu'il a un problème de cheveux. Mais il ne connaît pas encore le champoing. Il connaît un peu les brosses, il connaît les casquettes, il connaît les pilules. Mais il sait pas encore que le champoing existe.
+
+[05:14] Donc là, si vous devenez avec le même marketing qu'avant et que vous lui dites, mon champoing c'est le meilleur, eh ben ça ne va pas le toucher lui. Et pourtant, c'est une audience qui est très grande, encore plus qu'elle-là que celle qu'on a vu avant. Donc là, il faut venir avec un message plus subtil. Il va falloir parler aussi du problème. Et parler des solutions, discréditer les autres solutions,
+
+[05:36] pas les autres choux-points, les autres solutions. Donc là, il y a un hack que nous on fait et qui marche souvent, c'est qu'on met cet type de phrase-là. La plupart de ceux qui veulent en l'occurrence éviter de perdre feu, utilisent des pilules, par exemple si c'est, ils utilisent des pilules ou des brosses.
+
+[05:57] Le problème avec ça, c'est que la perte de feu et le problème, cela met nos problèmes de, ok. La plupart de ça, le problème avec ça, c'est que la perte de feu ne se résout pas avec une brosse, ça masque seulement le problème. Et si on veut venir discréditer les pilules,
+
+[06:18] c'est le problème avec la repose de choux avec pilules, c'est qu'on va venir créer un autre problème avec les pilules, c'est que ça donne des tas d'effets secondaires. Ça fait grossir, ça peut donner maladie cardactère, etc. Ça c'est une manière de discréditer les autres solutions. Finalement, il faut discréditer de la manière correcte, on ne va pas venir créer du beau sheet, mais c'est une manière de discréditer les autres produits.
+
+[06:40] Donc là, en fait, dans votre hâte, simplement, vous pouvez parler du problème aussi. Vous pouvez introduire directement la solution, du style, trois raisons pour lesquelles les pilules ne sont pas la meilleure solution pour faire repousser les feuilles. Boom, vous discréditez. Et après, vous dites, il existe une solution naturelle pour faire pousser les feuilles
+
+[07:01] et c'est le champon. Boom, après, vous venez discréditer le champon, donc le travail qu'on a fait avant. Et après, vous vous retombez sur Hours. C'est-à-dire dans votre hâte, ou c'est que après, vous parlez de votre champon, actuellement, on offre, etc. Pour résumer, solution Hours, il faut venir discréditer les autres solutions qui existent pour résoudre le problème.
+
+[07:23] Idéalement, pas de bullshit. On va pas venir dire que c'est nul. On explique pourquoi. On explique que c'est pas la meilleure solution pour résoudre le problème. Ou d'une autre manière, c'est pas la meilleure solution qui va la plus vite, ou ça génère peut-être plus d'inconfort, ou c'est pas la solution qui a le plus de risques,
+
+[07:45] de chance par moment d'atteindre le problème. Donc en fait, il y a pas mal de formules. En gros, ce qui veut, pour vous comprendre votre prospect, c'est qu'il veut atteindre son désir de la manière la plus simple, la plus rapide et avoir le maximum et que cette solution marche à 100%.
+
+[08:06] Ça veut dire qu'il y a très peu de chance d'échouer. Donc vous devez faire comprendre ça. Vous devez faire comprendre que le champon, c'est la manière la plus simple, parce qu'il met sur ses cheveux, pendant ce temps qu'il fait sa douche, c'est naturel, ça va faire pousser ses cheveux, ça va hydrer ses cheveux, et il a des résultats juste après la douche, admettons. Donc, jusqu'à ce que vous comprenez à quel point
+
+[08:27] vous pouvez discréditer les autres concurrents sur différents aspects. Le fait d'atteindre le désir, de ne pas avoir des faits secondaires, le fait d'atteindre simplement, le fait d'atteindre avec plus de chance, c'est tout des arguments.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 04 : Les différents niveaux de conscience #3
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 04
 ======================================================================
 
@@ -363,16 +657,72 @@ Si tu veux sortir du lot, arrête de copier ce que tout le monde fait. Les meill
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, il y a problème à wear. Donc ça, les gens ont compris que ça marchait bien. Les gens parlent des problèmes, les gens parlent beaucoup qu'il faut vendre un problème plutôt qu'une solution. Mais ils ne sont pas conscients. Je parle des dropshippers, des commerçants, ils ne sont pas conscients que c'est un stage de niveau de marché. Donc en fait, ils font des ades, ils parlent des problèmes et ensuite, ils n'ont pas un ordre très précis.
+
+[00:25] Mais c'est quand même le stage de conscience, c'est que les gens sont plus éduqués ou ils font des UGC là-dessus. Donc les gens, sans le savoir, font de la du problème à wear. Donc ça, c'est une bonne chose. Maintenant, je vais vous expliquer comment faire parfaitement du problème à wear. Donc pour résumer, c'est le prospect, il a un problème clair dans sa vie. Ça le dérange. Il sait pas encore quelle solution précise peut l'aider,
+
+[00:49] ou il sait pas encore qu'une solution existe. Ce qu'il faut savoir, c'est que dans chaque stage de conscience, il y a encore différents stages. Là, il y a des problèmes à wear, mais il y a ceux qui sont problèmes à wear et qui savent pas qu'il y ait des solutions qui existent, ou ceux qui sont problèmes à wear et qui savent qu'il y a plusieurs solutions qui existent. J'espère que vous me suivez, ça c'est compliqué, ça va vous faire un peu réfléchir,
+
+[01:09] mais je suis obligé de vous partager ça. Donc en fait, il faut faire le pont entre notre produit et le problème. Et il faut que le pont soit solide, parce qu'il connaît pas tout le reste. Donc ça, il faut bien être conscient de ça. Vous ne pouvez pas simplement venir dire que vous avez un problème de cheveux, ce problème de cheveux vous dérange, notre produit est la solution.
+
+[01:31] Ça, ça peut marcher, ça peut convaincre quelques personnes, mais ça ne sera pas ce qui est lable. Et nous, ce que je vous rappelle ici, je vous enseigne comment avoir des ades ultra-squellables, comment faire une ade, ce qui peut générer 500 cas, un million, 2 millions, plus, avec une seule ade. Et ça, c'est ce que les autres n'arrivent pas, ils ne font pas des ades conçues pour être ultra-squellables, des bangers. Et moi, ce que je veux, c'est que vous créez des bangers, des ades qui se retrouvent sur les top minés à l'année, etc.
+
+[01:56] Donc comment réussir ici, il faut faire le lien entre le problème et votre produit. C'est-à-dire, il va falloir être meilleur que les autres en parlant du problème et en mécanisant le problème, en appuyant sur la douleur, etc. Je vous explique. Vous allez venir pas seulement parler le problème de la perte de cheveux, vous allez dire que la perte de cheveux, vous allez venir parler en fait de la perte de cheveux
+
+[02:20] comme si vous étiez un expert. C'est-à-dire, la perte de cheveux touche 80% de la population depuis 40 ans. Un gros problème est l'aloe de Pécis. Je ne sais pas exactement le terme, mais vous m'excuserez. C'est une maladie qui touche principalement les gens qui sont surpoids, etc. Vous allez venir parler à votre avatar, parler exactement de ce que ressent votre prospect.
+
+[02:46] Donc c'est peut-être que vous devez très pointuer sur votre recherche, vous devez comprendre parfaitement votre problème comme si vous étiez un médecin. Même après, vous pouvez faire parler un médecin dans votre ad, ça s'est encore plus bain de cœur. Vous allez venir parler du problème. Comme ça, les gens disent, ok, mais c'est exactement ça que je sais. Et j'apprends, c'est qu'il a d'accrédibilité.
+
+[03:07] C'est comme si vous allez venir vers un médecin et vous dites, vous avez un problème, je vous donne la pilule. Ça va être moins puissant que ce que vous allez dire. Vous avez un problème, ça touche principalement ces personnes-là. C'est dû à ça, c'est dû à ça. Vous allez aller vers celui qui comprend le mieux votre problème et qui vous comprend le mieux. Donc simplement, nous, on le comprend. On comprend notre avatar, on va venir parler de son problème, on va venir mechaniser ce autre problème.
+
+[03:29] C'est-à-dire, on va aller expliquer. Je ne sais pas, là, le cépis, ce que c'est, mais je vais vous mechaniser de ce que je pense. Donc, jamais vendu de produits pour les pertes de cheveux. D'ailleurs, c'est une niche énorme qui marche très très bien. J'ai beaucoup d'amis qui font, enfin j'ai des amis qui font énormément d'argent sur ces marchés-là. Mais bref, donc mechaniser le problème, c'est-à-dire vous allez venir expliquer pourquoi ils perdent des cheveux d'une manière scientifique.
+
+[03:56] C'est-à-dire, c'est parce qu'ils ont l'alocépis et l'alocépis, l'opécie ou l'alocépis. C'est une maladie dégénérative qui touche les personnes parce qu'ils ont un problème, je ne sais pas, de circulation du sang dans le crain, un instant. Un instant que ça. Donc, en fait, vous allez venir mechaniser le problème.
+
+[04:16] Vous allez venir appuyer sur les douleurs. C'est-à-dire, il va falloir un peu remuer ce problème. Et perdre de cheveux, pardon, pour les femmes, c'est une perte de féminité. Ça peut être très difficile de trouver un conjoint. On ne s'en va pas à l'aise dans son corps. Chaque fois qu'on se regarde dans le miroir, on s'en mâle. Donc là, en fait, vous allez venir appuyer les douleurs au quotidien.
+
+[04:37] Le but, c'est que vraiment que les petites douleurs au quotidien deviennent grosses. Parce que des petites douleurs, mais elles se sont tous les jours, ne font pas passer à l'action. En fait, il faut que ça soit gros. Donc là, ce qu'on veut, c'est qu'on pique. Et pour piquer, on oblige d'appuyer. Parce qu'il y a beaucoup de personnes qui sont en surpoids. C'est que tous les jours, elles ont ces douleurs d'être en surpoids,
+
+[04:59] mais ce n'est pas assez fort pour passer à l'action. Pour savoir ça, ce n'est pas assez fort. Donc en fait, il va falloir appuyer la douleur. Vraiment remuer. Donc là, on va très bien comprendre notre prospect et appuyer sur des leviers puissants pour qu'on suit des passes à l'action. Vous savez que justement, si vous faites rien, ça peut être pire. Vous pouvez même être chaud et porter des perruques. Non, non, non, non.
+
+[05:20] Donc là, on appuie. Et après, on va venir introduire la solution comme inévitable. Si vous êtes à ce stade-là, c'est peut-être que ça va être trop tard. Donc vous devez absolument faire quelque chose d'absolument faire restimuler la circulation sanguine dans votre crâne pour mécaniser le problème qu'on a dit avant. Et là, vous allez venir introduire votre solution.
+
+[05:41] Donc vous dites, en fait, vous venez nommé l'unique mécanisation de la solution qui est l'inverse de la mécanisation du problème. C'est-à-dire que vous allez venir dire que là, vous devez stimuler la circulation sanguine dans votre crâne. Et le meilleur moyen pour ça, c'est un shampoing qui permet de naturellement
+
+[06:04] réactiver la circulation sanguine, vous mécaniser avec du 3D, etc. Vous montrez. Et après, vous allez venir introduire votre produit. C'est-à-dire que vous allez venir, ce shampoing-là et le shampoing le plus en vogue, vous allez montrer des exemples du social proof, comment ça a marché, des avant-apres subtils, etc.
+
+[06:25] Donc ça, c'est une manière de faire du problème à ouer. Après, vous pouvez rajouter des couches dans votre problème à ouer, ou si vous avez des discrédités, les autres produits, les autres solutions. Vous allez reprendre ces tas là et simplement, vous allez venir rajouter des couches avant ces tas là pour parler du problème et ensuite,
+
+[06:46] Donc après, il y a plein de manière de faire des ades, c'est-à-dire que vous pouvez faire des ades plus en plus longues ou moins longues. Le but, c'est de varier, c'est d'avoir la diversité. Mais voilà pour le problème à ouer. Donc le problème à ouer, plus vous connaîtrez bien le problème de votre prospects, plus vous allez avoir un message précis, plus ça va marcher. Et là aussi, il faut connaître parfaitement votre avatar.
+
+[07:08] Si votre avatar est principalement une femme plus de 40 ans et que vous faites de tout vos ades UGC avec des actrices 20 ans et que moi par exemple, j'arrive sur le marché et je vais vous autre-skeller, je vais dire, ok je comprends, moi enfin, mon avatar, c'est une dame de 45 ans qui est un peu en surpoids. Moi je vais montrer des femmes en surpoids
+
+[07:30] 45 ans plus qui parlent, je vais faire des ades meilleures, etc. et ça va vous autre-skeller. Enfin, on va avoir de meilleures états que vous. Simplement parce qu'on comprend mieux notre avatar. Donc en fait, ce que j'aime bien, ce que j'adore avec les créatives, avec le copyrighting, c'est qu'en fait, c'est pas manipuler les gens, c'est simplement avoir de l'empathie pour les gens.
+
+[07:51] C'est simplement comprendre les gens, comprendre qu'ils ont un problème et vraiment vouloir les aider. Et c'est ça que je donne dans les commerces, c'est qu'en fait c'est aider les gens. Si vous avez des bons produits, vous allez venir aider les gens. Et si vous vendez, c'est pas que vous vendez du rêve, c'est que vous comprenez qu'ils ont un problème et vous leur expliquez, ils sont compris et ensuite vous l'introduisez une solution.
+
+[08:12] Donc c'est quelque chose de... enfin, il faut avoir de l'empathie pour vendre. C'est important. Et ensuite le dernier, le plus skillable, c'est Unaware. Donc là, ils savent même pas qu'ils ont un problème. Donc ils savent même pas en fait qu'ils perdent les cheveux. Même si ils perdent de cheveux, c'est un peu plus difficile d'être Unaware. Mais on va dire pour un problème de...
+
+[08:35] d'eau, par exemple, d'eau c'est aussi gros, peut-être un problème de... de coûts. Ils ont une gêne, ils n'arrivent pas à porter des e-bés, mais ça ne fait pas qu'en fait, ils ont un problème de coûts. Donc ils ne sont même pas conscients qu'ils ont un problème. Et donc nous, on va devoir éduquer sur le problème et présenter comme la seule et la meilleure...
+
+[08:56] et présenter le produit comme la seule et la meilleure solution par rapport à ce problème. Donc il y a tout un travail plus difficile. Ou sinon, il faut aller très loin et raconter des histoires pour toucher... n'importe... pour toucher par exemple tous les américains. C'est-à-dire une histoire, voici une histoire d'un petit américain, il avait des problèmes,
+
+[09:19] c'est-à-dire il n'arrivait pas à avoir autant de force que les autres ou il avait plus de force que les autres et qu'est-ce qu'il a fait, il utilisait une gêne pour le coût. En fait, là vous allez venir introduire votre produit pour le coût avec une histoire bien rodée. Donc là, le but, en fait, c'est de venir toucher tous ceux qui sont même pas conscients qu'ils ont un problème et qu'ils achèteront votre produit parce que vous venez éduquer sur le problème
+
+[09:40] ou sur le produit directement. Donc ça c'est technique, il y a pas mal de manière de le faire, mais pour ça, il faut avoir des vidéos un peu plus longues. Donc il faut éduquer, sensibiliser subtilement, être très bon marketingement, parce qu'il faut être bon dans tout l'aspect de la vidéo,
+
+[10:00] tout l'aspect de l'âte pour garder l'attention et pour ensuite faire passer sur les différentes couches. Comme on a vu, faire passer sur les différentes phases précédentes. Je vais montrer des exemples après, mais un hour, en riz général, on fait des vsl, c'est-à-dire on fait des longues vidéos de vente, c'est qu'on commence très large et ensuite on introduit le problème
+
+[10:23] et après on fait de les autres couches. Je vais montrer un exemple juste après.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 05 : Les différents niveaux de conscience #4
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 05
 ======================================================================
 
@@ -450,16 +800,66 @@ Le vrai game en copywriting, c'est de ne pas parler à tout le monde de la même
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc là on a une hour VSL que j'aime beaucoup, on va voir l'exemple. Je ne vais pas vous mettre tout là parce qu'elle dure 7 minutes mais regardez juste comment ça commence et regardez un peu le type de autre ce que c'est. Donc là depuis 300 ans ces femmes japonaises plongent sans, comment on appelle ça, masque
+
+[00:28] oxygène et sans équipement pour aller collecter des perles. Bref en fait ils racontent une histoire que voilà qu'elle dédie, elles sont courageuses et elles dédient aller chercher des perles dans l'océan et ça en fait, je vous avance un
+
+[00:51] petit peu. Là on introduit déjà le problème et ils ont une technique pour snoring, pour le rauflement pour les problèmes de rauflement. Elles ont, voilà Yoshi, dernière génération de perles d'hyver a été capable de plonger
+
+[01:21] pendant des longues périodes sans oxygène, grâce au hockey, gays and niggs perdent. Mais maintenant elles ont un loquet, une solution pour les rauflements qui est de
+
+[01:41] milliers de personnes qui adorent plonger et qui s'assaufent des vies. Donc voilà vous voyez il y a toute une histoire, ça venir introduire ensuite sur le produit, c'est qu'on explique le produit d'une manière fantastique et après c'est tout raconté
+
+[02:03] avec toute une histoire. Donc là après ils parlent des autres solutions, ils expliquent pourquoi ça marche, une technique de mécanisation d'assuctions, comment le corps fonctionne et que le produit est le meilleur produit en fait pour ça, ensuite à la fin et à l'offre etc.
+
+[02:24] Donc vous voyez, ce que c'est, c'est qu'une vaisselle, c'est qu'on raconte une histoire et tout le monde est attaissé par l'histoire. Donc là celle va targueter beaucoup de monde et donc vous allez venir toucher des gens qui ne sont même pas aware, qui voulaient acheter, même pas aware qu'ils ont un problème et vont se dire ok ben c'est vrai peut-être que je rouvre, je vais quand même acheter le truc. Donc voilà ce que c'est une atte, une atte, une aware.
+
+[02:52] Ensuite, ensuite je vais vous montrer ce que c'est une atte solution aware. Est-ce que ce nouveau produit révolutionnaire, ce nouveau viral produit pour le père de
+
+[03:23] cheveux vaut vraiment sa viralité 100%. Donc là on sait pas ce que c'est le produit. Là on est intéressé, on va venir toucher tous les gens qui ont un problème de cheveux et qui sont intéressés par des solutions, qui connaissent des solutions, ils disent mais c'est quoi cette solution, j'ai jamais vu. Ensuite là ils mettent un médecin, ils disent que voilà ils montrent un avant-près,
+
+[03:53] voilà regardez ça va faire pousser les cheveux mais ils donnent pas encore ce qu'est le produit. Là ils sont subtils. Le but c'est de capter l'attention et derrière de convertir les gens en acheteurs pour l'instant qu'ils connaissent le produit. Ensuite ils disent j'ai pas utilisé les produits que vous êtes en train d'utiliser,
+
+[04:15] ils discréditent les autres solutions. Il fait grandir un peu de la hype, il met un peu de la valeur parce qu'il dit qu'il n'est même pas disponible sur le marché. Mais là il dit que la bonne nouvelle c'est qu'ils n'ont plus besoin de vous
+
+[04:37] attendre. Donc là ils discréditent encore les autres solutions et elles transplantent. C'est une solution que pense un beaucoup d'hommes qui veulent se faire repousser les cheveux. Ils discréditent en disant que ça coûte cher et ils ont décidé de tester ceci. Ensuite là il a introduit le produit.
+
+[05:05] Donc là en fait il va venir nommer le mécanisme, il dit qu'il utilise exactement le même mécanisme que dans les cliniques pour faire grandir les cheveux sans piqueur. Mais avant-près c'est un docteur qui parle pour ses passions, il dit que c'est le seul qui recommande ses passions, il met des avant-près.
+
+[05:26] Ensuite acteur qui parle. Acteur, je connais lui, d'ailleurs on travaille avec. Donc là comme je vous ai déjà dit c'est un traitement luxueux, affordable pour moins de 150 dollars par rapport à la chirurgie etc.
+
+[05:51] qui fonctionne au moins de 120 jours. Si ça ne marche pas vous êtes remboursé plus de questions et 50% aujourd'hui. Donc voilà une Nats très très bien faite. C'est qu'on est solution à wear. Et ensuite on a product to wear où c'est que là on va parler au niveau du produit. Donc je vais montrer la suite.
+
+[06:11] Donc là 3 raisons pourquoi je recommande le produit. En tant que master esthéticien. Donc là les gens ont déjà entendu parler du produit. Parce qu'en fait on va venir l'étarguerter eux.
+
+[06:33] Donc ça c'est typiquement une Nats. C'est que les gens sont déjà conscients du produit. Ça peut être plutôt top of funnel, middle of funnel. C'est que là les gens ont besoin peut-être plus d'arguments pour les convaincre. Donc là vous allez venir toucher tous ceux qui sont product to wear.
+
+[06:56] Là vous allez pouvoir le dire. Vous sauvez, vous économisez de l'argent. Vous étiez émile par rapport aux autres technologies. Vous reprouvez que ça marche bien. Là en l'occurrence on a un avatar plus âgé. Après là je comprends. Il montre un avatar pas en plus jeune.
+
+[07:16] Ça fait briller la peau etc. C'est safe, pas intrusif. Vous pouvez utiliser depuis la maison. On vous a commandé aujourd'hui. Vous avez monnaie pas quarantie. Voilà vous avez mis la discute juste maintenant. Et comment vous avez maintenant. Donc ça c'est une bonne Nats.
+
+[07:37] Middle of funnel. Les 3 raisons why ça marche bien. Maintenant c'est pas ultra ultra scalable. Du moins si vous faites le travail auparavant. Parce que comme je vous l'ai expliqué. Si vous faites ce taff là. Ici. Après vous allez avoir énormément de trafic qui va arriver ici. Donc là avec de simples hats.
+
+[07:58] Ça va faire des merveilles. Et c'est ce que vous devez faire si vous voulez avoir un business. Et avoir de fours ROS. Parce que naturellement ça va vous emmener. Beaucoup de personnes à oeuvre de votre produit qui sont chaud achetés. Et c'est que de simples hats va les convaincre. Donc voilà ce que vous bien que vous comprenez. C'est qu'il faut avoir target. Tous les étapes ici. Il faut arrêter précis.
+
+[08:19] Et un moyen de le faire c'est qu'on vous avait une adouineuse. De simplement venir rajouter des couches ici. C'est-à-dire si vous avez une adouineuse. Vous avez venir parler de problème. Ben enlever le problème. Essayez de commencer directement discrétant les autres solutions. Pour voir ce que ça donne. Si vous avez une adicie. C'est qu'il parle juste de l'offre. Ok. Venez discréditer les autres produits. Venez discréditer les autres solutions. Mais partez toujours déjà d'un concept prouvé.
+
+[08:43] Donc vous pouvez travailler les oeufs et les angles. En riz général c'est au début de l'hats qu'on targette. Donc c'est au début de l'hats que devait targeter vos... quel stage niveau de conscience vous les touchez. Testez différents sortes de concept. C'est important. Les vaisselles sont en must. Tu pourrais faire des vaisselles. C'est vraiment bien. Mais après il faut un copérateur.
+
+[09:04] Il faut le faire vous. Et il faut un bon montage. Ça prend un peu de temps. Je vais vous les aimer ici. Ça sera dans les bonus. C'est les frameworks. Ça se trouve dans les différents stages de marché. Je vais vous montrer ça tout de suite. Donc vous aurez les cinq niveaux en cinq stages de marché ici. Un petit résumé.
+
+[09:26] Vous aurez ici des exemples au niveau du stage de prospects. De quel framework utiliser. Ok. Le hook par exemple. Petite trois raisons. Ensuite on est du conscient discrédite. Ensuite la solution. Ensuite on build hype. Ensuite on oeutworks. Ensuite on est de testimone. Social proof etc. Et vous aurez des exemples. Comme ça vous aurez un tas d'idées sur les différents stages de conscience.
+
+[09:52] Et comment adapter à votre produit. Et vous pouvez même très bien exporter avec Chadi Bt. Et lui dire ok reprend ce framework là. Reprend cet acte là. Et convertis le moins pour mon produit. Voilà c'est tout cadeau. C'est tout cadeau. Donc voilà c'était tout pour cette vidéo. J'espère que tout a été clair. C'était Matteo. A bientôt.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 06 : Créer un Condor (Partie 1)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 06
 ======================================================================
 
@@ -553,16 +953,100 @@ La clé pour scaler en paid, c'est de comprendre que ta creative est une clé ne
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Dans cette vidéo, on va voir comment créer un condors. Un condors, c'est une créative qui a généré plus de 500 cas de revenus. Ce que je vais vous expliquer, c'est ce qu'on fait différent par rapport aux autres. C'est qu'on veut une ade qui dépense énormément d'argent et qui permet de marcher un concept
+
+[00:21] plutôt qu'une seule ade. C'est un concept, c'est-à-dire une ade qui va faire des variations qui nous permettent de dépenser 500 cas. Mais je vais vous expliquer, c'est quoi la formule pour créer ces gens d'Ads, ces gens d'Ads bangers comme les autres rappellent, pour ne pas que ce soit de la chance en fait, mais qu'on arrive à le provoquer. Et personnellement, c'est ce qu'on fait. On a plusieurs Ads bangers régulièrement qui permettent d'atteindre des résultats
+
+[00:46] incroyables et de deriver tout le compte. Donc, c'est quoi les codes d'une ad virale à gros skillings. Donc, je vous l'ai déjà dit, personne ne vaut aussi loin. La plupart des personnes, la plupart des agences se contentent de faire des Ads qui rapportent, même des fois quand ils sont de bon airOS, mais qui ne sont pas ultra-skillables.
+
+[01:08] Parce qu'ils ne vont pas aussi loin et parce que ça demande du travail et ça demande aussi des techniques que les gens ne maîtrisent pas. Donc, pour ce qu'elle est fortement, il va falloir convaincre de plus en plus de personnes difficiles d'acheter. C'est-à-dire qu'il faut que votre funèle, ici je vais vous dessiner, il faut que votre
+
+[01:34] funèle, ici, soit le plus fort possible. Parce que là, vous allez pouvoir toucher des gens qui sont simples à convaincre. Donc même si il y a quelques fautes dans votre Ad ou votre Ad, ce n'est pas ultra-puissant, vous allez les toucher. Mais ensuite, plus vous allez voir ce qu'elle est, même si j'ai fait un mauvais dessin
+
+[02:00] parce que le marché ici est de plus en plus skillable, en fait, on va dire c'est comme ça. Je vous explique. Ici, il y a les gens les plus simples à acheter. Donc là, là, vous faites 501K, 10K, 20K de spend. Ici, ça va être assez simple. Là même si vous avez des fautes dans votre Ad, vous allez pouvoir les convaincre. Ensuite, plus vous allez venir monter, plus il y a des gens à venir chercher,
+
+[02:23] plus il va falloir que votre Ad soit parfait. Ça veut dire qu'il ne doit avoir aucune faute, il faut que ce soit dynamique. Il faut que ça soit, ça parle à votre avatar de manière parfaite ou que ça soit, ça ne montre pas un autre avatar pour pas discréditer les avatars. C'est-à-dire, il ne faut pas que dessus, il y ait une personne trop influente. C'est-à-dire que votre Ad dépend d'un acteur UGC.
+
+[02:46] Pour pas que les autres personnels ne se sentent pas concernés. Donc c'est pour ça qu'il faut faire une Ad, on va dire parfaite, très copyrightée pour faire ces gens d'Ad. Donc ce qu'il faut, ce qu'on veut, c'est générer un pic émotionnel plus fort que la douleur d'achat. La douleur d'achat, quand les gens doivent acheter, c'est une douleur.
+
+[03:08] C'est prouvé, dans le cerveau, ça fonctionne exactement comme une douleur. C'est-à-dire, ils vont venir, ça va être plus difficile de faire passer quelqu'un à l'achat que, donc ensuite, ce qu'on veut, c'est générer un pic émotionnel.
+
+[03:29] Un pic émotionnel plus fort que la douleur d'achat. Car c'est prouvé, dans le cerveau, le fait d'acheter, c'est une douleur. Donc en fait, nous, ce qu'on veut, c'est créer un pic émotionnel plus fort que la douleur d'achat. C'est-à-dire tellement fort que mettre la carte, acheter, etc., ça soit simple. Donc on targette un avatar et on va être mis en avant par Facebook.
+
+[03:53] Donc on va venir parler au subconscient et non à l'esprit rationnel de la personne. Ce qu'il faut savoir, c'est que les gens, quand ils se croient, ils sont dans un état un peu méditatif, inconscient. C'est-à-dire que quand les gens se croient, ils ne réfléchissent pas avec leur sauvage rationnel. C'est pour ça que tout ce qui marche le mieux, ça va être tout ce qui parle au cerveau reptilien, c'est-à-dire les femmes, l'argent, etc.
+
+[04:17] Parce que les gens, en fait, ils ont besoin de la dopamine. Ils ont besoin de choses simples à comprendre, de choses simples à scanner. Donc vous, si vous venez avec une adse qui est trop compliquée, c'est qu'il va falloir réfléchir pour acheter. Mais si elle est très bien faite, ça ne va pas marcher. Donc en fait, il va falloir avoir quelque chose de très smooth, très hypnotique.
+
+[04:42] Une créative, c'est comme une clé qui va venir déclencher une série de décisions immédiates chez le prospect. Je n'ai déjà parlé, mais en gros, la personne scroll sur les réseaux sociaux. Le premier truc à faire, c'est de venir le captiver. Donc là, il y a la partie hook. Donc si vous n'arrivez pas à captiver son attention, c'est mort.
+
+[05:03] Ensuite, il va falloir lui faire passer sur différents étapes, selon son niveau de conscience. Donc on a vu précédemment, en fonction de quel stage de conscience il est, on va venir lui faire passer un final ici. Pour qu'à la fin, il décide de prendre une décision et la décision d'acheter
+
+[05:24] et de venir sur notre site. Donc c'est comme une clé en fait, la créative. Si on a les bons arguments sur le monde, les bonnes choses, si on arrive à créer un bon pic émotionnel, ça génère une vente. Donc voilà un peu comment fonctionnent les codes d'une NAT qui convertit. Et maintenant, on va aller plus en profondeur.
+
+[05:48] Donc ça, c'est un exemple d'ATs qu'on a eu qui nous a permis de générer 1,5 million plus encore maintenant parce qu'on a encore fait des variations. Et c'est cet ATs là dont je vous ai parlé. C'est que là j'ai fait une variation, une variation Awaire. C'est que simplement, ça a targuété plutôt solution Awaire, voir problème Awaire.
+
+[06:09] Et on est venu changer l'ATs, couper un peu certaines parties, et venir parler problème Awaire. Et ça cartonne. Donc on dépense beaucoup avec une seule concept. Et cette concept-là, cette formule-là qui a permis de générer cet AT, c'est exactement ce que je vous enseigne après. Donc le but de cette construite NAT est pour un but de déclencher un achat Day 1.
+
+[06:32] Nous, on veut faire du direct-response. On n'est pas là pour faire du branding, on n'est pas là pour éduquer le marché, pour construire l'achat en retardiatique. Nous, ce qu'on veut, c'est du ROS, c'est un achat maintenant. Donc en fait, il y a toute une série de blocs psychologiques dans un ordre donné pour lui faire acheter en programmation neuro-languistique. Donc je suis formé en neuro-languistique. J'avais appris qu'il est prouvé que pour faire déclencher une décision,
+
+[06:53] c'est tout un code. C'est-à-dire qu'il y a un système qui se passe dans le cerveau, dans un certain ordre, ah c'est un peu similaire à l'hypnose, pour faire passer l'inconscient à l'action. C'est-à-dire que pour que notre cerveau inconscient veut le passer à l'action. Donc il y a toute une sorte de chose, il y a toutes des images à venir faire créer pour faire un bon travail.
+
+[07:16] Pour vous donner un exemple, quand vous prenez une décision, mettons que vous passez avec votre voiture devant un MacDo, il va y avoir une série de choses qui se passent dans votre tête qui va venir déclencher, des émotions qui vont venir prendre la décision d'aller s'arrêter au MacDo. Et je vous explique la différence de comment on peut justement reprogrammer le cerveau
+
+[07:38] pour ne pas s'arrêter. Et puis, il y a une série de choses qui se passent dans votre tête pour ne pas s'arrêter au MacDo. Donc tout d'abord, il y a la personne 1, elle prend sa voiture, elle passe devant un MacDo, elle vole MacDo inconsciemment, elle reconnaît la couleur,
+
+[07:59] elle repense dans son esprit couleur jaune, MacDo, je me sens bien, je suis allé là, je mangeais un hamburger, je me sentais bien, ça m'a été généré, beaucoup de dopamine, c'est sympa, ça coûte pas cher, il faut que j'aille là. Voilà, très schématisé, très simple. Le bloc psychologique
+
+[08:20] qui se passe, c'est la personne 1. C'est la personne 2, la personne qui veut arrêter justement d'aller au MacDo, elle va venir aller plus loin, elle va se dire, ok, MacDo, je suis conscient que ça fait du bien, mais est-ce que après, je me sens vraiment bien? Est-ce que après que je mange le MacDo, je culpale bise peut-être? Ou je sens que je dégère pas bien?
+
+[08:40] Et après, je suis pas en forme. Puis au final, ça me fait pas tant de bien que ça. Et après, je regrette d'être allé au MacDo parce que je me sens pas assin, je sens que j'ai pas fait la bonne décision. Donc en fait, en préparant, à l'avance, ça, quand on va voir l'image de MacDo, on va penser, oui, ça peut me faire du bien sur court terme, mais après derrière, ça va me faire plus de mal que d'autres.
+
+[09:01] Et ça, c'est exactement ce qui se passe, il y a des personnes qui ne vont pas au MacDo parce qu'ils ont mis en place d'autres procédés psychologiques pour ne pas prendre la décision d'aller au MacDo. Et moi, par exemple, personnellement, c'est exactement ce que j'ai. Je sais que oui, c'est bien, ça peut apporter un plaisir court terme, mais sur le long terme, après, je vais me sentir comment. Et du coup, quand je passe devant, j'ai pas de culpabilité, parce que je sais que la bonne décision, c'est de pas y aller.
+
+[09:23] Mais il y a une série de choses qui se passent. Et en copier-writing, en ads, c'est la même chose. Il y a une série d'image que nous, on veut faire passer pour prendre une décision. Et ça, c'est ce que personne explique, c'est ce que personne comprend dans les créatives, mais c'est exactement ce qu'on veut faire. Donc, il y a des choses à faire dans l'ad pour créer des émotions.
+
+[09:44] C'est pour ça que montrer des visages positifs, ça aide à prendre des décisions, je suis mal expliqué, c'est pour ça que montrer votre produit, montrer des personnes qui disent votre produit et qui ont des sensations positives, ça aide à convertir, parce que inconsciemment, la personne va se dire, ok, je vais me sentir comme ça. Mais tout ça, il faut le savoir à l'avance,
+
+[10:06] pour ensuite ne pas laisser le hasard créer des athes, winner, mais le faire. Donc, je vais vous résumer. Dans les premières secondes, ça doit être captivant. Là, si vous n'avez pas capté les prospects, vous êtes mort. Parce qu'il y aura une masse énorme de gens et si vous n'avez pas capté cette masse, votre atte ne sera pas winnese.
+
+[10:28] Ça vous quittera trop cher. Et vous n'aurez pas les ROS escondés. Donc là, il faut être très fort dans les premières secondes. Il faut masteriser les hooks. Vous captivez l'attention inconsciente. Vous vous dise des procédés psychologiques pour captiver l'attention de vos prospects. C'est-à-dire, vous utilisez des techniques comme par exemple montrer du rouge. On sait que, inconsciemment, quand il y a du rouge,
+
+[10:50] on doit regarder. Parce que c'est un danger. On sait que quand une personne lève la main, on doit regarder. Ça veut dire qu'il y a quelque chose à dire. Ou quand il y a du mouvement, inconsciemment, l'œil regarde. Ou qu'il y a un son ou quelqu'un à chuchot, on doit utiliser toutes des manières psychologiques pour captiver l'inconscient des personnes.
+
+[11:11] Ensuite, ça doit être natif à la plateforme. Parce que si ce n'est pas natif, il va se dire que c'est une pub direct ou ça ne va pas être smooth. Il va venir réfléchir. Et non, on ne veut pas qu'il y ait réfléchir. On veut que ce soit le plus naturel possible. Ensuite, on veut maintenir hypnotiquement l'attention. Donc méthode Marvel, ici, j'oublie le L.
+
+[11:32] Ce qu'on veut, c'est qu'il n'est pas besoin de réfléchir et que tout du long, ça change de plan toutes les 2-3 secondes. Il peut regarder dans les films Marvel, Avengers, etc. C'est ultra bien fait pour qu'on sente bien tout du long du film. En fait, les plans changent tout le temps. C'est-à-dire que quand on regarde, il y a même un plan fixé ici, comme ça, pendant 5 secondes. C'est un plan qui bouge.
+
+[11:53] Ensuite, ça change sur un autre plan toutes les 2-3 secondes. Et en fait, ça nous maintient dedans à l'affût et d'une manière très satisfaisante. Et tout est fait. C'est-à-dire que tout est fait pour que ce soit joli. Il n'y a pas des fonds perturbants. Il n'y a pas... En fait, tout le visuel est revu pour que tout du long du film vous sentez bien. Donc ça, c'est quelque chose à savoir.
+
+[12:17] C'est qu'il faut que ça maintienne hypnotiquement l'attention et que ce soit satisfaisant pour l'inconscient. C'est-à-dire que tout ce que vous voyez derrière votre atte, tout ce qu'il y a dans votre atte, c'est la personne que vous choisissez à un impact. C'est pour ça que faire prendre des acteurs IGC, si la tête ne donne pas confiance, si la personne ne sourit pas assez,
+
+[12:38] si la personne ne matche pas avec l'avatar, ça va être difficilement skillable. C'est pour ça que moi j'aime bien pour les attes, c'est faire du mashup, c'est-à-dire prendre plusieurs personnes différentes, essayer de ne pas trop montrer de visages et être le plus neutre possible. Donc la méthode Disney, c'est quoi ? C'est simplement pas avoir de pics et être satisfaisant au visuel.
+
+[13:03] En fait, Mickael, il a très peu de couleurs déjà et tout est satisfaisant. En fait, ils ont rajouté les gants, ça donne mieux avec des gants, ça donne propre, il n'y a que des formes arrondies, il a l'air sympa, il n'y a pas de pics. Il n'y a pas de pics parce que les pics, en fait, je crois que j'ai mis une explication après, les pics, en fait, ça irrite un peu la conscience,
+
+[13:26] ça évite de créer des sensations positives. Donc Disney, je lui ai mis une explication, il utilise abandonnement les formes arrondies, des animations, même dans le parcathème, parce que les formes arrondies sont considérées comme positives inconsciemment. Je vais juste mettre un chargé, pas qu'il s'éteigne.
+
+[13:50] Et ça évoque la sécurité et le confort des choses. Donc regardez Disney, en fait, quand on regarde, les formes sont bien, c'est rond, c'est satisfait au niveau de la conscience, et du coup on a confiance, on sent bien. C'est exactement ce qu'on veut dans les athes. Donc les angles pointus, Disney, il l'avait compris,
+
+[14:11] il va venir éviter de les mettre. Et ça, c'est pareil dans le Feng Shou, pour ceux qui connaissent le Feng Shou, sinon au Japonais, je ne sais plus, c'est les choses à mettre dans sa maison d'une certaine manière, pour psychologiquement, on sent bien. Bref, on va revenir sur les athes. Donc la méthode Disney,
+
+[14:31] ayez des formes arrondies, d'ailleurs, les meilleurs produits qui marchent, les produits pointus, souvent ne marchent pas. C'est pas bon pour l'inconscient. Je pense que si vous pensez à tous vos meilleurs produits, ils ont une certaine forme arrondie, ils sont assez satisfaisants à voir. C'est un décode de produits qui réussit. Il doit y avoir zéro erreur visuelle ou auditif,
+
+[14:52] c'est-à-dire dans votre athes des fautes de transition, c'est qu'on voit pendant une seconde qu'il ne se finit pas, c'est mort. Ça peut marcher, mais après, quand on veut de grosses pleines, ça ne marche pas. Donc il faut faire attention à ces détails-là. Ou un erreur auditif. Ou vous mettez deux textes en même temps. Il y a ce texte-là et il y a ce texte-là. Et bien, lui, ça le perturbe.
+
+[15:13] Il faut que ce soit tout doulons, tout doulons de maths satisfaisant à regarder. C'est pour ça que même des fois sans texte, moi, j'aime bien faire sans texte, c'est mieux parce que si vous arrivez à vendre sans texte, ça va être beaucoup plus scalable et plus simple. Parce qu'il y a du texte, il y a beaucoup de personnes qui n'arrivent pas à lire encore le texte. Mais ça, c'est une autre histoire. Si vous avez une athse qui marche bien et qui peut être lu sans texte, faites le test de tester sans texte.
+
+[15:35] Vous serez surpris des résultats. Souvent, c'est plus bas et peut dépenser plus. Bonne lumière, il faut que ce soit bien éclairé. Si je vous tourne... En gros, non, il y a que juste comme une bonne lumière, mais... Vous avez une bonne lumière, en fait.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 07 : Créer un Condor (Partie 2)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 07
 ======================================================================
 
@@ -634,16 +1118,76 @@ Ce qui différencie une pub qui cartonne d'une qui flop, ce n'est pas le budget 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Petit problème avec le loom, on repart. Donc on était à une bonne lumière. Donc une bonne lumière super importante, dites à vos acteurs, choisissez des footages, je sais qu'il y a une bonne lumière, parce qu'on arrive à scanner les choses facilement. Une bonne lumière c'est indispensable, parce que sans une bonne lumière, je vous garantis, ça ne va pas convertir, vous ne pouvez pas se pendez. C'est quelque chose de basique,
+
+[00:21] en fait, qui doit être fait, et qui doit être dit à vos acteurs, ou à vos acteurs, je sais, ou quand vous tournez des footages pour votre produit, il doit y avoir une bonne lumière. Ce n'est pas pour rien qu'on photographie, quand dans les cinémas, ils mettent de la lumière. On vous voit bien des choses, parce que ça serait agréable à regarder. Moi ici, je mets une lumière, pour que mon visage soit éclairé,
+
+[00:42] parce que ça soit agréable pour vous. Et là, pareil, je fais attention à derrière ce qu'il y a, pour que ça soit agréable. Là, j'ai un fond assez neutre, mais idéalement, j'aurais mis une petite plante, parce que, inconsciemment, c'est positif. On associe une plante, et une petite couleur verte, qui se rajoute, ça aurait été le top. Mais là, pour l'instant, j'ai fait ces teup là. Donc, couleur agréable et captivante,
+
+[01:04] n'ayez pas trop de couleur. Là, si Mickey avait un nez bleu, et ici, une langue un peu violette, je vais garantir que ça ne marcherait pas. Donc pareil, essayez de, que ça match au niveau des couleurs, et que ça capture l'attention. Je vous montrerai après quelques exemples. La pub, c'est de être positif.
+
+[01:26] Il faut voir des visages heureux. Il faut voir des choses à forme ronde. Il faut voir des choses agréables, facilement skinnables. Et il faut pouvoir générer une émotion. Il faut que il se passe quelque chose entre les visuels, l'image, le texte que vous mettez, votre avatar. Il faut que ça crée une émotion. Plus ça va venir créer une émotion forte, plus vous allez pouvoir avoir de forts héro-esses.
+
+[01:48] Si vous mettez du texte, il doit être facile à lire. La typographie doit être normale. Ne faites pas des typographies qui sont un peu difficiles à lire. Il y a quelque chose de normal, et quelque chose que les gens sont habitués à lire. Rapprochez-vous d'une typographie qu'on retrouve dans les sous-titres. Parce que les gens ne sont habitués pour rien qu'à mettre ces légendes de typographie.
+
+[02:08] Ce genre de texte, parce que c'est simple à lire. Et nous, on veut faire exactement la même chose. Donc ne mettez pas du texte une fois là, qui a des textes toujours là, ou toujours là, ou toujours au centre, pas importe. Il faut que ça reste inconsciemment satisfaisant. Donc ça, c'est exactement ce que je vous parlais avant. Les codes d'un condor, c'est bonne lumière,
+
+[02:29] couleur agréable et captivante. Ça donne envie de regarder. Là, c'est agréable. Il y a du fond agréable, c'est bien lumineux. Là, c'est mal éclairé, ça ne donne pas bien. On n'a pas envie d'acheter. Et pour rémenter la médecine, ça ne marcherait pas de la même manière. Là, on voit le souris. Là, elle sourit, mais pas vraiment son souriant. Demandez à vos acteurs de souris.
+
+[02:51] Je vous garantis que ça change tout. Si vous avez des photos, produits aussi, de shooting pour vos produits, demandez à vos acteurs de souris plutôt que restez sérieux. Ça change le niveau de conversion. La voix off d'être aussi naturelle possible. C'est-à-dire, il faut éviter toutes des voix qui pourraient déjà des voix que vous n'avez pas testées. En général, on teste les voix off. Ça n'impacte des voix off.
+
+[03:13] Vous pouvez tester 10 voix off différents avec le même script. Vous verrez qu'on a des qui ne vont pas marcher. Parce qu'il y a des types de voix, mais le dévoi naturel qui sont pas conçues pour la conversion. La personne parle et qu'elle termine plus haut, par exemple, et ça, ça ne va pas m'impacter la personne. Tandis qu'une voix off qui termine avec des sons graves, c'est qu'à la fin de chaque mot, il appuie ses propos,
+
+[03:35] ça convainc beaucoup plus. Vous devez choisir des voix qui ont l'air naturel et qui convainent. Pour ça, l'Evenlap, c'est super pour avoir des voix et qui convainent. Vous devez voir que les voix sont bien. Simplement, testez-les sur votre script et regardez quelles voix résonnent le plus. La musique, ça, elle a une de générer une émotion
+
+[03:57] et s'adapter à la publicité. Ça, c'est important. Il faut avoir un peu de musique mainstream. C'est-à-dire, une musique qui plaît à plus de monde possible. Vous pouvez pas mettre de musique rock, sinon ça ne va pas plaire à tous ceux qui n'aiment pas le rock. Et ça doit matcher parfaitement avec le contenu. En général, quand on met des musiques, c'est-à-dire des musiques que vous avez retrouvées
+
+[04:19] sur des ads winners. Parce que Facebook a la date à dessus et va vous mettre plus facilement en avant, vu qu'il a la date à sur la musique. Il sait que cette musique est associée en général à des ads qui marchent bien. Ça, c'est un petit hack. Les transitions doivent être simples et rapides. Ça n'a rien de faire du gros montage. Moi, l'ad que je disais par là-avant, c'est moi qui avais fait le montage sur le cap cut.
+
+[04:41] C'est-à-dire, les transitions, c'était simple. Il n'y avait pas de choses extravagantes. Mais par contre, ça changeait toutes les 2-3 secondes de footage. Il y avait des visages positifs. Tout était inconsciemment satisfaisant et tout du long, c'était smooth. Et il n'y avait pas de musique. Pas de musique, pas de texte. Voilà pour la petite histoire.
+
+[05:02] Donc ça, c'est la recette pour générer des ventes, avoir un bon watch time et générer des interactions. Parce que quand vous avez quelque chose d'inconsciemment positif, les gens vont regarder. Ça va les faire acheter. Ils vont commenter. Surtout que c'est où le permet de générer des émotions. Ils vont commenter, ils vont partager. Ils vont devoir partager ce qu'ils ont ressenti.
+
+[05:23] Et c'est ce qui fait une ad qui coûte peu cher, qui est mis en avant par Meta et qui offre des ROS insolents. Donc pour résumer, je sais que je pense, je me répète, mais c'est pour vraiment vous comprenir. Ici, je ne suis pas là juste pour vous donner du vent, pour montrer que je sais de quoi je parle.
+
+[05:43] Je veux que vous obteniez des résultats. Je répète et je me répète encore pour que ça rentre de votre cerveau, que ici vous ayez des résultats massifs. Pour qu'on reçoive des tonnes de messages. Ouais, ça m'a changé. Depuis, j'ai scallé. J'ai obtenu un ton de résultats. On a déjà ces genres de messages là. On a déjà pas mal.
+
+[06:04] Mais ce que je veux, c'est que toutes ces personnes qui suivent ça, soient ensuite des monstres. Donc pour résumer, il faut qu'aptiver l'attention. Et garder l'attention. On captive l'attention avec le haut, avec les codes de vidéos que je vous ai montrés avant. On crée des forts pics émotionnels. On va venir générer une décision plus... une décision d'acheter qui est plus forte que celle de la douleur.
+
+[06:26] Ou du moins qu'il aille sur votre landing page en étant ultra chaud. C'est-à-dire, on le convaincant d'acheter. On convainc en lat. On ne veut pas juste envoyer du clic. Ça, c'est fini. C'est fini dès 2024. C'est fini ça. Il faut appliquer certaines choses dans un certain ordre donné. On veut créer une décision chez le prospect.
+
+[06:47] C'est-à-dire, on ne peut pas mettre certains blocs marketing dans l'ordre qu'on veut. On doit avoir un certain ordre pour faire prendre une décision. Et ça, c'est logique. Mais on ne commence pas par un call to action. Au départ, il faut qu'aptiver l'attention. On faut, en fonction du stage du prospect, discréditer, montrer le produit, mettre de la social proof, etc.
+
+[07:08] À la fin de call to action. Il y a un certain ordre à respecter. Il y a des séries d'éléments non visibles qui sont consciemment, non visibles consciemment, c'est-à-dire inconscientes, qui faut faire et ne pas faire. Comme je vous expliquais, il y a des choses à faire et des choses à faire pour que tout du long le prospect soit hypnotisé et qu'on arrive à faire délivrer le message
+
+[07:29] dans le subconscient qui prenne une décision. Maintenant, qu'est-ce que vous devez faire ? Maintenant, ce que vous devez faire, c'est identifier vos différents personnels à winner, c'est-à-dire vos différents avatars qui peuvent acheter votre produit. Je prends l'exemple que j'ai pris avant.
+
+[07:51] du champon à faire perdre des cheveux. Donc là, il y a plein de personnes qui peuvent utiliser. Il y a les femmes, les hommes, les femmes plus âgées, les femmes moins âgées. Et vous allez venir identifier le persona. Ok, vous avez vu que le persona peut-être Nathalie, 40 ans, qui commence à perdre des cheveux. C'est un persona à targueter.
+
+[08:13] Vous allez venir construire après vos angles, analyser vos angles et vos messages par rapport à ça. Donc là, vous avez vu qu'il y a les angles de mon père de cheveux, dû peut-être à une mauvaise nutrition. Ça va venir parler. Donc là, vous allez venir construire différents messages par rapport à ces paires de cheveux et par rapport à ce persona. C'est-à-dire, dans votre hads, faites attention
+
+[08:34] à que ça parle à elle. Et non que ça parle à d'autres personnes. Et vous allez venir focus que sur un angle. Vous n'avez pas à venir se champer une meilleure solution pour avoir des cheveux robustes, pour sentir bon. Votre focus, c'est sur la paire de cheveux. Donc vous allez mettre les autres bénéfices peut-être en plus. Mais votre main idée,
+
+[08:55] ça va être de parler sur cet angle-là. Et après, il y a différents messages. Et ça peut être de plein de différents concepts. Donc là, en premier, vous allez prendre des concepts prouvé. Donc si dans cette niche-là, c'est des hads UGC qui marchent principalement, vous allez peut-être faire du UGC pour commencer. Vous voyez que c'est des images, c'est des images. Une image avec une femme, un avant après, c'est qu'il y a 40 ans,
+
+[09:18] et qui montre que pas de cheveux, cheveux et le message. Et un message qui parle à cet angle-là peut marcher aussi. Idealement, on va avoir différents concepts pour différents angles marketing avec les différents messages comme variation. Ça, ça vous fera un batch, c'est ce qu'on veut. Donc en gros, je résume, on a notre angle ici qui est paire de cheveux.
+
+[09:41] De personnes à ce natalie 40 ans, paire de cheveux parce que mauvaise nutrition. On va avoir différents messages ici. C'est-à-dire paire de cheveux, manque de nutrition. Vous perdez vos cheveux d'une... Ouais, non, je résume. Ensuite, on a différents messages ici pour l'angle.
+
+[10:07] Et ça, ça va vous faire un batch. Donc vous aurez vos batchs ici de statique avec votre angle. Différent messages. Vous pouvez faire une vidéo pour cet angle-là. Différent messages. Vous pouvez faire un UGC. Voilà, par exemple, vous avez 3 concepts pour un seul angle. Et puis après, vous regardez ce qui marche. Vous allez faire pareil pour l'angle 2. L'angle 2 ici, c'est d'avoir des cheveux plus épais. Mais pareil, vous parlez à un avatar. Vous n'avez pas parlé à tous les avatars en même temps.
+
+[10:30] Et c'est comme ça que vous allez pouvoir construire des batchs de créatives et trouver un truc qui marche. Parce qu'une fois qu'il y a un truc qui marche, cet angle-là cartonne, vous allez venir tester d'autres avatars sur cet angle-là. Vous allez venir tester d'autres concepts, d'autres messages, plus de messages. Et c'est ce qui va vous faire avoir un système de créatives qui marche.
+
+[10:55] Donc voilà, c'était Mathéo. J'espère que c'était clair que vous avez compris à quel point c'est important de travailler Nath. Donc, à quel point la qualité importante quand vous le crée Nath, c'est puis ensuite, quand vous avez compris ça et que vous avez créé du volume, je vous garantis que ça va faire mal. Et vous allez pouvoir squérir un primé de l'argent.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 08 : Analyse Marketing
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 08
 ======================================================================
 
@@ -740,16 +1284,164 @@ La plupart des e-commerçants lancent des publicités sans vraiment comprendre q
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors aujourd'hui on va voir comment faire une analyse marketing. Donc l'analyse marketing c'est une étape très importante parce que ça va vous permettre de ensuite créer des ads qui parlent à vos avatar, qui parlent à vos personnalités, qui leur dit exactement ce qu'ils ont besoin d'entendre et c'est vraiment GameCleanJord, c'est la partie qui est décisive.
+
+[00:20] Donc je vais vous montrer comment faire une bonne analyse marketing. Donc c'est une vidéo que j'avais déjà tournée mais simplement je vais donner les updates et je vais vous expliquer, je vais donner tout le prompt, tout le chat GBT qu'il faut pour le faire. Donc on va juste survoiler le document avant de regarder la vidéo. Donc simplement ici je te remets le process pour faire une
+
+[00:43] marketing analyse, donc comment extraire les avis Amazon, de copier les pages des compétiteurs, comment utiliser GigaBrain, le prompt et le chat GBT. Donc ça c'est le prompt à jour, à jour à jour, donc le 13 mars 2025 que j'utilise personnellement et les deux chats GBT. Très important, on a testé celui-ci, il est
+
+[01:09] Insane, vraiment gardez-le pour vous, il est vraiment Insane et maintenant il aussi recherche à profondi qui est aussi très très fort donc je vous incite à faire les deux. Donc donnez lui un maximum d'informations et ensuite ça va vous aider pour toutes les ads que vous allez créer par la suite. Et ça va vous donner une ancre en fait, c'est à quelle vous allez pouvoir vérifier, ok, quelles sont les obligations, quelles sont
+
+[01:30] les top angles marketing. Et ensuite je vous ai mis le prompt utilisé, donc vous avez utilisé avec le chat GBT que vous avez utilisé, 3 best angles marketing selon les désires et problèmes du customer. Créz-moi des proven headlines, messages, donc simplement ici je vous ai mis les hooks que vous avez accès ici,
+
+[01:54] c'est des droits pour donner des hooks pour vous de produit selon votre analyse marketing et selon les hooks qui convertit. Ensuite comment battre les compétiteurs, donc les rappels si vous les battes les compétiteurs, si vous les rentrez sur le marché, déjà très compétitif et là les différents personnels. Donc là vous aurez tout pour créer une première analyse
+
+[02:15] marketing, super béton pour ensuite créer vos ads. Donc regardez bien la vidéo, c'était Matéo, à toute. Donc je vais vous montrer aujourd'hui la méthode fast, donc c'est une méthode rapide, on va pas aller trop trop en profondeur mais vous allez avoir de solides, solides bases pour commencer. Donc tout d'abord,
+
+[02:36] on va devoir extraire la data, donc nous ce qu'on a besoin est commentaire Amazon, des compétiteurs, si vous n'avez pas de compétiteurs, vous l'avez enceint un produit, c'est mort, je vous déconseille de le faire, et on lance quelque chose qui marche,
+
+[02:57] donc il faut trouver des compétiteurs, on va utiliser Gigabrain, c'est un gros outil hack que personne connaît, que je vous dévoile aujourd'hui prompt, qui va faire une analyse pour vous, ce qui d'habitude me prenait manuellement plus d'une semaine et avec beaucoup plus de précision. Donc on va commencer dans l'ordre, tout d'abord on va venir
+
+[03:21] extraire les avis Amazon. Les avis Amazon c'est de la pépite parce que souvent c'est pas fake et ils sont très fournis. Donc là j'ai pris un produit par exemple, j'ai pris un produit ici, j'ai pas encore étudié le produit, j'ai pris ce produit là parce que c'est
+
+[03:44] un produit intéressant et je me serai placé exactement sur ces genres de produits, c'est qu'il y a pas mal d'angu marketing et aussi que le compétiteur ne mange pas encore comme il devrait, même si il y a du potentiel selon moi. Donc là il fait 40 000 visiteurs, donc plus il est pas loin du million mais pas du million à mon avis et en fait simplement c'est des
+
+[04:12] étés d'oreiller en, je sais pas le terme français exactement, en soie de murier et en fait ça a plein de vertu notamment au niveau de la peau donc c'est on va dire presque un produit cosmétique et ce qui est intéressant c'est que justement plusieurs compétiteurs tournent avec
+
+[04:39] des angles différents donc voilà un bon produit d'ailleurs un produit qui pourrait qui pourrait t'intéresser sans à lancer en France. Donc là on a un compétiteur qui chiffre, on va pouvoir avoir de l'aspiration ensuite j'ai sorti un lien à l'express aussi pour avoir un peu plus de
+
+[05:00] matière aussi et amazon. Donc ça on a un lien amazon. Là j'utilise un outil qui s'appelle amazon scrapper qui permet de donner la des les outils donc je vous mettrai le lien dans la description et en fait simplement ici quand je clique ça va venir me télécharger toute la
+
+[05:22] fiche en fait amazon donc là on a les vidéos on a des images et on a ce qui m'intéresse les avis donc les avis sont en train de télécharger voilà donc j'attends qui le plaide toutes les avis et ensuite je vais venir télécharger en csv et ça va pouvoir venir nourrir mon chat du bt
+
+[05:45] je poussais mais là je vais montrer la méthode simple et je vais venir essayer de comprendre les différents angles marketing qu'il y a parce qu'en fait quand vous allez lire les avis vous allez voir qu'il y a des choses qui reviennent. Voilà ces cheveux sont même plus, ils se réveillent
+
+[06:06] sans frise au titre, toujours doux et beau bruyant donc voilà la soie c'est vrai ce que dit les propos de la soie donc c'est un seul avis mais après en en lisant plusieurs si vous voyez que les cheveux reviennent souvent et bien c'est qu'il y a un fort angle marketing avec les cheveux et là vous voyez aussi que c'est vrai ce qui dit se dire que c'est un produit qui est déjà connu donc
+
+[06:29] c'est très bien c'est à dire les gens entendent parler de ce produit et c'est les gens de produits sur lesquels on veut se positionner. De l'ensemble super contente surtout que ça coûte pas cher ça vaut le coup donc moi ce que je voulais voir c'est le prix amazon combien il est il le vende à 11 dollars vraiment pas cher mais après il y a moyen de vendre il coûte vraiment pas cher donc
+
+[06:56] sur le site de facebook donc si vous voulez vendre le produit 11 balles ça va être très très compliqué sur facebook mais si vous faites un pack de trois sois et vous en offert trois offerts pour je sais pas 30 balles ou avec la livraison payante ça vous va pouvoir vous permettre d'amortir
+
+[07:17] les coups donc bref ça on est au niveau de l'offre c'est parce qu'on va voir aujourd'hui donc donc là en fait simplement on aura analysé manuellement ce qui ressort et juste un petit analyse juste voir au niveau des cheveux ça ressort souvent ouais les cheveux ça ressort très très souvent
+
+[07:43] donc là donc les gens n'achètent pas pour m'adormir mais ils achètent principalement pour des vertus de beauté. On va venir copier la landing page donc là on va venir utiliser la landing page qu'on a trouvé ici ensuite on va utiliser giga brand donc giga brand c'est quoi c'est c'est un outil
+
+[08:09] en fait qui va regrouper tous les forums et mais et vous les vous donne un compte rendu de tous les forums donc ça vous évitez de chercher tous les forums un à un donc en fait c'est pour ça que c'est puissant et ça vraiment peu de personnes le connaissent je commence à le partager plus en plus donc ça va être connu donc je vais vous montrer tout de suite comment ça marche
+
+[08:31] donc là en fait je viens taper dans giga brand les termes reliant notre produit donc je vais taper pilocycle et je vais taper murdery mulberry pardon silk et je vais voir en fait qui ressort et là il ya 180 commentaires par rapport à ça donc en fait simplement il me fait un compte rendu
+
+[08:52] avoir un compte rendu de la vie collective et c'est exactement ce qu'on veut on veut pas la vie d'une personne on veut de la vie collective du produit des bénéfices et des recommandations et ensuite des questions donc là simplement ce que je vais faire c'est que moi je vais mettre 6 morts je vais tout copier ici et je vais utiliser pour mon chat jbt donc là je copie boom donc là je vais mettre sur moi je vais venir ensuite copier coller les faq ok donc là on
+
+[09:20] a les questions que se pose les gens où les la vie collective ok ben c'est quoi les bénéfices exactement donc là on voit r s qui n'est donc en fait on voit que déjà lui il est précis r et ce qui qui ressort et là c'est la même chose que ça simplement ce que je vais faire c'est que je vais juste copier les questions et je vais copier son manteau de bt à nouveau en fait
+
+[09:42] simplement là je donne de la data mon chat jbt ok et puis simplement je vais vous épargner ça mais je vais juste continuer à copier coller ici toutes les questions et aussi le résumé ok donc là j'ai copié tout ce qui était sur gigabrain donc là on va résumer on a extrait
+
+[10:08] les avis amas simplement va donner la data à charte bt moi j'aurais sûrement charte bt je vais lui donner en fait les avis amazon que j'extrais donc là je donne les avis amazon et je vais coller mon prompt je vais coller mon prompt donc là ici on va faire la partie 1 déjà
+
+[10:30] voilà la partie 2 c'est pour dominer son marché donc on va déjà faire la partie 1 let's go ok je juste redonnais le prompt j'ai oublié de coller le compétiteur ok donc là il est en train de pondre l'analyse marketing donc les uniques saline proposition donc principalement les uniques
+
+[10:58] les uniques saline point en fait qu'est ce que le prospect c'est quoi son rêve c'est des cheveux plus sains sans frisotis de réduire les rides de la peau d'améliorer la qualité de semeil
+
+[11:18] ensuite c'est quoi les impacts émotionnels donc fait ce prompt et un copier rating ultra percutant quand on comprend tout ça on comprend quelle émotion derrière on veut en veux tri triheur et bah c'est game changer parce que derrière après ça va venir naturellement de créer des
+
+[11:38] aides en fait qui marche vous avez dit toi un produit que c'est prétendus ok mais voilà ça peut donner des idées donc là ça va être important après de tout lire et de mettre si vous avez une équipe créa une équipe copier rating une équipe de l'annic bitch de leur donner accès et de leur demander de bien lire c'est très important et ça c'est juste une petite première analyse après
+
+[12:00] ça ça s'améliore ça se ça se pognit qu'on peut dire ça se précise et si vous avez une marque ce que vous pouvez faire c'est peut aussi simplement lui donner le sondage que vous faites à vos clients c'est à dire vous envoyer un form à tous vos clients et vous leur poser des questions pourquoi vous avez acheté le produit qu'est ce que vous aimez chez le produit à quoi ressemble
+
+[12:21] votre produit d'arrives c'était quoi le problème que vous voulez les résultats avec notre produit quelle émotion vous avez ressenti avec notre produit etc et ça va donner encore plus de data précise sur vos meilleurs clients en sachant qu'il ya d'autres avatars à toucher que vous clientuel mais je rappelle si vous répondez pas aux objections vous pourrez pas se caler
+
+[12:45] parce qu'il y aura un goulot d'étrouvement parce que les gens dans la masse ne vont pas acheter si vous répondez pas leur objection si par exemple ils ont une objection c'est trop cher parce que peut-être ils pensent que la soie c'est cher ben ils vont pas cliquer sur vos ades vous même pas venir sur votre site et ça c'est une objection à mettre dans les ades ok ben c'est acheter justement cet accessoire pour les célébrités qui est normalement luxueux
+
+[13:15] un prix très abordable par exemple ensuite ça va être difficile à maintenir à laver donc là ça il va falloir répondre sur le site assez rapidement normalement dans dans conversion de rites mais je ne sais pas il va falloir il faut faire tout un parcours fait il faut les conduire dans un parcours psychologique au départ il faut créer le désir formant que ça
+
+[13:37] rappuie ça rappuie l'émotion pourquoi il est venu et après faut répondre aux objections dans l'ordre donc en premier lieu il va se poser les objections les plus fortes normalement donc c'est trop cher ça ça va être déjà l'objection qui va être répondu dans l'ad parce que sur le site il va avoir le prix directement ça va être difficile à maintenir est ce que c'est vraiment du satin ça par exemple ça va venir après ça c'est
+
+[13:59] dire dans l'ordre il faut montrer ça après ça ne peut pas être juste balancer tous les objections dans un ordre plus en fait vous allez avoir un parcours qui se fait sans friction de votre prospect donc là l'unique mécanisme du problème c'est que le coton donc les autres pilot silque les autres pilotes pardon les français comme on dit les tés de
+
+[14:24] les tés d'oreiller ouais je crois que c'est ça ça absorbe l'huile et ça fait des cheveux sec etc et le satin il est fait en polystère ça cause d'électricité statique et c'est ça l'inverse de ça c'est que là on mulberry silk grade à non ça fait l'inverse donc là vous
+
+[14:49] avez les compétiteurs insite et weakness donc ce prompt il est incroyable il est vraiment prêt parce qu'en fait il vous donne exactement ce que vous avez besoin parce que c'est moins qu'il lui donnait donc là quels sont les weakness du compétiteur il révèle que les compétiteurs donc c'est pas le site mais c'est la plupart des compétiteurs que sommes silk qu'est ce que les
+
+[15:12] autres font peut-être de mal et ferme le satin alternatif c'est pas bon donc vous faut vraiment que si vous lancez ce produit là il faut que vous fasse si est très gaffe à la matière avoir une matière une qualité réprochable ça ça ne perdra pas ensuite exposive premium brome par exemple exposive premium brand donc en fait les marques chers par
+
+[15:37] rapport à ça elles ont pas vraiment pourquoi elles sont pas vraiment de marketing pourquoi sont cher donc c'est c'est une bonne opportunité à exploiter en disant ben on a un produit qui est autant bon mais meilleur et nous on le fait abordable du moins pendant une offre limitée donc voilà comment on crée des offres qui sont ultra scuels à l'âbre ensuite top advertising
+
+[15:59] stratégie et angle donc là ils donnent des angles des messages directement préfets ça va pas être prêt directement même si c'est déjà très très bien mais après ça va être à travailler par exemple un wake up beauty même si après on a une phrase après sans frisotie wake up beauty full avec je vais rajouter quelque chose de mieux en fait ça après on va
+
+[16:22] ça va être à y mais ça donne une très très bonne base pour le départ réel silk et luxe et il donne des messages ouais c'est franchement c'est pépite ensuite je fais une partie deux si vous voulez dominer le marché c'est à dire si vous les battre le compétiteur donc ça c'est c'est mon pin un peu c'est ce qu'il faut faire pour battre le compétiteur
+
+[16:46] du 100 cadet 500 cadet etc il va falloir jouer dans les cours des grands c'est qu'il y a des compétiteurs et il va falloir battre les compétiteurs et ça va être un travail principalement de marketing bien sûr va falloir avoir des techniques marketing pour pour simplement acquérir plus que vos compétiteurs après on a un jeu de comment vous pouvez continuer à spend
+
+[17:14] malgré que le cpa augmente vu qu'il y a de la compétition donc c'est une histoire de recurring de de de baccaine etc mais là je parle purement niveau marketing si vous les rentrez sur la compétition qu'est ce que vous devez faire donc vous devrez introduire une nouvelle solution là on arrive sur le marché des coussins des tétes d'oreiller et on arrive avec une nouvelle solution c'est pas une tétes d'oreiller et le produit il a une texture qui est en
+
+[17:39] bulberry silk et cette texture là elle a plein de vertu c'est ça l'unique mécanisme donc ça en fait vous pouvez le faire pour plein de produits c'est à dire vous trouvez un produit ou c'est qu'un gros tam total adressable market par exemple les champs points ok bon prenez un champ point qui a un nouvel un nouveau mécanisme ok ben c'est un champ point qui fait repousser
+
+[18:00] les normes les gens connaissent le champ point mais vous avez un mécanisme unique donc ça il faut penser qu'on voulait lancer une marque à succès ou qu'on voulait améliorer votre marque actuel faut penser à ça là ce que je vous dis c'est vraiment pour faire du gros gros argent ou même si vous débutez comme c'est de penser de la manière d'un un y commerçant avancer
+
+[18:21] pour faire de l'argent même si vous débutez ensuite optimiser l'anthonore publicitaire donc il faut avoir un meilleur anthonore publicitaire c'est à dire il faut être plus précis faut avoir des publicités plus ciblés faut faut avoir les bons messages là peut se réprécier un seul funètre peut rapporter des millions un million par mois facile si vous avez un bon
+
+[18:41] funètre donc un bon funètre c'est c'est des ads lp correspondante back end ensuite après email etc crée une proposition de valeur plus forte donc là on est plus fort qu'on pourrait très bien vendre des coussins comme tout le monde mais simplement avoir un prix imbattable donc tout le monde vend des coussins c'est que ça coûte 50 entre 40 50 balles et non avec un coussin qui
+
+[19:04] coûte un thé d'oreille pardon pardon qui coûte cinq balles et ballons pourrait dire ben on a le même même qualité mais pour cinq balles et là on va toucher énormément d'acheteurs qui veulent juste le meilleur prix ensuite exploiter les faiblesses des concurrents bah ça c'est que avec une bonne analyse marketing et l'on arrive maintenant avec il y a aussi que n'importe qui même si
+
+[19:25] vous avez pas de connaissance en marketing vous pouvez sortir votre épingle et venir avec un paranti si vous l'exploitez bien vous avez les mêmes talents qu'un super top copier et donc ça c'est comment battre les compétitions donc simplement moi ce que j'ai fait c'est que j'ai fait un prompt pour chatter bt c'est que ok selon l'analyse que tu m'as fait comment je peux
+
+[19:49] battre la compétition et là il m'a justement dit comment battre la compétition donc introduit une nouvelle solution donc la nouvelle solution c'est ses focus sur la transformation beauté de comparer le silk et le coton vs satin sur le self care boutique en sauce pas seulement juste
+
+[20:10] better slip ensuite de leverage de prendre le levier sur l'unique mécanisme donc l'authenticité c'est du silk nous on a du silk on a le meilleur silk c'est un silk français enfin c'est aussi que je parle en anglais un peu mix vous comprenez c'est pas juste de polyester c'est 100% après
+
+[20:33] voilà il faut falloir prouver que vous avez le meilleur mécanisme ensuite le coton donc avoir peut-être des vaisselles des vidéos plus longues d'avoir des meilleurs copier writing agiter plus agiter plus le problème plus vous comprenez votre avatar plus vous allez pouvoir être fort et avoir un final qui cartonne faire des adversariales aussi par exemple tips sur comment
+
+[20:56] battre vos compétitors donc ouais énorme énorme énorme pompe donc une fois que vous avez ça après vous pouvez demander aussi de faire votre personna parce qu'il faut savoir c'est que en fait je vais vous faire un petit dessin alors ce que vous comprenez c'est que pour votre produit
+
+[21:20] il y aura plusieurs avatars donc ça c'est un avatar donc un persona donc ça va être par exemple le mireille qui a 45 ans qui a qui a la peau qui commence à raider que aussi des problèmes de cheveux etc ensuite on a une personne et ensuite pour ces avatars là il va y avoir
+
+[21:42] des angles marketing qui vont venir leur parler donc là il va voir l'angle marketing peut-être cheveux je mettra h comme ça cheveux très mal dessin mais c'est pour vous comprenez ensuite il y a l'angle marketing skin donc pour la peau donc peut-être que le tam là ici c'est dire ça va venir être énorme ça va être un angle marketing énorme parce ça va venir
+
+[22:05] toucher beaucoup de personnes là ça va être un petit angle marketing qui marche aussi et là il y a aussi plein d'angle marketing qui peut y avoir les mêmes angles marketing les messages donc différents messages pour parler des cheveux de la peau des cheveux peu importe donc ça peut être je reprends l'exemple des cheveux arrêter les frisottis ou ou lutter contre la perte de
+
+[22:30] cheveux donc il y avoir plein de messages les bons messages qui vont venir raisonner avec votre audience et de montrer d'être conscient que quand vous avez un message ben vous ne pouvez pas montrer n'importe quel avatar vous pouvez pas montrer ici une renoise si ça ne fitait pas par rapport à votre recherche marketing peut-être qu'une renoise d'ailleurs en france et renoise et les les marocaines etc ça marche très très bien pour tout ce qui est beauté ça va pas marcher
+
+[22:56] de la même manière donc ce que je veux dire par là c'est qu'il faut être bien conscient qu'il y a différents avatars il y a différents angles il y a différents messages donc en fait le travail niveau créatif niveau angle marketing il est énorme donc pour être chez énormément de personnes simplement il y a des angles et des messages qui seront plus scalable qui vont plus raisonner ils vont plus raisonner que d'autres donc il faut être conscient de ça parce que si dans votre
+
+[23:20] analyse marketing ce qu'on va voir après vous allez voir que votre meilleur avatar c'est ici Mireille qui a 45 ans et vous montrez tous des jeunes ce que beaucoup font d'erreur c'est dire vous faites des gc avec des jeunes ou d'autres et demi et bien ça va pas marcher autant que si vous montrez directement Mireille une avatar 45 ans plus françaises blanche alors que font
+
+[23:44] beaucoup de personnes même beaucoup de marques de faire des gc avec un acteur qui ne fit pas forcément avec la vata donc moi ce que je conseille c'est plutôt faire des mashups qu'on vous commencez pour être le plus neutre possible et avoir simplement le message derrière qui prime sur l'acteur et qu'on fait un gc il y a l'acteur c'est-à-dire si l'acteur passe pas sa tête passe pas bah bah tout ce qui peut être bon et ça va pas marcher bref
+
+[24:06] c'est une petite aparte ça c'est un bonus alors différents customeurs persona je vais demander personnal ok je me trompe aux choses à savoir faut toujours prendre avec des pincettes
+
+[24:29] ce que chat d'vbt nous donne en termes de persona pour des compétiteurs sur les acheteurs de amazon parce que lui pas vraiment savoir en fait qui il va estimer qu'ils sont mais ça il peut avoir un manque de précision donc là il nous donne entre 22 et 40 ans fait mal qui se lève avec des cheveux sec frisé etc voilà qui est qui regarde ça bouteille enthousiasme c'est la
+
+[24:58] première personne ça me paraît précis et bien franchement ça me paraît très très bien il donne aussi les bénéfices pour lui parler etc ensuite le personnel le personnel de selfkier avocate ça peut être mal aux hommes eux qui ont des allergies ou une peau sensible qui ont dacné et il donne à notre entendre il veut pas overspend et simplement il veut quelque chose de
+
+[25:26] assez luxueux pour pour remplir l'aborder là vous ne rendez pas compte à quel point le travail qui nous a donné ça nous aide pour le marketing après pour construire nos ades donc là par au niveau construire des ades ben si on lance le produit on serait d'accord qu'il y aurait trois avatars ici distance et différents ongles marketing pour ces trois avatars mais si on prend
+
+[25:49] cet avatar là et on montre un homme ici qu'à dacné ben on a ré compris et en fait c'est les elles ont pas compris en fait que leur message ne va pas par rapport à l'avatar et par rapport à l'angle marketing donc je pense c'est un peu c'est pas ultra précis pour vous mais je vais résumer une fois que vous avez votre analyse marketing vous avez vos avatars distincts
+
+[26:13] vous avez vos angles marketing les plus prometteurs donc je veux je veux pour pour attener et luxe mais abordable on va venir créer des des ades avec différents messages pour ces angles c'est à dire on va faire qu'on va faire ici plusieurs ades des statiques des vidéos donc là je vais
+
+[26:38] prendre une couleur donc on va faire statique ici des vidéos vraiment c'est vous comprenez statiques vidéos différents différents messages les plus prouvées et statiques vidéos d'une forme message plus prouvé pour les trois avatars pour les différents angles et ça fait qu'on a un
+
+[26:59] batch énorme de créatives attestée donc si c'est votre main et de reprendre exactement les messages qu'ils utilisent ok on va voir eux enfin on va voir le ce terme là et là on voit ok dans 147 jours
+
+[27:20] donc ça c'est rentable ok frustré avec des excuses donc voilà on a un message ce que je ferai c'est que là je prendrais le temps de vraiment regarder c'est quoi les ades les plus winneuses par rapport à ce produit et de simplement refaire ces ades là en étant conscient de l'angle
+
+[27:46] marketing et du message à tout mixer voilà c'est goodbye to bad air d'hermatologie se recommande pour seulement 17 centimes la nuit donc voyons en fait l'analyse marketing et ce qu'on voit ensuite après ça a du sens par rapport à ce qu'on a eu le lit basse vraiment de solide base donc pour résumer vous avez votre analyse marketing et ensuite vous avez adapté tout votre contenu par
+
+[28:12] rapport à ce que vous avez trouvé et par rapport à ce qu'elle plus l'importance vous n'avez pas parlé de tous les angles marketing mais vous allez vous concentrer sur ce qui marche le plus et si vraiment il y a des angles marketing trop fort mais vous avez créé des funnels distincts c'est dire un funnels c'est qu'il y a une landing page et des ades précis réell ici une sale page et une landing page et après peut-être un flot d'upsell spécial pour les cheveux ok
+
+[28:37] produit complémentaire du problème et là ça va être seulement angle des cheveux ça c'est la manière banger de faire parce que là vous savez que vous allez prendre tout le monde là-dessus ça demande un peu plus d'effort ou après c'est d'avoir une landing page qui parle un peu de tous les angles mais ça va être ça va être plus simple mais après vous allez perdre un peu en
+
+[28:59] conversion donc voilà les différents méthodes voilà comment faire une recherche marketing ce que je vais faire comme toujours vous allez pouvoir me commenter prompt et je vous mettrai le lien le lien de ce document avec le prompt tel quel les personnels comment battre ses compétiteurs voilà c'était matéo et à bientôt
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 09 : Scripter ses ads (Partie 1)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 09
 ======================================================================
 
@@ -847,16 +1539,70 @@ Le vrai levier ici, c'est de raisonner en data avant de raisonner en créativit�
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui on va voir comment créer des scripts, comment scripter ces ads. Donc c'est une partie très très importante. Le script c'est ce qui permet de matérialiser tout nos data en un concept. C'est une partie qui peut être réalisée difficilement par les débutants, normalement.
+
+[00:22] Donc il faut être copier-writer, il faut avoir beaucoup de data en termes de psychologie du consommateur, comment il faire pour une décision, comment parler etc. Mais moi je vais vous montrer comment n'importe qui peut scripter, comment même en étant débutant vous allez pouvoir créer des scripts et comment même moi je script en étant techniquement un copérateur professionnel. Donc la méthode la plus efficace, je vais vous expliquer,
+
+[00:49] ça va être la méthode de s'inspirer de ads, de scripts de concurrent. Donc on va utiliser ChBT pour partir d'un script prouvé et l'adapter à votre produit. Donc c'est la méthode la plus efficace parce qu'elle réduit les chances d'erreur. Et plus vous avez des chances d'erreur, plus il y a des chances que vous vous foirez. Donc ces premières méthodes je vais vous la montrer. Donc je vais juste ouvrir le process.
+
+[01:10] Donc techniquement, qu'est-ce que vous allez faire ? Premièrement vous allez venir analyser le marché et trouver des scripts gagnants. Donc c'est votre premier rôle, c'est ultra simple. Simplement vous regardez tous vos compétiteurs, vos compétiteurs niveau 1, qu'est-ce qu'ils font, etc. Et vous allez venir trouver les ads.
+
+[01:31] Donc nous ce qu'on veut c'est identifier des messages, identifier des formats ou d'autres patterns qui résonnent avec l'audience. C'est-à-dire peut-être que dans votre niche, par exemple la niche des bijoux, je donne un exemple, vous voyez que les ads type lifestyle, c'est-à-dire ne fonctionnent pas et que c'est plutôt les shots type professionnel qui marchent.
+
+[01:58] Donc vous avez identifié ça, donc vous allez adapter à votre... Pour votre produit. Donc ce qu'on va faire, on va venir trouver la structure et les scripts des publicités gagnantes à copier. Donc vous allez regarder par rapport à votre liste de concurrents. Si vous avez fait une liste de concurrents, si vous n'avez pas encore fait une liste de concurrents faite là, c'est assez simple, vous tapez des mots-clés sur Google, sur ForPlay,
+
+[02:23] dans la bibliothèque Libarer et vous allez vite trouver pas mal de concurrents. Vous spayez seulement ceux qui font du volume, donc installez similaire web et regardez le volume qu'ils font, regardez combien des ordres d'adds actifs. Ne vous inspirez pas d'une ad-sqp. Oui, dans ça c'est très important. Ensuite, l'autre glitch que personne mentionne, c'est les spys d'adacons.
+
+[02:46] Donc pouvez nous contacter, on vous tendra le contact d'un insider Facebook qui permet de spayer d'adacons d'un concurrent. Donc ça c'est le moyen le plus fort parce que simplement vous allez avoir accès à un screen vidéo de l'adacons et vous allez pouvoir voir les top ads qui chiffrent le mieux, qui sont en acquisition et non en retargetting.
+
+[03:10] Vous pouvez avoir le lien exact, donc c'est la méthode la plus simple parce que vous avez une ad, vous êtes sûr qu'elle est Windows. Parce des fois sur ForPlay vous pouvez trouver une ad qui dure depuis longtemps mais vous savez pas si elle a été laissée en retargetting, si elle a été laissée dans une compagne CBO et qu'elle ne dépense pas. Ça c'est ce qui arrive de plus en plus maintenant. Donc ça c'est la méthode la plus forte, c'est de spayer d'adacons,
+
+[03:33] ça coûte pas très cher. Et vous allez pouvoir avoir une liste de top créatives Windows sur lesquelles vous allez pouvoir mettre le budget et vous avez de la confidence. Parce techniquement je vous expliquerai plus tard en termes de process mais pour les créatives, moi j'utilise la méthode I, c'est-à-dire l'impact, quel impact elle va pouvoir avoir, la confidence,
+
+[03:56] à quel point je suis confident par rapport à la créative et ease, la facilité, à quel point ça va être simple de créer ça. Et nous ce qu'on veut c'est les ads qui sont les plus simples à faire, c'est qu'on a la meilleure confidence que ça va réussir et aussi que l'impact doit être énorme, c'est-à-dire une adce
+
+[04:17] qui va pouvoir être une banger, c'est-à-dire un condor qui peut dépenser beaucoup d'argent. Donc souvent vous allez trouver des ads qui sont simples à faire mais vous ne savez pas si ça peut marcher donc vous avez une confidence faible. Quand vous spayez un adacons vous avez une confidence ultra-élevée. Vous avez la preuve d'ata par d'attaque, ça marche.
+
+[04:38] Donc là au niveau de la confidence, c'est high. Ensuite au niveau de l'impact vous savez que ça va être high, ça va marcher pour lui, ça va marcher pour vous et ensuite ça va dépendre des ads si elle est simple ou pas à faire. Mais quand vous avez cette confidence-là, il va falloir même si c'est compliqué prendre le temps de le faire. Donc ça veut dire de répliquer l'ads avec des acteurs, vos acteurs, plusieurs acteurs, des shootings pour le faire.
+
+[05:01] C'est ce qui va vous permettre d'avoir énormément de résultats. Donc vous avez aussi fourplay, fourplay c'est très bien. Vous avez simplement tapé sur fourplay des mots-clés et vous avez pouvoir retrouver au niveau des compétiteurs. Je vais vous montrer un exemple.
+
+[05:21] Ok, alors, ce que j'ai bien fait sur fourplay c'est de se garder avec spider. Donc admettons qu'on a un produit dans la niche des vêtements. On a un t-shirt où on vend un autre produit, un pantalon, une veste etc. On va regarder ce que font les grandes marques. Là on a identifié qu'une grande marque aux US c'est un truc classique. Ils font plus de 100 m l'année, ils ont mis 1500 ads actifs.
+
+[05:42] Ils testent énormément. Donc c'est typiquement une marque qu'on veut espuler. Donc on a plusieurs choses qui sont intéressantes quand on a une brand sur spider. C'est de voir les vending page, c'est de voir leurs top performing hook, c'est de voir leurs creative testing. Donc c'est ultra intéressant de voir leurs creative testing parce qu'on peut avoir des idées très fraîches
+
+[06:03] et voir dès qu'un concept est winner. Là ça n'a pas de winner identifié. Donc là on sait qu'il y a une ads techniquement qui est winner ici. Et on peut simplement la sauvegarder. Là je ne sauvegarde pas, c'est pas le four play qu'on utilise avec nos brands. Mais techniquement, celle-ci là, je l'aurais sauvegarder dans idées et je l'aurais starté à répliquer.
+
+[06:27] Donc là on a une ad. Une ad sans plus de pro. Et il arrive. Donc là, ici on a un produit qui est un t-shirt. Il va falloir répliquer de la manière la plus authentique possible.
+
+[06:48] Donc là, avec notre produit, on fait simplement un shooting. On essaie de refaire le même mouvement. Ensuite, ici on a un acteur qui cible la avatar. Donc je rappelle ce qu'on voit après le hook, ça cible la avatar. Donc en l'occurrence, il cible un avatar de homme. Homme 40 ans, 35-40 ans.
+
+[07:11] Qui est pas sur en surpoids. Qui est un peu métisse aussi. Et après, ici, tous les hommes. Différentes scènes, UGC.
+
+[07:34] Là, ils mettent en avant les bénéfices, ce seul proof. Avant après, tu as un daddy, tu as un daddy. Et ensuite une femme qui est un site au call to action.
+
+[07:54] Donc voilà, ce n'est pas assez compliqué à réprimer. Vous avez des acteurs, vous tournez avec plusieurs acteurs et vous regardez ce qui fait le mieux. Et ensuite une femme. Simplement, il faut tourner pour avoir les mêmes sortes de plans. Donc là, vous voyez que ça, c'est clean derrière. Ne faites pas un shooting, c'est qu'il y a du bordel, etc. Refaites quelque chose propre.
+
+[08:15] Donc voilà, une nade, ce n'est pas copié. Ensuite, on peut trouver les top hooks. Donc ça, c'est intéressant aussi. Donc là, des idées de hook. Mais nous, aujourd'hui, le sujet, c'est des scripts. Donc là, ce qu'on va faire, c'est par exemple, regarder les longues runs ou les nouvelles ads qui ont duré depuis plus longtemps. Donc simplement, on peut simplement s'y taper, longues runs.
+
+[08:39] Ça va être le plus simple. Les nouvelles ads, on peut voir dans Creative Test. Donc là, on voit qu'il y a des ads qui durent depuis 916 jours. Donc forcément, c'est Winnerg ou ça peut être en retargetting. Ou ça peut être laissé sans spend. Ok, donc nous, ce qu'on va faire ici, c'est utiliser transcript.
+
+[09:00] Et on va pouvoir copier tout le texte, en fait, de l'ads. Et après, je vais montrer ce qu'on va faire. Donc voilà pour foreplay. Donc il y a plein d'autres manières de trouver des ads une heure. Ads Libre, RIT, Tiktok Creative Center, Minéa. Pour voir, on va pouvoir faire des ades. Donc on va pouvoir faire des ades. Et on va pouvoir faire des ades.
+
+[09:21] Donc on va pouvoir faire RIT, Tiktok Creative Center, Minéa. Pour voir des anciens gagnants. Bref, il y a plein de manières pour trouver des ads. Simplement, une fois que vous trouvez quelque chose, vous allez venir enregistrer l'ads pour sauvegarder vos data. Donc sur foreplay, en général, par produit, on fait plusieurs boards. Inspiration, idée de statique, idée de vidéo. Et ensuite, tester. C'est-à-dire qu'on place la vidéo, je la placerais dans idée de vidéo.
+
+[09:43] Et ensuite, une fois qu'on la testait, tester. Et après, vous pouvez toujours regarder ce qui peut être intéressant. C'est-à-dire de toujours analyser l'ads. Comme j'ai dit, c'est important parce que peut-être que vous voyez... 8 shirts, to make you look like this. Par exemple, pour mécaniser le fait que t-shirt ne fit pas, il faut lever les bras. Ok, sauvegarder ça. Puis pour le prochain shooting, c'est un t-shirt, vous faites tout des shootings qui le démontrent.
+
+[10:06] Ou peut-être que vous voyez que les contenus type micro trottoir, enfin caméra cachée avec une femme, ça marche. Donc là, vous pouvez sauvegarder pour vous rappeler de shooter. C'est pour ça que c'est important de toujours analyser l'ads pour comprendre les paternes. C'est ce que je vous désire avant.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 10 : Scripter ses ads (Partie 2)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 10
 ======================================================================
 
@@ -942,16 +1688,66 @@ La clé n'est pas d'être créatif, c'est d'être méthodique. Copier ce qui fon
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Ensuite on va reproduire l'AZ, donc vous allez venir faire sourcer les mains visuelles. Donc regardez le module sourcing pour shooter refer l'AZ de la manière ou des manières. Et si c'est un script différent de votre produit, admettons qu'ici on a un pontalon et même il va falloir adapter le script au produit.
+
+[00:22] Donc plus ça va être loin de votre produit, plus ça va demander des compétences techniques mais avec ChatGBT maintenant ça va être simple. Donc je vais vous montrer comment on va faire. Ok donc là on a l'AZ, je crois que j'ai copié avant le texte. Ce que je fais c'est que je lui dis de décomposer en bloc marketing selon ces blocs marketing que je lui donne et moi.
+
+[00:42] Donc ça c'est mes blocs marketing qu'on utilise dans les VSL. Comme ça il va pouvoir tout trouver. Donc là on va voir, je vais le travailler. Ok donc là grâce au script que je lui donnais, il me décompose le script. Donc c'est juste trop bien décomposer.
+
+[01:03] Donc là il décompose selon les différents blocs marketing que je lui ai donné et il donne le pourquoi. Donc le problème etc. Donc une fois qu'on a ça, simplement on va pouvoir copier coller. Ok donc là vous avez votre script, je vous ai donné ici un template de Google Docs que vous avez pour remettre votre script.
+
+[01:29] C'est un template utilisé par les plus gros copi-racteurs, les plus grosses brands. C'est très simple. Le but c'est d'être sur un Google Docs, simplement exposer ici votre brief. Donc simplement moi j'ai copié coller le brief. Maintenant il y a plusieurs possibilités. Soit vous avez un t-shirt, donc ça ressemble très fortement à ce qu'on a pris ici. Et vous voulez simplement adapter le footage au vôtre.
+
+[01:52] Donc juste changer ce qui parle de leur marque. Et vous changez juste par votre marque. Si il y a certains éléments adaptés, vous pouvez adapter manuellement. Soit vous vous en dépeindre un t-shirt et vous voulez vous inspirer de ce script pour répliquer pour votre ad. Et donc là simplement vous allez venir utiliser l'autre prompt ici. Vous savez que vous allez lui demander en fait de adapter par rapport au produit.
+
+[02:17] Donc basé sur la vidéo référence. Donc là le script. Et là tu vas écrire un script par exemple pour un pantalon.
+
+[02:41] Là derrière on va lui donner notre marketing analysis. Donc je vous rappelle, vous avez fait le marketing analysis. Vous avez donné les reviews Amazon. Vous pouvez donner votre landing page. Vous pouvez donner toutes les informations que vous avez. Donc là pour faire cet exemple je vais simplement prendre un exemple sur Amazon.
+
+[03:04] Ok donc là je vais donner un peu d'informations. Je suis trop lui donné mais il est déjà pour voir ce qu'il peut faire. Et le but c'est que lui il me convertisse le script sous le pantalon. C'est à dire adapter au mécanisme du pantalon, adapter au pantalon. Donc il ne va pas utiliser les mêmes termes. Par exemple si on met ça en place, ça fit bien aux épaules ou le pantalon.
+
+[03:27] Il va adapter sur l'équise par exemple. Donc là on va voir ce qui me sort déjà en premier coup. Ce qui vous sort c'est que Chatcha Bt ne sort jamais tout du premier coup. Il peut mais ce que je veux c'est que vous soyez assez fort et éduqué pour pouvoir comprendre si ce qui sort c'est bien, corriger etc.
+
+[03:47] Donc moi personnellement Chatcha Bt j'utilise pour avoir une base. Et ensuite ça me permet de de manière très vite de corriger. Donc là on va checker ce qu'il nous dit. Donc ce que je vais faire c'est que je vais demander mais moi dans un tableau, ton script ici et le prévious script envoyé.
+
+[04:12] Et le script que j'avais envoyé c'était celui là. Donc en fait pourquoi on décompose en bloc ? Parce que ça va être beaucoup plus simple de comprendre et de faire bloc par bloc que de voir toute la vidéo en un seul bloc. Ça fonctionne bloc par bloc. Donc là je vais juste demander de me mettre dans un tableau comme ça je pourrais voir si il a pu me...
+
+[04:39] Si il a fait un travail de qualité en fait. Ok donc là il m'a mis dans un tableau entre l'original. Donc 8 t-shirts that make you look like this. Watch this. 8 pants that look like the Grutometer but un from Rail Girls. Watch this. Ok donc il a un peu changé. Moi j'aurais fait des variations.
+
+[05:01] Donc j'aurais mis 8 pantalons make you look like this simplement. Et montrer ce que les clients n'aiment pas. Ensuite Big Brand cut costs by making generic design. J'aurais mis exactement la même phrase si ça s'adapte. Donc lui il a été un peu plus inventif. Donc j'aurais mis à peu près la même phrase that don't fit real body type.
+
+[05:26] Ok je comprends pourquoi il a monté plus haut ici. Ok j'aurais mis pareil en fait la T-shirt that don't fit real body type. J'aurais peut-être fait une version de Shadbite, une version la mienne. Il est fouté je reste pareil simplement deux voiceover. Parce que c'est bien ce qui met mais ça ressort un peu plus différent de ce qu'ils aimaient l'original.
+
+[05:51] Donc j'aurais fait deux versions. Shirt I made for mankind not for actual men. Ok donc il a fait un bon script honnêtement. Generally designed. Ouais c'est bien, c'est très bien ce qu'il a mis. Ensuite là vous introduisez le produit. Donc c'est vraiment, je pourrais lui demander de faire un script plus proche.
+
+[06:17] Mais il m'a fait une bonne version. Moi ce que j'aurais fait c'est copy et un script vraiment plus proche. Simplement à la main j'aurais changé à la main pour avoir vraiment quelque chose de plus proche encore. Et comme ça on teste. Quand vous faites un batch de créa n'ayez pas peur de faire à place de 4 h, de faire 8 h, 12 h.
+
+[06:41] Ca coûte pas grand chose de tester si ça peut vous rapporter un big winner. En riz général on se donne un maximum de chance. C'est à dire quand une idée est bonne comme ici. Vous voyez que c'est winner pour le concurrent. Ben testez plusieurs hooks et testez plusieurs versions si vous avez des doutes. Donc là grâce au script on arrive à décomposer et on arrive à travailler bloc par bloc.
+
+[07:02] Donc ça c'est le secret de comment scripter, de comment je script. C'est que je décompose tout bloc par bloc. Et ça permet d'avoir une fluidité d'écriture et de pouvoir adapter. Par exemple, au niveau de l'offre, si vous savez que vous vous avez vendu qu'un t-shirt, vous n'avez pas venu inciter à en acheter 3 ou 4 par exemple. Ensuite le CTA, ben il ne le met pas mais vous voyez qu'il le met de manière visuelle.
+
+[07:27] Donc ça lui il ne le voit pas. Mais là j'aurais, si vous pouvez faire quelque chose de similaire, soit quand on va ou demander un graphie designer ou GBT, enfin ou TEEI. Ok, donc là vous voyez ils incitent à acheter plus. Donc c'est une technique que j'ai déjà mentionnée. Pour booster votre OV, vous pouvez inciter à acheter plus de packs, plus de produits dans le culture action dans l'AT.
+
+[07:56] Donc ça c'est une technique qui est prouvée. La OV est décuplée quand vous vous montrez d'en acheter 6 à la place de 1. Donc voilà, relisez et adaptez manuellement. C'est un net, c'est-à-dire que la GBT c'est une nette pardon. Et ça vous permet de scripter très très rapidement beaucoup d'ATs.
+
+[08:17] Et après ce process, simplement vous pouvez le donner à Creative Strategies etc. Et il pourra le faire. C'est très simple, enfin ça paraît simple quand je l'explique. C'est simple par rapport à comment des Creative Strategies se compliquent. Mais par contre le taux de succès est beaucoup plus élevé. C'est ce qui me permet franchement d'avoir un très fort winning rate dans les créatifs que je teste.
+
+[08:44] C'est-à-dire dans les créatifs que je prépare. J'ai peu de temps. Et mon but c'est de faire mieux que mon Creative Strategie. Donc simplement en un minimum de temps je prends ce qui a le plus de chance de réussir. Et j'utilise la GBT pour accélérer. Et après je vois manuellement. Donc faites attention aux Creative Strategies qui sont trop créatives.
+
+[09:08] Et demandez l'heure de faire au minimum 4 à 5 batchs par semaine de copies des compétiteurs. De copies de scripts. C'est vraiment pour vous assurer des résultats simples. Et après le niveau avancé ça va être de prendre le même script et d'adapter sur un nouveau angle. Mais ça je conseille d'abord tester le script et ensuite de tester.
+
+[09:31] Par exemple là, on a un angle. Je n'ai pas identifié l'angle techniquement. Il discrète assez vite le t-shirt mais on pourrait très bien tester un nouveau angle ou un nouvel avatar. On peut montrer que des personnes hispaniques sur la vidéo. Ça va tester un nouvel avatar ou un nouvel angle. Là on va venir tester un angle qui parle peut-être du regard des femmes.
+
+[10:00] Et puis mettre plus de femmes et changer juste les parties du script qui pourraient changer sur le nouveau angle. Donc ça prend un peu de temps à charger. C'est la méthode que je vous conseille de faire pour vous assurer des résultats.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 11 : Scripter ses ads (Partie 3)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 11
 ======================================================================
 
@@ -1055,16 +1851,74 @@ Ce que tu dois retenir avant de regarder : ces scripts ne sont pas des théories
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Ensuite, je vous ai mis ici framework winner, donc je vous ai mis des frameworks qui sont mineurs. Donc ça c'est des frameworks prouvé pour être winner, donc c'est des frameworks issus de top ads qui ont généré plus de 500K. Donc qui simplement vous faisiez pouvoir demander à chat GBT d'adapter pour votre produit. Donc ça c'est une ad direct respons, donc on veut que les gens achètent aujourd'hui assez courtes qui peuvent être adaptées à pas mal de produits.
+
+[00:29] C'est une structure, c'est une framework, c'est que ça se compose de hook, ça discrédite, solution main-benefit, user-benefit, social proof et call to action. Je vous décompose brièvement pourquoi ça marche. En fait là on va venir parler du regard des autres, donc montrer qu'une femme ou de l'autre sexe est folle de ces nouveaux t-shirts,
+
+[00:56] d'incurrences dans des espérées de trucs classiques. Ensuite on va venir discréditer directement, donc on va venir dire tous les autres pantalons que vous portez aux t-shirts, ils sont pas bons, ils sont pas bien etc. En fait pourquoi on en rentre là dessus parce que c'est très très un hour, c'est-à-dire on va venir toucher ici tous les hommes qui le regardent de l'autre et important.
+
+[01:24] Ou chez toutes les femmes, c'est qui le regardent de l'autre et important. Donc c'est très très un hour. Quand je vous parle des sages d'Awareness, c'est très un hour donc le skilling est énorme si vous faites les choses bien. Ici on discrédite directement les autres solutions donc on va venir dire tout ce que vous pouvez penser ça va être la bonne solution. Donc ça peut s'adapter ici aux vêtements, ça peut s'adapter ici à d'autres produits, ça peut s'adapter à tout les chat d'obéit pour avoir vos idées.
+
+[01:53] Si vous voulez le faire manuellement vous avez un peu de skills, ça va le faire aussi. Ensuite on introduit directement la solution avec un wow effect donc là on va dire ok bien ce t-shirt, ce premier m'thshirt est incroyable. Le but là c'est de montrer un élément wow pour que les gens ok c'est là qu'on introduit le produit, c'est là qu'on va faire première bonne impression.
+
+[02:15] Ensuite on va parler des bénéfices principaux donc les plus importants au niveau du message et au niveau de l'angle. Donc là en l'occurrence si l'angle c'est ça plaît aux femmes eh bien on va venir peut-être dire que c'est sexy, c'est confortable, que ça permet de se sentir bien etc. C'est vous qui connaissez vos top angles et ensuite on va parler des autres bénéfices aussi, les bénéfices secondaires.
+
+[02:37] C'est les bénéfices qui rationalisent, c'est-à-dire on achète par les motionnels donc on achète parce que ça plaît aux femmes, parce qu'on se sent trop bien dedans etc. Mais aussi ils sont flexibles, ils se portent bien, ils sont bons pour la peau, ils se détèrent pas au lavage etc. On va venir rajouter les autres bénéfices pour que ça soit une évidence en fait que ok c'est le produit qu'il faut.
+
+[03:02] Ensuite on rajoute encore tout ce sale prouve donc c'est un game changer pour les hommes du monde entier. Técner pendant 45 jours sans risque, si vous n'êtes pas satisfaits ils vous donneront un emboursement 50% aujourd'hui seulement. Donc là en fait on met vombus la dose au niveau copier writing donc on enlève les risques, on met Dascar City, on met une offre aujourd'hui.
+
+[03:23] C'est Banger, c'est Banger ce script là je l'ai pris pour beaucoup de produits et franchement ça cartonne à chaque fois. Il faut juste bien faire le script mais vraiment ça cartonne à chaque fois. Et après vous ne pas adapter, là c'est une idée de hoop mais si vous ne produis par exemple c'est un produit vraiment un fort problème et qu'il n'y a pas un regard de l'autre qui est important vous allez pouvoir mettre ici, les médecins sont époustouflés par ce masseur évolutionnaire.
+
+[03:49] Ensuite ici on a un autre script un peu plus long qui est aussi Banger. Donc tout le script que je donne c'est tout le script que j'ai testé, le script qui m'a été inspiré de hats vraiment winnows je le répète. Donc là simplement au niveau du hook on va venir montrer le produit directement.
+
+[04:11] Donc là ça va être plutôt une hat qui va être sur un solution aware ou product aware. Donc là on va venir tirer le t-shirt, on va venir montrer que c'est élastique etc. Là je montre l'exemple par rapport au t-shirt, c'est un exemple qui parle et qui est assez mainstream donc c'est pour ça que je prends cet exemple là.
+
+[04:34] Donc le but c'est de montrer produit directement, c'est de montrer un héros au fonction donc si votre produit admettant que c'est un bijou vous allez montrer directement le bijou pourquoi le bijou. Ensuite l'unique usp de votre hats, donc là pourquoi il devra acheter c'est quoi le désir le plus important,
+
+[04:58] On va venir montrer directement qu'il est ultra flexible et on va mentionner le produit, il contient une future 1 qui est de HP de bénéfice 1. Donc là on va venir mécaniser ce qu'ils veulent, donc eux ce qu'ils veulent c'est un t-shirt qui est élastique pour qu'il fit bien. Donc là on va dire qu'il est ultra élastique, il a des fibres ultra élastiques qui permet de voir une fit parfait.
+
+[05:24] Et là c'est tourné sur un UGC ce qui va dire qu'il utilise chaque jour pour prendre ses entraînements et c'est to me for the ball they makes me feel. Et là vous allez dire que je suis pas sûr de la traduction, exact pour ça, je ne suis pas encore à te pas appeler en anglais.
+
+[05:53] Et ça me prépare pour la journée, ok ça me prépare pour la journée ça fait sentir. Donc ici le but en fait c'est de faire visualiser très rapidement dans la vie de tous les jours. Donc en fait c'est très puissant parce qu'on va venir expliquer que cette fonction permet d'apprenair ce bénéfice dans sa journée à quoi ça va lui apporter et comment il va se sentir.
+
+[06:18] C'est ultra puissant. Et ensuite on va mettre directement un call to action directement dans la vidéo pour que s'il est déjà chaud, il clique. Et après on va venir ajouter encore une dose, on va venir montrer le produit, on va venir ajouter d'autres bénéfices, on va venir montrer comment il l'utilise, on va venir montrer la différence, la différence qu'il a senti par rapport au produit.
+
+[06:44] Et après on va venir ajouter un call to action, un signe que... This is your sign to give it a go. Donc c'est un signe que tu as vu cet art, tu dois aborder ton carré d'Europe. Donc ça c'est pour être adapté à pas mal de produits, plutôt un produit qui est assez simple à comprendre. Donc c'est pareil, c'est un problème solution, le type de conseil qui va mieux marcher pour vous, ça va être les VSL ou mini VSL.
+
+[07:11] C'est que vous avez parlé plus du problème, ça va très bien marcher pour ce qui est du make up aussi. Donc là du make up, vous allez venir montrer directement l'application sur la peau, vous allez venir montrer, ok, c'est de l'huile de tournesol qui permet d'enlever les ride. Et j'utilise une fois par jour et ça enlève mes ride de manière incroyable, je me sens plus jeune.
+
+[07:34] Donc en fait il faut simplement adapter par rapport au produit. Ensuite ici vous avez une VSL, donc là je vais pas break down toute la VSL, ça peut être le sujet d'une vidéo entière, mini VSL par contre. Donc là ça va être plutôt adapté aux problèmes solutions, donc là il souffre d'un problème et vous allez venir mécaniser le problème, vous allez venir agiter le problème, vous allez venir discrétiser les autres solutions,
+
+[07:59] vous allez venir introduire votre mécanisme, pas votre unique mécanisme, pardon, donc en quoi votre produit résout le problème qu'il a. Donc là par exemple j'ai mis vous l'été contre des mots chroniques aux mains, si vous regardez ceci c'est que vous expérenciez quelque chose qui appelait neuropathique nerve erosion.
+
+[08:24] C'est une maladie de génératif qui affecte vos nerfs de vos mains. Le pire c'est que c'est une condition qui s'aggrave jour après jour, vous voyez la neuropathique erosion c'est une condition brutale qui peut affecter n'importe qui mais il est plus dur sur les personnes de plus de 60 ans, les diabétiques etc. Donc là il faut être très précis, si votre avatar est 35 ans ne dites pas 60, si vous touchez pas les diabétiques, vous allez venir adapter en fait à votre avatar.
+
+[08:54] Ensuite vous allez venir discuter les autres solutions, vous voyez c'est pour ça que faire des crèmes, les injections etc. ça ne marche pas parce que ça ne traite pas la route de cause, c'est ça que ça dit. Ensuite vous allez venir introduire l'unique mécanisation de la solution, donc là on apparaît que le problème c'est qu'ils ont une nerve neuropathique.
+
+[09:21] On aurait pu encore améliorer en disant sur une longue vsl on aurait amélioré en disant que c'est parce qu'il manque de collagène dans le cartilage par exemple où il manque de circulation sanguine pour restaurer les mains. Dans une cour de vsl on va venir prendre vraiment ce qui est important mais dans une plonge on aurait venu améliorer l'unique mécanisme du problème.
+
+[09:44] Ensuite ici on explique que c'est le produit, enfin cette technologie donc là on introduit déjà le produit sans vraiment mentionner le produit, mais on mentionne plutôt l'unique mécanisme de la solution. On voit une unique combinaison d'impulsions qui vont venir simuler les règles, les nerfs dans les bons endroits et qui vont pouvoir régénérer les cellules d'amager ce qu'on a ici expliqué.
+
+[10:13] Ça veut dire qu'en quelques jours les nerfs vont se régénérer et ils vont éliminer les symptômes qu'ils ont. Donc là vous avez parlé de tous les symptômes courants qu'ils ont donc là aussi important il faut être précis. Après vous répondez aux objections donc ça dépend des objections que courant par rapport au produit, mettons pour ça est-ce que c'est dur à utiliser, est-ce qu'il faut des ordonnances etc.
+
+[10:34] Vous répondez aux objections, ensuite vous allez venir faire visualiser donc là vous allez venir montrer les bénéfices les plus importantes aux clients donc il aura plus mal aux mains, il pourra reprendre le jardinage etc. En quoi sa vie elle va changer, il pourra nous vous occuper ces nouveaux enfants, imaginez à quoi ça pourra s'as été pour ressembler avec ces nouvelles mains.
+
+[10:57] Donc là j'ai mis blanc parce que sur une cour VSL il va falloir être court mais sur une plus longue vous pouvez mettre la dose, ensuite ça se le prouve, ça va être testé par beaucoup de personnes, ça provait par les docteurs, vous pouvez même mettre des testimonials de personnes et ensuite urgence c'est disponible seulement sur ce lien et pendant un temps limité elle peut obtenir 50% de réduction.
+
+[11:20] Donc voilà ces trois scripts, vous pouvez vous inspirer, j'ai mis aussi leur ressource ici d'AdsBanger donc c'est une vidéo YouTube que j'ai mis, je ne fais pas une vidéo parce que c'est une vidéo que je peux retrouver sur YouTube mais elle sait que j'ai breakdone des ads et je vous ai mis leur framework donc c'est tous des ads qui ont dépensé plus d'un million que je sais à travers les spies, à travers les contacts que j'ai avec les agences.
+
+[11:46] Donc ça je vous ai mis le lien là et ensuite je vous ai aussi mis les frameworks selon différents niveaux de conscience donc comme j'ai expliqué auparavant il y a différents niveaux de conscience qui sont très scalable et je vous ai mis des frameworks ici, vous avez les frameworks selon les stages de conscience.
+
+[12:10] Par exemple si les Most Aware, vous commencez avec Hook, que vous vous révelez directement le produit, vous pouvez mettre des testimonials, des testimonials, call to action etc. Ça vous donne énormément d'idées en fait de Ads, soit également tes avec des exemples de créatives et qu'on utilise. Donc voilà c'était Matéo, allez tchao tchao.
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 12 : Production (Partie 1)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 12
 ======================================================================
 
@@ -1150,16 +2004,70 @@ Tu n'as pas besoin d'être un expert en montage pour avoir des vidéos à plusie
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, alors aujourd'hui on va voir la partie production, donc une fois que vous avez vos scripts, une fois que vous avez vos idées, comment vous allez venir produire ces créatives et vous expliquez les différentes manières de produire des créatives. Donc, ce qu'il faut savoir déjà, c'est que je suis pas un monteur vidéo, mais j'ai dit des vidéos qu'on fait plusieurs millions.
+
+[00:23] Ce qui compte quand on veut faire des créatives publicitaires, c'est pas tant l'editing mais c'est plutôt la capacité à choisir les bons footage et à créer une vidéo qui génère une motion. Donc, il y a plusieurs manières. Ce que je recommande vraiment, c'est de construire votre équipe
+
+[00:44] d'une manière la plus professionnelle possible, c'est à dire de travailler avec des video-éditeurs. Donc là je vais mettre le process, le full process, comment sourcer des video-éditeurs, comment les entraîner. Donc je vais donner tout exactement comment on fait, comment on source des video-éditeurs, quel entraînement on leur donne. Donc je vais juste
+
+[01:06] survoler ça avec vous maintenant. Donc, si tu as un video-éditeur actuellement et c'est pas un top player, je te conseille de sourcer un nouveau video-éditeur. Si tu fais tes vidéos toi-même, je te conseille de sourcer un nouveau video-éditeur et si tu as déjà un top video-éditeur, je te conseille de simplement lui faire suivre la formation que j'ai préparée.
+
+[01:31] Donc, comment recruter un bon video-éditeur. Donc simplement, il va falloir faire une offre d'emploi attractif. Donc là j'ai mis une offre d'emploi après, il faut adapter en fonction de vos spécificités. Ensuite, donc ça c'est un exemple de forme
+
+[01:51] à remplir. Donc vous avez simplement créé un goalform et vous allez faire remplir par les différents video-éditeurs. Donc avec des questions basiques comme votre prénom pour quelles compagnies vous allez travailler. Et ce qui va être intéressant c'est de voir des exemples de leur ads. Donc ça ici, de voir des exemples de leur ads, de voir aussi pour qui ils ont travaillé c'est important et
+
+[02:14] de leur demander des hooks ici. Vous allez même pouvoir mettre votre produit et vous allez pouvoir recevoir plein hook gratuitement de video-éditeurs. C'est top. De voir si ils ont fait des vsl par exemple parce qu'un video-éditeur qui sait faire des vsl il saura faire des short ads. Donc c'est un petit hack. De voir aussi qui carré rigole un video-éditeur qui veut gagner de plus en plus d'argent et
+
+[02:34] ça ne va pas être un bon profil parce qu'il va vite partir, il va vite chercher toujours plus d'argent. Ou les video-éditeurs qui disent c'est d'avoir un top profil du port et d'avoir un grand monde client, vous n'avez pas ce profil là, vous voulez quelqu'un qui ne traite que pour vous. Donc vous aurez beaucoup de candidats, lui c'est un aspect que j'ai beaucoup de candidats ici. Et d'analyser les meilleurs, puis ensuite les mettre en essai.
+
+[02:57] Faites très attention parce que beaucoup on voit des jobs qui sont pas les leurs ici. Donc une fois que vous avez ça dans votre message, vous allez simplement leur demander. Ok, tu peux devoir y émiser prouve que tu as fait, tu as travaillé avec lui ou avec là. Parce qu'en fait beaucoup, beaucoup de video-éditeurs voient des travaux qui sont pas les leurs. Je ne sais pas si c'est qui shoppe leur librairie. J'ai déjà eu retrouvé énormément de mes dates et c'est des video-éditeurs que je vais travailler avec moi.
+
+[03:21] Et après quand je repose la question, tu as une preuve. Et bien il parle chinois. Donc faites attention par rapport à ça. Et puis après il n'y a que la mise en trial qui va... qui va... qui va... qui va faire foie. Donc, postez sur uPortconnitPH. OnitPH c'est un site peu connu, ce qui n'a que des Philippines.
+
+[03:43] C'est top pour trouver des video-éditeurs pas cher et des talents aussi. Ensuite, vous analysez les candidats au bout de trois jours, j'ai mis mes... au bout de sept jours. Je vais pas mettre en termes en fait. Dès que vous avez un site candidat, vous analysez. Et ensuite, vous allez venir commencer un essai avec les meilleurs profils. Donc je vous ai mis le message type ici.
+
+[04:06] Ensuite, vous allez venir créer un groupe Slack et vous lui dites que ça va être payé. Donc vous allez faire un job payé. Juste en dessous de son salaire qui demande... si par en plus il demande 1 000 $ par mois, vous calculez comment ça fait en dollars. Et vous donnez juste en dessous pour expliquer si c'est un essai. Mais on paye toujours un essai comme ça, c'est animatif. Et c'est très important de le payer parce que vous allez vite voir si il est performant ou pas.
+
+[04:27] Parce qu'il y a beaucoup de video-éditeurs, ils vont pas réfléchir et en fait ils vont prendre leur temps vu qu'ils sont payés. Et ils vous évitent pour comparer en termes de temps. Donc quand ils sont payés, ils vont traquer leur temps, ils vont dire leur temps. Ils vont pas penser que vous allez contrôler leur productivité. Et ce qui arrive, c'est que des fois vous avez trop profil, trois qui le font en trois heures et un qui la font douze heures.
+
+[04:49] Ah oui mais j'ai pris un peu plus de temps. C'est Red Flag. C'est Next. Donc, important de les payer, de suivre leur temps, parce que vous allez juger ensuite sur leur productivité, etc. Donc ça je vous ai mis le message 2. Donc voilà je vous résume, je vous résume, je vous ai donné deux, trois ré lactases, on a vu les deux productivités, on a signé sur Azana si vous utilisez Azana,
+
+[05:14] une fois que c'est bon vous pouvez compter mon nom, etc. c'est le message type pour vous inspirer pendant de copier et coller le même message mais comme ça vous avez déjà une base ensuite vous allez assigner son job de sé donc là je vous ai mis un exemple donc un c'est capsté à créer des hooks deux c'est créer une vidéo une short adse et trois c'est du garder une
+
+[05:36] ade donc vous mettez une voie ade et vous voyez comment lui il peut garder vos ades le but ici c'est de voir si il y a les skills pour savoir qu'est ce qu'un bon hook quand il sait ce que c'est un bon hook et il saura ce que c'est des footage qui captivent l'attention et ça va être important pour le reste de la vidéo aussi et ici de créer un nouveau une nouvelle création ben votre vide
+
+[05:59] d'héteur il va créer pas mal de nouvelles créations donc vous voulez voir qu'est ce qui fait en réel avec une nouvelle création donc donnez lui un script assez simple pas trop compliqué d'une adse assez short 30 à 90 secondes je dirais pour voir ce qu'il peut faire et là donnez lui une adse que vous avez ou winner ou une adse que vous avez avec une erreur visuelle ou je sais pas et vous
+
+[06:23] voyez ce qui s'il la voit et ce qui peut améliorer en fonction de ça vous allez vite voir qui c'est qui sont bons qui c'est qui respecte les deadlines qui c'est qui comprennent les choses parce que vous pouvez donner le même texte à 10 8 10 8 de l'héritage vous allez vite voir qu'on a plusieurs qui vont pas comprendre plusieurs qui vont demander un call avant de commencer et ces gens là c'est next fait de vouler ceux qui sont les plus smart ceux qui comprennent
+
+[06:46] rapidement ce qu'applique rapidement et ce qui font les choses rapidement et bien fait donc un essai comme ça c'est la meilleure manière de faire un filtre naturel et ensuite donc là je vous ai mis le checklist ensuite ensuite simplement vous allez sélectionner vos meilleurs vous allez
+
+[07:06] prendre un interview vous allez voir faire un petit interview d'embauche et choisir le top vidéo éditeur avec lequel commencer et voilà donc pour résumer ce qu'on veut c'est qu'on va un candidat qui exécutent rapidement et qu'une bonne qualité et qui ne ment pas trop de correction ça aussi il doit pouvoir rendre un travail le plus propre possible et son rôle c'est vidéo éditeur
+
+[07:32] c'est à dire c'est de monter une adse correctement si montes une adse mal fait que vous devez donner des corrections derrière bah ça va pas être un bon vidéo éditeur il doit savoir ce que c'est un footage de qualité ou non ça c'est très important donc il doit choisir les bons footages qui match et qui donne le mieux c'est son rôle red flag donc j'ai mis en essai énormément de
+
+[07:56] vidéo éditeur là je montre un forme qu'on avait sur ce forme là on a mis énormément en essai donc j'ai appris beaucoup je peux vous dire les patterns qui ressortent sur les vidéo éditeurs de ceux qui vont de ceux qui faut embaucher ceux qui faut pas embaucher donc les red flags c'est ceux qui donnent des travaux faits dans le passé qui ne leur appartient pas très
+
+[08:19] fréquent si ils ne donnent pas leur leur job c'est qu'ils sont pas honnêtes directement donc eux c'est next les candidats qui sont en retard c'est next et trouvent des excuses j'en ai plein on a des champions pour ça si ils arrivent pas respecter les deadline en essai surtout c'est mort pour la suite les candidats qui me parlent mal de leur
+
+[08:43] enceint patron l'appareil si il parle mal de qui ce soit en général red flag et quand il a de la peine à comprendre les simple instructions vous verrez il y a plein de candidats et ils vont pas tous comprendre la même manière certains ont besoin de plus d'informations mais ça s'allait très compliqué par la suite ça a demandé beaucoup plus d'effort et d'énergie et ensuite ce que je
+
+[09:07] peux vous donner comme conseil c'est les femmes sont en riz général plus stable que les hommes donc en riz général on essaie d'embranger des femmes c'est plus stable mais c'est pas une règle absolue on a actuellement on a deux hommes une femme avant on avait deux femmes un homme et tous maintenant sont bien mais la femme c'est vraiment celle qui a le plus de régularité honnêtement
+
+[09:29] ensuite ce que je conseille c'est d'embaucher le vide éditeur pour un mois et dire que si tout se passe bien au créant un contrat mon terme c'est bien parce que en fait on veut que d'entrée il se donne à fond qui garde cette habitude de se donner à fond et quand on commence et qu'on se donne à fond ça va être plus simple de tenir cette habitude là que de commencer tranquille
+
+[09:52] donc dit lui que c'est un mois et au bout d'un mois vous donnerait un contrat long terme c'est à dire un salaire un salaire récurrent donc faites attention les vide-éterres sont très volatiles donc c'est pour ça qu'il faut bien les questionner vous voulez éviter ce qui veut les meilleurs salaires ceux qui veulent être monté leur profil sur report etc parce que oui il faut vite partir moi je
+
+[10:13] trouvais beaucoup de profils comme ça des super bons profils qui répondaient plus puis en fait je voyais qu'il avait sur report que 10 projets en cours donc
 
 
 
 ======================================================================
 MODULE : MASTER ACQUISITION
 LEÇON 13 : Production (Partie 2)
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : MASTER ACQUISITION / leçon 13
 ======================================================================
 
@@ -1233,9 +2141,57 @@ Traiter ton vidéo éditeur comme un vrai membre d'équipe, lui donner une visio
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, l'autre manière c'est de tourner le contenu vous-même avec CapCut. Donc vous pouvez pour des video-eating simples tourner avec CapCut. Simplement vous t'eschargez la CapCut, tu ne veux pas vous faire une démonstration. On demandera peut-être un top video-eater de faire un atelier. Mais ce n'est pas super pertinent parce que je ne veux pas que vous dépendiez de vous.
+
+[00:23] Un video-eater ça ne coûte pas cher et ça peut remporter tellement. Vous pouvez gagner tellement de temps qu'il faut travailler avec un video-eater. Mais simplement sur CapCut c'est très simple. Vous avez un brief, vous importez simplement vos contenus sur CapCut et vous montez une vidéo assez simple. Vous importez la voix off etc.
+
+[00:44] On fera peut-être, on invitera un bon video-eater faire un atelier. Mais ce qui compte c'est de suivre le training. Le training pour les video-eaters, je vais vous montrer ici. Ici j'ai mis la formation Elite pour les video-eaters. Donc vous ne vous rendez pas compte à quel point ça vaut de l'or.
+
+[01:07] Simplement vous donnez cette formation à votre video-eater et il va être formé comme un top video-eater. Simplement vous demandez de regarder ceci. Et pensez bien à bien organiser aussi la semaine de video-eaters. Très important, il faut que vous prépariez sa semaine en avance
+
+[01:28] pour que vous soyez sûr qu'il y ait du bon volume. Et pousser à faire du bon volume. Nous actuellement nos video-eaters, si c'est bien préparé, ils font jusqu'à 130 ats par semaine. Donc il y a des variations par oube d'une monde de prendre un ats et faire 5 différents hooks. Ça va prendre une heure maximum par exemple. Ça vous fait vite beaucoup d'atres très rapidement.
+
+[01:51] Donc ça, ce n'est pas ce qu'on va avoir maintenant. Mais pensez à bien organiser la semaine du monteur. À quelle une semaine productif pour que ça habite. Produire du volume. Donc le training à suivre, simplement ici, il y a tous des modules. Donc c'est pour qu'ils comprennent le direct réponse. Ça ce n'est pas sorti de ma tête.
+
+[02:13] Ça simplement, j'ai pris des formations pour un video-editeur. Donc comme si j'étais un video-editeur. Et je l'ai revu. J'ai revu avec un video-editeur. Et on a mis ce qui était vraiment le plus pertinent. Donc en fait, là ça va venir apprendre à votre video-editeur sur comment monter des ats en direct réponse pour venir générer une action immédiate. Les tips techniques.
+
+[02:37] Les tips mindset. Les responsabilités. De comment il doit s'organiser. Qu'est-ce qu'il doit faire etc. De rendre le travail sans erreur etc. Donc c'est vraiment une formation que vous pourrez payer assez cher. Que là vous avez gratuit pour vos video-editeurs. Là pareil. C'est en anglais parce que la plupart des videoteurs sont en anglais.
+
+[03:01] On explique même comment montrer dans cet état de flow. Donc les tips qu'il doit faire. Des inspirations. De faire des recherches. Vraiment on y apprend comment être un video-editeur à player. Ensuite on lui explique les termes ou qui etc.
+
+[03:22] Normalement il est censé connaître. On lui explique des justices et ce que c'est. Les mash-up, qu'est-ce que c'est. Tout ce qu'il faut en fait pour être un top video-editeur. Et on lui donne aussi la checklist. On va juste ouvrir. Qui peut faire la fin de son édition.
+
+[03:43] Pour être sûr que l'ad s'est de qualité. Donc vraiment tout tout tout. Pour qu'il puisse éditer des super ads. Ensuite on lui donne les rules et instructions. Comment nommer les ads. Comment il doit être organisé et productif.
+
+[04:11] Là on a mis une semaine type. À quoi ça ressemble. Comment créer des catching hook. Comprendre ça. Comprendre les codes d'une ad succesfoul.
+
+[04:33] C'est ce que vous avez vu mais il lui doit le comprendre. C'est lui qui va venir choisir les footage. Vous pouvez mettre des bonus. Donc par exemple vous pouvez lui mettre. Donc si il a ses ads dans les top ads du mois. Ou si il dépense. Il fait 10K avec AirOS Benchmark.
+
+[04:58] 150$ de bonus pour une ad. Parce qu'il peut en faire plusieurs. Donc s'il fait 517$ pas que vous payez non plus trop. Et nous ce qu'on est en train de mettre en place c'est ça actuellement. Donc 10K. Ensuite 50K AirOS Benchmark.
+
+[05:22] 250$. Ou 300$ peut-être. 300$. Et 100K 500$. Donc ça c'est pour le motiver après à vous de voir. Si vous avez quelques tools ce trick. Moi j'ai une application pour.
+
+[05:43] Remouver la musique. Là c'est vous qui ajouterai vos tools que vous utilisez. Ou votre information pour lui. Ensuite au niveau de l'entreprise. Alors là simplement c'est juste pour qu'il ait une petite aperçu d'entreprise. Donc mettre votre vision. Donc là j'ai mis sur le podcast le school.
+
+[06:04] La vision c'est juste un exemple. Vous montrez votre équipe aussi. Quoi votre équipe ressemble. Vous lui dites qu'est ce que vous lui donnez. Vous pouvez donner une assurance santé aussi. Ça coûte vraiment rien. Ça coûte moins de 100$ par exemple aux Philippines. Et simplement pour lui ça peut être vraiment un gros avantage. De prendre en charge ça. Ou prendre en charge du fitness ou etc.
+
+[06:26] C'est important vous vous dites les valeurs. Donc ça c'est nos valeurs. Le net T. D'être win-win. D'être performant. Quels unes modes. Ça m'éloirait constamment. Donc en fait venez. Vraiment le modeler. Il lui donner votre vision de votre entreprise. Pour qu'il ait une superbe entreprise. Un corps sain dans un corps. Un esprit sain dans un corps sain. De bien manger.
+
+[06:47] De faire le temps sans santé. Des règles de productivité. Quand des bros ne voulaient pas un cas vidéo éditeur. Travailler 5 heures de suite. Sinon il ne sera pas productiv. Il s'en tira bien. Et vouler un humain. C'est un humain. En fait il faut le respect des dons que vous voulez. Qui soient performants. Et pour ça il faut qu'il respecte ces règles là. Il n'y a qu'à juste suivre ça. On vous c'est simplement juste de lui dire. Tu suis ça.
+
+[07:08] Et vous aurez des vidéo éditeurs performants. Ensuite contrôle qualité de lats. Je vous ai mis la checklist pour une ads réussie. Donc... Ce que je conseille c'est que le vidéo éditeur upload sur frame.io
+
+[07:28] C'est une app qui est très très bien pour ça. Et aussi vous allez pouvoir avoir un contrôle précis et rapide. Et il va comprendre directement ce qu'il faut faire. Du dire de corriger son ad sur les 24 heures. C'est très important parce que sinon vous allez revanger le délai de production. Donc si par exemple vous checker lats de lundi. Vous lite de corriger et il fait ça le jeudi.
+
+[07:50] Il y a encore des erreurs. Il corrige ça le mardi. Mais vous avez perdu une semaine. Tandis que c'est corrigeant 24 heures ça va très vite. Donc en fait une fois que les ads sont lancés. Il faut avoir analysé méticuleusement lats. Vos vidéo éditeurs ne pourront pas produire une ad prête à lancer directement. Il faudra toujours un œil derrière de créatifs stratégistes. Ou d'un relecteur pour ça. Et donc le but c'est d'avoir quelqu'un derrière qui est bon.
+
+[08:13] Qui sait voir s'il y a des erreurs. Qui est très très minutieux. Et qui suit une checklist. Donc là il y a une checklist simple. Et là je vous ai mis la checklist avancée. Qui se ressemble de ce que le vidéo éditeur a. Mais pour créatifs stratégistes. Donc là ici. Vous avez toutes les informations à suivre.
+
+[08:33] Pour avoir une vidéo de qualité. Donc par exemple un truc tout bête. Est-ce que toutes les scènes sont de 3 secondes ? Ah bah non en fait on a une scènes qui tuent 5 secondes. Bah ça ça doit directement changer. Et il faut être très pointieux. Parce qu'une ad c'est vous dire que vous dépense beaucoup et devine une condors. Un condors pardon. Il faut qu'il y ait aucune erreur. Et pour avoir aucune erreur il faut simplement respecter ça.
+
+[08:54] Donc moi je vous donne tout sur un plateau. Je vous donne comment sourcer vos créateurs. Comment les entraîner. Comment vérifier l'ad. Vous avez tout tout tout ensuite pour créer de super bats. Winner. Donc voilà c'était ma telle.
 
 
 
