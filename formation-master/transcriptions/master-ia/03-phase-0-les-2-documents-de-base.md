@@ -4,7 +4,7 @@ lecon: 3
 titre: "Phase 0 : Les 2 Documents de Base"
 duree: "4:13"
 url: "https://www.skool.com/master/classroom/9d4ca2d4?md=a88b974df99f49efb716209564352f11"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -56,6 +56,26 @@ Ces deux documents ne sont pas générés par Manus, tu les crées toi-même. C'
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, donc maintenant on va start le process, donc rendez-vous dans la phase 0. On va créer les deux documents de base, donc le contexte de mark branding et le contexte de produit. Ces deux documents seront en point MD. Pourquoi un point MD ? Parce que c'est le format que l'IA lit le mieux.
+
+[00:20] Donc ces deux documents ne sont pas générés par Manus, contrairement à tous les autres. On les crée nous-mêmes. Donc soit depuis un chat qui a déjà la data sur notre shop. Donc vous entre autres, si vous avez un GPT, un Gemini ou un Cloud qui a du contexte sur votre produit, votre marque, je conseille évidemment de les créer depuis ce chat.
+
+[00:45] Ce sera beaucoup plus simple. Sinon, vous pouvez les créer en les complétant juste ici. Donc je vais vous montrer tout de suite. Donc soit vous téléchargez le template vierge, donc rendez-vous juste ici. Il y a le lien Google Drive. Vous pouvez télécharger le template, c'est simplement un document vierge.
+
+[01:07] Et pareil pour le deuxième, c'est juste un document vierge. Voilà. Ou alors comme je vous disais, vous complétez manuellement. Bon, chaque champ n'est pas forcément obligatoire. Ça dépend des data que vous avez sur votre produit ou votre marque.
+
+[01:27] Donc forcément, je pense quand même que vous avez une identité de la marque. Donc un nom, peut-être pas une mission, peut-être pas des valeurs fondamentales. Vous savez dans quel marché vous rendez. Enfin bref, vous complétez de maximum si vous le faites à la main. Sinon, vous le faites compléter par une IA. Pareil pour contexte produit. Donc, alors je vous montre. Donc là, je vais demander à mon chat Gémini ici qui a les data sur ma marque.
+
+[01:57] De compléter le document que j'ai déjà téléchargé qui est ici. Contexte mark branding. Et je vais faire les deux en même temps comme ça, ce sera plus simple. Contexte produit. Donc il contient aussi les codes. Voilà. Je vais sur mon Gémini qui a les data de mon shop.
+
+[02:21] J'importe les deux documents vierges que je vous ai montré au préalable via le drive. Et je lui dis complète ces deux documents et renvoie les mots. Donc là, il m'a fait le premier document juste ici.
+
+[02:50] Et le deuxième document juste ici. Donc là, par exemple, il m'a fait un tableau. Donc je lui demandais tout au format texte parce que je ne veux pas de tableau dans les documents. Et je lui demandais en point MD parce qu'il m'a pas fait de point MD ici.
+
+[03:19] Voilà. Là, il a bien fait un point MD comme vous pouvez voir pour les deux avec les données remplies. Donc voilà, je vais copier le premier, donc contexte mark branding. Tac. Je vais aller dans mon document vierge. Tac.
+
+[03:41] Tac. Tac. Je le colle. Je le registre. Tac. Maintenant, le deuxième, le contexte produit. Je le copie. Tac. Je le colle. Et j'enregistre. Donc là, j'ai mes deux documents complétés avec les data entre ymer originel.
+
+[04:06] Et là, on va pouvoir passer. Alors, phase suivante.

@@ -200,7 +200,7 @@ il ne faut jamais répondre à sa place.
 - ✅ **61 — Ep #7 - 190 Psychological Hooks** · 4:21
 - ✅ **62 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
 - ✅ **63 — Ep #2 - Analyse de créatives winneuses** · 10:56
-- 🟡 **64 — Ep #3 - Headlines qui convertissent** · 11:17
+- ✅ **64 — Ep #3 - Headlines qui convertissent** · 11:17
 
 ## CRO, BOOSTER CA & AOV
 
@@ -476,30 +476,30 @@ il ne faut jamais répondre à sa place.
 
 ## MASTER IA
 
-- 🟡 **01 — Introduction** · 7:15
-- 🟡 **02 — Créer ton projet E-commerce & Process DOC** · 3:39
-- 🟡 **03 — Phase 0 : Les 2 Documents de Base** · 4:13
-- 🟡 **04 — Phase 1 : La Bible Fondamentale + Verbatim** · 8:11
-- 🟡 **05 — Phase 2 : Stratégie + Copywriting** · 33:36
-- 🟡 **06 — Projet Manus + MASTER Transcripts + Livres** · 6:32
-- 🟡 **07 — Skills + Connecteurs** · 18:07
-- 🟡 **08 — Génération de Créatives Statiques** · 22:41
-- 🟡 **09 — Génération de B-Rolls Vidéo IA en automatique** · 19:51
-- 🟡 **10 — Cloner l’expertise des meilleurs experts YouTube** · 6:57
-- 🟡 **11 — Agent IA MASTER** · 4:08
-- 🟡 **12 — Intégrer data Twitter dans votre projet e-commerce** · 6:38
-- 🟡 **13 — Agent Telegram** · 1:53
-- 🟡 **14 — Partie 1 - Méthode Manus Création de B-roll** 
-- 🟡 **15 — Partie 2 - Méthode ChatGPT Création de B-roll** 
-- 🟡 **16 — Partie 3 - UGC IA** 
-- 🟡 **17 — Introduction NanoBanana** · 1:56
-- 🟡 **18 — 1 : NanoBanana - Rebranding image produit** · 8:26
-- 🟡 **19 — 2 : N8N - Scraper les statics concurrents** · 7:24
-- 🟡 **20 — 3 : Higgsfield + NanoBanana – Ad static illimitée** · 15:26
-- 🟡 **21 — Mise à jour Eleven Labs V3 (new)** · 12:17
+- ✅ **01 — Introduction** · 7:15
+- ✅ **02 — Créer ton projet E-commerce & Process DOC** · 3:39
+- ✅ **03 — Phase 0 : Les 2 Documents de Base** · 4:13
+- ✅ **04 — Phase 1 : La Bible Fondamentale + Verbatim** · 8:11
+- ✅ **05 — Phase 2 : Stratégie + Copywriting** · 33:36
+- ✅ **06 — Projet Manus + MASTER Transcripts + Livres** · 6:32
+- ✅ **07 — Skills + Connecteurs** · 18:07
+- ✅ **08 — Génération de Créatives Statiques** · 22:41
+- ✅ **09 — Génération de B-Rolls Vidéo IA en automatique** · 19:51
+- ✅ **10 — Cloner l’expertise des meilleurs experts YouTube** · 6:57
+- ✅ **11 — Agent IA MASTER** · 4:08
+- ✅ **12 — Intégrer data Twitter dans votre projet e-commerce** · 6:38
+- ✅ **13 — Agent Telegram** · 1:53
+- ✅ **14 — Partie 1 - Méthode Manus Création de B-roll** · 23:22
+- ✅ **15 — Partie 2 - Méthode ChatGPT Création de B-roll** · 11:29
+- ✅ **16 — Partie 3 - UGC IA** · 14:37
+- ✅ **17 — Introduction NanoBanana** · 1:56
+- ✅ **18 — 1 : NanoBanana - Rebranding image produit** · 8:26
+- ✅ **19 — 2 : N8N - Scraper les statics concurrents** · 7:24
+- ✅ **20 — 3 : Higgsfield + NanoBanana – Ad static illimitée** · 15:26
+- ✅ **21 — Mise à jour Eleven Labs V3 (new)** · 12:17
 - ⬜ NON TRANSCRITE **22 — HeyGen** · 17:10
 - 🟡 **23 — Canva IA: Branding produit avec IA 2025** · 19:50
-- 🟡 **24 — 1 : Sora 2 – Créer un prompt puissant et réaliste** · 7:51
+- ✅ **24 — 1 : Sora 2 – Créer un prompt puissant et réaliste** · 7:51
 - 🟡 **25 — 2 : Kie AI & Higgsfield – Génération Content** · 30:34
 - 🟡 **26 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
 - 🟡 **27 — Ep #4 - Présentation + Utilisation de Mirage** · 7:42

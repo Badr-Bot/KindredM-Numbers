@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 228 complètes (36 %)**
+**624 leçons au total · 251 complètes (40 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -149,7 +149,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRÉATIVE INSIGHT
 
-64 leçons · 63 complètes · 1 partielles
+64 leçons · 64 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -216,7 +216,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 61 | [Ep #7 - 190 Psychological Hooks](transcriptions/creative-insight\61-ep-7-190-psychological-hooks.md) | 4:21 | complet |
 | ✅ | 62 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/creative-insight\62-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | complet |
 | ✅ | 63 | [Ep #2 - Analyse de créatives winneuses](transcriptions/creative-insight\63-ep-2-analyse-de-creatives-winneuses.md) | 10:56 | complet |
-| 🟡 | 64 | [Ep #3 - Headlines qui convertissent](transcriptions/creative-insight\64-ep-3-headlines-qui-convertissent.md) | 11:17 | partiel |
+| ✅ | 64 | [Ep #3 - Headlines qui convertissent](transcriptions/creative-insight\64-ep-3-headlines-qui-convertissent.md) | 11:17 | complet |
 
 ## CRO, BOOSTER CA & AOV
 
@@ -520,34 +520,34 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER IA
 
-38 leçons · 0 complètes · 37 partielles
+38 leçons · 22 complètes · 15 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Introduction](transcriptions/master-ia\01-introduction.md) | 7:15 | partiel |
-| 🟡 | 2 | [Créer ton projet E-commerce & Process DOC](transcriptions/master-ia\02-creer-ton-projet-e-commerce-process-doc.md) | 3:39 | partiel |
-| 🟡 | 3 | [Phase 0 : Les 2 Documents de Base](transcriptions/master-ia\03-phase-0-les-2-documents-de-base.md) | 4:13 | partiel |
-| 🟡 | 4 | [Phase 1 : La Bible Fondamentale + Verbatim](transcriptions/master-ia\04-phase-1-la-bible-fondamentale-verbatim.md) | 8:11 | partiel |
-| 🟡 | 5 | [Phase 2 : Stratégie + Copywriting](transcriptions/master-ia\05-phase-2-strategie-copywriting.md) | 33:36 | partiel |
-| 🟡 | 6 | [Projet Manus + MASTER Transcripts + Livres](transcriptions/master-ia\06-projet-manus-master-transcripts-livres.md) | 6:32 | partiel |
-| 🟡 | 7 | [Skills + Connecteurs](transcriptions/master-ia\07-skills-connecteurs.md) | 18:07 | partiel |
-| 🟡 | 8 | [Génération de Créatives Statiques](transcriptions/master-ia\08-generation-de-creatives-statiques.md) | 22:41 | partiel |
-| 🟡 | 9 | [Génération de B-Rolls Vidéo IA en automatique](transcriptions/master-ia\09-generation-de-b-rolls-video-ia-en-automatique.md) | 19:51 | partiel |
-| 🟡 | 10 | [Cloner l’expertise des meilleurs experts YouTube](transcriptions/master-ia\10-cloner-l-expertise-des-meilleurs-experts-youtube.md) | 6:57 | partiel |
-| 🟡 | 11 | [Agent IA MASTER](transcriptions/master-ia\11-agent-ia-master.md) | 4:08 | partiel |
-| 🟡 | 12 | [Intégrer data Twitter dans votre projet e-commerce](transcriptions/master-ia\12-integrer-data-twitter-dans-votre-projet-e-commerce.md) | 6:38 | partiel |
-| 🟡 | 13 | [Agent Telegram](transcriptions/master-ia\13-agent-telegram.md) | 1:53 | partiel |
-| 🟡 | 14 | [Partie 1 - Méthode Manus Création de B-roll](transcriptions/master-ia\14-partie-1-methode-manus-creation-de-b-roll.md) | — | partiel |
-| 🟡 | 15 | [Partie 2 - Méthode ChatGPT Création de B-roll](transcriptions/master-ia\15-partie-2-methode-chatgpt-creation-de-b-roll.md) | — | partiel |
-| 🟡 | 16 | [Partie 3 - UGC IA](transcriptions/master-ia\16-partie-3-ugc-ia.md) | — | partiel |
-| 🟡 | 17 | [Introduction NanoBanana](transcriptions/master-ia\17-introduction-nanobanana.md) | 1:56 | partiel |
-| 🟡 | 18 | [1 : NanoBanana - Rebranding image produit](transcriptions/master-ia\18-1-nanobanana-rebranding-image-produit.md) | 8:26 | partiel |
-| 🟡 | 19 | [2 : N8N - Scraper les statics concurrents](transcriptions/master-ia\19-2-n8n-scraper-les-statics-concurrents.md) | 7:24 | partiel |
-| 🟡 | 20 | [3 : Higgsfield + NanoBanana – Ad static illimitée](transcriptions/master-ia\20-3-higgsfield-nanobanana-ad-static-illimitee.md) | 15:26 | partiel |
-| 🟡 | 21 | [Mise à jour Eleven Labs V3 (new)](transcriptions/master-ia\21-mise-a-jour-eleven-labs-v3-new.md) | 12:17 | partiel |
+| ✅ | 1 | [Introduction](transcriptions/master-ia\01-introduction.md) | 7:15 | complet |
+| ✅ | 2 | [Créer ton projet E-commerce & Process DOC](transcriptions/master-ia\02-creer-ton-projet-e-commerce-process-doc.md) | 3:39 | complet |
+| ✅ | 3 | [Phase 0 : Les 2 Documents de Base](transcriptions/master-ia\03-phase-0-les-2-documents-de-base.md) | 4:13 | complet |
+| ✅ | 4 | [Phase 1 : La Bible Fondamentale + Verbatim](transcriptions/master-ia\04-phase-1-la-bible-fondamentale-verbatim.md) | 8:11 | complet |
+| ✅ | 5 | [Phase 2 : Stratégie + Copywriting](transcriptions/master-ia\05-phase-2-strategie-copywriting.md) | 33:36 | complet |
+| ✅ | 6 | [Projet Manus + MASTER Transcripts + Livres](transcriptions/master-ia\06-projet-manus-master-transcripts-livres.md) | 6:32 | complet |
+| ✅ | 7 | [Skills + Connecteurs](transcriptions/master-ia\07-skills-connecteurs.md) | 18:07 | complet |
+| ✅ | 8 | [Génération de Créatives Statiques](transcriptions/master-ia\08-generation-de-creatives-statiques.md) | 22:41 | complet |
+| ✅ | 9 | [Génération de B-Rolls Vidéo IA en automatique](transcriptions/master-ia\09-generation-de-b-rolls-video-ia-en-automatique.md) | 19:51 | complet |
+| ✅ | 10 | [Cloner l’expertise des meilleurs experts YouTube](transcriptions/master-ia\10-cloner-l-expertise-des-meilleurs-experts-youtube.md) | 6:57 | complet |
+| ✅ | 11 | [Agent IA MASTER](transcriptions/master-ia\11-agent-ia-master.md) | 4:08 | complet |
+| ✅ | 12 | [Intégrer data Twitter dans votre projet e-commerce](transcriptions/master-ia\12-integrer-data-twitter-dans-votre-projet-e-commerce.md) | 6:38 | complet |
+| ✅ | 13 | [Agent Telegram](transcriptions/master-ia\13-agent-telegram.md) | 1:53 | complet |
+| ✅ | 14 | [Partie 1 - Méthode Manus Création de B-roll](transcriptions/master-ia\14-partie-1-methode-manus-creation-de-b-roll.md) | 23:22 | complet |
+| ✅ | 15 | [Partie 2 - Méthode ChatGPT Création de B-roll](transcriptions/master-ia\15-partie-2-methode-chatgpt-creation-de-b-roll.md) | 11:29 | complet |
+| ✅ | 16 | [Partie 3 - UGC IA](transcriptions/master-ia\16-partie-3-ugc-ia.md) | 14:37 | complet |
+| ✅ | 17 | [Introduction NanoBanana](transcriptions/master-ia\17-introduction-nanobanana.md) | 1:56 | complet |
+| ✅ | 18 | [1 : NanoBanana - Rebranding image produit](transcriptions/master-ia\18-1-nanobanana-rebranding-image-produit.md) | 8:26 | complet |
+| ✅ | 19 | [2 : N8N - Scraper les statics concurrents](transcriptions/master-ia\19-2-n8n-scraper-les-statics-concurrents.md) | 7:24 | complet |
+| ✅ | 20 | [3 : Higgsfield + NanoBanana – Ad static illimitée](transcriptions/master-ia\20-3-higgsfield-nanobanana-ad-static-illimitee.md) | 15:26 | complet |
+| ✅ | 21 | [Mise à jour Eleven Labs V3 (new)](transcriptions/master-ia\21-mise-a-jour-eleven-labs-v3-new.md) | 12:17 | complet |
 | ⬜ | 22 | [HeyGen](transcriptions/master-ia\22-heygen.md) | 17:10 | a-transcrire |
 | 🟡 | 23 | [Canva IA: Branding produit avec IA 2025](transcriptions/master-ia\23-canva-ia-branding-produit-avec-ia-2025.md) | 19:50 | partiel |
-| 🟡 | 24 | [1 : Sora 2 – Créer un prompt puissant et réaliste](transcriptions/master-ia\24-1-sora-2-creer-un-prompt-puissant-et.md) | 7:51 | partiel |
+| ✅ | 24 | [1 : Sora 2 – Créer un prompt puissant et réaliste](transcriptions/master-ia\24-1-sora-2-creer-un-prompt-puissant-et.md) | 7:51 | complet |
 | 🟡 | 25 | [2 : Kie AI & Higgsfield – Génération Content](transcriptions/master-ia\25-2-kie-ai-higgsfield-generation-content.md) | 30:34 | partiel |
 | 🟡 | 26 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/master-ia\26-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | partiel |
 | 🟡 | 27 | [Ep #4 - Présentation + Utilisation de Mirage](transcriptions/master-ia\27-ep-4-presentation-utilisation-de-mirage.md) | 7:42 | partiel |
