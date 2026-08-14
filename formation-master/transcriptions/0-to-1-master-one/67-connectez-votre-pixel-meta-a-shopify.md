@@ -2,9 +2,9 @@
 module: 0 to 1 : MASTER ONE
 lecon: 67
 titre: "Connectez votre Pixel Meta à Shopify"
-duree: ""
+duree: "2:36"
 url: "https://www.skool.com/master/classroom/a252882e?md=e70f75bc6fa44e8d84fa2da12c58fdf0"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -47,6 +47,18 @@ Tu vas apprendre à installer l’application Facebook et Instagram depuis le Sh
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok maintenant qu'on a bien notre page, notre compte pub et notre pixel, on va pouvoir installer le pixel directement sur Shopify pour faire le lien entre Facebook et Shopify. Ok, donc on se retrouve sur Shopify, je vais vous montrer comment faire. Donc on est bien sûr notre boutique, maintenant on va aller sur la barre de recherche,
+
+[00:20] on va taper Facebook, donc on va cliquer sur Facebook et Instagram. Ça va nous rediriger vers le Shopify App Store, on va pouvoir installer l'application juste ici, on clique sur installer, donc voilà installer, on installe, ok.
+
+[00:55] Et donc là on va pouvoir commencer la configuration, donc on fait démarrer, associer le compte. Voilà là c'est le compte de notre business manager, le profil de notre business manager, continuez autoriser, confirmer que votre compte Facebook,
+
+[01:16] on va filmer votre compte Facebook pour configurer la, continuer la configuration de votre boutique, confirmer le compte, autoriser, tout bon. Maintenant on fait associer, continuer, donc notre compte Facebook est bien lié,
+
+[01:40] c'est parfait. Ensuite on va lier notre business manager, donc qui est lié à notre profil, donc Mochilo, notre business manager fait associer. Voilà pour le partage de données on sélectionne le maximum, on veut envoyer le maximum de données, on fait enregistrer, ensuite on va pouvoir connecter le pixel qu'on a créé précédemment,
+
+[02:06] donc le Mochilo pixel, associer, j'accepte et envoyer. Donc là ça va charger et Facebook et Instagram vont pouvoir être configurés, donc je mets en pause et je vous reprends juste à pas. Voilà donc Facebook et Instagram a bien été connecté, on a bien notre pixel sur notre Shopify,
+
+[02:31] donc maintenant je vais vous montrer comment faire pour associer WeTrack.

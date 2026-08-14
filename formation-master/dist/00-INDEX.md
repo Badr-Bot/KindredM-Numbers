@@ -55,33 +55,33 @@ il ne faut jamais répondre à sa place.
 - ✅ **47 — Thème Offert MASTER + Recommandation 2026** · 3:28
 - ✅ **48 — Thème recommandé + Page produit pour convertir** · 49:08
 - ✅ **49 — Parametre Boutique, Shipping etc** · 10:02
-- 🟡 **50 — Création offre débutant** 
-- 🟡 **51 — Logo IA (Canva), Charte Couleur, Trust Badges** 
-- 🟡 **52 — Créer des images produit 100% AI qui convertisse** 
-- 🟡 **53 — Checkup Débutant: à voir avant Lancement** · 29:08
-- 🟡 **54 — Copier une section d'un concurrent avec l'IA** · 7:53
-- 🟡 **55 — Déléguer sa boutique intelligemment : wirefram** 
-- 🟡 **56 — Optimiser votre boutique en ligne** 
+- ✅ **50 — Création offre débutant** · 14:46
+- ✅ **51 — Logo IA (Canva), Charte Couleur, Trust Badges** · 11:51
+- ✅ **52 — Créer des images produit 100% AI qui convertisse** · 13:14
+- ✅ **53 — Checkup Débutant: à voir avant Lancement** · 29:08
+- ✅ **54 — Copier une section d'un concurrent avec l'IA** · 7:53
+- ✅ **55 — Déléguer sa boutique intelligemment : wirefram** · 9:59
+- ✅ **56 — Optimiser votre boutique en ligne** · 6:56
 - 🟡 **57 — Pour aller plus loin - CRO, BOOSTER CA & AOV** 
-- 🟡 **58 — Présentation - Compte agence partenaire** 
-- 🟡 **59 — Meta - Setup Invincible - Prime Circle** 
-- 🟡 **60 — Choix d'un anti-detect browser** 
-- 🟡 **61 — SOP Profil sécurisé avec Proxy** 
-- 🟡 **62 — Introduction - Meta Ads** 
-- 🟡 **63 — Créer son Business Manager Meta Ads** 
-- 🟡 **64 — Le compte publicitaire Meta Ads** 
-- 🟡 **65 — Le pixel Meta** 
-- 🟡 **66 — La page Facebook** 
-- 🟡 **67 — Connectez votre Pixel Meta à Shopify** 
-- 🟡 **68 — Installer WeTracked pour un suivi précis** 
-- 🟡 **69 — Analyse de ses premiers chiffres : Quadrant Master** 
-- 🟡 **70 — 🆕 Prise de décision - Du testing au scaling** 
-- 🟡 **71 — SOP Commentaire** 
-- 🟡 **72 — Recruter son premier Virtual Assistant(VA) SAV** 
-- 🟡 **73 — Mettre en place un process SAV solide dès le déb** 
-- 🟡 **74 — Spreadsheet Suivi Budget/Résultats** 
+- ✅ **58 — Présentation - Compte agence partenaire** · 16:10
+- ✅ **59 — Meta - Setup Invincible - Prime Circle** · 11:34
+- ✅ **60 — Choix d'un anti-detect browser** · 5:11
+- ✅ **61 — SOP Profil sécurisé avec Proxy** · 11:41
+- ✅ **62 — Introduction - Meta Ads** · 2:00
+- ✅ **63 — Créer son Business Manager Meta Ads** · 14:48
+- ✅ **64 — Le compte publicitaire Meta Ads** · 3:43
+- ✅ **65 — Le pixel Meta** · 1:50
+- ✅ **66 — La page Facebook** · 4:03
+- ✅ **67 — Connectez votre Pixel Meta à Shopify** · 2:36
+- ✅ **68 — Installer WeTracked pour un suivi précis** · 7:37
+- ✅ **69 — Analyse de ses premiers chiffres : Quadrant Master** · 14:03
+- ✅ **70 — 🆕 Prise de décision - Du testing au scaling** · 25:57
+- ✅ **71 — SOP Commentaire** · 21:17
+- ✅ **72 — Recruter son premier Virtual Assistant(VA) SAV** · 8:17
+- ✅ **73 — Mettre en place un process SAV solide dès le déb** · 8:07
+- ✅ **74 — Spreadsheet Suivi Budget/Résultats** · 4:08
 - 🟡 **75 — Protéger sa marque** 
-- 🟡 **76 — Top IA Productivité pour 2026** · 20:51
+- ✅ **76 — Top IA Productivité pour 2026** · 20:51
 - 🟡 **77 — Liste Fournisseurs Vérifiés** 
 - 🟡 **78 — Scripts Emails SAV De Base** 
 - 🟡 **79 — Product Radar : Comment l’Utiliser** 
@@ -137,9 +137,9 @@ il ne faut jamais répondre à sa place.
 
 ## CRÉATIVE INSIGHT
 
-- 🟡 **01 — Opportunité Creative Insight** · 1:45
-- 🟡 **02 — Analyse créative [exemple]** · 10:56
-- 🟡 **03 — Ep #61 - 3 New format static à tester** 
+- ✅ **01 — Opportunité Creative Insight** · 1:45
+- ✅ **02 — Analyse créative [exemple]** · 10:56
+- ✅ **03 — Ep #61 - 3 New format static à tester** · 10:57
 - 🟡 **04 — Ep #62 -   Raw Talking Heads & statiques animés** 
 - 🟡 **05 — Ep #57 - Changer la psychologie de vos ads** 
 - 🟡 **06 — Ep #58 - Styles d'ads cartoons qui performent** 

@@ -2,9 +2,9 @@
 module: 0 to 1 : MASTER ONE
 lecon: 65
 titre: "Le pixel Meta"
-duree: ""
+duree: "1:50"
 url: "https://www.skool.com/master/classroom/a252882e?md=f5587190ac8340d58de848fd6b90a831"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -63,6 +63,14 @@ Installer ton pixel, c’est donner de la visibilité à ton business et permett
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Donc maintenant qu'on a créé le compte publicitaire, on va pouvoir créer le pixel. Donc qu'est-ce que le pixel rapidement, c'est la caméra de ton magasin. Donc en fait, c'est ce qui envoie le visuel à Meta, comme quoi, par exemple, on a fait une vente. Comme quoi il y a eu des ajouts au panier. Sans le pixel, Meta est invisible en fait. Il ne peut pas... est aveugle.
+
+[00:22] Il ne peut pas voir en fait qu'il y a eu du trafic, des vues de page, des ajouts au panier, des achats. Si le pixel n'est pas configuré. Ok. Donc c'est pour ça qu'on configure le pixel. C'est ce qui va permettre à Meta de remonter la data et de voir. Ok. Donc là, il y a une vente, etc. Donc voilà, on se retrouve sur le BM pour configurer le pixel.
+
+[00:47] Donc voilà, maintenant, on va aller toujours dans le menu de gauche. On va scroller vers source de données. Dans source de données, on va aller dans ensemble de données et pixels. Voilà. On va pouvoir faire ajouter. Là, on va nommer le pixel avec notre nom de marque.
+
+[01:09] Ok. Et pixel. Ok. Donc là, moi, je vais cocher la pays conversion. Donc je vous conseille de le cocher. Ensuite, on va pouvoir cliquer sur créer. Voilà. Donc là, il va nous demander d'assigner le pixel à notre publicitaire.
+
+[01:33] Donc on va cocher le compte et on va faire suivant. Voilà. L'ensemble de données a bien été créé. On peut voir en ouvrant le gestionnaire d'événement. Et voilà, notre pixel a bien été créé.

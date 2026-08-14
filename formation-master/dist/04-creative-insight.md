@@ -5,7 +5,7 @@ _Transcriptions de la formation MASTER. Source unique de vérité._
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 01 : Opportunité Creative Insight
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 01
 ======================================================================
 
@@ -61,16 +61,22 @@ Le Creative Insight est un module d'analyse publicitaire mis à jour 2 à 3 fois
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans le module créative radar c'est l'endroit idéal si vous voulez être toujours à jour sur les top créatifs du moment les meilleurs créatifs qui spendent le plus chaque mois ici vous allez retrouver des analyses venant de moi de matéo et des membres de notre équipe 2 à 3 fois par mois on va vous faire des analyses complètes sur des créatifs top du moment des créatifs qui spendent beaucoup et c'est pas juste du blablal par exemple ici lors du live.
+
+[00:30] YouTube qu'on a fait avant l'ouverture de ce school on avait partagé typiquement cette créative là cette créative là on avait vu qu'elle se pendait énormément parce qu'on a des radars un peu à droite à gauche. Ici on a toutes ces marques et on voit le nombre de spandre réel avec nos contacts insider etc on voit le spandre qu'à chaque créative typiquement cette créative là lors des 30 derniers jours elle avait.
+
+[00:52] Spender 300 cas et c'est pas tout ce sera pas juste des screenshots comme ça ce sera des analyses plus complètes comme ceux qui sont déjà sur le whatsapp on avait envoyé à l'époque. Une analyse de matéo qui pendant 2 3 minutes analyser frame par frame les créatifs gagnants du moment et c'est exactement ça qu'il y aura avec créatifs radars et par conséquent vous allez pouvoir en fait décortiquer les ades gagnants.
+
+[01:19] Des marques pour les mettre sur votre propre marque également simplement c'est pas juste des ades qui sont belles c'est des ades qui print vraiment qui ramène du chiffre d'affaires et on vous analyse ça chaque mois dans créatifs radars c'est vraiment génial parce que c'est honnêtement ce cas de plus précieux aujourd'hui en 2025 tout ce qui est au niveau des créatifs donc pour moi c'est quelque chose à ne pas.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 02 : Analyse créative [exemple]
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 02
 ======================================================================
 
@@ -106,16 +112,70 @@ Analyse de deux publicités performantes dans le secteur parfum, dont une à 700
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et la team, j'espère que vous allez tous bien. Vous avez nombreux à avoir demandé des analyses de créards pour vous donner des idées et pour décortiquer comment des créards marchent. Donc je vais faire un premier loom et vous vous priez un retour sur quoi vous en avez pensé. Donc je vais faire un loom assez court, vous savez que j'ai analysé deux ads que personnellement j'ai adoré, qui m'ont chiffré, énormément chiffré.
+
+[00:24] Et on va décortiquer ensemble pourquoi. Donc la première ad, elle a généré 700K, je le sais parce que je connais l'agence qui a fait cette ad cela. Et cette ad cela a généré 700K, donc ça montre que c'est sérieux. Je vais vous montrer l'ad, c'est un format assez différent. Donc je vais mettre déjà l'ad.
+
+[00:46] Donc ce qu'il faut déjà comprendre, c'est là on a un concept.
+
+[01:17] On a un concept qui est ASMR, c'est-à-dire d'avoir débourri cette dissuasion. On a un autre concept qui est derrière de chuchoter. Chuchoter, ça marche très très bien. Je vais vous expliquer pourquoi. Parce qu'en fait on habite quand quelqu'un chuchote, c'est qu'on doit écouter, c'est quelque chose d'important. C'est même une technique pour captiver l'attention, c'est de commencer à chuchoter.
+
+[01:40] Parce qu'on chuchote, automatiquement, ça force les autres à écouter ce que la personne a à dire. Parce que dans la vie en régénérale, quand on chuchote, c'est quelque chose d'important. Il y a personne qui chuchote et ça veut dire. Donc quand vous chuchote, même dans la vie générale, la personne va vous écouter. Donc là en fait on a quelque chose qui captive l'attention des locs, parce qu'il y a quelqu'un qui chuchote et tout du long de l'attre, elle chuchote.
+
+[02:03] Donc ça maintient l'attention, ensuite on a du visuel qui est super captivant. Donc là on commence, on sait pas trop ce que c'est. On sait pas trop ce que c'est, il y a des moments qui prennent un objet, il y a du mouvement, il y a du texte, c'est clean, il n'y a pas trop de couleur. Donc le OU qui est bien, le OU qui est vraiment bien, on pousse avec la voix, ça donne très bien. On a le pouroui du paquet avec la voix, on sait pas ce que c'est.
+
+[02:25] Et ensuite on a direct un plan. Donc là, deux secondes du OU qui est ensuite on a direct un plan. Il y a eu une seconde, donc tout est très dynamique. Là on a luxurier et fragrance, on a des fonds qui sont bien filmés, on a du carri. Pardon, un fond qui est satisfaisant, on a du carri, on a le parfum. On a ça qui font couler dessus, qui donne quelque chose de captivant et satisfaisant.
+
+[02:50] Et ensuite ils mettent leurs bénéfices, 5% seulement de fragrance OU. Ça a été inspiré par les parfums. Voilà, ils introduisent mon marque. Ils introduisent directement le pricing. Donc là vous voyez, il n'y a pas que le concept en fait. Le script de l'Az est très important.
+
+[03:12] C'est-à-dire qu'ils n'auraient pas pu générer 700K si derrière ils aient juste démontré le produit de différentes manières. Là un débutant, il va trouver ses lats live et va dire ok, j'ai trouvé un concept qui marche. Il va refaire le concept sans adapter le script à son produit. Et c'est là qu'il va pas réussir. Ce qu'il faut comprendre sur des cortiques d'une manière scriptée.
+
+[03:34] Donc là il y a un très bon OU. Donc elle a juste fait une note parfum luxueux. Donc l'angle, il va targetter tous les gens qui veulent le parfum luxueux. Donc je pense que c'est un OU qui est prouvé. Et qu'ils savent qu'ils ont un beau tas. C'est-à-dire qu'il y a un total adresseur du market qui est énorme. C'est-à-dire qu'ils peuvent scaleer. Parce qu'il y a beaucoup de personnes qui sont intéressées par les parfums luxueux.
+
+[03:56] En fait, ils n'ont qu'activer d'attention. Ils n'ont pas qu'activer d'attention de seulement ceux qui sont intéressés par leur produit. Ils n'ont qu'activer d'attention de tous ceux qui sont intéressés par les parfums luxueux. Ensuite, ils introduisent, je pense, leur unique proposition de valeur. 5% de fragrance oil.
+
+[04:17] Ça a été inspiré par les parfums à célébr. Et après directement, ils positionnent un autre avantage qu'ils ont. C'est que ça commence des 4 pounds. Donc là, s'ils ne l'avaient pas dit, je suis sûr que là, ça ne va pas marcher pareil. Parce que là, ok, parfums luxueux pour 4 pounds, on a une composition marketing qui marche dans beaucoup de domaines.
+
+[04:42] C'est le luxueux affordable. Ça marche parce que les gens veulent du luxe, ça a pris l'apportable. Donc là, c'est exactement sur quoi ils orientent leurs aides. Ensuite, il y a du sens et satisfaisant de regarder. Sontez comme votre favori. Des aides de leur brand. Ça dure toute la journée.
+
+[05:03] Ils répondent à leur objection numéro 1. Donc ça, c'est scripté. C'est pas pour rien. Ils ne mettent pas juste du contenu pour meubler. Ça, c'est leur objecton numéro 1. Ok, parfums luxueux. Parfums luxueux, oui, mais ça dure pas. Et là, ça dure toute la journée. Donc là, ils démontent directement la première objection.
+
+[05:27] Etat de fragrance, de parfums. Voilà, ils introduisent la première objection sur le site. Ensuite, social proof. Il y a des 1000 reviews excellentes. Ce social proof au max. Ils réduisent les risques.
+
+[05:48] 30 des monnaies pas garanties. Donc là, le script est très bien. Et je pense qu'ils ont été arrivent, c'est là. Soit c'est une intération, un script qui marchait bien. Puis ils l'ont fait sur ce format. Ou si c'est leur premier concept, ce que je pense pas. Après, ils ont fait plein d'intérations. C'est-à-dire qu'ils reprennent le même script. C'est-à-dire ce format-là, luxueux, affordable.
+
+[06:11] On parle de l'unique position ici. On parle du prix. On met le social proof ici. On démontre les objections. Et ça, en fait, on peut démontrer de plein de manières différentes. Donc ça, c'est une situation de hâte. On peut la faire en plein de manières ensuite. Et vous, pour l'adapteur à votre produit, simplement, il faut décortiquer au niveau copérating. C'est-à-dire, au départ, vous allez venir mettre votre angle ici.
+
+[06:34] Si vous avez un produit qui peut être luxueux, affordable, vous allez mettre ici. Si vous avez montré pourquoi votre produit est différent, le prix, si vous avez un avantage compétitif sur le prix, après, ce self-proof, enfin, votre bénéfice, ce self-proof, votre bénéfice, pardon, objection, ce self-proof,
+
+[06:59] une petite coltoaction là une fois, social proof, réduction des risques avec la garantie, et deuxième coltoaction. Donc voilà, un vrai pépi de cet hâte. Mais parce qu'elle a été très, très bien faite. Mais derrière, c'est le script qui est bien.
+
+[07:20] Ensuite, je vais vous montrer une autre hâte. Donc là, en fait, ça, c'est une marque de parfum aussi.
+
+[07:50] C'est pas la même marque. Et simplement, ils ont fait un concept, un concept qui est un peu comme un micro trottoir unique, c'est-à-dire aussi qui n'interroge qu'une seule personne. Ça fait très naturel, mais c'est un actrice. Mais ça fait très, très naturel. Donc le premier point à faire, c'est, si vous voulez, recopier ces têtes, le premier truc, est yer un acteur naturel.
+
+[08:12] Ça donne un acteur naturel. Donc là, demande aux étrangers quel parfum ils portent, mais c'est pas à n'importe quel étranger. Donc là, on montre que le parfum est tellement bon que ça va taper les gens, les gens vont le sentir.
+
+[08:35] C'est-à-dire, on positionne une valeur de produit assez élevée, parce que si vous portez un parfum et que les gens vont le sentir dans la rue, c'est incroyable. Ça donne envie d'acheter le produit. Ben en fait, ils introduisent directement le produit après. C'est pas la première personne à avoir dit ça.
+
+[08:59] J'avais analysé leur ratse en fait, parce que au départ, ils galéraient. Ils galéraient à lancer le produit. Ils ont testé pas mal de concepts, pas mal d'ambits. Et ça, c'est l'angle. Le concept et ce qui a mis le marché, ça interpète les gens dans la rue. Et c'est la preuve parce que c'est pas la première personne à demander. Et c'est comme ça qu'ils ont adapté leur ratse. Ils ont fait pas mal de variations.
+
+[09:32] Après, c'est un script très simple. C'est le concept de vraiment ce qu'il va jouer. Là, c'est le concept, acteur. Et quand même d'avoir, d'ailleurs, une proposition très forte. Leur proposition de la ratse, c'est les gens vont vous arrêter dans le rue. Et pas qu'une fois. Et en gros, c'est ça qu'il faut comprendre. Donc là, moi j'avais cette attaque. Ce que je ferai, je reprendrai beaucoup d'attrises différentes.
+
+[09:56] Des blanches, d'autres etemis, des plus vieilles, des plus jeunes, pour arrêter différentes amateurs. Je ferai aussi sur l'angle. Je sais pas si ça c'est d'angle. Pour à son homme d'acheter fait un cadeau à votre femme. Vous allez être amant. Ça vous rend une cerveau. Ou vraiment, angle, cadeau, à femme.
+
+[10:19] Et puis après, je ferai comme ils ont fait un format podcast aussi. Pareil, discute. Et qu'est-ce que tu sens ? Ça sent merveillusement bon. Parfum de Tom Carter, de la nana. Et pas la première personne qui va me demander. Exact. Le même concept, en fait. La même proposition que l'heure. Achez à vos propres frics.
+
+[10:41] Ils soulignent vraiment le fait que ça va intercoiller les gens. Voilà pour la petite analyse. 10 minutes, enfin de sa fin 5 minutes. Donc dites-moi ce que vous en pensez. C'était Matéo, tchatcha.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 03 : Ep #61 - 3 New format static à tester
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 03
 ======================================================================
 
@@ -159,9 +219,67 @@ Trois formats de créatives statiques à fort potentiel : le comparatif longévi
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, aujourd'hui je vais vous donner trois nouveaux concepts de statique à créer et les pompes pour les créer, le process pour les créer. Donc je vais survoler rapidement la value de ce Creative Insights. Ça va être simplement d'avoir trois concepts que vous allez pouvoir tester et certainement des winners que vous allez en ressortir. Donc le premier concept que j'appelais le comparatif, l'ongévité, c'est ceci.
+
+[00:26] Donc là on peut voir, c'est pour des chaussettes, c'est que simplement on est sur quelque chose, c'est qu'on compare les autres solutions et on va venir discréditer. Donc c'est le comparatif sur l'ongévité ou autre argument rationnel par rapport à votre produit.
+
+[00:50] Donc pour beaucoup de produits, la longévité est quelque chose d'important. C'est-à-dire de dire que le tien dure dans le temps est un argument qui marche. C'est-à-dire que vous avez des t-shirts, vous dites que votre dur indéfiniment ou une garantie indéfinie, la longévité marche. Mais vous pouvez adapter cet angle-là avec un autre angle selon votre produit.
+
+[01:11] Donc pourquoi ça marche ? Parce que c'est très simple à lire, ça stoppe le scroll, l'image fait la démo, il n'y a vraiment pas besoin de texte, on le voit en fait, on comprend pas actuellement. Il n'y a pas beaucoup de texte. On élimine l'argumentaire, en fait on prouve directement ce qu'on dit. On active la l'ossa version, c'est-à-dire on montre la perte en fait et comment ne pas avoir
+
+[01:37] cette perte. On fait un enchantin temporel, c'est-à-dire qu'on montre six semaines versus 12 mois. Du coup il y a plus de valeur perçue pour notre produit. Le format shopping list, il est très facilement scannable, comme je l'ai dit avant, on convertit les sceptiques via la preu visuelle. Donc vous voyez, en fait ça sert à rien de dire, ça dure si on ne le montre pas.
+
+[02:01] Là on est une preuve. Donc vraiment très bon pour du solution à wear et fonctionne pour un peu tout type de produit, comme je l'ai dit, du vêtement, tout ce qui pourrait aller sous la longévité. Ok, vêtement en t-shirt etc. Mais vous pouvez aussi adapter selon votre produit sous un autre angle que la longévité.
+
+[02:25] Là je vous ai mis quelques tips. Donc par exemple photographiez un vrai produit, en créé de temps exact, jamais plus long, dire trois, six semaines. En fait plus long c'est abstrait. C'est-à-dire je vous évite à faire des erreurs, mais si vous dites c'est plus long, eh ben c'est pas précis. Donc dis que deux mois c'est précis. Si on vous dit vous allez faire un peu plus de temps de prison, ça va être moins
+
+[02:47] dur que si on vous dit vous allez faire deux ans de prison. Ok, deux states minimum, quatre states maximum. Au-delà il y a de la charge overlaid, fond neutre. Ce fond là il est très bien des flèches pour guider. Headline 5 à 7 mois au max et 8 à 2 mois. C'est, voilà, ça doit pas être rechargé facilement ce cannable comme j'ai dit avant.
+
+[03:08] Là je vous donne le prompt que vous allez pouvoir faire simplement en collant dans GPT ou autre outil que vous se disiez. Ensuite on a un autre format qui est le journal illustré. Ça j'aime beaucoup et ça marche très très bien. C'est de montrer sous un tableau ici, je ne sais pas comment l'appelle ça, comme des sortes de dessins. Donc ça coche toutes les codes de l'AD.
+
+[03:31] On dirait que c'est du natif, enfin ça doit ressembler à du natif et ça passe pas pour une pub. C'est très intriguant et très facile pour le cerveau à mémoriser. Vous savez les profiler web, il map ceci parce que c'est très simple au cerveau de comprendre quand on a un plan comme ceci. Vous savez ils mettent des épingles rouges, des fils, en fait c'est très simple à dire. C'est-à-dire ce format là, pour moi il est vraiment banger et pourrait même être utilisé
+
+[03:54] en hook. C'est-à-dire de faire des hooks en commençant par ceci, il met même un format complet en vidéo. Si ça marche ensuite, vous pouvez le convertir en vidéo. C'est un style and drawn donc c'est pas vraiment il y a, même si c'est fait qu'il y a, on ne dirait pas que c'est de l'il y a.
+
+[04:15] Ensuite c'est simple à lire, il y a une progression en temporelle. Le placement du produit n'est pas intrusif donc ça fait vraiment pas très hâte. Ça se peut être très bien pour tout ce qui est santé, home, wellness, kids ou vraiment problème. Par exemple santé c'est top, ça va pour santé je pense c'est top. Et ça fonctionne, ce qui est très intéressant c'est que ça fonctionne pour du unaware,
+
+[04:35] problème aware, vous avez pouvoir faire de l'éducation comme ça. Vraiment si ça marche convertissez-le en vidéo avec quelque chose de très éducationnel. Sûque là vous avez mis d'autres d'autres tips. Faites pas trop de stage à nouveau, il faut que ça respecte les codes psychologiques que vous avez données, ça ne doit pas être rechargé. Ça doit être native, le placement du produit il doit être subtil.
+
+[05:01] Ok, c'est une conséquence à ce qu'on explique et non pas on vend le produit directement. Donc vous pouvez faire aussi à la main, c'est possible, des micro-transformations visibles, dog lump retasip, un cure miracle. Donc là on doit voir en fait légèrement mais ça ne doit pas être exagéré.
+
+[05:22] Et c'est bien pour du story telling doux pas d'urgence. Donc là on est sur une at, unaware, problème aware principalement. Ensuite ici on aussi sur quelque chose qui peut être très unaware et problème aware et qui est un peu similaire à ceci et qui cartonne vraiment en ce moment.
+
+[05:42] C'est le tableau noir pédagogique. Donc simplement on est habitué à lire sur un tableau noir. Là vous avez pour vous amuser. Donc déjà juste ce format là il va attirer l'attention. C'est-à-dire que c'est un panterme interrupte direct. On a l'habitude en fait et pour nous c'est une preuve d'autorité. Ce qui est écrit sur un tableau noir c'est une preuve d'autorité parce que notre cerveau il est programmé à lire ce qui est sur un tableau noir de quelqu'un d'autorité.
+
+[06:07] Ok. Donc c'est très bien pour l'éducationnel. Il faut que ça soit très facilement scannable. Ok. Si là je me note toute une formule et difficile à lire ça va pas marcher. Il faut que ça soit simple à lire. Donc ça fonctionne très bien pour un aware, problème aware. C'est très bien pour les funnels adversariales aussi. Pour voir une at ce qui renvoie sur un adversarial avec ceci. Ok.
+
+[06:28] Là vous vous introduisez un unique mécanisation du problème. Et ensuite vous avez vos adversariales. Vous vous rendez sur votre adversarial c'est que les personnes vont pouvoir continuer à lire. Donc parfait pour elles, c'est éducation pour beaucoup beaucoup de produits. Et c'est aussi très bien pour Golden Nuggets Insight. J'ai noté donc pourquoi la lump will not leave.
+
+[06:52] On va venir révéler la route cause. Par exemple, là on pourrait expliquer avec un dessin d'un ventre. C'est qu'on voit un dessin de la graisse et on explique pourquoi vous ne perdez pas votre graisse. Et on introduit un unique mécanisation du problème. Parce que votre métabolisme va trop lent. Ou parce que vous mangez trop ou introduisez le sil.
+
+[07:15] Et ensuite on redire sur la landing page. Donc les types que vous pouvez faire avec mid-journée, GPT. Des anatomiques anatomicales, illustrations médicales, plausible, pas de caricatures. À nouveau ça doit être simple à lire.
+
+[07:35] 4-5 bullet max. Finissez toujours par un CTA pour qu'il comprenne directement où aller. Ce sont les fonds suggérés. Là je donne d'autres Insight et le prompt. Donc voilà, là je vous rappelle le principe de comment on fait des statiques. Et elle est pas important.
+
+[07:55] Donc il faut que ça stoppe le scroll. Il faut que ce soit très simplement lisible. Ok, peu importe. Le format il faut que ça soit facilement scannable. Le cerveau scane, le cerveau ne lit pas. Il faut qu'on ressentie, on ressemble quelque chose, pardon. Donc il faut que, à la fin de leur parcours autostatique,
+
+[08:15] il ait une envie, il ressente quelque chose. Il faut qu'on déplace d'un stade d'Awareness à un autre. Ça ça rappelle. Il faut que, si là il était solution aware, il soit product aware. Il sache que ça il veut l'acheter. Ok, c'est très important pour nourrir votre écosystème de funèles parce que même s'il n'achète pas, il va tomber sur le stage suivant. Et ensuite, il y aura d'autres à Tsaouk qui pourra peut-être le convertir.
+
+[08:37] Donc ça c'est très très important. Ça va rester concluant entre l'image et la copie. Donc si vous avez une copie headline, ça doit être congruant. Et avec la page aussi, copie plus LP. C'est une erreur que font beaucoup de personnes. Ils font des superbes statiques, mais qui totalement décoréler de la LP.
+
+[08:58] Toujours faire du manuel research avant, c'est-à-dire pour créer ça, c'est pas que le format. Là je vous donne le format, mais il va falloir faire du manuel research pour être précis sur les mots que vous mettez, sur le mécanisme que vous mettez, sur les preuves que vous mettez. Là ça doit être vraiment précis. Donc l'étape c'est très simple. Recherche sur Reddit, vous identifiez les routes de cause, vous utilisez des verbes atteints exacts qu'utilise votre prospect.
+
+[09:19] Vous choisissez un problème, un golden nugget inside par hat. Ok, vous n'allez pas faire trop trop de choses ou vous capitalisez sur les angles, les messages que vous avez déjà. Ok. Ensuite, vous choisissez le format, selon le stage d'Auarnes. Donc là je vous ai donné trois formats avec différents stages d'Auarnes. Donc le 1, je ne sais pas pourquoi, je n'ai pas mis dans l'ordre. Le 1, il est plutôt solution aware.
+
+[09:40] Ah oui, je le redire par rapport à une aware. Donc tout ce qu'il y a une aware, c'est format. Format 3 et format 2, là que je vous ai donné. Problem aware solution aware. Là on est plutôt format 2, format 3. Ouais, le problème aware. solution aware product aware format 1.
+
+[10:02] Vous pouvez utiliser GPT en 1, 1, 1, fait toujours des variations d'Az. Vous pouvez tester aussi des POV. C'est un truc qui marche très très bien que personne ne fasse. C'est de, par exemple, faire un tableau ici, ok. Ça, ça marche bien. Mais de faire comment ma femme a perdu du poids? Ou comment mes clients ont perdu du poids? Ou un autre point de vue, en fait.
+
+[10:26] Et ça, ça marche très bien. Et ensuite, l'étape 4, c'est de tester avec des corrects landing page. Ce sont des différents landing page. C'est simple à faire. Vous pouvez tester avec différents types de landing page. Donc voilà, massive value. Ceci, vous ne vous rendez pas compte, mais c'est nous, la semaine prochaine, ça, je vous montre ce qu'on a déjà testé. Et c'est le même process. C'est-à-dire que moi, je vois des formats.
+
+[10:47] J'en avise de cette manière-là. Je vous donne à mon équipe, on teste et ça marche. Et ensuite, je vous partage. Donc vraiment, faites-le. Massive, massive value. C'était Maté, on va bientôt. Tchao.
 
 
 

@@ -1,12 +1,12 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 140 complètes (22 %)**
+**624 leçons au total · 168 complètes (26 %)**
 
 
 ## 0 to 1 : MASTER ONE
 
-82 leçons · 43 complètes · 39 partielles
+82 leçons · 68 complètes · 14 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -59,33 +59,33 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 47 | [Thème Offert MASTER + Recommandation 2026](transcriptions/0-to-1-master-one\47-theme-offert-master-recommandation-2026.md) | 3:28 | complet |
 | ✅ | 48 | [Thème recommandé + Page produit pour convertir](transcriptions/0-to-1-master-one\48-theme-recommande-page-produit-pour-convertir.md) | 49:08 | complet |
 | ✅ | 49 | [Parametre Boutique, Shipping etc](transcriptions/0-to-1-master-one\49-parametre-boutique-shipping-etc.md) | 10:02 | complet |
-| 🟡 | 50 | [Création offre débutant](transcriptions/0-to-1-master-one\50-creation-offre-debutant.md) | — | partiel |
-| 🟡 | 51 | [Logo IA (Canva), Charte Couleur, Trust Badges](transcriptions/0-to-1-master-one\51-logo-ia-canva-charte-couleur-trust-badges.md) | — | partiel |
-| 🟡 | 52 | [Créer des images produit 100% AI qui convertisse](transcriptions/0-to-1-master-one\52-creer-des-images-produit-100-ai-qui-convertisse.md) | — | partiel |
-| 🟡 | 53 | [Checkup Débutant: à voir avant Lancement](transcriptions/0-to-1-master-one\53-checkup-debutant-a-voir-avant-lancement.md) | 29:08 | partiel |
-| 🟡 | 54 | [Copier une section d'un concurrent avec l'IA](transcriptions/0-to-1-master-one\54-copier-une-section-d-un-concurrent-avec-l.md) | 7:53 | partiel |
-| 🟡 | 55 | [Déléguer sa boutique intelligemment : wirefram](transcriptions/0-to-1-master-one\55-deleguer-sa-boutique-intelligemment-wirefram.md) | — | partiel |
-| 🟡 | 56 | [Optimiser votre boutique en ligne](transcriptions/0-to-1-master-one\56-optimiser-votre-boutique-en-ligne.md) | — | partiel |
+| ✅ | 50 | [Création offre débutant](transcriptions/0-to-1-master-one\50-creation-offre-debutant.md) | 14:46 | complet |
+| ✅ | 51 | [Logo IA (Canva), Charte Couleur, Trust Badges](transcriptions/0-to-1-master-one\51-logo-ia-canva-charte-couleur-trust-badges.md) | 11:51 | complet |
+| ✅ | 52 | [Créer des images produit 100% AI qui convertisse](transcriptions/0-to-1-master-one\52-creer-des-images-produit-100-ai-qui-convertisse.md) | 13:14 | complet |
+| ✅ | 53 | [Checkup Débutant: à voir avant Lancement](transcriptions/0-to-1-master-one\53-checkup-debutant-a-voir-avant-lancement.md) | 29:08 | complet |
+| ✅ | 54 | [Copier une section d'un concurrent avec l'IA](transcriptions/0-to-1-master-one\54-copier-une-section-d-un-concurrent-avec-l.md) | 7:53 | complet |
+| ✅ | 55 | [Déléguer sa boutique intelligemment : wirefram](transcriptions/0-to-1-master-one\55-deleguer-sa-boutique-intelligemment-wirefram.md) | 9:59 | complet |
+| ✅ | 56 | [Optimiser votre boutique en ligne](transcriptions/0-to-1-master-one\56-optimiser-votre-boutique-en-ligne.md) | 6:56 | complet |
 | 🟡 | 57 | [Pour aller plus loin - CRO, BOOSTER CA & AOV](transcriptions/0-to-1-master-one\57-pour-aller-plus-loin-cro-booster-ca-aov.md) | — | partiel |
-| 🟡 | 58 | [Présentation - Compte agence partenaire](transcriptions/0-to-1-master-one\58-presentation-compte-agence-partenaire.md) | — | partiel |
-| 🟡 | 59 | [Meta - Setup Invincible - Prime Circle](transcriptions/0-to-1-master-one\59-meta-setup-invincible-prime-circle.md) | — | partiel |
-| 🟡 | 60 | [Choix d'un anti-detect browser](transcriptions/0-to-1-master-one\60-choix-d-un-anti-detect-browser.md) | — | partiel |
-| 🟡 | 61 | [SOP Profil sécurisé avec Proxy](transcriptions/0-to-1-master-one\61-sop-profil-securise-avec-proxy.md) | — | partiel |
-| 🟡 | 62 | [Introduction - Meta Ads](transcriptions/0-to-1-master-one\62-introduction-meta-ads.md) | — | partiel |
-| 🟡 | 63 | [Créer son Business Manager Meta Ads](transcriptions/0-to-1-master-one\63-creer-son-business-manager-meta-ads.md) | — | partiel |
-| 🟡 | 64 | [Le compte publicitaire Meta Ads](transcriptions/0-to-1-master-one\64-le-compte-publicitaire-meta-ads.md) | — | partiel |
-| 🟡 | 65 | [Le pixel Meta](transcriptions/0-to-1-master-one\65-le-pixel-meta.md) | — | partiel |
-| 🟡 | 66 | [La page Facebook](transcriptions/0-to-1-master-one\66-la-page-facebook.md) | — | partiel |
-| 🟡 | 67 | [Connectez votre Pixel Meta à Shopify](transcriptions/0-to-1-master-one\67-connectez-votre-pixel-meta-a-shopify.md) | — | partiel |
-| 🟡 | 68 | [Installer WeTracked pour un suivi précis](transcriptions/0-to-1-master-one\68-installer-wetracked-pour-un-suivi-precis.md) | — | partiel |
-| 🟡 | 69 | [Analyse de ses premiers chiffres : Quadrant Master](transcriptions/0-to-1-master-one\69-analyse-de-ses-premiers-chiffres-quadrant-master.md) | — | partiel |
-| 🟡 | 70 | [🆕 Prise de décision - Du testing au scaling](transcriptions/0-to-1-master-one\70-prise-de-decision-du-testing-au-scaling.md) | — | partiel |
-| 🟡 | 71 | [SOP Commentaire](transcriptions/0-to-1-master-one\71-sop-commentaire.md) | — | partiel |
-| 🟡 | 72 | [Recruter son premier Virtual Assistant(VA) SAV](transcriptions/0-to-1-master-one\72-recruter-son-premier-virtual-assistant-va-sav.md) | — | partiel |
-| 🟡 | 73 | [Mettre en place un process SAV solide dès le déb](transcriptions/0-to-1-master-one\73-mettre-en-place-un-process-sav-solide-des.md) | — | partiel |
-| 🟡 | 74 | [Spreadsheet Suivi Budget/Résultats](transcriptions/0-to-1-master-one\74-spreadsheet-suivi-budget-resultats.md) | — | partiel |
+| ✅ | 58 | [Présentation - Compte agence partenaire](transcriptions/0-to-1-master-one\58-presentation-compte-agence-partenaire.md) | 16:10 | complet |
+| ✅ | 59 | [Meta - Setup Invincible - Prime Circle](transcriptions/0-to-1-master-one\59-meta-setup-invincible-prime-circle.md) | 11:34 | complet |
+| ✅ | 60 | [Choix d'un anti-detect browser](transcriptions/0-to-1-master-one\60-choix-d-un-anti-detect-browser.md) | 5:11 | complet |
+| ✅ | 61 | [SOP Profil sécurisé avec Proxy](transcriptions/0-to-1-master-one\61-sop-profil-securise-avec-proxy.md) | 11:41 | complet |
+| ✅ | 62 | [Introduction - Meta Ads](transcriptions/0-to-1-master-one\62-introduction-meta-ads.md) | 2:00 | complet |
+| ✅ | 63 | [Créer son Business Manager Meta Ads](transcriptions/0-to-1-master-one\63-creer-son-business-manager-meta-ads.md) | 14:48 | complet |
+| ✅ | 64 | [Le compte publicitaire Meta Ads](transcriptions/0-to-1-master-one\64-le-compte-publicitaire-meta-ads.md) | 3:43 | complet |
+| ✅ | 65 | [Le pixel Meta](transcriptions/0-to-1-master-one\65-le-pixel-meta.md) | 1:50 | complet |
+| ✅ | 66 | [La page Facebook](transcriptions/0-to-1-master-one\66-la-page-facebook.md) | 4:03 | complet |
+| ✅ | 67 | [Connectez votre Pixel Meta à Shopify](transcriptions/0-to-1-master-one\67-connectez-votre-pixel-meta-a-shopify.md) | 2:36 | complet |
+| ✅ | 68 | [Installer WeTracked pour un suivi précis](transcriptions/0-to-1-master-one\68-installer-wetracked-pour-un-suivi-precis.md) | 7:37 | complet |
+| ✅ | 69 | [Analyse de ses premiers chiffres : Quadrant Master](transcriptions/0-to-1-master-one\69-analyse-de-ses-premiers-chiffres-quadrant-master.md) | 14:03 | complet |
+| ✅ | 70 | [🆕 Prise de décision - Du testing au scaling](transcriptions/0-to-1-master-one\70-prise-de-decision-du-testing-au-scaling.md) | 25:57 | complet |
+| ✅ | 71 | [SOP Commentaire](transcriptions/0-to-1-master-one\71-sop-commentaire.md) | 21:17 | complet |
+| ✅ | 72 | [Recruter son premier Virtual Assistant(VA) SAV](transcriptions/0-to-1-master-one\72-recruter-son-premier-virtual-assistant-va-sav.md) | 8:17 | complet |
+| ✅ | 73 | [Mettre en place un process SAV solide dès le déb](transcriptions/0-to-1-master-one\73-mettre-en-place-un-process-sav-solide-des.md) | 8:07 | complet |
+| ✅ | 74 | [Spreadsheet Suivi Budget/Résultats](transcriptions/0-to-1-master-one\74-spreadsheet-suivi-budget-resultats.md) | 4:08 | complet |
 | 🟡 | 75 | [Protéger sa marque](transcriptions/0-to-1-master-one\75-proteger-sa-marque.md) | — | partiel |
-| 🟡 | 76 | [Top IA Productivité pour 2026](transcriptions/0-to-1-master-one\76-top-ia-productivite-pour-2026.md) | 20:51 | partiel |
+| ✅ | 76 | [Top IA Productivité pour 2026](transcriptions/0-to-1-master-one\76-top-ia-productivite-pour-2026.md) | 20:51 | complet |
 | 🟡 | 77 | [Liste Fournisseurs Vérifiés](transcriptions/0-to-1-master-one\77-liste-fournisseurs-verifies.md) | — | partiel |
 | 🟡 | 78 | [Scripts Emails SAV De Base](transcriptions/0-to-1-master-one\78-scripts-emails-sav-de-base.md) | — | partiel |
 | 🟡 | 79 | [Product Radar : Comment l’Utiliser](transcriptions/0-to-1-master-one\79-product-radar-comment-l-utiliser.md) | — | partiel |
@@ -149,13 +149,13 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRÉATIVE INSIGHT
 
-64 leçons · 0 complètes · 64 partielles
+64 leçons · 3 complètes · 61 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Opportunité Creative Insight](transcriptions/creative-insight\01-opportunite-creative-insight.md) | 1:45 | partiel |
-| 🟡 | 2 | [Analyse créative [exemple]](transcriptions/creative-insight\02-analyse-creative-exemple.md) | 10:56 | partiel |
-| 🟡 | 3 | [Ep #61 - 3 New format static à tester](transcriptions/creative-insight\03-ep-61-3-new-format-static-a-tester.md) | — | partiel |
+| ✅ | 1 | [Opportunité Creative Insight](transcriptions/creative-insight\01-opportunite-creative-insight.md) | 1:45 | complet |
+| ✅ | 2 | [Analyse créative [exemple]](transcriptions/creative-insight\02-analyse-creative-exemple.md) | 10:56 | complet |
+| ✅ | 3 | [Ep #61 - 3 New format static à tester](transcriptions/creative-insight\03-ep-61-3-new-format-static-a-tester.md) | 10:57 | complet |
 | 🟡 | 4 | [Ep #62 -   Raw Talking Heads & statiques animés](transcriptions/creative-insight\04-ep-62-raw-talking-heads-statiques-animes.md) | — | partiel |
 | 🟡 | 5 | [Ep #57 - Changer la psychologie de vos ads](transcriptions/creative-insight\05-ep-57-changer-la-psychologie-de-vos-ads.md) | — | partiel |
 | 🟡 | 6 | [Ep #58 - Styles d'ads cartoons qui performent](transcriptions/creative-insight\06-ep-58-styles-d-ads-cartoons-qui-performent.md) | — | partiel |
