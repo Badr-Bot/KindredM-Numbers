@@ -489,16 +489,16 @@ il ne faut jamais répondre à sa place.
 ## QUICK WINS
 
 - ✅ **01 — Evitez la Shopify Tax** · 2:12
-- 🟡 **02 — Fashion Cashflow TikTok Ads SOP** · 39:31
-- 🟡 **03 — GigaBrain UPDATE: Reddit Answers** · 2:00
-- 🟡 **04 — Custom GPT pour créa** · 12:01
-- 🟡 **05 — Hack GPT - Learning Playbook Infini** · 5:11
+- ✅ **02 — Fashion Cashflow TikTok Ads SOP** · 39:31
+- ✅ **03 — GigaBrain UPDATE: Reddit Answers** · 2:00
+- ✅ **04 — Custom GPT pour créa** · 12:01
+- ✅ **05 — Hack GPT - Learning Playbook Infini** · 5:11
 - 🟡 **06 — Meilleur prompt: résumer livre, vidéos, podcast..** 
-- 🟡 **07 — Créatives calculateur** · 10:24
-- 🟡 **08 — Warmap** · 26:26
-- 🟡 **09 — Setup productif** · 25:16
-- 🟡 **10 — Dropmagic** 
-- 🟡 **11 — Conseils Sport / Santé** · 8:18
+- ✅ **07 — Créatives calculateur** · 10:24
+- ✅ **08 — Warmap** · 26:26
+- ✅ **09 — Setup productif** · 25:16
+- ✅ **10 — Dropmagic** · 22:10
+- ✅ **11 — Conseils Sport / Santé** · 8:18
 - 🟡 **12 — Doc épisodes MASTER** 
 - 🟡 **13 — QUICK WINS - MARS 2026** 
 - 🟡 **14 — QUICK WINS - AVRIL 2026** 
@@ -555,9 +555,9 @@ il ne faut jamais répondre à sa place.
 
 ## RÉUSSIR SON Q4
 
-- 🟡 **01 — Introduction** · 2:15
-- 🟡 **02 — Erreurs 2024 + info importante** · 23:33
-- 🟡 **03 — Explication en Live: process et stratégies (EMF)** 
+- ✅ **01 — Introduction** · 2:15
+- ✅ **02 — Erreurs 2024 + info importante** · 23:33
+- ✅ **03 — Explication en Live: process et stratégies (EMF)** · 1:13:20
 - 🟡 **04 — Templates EMF Media #1** · 7:40
 - 🟡 **05 — Templates EMF Media #2** · 6:27
 - 🟡 **06 — Calendrier Marketing Q4** · 6:41

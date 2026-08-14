@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 315 complètes (62 %)**
+**508 leçons au total · 327 complètes (64 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -552,21 +552,21 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## QUICK WINS
 
-18 leçons · 1 complètes · 17 partielles
+18 leçons · 10 complètes · 8 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | ✅ | 1 | [Evitez la Shopify Tax](transcriptions/quick-wins\01-evitez-la-shopify-tax.md) | 2:12 | complet |
-| 🟡 | 2 | [Fashion Cashflow TikTok Ads SOP](transcriptions/quick-wins\02-fashion-cashflow-tiktok-ads-sop.md) | 39:31 | partiel |
-| 🟡 | 3 | [GigaBrain UPDATE: Reddit Answers](transcriptions/quick-wins\03-gigabrain-update-reddit-answers.md) | 2:00 | partiel |
-| 🟡 | 4 | [Custom GPT pour créa](transcriptions/quick-wins\04-custom-gpt-pour-crea.md) | 12:01 | partiel |
-| 🟡 | 5 | [Hack GPT - Learning Playbook Infini](transcriptions/quick-wins\05-hack-gpt-learning-playbook-infini.md) | 5:11 | partiel |
+| ✅ | 2 | [Fashion Cashflow TikTok Ads SOP](transcriptions/quick-wins\02-fashion-cashflow-tiktok-ads-sop.md) | 39:31 | complet |
+| ✅ | 3 | [GigaBrain UPDATE: Reddit Answers](transcriptions/quick-wins\03-gigabrain-update-reddit-answers.md) | 2:00 | complet |
+| ✅ | 4 | [Custom GPT pour créa](transcriptions/quick-wins\04-custom-gpt-pour-crea.md) | 12:01 | complet |
+| ✅ | 5 | [Hack GPT - Learning Playbook Infini](transcriptions/quick-wins\05-hack-gpt-learning-playbook-infini.md) | 5:11 | complet |
 | 🟡 | 6 | [Meilleur prompt: résumer livre, vidéos, podcast..](transcriptions/quick-wins\06-meilleur-prompt-resumer-livre-videos-podcast.md) | — | partiel |
-| 🟡 | 7 | [Créatives calculateur](transcriptions/quick-wins\07-creatives-calculateur.md) | 10:24 | partiel |
-| 🟡 | 8 | [Warmap](transcriptions/quick-wins\08-warmap.md) | 26:26 | partiel |
-| 🟡 | 9 | [Setup productif](transcriptions/quick-wins\09-setup-productif.md) | 25:16 | partiel |
-| 🟡 | 10 | [Dropmagic](transcriptions/quick-wins\10-dropmagic.md) | — | partiel |
-| 🟡 | 11 | [Conseils Sport / Santé](transcriptions/quick-wins\11-conseils-sport-sante.md) | 8:18 | partiel |
+| ✅ | 7 | [Créatives calculateur](transcriptions/quick-wins\07-creatives-calculateur.md) | 10:24 | complet |
+| ✅ | 8 | [Warmap](transcriptions/quick-wins\08-warmap.md) | 26:26 | complet |
+| ✅ | 9 | [Setup productif](transcriptions/quick-wins\09-setup-productif.md) | 25:16 | complet |
+| ✅ | 10 | [Dropmagic](transcriptions/quick-wins\10-dropmagic.md) | 22:10 | complet |
+| ✅ | 11 | [Conseils Sport / Santé](transcriptions/quick-wins\11-conseils-sport-sante.md) | 8:18 | complet |
 | 🟡 | 12 | [Doc épisodes MASTER](transcriptions/quick-wins\12-doc-episodes-master.md) | — | partiel |
 | 🟡 | 13 | [QUICK WINS - MARS 2026](transcriptions/quick-wins\13-quick-wins-mars-2026.md) | — | partiel |
 | 🟡 | 14 | [QUICK WINS - AVRIL 2026](transcriptions/quick-wins\14-quick-wins-avril-2026.md) | — | partiel |
@@ -627,13 +627,13 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## RÉUSSIR SON Q4
 
-13 leçons · 0 complètes · 13 partielles
+13 leçons · 3 complètes · 10 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Introduction](transcriptions/reussir-son-q4\01-introduction.md) | 2:15 | partiel |
-| 🟡 | 2 | [Erreurs 2024 + info importante](transcriptions/reussir-son-q4\02-erreurs-2024-info-importante.md) | 23:33 | partiel |
-| 🟡 | 3 | [Explication en Live: process et stratégies (EMF)](transcriptions/reussir-son-q4\03-explication-en-live-process-et-strategies-emf.md) | — | partiel |
+| ✅ | 1 | [Introduction](transcriptions/reussir-son-q4\01-introduction.md) | 2:15 | complet |
+| ✅ | 2 | [Erreurs 2024 + info importante](transcriptions/reussir-son-q4\02-erreurs-2024-info-importante.md) | 23:33 | complet |
+| ✅ | 3 | [Explication en Live: process et stratégies (EMF)](transcriptions/reussir-son-q4\03-explication-en-live-process-et-strategies-emf.md) | 1:13:20 | complet |
 | 🟡 | 4 | [Templates EMF Media #1](transcriptions/reussir-son-q4\04-templates-emf-media-1.md) | 7:40 | partiel |
 | 🟡 | 5 | [Templates EMF Media #2](transcriptions/reussir-son-q4\05-templates-emf-media-2.md) | 6:27 | partiel |
 | 🟡 | 6 | [Calendrier Marketing Q4](transcriptions/reussir-son-q4\06-calendrier-marketing-q4.md) | 6:41 | partiel |
