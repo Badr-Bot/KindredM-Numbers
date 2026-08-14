@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 450 complètes (88 %)**
+**508 leçons au total · 456 complètes (89 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -509,16 +509,16 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MEMBRES PLUS
 
-6 leçons · 0 complètes · 6 partielles
+6 leçons · 6 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [17 Mar. (Thomas) : Puzzle, Publicité & Stratégie](transcriptions/membres-plus\01-17-mar-thomas-puzzle-publicite-strategie.md) | 1:27:02 | partiel |
-| 🟡 | 2 | [14 Avr. (Thomas) : Publicité, Scaling & Entraide](transcriptions/membres-plus\02-14-avr-thomas-publicite-scaling-entraide.md) | 1:27:02 | partiel |
-| 🟡 | 3 | [12 Mai. (Thomas) : Strat, Growth & Automatisation](transcriptions/membres-plus\03-12-mai-thomas-strat-growth-automatisation.md) | 1:27:02 | partiel |
-| 🟡 | 4 | [10 Jui. (Thomas) : Stratégie, Créativité & Growth](transcriptions/membres-plus\04-10-jui-thomas-strategie-creativite-growth.md) | 1:27:02 | partiel |
-| 🟡 | 5 | [14 Jui. (Thomas) : Taxe, Marge & Agents](transcriptions/membres-plus\05-14-jui-thomas-taxe-marge-agents.md) | 1:27:02 | partiel |
-| 🟡 | 6 | [11 Aou. (Thomas) : Ads, Croissance & Mentalité](transcriptions/membres-plus\06-11-aou-thomas-ads-croissance-mentalite.md) | 1:27:02 | partiel |
+| ✅ | 1 | [17 Mar. (Thomas) : Puzzle, Publicité & Stratégie](transcriptions/membres-plus\01-17-mar-thomas-puzzle-publicite-strategie.md) | 1:27:02 | complet |
+| ✅ | 2 | [14 Avr. (Thomas) : Publicité, Scaling & Entraide](transcriptions/membres-plus\02-14-avr-thomas-publicite-scaling-entraide.md) | 1:27:02 | complet |
+| ✅ | 3 | [12 Mai. (Thomas) : Strat, Growth & Automatisation](transcriptions/membres-plus\03-12-mai-thomas-strat-growth-automatisation.md) | 1:27:02 | complet |
+| ✅ | 4 | [10 Jui. (Thomas) : Stratégie, Créativité & Growth](transcriptions/membres-plus\04-10-jui-thomas-strategie-creativite-growth.md) | 1:27:02 | complet |
+| ✅ | 5 | [14 Jui. (Thomas) : Taxe, Marge & Agents](transcriptions/membres-plus\05-14-jui-thomas-taxe-marge-agents.md) | 1:27:02 | complet |
+| ✅ | 6 | [11 Aou. (Thomas) : Ads, Croissance & Mentalité](transcriptions/membres-plus\06-11-aou-thomas-ads-croissance-mentalite.md) | 1:27:02 | complet |
 
 ## MINDSET OS
 

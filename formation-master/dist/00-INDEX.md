@@ -457,12 +457,12 @@ il ne faut jamais répondre à sa place.
 
 ## MEMBRES PLUS
 
-- 🟡 **01 — 17 Mar. (Thomas) : Puzzle, Publicité & Stratégie** · 1:27:02
-- 🟡 **02 — 14 Avr. (Thomas) : Publicité, Scaling & Entraide** · 1:27:02
-- 🟡 **03 — 12 Mai. (Thomas) : Strat, Growth & Automatisation** · 1:27:02
-- 🟡 **04 — 10 Jui. (Thomas) : Stratégie, Créativité & Growth** · 1:27:02
-- 🟡 **05 — 14 Jui. (Thomas) : Taxe, Marge & Agents** · 1:27:02
-- 🟡 **06 — 11 Aou. (Thomas) : Ads, Croissance & Mentalité** · 1:27:02
+- ✅ **01 — 17 Mar. (Thomas) : Puzzle, Publicité & Stratégie** · 1:27:02
+- ✅ **02 — 14 Avr. (Thomas) : Publicité, Scaling & Entraide** · 1:27:02
+- ✅ **03 — 12 Mai. (Thomas) : Strat, Growth & Automatisation** · 1:27:02
+- ✅ **04 — 10 Jui. (Thomas) : Stratégie, Créativité & Growth** · 1:27:02
+- ✅ **05 — 14 Jui. (Thomas) : Taxe, Marge & Agents** · 1:27:02
+- ✅ **06 — 11 Aou. (Thomas) : Ads, Croissance & Mentalité** · 1:27:02
 
 ## MINDSET OS
 
