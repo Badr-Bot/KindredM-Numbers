@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 298 complètes (58 %)**
+**508 leçons au total · 315 complètes (62 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -482,29 +482,29 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER RESEARCH
 
-20 leçons · 1 complètes · 17 partielles
+20 leçons · 17 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | 🟡 | 1 | [MASTER RESEARCH](transcriptions/master-research\01-master-research.md) | — | partiel |
 | ✅ | 2 | [MASTER PRODUCT FORMULA™](transcriptions/master-research\02-master-product-formulatm.md) | 16:53 | complet |
-| 🟡 | 3 | [Marché: Retour d'expérience COMPLET](transcriptions/master-research\03-marche-retour-d-experience-complet.md) | — | partiel |
-| 🟡 | 4 | [Ecom Data 1](transcriptions/master-research\04-ecom-data-1.md) | — | partiel |
-| 🟡 | 5 | [Ecom Data 2](transcriptions/master-research\05-ecom-data-2.md) | — | partiel |
-| 🟡 | 6 | [Quel type de recherche produit ?](transcriptions/master-research\06-quel-type-de-recherche-produit.md) | 13:47 | partiel |
-| 🟡 | 7 | [Mes conseils sans filtre pour PRINT](transcriptions/master-research\07-mes-conseils-sans-filtre-pour-print.md) | 27:46 | partiel |
-| 🟡 | 8 | [L'opportunité PRODUCT RADAR](transcriptions/master-research\08-l-opportunite-product-radar.md) | 2:22 | partiel |
-| 🟡 | 9 | [Critères Produit](transcriptions/master-research\09-criteres-produit.md) | 3:57 | partiel |
-| 🟡 | 10 | [Fichier d'organisation](transcriptions/master-research\10-fichier-d-organisation.md) | 14:05 | partiel |
-| 🟡 | 11 | [Méthodes et outils utilisé](transcriptions/master-research\11-methodes-et-outils-utilise.md) | 8:32 | partiel |
+| ✅ | 3 | [Marché: Retour d'expérience COMPLET](transcriptions/master-research\03-marche-retour-d-experience-complet.md) | 46:12 | complet |
+| ✅ | 4 | [Ecom Data 1](transcriptions/master-research\04-ecom-data-1.md) | 45:48 | complet |
+| ✅ | 5 | [Ecom Data 2](transcriptions/master-research\05-ecom-data-2.md) | 40:38 | complet |
+| ✅ | 6 | [Quel type de recherche produit ?](transcriptions/master-research\06-quel-type-de-recherche-produit.md) | 13:47 | complet |
+| ✅ | 7 | [Mes conseils sans filtre pour PRINT](transcriptions/master-research\07-mes-conseils-sans-filtre-pour-print.md) | 27:46 | complet |
+| ✅ | 8 | [L'opportunité PRODUCT RADAR](transcriptions/master-research\08-l-opportunite-product-radar.md) | 2:22 | complet |
+| ✅ | 9 | [Critères Produit](transcriptions/master-research\09-criteres-produit.md) | 3:57 | complet |
+| ✅ | 10 | [Fichier d'organisation](transcriptions/master-research\10-fichier-d-organisation.md) | 14:05 | complet |
+| ✅ | 11 | [Méthodes et outils utilisé](transcriptions/master-research\11-methodes-et-outils-utilise.md) | 8:32 | complet |
 | ⬜ | 12 | [Facebook Ads Library](transcriptions/master-research\12-facebook-ads-library.md) | 12:39 | a-transcrire |
-| 🟡 | 13 | [Afterlib](transcriptions/master-research\13-afterlib.md) | 20:30 | partiel |
-| 🟡 | 14 | [Tiktok Creative Center (new)](transcriptions/master-research\14-tiktok-creative-center-new.md) | 14:17 | partiel |
-| 🟡 | 15 | [Fastmoss (Tiktok Shop)](transcriptions/master-research\15-fastmoss-tiktok-shop.md) | 31:08 | partiel |
-| 🟡 | 16 | [PPSPY](transcriptions/master-research\16-ppspy.md) | 7:00 | partiel |
-| 🟡 | 17 | [PiPiAds](transcriptions/master-research\17-pipiads.md) | 19:05 | partiel |
-| 🟡 | 18 | [Recherche produit Google Analytics (nouveau 2025)](transcriptions/master-research\18-recherche-produit-google-analytics-nouveau-2025.md) | 3:03 | partiel |
-| 🟡 | 19 | [Méthodes et outils: concurrence & analyse](transcriptions/master-research\19-methodes-et-outils-concurrence-analyse.md) | 14:36 | partiel |
+| ✅ | 13 | [Afterlib](transcriptions/master-research\13-afterlib.md) | 20:30 | complet |
+| ✅ | 14 | [Tiktok Creative Center (new)](transcriptions/master-research\14-tiktok-creative-center-new.md) | 14:17 | complet |
+| ✅ | 15 | [Fastmoss (Tiktok Shop)](transcriptions/master-research\15-fastmoss-tiktok-shop.md) | 31:08 | complet |
+| ✅ | 16 | [PPSPY](transcriptions/master-research\16-ppspy.md) | 7:00 | complet |
+| ✅ | 17 | [PiPiAds](transcriptions/master-research\17-pipiads.md) | 19:05 | complet |
+| ✅ | 18 | [Recherche produit Google Analytics (nouveau 2025)](transcriptions/master-research\18-recherche-produit-google-analytics-nouveau-2025.md) | 3:03 | complet |
+| ✅ | 19 | [Méthodes et outils: concurrence & analyse](transcriptions/master-research\19-methodes-et-outils-concurrence-analyse.md) | 14:36 | complet |
 | ⬜ | 20 | [Choisir le bon marché](transcriptions/master-research\20-choisir-le-bon-marche.md) | — | a-transcrire |
 
 ## MEMBRES PLUS
@@ -552,11 +552,11 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## QUICK WINS
 
-18 leçons · 0 complètes · 18 partielles
+18 leçons · 1 complètes · 17 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Evitez la Shopify Tax](transcriptions/quick-wins\01-evitez-la-shopify-tax.md) | 2:12 | partiel |
+| ✅ | 1 | [Evitez la Shopify Tax](transcriptions/quick-wins\01-evitez-la-shopify-tax.md) | 2:12 | complet |
 | 🟡 | 2 | [Fashion Cashflow TikTok Ads SOP](transcriptions/quick-wins\02-fashion-cashflow-tiktok-ads-sop.md) | 39:31 | partiel |
 | 🟡 | 3 | [GigaBrain UPDATE: Reddit Answers](transcriptions/quick-wins\03-gigabrain-update-reddit-answers.md) | 2:00 | partiel |
 | 🟡 | 4 | [Custom GPT pour créa](transcriptions/quick-wins\04-custom-gpt-pour-crea.md) | 12:01 | partiel |

@@ -436,23 +436,23 @@ il ne faut jamais répondre à sa place.
 
 - 🟡 **01 — MASTER RESEARCH** 
 - ✅ **02 — MASTER PRODUCT FORMULA™** · 16:53
-- 🟡 **03 — Marché: Retour d'expérience COMPLET** 
-- 🟡 **04 — Ecom Data 1** 
-- 🟡 **05 — Ecom Data 2** 
-- 🟡 **06 — Quel type de recherche produit ?** · 13:47
-- 🟡 **07 — Mes conseils sans filtre pour PRINT** · 27:46
-- 🟡 **08 — L'opportunité PRODUCT RADAR** · 2:22
-- 🟡 **09 — Critères Produit** · 3:57
-- 🟡 **10 — Fichier d'organisation** · 14:05
-- 🟡 **11 — Méthodes et outils utilisé** · 8:32
+- ✅ **03 — Marché: Retour d'expérience COMPLET** · 46:12
+- ✅ **04 — Ecom Data 1** · 45:48
+- ✅ **05 — Ecom Data 2** · 40:38
+- ✅ **06 — Quel type de recherche produit ?** · 13:47
+- ✅ **07 — Mes conseils sans filtre pour PRINT** · 27:46
+- ✅ **08 — L'opportunité PRODUCT RADAR** · 2:22
+- ✅ **09 — Critères Produit** · 3:57
+- ✅ **10 — Fichier d'organisation** · 14:05
+- ✅ **11 — Méthodes et outils utilisé** · 8:32
 - ⬜ NON TRANSCRITE **12 — Facebook Ads Library** · 12:39
-- 🟡 **13 — Afterlib** · 20:30
-- 🟡 **14 — Tiktok Creative Center (new)** · 14:17
-- 🟡 **15 — Fastmoss (Tiktok Shop)** · 31:08
-- 🟡 **16 — PPSPY** · 7:00
-- 🟡 **17 — PiPiAds** · 19:05
-- 🟡 **18 — Recherche produit Google Analytics (nouveau 2025)** · 3:03
-- 🟡 **19 — Méthodes et outils: concurrence & analyse** · 14:36
+- ✅ **13 — Afterlib** · 20:30
+- ✅ **14 — Tiktok Creative Center (new)** · 14:17
+- ✅ **15 — Fastmoss (Tiktok Shop)** · 31:08
+- ✅ **16 — PPSPY** · 7:00
+- ✅ **17 — PiPiAds** · 19:05
+- ✅ **18 — Recherche produit Google Analytics (nouveau 2025)** · 3:03
+- ✅ **19 — Méthodes et outils: concurrence & analyse** · 14:36
 - ⬜ NON TRANSCRITE **20 — Choisir le bon marché** 
 
 ## MEMBRES PLUS
@@ -488,7 +488,7 @@ il ne faut jamais répondre à sa place.
 
 ## QUICK WINS
 
-- 🟡 **01 — Evitez la Shopify Tax** · 2:12
+- ✅ **01 — Evitez la Shopify Tax** · 2:12
 - 🟡 **02 — Fashion Cashflow TikTok Ads SOP** · 39:31
 - 🟡 **03 — GigaBrain UPDATE: Reddit Answers** · 2:00
 - 🟡 **04 — Custom GPT pour créa** · 12:01
