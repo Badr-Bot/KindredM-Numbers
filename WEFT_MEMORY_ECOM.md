@@ -76,21 +76,22 @@
 - **Décision de Badr (13-14/08)** : piloter les campagnes à la **marge backend** (profit réel), le ROAS Meta en comparateur, le MER en garde-fou. Test de vérité : si on scale +20 % et que le MER ne bouge pas, Meta surestimait.
 - Piège par produit : le ROAS Meta ventile par CAMPAGNE cliquée, le backend par PRODUIT acheté — un gilet acheté via une pub polo compte « Polo » chez Meta, « Gilet » au backend.
 
-## 6. PROTOCOLE DE DÉCISION (Master Ecom, encodé et appliqué)
+## 6. PROTOCOLE DE DÉCISION — voir la formation (pas de doublon ici)
 
-### Phase actuelle : PRÉ-SCALING (compte à ~1 000-1 500 €/j, seuil de phase : 3 000 €/j)
-- **Fenêtre de jugement : les 2 DERNIERS JOURS COMPLETS** (jamais le jour en cours — le spend tourne toute la journée, les ventes arrivent le soir). Décision à 00h-01h, data stabilisée.
-- **Rentable = marge backend ≥ 15 % sur la fenêtre.**
-- **Monter le budget** : sous 500 €/j → **×2** (plafonné au barreau suivant) ; puis échelle **500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000** ; près de 3k → +20-30 % puis +100/250 € à la fois. **Chaque montée = injecter des créas neuves** (obligatoire). Attendre 48-72 h entre deux scales (sauf surf scaling en promo : toutes les 1-2 h sur data click forte).
-- **< 15 %** : attendre 24 h, re-vérifier ; toujours < 15 % → **réduire 10-15 % + créas**. **Descale seulement après 2 jours de PERTE consécutifs** — jamais sur un seul jour rouge.
-- **Veto santé** : fréquence ≥ 2, CPM qui monte, FTIR qui chute = saturation créative → **diversité créative, PAS plus de budget**.
-- En phase SCALING (>3k/j) : fenêtre 3-day rolling + table de marge : perte→−15 % (2 j consécutifs) · 0-10 %→ne rien faire · 10-15 %→hold (max +10-20 %) · 15-30 %→scale 20-30 % · 30 %+→scale 40-100 %.
+Le protocole complet vit dans la formation MASTER, source unique :
+`formation-master/transcriptions/master-acquisition/` — protocoles par palier
+(leçons 25-28), prise de décision (34-35), testing (36-38), Bid Cap Inflated
+(31), santé de compte (29). Règles de conflit : `formation-master/ARBITRAGES.md`.
 
-### Testing produit (J0→J10)
-J0 : 6-15 ads vidéo + statics (copy mining), offre/LP inspirées d'un compétiteur qui scale, funnel testé par un achat réel. J1-2 : CBO 100-300 €. **J2 : rentable au BACKEND ?** Non → sauvetage J3-5 (bon CVR/mauvais CPC = créas · mauvais CVR/bon CPC = LP/offre · marge faible = AOV/upsell). J5 pas d'amélioration → BIG SWING J6-10 (refaire l'analyse marketing, nouvelle LP/offre). J7-10 toujours pas rentable → **KILL, produit suivant** (idéalement similaire). Garder minimum 100 $/j pendant le test. Ex. réel : NIRA tué en 3 jours, −326 € — coût d'apprentissage normal.
-
-### Créa (le carburant)
-5-8 % des ads deviennent winners → volume + DIVERSITÉ (angle × avatar × awareness × concept × format), pas l'itération du même. 3 premières secondes identiques = même Entity ID chez Meta = punition CPM. Whitelisting visé à terme (~+20 % ROAS).
+**Seul l'ÉTAT PROPRE AU BUSINESS reste ici** (ce que la formation ne sait pas) :
+- **Phase actuelle : PRÉ-SCALING** (~1 000-1 500 €/j de CA, seuil de passage en
+  scaling : 3 000 €/j).
+- **Adaptations validées par Badr (13-14/08)** : décision à la marge backend
+  (≥ 15 % = rentable), fenêtre = 2 derniers jours complets, décision à
+  00h-01h heure de Paris ; échelle de budgets adoptée :
+  500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000 €/j.
+- Exemple vécu : NIRA tué en 3 jours (−326 €) selon le protocole de testing —
+  coût d'apprentissage normal.
 
 ## 7. ÉTAT DES CAMPAGNES (snapshot 11-13/08, compte Niva)
 
