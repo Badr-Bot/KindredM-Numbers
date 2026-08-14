@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**513 leçons au total · 461 complètes (89 %)**
+**516 leçons au total · 464 complètes (89 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -577,7 +577,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## RESSOURCES NOTION
 
-48 leçons · 48 complètes · 0 partielles
+51 leçons · 51 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -628,7 +628,10 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 45 | [Dupliquer une campagne Meta Ads d'un compte à un autre](transcriptions/ressources-notion\45-dupliquer-une-campagne-meta-ads-d-un-compte.md) | — | complet |
 | ✅ | 46 | [Contenu signalé](transcriptions/ressources-notion\46-contenu-signale.md) | — | complet |
 | ✅ | 47 | [Creative Insight - 3 New format static à tester](transcriptions/ressources-notion\47-creative-insight-3-new-format-static-a-tester.md) | — | complet |
+| ✅ | 49 | [4 Hooks Analyse (Creative Insight)](transcriptions/ressources-notion\49-4-hooks-analyse.md) | — | complet |
+| ✅ | 50 | [[Creative Insight] Les Statics Secret Sauce](transcriptions/ressources-notion\50-les-statics-secret-sauce.md) | — | complet |
 | ✅ | 51 | [Master x Hover - Partage de résultats CRO](transcriptions/ressources-notion\51-master-x-hover-partage-de-resultats-cro.md) | — | complet |
+| ✅ | 51 | [New Concept Ads Inspiration](transcriptions/ressources-notion\51-new-concept-ads-inspiration.md) | — | complet |
 
 ## RÉUSSIR SON Q4
 

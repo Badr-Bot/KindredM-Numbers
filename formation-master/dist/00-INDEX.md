@@ -556,7 +556,10 @@ il ne faut jamais répondre à sa place.
 - ✅ **45 — Dupliquer une campagne Meta Ads d'un compte à un autre** 
 - ✅ **46 — Contenu signalé** 
 - ✅ **47 — Creative Insight - 3 New format static à tester** 
+- ✅ **49 — 4 Hooks Analyse (Creative Insight)** 
+- ✅ **50 — [Creative Insight] Les Statics Secret Sauce** 
 - ✅ **51 — Master x Hover - Partage de résultats CRO** 
+- ✅ **51 — New Concept Ads Inspiration** 
 
 ## RÉUSSIR SON Q4
 

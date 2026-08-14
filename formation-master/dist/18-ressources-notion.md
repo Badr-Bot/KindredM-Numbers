@@ -5397,6 +5397,104 @@ Advertorial "root cause" education
 
 ======================================================================
 MODULE : RESSOURCES NOTION
+LEÇON 49 : 4 Hooks Analyse (Creative Insight)
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 49
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 49 — 4 Hooks Analyse (Creative Insight)
+
+> **Source : document Notion public de la formation** — page composée de texte
+> court + captures d'écran d'ads ; les visuels ont été lus et décrits.
+
+## Contenu du document
+
+Les 4 types de hooks analysés :
+
+- → Demo on face
+- → Demo on doll
+- → Demo Object quotidien
+- → Sexiness
+
+**Bonus Tips : this increase the hook rate — Mini mic** (micro-cravate visible
+à l'image : il augmente le hook rate).
+
+## Visuels du document (décrits)
+
+1. **Ad « donut »** (vidéo UGC, timestamp 00:52) : gros plan sur un donut rose
+   glacé tenu à la main sur un plan de travail de cuisine, texte overlay :
+   « Shh... THIS is my secret for the smoothest butthole ». Exemple combinant
+   « Demo Object quotidien » + « Sexiness » (choc/curiosité) — le produit est
+   démontré sur un objet du quotidien avec un hook provocateur.
+2. **Ad « Bone Broth »** (vidéo UGC, timestamp 00:43, créateur IFANCC) :
+   femme face caméra tenant un **micro-cravate (mini mic)** et une canette
+   « BROYA 100% Grass Fed Bone Broth Classic Beef » — illustre le Bonus Tip
+   mini mic : le micro visible augmente le hook rate (code visuel
+   « interview/confidence »).
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 50 : [Creative Insight] Les Statics Secret Sauce
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 50
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 50 — [Creative Insight] Les Statics Secret Sauce
+
+> **Source : document Notion public de la formation** — page composée de
+> captures d'écran (planning de production + briefs) ; visuels lus et décrits.
+
+## Contenu du document
+
+### 1. Planning de production hebdo (base Notion « Weekly Type 🇺🇸 »)
+
+Tableau des tâches créa d'une semaine type, avec type (Net New / Iteration),
+format (Static), volume d'ads et temps estimé :
+
+| Tâche | Type | Volume | Impact | Temps |
+|---|---|---|---|---|
+| TRUSTPILOT REVIEW · VIDEO · PROD | Net New | 5 | — | 30 min |
+| COPY MIMING NEW WINNING ADS (×2) | Net New | 12 + 12 | HIGH IMPACT | 30 min chacune |
+| COPY MIMING NEW WINNING ADS | Net New | 16 | HIGH IMPACT | 1 h 30 |
+| COPY MIMING NEW WINNING ADS | Net New | 12 | HIGH IMPACT | 30 min |
+| MESSAGING TESTING PHASE 1 · STC | Net New | 20 | HIGH IMPACT | 1 h 30 |
+| AD LEVEL 1 BATCH NAME · STC | **Iteration** | 50 | — | 2 h 00 |
+| BATCH NAME · STATICS · PRODUCT | Net New | 24 | HIGH IMPACT | 30 min |
+| BATCH NAME · NEW CONCEPT · STAT (×2) | Net New | 16 + 16 | HIGH IMPACT | 30 min chacune |
+| TRUSTPILOT REVIEW · STATIC · PROD | Net New | 5 | HIGH IMPACT | 30 min |
+| BATCH NAME · STATIC FUNNY · PROD | Net New | 4 | HIGH IMPACT | 30 min |
+
+**Total semaine : 192 ads · ~9 h 30 de production.** La masse vient du copy
+miming des winning ads et des itérations en batch ; presque tout est marqué
+HIGH IMPACT et tient en 30 min par lot.
+
+### 2. Structure du messaging testing
+
+5 messagings testés en parallèle, chacun décliné en 4 visuels :
+
+- MESSAGING 1 à 5, chacun avec : Visual A **(Ideally proven one)** · Visual B ·
+  Visual C · Visual D.
+
+→ Le visuel A de chaque messaging est un visuel déjà prouvé : on isole ainsi
+l'effet du message, pas celui du visuel.
+
+### 3. Static Brief (le brief type)
+
+- Take Winning Design
+- Use Canva Template To Edit Faster
+
+**Output goal** : Format **1/1 (1080×1080)** · **Total ads : 20**.
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
 LEÇON 51 : Master x Hover - Partage de résultats CRO
 STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 51
@@ -5471,5 +5569,39 @@ Encadré “Validé par +1200 pharmacies”
  Amélioration
 DÉCOMPTE
 10
+
+
+
+======================================================================
+MODULE : RESSOURCES NOTION
+LEÇON 51 : New Concept Ads Inspiration
+STATUT DE LA SOURCE : complet
+RÉFÉRENCE À CITER : RESSOURCES NOTION / leçon 51
+======================================================================
+
+----- SOURCE (verbatim de la vidéo — c'est ÇA qu'on cite) -----
+
+# 51 — New Concept Ads Inspiration
+
+> **Source : document Notion public de la formation** — galerie d'ads de
+> référence (captures de la Meta Ads Library) ; visuels lus et décrits.
+
+## Contenu du document
+
+Références d'inspiration pour de nouveaux concepts d'ads :
+
+1. **Flock Chicken Chips** (flockfoods.com) — ad vidéo UGC active depuis
+   **224 jours** (longévité = winner) : homme barbu filmé en selfie qui tend
+   une chips de poulet vers la caméra, style brut non produit. Concept :
+   l'UGC « vrai gars qui goûte » cru et authentique, zéro production.
+2. **Liven** (app bien-être) — ad vidéo avec un **personnage 3D animé** style
+   Pixar : petit personnage triste au lit, texte overlay « My unresolved
+   trauma made me an overthinker ». Concept : le personnage 3D émotionnel qui
+   incarne le pain point — permet de dire des choses très personnelles sans
+   visage humain, très fort taux d'identification.
+
+→ Deux directions opposées volontairement : l'ultra-authentique (UGC brut qui
+tourne 200+ jours) et l'ultra-stylisé (3D émotionnelle) — l'inspiration est
+dans le CONCEPT, pas dans le produit montré.
 
 
