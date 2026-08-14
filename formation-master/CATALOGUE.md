@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 327 complètes (64 %)**
+**508 leçons au total · 422 complètes (83 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -106,46 +106,46 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## BUSINESS OPERATIONS
 
-36 leçons · 0 complètes · 36 partielles
+36 leçons · 35 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [L’entonnoir d’une marque qui performe](transcriptions/business-operations\01-l-entonnoir-d-une-marque-qui-performe.md) | 8:33 | partiel |
-| 🟡 | 2 | [Les typologies de personnes](transcriptions/business-operations\02-les-typologies-de-personnes.md) | 9:28 | partiel |
-| 🟡 | 3 | [Construire la bonne équipe](transcriptions/business-operations\03-construire-la-bonne-equipe.md) | 14:40 | partiel |
-| 🟡 | 4 | [Rôles, Responsabilités et KPI](transcriptions/business-operations\04-roles-responsabilites-et-kpi.md) | 1:46 | partiel |
-| 🟡 | 5 | [Exemple Structure Équipe](transcriptions/business-operations\05-exemple-structure-equipe.md) | 5:55 | partiel |
-| 🟡 | 6 | [Process: Explications et Gestion](transcriptions/business-operations\06-process-explications-et-gestion.md) | 17:32 | partiel |
-| 🟡 | 7 | [Identifier et résoudre les blocages internes](transcriptions/business-operations\07-identifier-et-resoudre-les-blocages-internes.md) | 11:11 | partiel |
-| 🟡 | 8 | [Cadences de meeting pour une marque performante](transcriptions/business-operations\08-cadences-de-meeting-pour-une-marque-performante.md) | 12:22 | partiel |
-| 🟡 | 9 | [Leadership de performance](transcriptions/business-operations\09-leadership-de-performance.md) | 8:24 | partiel |
-| 🟡 | 10 | [Management pour la performance](transcriptions/business-operations\10-management-pour-la-performance.md) | 9:03 | partiel |
-| 🟡 | 11 | [Incentives et bonus](transcriptions/business-operations\11-incentives-et-bonus.md) | 16:40 | partiel |
-| 🟡 | 12 | [Les 3 piliers de la performance](transcriptions/business-operations\12-les-3-piliers-de-la-performance.md) | 15:32 | partiel |
-| 🟡 | 13 | [Plan de Croissance](transcriptions/business-operations\13-plan-de-croissance.md) | 7:53 | partiel |
-| 🟡 | 14 | [Savoir quand recruter](transcriptions/business-operations\14-savoir-quand-recruter.md) | 7:59 | partiel |
-| 🟡 | 15 | [Quand déléguer et comment reprendre votre valeur](transcriptions/business-operations\15-quand-deleguer-et-comment-reprendre-votre-valeur.md) | 12:09 | partiel |
-| 🟡 | 16 | [Comment attirer les meilleurs talents](transcriptions/business-operations\16-comment-attirer-les-meilleurs-talents.md) | 16:40 | partiel |
-| 🟡 | 17 | [Le Headhunting](transcriptions/business-operations\17-le-headhunting.md) | 17:24 | partiel |
-| 🟡 | 18 | [SOP complet: Recrutement](transcriptions/business-operations\18-sop-complet-recrutement.md) | 17:54 | partiel |
-| 🟡 | 19 | [Documents Bonus](transcriptions/business-operations\19-documents-bonus.md) | 5:17 | partiel |
+| ✅ | 1 | [L’entonnoir d’une marque qui performe](transcriptions/business-operations\01-l-entonnoir-d-une-marque-qui-performe.md) | 8:33 | complet |
+| ✅ | 2 | [Les typologies de personnes](transcriptions/business-operations\02-les-typologies-de-personnes.md) | 9:28 | complet |
+| ✅ | 3 | [Construire la bonne équipe](transcriptions/business-operations\03-construire-la-bonne-equipe.md) | 14:40 | complet |
+| ✅ | 4 | [Rôles, Responsabilités et KPI](transcriptions/business-operations\04-roles-responsabilites-et-kpi.md) | 1:46 | complet |
+| ✅ | 5 | [Exemple Structure Équipe](transcriptions/business-operations\05-exemple-structure-equipe.md) | 5:55 | complet |
+| ✅ | 6 | [Process: Explications et Gestion](transcriptions/business-operations\06-process-explications-et-gestion.md) | 17:32 | complet |
+| ✅ | 7 | [Identifier et résoudre les blocages internes](transcriptions/business-operations\07-identifier-et-resoudre-les-blocages-internes.md) | 11:11 | complet |
+| ✅ | 8 | [Cadences de meeting pour une marque performante](transcriptions/business-operations\08-cadences-de-meeting-pour-une-marque-performante.md) | 12:22 | complet |
+| ✅ | 9 | [Leadership de performance](transcriptions/business-operations\09-leadership-de-performance.md) | 8:24 | complet |
+| ✅ | 10 | [Management pour la performance](transcriptions/business-operations\10-management-pour-la-performance.md) | 9:03 | complet |
+| ✅ | 11 | [Incentives et bonus](transcriptions/business-operations\11-incentives-et-bonus.md) | 16:40 | complet |
+| ✅ | 12 | [Les 3 piliers de la performance](transcriptions/business-operations\12-les-3-piliers-de-la-performance.md) | 15:32 | complet |
+| ✅ | 13 | [Plan de Croissance](transcriptions/business-operations\13-plan-de-croissance.md) | 7:53 | complet |
+| ✅ | 14 | [Savoir quand recruter](transcriptions/business-operations\14-savoir-quand-recruter.md) | 7:59 | complet |
+| ✅ | 15 | [Quand déléguer et comment reprendre votre valeur](transcriptions/business-operations\15-quand-deleguer-et-comment-reprendre-votre-valeur.md) | 12:09 | complet |
+| ✅ | 16 | [Comment attirer les meilleurs talents](transcriptions/business-operations\16-comment-attirer-les-meilleurs-talents.md) | 16:40 | complet |
+| ✅ | 17 | [Le Headhunting](transcriptions/business-operations\17-le-headhunting.md) | 17:24 | complet |
+| ✅ | 18 | [SOP complet: Recrutement](transcriptions/business-operations\18-sop-complet-recrutement.md) | 17:54 | complet |
+| ✅ | 19 | [Documents Bonus](transcriptions/business-operations\19-documents-bonus.md) | 5:17 | complet |
 | 🟡 | 20 | [Recruter VA - Tutoriel Upwork](transcriptions/business-operations\20-recruter-va-tutoriel-upwork.md) | 27:22 | partiel |
-| 🟡 | 21 | [Présentation](transcriptions/business-operations\21-presentation.md) | 14:58 | partiel |
-| 🟡 | 22 | [Faiblesse organisationnelle](transcriptions/business-operations\22-faiblesse-organisationnelle.md) | 11:27 | partiel |
-| 🟡 | 23 | [4 KPI les plus importants](transcriptions/business-operations\23-4-kpi-les-plus-importants.md) | 8:12 | partiel |
-| 🟡 | 24 | [Recrutement](transcriptions/business-operations\24-recrutement.md) | 11:09 | partiel |
-| 🟡 | 25 | [Optimisateur de routines](transcriptions/business-operations\25-optimisateur-de-routines.md) | 4:31 | partiel |
-| 🟡 | 26 | [Mini Audit Express](transcriptions/business-operations\26-mini-audit-express.md) | 6:07 | partiel |
-| 🟡 | 27 | [Ce qui fait un creative strategist de haut niveau](transcriptions/business-operations\27-ce-qui-fait-un-creative-strategist-de-haut.md) | — | partiel |
-| 🟡 | 28 | [Recruter un Creative Strategist de haut niveau](transcriptions/business-operations\28-recruter-un-creative-strategist-de-haut-niveau.md) | — | partiel |
-| 🟡 | 29 | [Guide d'évaluation · Test pratique · Processus](transcriptions/business-operations\29-guide-d-evaluation-test-pratique-processus.md) | — | partiel |
-| 🟡 | 30 | [Intro : Adopter la posture du stratège](transcriptions/business-operations\30-intro-adopter-la-posture-du-stratege.md) | — | partiel |
-| 🟡 | 31 | [Définir une vision claire et des règles solides](transcriptions/business-operations\31-definir-une-vision-claire-et-des-regles-solides.md) | — | partiel |
-| 🟡 | 32 | [Risques & sécuriser la survie du business](transcriptions/business-operations\32-risques-securiser-la-survie-du-business.md) | — | partiel |
-| 🟡 | 33 | [Positionnement & avantage concurrentiel](transcriptions/business-operations\33-positionnement-avantage-concurrentiel.md) | — | partiel |
-| 🟡 | 34 | [Business plan, Simplification & Priorisation](transcriptions/business-operations\34-business-plan-simplification-priorisation.md) | — | partiel |
-| 🟡 | 35 | [OKR & Piloter la performance](transcriptions/business-operations\35-okr-piloter-la-performance.md) | — | partiel |
-| 🟡 | 36 | [REPLAY : 11 Jan. (Matteo & Gabor) Vision, forecast](transcriptions/business-operations\36-replay-11-jan-matteo-gabor-vision-forecast.md) | — | partiel |
+| ✅ | 21 | [Présentation](transcriptions/business-operations\21-presentation.md) | 14:58 | complet |
+| ✅ | 22 | [Faiblesse organisationnelle](transcriptions/business-operations\22-faiblesse-organisationnelle.md) | 11:27 | complet |
+| ✅ | 23 | [4 KPI les plus importants](transcriptions/business-operations\23-4-kpi-les-plus-importants.md) | 8:12 | complet |
+| ✅ | 24 | [Recrutement](transcriptions/business-operations\24-recrutement.md) | 11:09 | complet |
+| ✅ | 25 | [Optimisateur de routines](transcriptions/business-operations\25-optimisateur-de-routines.md) | 4:31 | complet |
+| ✅ | 26 | [Mini Audit Express](transcriptions/business-operations\26-mini-audit-express.md) | 6:07 | complet |
+| ✅ | 27 | [Ce qui fait un creative strategist de haut niveau](transcriptions/business-operations\27-ce-qui-fait-un-creative-strategist-de-haut.md) | 16:11 | complet |
+| ✅ | 28 | [Recruter un Creative Strategist de haut niveau](transcriptions/business-operations\28-recruter-un-creative-strategist-de-haut-niveau.md) | 19:16 | complet |
+| ✅ | 29 | [Guide d'évaluation · Test pratique · Processus](transcriptions/business-operations\29-guide-d-evaluation-test-pratique-processus.md) | 14:50 | complet |
+| ✅ | 30 | [Intro : Adopter la posture du stratège](transcriptions/business-operations\30-intro-adopter-la-posture-du-stratege.md) | 2:01 | complet |
+| ✅ | 31 | [Définir une vision claire et des règles solides](transcriptions/business-operations\31-definir-une-vision-claire-et-des-regles-solides.md) | 4:14 | complet |
+| ✅ | 32 | [Risques & sécuriser la survie du business](transcriptions/business-operations\32-risques-securiser-la-survie-du-business.md) | 2:57 | complet |
+| ✅ | 33 | [Positionnement & avantage concurrentiel](transcriptions/business-operations\33-positionnement-avantage-concurrentiel.md) | 6:06 | complet |
+| ✅ | 34 | [Business plan, Simplification & Priorisation](transcriptions/business-operations\34-business-plan-simplification-priorisation.md) | 7:30 | complet |
+| ✅ | 35 | [OKR & Piloter la performance](transcriptions/business-operations\35-okr-piloter-la-performance.md) | 8:48 | complet |
+| ✅ | 36 | [REPLAY : 11 Jan. (Matteo & Gabor) Vision, forecast](transcriptions/business-operations\36-replay-11-jan-matteo-gabor-vision-forecast.md) | 49:39 | complet |
 
 ## CRÉATIVE INSIGHT
 
@@ -268,20 +268,20 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## GÉRER SON SAV +IA by Onially
 
-17 leçons · 0 complètes · 17 partielles
+17 leçons · 10 complètes · 7 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Transformer son support en centre de profits](transcriptions/gerer-son-sav-ia-by-onially\01-transformer-son-support-en-centre-de-profits.md) | — | partiel |
-| 🟡 | 2 | [Le parcours client](transcriptions/gerer-son-sav-ia-by-onially\02-le-parcours-client.md) | — | partiel |
-| 🟡 | 3 | [Choisir et configurer son outil de ticketing](transcriptions/gerer-son-sav-ia-by-onially\03-choisir-et-configurer-son-outil-de-ticketing.md) | — | partiel |
-| 🟡 | 4 | [Organiser ses canaux de contact](transcriptions/gerer-son-sav-ia-by-onially\04-organiser-ses-canaux-de-contact.md) | — | partiel |
-| 🟡 | 5 | [Demo Freshdesk](transcriptions/gerer-son-sav-ia-by-onially\05-demo-freshdesk.md) | — | partiel |
-| 🟡 | 6 | [Créer ses process SAV](transcriptions/gerer-son-sav-ia-by-onially\06-creer-ses-process-sav.md) | — | partiel |
-| 🟡 | 7 | [Créer ses templates de réponse SAV](transcriptions/gerer-son-sav-ia-by-onially\07-creer-ses-templates-de-reponse-sav.md) | — | partiel |
-| 🟡 | 8 | [Les meilleures applications de suivi colis Shopify](transcriptions/gerer-son-sav-ia-by-onially\08-les-meilleures-applications-de-suivi-colis-shopify.md) | — | partiel |
-| 🟡 | 9 | [Gérer et réduire ses litiges & chargebacks](transcriptions/gerer-son-sav-ia-by-onially\09-gerer-et-reduire-ses-litiges-chargebacks.md) | — | partiel |
-| 🟡 | 10 | [Contester et gagner ses chargebacks](transcriptions/gerer-son-sav-ia-by-onially\10-contester-et-gagner-ses-chargebacks.md) | — | partiel |
+| ✅ | 1 | [Transformer son support en centre de profits](transcriptions/gerer-son-sav-ia-by-onially\01-transformer-son-support-en-centre-de-profits.md) | 16:39 | complet |
+| ✅ | 2 | [Le parcours client](transcriptions/gerer-son-sav-ia-by-onially\02-le-parcours-client.md) | 12:24 | complet |
+| ✅ | 3 | [Choisir et configurer son outil de ticketing](transcriptions/gerer-son-sav-ia-by-onially\03-choisir-et-configurer-son-outil-de-ticketing.md) | 13:27 | complet |
+| ✅ | 4 | [Organiser ses canaux de contact](transcriptions/gerer-son-sav-ia-by-onially\04-organiser-ses-canaux-de-contact.md) | 9:30 | complet |
+| ✅ | 5 | [Demo Freshdesk](transcriptions/gerer-son-sav-ia-by-onially\05-demo-freshdesk.md) | 28:24 | complet |
+| ✅ | 6 | [Créer ses process SAV](transcriptions/gerer-son-sav-ia-by-onially\06-creer-ses-process-sav.md) | 19:42 | complet |
+| ✅ | 7 | [Créer ses templates de réponse SAV](transcriptions/gerer-son-sav-ia-by-onially\07-creer-ses-templates-de-reponse-sav.md) | 11:00 | complet |
+| ✅ | 8 | [Les meilleures applications de suivi colis Shopify](transcriptions/gerer-son-sav-ia-by-onially\08-les-meilleures-applications-de-suivi-colis-shopify.md) | 20:34 | complet |
+| ✅ | 9 | [Gérer et réduire ses litiges & chargebacks](transcriptions/gerer-son-sav-ia-by-onially\09-gerer-et-reduire-ses-litiges-chargebacks.md) | 15:42 | complet |
+| ✅ | 10 | [Contester et gagner ses chargebacks](transcriptions/gerer-son-sav-ia-by-onially\10-contester-et-gagner-ses-chargebacks.md) | 13:43 | complet |
 | 🟡 | 11 | [Les KPIs SAV qui comptent vraiment](transcriptions/gerer-son-sav-ia-by-onially\11-les-kpis-sav-qui-comptent-vraiment.md) | — | partiel |
 | 🟡 | 12 | [Optimiser son site pour réduire le SAV](transcriptions/gerer-son-sav-ia-by-onially\12-optimiser-son-site-pour-reduire-le-sav.md) | — | partiel |
 | 🟡 | 13 | [Implémenter un chatbot IA](transcriptions/gerer-son-sav-ia-by-onially\13-implementer-un-chatbot-ia.md) | — | partiel |
@@ -442,39 +442,39 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MASTER INSIDER
 
-33 leçons · 0 complètes · 28 partielles
+33 leçons · 27 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Préambule - IMPORTANT](transcriptions/master-insider\01-preambule-important.md) | 2:22 | partiel |
-| 🟡 | 2 | [Agents recommandés - Important](transcriptions/master-insider\02-agents-recommandes-important.md) | 4:31 | partiel |
-| 🟡 | 3 | [Présentation Agent Français](transcriptions/master-insider\03-presentation-agent-francais.md) | 4:53 | partiel |
-| 🟡 | 4 | [Case Study: Agent A-Z](transcriptions/master-insider\04-case-study-agent-a-z.md) | 22:36 | partiel |
-| 🟡 | 5 | [Incard](transcriptions/master-insider\05-incard.md) | 2:21 | partiel |
-| 🟡 | 6 | [Slash](transcriptions/master-insider\06-slash.md) | 3:43 | partiel |
-| 🟡 | 7 | [Insider Revolut](transcriptions/master-insider\07-insider-revolut.md) | 1:34 | partiel |
-| 🟡 | 8 | [Obtenir une AMEX Gold US](transcriptions/master-insider\08-obtenir-une-amex-gold-us.md) | 21:11 | partiel |
+| ✅ | 1 | [Préambule - IMPORTANT](transcriptions/master-insider\01-preambule-important.md) | 2:22 | complet |
+| ✅ | 2 | [Agents recommandés - Important](transcriptions/master-insider\02-agents-recommandes-important.md) | 4:31 | complet |
+| ✅ | 3 | [Présentation Agent Français](transcriptions/master-insider\03-presentation-agent-francais.md) | 4:53 | complet |
+| ✅ | 4 | [Case Study: Agent A-Z](transcriptions/master-insider\04-case-study-agent-a-z.md) | 22:36 | complet |
+| ✅ | 5 | [Incard](transcriptions/master-insider\05-incard.md) | 2:21 | complet |
+| ✅ | 6 | [Slash](transcriptions/master-insider\06-slash.md) | 3:43 | complet |
+| ✅ | 7 | [Insider Revolut](transcriptions/master-insider\07-insider-revolut.md) | 1:34 | complet |
+| ✅ | 8 | [Obtenir une AMEX Gold US](transcriptions/master-insider\08-obtenir-une-amex-gold-us.md) | 21:11 | complet |
 | ⬜ | 9 | [⌛ Chase \| Relay \| Ocean Bank \| Airwallex](transcriptions/master-insider\09-chase-relay-ocean-bank-airwallex.md) | 9:53 | a-transcrire |
-| 🟡 | 10 | [Choix d'un anti-detect browser](transcriptions/master-insider\10-choix-d-un-anti-detect-browser.md) | 5:13 | partiel |
-| 🟡 | 11 | [SOP - Ajout de Commentaires + Intéractions](transcriptions/master-insider\11-sop-ajout-de-commentaires-interactions.md) | 21:18 | partiel |
-| 🟡 | 12 | [Setup profil : setup Meta](transcriptions/master-insider\12-setup-profil-setup-meta.md) | 5:48 | partiel |
-| 🟡 | 13 | [Compte agence Meta](transcriptions/master-insider\13-compte-agence-meta.md) | 11:29 | partiel |
-| 🟡 | 14 | [SOP Profil sécurisé avec Proxy](transcriptions/master-insider\14-sop-profil-securise-avec-proxy.md) | 11:47 | partiel |
-| 🟡 | 15 | [Setup TikTok](transcriptions/master-insider\15-setup-tiktok.md) | 4:10 | partiel |
+| ✅ | 10 | [Choix d'un anti-detect browser](transcriptions/master-insider\10-choix-d-un-anti-detect-browser.md) | 5:13 | complet |
+| ✅ | 11 | [SOP - Ajout de Commentaires + Intéractions](transcriptions/master-insider\11-sop-ajout-de-commentaires-interactions.md) | 21:18 | complet |
+| ✅ | 12 | [Setup profil : setup Meta](transcriptions/master-insider\12-setup-profil-setup-meta.md) | 5:48 | complet |
+| ✅ | 13 | [Compte agence Meta](transcriptions/master-insider\13-compte-agence-meta.md) | 11:29 | complet |
+| ✅ | 14 | [SOP Profil sécurisé avec Proxy](transcriptions/master-insider\14-sop-profil-securise-avec-proxy.md) | 11:47 | complet |
+| ✅ | 15 | [Setup TikTok](transcriptions/master-insider\15-setup-tiktok.md) | 4:10 | complet |
 | 🟡 | 16 | [Setup Snapchat](transcriptions/master-insider\16-setup-snapchat.md) | — | partiel |
-| 🟡 | 17 | [Meta Spy](transcriptions/master-insider\17-meta-spy.md) | 5:11 | partiel |
-| 🟡 | 18 | [Unban & Ad Approval](transcriptions/master-insider\18-unban-ad-approval.md) | 7:42 | partiel |
-| 🟡 | 19 | [Shadowban](transcriptions/master-insider\19-shadowban.md) | 3:09 | partiel |
-| 🟡 | 20 | [Google Spy](transcriptions/master-insider\20-google-spy.md) | 3:10 | partiel |
-| 🟡 | 21 | [Shopify Spy](transcriptions/master-insider\21-shopify-spy.md) | 4:01 | partiel |
-| 🟡 | 22 | [Paiement Processeur](transcriptions/master-insider\22-paiement-processeur.md) | 3:09 | partiel |
-| 🟡 | 23 | [DMCA Shopify + META Takedown, Protéger son contenu](transcriptions/master-insider\23-dmca-shopify-meta-takedown-proteger-son-contenu.md) | 10:47 | partiel |
-| 🟡 | 24 | [Shutdown un concurrent](transcriptions/master-insider\24-shutdown-un-concurrent.md) | 2:22 | partiel |
-| 🟡 | 25 | [Setup HK](transcriptions/master-insider\25-setup-hk.md) | 8:41 | partiel |
-| 🟡 | 26 | [Setup US](transcriptions/master-insider\26-setup-us.md) | 5:40 | partiel |
-| 🟡 | 27 | [Code ITIN](transcriptions/master-insider\27-code-itin.md) | 1:36 | partiel |
-| 🟡 | 28 | [Setup UK](transcriptions/master-insider\28-setup-uk.md) | 4:40 | partiel |
-| 🟡 | 29 | [Choix setup : Guide débutant](transcriptions/master-insider\29-choix-setup-guide-debutant.md) | 4:13 | partiel |
+| ✅ | 17 | [Meta Spy](transcriptions/master-insider\17-meta-spy.md) | 5:11 | complet |
+| ✅ | 18 | [Unban & Ad Approval](transcriptions/master-insider\18-unban-ad-approval.md) | 7:42 | complet |
+| ✅ | 19 | [Shadowban](transcriptions/master-insider\19-shadowban.md) | 3:09 | complet |
+| ✅ | 20 | [Google Spy](transcriptions/master-insider\20-google-spy.md) | 3:10 | complet |
+| ✅ | 21 | [Shopify Spy](transcriptions/master-insider\21-shopify-spy.md) | 4:01 | complet |
+| ✅ | 22 | [Paiement Processeur](transcriptions/master-insider\22-paiement-processeur.md) | 3:09 | complet |
+| ✅ | 23 | [DMCA Shopify + META Takedown, Protéger son contenu](transcriptions/master-insider\23-dmca-shopify-meta-takedown-proteger-son-contenu.md) | 10:47 | complet |
+| ✅ | 24 | [Shutdown un concurrent](transcriptions/master-insider\24-shutdown-un-concurrent.md) | 2:22 | complet |
+| ✅ | 25 | [Setup HK](transcriptions/master-insider\25-setup-hk.md) | 8:41 | complet |
+| ✅ | 26 | [Setup US](transcriptions/master-insider\26-setup-us.md) | 5:40 | complet |
+| ✅ | 27 | [Code ITIN](transcriptions/master-insider\27-code-itin.md) | 1:36 | complet |
+| ✅ | 28 | [Setup UK](transcriptions/master-insider\28-setup-uk.md) | 4:40 | complet |
+| ✅ | 29 | [Choix setup : Guide débutant](transcriptions/master-insider\29-choix-setup-guide-debutant.md) | 4:13 | complet |
 | ⬜ | 30 | [⌛ CGV, droits consommateurs](transcriptions/master-insider\30-cgv-droits-consommateurs.md) | — | a-transcrire |
 | ⬜ | 31 | [⌛ Protéger sa marque & ses produits](transcriptions/master-insider\31-proteger-sa-marque-ses-produits.md) | — | a-transcrire |
 | ⬜ | 32 | [⌛ PSP & gestion des litiges](transcriptions/master-insider\32-psp-gestion-des-litiges.md) | — | a-transcrire |
@@ -522,25 +522,25 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## MINDSET OS
 
-15 leçons · 0 complètes · 13 partielles
+15 leçons · 13 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Comment se fixer un objectif et l'atteindre](transcriptions/mindset-os\01-comment-se-fixer-un-objectif-et-l-atteindre.md) | 22:04 | partiel |
-| 🟡 | 2 | [Comment s'organiser efficacement (Partie 1)](transcriptions/mindset-os\02-comment-s-organiser-efficacement-partie-1.md) | 6:49 | partiel |
-| 🟡 | 3 | [Comment s'organiser efficacement (Partie 2)](transcriptions/mindset-os\03-comment-s-organiser-efficacement-partie-2.md) | 23:45 | partiel |
-| 🟡 | 4 | [0 notification](transcriptions/mindset-os\04-0-notification.md) | 5:48 | partiel |
-| 🟡 | 5 | [Atteindre n'importe quel objectif (Partie 1)](transcriptions/mindset-os\05-atteindre-n-importe-quel-objectif-partie-1.md) | 26:21 | partiel |
-| 🟡 | 6 | [Atteindre n'importe quel objectif (Partie 2)](transcriptions/mindset-os\06-atteindre-n-importe-quel-objectif-partie-2.md) | 25:08 | partiel |
-| 🟡 | 7 | [Atteindre n'importe quel objectif (Partie 3)](transcriptions/mindset-os\07-atteindre-n-importe-quel-objectif-partie-3.md) | 28:23 | partiel |
-| 🟡 | 8 | [Exercices pratiques (Affirmation audio)](transcriptions/mindset-os\08-exercices-pratiques-affirmation-audio.md) | 4:50 | partiel |
-| 🟡 | 9 | [Hack GPT - Learning Playbook Infini](transcriptions/mindset-os\09-hack-gpt-learning-playbook-infini.md) | 5:11 | partiel |
+| ✅ | 1 | [Comment se fixer un objectif et l'atteindre](transcriptions/mindset-os\01-comment-se-fixer-un-objectif-et-l-atteindre.md) | 22:04 | complet |
+| ✅ | 2 | [Comment s'organiser efficacement (Partie 1)](transcriptions/mindset-os\02-comment-s-organiser-efficacement-partie-1.md) | 6:49 | complet |
+| ✅ | 3 | [Comment s'organiser efficacement (Partie 2)](transcriptions/mindset-os\03-comment-s-organiser-efficacement-partie-2.md) | 23:45 | complet |
+| ✅ | 4 | [0 notification](transcriptions/mindset-os\04-0-notification.md) | 5:48 | complet |
+| ✅ | 5 | [Atteindre n'importe quel objectif (Partie 1)](transcriptions/mindset-os\05-atteindre-n-importe-quel-objectif-partie-1.md) | 26:21 | complet |
+| ✅ | 6 | [Atteindre n'importe quel objectif (Partie 2)](transcriptions/mindset-os\06-atteindre-n-importe-quel-objectif-partie-2.md) | 25:08 | complet |
+| ✅ | 7 | [Atteindre n'importe quel objectif (Partie 3)](transcriptions/mindset-os\07-atteindre-n-importe-quel-objectif-partie-3.md) | 28:23 | complet |
+| ✅ | 8 | [Exercices pratiques (Affirmation audio)](transcriptions/mindset-os\08-exercices-pratiques-affirmation-audio.md) | 4:50 | complet |
+| ✅ | 9 | [Hack GPT - Learning Playbook Infini](transcriptions/mindset-os\09-hack-gpt-learning-playbook-infini.md) | 5:11 | complet |
 | ⬜ | 10 | [⌛ Reprogrammer son cerveau à la richesse](transcriptions/mindset-os\10-reprogrammer-son-cerveau-a-la-richesse.md) | — | a-transcrire |
 | ⬜ | 11 | [⌛ Bases état d’esprit, pièges à éviter](transcriptions/mindset-os\11-bases-etat-d-esprit-pieges-a-eviter.md) | — | a-transcrire |
-| 🟡 | 12 | [Comment devenir quelqu'un d'ULTRA organisé](transcriptions/mindset-os\12-comment-devenir-quelqu-un-d-ultra-organise.md) | — | partiel |
-| 🟡 | 13 | [Organiser ses tâches avec Asana et ClickUp](transcriptions/mindset-os\13-organiser-ses-taches-avec-asana-et-clickup.md) | — | partiel |
-| 🟡 | 14 | [Comment créer des habitudes qui changent votre vie](transcriptions/mindset-os\14-comment-creer-des-habitudes-qui-changent-votre-vie.md) | — | partiel |
-| 🟡 | 15 | [Organisation d'un business €1M+ par mois](transcriptions/mindset-os\15-organisation-d-un-business-1m-par-mois.md) | — | partiel |
+| ✅ | 12 | [Comment devenir quelqu'un d'ULTRA organisé](transcriptions/mindset-os\12-comment-devenir-quelqu-un-d-ultra-organise.md) | 20:27 | complet |
+| ✅ | 13 | [Organiser ses tâches avec Asana et ClickUp](transcriptions/mindset-os\13-organiser-ses-taches-avec-asana-et-clickup.md) | 18:09 | complet |
+| ✅ | 14 | [Comment créer des habitudes qui changent votre vie](transcriptions/mindset-os\14-comment-creer-des-habitudes-qui-changent-votre-vie.md) | 30:31 | complet |
+| ✅ | 15 | [Organisation d'un business €1M+ par mois](transcriptions/mindset-os\15-organisation-d-un-business-1m-par-mois.md) | 21:04 | complet |
 
 ## PRODUCT RADAR
 
@@ -627,21 +627,21 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## RÉUSSIR SON Q4
 
-13 leçons · 3 complètes · 10 partielles
+13 leçons · 13 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | ✅ | 1 | [Introduction](transcriptions/reussir-son-q4\01-introduction.md) | 2:15 | complet |
 | ✅ | 2 | [Erreurs 2024 + info importante](transcriptions/reussir-son-q4\02-erreurs-2024-info-importante.md) | 23:33 | complet |
 | ✅ | 3 | [Explication en Live: process et stratégies (EMF)](transcriptions/reussir-son-q4\03-explication-en-live-process-et-strategies-emf.md) | 1:13:20 | complet |
-| 🟡 | 4 | [Templates EMF Media #1](transcriptions/reussir-son-q4\04-templates-emf-media-1.md) | 7:40 | partiel |
-| 🟡 | 5 | [Templates EMF Media #2](transcriptions/reussir-son-q4\05-templates-emf-media-2.md) | 6:27 | partiel |
-| 🟡 | 6 | [Calendrier Marketing Q4](transcriptions/reussir-son-q4\06-calendrier-marketing-q4.md) | 6:41 | partiel |
-| 🟡 | 7 | [Flow Email BFCM](transcriptions/reussir-son-q4\07-flow-email-bfcm.md) | 9:42 | partiel |
-| 🟡 | 8 | [Flow SMS/Whatsapp BFCM + App SMS](transcriptions/reussir-son-q4\08-flow-sms-whatsapp-bfcm-app-sms.md) | 5:17 | partiel |
-| 🟡 | 9 | [Q4 Template 500+ ads - BFCM](transcriptions/reussir-son-q4\09-q4-template-500-ads-bfcm.md) | 6:17 | partiel |
-| 🟡 | 10 | [Bonus Replay Mastermind #1 (Marin)](transcriptions/reussir-son-q4\10-bonus-replay-mastermind-1-marin.md) | — | partiel |
-| 🟡 | 11 | [Bonus Replay Mastermind #2 (Gabriel)](transcriptions/reussir-son-q4\11-bonus-replay-mastermind-2-gabriel.md) | — | partiel |
-| 🟡 | 12 | [Bonus Replay Mastermind #3 (Fouad)](transcriptions/reussir-son-q4\12-bonus-replay-mastermind-3-fouad.md) | — | partiel |
-| 🟡 | 13 | [Bonus Replay Mastermind #4 (Matteo)](transcriptions/reussir-son-q4\13-bonus-replay-mastermind-4-matteo.md) | — | partiel |
+| ✅ | 4 | [Templates EMF Media #1](transcriptions/reussir-son-q4\04-templates-emf-media-1.md) | 7:40 | complet |
+| ✅ | 5 | [Templates EMF Media #2](transcriptions/reussir-son-q4\05-templates-emf-media-2.md) | 6:27 | complet |
+| ✅ | 6 | [Calendrier Marketing Q4](transcriptions/reussir-son-q4\06-calendrier-marketing-q4.md) | 6:41 | complet |
+| ✅ | 7 | [Flow Email BFCM](transcriptions/reussir-son-q4\07-flow-email-bfcm.md) | 9:42 | complet |
+| ✅ | 8 | [Flow SMS/Whatsapp BFCM + App SMS](transcriptions/reussir-son-q4\08-flow-sms-whatsapp-bfcm-app-sms.md) | 5:17 | complet |
+| ✅ | 9 | [Q4 Template 500+ ads - BFCM](transcriptions/reussir-son-q4\09-q4-template-500-ads-bfcm.md) | 6:17 | complet |
+| ✅ | 10 | [Bonus Replay Mastermind #1 (Marin)](transcriptions/reussir-son-q4\10-bonus-replay-mastermind-1-marin.md) | 52:46 | complet |
+| ✅ | 11 | [Bonus Replay Mastermind #2 (Gabriel)](transcriptions/reussir-son-q4\11-bonus-replay-mastermind-2-gabriel.md) | 1:04:50 | complet |
+| ✅ | 12 | [Bonus Replay Mastermind #3 (Fouad)](transcriptions/reussir-son-q4\12-bonus-replay-mastermind-3-fouad.md) | 1:28:05 | complet |
+| ✅ | 13 | [Bonus Replay Mastermind #4 (Matteo)](transcriptions/reussir-son-q4\13-bonus-replay-mastermind-4-matteo.md) | 1:57:41 | complet |
 

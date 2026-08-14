@@ -98,42 +98,42 @@ il ne faut jamais répondre à sa place.
 
 ## BUSINESS OPERATIONS
 
-- 🟡 **01 — L’entonnoir d’une marque qui performe** · 8:33
-- 🟡 **02 — Les typologies de personnes** · 9:28
-- 🟡 **03 — Construire la bonne équipe** · 14:40
-- 🟡 **04 — Rôles, Responsabilités et KPI** · 1:46
-- 🟡 **05 — Exemple Structure Équipe** · 5:55
-- 🟡 **06 — Process: Explications et Gestion** · 17:32
-- 🟡 **07 — Identifier et résoudre les blocages internes** · 11:11
-- 🟡 **08 — Cadences de meeting pour une marque performante** · 12:22
-- 🟡 **09 — Leadership de performance** · 8:24
-- 🟡 **10 — Management pour la performance** · 9:03
-- 🟡 **11 — Incentives et bonus** · 16:40
-- 🟡 **12 — Les 3 piliers de la performance** · 15:32
-- 🟡 **13 — Plan de Croissance** · 7:53
-- 🟡 **14 — Savoir quand recruter** · 7:59
-- 🟡 **15 — Quand déléguer et comment reprendre votre valeur** · 12:09
-- 🟡 **16 — Comment attirer les meilleurs talents** · 16:40
-- 🟡 **17 — Le Headhunting** · 17:24
-- 🟡 **18 — SOP complet: Recrutement** · 17:54
-- 🟡 **19 — Documents Bonus** · 5:17
+- ✅ **01 — L’entonnoir d’une marque qui performe** · 8:33
+- ✅ **02 — Les typologies de personnes** · 9:28
+- ✅ **03 — Construire la bonne équipe** · 14:40
+- ✅ **04 — Rôles, Responsabilités et KPI** · 1:46
+- ✅ **05 — Exemple Structure Équipe** · 5:55
+- ✅ **06 — Process: Explications et Gestion** · 17:32
+- ✅ **07 — Identifier et résoudre les blocages internes** · 11:11
+- ✅ **08 — Cadences de meeting pour une marque performante** · 12:22
+- ✅ **09 — Leadership de performance** · 8:24
+- ✅ **10 — Management pour la performance** · 9:03
+- ✅ **11 — Incentives et bonus** · 16:40
+- ✅ **12 — Les 3 piliers de la performance** · 15:32
+- ✅ **13 — Plan de Croissance** · 7:53
+- ✅ **14 — Savoir quand recruter** · 7:59
+- ✅ **15 — Quand déléguer et comment reprendre votre valeur** · 12:09
+- ✅ **16 — Comment attirer les meilleurs talents** · 16:40
+- ✅ **17 — Le Headhunting** · 17:24
+- ✅ **18 — SOP complet: Recrutement** · 17:54
+- ✅ **19 — Documents Bonus** · 5:17
 - 🟡 **20 — Recruter VA - Tutoriel Upwork** · 27:22
-- 🟡 **21 — Présentation** · 14:58
-- 🟡 **22 — Faiblesse organisationnelle** · 11:27
-- 🟡 **23 — 4 KPI les plus importants** · 8:12
-- 🟡 **24 — Recrutement** · 11:09
-- 🟡 **25 — Optimisateur de routines** · 4:31
-- 🟡 **26 — Mini Audit Express** · 6:07
-- 🟡 **27 — Ce qui fait un creative strategist de haut niveau** 
-- 🟡 **28 — Recruter un Creative Strategist de haut niveau** 
-- 🟡 **29 — Guide d'évaluation · Test pratique · Processus** 
-- 🟡 **30 — Intro : Adopter la posture du stratège** 
-- 🟡 **31 — Définir une vision claire et des règles solides** 
-- 🟡 **32 — Risques & sécuriser la survie du business** 
-- 🟡 **33 — Positionnement & avantage concurrentiel** 
-- 🟡 **34 — Business plan, Simplification & Priorisation** 
-- 🟡 **35 — OKR & Piloter la performance** 
-- 🟡 **36 — REPLAY : 11 Jan. (Matteo & Gabor) Vision, forecast** 
+- ✅ **21 — Présentation** · 14:58
+- ✅ **22 — Faiblesse organisationnelle** · 11:27
+- ✅ **23 — 4 KPI les plus importants** · 8:12
+- ✅ **24 — Recrutement** · 11:09
+- ✅ **25 — Optimisateur de routines** · 4:31
+- ✅ **26 — Mini Audit Express** · 6:07
+- ✅ **27 — Ce qui fait un creative strategist de haut niveau** · 16:11
+- ✅ **28 — Recruter un Creative Strategist de haut niveau** · 19:16
+- ✅ **29 — Guide d'évaluation · Test pratique · Processus** · 14:50
+- ✅ **30 — Intro : Adopter la posture du stratège** · 2:01
+- ✅ **31 — Définir une vision claire et des règles solides** · 4:14
+- ✅ **32 — Risques & sécuriser la survie du business** · 2:57
+- ✅ **33 — Positionnement & avantage concurrentiel** · 6:06
+- ✅ **34 — Business plan, Simplification & Priorisation** · 7:30
+- ✅ **35 — OKR & Piloter la performance** · 8:48
+- ✅ **36 — REPLAY : 11 Jan. (Matteo & Gabor) Vision, forecast** · 49:39
 
 ## CRÉATIVE INSIGHT
 
@@ -244,16 +244,16 @@ il ne faut jamais répondre à sa place.
 
 ## GÉRER SON SAV +IA by Onially
 
-- 🟡 **01 — Transformer son support en centre de profits** 
-- 🟡 **02 — Le parcours client** 
-- 🟡 **03 — Choisir et configurer son outil de ticketing** 
-- 🟡 **04 — Organiser ses canaux de contact** 
-- 🟡 **05 — Demo Freshdesk** 
-- 🟡 **06 — Créer ses process SAV** 
-- 🟡 **07 — Créer ses templates de réponse SAV** 
-- 🟡 **08 — Les meilleures applications de suivi colis Shopify** 
-- 🟡 **09 — Gérer et réduire ses litiges & chargebacks** 
-- 🟡 **10 — Contester et gagner ses chargebacks** 
+- ✅ **01 — Transformer son support en centre de profits** · 16:39
+- ✅ **02 — Le parcours client** · 12:24
+- ✅ **03 — Choisir et configurer son outil de ticketing** · 13:27
+- ✅ **04 — Organiser ses canaux de contact** · 9:30
+- ✅ **05 — Demo Freshdesk** · 28:24
+- ✅ **06 — Créer ses process SAV** · 19:42
+- ✅ **07 — Créer ses templates de réponse SAV** · 11:00
+- ✅ **08 — Les meilleures applications de suivi colis Shopify** · 20:34
+- ✅ **09 — Gérer et réduire ses litiges & chargebacks** · 15:42
+- ✅ **10 — Contester et gagner ses chargebacks** · 13:43
 - 🟡 **11 — Les KPIs SAV qui comptent vraiment** 
 - 🟡 **12 — Optimiser son site pour réduire le SAV** 
 - 🟡 **13 — Implémenter un chatbot IA** 
@@ -398,35 +398,35 @@ il ne faut jamais répondre à sa place.
 
 ## MASTER INSIDER
 
-- 🟡 **01 — Préambule - IMPORTANT** · 2:22
-- 🟡 **02 — Agents recommandés - Important** · 4:31
-- 🟡 **03 — Présentation Agent Français** · 4:53
-- 🟡 **04 — Case Study: Agent A-Z** · 22:36
-- 🟡 **05 — Incard** · 2:21
-- 🟡 **06 — Slash** · 3:43
-- 🟡 **07 — Insider Revolut** · 1:34
-- 🟡 **08 — Obtenir une AMEX Gold US** · 21:11
+- ✅ **01 — Préambule - IMPORTANT** · 2:22
+- ✅ **02 — Agents recommandés - Important** · 4:31
+- ✅ **03 — Présentation Agent Français** · 4:53
+- ✅ **04 — Case Study: Agent A-Z** · 22:36
+- ✅ **05 — Incard** · 2:21
+- ✅ **06 — Slash** · 3:43
+- ✅ **07 — Insider Revolut** · 1:34
+- ✅ **08 — Obtenir une AMEX Gold US** · 21:11
 - ⬜ NON TRANSCRITE **09 — ⌛ Chase | Relay | Ocean Bank | Airwallex** · 9:53
-- 🟡 **10 — Choix d'un anti-detect browser** · 5:13
-- 🟡 **11 — SOP - Ajout de Commentaires + Intéractions** · 21:18
-- 🟡 **12 — Setup profil : setup Meta** · 5:48
-- 🟡 **13 — Compte agence Meta** · 11:29
-- 🟡 **14 — SOP Profil sécurisé avec Proxy** · 11:47
-- 🟡 **15 — Setup TikTok** · 4:10
+- ✅ **10 — Choix d'un anti-detect browser** · 5:13
+- ✅ **11 — SOP - Ajout de Commentaires + Intéractions** · 21:18
+- ✅ **12 — Setup profil : setup Meta** · 5:48
+- ✅ **13 — Compte agence Meta** · 11:29
+- ✅ **14 — SOP Profil sécurisé avec Proxy** · 11:47
+- ✅ **15 — Setup TikTok** · 4:10
 - 🟡 **16 — Setup Snapchat** 
-- 🟡 **17 — Meta Spy** · 5:11
-- 🟡 **18 — Unban & Ad Approval** · 7:42
-- 🟡 **19 — Shadowban** · 3:09
-- 🟡 **20 — Google Spy** · 3:10
-- 🟡 **21 — Shopify Spy** · 4:01
-- 🟡 **22 — Paiement Processeur** · 3:09
-- 🟡 **23 — DMCA Shopify + META Takedown, Protéger son contenu** · 10:47
-- 🟡 **24 — Shutdown un concurrent** · 2:22
-- 🟡 **25 — Setup HK** · 8:41
-- 🟡 **26 — Setup US** · 5:40
-- 🟡 **27 — Code ITIN** · 1:36
-- 🟡 **28 — Setup UK** · 4:40
-- 🟡 **29 — Choix setup : Guide débutant** · 4:13
+- ✅ **17 — Meta Spy** · 5:11
+- ✅ **18 — Unban & Ad Approval** · 7:42
+- ✅ **19 — Shadowban** · 3:09
+- ✅ **20 — Google Spy** · 3:10
+- ✅ **21 — Shopify Spy** · 4:01
+- ✅ **22 — Paiement Processeur** · 3:09
+- ✅ **23 — DMCA Shopify + META Takedown, Protéger son contenu** · 10:47
+- ✅ **24 — Shutdown un concurrent** · 2:22
+- ✅ **25 — Setup HK** · 8:41
+- ✅ **26 — Setup US** · 5:40
+- ✅ **27 — Code ITIN** · 1:36
+- ✅ **28 — Setup UK** · 4:40
+- ✅ **29 — Choix setup : Guide débutant** · 4:13
 - ⬜ NON TRANSCRITE **30 — ⌛ CGV, droits consommateurs** 
 - ⬜ NON TRANSCRITE **31 — ⌛ Protéger sa marque & ses produits** 
 - ⬜ NON TRANSCRITE **32 — ⌛ PSP & gestion des litiges** 
@@ -466,21 +466,21 @@ il ne faut jamais répondre à sa place.
 
 ## MINDSET OS
 
-- 🟡 **01 — Comment se fixer un objectif et l'atteindre** · 22:04
-- 🟡 **02 — Comment s'organiser efficacement (Partie 1)** · 6:49
-- 🟡 **03 — Comment s'organiser efficacement (Partie 2)** · 23:45
-- 🟡 **04 — 0 notification** · 5:48
-- 🟡 **05 — Atteindre n'importe quel objectif (Partie 1)** · 26:21
-- 🟡 **06 — Atteindre n'importe quel objectif (Partie 2)** · 25:08
-- 🟡 **07 — Atteindre n'importe quel objectif (Partie 3)** · 28:23
-- 🟡 **08 — Exercices pratiques (Affirmation audio)** · 4:50
-- 🟡 **09 — Hack GPT - Learning Playbook Infini** · 5:11
+- ✅ **01 — Comment se fixer un objectif et l'atteindre** · 22:04
+- ✅ **02 — Comment s'organiser efficacement (Partie 1)** · 6:49
+- ✅ **03 — Comment s'organiser efficacement (Partie 2)** · 23:45
+- ✅ **04 — 0 notification** · 5:48
+- ✅ **05 — Atteindre n'importe quel objectif (Partie 1)** · 26:21
+- ✅ **06 — Atteindre n'importe quel objectif (Partie 2)** · 25:08
+- ✅ **07 — Atteindre n'importe quel objectif (Partie 3)** · 28:23
+- ✅ **08 — Exercices pratiques (Affirmation audio)** · 4:50
+- ✅ **09 — Hack GPT - Learning Playbook Infini** · 5:11
 - ⬜ NON TRANSCRITE **10 — ⌛ Reprogrammer son cerveau à la richesse** 
 - ⬜ NON TRANSCRITE **11 — ⌛ Bases état d’esprit, pièges à éviter** 
-- 🟡 **12 — Comment devenir quelqu'un d'ULTRA organisé** 
-- 🟡 **13 — Organiser ses tâches avec Asana et ClickUp** 
-- 🟡 **14 — Comment créer des habitudes qui changent votre vie** 
-- 🟡 **15 — Organisation d'un business €1M+ par mois** 
+- ✅ **12 — Comment devenir quelqu'un d'ULTRA organisé** · 20:27
+- ✅ **13 — Organiser ses tâches avec Asana et ClickUp** · 18:09
+- ✅ **14 — Comment créer des habitudes qui changent votre vie** · 30:31
+- ✅ **15 — Organisation d'un business €1M+ par mois** · 21:04
 
 ## PRODUCT RADAR
 
@@ -558,14 +558,14 @@ il ne faut jamais répondre à sa place.
 - ✅ **01 — Introduction** · 2:15
 - ✅ **02 — Erreurs 2024 + info importante** · 23:33
 - ✅ **03 — Explication en Live: process et stratégies (EMF)** · 1:13:20
-- 🟡 **04 — Templates EMF Media #1** · 7:40
-- 🟡 **05 — Templates EMF Media #2** · 6:27
-- 🟡 **06 — Calendrier Marketing Q4** · 6:41
-- 🟡 **07 — Flow Email BFCM** · 9:42
-- 🟡 **08 — Flow SMS/Whatsapp BFCM + App SMS** · 5:17
-- 🟡 **09 — Q4 Template 500+ ads - BFCM** · 6:17
-- 🟡 **10 — Bonus Replay Mastermind #1 (Marin)** 
-- 🟡 **11 — Bonus Replay Mastermind #2 (Gabriel)** 
-- 🟡 **12 — Bonus Replay Mastermind #3 (Fouad)** 
-- 🟡 **13 — Bonus Replay Mastermind #4 (Matteo)** 
+- ✅ **04 — Templates EMF Media #1** · 7:40
+- ✅ **05 — Templates EMF Media #2** · 6:27
+- ✅ **06 — Calendrier Marketing Q4** · 6:41
+- ✅ **07 — Flow Email BFCM** · 9:42
+- ✅ **08 — Flow SMS/Whatsapp BFCM + App SMS** · 5:17
+- ✅ **09 — Q4 Template 500+ ads - BFCM** · 6:17
+- ✅ **10 — Bonus Replay Mastermind #1 (Marin)** · 52:46
+- ✅ **11 — Bonus Replay Mastermind #2 (Gabriel)** · 1:04:50
+- ✅ **12 — Bonus Replay Mastermind #3 (Fouad)** · 1:28:05
+- ✅ **13 — Bonus Replay Mastermind #4 (Matteo)** · 1:57:41
 

@@ -4,7 +4,7 @@ lecon: 7
 titre: "Insider Revolut"
 duree: "1:34"
 url: "https://www.skool.com/master/classroom/1f3a87c2?md=9e958f86f0bb465086fbd46e43a9ecce"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -53,6 +53,12 @@ Avoir une banque solide, c'est une pièce maîtresse de ton business. Revolut Bu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] petite vidéo pour vous dire également qu'on a accès à un insider révolute business. Donc, il faut savoir que le révolute business, c'est quand même une très très très bonne banque. Je l'utilise tous les jours depuis 5 ans, 6 ans maintenant même, business revolute. Et beaucoup de personnes ont beaucoup de soucis avec cette banque parce qu'elles sont devenues assez sévères pour être acceptées.
+
+[00:29] Notamment, notre insider, il peut aider pour être accepté révolute business US et aussi Europe. Il peut aider quand vous avez des soucis de transaction à droite à gauche. Pour être sûr à 100% d'avoir une banque, je vous conseille comme on vous l'a dit, slash pour les US et in card pour société Europe.
+
+[00:51] Et si vous voulez, la top top banque révolute honnêtement. C'est une des best banque. Et si vous commencez à vous demander pas mal de papier, etc. et que ça ne passe pas, vous pouvez contacter notre insider qu'on met à disposition via notre school. Et ça c'est vraiment aussi un...
+
+[01:12] une pièce maîtresse de mon business parce que plusieurs fois je l'ai fait appel. J'ai reçu des virements crypto, j'ai reçu des virements à droite à gauche. Et c'était compliqué et boom insider, boom, problème résolu. Donc voilà, ça peut vous aider. On aura le contact en dessous et c'est une des meilleures banques mondiales.

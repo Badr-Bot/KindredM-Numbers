@@ -4,7 +4,7 @@ lecon: 4
 titre: "Rôles, Responsabilités et KPI"
 duree: "1:46"
 url: "https://www.skool.com/master/classroom/76197e37?md=70410d6c7b0342daac619f250619410d"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -55,6 +55,14 @@ Le vrai travail, c'est de ne pas copier-coller un organigramme générique, c'es
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Je vous montre ici un tableau avec les roles responsabilité KPI par poste. Ce sont vraiment des exemples assez globaux qui vous permettront de comprendre un petit peu ce qu'on attend finalement de chaque poste. C'est plutôt des postes relatifs à de la performance. Non, j'ai vraiment tout mis. Donc tant mieux, par exemple sur le pain media manager,
+
+[00:21] on a toute la gestion des campagnes, etc. On a les KPI. Donc vous pouvez vraiment aller scroller là-dessus et regarder un petit peu une structure globale d'entreprises de marque et quels sont les KPI qu'on peut attendre. J'ai une petite note cependant pour la partie CEO et CEO. Ici j'ai mis à louer les ressources au département selon le objectif
+
+[00:42] et qualité des recrutements clés en Italique parce que des fois ça tombe sous le CEO. Et pareil, il y a quelque petit chose qui peut tomber sur le CEO. Souvent la relation CEO-CEO on veut les expliquer par le CEO qui exécute la vision du CEO. Mais c'est beaucoup plus que ça. Et selon les boîtes, les roles sont hyper différents. Je sais que moi par exemple, je vais autant gérer du deal client que toute la partie workflow,
+
+[01:06] toute la partie productivité, toute la partie recrutement, toute la partie équipe que m'a associée qui va gérer aussi la partie acquisition client, que la partie marketing. Donc vraiment c'est comprendre quelles sont vos forces à tous les deux et où est-ce que vous vous positionnez et redéfinir tout ça. Donc là vous avez un spect global de, en gros, les fondateurs, ce qui gère et à vous de expliquer selon vos spécificités.
+
+[01:29] Et je vous ai mis là-haut aussi un récap de pourquoi c'est important de faire tout ça. On en a déjà parlé juste avant, mais c'est un peu plus succinct comme ça. Et un bon récap encore une fois de l'importance de tout ce que j'évoque jusqu'à présent. Voilà.

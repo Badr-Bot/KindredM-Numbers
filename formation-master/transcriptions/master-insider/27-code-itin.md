@@ -4,7 +4,7 @@ lecon: 27
 titre: "Code ITIN"
 duree: "1:36"
 url: "https://www.skool.com/master/classroom/1f3a87c2?md=d0d335d5b2ec4f6faf06eec9d3c1f70f"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -55,6 +55,12 @@ Beaucoup de gens passent des mois à attendre ou paient trop cher par manque d'i
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok une fois que vous avez votre setup US c'est très important d'avoir également votre code ITIN, l'endroit où le mieux c'est pour l'avoir le moins cher c'est Fiverr, on a payé moins de 150 et on l'a eu. En principe ça prend deux, trois, quatre mois pour avoir un code ITIN avec ce contact
+
+[00:21] on l'a eu en moins de cinq semaines donc voilà pour moi c'est primordial, parfois shop pay payment ne va pas vous le demander, il me semble que dans mon cas pour le shop qu'on a aux US il nous l'a demandé le code ITIN donc très important à avoir ça en plus de votre code EIN et même certains processeurs de paiement vous oblige à l'avoir et certaines banques vous oblige
+
+[00:49] également à avoir le code ITIN il me semble que Wwise le demande et d'autres banques également le demande de plus en plus donc voilà c'est simplement votre individual taxpayer identification number et vous pouvez l'avoir sans y habiter là-bas avec ce glitch de Fiverr certaines
+
+[01:09] agences certains contacts vous vend ça à genre 500 000 euros ici on vous donne le contact que j'ai référé à beaucoup de mes amis beaucoup de personnes l'utilisent et en moins de cinq semaines vous avez votre code ITIN à juste 150 dollars donc voilà pour avoir le code ITIN je vais vous partager le lien juste en dessous on touche 0 c'est juste pour aider la communauté

@@ -4,7 +4,7 @@ lecon: 5
 titre: "Incard"
 duree: "2:21"
 url: "https://www.skool.com/master/classroom/1f3a87c2?md=32d6c4f1fe1445ba803e4634698ba011"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -91,6 +91,16 @@ Lien pour bénéficier du cashback et d'un mois offert avec MASTER : [https://ww
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, petite vidéo sur une banque qu'on recommande avec Matteo, c'est une banque qui s'appelle Incard. Elle est faite par des e-commerceants de base et c'est vraiment une banque qui est autant puissante que Révolut, mais vous n'avez pas les blocages de Révolut et en plus vous avez du cashback sur absolument tout vos dépenses.
+
+[00:24] Donc là, même avec notre partenariat avec eux, vous pouvez avoir 2% de cashback sur absolument toutes vos dépenses sur les premiers jours, sur les premiers deux trois mois et ensuite ça passe à un, mais suivant vos dépenses ça peut rester à deux et honnêtement, ce n'est pas quelque chose que toutes les banques
+
+[00:44] proposent, même Révolut en fait ne propose pas ça et ils sont extrêmement flexible. Comme Révolut vous pouvez avoir illimité de cartes virtuelles, vous pouvez traquer pour tout ce qui est comptabilité, c'est extrêmement simple,
+
+[01:05] pas de prise de tête, le support est très réactif et honnêtement le problème avec Révolut c'est que parfois il nous bloque sans raison et ici honnêtement c'est très fluide, vous pouvez faire des virements, vous pouvez connecter vos cartes à vos ad-accounts, c'est magnifique, vous pouvez le connecter à votre système de comptabilité,
+
+[01:28] vous pouvez inviter votre comptable avec pas toutes les autorisations et qu'il n'est qu'accès à certaines choses donc c'est vraiment magnifique. Aussi vous pouvez avoir des comptes en multi de vises sans payer trop cher je crois même que c'est gratuit. Voilà je vous le recommande honnêtement cette petite précision la banque Incard elle est dispo avec Société France, Estonie, Luxembourg, Belgique,
+
+[01:55] Irlande mais pas encore la Suisse, c'est à dire que moi j'avais fait un compte avec Incard avec une LTD que j'avais mais je pouvais pas avec ma société suisse mais par contre vous pouvez avec Société France également. Donc petite précision, on vous la recommande à 100%.

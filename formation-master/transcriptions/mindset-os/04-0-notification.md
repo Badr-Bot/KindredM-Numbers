@@ -4,7 +4,7 @@ lecon: 4
 titre: "0 notification"
 duree: "5:48"
 url: "https://www.skool.com/master/classroom/1d90f47e?md=93cbec8107094ecf8e01f6066cad5da0"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -58,6 +58,32 @@ Ta dopamine doit venir de ton travail, pas de ton feed Instagram. Chaque notific
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, petite vidéo sur le fait d'avoir zéro notification et éviter les distractions. Je vais vous partager quelques outils que j'utilise pour toujours avoir zéro notification et éviter les distractions à son maximum. Ok, parce qu'en fait les distractions, si vous recevez des notifications comme ça, Instagram vous allez presser dessus et vous allez avoir de la dopamine et c'est juste
+
+[00:25] très néfaste. Et avoir zéro notification sur son téléphone c'est une des raisons de notre succès et c'est super super super important. Matteo vous a déjà parlé de Opal, c'est quelque chose de super important à installer. Je l'ai sur mon iPhone depuis bien longtemps, à chaque fois que vous allez vouloir ouvrir en fait vos réseaux sociaux, ça va vous demander de respirer et ça va juste vous laisser
+
+[00:51] pendant 5 à 10 minutes pour aller sur les réseaux sociaux. Donc c'est important d'installer ce type d'application et j'ai une application encore plus puissante qui va vous permettre simplement d'enlever les notifications et ne pas pouvoir aller sur les réseaux sociaux, c'est simplement Brick. Donc je l'ai depuis pas mal de temps et honnêtement c'est GameChanger, donc j'utilise en fait
+
+[01:13] Opal et Brick en même temps. Brick si vous voulez, vous allez devoir en fait prendre votre iPhone, le placer sur le Brick pour débloquer toutes les applications et ensuite ça vous allez pouvoir le mettre physiquement à un endroit dans votre maison sur votre frigo ou autre et le fait de devoir se déplacer pour débloquer les applications et bien votre cerveau va se dire que c'est
+
+[01:38] vraiment quelque chose qu'il faut pas faire. Donc à l'intérieur de l'application vous allez pouvoir bloquer toutes les applications que vous voulez et c'est vraiment top. Bien évidemment on ne bloquait pas l'application comme la banque etc mais tout ce qui est des notifications, tout ce qui est des réseaux sociaux, tout ce qui est des choses qui ne vous font pas avancer pendant votre deep work, eh bien coupez-le.
+
+[02:01] Et honnêtement Brick c'est GameChanger parce qu'en fait le problème avec Opal c'est qu'on peut bypasser. Ok mais Brick ça vous permet de impossible à bypasser. Par exemple ici je suis en Brick depuis plus de 6 heures, en fait c'est pour moi impossible même de trouver les réseaux sociaux sur mon iPhone, ils sont introuvables.
+
+[02:23] J'essaie de mettre Instagram ça impossible. Donc ça c'est vraiment super puissant. Ensuite pour éviter d'aller sur Netflix YouTube et les vidéos de divertissement, je vous conseille l'extension qui s'appelle Unhook, c'est une Google Chrome extension où vous l'avez aussi sur ARC. Vous allez pouvoir en fait simplement cacher les commentaires, les vidéos de
+
+[02:47] recommandations et aussi la page d'accueil parce que moi j'avais la fâcheuse tendance de toujours aller sur YouTube. Boom d'aller sur YouTube comme ça et grâce à l'extension eh bien sur YouTube ici il n'y a rien. Pendant les deep works c'est important que ça soit comme ça. Après les deep works vous pouvez sans autre aller sur YouTube
+
+[03:08] mais c'est une extension que j'utilise depuis plusieurs années qui m'a grandement aidé. Ensuite pour bloquer tout ce qui est jeu vidéo ou tous les sites inutiles qui vous font perdre du temps même Twitter, même les sites de news comme 20minuites.seche en Suisse à l'époque j'allais souvent sur ce site et ça me faisait perdre du temps et surtout perdre mon focus eh bien l'application self-control ici
+
+[03:31] elle va vraiment vous permettre de rester focus et ça va bloquer tous les sites que vous voulez. Même à une époque j'étais addict au jeu vidéo et grâce à cette application j'ai pu bloquer les sites qui permettait de télécharger les jeux ok donc ça m'a grandement aidé et du coup je suis devenu addict à l'icom parce que ma dopamine venait de mes deep works
+
+[03:52] de l'icom et ça c'est Game Changer. Aussi tout ce qui est musique, rap etc quand vous commencez à faire vos deep works c'est vraiment quelque chose qui va falloir éviter. Si vous avez de la peine à rester focus, il y a une playlist sur youtube que je peux vous recommander c'est tout ce qui est ADHD Relief Music.
+
+[04:13] Honnêtement j'arrive à faire beaucoup beaucoup de travail beaucoup de deep work avec ce type de musique. Vous allez simplement mettre ADHD music ici dans recherche et bah typiquement ça c'est une vidéo où j'ai fait beaucoup de deep work avec les autres aussi simplement de cette chaîne youtube j'ai pu être vraiment
+
+[04:34] bien bien bien focus et également Brain FM c'est une très bonne application où c'est que vous allez pouvoir la mettre pour travailler avec de la musique et aussi je vais avoir une playlist Spotify que je vais mettre juste en bas de cette vidéo qui a plein de musique où il n'y a pas forcément de parole et avec
+
+[04:54] laquelle vous allez pouvoir être bien focus donc voilà petite vidéo pour être plus focus et ne pas avoir de notification.

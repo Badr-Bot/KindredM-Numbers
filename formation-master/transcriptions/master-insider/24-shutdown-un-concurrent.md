@@ -4,7 +4,7 @@ lecon: 24
 titre: "Shutdown un concurrent"
 duree: "2:22"
 url: "https://www.skool.com/master/classroom/1f3a87c2?md=56d4f1be8d324834916b4c6cb90248af"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -55,6 +55,16 @@ Cette méthode n'est pas partagée à tout le monde. Elle repose sur une éthiqu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ensuite, on a un contact si le DMCA ne fonctionne pas, si le MetaRideManager ne fonctionne pas, et si ça ne fonctionne pas, que votre concurrent arrête de vous copier, et que vous êtes une marque. Ça, honnêtement, je vais vous le dire, on ne peut pas le partager à ceux qui viennent de créer une boutique et ceux qui sont des drop-lippers.
+
+[00:25] En réaliser, ça fonctionnerait, mais c'est nous avec notre éthique, on ne partage absolument pas ça à tout le monde. C'est uniquement si vous êtes une marque et que vous nous le prouvez, que vous avez vraiment besoin de ce contact-là, on peut vous le partager. C'est quelqu'un qui connaît très bien le code, qui connaît très bien Internet,
+
+[00:46] et qui peut déderner des DoS n'importe quel site. Bien évidemment, il ne pourra pas faire sauter Apple.com, Jimchark ou autre, mais beaucoup de grosses boutiques, il peut les faire sauter, et même quasiment toutes les boutiques e-com qui existent en principe, il peut le faire sauter.
+
+[01:08] En soute cette vidéo, il y a un contact, ça sera probablement le WhatsApp Master, parce que, ben, il va falloir vérifier que c'est réel ce que vous voulez, et on fera un groupe avec notre contact, et ensuite, il verra si vous êtes eligible ou pas, mais vous pouvez, il existe des services de DoS, ou c'est que, ben, on peut faire sauter n'importe quel boutique.
+
+[01:34] Ça coûte environ 800, 700 dollars, et n'importe quel boutique peut sauter. Et comme je vous l'ai dit, on peut le faire uniquement si vous êtes une marque, et qu'on vous a copiés grossièrement, et que toutes ces autres stratégies ne fonctionnent pas, annulant que le concurrent est sur WordPress ou autre, boom, il peut quand même sauter.
+
+[01:56] Ok ? Donc, il peut aussi faire d'autres choses comme stopper les ad-accounts d'un concurrent, couper l'ad-account, etc. Mais ça, je préfère pas de base, on ne le partage pas, mais si vraiment, vraiment, vous êtes une marque, qu'on vous copie drastiquement, ça se négocie, et c'est le même contact que y'aura en dessous notre contact.
