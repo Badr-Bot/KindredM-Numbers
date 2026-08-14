@@ -319,6 +319,10 @@ def cmd_pack():
 
     ecrire(os.path.join(DIST, "00-INDEX.md"), "\n".join(index) + "\n")
     print("  → dist/00-INDEX.md")
+    arb = os.path.join(ROOT, "ARBITRAGES.md")
+    if os.path.exists(arb):
+        ecrire(os.path.join(DIST, "00-ARBITRAGES.md"), lire(arb))
+        print("  → dist/00-ARBITRAGES.md")
     print("\n%d fichier(s) de contenu + l'index. À uploader dans le GPT / Projet Claude." % fichiers)
     if fichiers + 1 > 20:
         print("⚠️  Plus de 20 fichiers : un GPT OpenAI plafonne à 20. Regroupe des modules.")
