@@ -1448,7 +1448,7 @@ Un litige non contesté, c'est de l'argent directement perdu. Un bon dossier ne 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 11 : Les KPIs SAV qui comptent vraiment
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 11
 ======================================================================
 
@@ -1500,16 +1500,72 @@ Un bon service client ne se ressent pas, il se mesure. Suivre ses KPIs, c'est pa
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:03] Hello, on se retrouve dans cette vidéo pour parler des capiais et savés qui compte vraiment. Donc les capiais, ce sont des données clés qu'on va venir suivre de façon régulière pour s'assurer de la bonne santé de notre entreprise ou du moins là pour notre pôle concerné du service client. Du coup, suivre ces capiais, ça permet de mesurer des performances, la qualité de
+
+[00:25] service, de voir un petit peu où est-ce qu'on se situe par rapport à la moyenne du marché et ça nous permet surtout de piloter. C'est-à-dire que les capiais, une fois qu'on les a, on va pouvoir se baser dessus pour prendre des décisions ou des mesures correctrices. Alors, capiais à suivre et benchmark.
+
+[00:45] Pour te faciliter la vie, je t'ai créé un petit Google Sheet que tu auras juste à compléter avec les capiais. Donc, qui il va falloir suivre ? Donc pour ça, je te les ai tous notés dans la première colonne. Donc ça, ça représente tous les capiais que tu dois suivre au moins de façon mensuelle pour avoir un aperçu global de la santé de ton entreprise, de ton
+
+[01:08] S.A.V. Alors du coup, à niveau des capiais, on va retrouver tout ce qui est customer satisfaction score. Donc ça, c'est quand on envoie des enquêtes de satisfaction au client et que les clients notent l'interaction qu'ils ont eu avec nous. Net Promotor Score, là c'est pareil, c'est le système de petites étoiles qu'on envoie au client pour savoir si ils ont aimé leur commande.
+
+[01:30] Donc ça nous permet de savoir un petit peu le pourcentage de détracteurs qu'on a et le pourcentage de clients qu'on considère comme promoteurs selon le nombre d'étoiles qu'ils nous mettent. On a tout ce qui est suivi de notre espilote. Voilà pour savoir combien aussi, d'avis, on a récolté dans le mois, combien d'avis négatifs on a eu sur le mois.
+
+[01:51] Les rapidités, donc dès les premières réponses, email, chat, si on a ce canal, activé tant de résolutions moyens. On va venir calculer aussi de l'efficacité, donc first time resolution. Donc c'est quand est-ce que, combien de temps le client attend avant de recevoir une réponse à sa première question,
+
+[02:14] la première fois qu'il nous contacte. Tôt de résolution, la capacité de votre service client a résoudre une problématique client. Ticket et open rate, ce sont les tickets qui sont réouvert. Ça veut dire que votre agent SAV ou vous-même n'avez pas réussi à régler la problématique du client la première fois.
+
+[02:35] Donc il a réouvert son ticket ou peut-être que vous n'avez pas répondu de façon complète à toutes ces questions. Tôt de self-service, donc là, c'est quand il y a un help center qui a intégré à la boutique. Donc on va aller voir combien de sessions et ce qu'il y a eu sur le help center et combien de clients sont venus nous contacter après ça.
+
+[02:57] Ça nous permet de voir un petit peu l'efficacité de notre page FAC et le nom, enfin, la quantité de tickets qu'on a évité grâce au self-service, justement. Ensuite, on va avoir tout ce qui est autre qu'à PI comme nouveau ticket qu'on a reçu, les tickets résolus, le nombre de tickets en tout cas qui a été résolu sur le mois,
+
+[03:18] backlog fin du mois, donc les tickets restants sur la fin du mois, taux de contact, coups par ticket, pareil, ça peut se mesurer. Remboursement, donc ça, c'est plus intelligence terrain. Ça veut dire que ce n'est pas forcément des données que vous allez avoir directement dans vos données, on va dire,
+
+[03:38] natives, mais plus quelque chose que votre service client doit suivre et doit être capable de traquer. En fait, moi, j'aime beaucoup utiliser ce système de Google Sheets ou à chaque fois qu'il y a un remboursement qui est fait, l'agent vient noter le remboursement sur un Google Sheet avec la raison du remboursement, le montant remboursé.
+
+[03:59] Et comme ça, à la fin du mois, on sait quels sont les raisons les plus fréquentes qui sont revenus, enfin, les raisons de remboursement les plus fréquentes. Les expéditions, même principe, l'idéal, c'est que vous ou la personne qui gère votre service client vienne traquer les réexpéditions qu'elle fait en notant bien la raison des réexpéditions, ce qui nous permet
+
+[04:19] d'y voir un petit peu plus clair. Veille produit pareil, dès qu'il y a une friction avec un client, c'est bien de le noter. Donc ça, à la fin du mois, on voit quels sont les produits déjà qui créent le plus de friction et pour quelle raison. Non total ticket produit. Donc ça, c'est une analyse qui est un petit peu plus poussée pour surtout les personnes qui ont un système de ticketing.
+
+[04:41] Abonnement, c'est applicable. Donc là, les boutiques avec abonnement. Donc on va aller voir le nombre d'abonnés actifs, le nombre de désabonnements qu'on a eu sur le mois, le taux de churn mensuel. Donc le taux de churn, c'est le pourcentage de personnes qui se désabonnent. Durée de vie moyenne avant le churn. Donc ça, c'est bien aussi si quand vous faites
+
+[05:02] une annulation d'abonnement, par exemple, de façon manuelle, vous le notiez. Comme ça, vous pouvez aller voir à partir de quand est-ce que vous avez une perte de clients. Par exemple, si vous voyez qu'il y a 80% de vos clients qui se désabonnent au bout du troisième mois, peut-être qu'au bout du troisième mois, vos clients ont marre du produit. Ou peut-être qu'ils n'ont pas cette communication
+
+[05:22] sur le produit. En tout cas, c'est quelque chose qu'il va falloir creuser. Pourquoi est-ce que vous avez une baisse, enfin, un pic de désabonnement au bout du troisième mois? Pour prendre des bonnes actions correctrices. La raison des abonnements, une, deux, trois, pareil. Des choses à récolter au S.A.V. qui nous permettent d'en savoir un petit peu plus sur nos clients, pourquoi ils partent,
+
+[05:44] et de prendre nos actions correctrices en main. Alors, du coup, ça, ce sont les capte-y-y. Ici, on retrouve le benchmark, c'est-à-dire la moyenne sur le marché pour vous situer un petit peu. Ce qu'on peut considérer comme un score comme étant bon et comme un score excellent. Donc ces deux colonnels peuvent aussi servir d'objectifs.
+
+[06:05] En soi, le benchmark, c'est déjà un premier objectif à atteindre si vous ne l'atteignez pas. Mais nous, ce qu'on veut, c'est avoir un service au-dessus de ce que les autres proposent, vos concurrents proposent afin de vous démarquer grâce à la qualité de votre service client. Donc, on va aller viser tout ce qui est score bon
+
+[06:26] et même score excellent dans l'idéal. Valeur du mois, vous aurez juste à renseigner vos données. Par contre, quand vous renseignez vos données, faites bien attention à utiliser une virgule et pas un point, sinon ça ne fonctionnera pas. Donc là, par exemple, on customer satisfaction score, s'il a de 5 sur le mois, je mets 2.5,
+
+[06:48] hop, là, ça va se remplir automatiquement. Donc mon statut, je vais voir un coup d'oeil où est-ce que je pêche un petit peu au niveau de mes statistiques. Donc là, on voit qu'on est en alerte. Là, mon net promoter score, si je le mets à 80, par exemple, il va ressortir comme excellent. Ici, valeur m-1, c'est comment je me suis située sur le mois précédent.
+
+[07:10] Donc le mois précédent, par exemple, si j'avais 3, j'ai baissé de 16.7%. Là, si j'avais 75, hop, je vais augmenter de 6.7%. Et je vais venir remplir comme ça mon tableau pour chaque API. Ce qui va me permettre d'avoir l'état général
+
+[07:31] de la santé de mon site au mensuel. C'est aussi une feuille de route qui peut très bien être utilisée en réunion pour dire à votre équipe, voilà. Le customer satisfaction score, ce mois-ci, on est en alerte. Il a baissé, donc là, il faut qu'on fasse quelque chose. En gros, après, vous allez pouvoir leur exposer les actions
+
+[07:51] que vous voulez qu'il mette en place pour pouvoir améliorer. Donc c'est score là. Si vous ne pouvez pas compléter toutes les données du tableau, ne vous inquiétez pas, c'est tout à fait normal. D'autant plus si vous êtes sur une boîte mail classique, parce que malheureusement, avec les boîtes mail classiques, on ne va pas pouvoir aller récupérer ces données qui sont calculées automatiquement, généralement dans les outils de gestion de T-Cale.
+
+[08:15] Les outils de gestion de T-Cale, je ne vous conseille pas forcément de les activer si vous êtes au niveau débutant. Je vous invite à voir si vous ne l'avez pas vu la vidéo. Je vous conseille les canaux à activer selon votre niveau. À partir d'un certain volume, par contre, de messages refus, là c'est intéressant de basculer sur un outil de gestion de T-Cale
+
+[08:36] pour pouvoir vraiment suivre ces KPI. Également, si vous êtes sur une boîte mail classique, ne vous aventurez pas à les compter manuellement, vos T-Cale et calculer plein de choses. Ça risque d'être très chronophage et contre-productif. Je vous mets un petit aperçu des KPI qu'on peut obtenir à l'intérieur de différentes plateformes, par exemple sur George Vias et sur Flash Desk.
+
+[08:58] On va pouvoir suivre tout ce qui est First Response Time. Donc pas besoin d'aller calculer manuellement les outils, le calcul pour nous. On va avoir tout ce qui est résolution Time, message partiquet en moyenne. George Vias également nous donne un petit peu des moyens du marché. Je suppose que ça doit être dédonné
+
+[09:20] avec qu'il récolte en interne, il faut une moyenne de tout le monde. Et comme ça, ça nous permet de voir un petit peu comment on se situe. Exemple parfait également avec George Vias, l'enquête de satisfaction qui n'a pas été activée dans les paramètres. Et du coup, on n'a pas accès à ces données. Donc je vous invite vraiment, si vous avez une plateforme de gestion de T-Cale, il faut y un petit peu les paramétrages,
+
+[09:40] les fonctionnalités que les plateformes proposent pour voir s'il n'y a pas éventuellement des choses à activer qui vous permettraient d'aller plus loin dans le suivi de vos KPI. Et pour Flash Desk, là je vous ai mis juste un petit aperçu du nombre de tickets reçus, du nombre de tickets résolus, du nombre de tickets en backlog
+
+[10:01] et l'étiquaire est ouvert. Donc on retrouve ces données, que ce soit sur une plateforme ou sur l'autre, et sur quasiment toutes les plateformes de gestion de T-Cale qui peuvent y...
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 12 : Optimiser son site pour réduire le SAV
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 12
 ======================================================================
 
@@ -1557,16 +1613,70 @@ Un site bien optimisé, ce n'est pas un luxe, c'est ton meilleur agent SAV. 60 �
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Hello à toi alors on va voir dans cette vidéo comment est ce que tu vas pouvoir optimiser ton site pour réduire les contacts inutiles pour te donner quelques chiffres et que tu puisses voir vraiment pourquoi est ce que cette partie là est critique il faut savoir que il y a 60 à 80 % des tickets SAV qui peuvent être évités avec un site bien optimisé qu'une fac bien faite ça correspond à une diminution de 20 à 30 % d'une nombre de tickets que tu vas recevoir
+
+[00:24] sur 800 tickets par mois reçus environ si et si tu as une fin optimisée tu vas pouvoir économiser également 10 heures de travail environ du coup non seulement c'est du temps économisé pour toi si tu verras toi même ton SAV mais en plus de ça tu fais diminuer tes coûts de support puisque ton service client va passer moins de temps sur bah ton SAV
+
+[00:46] 81 % des chers bac également sont initiés par les clients généralement parce qu'ils ne trouvent pas le contact de la boutique en gros le meilleur ticket c'est celui qui n'arrive jamais puisqu'on a un site optimisé à la base qui va pouvoir venir faire office un petit peu de filtre pour les demandes et savait ce qui va s'améliorer concrètement alors c'est tout ce qui est customer et force core donc l'effort que le client doit déployer sur la boutique pour
+
+[01:14] pas trouver l'information qui le recherche qui dit meilleur customer et force core dit client qui revient le taux de contact également donc le taux de contact c'est le nombre de clients qui te contact au SAV par rapport à ton nombre de vente donc l'objet s donc net promoteur score ce sont les petits sondages qu'on a au client pour qu'ils puissent nous donner des notations
+
+[01:37] un client qui trouve les informations tout seul c'est un client qui est déjà beaucoup plus satisfait donc ça se ressentira dans ces notes là et un parcours plus fluide ça mène aussi à des recommandations donc à du bouche à oreilles positifs on joue aussi sur tout ce qui est taux de remboursement donc une politique claire c'est moins de charl back donc les cinq piliers d'un site
+
+[01:59] optimisé pour le SAV donc en premier on a tout ce qui est avoir une fac complète destructurée ensuite une page de suivi de commandes brendées des politiques de retour clair mettre en place du sel service pour les clients et une page de contact visible chaque piliers en gros c'est une question que le client allait poser au SAV il faut vraiment voir ça comme ça
+
+[02:20] pour la fac donc concernant la fac la bonne structure à avoir c'est de catégoriser sa fac afin que le client puisse trouver facilement ce qui va rechercher donc je te conseille quatre grosses catégories ça va être tout ce qui est livraison et retour achat paiement service et garantie donc dans livraison et retour tu vas pouvoir mettre
+
+[02:41] tout ce qui est par exemple des lait d'envoi et de livraison les frais de livraison les options de livraison que tu peux proposer tout ce qui parle des frais de douane également comment est ce que les personnes vont pouvoir suivre leur colis que faire en cadre de retour de livraison etc. L'achat ça va tourner tout ce qui tourne autour de l'achat
+
+[03:01] comment annuler sa commande comment modifier sa commande on peut avoir comment modifier son adresse de livraison son adresse de facturation quoi faire si je n'ai pas reçu ma confirmation d'achat etc. Pour les paiements ça va plus être des questions comme les moyens de paiement que tu proposes sur ton site est ce que le site est sécurisé quand est ce que le client va être débité
+
+[03:22] si son paiement est reflits contacter le sav quels sont les horaires du sav si on rencontre un pro un problème avec imprédits une commande qu'est ce qu'il faudrait qu'il faudrait faire exactement voilà quelques petits exemples donc d'une fac donc j'aime bien prendre la fac de vibi parce que je la trouve vraiment très bien construite donc par exemple là on a bien
+
+[03:46] nos catégories de questions ici on a bien à l'intérieur des catégories les questions liées et à l'intérieur donc les réponses aux questions ça va être des articles complets on peut rajouter par exemple des textes des schémas des liens vers d'autres articles des vidéos voilà pour offrir vraiment un
+
+[04:06] un article complet au client comment est-ce qu'on peut mettre ça en place et bien il y a des applications gratuites qui existent par exemple pour Shopify on a power et pour pour off-press on va avoir easy accordéon donc ce sont des applis gratuites pour faire des facs vraiment classiques mais c'est déjà c'est déjà bien d'avoir une fac classique sur le site plutôt que pas de fac du tout
+
+[04:30] ensuite dans les outils gestion de ticket généralement c'est intégré comme chez fraise de fraise d'es de mb s que georgias peu importe on peut créer sa fac à l'intérieur qui va déjà être tout de bien toute bien catégorisé tout bien rangé et on peut la mettre directement à disposition des clients sur le site on peut l'intégrer également dans ce coup crisp
+
+[04:52] ensuite pour les pages de suivi de commande alors pour les pages de suivi de commande je t'invite à vraiment aller voir la vidéo que j'ai faite pour les meilleures applications suivi pour les boutiques Shopify je te détaille comment fonctionnent ces applications là et tout l'intérêt qu'il y a à avoir à avoir ce genre d'applications sur le site mais en gros là l'idée c'est de proposer aux clients une page de suivi directement sur la boutique où il va pouvoir voir en temps réel l'avancé du suivi de son colis et
+
+[05:19] il va également recevoir des notifications concernant l'avancé de sa commande ce qui fait que le client n'a pas contacté au sav pour avoir toutes ces infos politique de retour clair alors dans ta politique de retour clair je t'ai mis ici une petite checklist de tout ce qu'il y a à avoir dedans donc tout ce qui va être délai de retour
+
+[05:41] condition de retour qui pêler frais de retour délai de rembourg par exemple si tu propose des bons d'achat si tu propose des échanges ou d'autres choses accessible depuis donc ça il faut bien le mettre dans ton footer tu peux également l'intégrer à ton email de confirmation donc un petit lien assez discret bah dans le chiffre produit tu peux également spécifier tes conditions de retour rapidement dans une un petit onglet
+
+[06:07] dédié au retour ou à pouvoir rendre tes clients le plus autonomes possible donc comme ça ils auront pas besoin de venir te contacter au sav ils pourront effectuer des actions eux-mêmes ça permettra donc moins de charge back amélioration du customer et force core donc le client n'a pas à faire l'effort d'aller contacter le service client pour obtenir ce qu'il souhaite
+
+[06:27] plus de satisfaction parce qu'il n'a pas à attendre donc il peut accéder directement à ce qu'il souhaite et moins d'erreurs logistiques donc on va voir il y a des petits boutils de self service qui permettent d'éviter toutes ces erreurs logistiques et de qui cause du coup de l'insatisfaction client et de la perte de temps pour tout le monde et de la perte
+
+[06:48] d'argent aussi si jamais il y a des colis à renvoyer pour les boutiques alors en ce qui concerne les abonnements donc si tu proposes des abonnements sur tes boutiques je t'invite fortement à activer le portail de gestion d'abonnement comme ça tes clients vont pouvoir modifier leur adresse s'il y a besoin donc par exemple si déménage ils peuvent aller modifier leur adresse directement sans passer par le support donc là tu leur faciles vraiment la vie
+
+[07:09] ils pourront mettre en pause leur abonnement si besoin modifier l'abonnement la fréquence le contenu et annuler leur abonnement pour les retours c'est pareil tu peux mettre en place un portail de retour autonome comme ça tu auras moins de demande de contact pour le sav et tu as besoin portail de retour au client modification et annulation donc tu as des applications pareil de self service pour la modification et l'annulation de commande donc
+
+[07:35] ici je t'ai mis l'application révis que j'adore et franchement qui sauve la vie quand on a un gros pic un gros pic de sav comme on voit en fait les clients ils peuvent venir modifier leur commande après leur achat donc en fait il ya une petite période durant laquelle révis va mettre en hold la commande ce qui fait que la commande va pas monter
+
+[07:57] auprès de la logistique ou du fournisseur et durant cette petite période le client il va pouvoir faire des actions sur sa commande il peut modifier notamment tout ce qui va être adresse de livraison par exemple il peut modifier son adresse mail donc si il contacte s'il constate une erreur modifier son numéro de téléphone les produits à l'intérieur etc en gros tout sa commande il ya également en optionnel
+
+[08:21] l'annulation de commande donc ça je te conseille pas forcément de l'activer parce que l'objectif c'est pas qu'on propose des annulations au client dès qu'ils ont passé leur commande il vaut mieux que que les clients ne voyent pas ça et qu'ils ne pensent pas du tout à l'annulation après achat donc mais déjà la modification est vraiment au support parce qu'elle va et elle améliore fortement la satisfaction client
+
+[08:44] je t'ai mis ici un petit en éduction de 10% à vie si jamais tu veux tester l'application pour ça t'as juste à te rendre sur le sur le lien soumis.co slash révisse ensuite pour la page de contact alors la page de contact il faut savoir que plus elle est visible et moins tu vas recevoir de charge back un client qui trouve c'est un client qui va pas aller auprès de sa banque ou te faire un litige parce que il pourra
+
+[09:09] te contacter assez facilement. Cette page de contact elle doit contenir un email, enfin l'email SAV les aurais à du SAV, un formulaire avec numéro de commande idéalement ça a ses questions. Ça c'est une page de contact qui n'est pas du tout optimisé on va juste retrouver un formulaire de contact classique. Ça c'est une page de contact optimisé on va retrouver donc les horaires d'ouverture du SAV, l'email du SAV,
+
+[09:35] le délai de réponse et l'accès à une faque et aux instructions de retour ce qui permet ici de désengorger le SAV et ici on améliore la satisfaction client parce que le client il sait à quoi s'attendre en termes de délai de réponse donc quel jour est ce qu'on va pouvoir me répondre et sous quel délai et comme ça il ne relancera pas aussi au SAV en disant
+
+[09:56] voilà qu'on n'a pas répondu. Alors ce que tu vas gagner en mettant ça en place et bien c'est que ton site il va pouvoir faire une partie de ton SAV à ta place donc ta faque elle va réduire de 20 à 30% le nombre de tickets que tu vas recevoir ta page de suivi de commande elle va te permettre d'avoir quasiment pas de clients qui vont te demander où est ma commande
+
+[10:17] ta politique de retour ça te permettra d'avoir voilà pour cette vidéo
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 13 : Implémenter un chatbot IA
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 13
 ======================================================================
 
@@ -1616,16 +1726,88 @@ L'IA SAV n'est plus un luxe réservé aux grandes marques. Avec des outils acces
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] HelloAthrance retrouve dans cette vidéo pour parler d'Utchat alimenté par l'intelligence artificielle. Ici l'objectif ça va être de te présenter deux outils qui sont hyper performants pour les boutiques e-commerce notamment qui sont sur Shopify parce qu'elles offrent des fonctionnalités qui sont vraiment très très intéressantes. Tu peux utiliser ces outils en complément d'un outil de ticketing ou simplement si tu gères ton SAV sans outils de ticket.
+
+[00:24] L'objectif c'est juste de compléter ton support afin de faire diminuer tes coûts SAV puisque l'IA va être capable de répondre à la majorité des demandes déjà sur ton site. Donc tu fais diminuer tes coûts, tu améliores la satisfaction client puisque tu vas répondre très très rapidement à tes clients. En fait tu as une IA qui va être là 7 jours sur 7, 24 sur 24 qui va répondre en quelques secondes seulement.
+
+[00:46] Et tu vas accroître ta rentabilité puisque lorsqu'on fournit aux clients ou en prospect des réponses rapides, il y a plus de chances qu'ils soient satisfaits donc qu'on les fidélise et de convertir si jamais il s'agit de simples visiteurs qui passent sur ton site et qui s'intéressent un petit peu à tes offres. Alors du coup les deux outils que je te propose et que je te conseille fortement ça va être Zipchat et Withdesk.
+
+[01:13] En fait les deux outils font un petit peu similairement la même chose mais pas totalement. Si tu veux Withdesk ça va plus être un outil support tout en main très complet et accessible qui va être parfait plus pour centraliser ton SAV et réduire le nombre de tickets que tu vas recevoir grâce à une fac intelligente. Zipchat, lui il se positionne plus comme un outil orienté vente qui engage proactivement les visiteurs au bon moment pour les pousser à l'achat.
+
+[01:42] Donc les deux y sont pertinents la question c'est est ce que tu préfères prioriser la réduction de tes tickets donc dans ce cas là tu vas plus tourner vers un outil comme Withdesk ou alors augmenter tes conversions et là tu te tourneras plus vers un outil comme Zipchat. À savoir que Zipchat bien évidemment comme tous les outils y a va être capable de répondre aux questions les plus fréquentes et de faire diminuer aussi le nombre de tickets que tu vas recevoir au SAV.
+
+[02:10] Pour le prix c'est aussi ce qui peut éventuellement faire pencher la balance pour toi sur l'un des outils ou plutôt sur l'autre. En fait les prix sont vraiment très très différents quand même hop on va retrouver les prix de Withdesk ici donc qui vont dépendre de ton nombre de conversations à chaque fois.
+
+[02:31] Donc à toi de voir en fait selon tes besoins ce qui te paraît le plus pertinent le plus intéressant pour faire ton choix. Alors on va passer à la démo Zipchat donc pour l'obtenir c'est très simple tu peux te rendre sur Shopify App Store et tu installes l'application. Tu verras qu'en quelques minutes seulement tu vas voir un chat qui est déjà configuré et prêt à répondre à tes clients en live.
+
+[02:53] Donc là j'installe mon appui sur ma boutique je me rend ici dans mon application Zipchat.
+
+[03:13] Maintenant j'ai juste à suivre step by step toutes les informations qui sont notées ici. Donc premier step ça va être pour configurer vraiment le visuel sur mon site. Donc là je vais pouvoir donner à mon agent IA donc là j'en aperçus à droite on voit du chat un prénom par exemple je peux l'appeler Stéphanie.
+
+[03:35] Ici je vais pouvoir mettre un welcome message. Donc bonjour par exemple c'est Stéphanie votre agent IA. Comment puis-je vous aider aujourd'hui. Ensuite on a ici des messages prédéfinis où les clients vont juste à cliquer sur les petits boutons et ça va leur générer une réponse.
+
+[03:59] Donc par exemple si tu as des questions fréquentes sur comment faire un retour tu peux très bien l'ajouter ici on voit qu'il n'a pas eu en réponse suggérée. Ici je vais pouvoir personnaliser un petit peu les couleurs de mon chat. Par exemple si je veux mettre du bleu. La couleur de ma notification rouge ou vert éventuellement.
+
+[04:23] Ici je vais choisir une bulle de chat un petit peu plus petite pour pas gêner l'expérience utilisateur sur mon site. Par exemple je vais mettre modern bubble. Ici je peux éventuellement ajouter un social bouton pour qu'il va rediriger directement sur WhatsApp. Mais là je n'ai pas connecté mon WhatsApp mais c'est une possibilité. Ici je peux choisir de toujours demander aux personnes qui me contactent sur le chat de laisser leur adresse mail ou de pas le faire.
+
+[04:49] Je peux également activer mon chat sur mobile, sur ordinateur et tablette. Ici je peux choisir de montrer ma bulle de chat sur la totalité de mon site ou seulement sur certaines pages. Par exemple là où ça va être pertinent ça va être la page de suivi de colis. Ça va être la page également de contact parce qu'on sait que les gens ont vraiment cette intention de contacter le service client.
+
+[05:13] Donc là je vais le laisser sur toutes les pages du site mais je pourrais très bien filtrer. Selon les pages sur lesquelles je souhaite les retrouver. Ici la position de mon chat. Je vais le centrer à droite et là je viens sauvegarder déjà ses premières modifications.
+
+[05:36] Donc voilà là on a un petit aperçu de comment rendre le chat. Je retourne dans mes paramètres et là je vais passer à l'étape numéro 2. Donc l'étape numéro 2 on voit ici que ZipChat a déjà scrappé la totalité de mon site
+
+[05:56] pour prendre en considération tout mes URL et les insérieurs à sa base de connaissance. Donc j'ai rien à faire en l'occurrence normalement tout mon site apparaît déjà ici. Ce que je peux faire par contre c'est si j'ai des éléments externes à lui donner pour sa base de connaissance. Ça peut être par exemple un guide d'étail, ça peut être un tutoriel, je peux lui donner sous format PDF.
+
+[06:18] Je peux lui ajouter du texte, je peux lui ajouter l'URL d'autres pages si je souhaite et comme ça il ira puiser dans toutes ses informations pour pouvoir faire des réponses pertinentes aux personnes. Ensuite dans prompt et tool, c'est ici que je vais personnaliser mon prompt pour lui dire la façon dont je souhaite qu'il répond aux clients. Donc là contact info, par exemple, qu'est-ce que je souhaite que tu dise
+
+[06:42] lorsque quelqu'un va te dire je veux parler un humain. Dileur de contacter, par exemple je vais mettre info à Robaseoniali.com et on le répondra au plus vite.
+
+[07:03] Voilà, additional information, là ça peut être un petit peu une présentation de qui je suis, le fait, le style de communication que je souhaite employer, par exemple en français, professionnel, clair, assurant, etc. Ici escalate conversation, je peux venir activer si je souhaite qu'il ne répondent pas à certains types de demandes.
+
+[07:25] Par exemple escalate quand un client parle de DGCCRF ou de litige bancaire. Voilà, ça peut être une solution. Comme ça tu sais qu'il ne va pas répondre à ta place et qu'il va vraiment escalate à une personne humaine. Je peux choisir les channels sur lesquels je souhaite que les conversations soient escaladées.
+
+[07:50] Donc ça peut être du WhatsApp, Messenger, Instagram, de l'email aussi. Et bien sûr le chat. Ici c'est déjà activé, donc en fait c'est la façon dont on souhaite qu'il répond aux personnes qui demandent où est ma commande. Ici créer des codes promotionnels, donc c'est pareil, il y a un terror de Shopify.
+
+[08:13] Si certaines personnes parlent, par exemple, de code promo, mettons si un client demande une réduction pour un premier achat, donne lui un code de réduction de 10%. Et là on va pouvoir un petit peu le câblé, faisant pu dire, à partir de 80 euros d'achat.
+
+[08:38] Voilà, et je sauvegarde. Ensuite dans zip chat script, ici je vais pouvoir retrouver un petit peu
+
+[09:05] tous les channels que je peux activer. Donc là on a la bubble de chat sur le site. Je peux venir activer email. Par contre attention avec les emails, il n'y a pas d'option pour mettre des emails en brouillons. Donc ça veut dire que zip chat répondra en automatique à vos emails. Donc attention avec ça, ça peut vraiment avoir un impact assez conséquent qui viendrait faire baisser la satisfaction client.
+
+[09:27] Vous pouvez connecter votre WhatsApp, votre Instagram et votre Messenger. Maintenant une fonctionnalité qui est vraiment pas mal aussi pour la conversion, ça va être tout ce qui est proactive chat. Donc les chats proactifs. L'objectif ici c'est d'activer le chat. Donc les visiteurs reçoivent un message pop-up du chat
+
+[09:50] quand ils ont un certain comportement. Exemple, si je viens créer une campagne, ici je peux dire voilà, si je veux que le message soit envoyé sur un produit spécifique. Donc là je vais venir sélectionner mon produit. Je mets ton app, c'est un vis-cliant e-commerce. Je descends. Ici je veux dire que le comportement du client, ça sera que
+
+[10:12] si il scroll jusqu'à un certain point, par exemple 80% de la page, il y a un message proactif qui s'active. Donc là, par exemple, ça peut être bonjour, on dirait bien que ce produit vous intéresse, besoin d'aide.
+
+[10:35] Ça peut être ça, par exemple. Ça peut être aussi l'envoi d'un petit code promotionnel. Par exemple, si la personne est prête à quitter la page de votre site, hop, un petit pop-up s'affiche du genre, au nom, on dirait que notre produit n'a pas retenu votre intention. Est-ce que je peux faire quelque chose pour vous? Est-ce que je peux vous offrir un petit code promotionnel? Le but ici, c'est vraiment d'être proactif et d'engager avec les personnes.
+
+[10:58] Hop, donc là je peux donner un nom, campagne produit. Je sauvegarde. Autre petite fonctionnalité qui va être intéressante. Je vais me rendre dans n'importe quel paramètre. Et en haut à droite, j'aurai un petit bouton test chat. Et là je vais pouvoir tester mon chat en temps réel avant de le mettre en ligne.
+
+[11:19] Je vais vous donner un petit aperçu. Bonjour, Stéphanie, votre agent ya. Comment puis-je vous aider aujourd'hui? Là je vais pouvoir tester, par exemple, les questions fréquentes. Recommande-moi une assistante SAV. Et les réponses vraiment que ZipChat fournissent, sont quand même assez complètes. On va avoir de l'envoi d'information et on va avoir de l'envoi de produits aussi
+
+[11:40] pour suggérer vraiment les meilleures offres aux clients afin de convertir davantage. Il y a une petite question pour engager avec les clients. Si la réponse qu'il fournit me convient pas, je peux très bien cliquer sur Create Correction. Et ici venir adapter, par exemple, sa base de connaissance. Voilà. Par exemple, Customer Message.
+
+[12:02] Si quelqu'un demande commandement une assistante SAV, lui répond ça. Mais on va pouvoir enlever, par exemple, et mettre rajouter des informations ou faire les choses un petit peu à notre source. On peut bien évidemment aussi lui parler en temps réel. Par exemple, je cherche le meilleur produit de votre site.
+
+[12:29] Hop, on va voir ce qu'il répond. Voilà, quelle est le meilleur produit. Et là, en plus de suggérer le produit, il va vraiment argumenter pourquoi est-ce que c'est l'article le plus complet ou qui offre le plus de résultats, par exemple.
+
+[12:50] Une fois que tu as testé quelques petits requêtes et que ça te paraît ok, tu peux très bien venir donc activer ton chat. Pour ça, tu vas dans Online Store, dans ton thème. Ici, tu vas faire Application et tu vas activer la petite Zip Chat Bubble.
+
+[13:11] Et là, voilà. Donc là, tu as ton chat sur le site directement. L'autre fonctionnalité intéressante, ça va être la barre de recherche qui est vraiment hyper complète. C'est-à-dire qu'ici, on va pouvoir demander des choses. Par exemple, si je tape Assistante, là, j'ai des produits qui vont mettre suggéré, avec des pages qui vont aussi mettre suggéré,
+
+[13:33] qui sont dans la thématique et j'ai la possibilité de venir engager avec l'agent IA. Pour une boutique en ligne, l'exemple que je peux donner, c'est par exemple quelqu'un qui cherche des robes à moins de 20€. Il vient ici, il écrit robes à moins de 20€ et ça va lui sortir des robes à moins de 20€. Il pourra aussi châter directement avec IA pour faciliter son expérience d'achat.
+
+[13:55] Ce qui facilitera vraiment sa recherche sur le site.
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 14 : Récolte, gestion et analyse des avis
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 14
 ======================================================================
 
@@ -1678,16 +1860,78 @@ Chaque avis client est une mine d'or : bien géré, il renforce la confiance, fi
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello, on se retrouve dans cette vidéo pour parler de la récolte gestion et analyse des avis. Alors ici je t'ai mis une petite machine à récolter des avis pour te donner des exemples de techniques qui fonctionnent pour la récolte d'avis. Alors on a déjà tout ce qui est, on va dire récolte en physique si on peut appeler ça comme ça, par exemple tu peux mettre un petit QR code à l'intérieur
+
+[00:20] de ton collier qui va rediriger sur ta page d'avis en demandant simplement bah laissez-nous un avis. On a aussi tout ce qui est contact des personnes qui te tagent sur les réseaux sociaux, donc par exemple si quelqu'un se prend en photo avec ton produit tu vas pouvoir lui envoyer un petit message pour lui dire « j'ai vu que tu avais partagé une photo de toi avec notre produit, est-ce que tu penses qu'il serait possible pour toi de nous laisser un petit avis ? »
+
+[00:42] Et généralement les gens comme ils sont déjà engagés c'est-à-dire qu'ils ont quand même fait l'effort de poster ton produit sur leur réseau, ils seront généralement ravis que la marque les contacts et en plus ils seront ravis d'aller te poser un avis positif sur tes sites d'avis. On a aussi tout ce qui est demandé aux clients qui te posent des avis positifs sur ton site,
+
+[01:05] donc par exemple si ils te posent des avis sur Trust2Lux ou peu importe ton application d'avis, si c'est positif tu leur envoies un petit message pour leur dire en fait « j'ai vu que vous m'aviez laissé tel avis, donc tu leur copies pas sur le site, merci beaucoup, est-ce que vous pensez que vous pouvez prendre quelques secondes pour nous poster aussi l'avis sur TrustPilot ? » Et ça ça fonctionne très très bien. Contact. Autre chose, ça va être tout ce qui est email post-achat
+
+[01:29] de récoltes d'avis. Alors pour la grande majorité des boutiques que ce soit du fashion, accessoire beauté, le mieux c'est d'envoyer une demande d'avis entre J plus 3 à J plus 7 après la livraison. C'est le meilleur équilibre en gros entre fraîcheurs de l'expérience et tant d'utilisation du produit. Par contre si vous êtes sur des produits où on promet des
+
+[01:51] effets progressifs, par exemple du soin ou des compléments alimentaires, attendez quand même J plus 21 minimum ce qui permet aux clients d'utiliser les produits, de voir les effets. Donc ça c'est à adapter vraiment selon votre type. Petite technique également pour la récoltes d'avis par mail notamment. Quand vous envoyez vos petites étoiles par mail, vous pouvez faire en
+
+[02:16] sorte que chaque étoile correspond à une image. Vous allez coller vos 5 photos les unes à côté des autres pour faire votre petite barre d'avis par étoiles. Tout ce qui est photo de 1 à 3 étoiles, le mieux c'est de rediriger directement vers un formulaire dans lequel on va demander aux
+
+[02:37] clients qu'est-ce qu'ils n'ont pas fonctionné, pourquoi ils ont mis cette note-là, qu'est-ce qu'il n'aura pas plu dans leur expérience d'achat ou avec le produit etc. Ou alors on peut envoyer vers la collecte d'avis du site parce que ça sera facilement modérable. Comme ça on évite que les personnes qui ont l'intention de mettre une à trois étoiles postent des avis sur des plateformes d'avis qui seront beaucoup plus compliquées à modérer. De type trespilot. Et du coup les
+
+[03:02] photos de la quatrième et la cinquième étoile là on va rediriger directement vers le site trespilot pour récolter un maximum d'avis positifs. Machine maintenant a transformé les avis négatifs en avis positifs. Alors quand vous recevez un avis négatif le mieux c'est de répondre le plus vite possible et de façon personnalisée. Il faut savoir que pour les
+
+[03:23] entreprises qui répondent en 24 heures on a 33% de chance en plus que les clients revoyent à la hausse leur avis. Aussi ce qu'il faut faire c'est contacter le client en privé après avoir posté une réponse publique à son avis. Pour les cas compliqués je vous conseille fortement de proposer des gestes commerciaux. Les clients verront d'autant plus que vous faites un effort
+
+[03:46] supplémentaire s'ils ont eu un gros gros pépin avec leur commande. Bonne pratique pour trespilot. Quand un client vous laisse un avis négatif par exemple je vous conseille fortement de venir identifier votre client. Donc pour ça simplement il suffit de cliquer sur demande d'information et envoyer une demande. Et là les clients auront trois jours pour s'identifier. Si la personne
+
+[04:08] au bout des trois jours ne s'identifie pas ce que tu peux faire c'est venir flagger l'avis donc venir le signaler pour la raison de ne se basse pas sur une expérience authentique. Avant le fait de signaler les avis pour ne se basse pas sur une expérience authentique ça marchait très très bien pour faire sauter les avis. Maintenant entre ce pilote un peu serré l'avis donc c'est un petit peu plus compliqué de faire sauter des avis mais
+
+[04:31] ça peut quand même fonctionner dans certains cas. Donc n'hésitez pas à essayer quand même de signaler ces avis. Il y a une autre technique aussi qui existe. Alors avoir si ça fonctionne pour tous les cas. Quand on a des produits qui s'appellent par exemple Rob, Rob Annie, le fait
+
+[04:51] que le client emploie un prénom dans son avis donc Annie on peut venir signaler l'avis pour renseignement personnel ce qui permettrait éventuellement de faire sauter l'avis c'est un avis négatif. En fait le bot TrusPilot, lui ce qu'il voit c'est qu'il y a un prénom qui a liqué dans l'avis négatif et du coup il le sera plus enclin à demander au client de revoir son avis ou de faire sauter
+
+[05:17] l'avis. Voilà mais à voir au cas par cas si ça fonctionne. Autre bonne pratique pour structurer votre réponse publique. Premièrement on s'excusent sincèrement ensuite on propose une solution concrète pour montrer aux personnes qui vont lire l'avis qu'on a, enfin comprendre vraiment en charge la personne qui nous a laissé un avis négatif et inviter la
+
+[05:38] personne à te contacter en privé pour résoudre la problématique ou si la personne a été identifiée montre que tu l'as bien contacté en privé. Ça permettra aux personnes qui vont lire tes avis positifs comme négatifs de voir que tu es vraiment proactif quand il y a des avis négatifs qui sont postés et ça va les rassurer. Il faut aussi que tu réponds à tes avis positifs simplement
+
+[06:00] parce que ça aura des avantages. Première avantage c'est que ça généra encore plus d'avis. Ça poussera en fait les internautes qui lisent tes bons avis qui voient que tu réponds à laisser un avis à leur tour parce qu'ils savent que derrière leur avis sera considéré. Ensuite image de marque perçue comme présente et dynamique. C'est vrai qu'arrivée sur une page on voit que la marque ne répond
+
+[06:22] pas à ses avis ça fait toujours page à l'abandon, marque qui montre pas l'intérêt qu'elle porte aux avis qu'on lui laisse donc c'est toujours mieux pour l'image de marque perçue. Ça te permet aussi de montrer la personnalité de ta marque en fait les réponses à tes avis c'est une véritable vitrine pour ton ton de communication pour la chaleur que tu apportes et pour ton professionnalisme.
+
+[06:44] Ça fidélise aussi les clients qui te laissent des avis positifs parce qu'ils vont se sentir reconnus donc ils seront plus enclins au réachat et à la recommandation. À ne jamais faire par contre quand on répond à un avis c'est rejeter la faute sur le client. Notez des informations personnelles donc ça attention des noms des prénoms des adresses de livraison des numéros de téléphone
+
+[07:04] ça correspond à de la divulgation de données personnelles et le client juridiquement il peut se retourner contre toi. Répondre avec un copier collégénérique donc répondre rapidement à ses avis merci pour votre avis c'est pas fou en termes d'image et à 50% des consommateurs qui sont assez rebutés par ce genre de pratique. Répondre aux avis négatifs en ignorant les positifs
+
+[07:25] donc là pareil le client il a laissé enfin il a pris le temps de te laisser un avis positif donc il mérite quand même une petite réponse. Analyses et suivis des avis alors je t'invite à mettre en place un table de suivi donc là je tiens mis un petit exemple simplement qui te permettra déjà de venir cocher les choses que tu dois impérativement faire c'est-à-dire répondre à ton avis et
+
+[07:48] contacter ton client pour essayer d'avoir une une solution à l'amiable avec lui et voir si derrière il a la possibilité de revoir son avis à la hausse ou de retirer son avis négatif ensuite on va avoir une colonne résultat qui va comptabiliser tout ce qui est retiré par le client avis revue à la
+
+[08:08] hausse ou avis qui n'a pas bougé du tout et ça se permettra la fin de ton mois de regarder un petit peu les techniques qui ont fonctionner donc qui ont eu le résultat retirer par le client ou revue à la hausse par exemple. Maintenant on va parler d'une extension Chrome qui permet de scraper et exporter les avis trust pilot donc les utilisations possibles quand on scrap et qu'on exporte
+
+[08:30] des avis ça va être d'analyser les avis négatifs pour améliorer l'expérience client, analyser les avis de ses concurrents donc les points forts les points faibles des concurrents dans l'optique de faire mieux et importer certains avis sur la boutique en tout cas ça c'est les utilisations qu'on peut avoir le plus fréquemment après libre cours à votre imagination si vous avez d'autres
+
+[08:51] cas d'utilité. Alors on se retrouve ici sur une page trust pilot, l'objectif ça va être de venir scraper tous les avis de la page donc là j'ouvre mon extension je vais mettre avis admettons je vais scraper 500 avis hop et je vais venir lancer l'export comme trust pilot détecte qu'on vient
+
+[09:17] exporter des avis le mieux c'est de se connecter parce que vous n'allez pas pouvoir exporter un grand nombre d'avis en gros vous allez pouvoir exporter d'un lipage d'avis d'un coup et ensuite ça va bloquer donc pour éviter les blocages vous vous connectez à votre contre-spilot et comme ça vous pourrez exporter autant d'avis que vous voulez. Voilà donc l'export vient de se
+
+[09:37] terminer je me retrouve avec un document donc sous forme de fichiers csv donc on voit bien que là on a été scraper et exporter plus de 500 avis maintenant je vais ouvrir l'intelligence artificielle que je souhaite vous pouvez tester avec gmini avec chat gpt peu importe moi je vais passer
+
+[09:58] directement sur clode je viens lui glisser mon fichier ici je vous partage de prombes donc ponte avis négatif si vous venez exporter uniquement les avis une à deux étoiles dans le cas où vous souhaitez analyser uniquement vos avis négatifs et un ponte général où là on va analyser la totalité des avis pour avoir un rapport complet alors vais prendre ce ponte là
+
+[10:21] je le copie je viens le coller ici dans clode je modifie juste ma version de clode on va prendre opus et j'envoie ensuite je vais attendre qu'il me génère mon rapport voilà donc la clode a terminé son analyse il nous a trouvé une moyenne de 4.59 sur 5 sur les
+
+[10:42] 500 avis analysés on a la partie avis négatif il nous a sorti des petits tableaux pour qu'on puisse avoir un aperçu direct de ce qui se passe les thèmes dominants dans les avis donc stress anxiété etc ce qui représente avis négatif donc là on voit par exemple là pas d'effet on a quand même une partie qui mentionne le plus avis négatif pour pas d'effet ici efficacité
+
+[11:07] produit aussi un petit peu plus de rouge sur ces deux sur ces deux mentions là donc gomme efficacité produit et pas d'effet ici on voit un petit peu l'évaluation mensuelle de la note moyenne puisque dans les 500 avis il y a certainement des avis qui datent un petit peu voilà du mois de septembre 2025 et là on a une analyse détaillée donc avec les points forts les points faibles abonnements
+
+[11:33] perçus comme pieds jeux le goût et la texture pose un vrai problème sur la gamme kids etc donc là on a une analyse poussée ça va nous permettre de prendre des bonnes décisions si on a envie d'améliorer notre produit ou nos services je vous mets à disposition le lien de l'extension juste ici disponible sur le chrome store totalement gratuitement
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 15 : Connecter Claude à Shopify
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 15
 ======================================================================
 
@@ -1739,16 +1983,58 @@ Connecter l'IA à ses outils business, c'est passer d'un assistant généraliste
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello à toi, on se retrouve dans cette vidéo, je vais te montrer comment est-ce que tu vas pouvoir connecter Claude à ta boutique Shopify. L'objectif de faire ça, ça va être que tu vas pouvoir venir automatiser des tâches. Donc là pour mon domaine, on va rester sur l'automatisation de tâches pour la gestion du service client. Et tu peux très bien imaginer venir automatiser des tâches pour ta boutique. Alors il y a plusieurs façons de connecter Claude à sa boutique Shopify.
+
+[00:23] Ici je vais te montrer une des techniques qui est simple à appliquer, rapide aussi. Mais tu peux très bien connecter ton Shopify via API, via MCP, dans Claude Code ou dans Claude Co-Orc. Nous on va travailler ici dans Claude Co-Orc mais après ça a toit de choisir si tu as une petite préférence. Alors premièrement on va se rendre dans Claude Co-Orc.
+
+[00:44] Il faut savoir que Claude Co-Orc est disponible uniquement sur la version application sur ordinateur. Par contre elle n'est pas disponible sur la version navigateur. Alors du coup je me rends dans Claude Co-Orc, je vais venir faire projet. Et ici je vais venir créer un nouveau projet. Ensuite je vais me rendre dans mes documents.
+
+[01:06] Ici je vais venir créer un dossier que je vais appeler au nom de ma boutique. Par exemple moi ça va être Educative Store. À l'intérieur de ce dossier je vais venir créer un fichier texte. Hop, que je vais appeler Crédential.env. Donc je le mets bien au format.env.
+
+[01:27] À l'intérieur de ce dossier je vais venir copier coller le petit texte que je vous ai mis dans les ressources de cette vidéo. Donc celui-ci. Hop, je viens de le coller ici. Là je vais mettre l'URL de ma boutique en point mychobify.com. Donc pour moi ça va être Educative Store.mychobify.com.
+
+[01:49] Et ici je vais venir remplacer les petits xxx à chaque fois. Donc pour ça je vais aller sur ma boutique Shopify dans mon développeur d'application. Donc je vais dans setting. Je vais aller sur Apps, Develop Apps, Build Apps in Dev Dashboard.
+
+[02:10] Ici je vais venir créer une application. Donc là il faut savoir que je te montre vraiment la technique pour connecter ta boutique via API et via le Dev Dashboard. Il y avait une technique qui était beaucoup plus simple. C'était de passer par Composio. Donc Composio qui est un outil qui permet de se connecter via MCP à plein de outils. Ça aurait été la technique la plus simple et encore plus rapide malheureusement ils ont un bug.
+
+[02:34] Donc peut-être que toi quand tu vas visimer cette vidéo le bug aura été résolu. Mais pour l'instant malheureusement Cloud n'a pas accédé au commande Shopify via Composio. Je te montrerai d'ailleurs dans la prochaine vidéo comment est-ce que tu vas pouvoir connecter des outils de Composio à ton Cloud. Tu verras c'est très très simple.
+
+[02:55] Alors pour en revenir dans mon application. Donc ici je vais lui donner un nom à cette application. Je vais l'appeler par exemple Cloud. Je crée l'appli. Ensuite ici dans la PII version je vais m'assurer d'avoir la dernière version.
+
+[03:16] Et ici dans Scope je vais venir sélectionner différents scopes. Donc en fait les scopes sont les autorisations qu'on va donner à l'application. Ça veut dire que le Cloud aura accès aux choses dont on lui donne l'accès. Par exemple là je vais lui donner accès à mes commandes. Donc with order. Je vais lui donner accès à mes clients. Pour qu'ils puissent read customers.
+
+[03:39] Donc lire mes clients. Et je vais lui donner accès aussi à mes produits. Voilà lire mes produits. Là je sélectionne juste ces trois autorisations d'accès. Mais toi tu peux très bien cocher davantage de choses si tu en as envie. Ensuite je vais faire relays. Relays. Il faut savoir également que lorsque tu vas donner accès à tes commandes.
+
+[04:00] L'application va pouvoir récupérer les commandes des 60 derniers jours dans ton Shopify. Si tu as besoin de voir des commandes qui sont encore plus anciennes. Il suffira simplement d'en faire la demande à Shopify. Donc que tu souhaites avoir dans tes applications l'accès aux commandes qui datent depuis 60 jours. Et ils donneront l'accès. Ils vont juste te demander pourquoi est-ce que tu as besoin d'accéder.
+
+[04:20] À des commandes qui datent depuis 60 jours. Voilà donc là c'est bon. Maintenant ce que je vais faire c'est que je vais cliquer sur le nom de mon appui à gauche. Et je vais venir installer l'application sur ma boutique Shopify. Donc là je viens installer. Voilà une fois que mon appui est installé je reviens donc sur mon application dans setting.
+
+[04:45] Je vais trouver mon client ID. Donc ça je vais le copier. Je vais aller le mettre dans mon fichier credential. Donc je le colle ici. Et là ma secret keys. Pareil ça je supprime. Hop et je viens la coller à la place. Fichier enregistré. Voilà donc là c'est bon.
+
+[05:06] J'ai mon fichier qui est prêt. Maintenant ce que je vais faire c'est que je retourne dans code. Et là on va venir commencer de zéro un nouveau projet. Non mon projet je vais l'appeler par exemple. Assistant SAV. Hop au nom de ma boutique. Instruction. Donc là je vais venir lui donner un petit peu plus de contexte.
+
+[05:29] Par exemple tu es expert en relation client et expérience client. Pour ma boutique. Hop je vais lui donner URL de mon shop. Tu m'aides.
+
+[05:56] Je vais mettre ma boutique Shopify. Tu m'aides à répondre aux emails des clients sur gmail. Voilà. Et là je viens créer mon projet. Ensuite ici je vais venir prendre le petit prompt que je t'ai fait. Et que je te mets à disposition directement.
+
+[06:18] Pareil dans les ressources de cette vidéo. Tu as le coller ici. Ici tu vas juste venir changer le nom de ta boutique. Donc Educative Store pour moi. Là n'hésite pas à utiliser OPUZ 4.7. Qui est la version un petit peu plus intelligente. Parce que ça va être un petit peu plus compliqué pour moi de se connecter via API.
+
+[06:40] Pour Shopify. Alors hop j'envoie. Donc là ça charge. Il faut également savoir que depuis janvier 2026 il y a Shopify qui a fait une mise à jour sur la façon de se connecter via application. Donc il y a moyen que Claude parfois te mette des petits messages d'erreur comme quoi il n'arrive pas à se connecter. Sache que c'est normal entre guillemets.
+
+[07:03] Parce que Claude ne sait pas encore qu'il y a eu toute cette mise à jour de fait. Donc n'hésite pas à forcer si jamais il te dit que c'est pas possible de se connecter. Mais normalement avec les crédents cheaoles et ce qu'on lui a donné il arrive pas mal à faire. Alors là hop on va examiner ce qu'il nous dit. On vient de tout autoriser. Et on va le laisser travailler ça prend un petit moment quelques minutes.
+
+[07:27] Donc là Claude vient de terminer la tâche on va aller voir ce qu'il nous dit. Voilà donc là il nous a sorti des commandes. Si on va voir dans notre boutique hop commande. Annie, Sabine, Vanessa, Sarah, Stéphanie. Annie, Sabine, Vanessa, Sarah, Stéphanie. Ok donc là c'est bon normalement il arrive bien à récupérer mes commandes dans Shopify.
+
+[07:50] Si jamais donc il vous dit que c'est pas possible n'hésiter pas à forcer. N'hésiter pas aussi à lui demander est ce que tu vois n'est dit dernier commande. Par exemple comme ça ça sera un bon test et vous verrez si il est capable de bien vous sortir la liste de vos commandes.
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 16 : Automatiser le SAV Shopify avec Claude
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 16
 ======================================================================
 
@@ -1805,16 +2091,142 @@ L'IA ne remplace pas ton jugement, elle l'amplifie. La clé, c'est de lui donner
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Hello, alors on se retrouve pour la suite de cette vidéo, on va voir ensemble comment est-ce que tu vas pouvoir automatiser la gestion de ton service client. Donc dans cette vidéo je vais te montrer comment est-ce que tu vas pouvoir connecter ta boîte mail à Cloud et comment est-ce que tu vas créer un skills. Et on verra ensemble comment est-ce que l'outil va pouvoir répondre en automatique à nos emails. Petit point par contre, ce que je fais toujours c'est que pour les réponses aux emails c'est mieux de demander à Cloud de tout mettre en brouillon et de pas envoyer les emails.
+
+[00:28] Comme ça ça vous permettra un petit peu de fine-tuner au fur et à mesure si jamais il y a des petites choses qui ne vont pas. Et comme ça les emails ne partiront pas avec des erreurs. Donc je vous conseille vraiment d'y aller petit à petit, d'avoir des process solides bien cadrés que vos politiques ne comportent pas d'erreur également. De travailler vos templates d'email, tout ça on l'a déjà vu dans des vidéos, dans la formation.
+
+[00:50] C'est vraiment important en fait quand on travaille avec de l'intelligence artificielle d'avoir des bases archi solides sinon ça risque d'apporter des résultats pas très qualitatifs. Et comme ça vous pourrez vraiment profiter de l'avantage d'utiliser unia pour la gestion de votre support. Alors pour commencer on va aller connecter notre boîte mail.
+
+[01:13] Donc moi ça sera sur gmail, donc pour ça je vais me rendre ici dans Customize. Ici dans mes connecteurs, je vais venir ajouter un connecteur personnalisé. Ici je vais l'appeler Composio et je vais me rendre sur le site de Composio. Voilà donc Composio qui est un outil qui permet de connecter plein d'outils via MCP.
+
+[01:37] Du coup ici dans Connect App on peut voir un petit peu tous les outils qu'on peut connecter avec Composio. Franchement il y en a énormément. L'avantage de Composio aussi c'est que vous avez 20 000 requêtes grâce suite. Donc vous avez quand même largement de 3 affaires. Donc sur ma page d'accueil je vais venir ici prendre mon URL MCP.
+
+[02:00] Je vais venir le coller là et j'ajoute. Ensuite je vais venir connecter mon outil autorisé. Donc là c'est bon, on a connecté Composio.
+
+[02:22] Ensuite ici pour les autorisations, je vous conseille de mettre toujours toujours autorisé parce que sinon l'outil va tout le temps vous demander des autorisations. Ensuite une fois que ça s'est fait je retourne dans Composio. Ici connect app et je vais venir connecter donc ici ma boîte mail. On pourrait très bien imaginer par exemple venir connecter aussi son ocean.
+
+[02:46] Ce qui fait qu'on peut demander à Claude ensuite par exemple de traiter nos emails et puis ensuite si jamais il y a des choses qu'il n'a pas réussi à traiter ou qui doit escalate il peut nous le noter dans une fiche notion. Donc sur un Google Sheet ou plein portes franchement on a vraiment plein de choses qu'on peut venir connecter ici. On a aussi tout ce qui est fresh desk.
+
+[03:07] Donc fresh desk si jamais vous êtes sur cette plateforme là vous pouvez très bien connecter Composio à Claude et fresh desk et traiter comme ça en automatique vos emails. En fait l'interieur de fresh desk ça vous mettra simplement des notes. Donc du coup je viens connecter ma boîte mail. Ça va être vraiment très très simple. Il y a juste à suivre les instructions pour se connecter à son Gmail.
+
+[03:31] Voilà donc là je sélectionne mon mail. Petite autorisation de demander. Continuer. Autoriser. Continuer. Et là c'est bon.
+
+[03:55] On est connecté. Ensuite je retourne dans Claude. Projet.
+
+[04:20] Et là on va venir créer le skills pour la gestion client. En gros un skill c'est simplement les connaissances qu'on va donner à Claude dans lesquelles il va venir tout le temps puiser lorsqu'il va effectuer des tâches. Donc pour te montrer un petit peu la structure d'un skills ça peut se présenter de cette façon. Alors à savoir que c'est totalement modulable en termes de contenu. Par exemple on voit qu'ici on a notre nom de dossier.
+
+[04:43] Donc c'est ce qu'on a fait dans la vidéo précédente. Donc le dossier qui s'appelait au nom de votre boutique et à l'intérieur il y a le credential. Credential qu'on retrouve ici. Ensuite on va avoir le Claude.md. En gros ça c'est un fichier qui correspond, on va dire que c'est un petit peu le cerveau de Claude. Donc on peut le retrouver de deux façons. Ce Claude.md on va le retrouver soit à l'intérieur du dossier.
+
+[05:05] Donc sous forme de dossier.md. On peut le retrouver également dans Claude directement. Voilà qui est ici. Donc qui est stocké directement à l'intérieur de Claude. Alors ensuite on va avoir la structure du skill. Donc vous avez en gros tous les process, tous vos templates, vos workflows etc.
+
+[05:28] Vous allez pouvoir les donner à Claude. Et il va créer normalement des dossiers de cette façon. Enfin ça c'est la structure idéale on va dire. Donc avec tous vos templates vous voyez là vous avez les templates pour que vous perdez, vous avez le process du retour refusé, le retour accepté etc. Tous les workflows, donc en gros tous les process que Claude va devoir suivre, étape 1, étape 2 etc.
+
+[05:49] Et toutes les politiques, donc là ça va être toutes vos politiques d'envoi, de remboursement politique de retour. Et vous voulez très bien rajouter des dossiers. Par exemple ça peut être ce qui va être dossier d'escalade. En fait c'est dire à Claude qu'est-ce que vous voulez qu'il escalade comme type de cas. Et voilà donc si vous voulez des process beaucoup plus détaillées,
+
+[06:11] là l'objectif c'est que je vous montre vraiment une structure qui est simple à comprendre et qui va nous servir de base pour venir créer notre skill. Alors du coup là je vais prendre le prompt, pareil que vous trouverez donc dans les ressources de cette vidéo. Et je vais aller le donner à Claude. Alors ici je vais mettre lui un rail de ma boutique.
+
+[06:33] Donc pour moi c'est Educative Store. Et là je vais venir lui donner la documentation. Donc ma documentation que j'ai déjà préparée. Normalement si tu as déjà travaillé tes process, tes templates, tes politiques etc. comme on l'a vu dans des vidéos, dans cette formation,
+
+[06:54] tu devrais déjà avoir tout de près et des bases assez solides. Donc là je vais juste lui donner quelques documents. C'est vraiment histoire de te montrer comment ça fonctionne. Donc ici je vais lui donner un fichier où tous mes templates vont être répertoriés. Donc mes modèles de réponse. Ici mes politiques de retour et remboursement à l'intérieur.
+
+[07:15] Ma politique, l'hybraison. Identité, contexte boutique. Donc là c'est juste pour lui donner un petit peu... Voilà, par exemple j'ai mis mon compte communication, ce qui doit éviter de dire, le discours qu'il peut valoriser etc. Donc ça, je vais lui donner... Hop ! Et là je vais lui expliquer simplement.
+
+[07:36] Voici mes politiques, template et process. N'invent rien d'autre. Pose-moi les questions si tu sais pas. Tu répondras grâce à la connexion API Shopify, à la connexion NCP Gmail en passant par Composio. Sinon il va galérer un petit peu, aller trouver des informations. Tu dois toujours chercher les clients dans Shopify avant de répondre en prenant en compte le contexte de la commande. Donc statut produit client. Créer le skills dans le dossier
+
+[07:58] où se trouve Crédential.NV. Classe les process et instruction proprement dans ces dossiers, donc template, workflow, politique. Je lui envoie et il va venir nous créer le skills en appelant simplement son skills, de création de skills. Donc l'avantage d'avoir un dossier propre comme ça, qui est tout bien rangé, catégorisé,
+
+[08:20] c'est que si jamais toi tu as besoin de venir modifier, je sais pas, par exemple un template qui te plaît plus ou parce que tu as changé un process, tu vas beaucoup plus facilement pouvoir retrouver cette chose à modifier dans ton dossier. Autre avantage, ça va être que Cloud va utiliser moins de tokens parce qu'il va pouvoir mieux aller chercher les informations dont il a besoin
+
+[08:43] pour pouvoir faire sa tâche. Ce qui lui évitera de relire à chaque fois des gros pavés d'information et tu useras moins de tokens. Donc là, on va attendre, ça peut prendre quelques minutes. Donc là, pour calibrer un petit peu ces réponses, il va me poser des questions. Donc là, par exemple, il me demande comment est-ce que je dois signer les réponses. On va mettre ça, par exemple.
+
+[09:04] Que tu que je fasses une fois la réponse rédigée. On va créer un brouillon d'enjémé, c'est ce qu'on veut. Ça, ça nous permettra vraiment de personnaliser davantage s'il y a des choses qui nous plaisent pas au niveau des prontes. Si l'émail du client ne correspond à aucun des templates fournis, exemple, questions très spécifiques qui n'habitent à l'extérieur à que faire, rédiger une réponse dans le tour de la marque,
+
+[09:25] te demander quoi répondre avant de rédiger, mélange improvisé uniquement si ça est politique pour... On va mettre le premier, on verra. Si un client écrit dans une autre langue que le français anglais-espanel peut faire, répondre dans la langue du client. Ok. Donc là, il continue de mouliner. Voilà. Donc là, il vient de terminer. Donc qui m'explique un petit peu tout ce qu'il a fait. Il me montre également la structure du dossier.
+
+[09:49] Donc on voit qu'on a bien notre skill.md, nos politiques, livraison, etc., nos templates, nos workflows. Voilà. Donc maintenant, ce qu'on peut faire, ça va aller vérifier. Hop. À l'intérieur du dossier Educative Store, donc là, on dirait qu'il nous a créé un dossier qui s'appelle SAV Educative Store.
+
+[10:10] Et là, on retrouve donc nos politiques, nos scripts, templates, workflows, skills. Donc skill, c'est un petit peu ce qu'il va appeler pour utiliser le document. En fait, c'est un gros récapitulatif. Donc on voit là, par exemple, skill d'assistance pour le service client de la boutique Shopify, les règles absolues.
+
+[10:31] Donc, par exemple, toujours chercher le client dans Shopify avant de répondre. Même si la demande semble évidente, il faut toujours tenter de retrouver le client et sa commande dans Shopify, etc. Donc ça, c'est parfait. Vu dans le centre du workflow, comme ça, là, en fait, c'est ce qui va venir lire. Il sera ou à l'épuiser les informations quand il va effectuer ces tâches.
+
+[10:52] Donc là, on est OK. Maintenant, on retrouve aussi tous nos templates. Il y a des templates qui l'a créé également se basant sur les politiques, les bases de connaissance que j'ai envoyées juste avant. Script. Ça, c'est le script simplement pour qu'il puisse se connecter à Shopify. Donc il nous crée un petit script Python.
+
+[11:13] Il a un script de l'app et là, les politiques. Voilà. Donc là, on a une politique identité.com, la politique de livraison, la politique de remboursement. C'est ce que je vais donner, mais bien sûr, je peux lui donner d'autres politiques. Par exemple, si vous avez une politique à abonnement, vous pouvez très bien lui donner votre politique d'abonnement. Voilà. Alors, maintenant, on va passer sur Gmail.
+
+[11:34] On va en avoir 1, 2, 3, 4, 5. 5 mails clients à traiter. Donc là, je vais simplement lui dire traite ma mail. On va attendre un petit peu. Voilà donc là a priori Claude me dit qu'il a été traité mes emails. Donc c'est ce qu'on va aller voir. Ok, donc là on voit qu'on a des emails en brouillon. On va
+
+[11:55] regarder un petit peu sa logique. Donc là on voit qu'il a commencé à se connecter à Gmail via Composio. Donc c'est bien ce qu'on lui a demandé et il a été vérifié la connexion. Ensuite une fois Gmail connecta Composio, il a été cherché d'outils pour citer les emails récurrents. Ok. Et ensuite Gmail s'est connecté à la boîte mail. Donc là il a trouvé 61 messages.
+
+[12:16] Je pense que c'est un petit bug parce que juste en dessous il nous confirme bien qu'il a réussi à trouver 5 mails non lus. Donc c'est bien ça qu'on avait dans la boîte de réception. Donc il les a récupérés et là il nous a fait un petit récap du contexte. Donc on voit bien le client qui l'a réussi à trouver dans Shopify. La commande. Donc il a bien compris les statuts de commande.
+
+[12:39] Donc les commandes expédier, les commandes non expédier nous a carrément mis le délai. Par exemple cette commande là a pas expédié depuis 48 heures et commande pas expédier depuis plus de 3 jours. Donc ça c'est pas mal parce qu'on sait qu'on va pouvoir venir jouer avec ça et venir améliorer les prontes sur un mesure pour lui dire par exemple si tu vois qu'il y a une cliente qui a un collier qui n'a pas été expédié depuis plus de 48 heures, sur pouvoir m'envoyer une
+
+[13:02] notification pour me prévenir. Comme ça je vais regarder peut-être avec mon fournisseur ou mon logistique ce qui se passe et tu vas adapter aussi ton message à la client pour lui dire bah voilà on a un petit délai en plus pour l'envoi etc. Template. Alors là il utilise le template modification d'adresse pour cette cliente pour un collier expédier qui demande. Ok donc a priori
+
+[13:30] un changement d'adresse mais le collier est déjà parti. Donc Claude redirige vers le transporteur. Template 13 où est mon collier utilisé donc là il a donné un numéro de suivi et ça c'est des demandes hors template. Donc là il a été puisé dans la procédure de retour de 30 jours avec les conditions etc. Ici réassurance commandant traitement et ici a traité côté Shopify
+
+[13:56] retard de fulfillment. Donc ça c'est bien on voit bien les alertes si jamais on a vraiment un retard dans les emplois. Ensuite il a été dans Gmail pour chercher comment faire des brouillons. Il a été créer les brouillons donc cinq brouillons parallèles dans Gmail chacun dans le fil de discussion et d'ailleurs c'est pour ça qu'on utilise la connexion avec Composio parce que
+
+[14:20] en fait il y a un connecteur Gmail à intérieur de Claude malheureusement il permet pas de mettre comme ça des emails en brouillon dans les conversations. Il va pouvoir vous créer des brouillons en dehors des conversations clients et du coup ce qui rend quand même le travail encore chronophage puisqu'il faudra aller dans les brouillons prendre les mails ensuite les copiers collés dans la bonne conversation du client alors que là en utilisant Composio vu qu'on
+
+[14:42] passe par le MCP il y a la possibilité qu'ils viennent dans les conversations mettre donc les brouillons. Voilà donc là il nous dit les cinq brouillons étaient faits, ce qu'il a fait exactement par exemple la première cliente il l'a redirigé, Vercolissimo et option de la expédition sur le tour à expéditeur. Actions à prendre de ton côté avant d'envoyer donc là
+
+[15:06] il nous donne un petit peu des guidelines par exemple cette commande là elle a été payée depuis le 17 avril il est toujours un falfil après trois jours le brouillon parle d'un légère retard il faudrait surtout traiter expédit cette commande dans son main Shopify. Voilà donc ça c'est des petits des petites astuces comme ça qui nous donne des choses à vérifier pour nous assurer qu'il n'y a pas des problèmes que ce soit au niveau logistique
+
+[15:27] ou d'autres problèmes qui pourraient détecter comme ça. Maintenant on va aller voir du point un petit peu les réponses que ça donne donc pour la personne qui demande à priori une modification d'adresse là on voit que Claude comme il avait indiqué dans sa discussion il a été voir au niveau du statut de l'envoi du collier il a été prendre dans nos process puisque dans nos process on dit simplement bah voilà si le collier a déjà été expédier on
+
+[15:52] peut plus annuler ou modifier une commande et là c'est exactement ce qu'il a été cherché il a été adapté sa réponse en fonction donc là on voit bien qu'il donne toutes les informations donc il retrouve le numéro de commande de la cliente il lui dit bien son statut donc commande expédier ensuite il donne des conseils à la cliente donc qu'est ce qu'elle doit faire puisque
+
+[16:14] malheureusement on a dû refuser sa demande de modification et bien elle peut contacter Colissimo directement via ce numéro de suivi etc donc là par exemple il nous donne un numéro en y t ça c'est du yon track et il nous parle de Colissimo donc ça c'est des petites choses que tu vas pouvoir venir régler au cheveux à mesure que tu vas voir les réponses que Claude envoie à
+
+[16:37] tes clients au niveau des prontes donc simplement tu vas venir chatter avec lui pour lui dire par exemple les numéros qui commencent par y t c'est le transporteur yon track donc ne parle pas de Colissimo et il va venir mettre à jour comme ça sa base de connaissance et toi il c'est vraiment important que tu puisses venir à chaque fois regarder un petit peu les réponses qu'il apporte et que tu viennes affiner tes prontes puisque c'est vraiment cet affinage là qui va te permettre
+
+[17:03] d'avoir une hya hyper pertinente hyper puissant pour la gestion de ton support voilà et donc là il lui donne un numéro de suivi donc c'est bien son numéro de suivi qui a sur la commande Shopify et si le colis nous est retourné en raison de l'adresse incorrect nous pourrons alors faire le nécessaire pour le réacheminer vers la bonne adresse etc donc là il l'anticipe
+
+[17:24] carrément le besoin futur de la cliente au cas où le colis n'arriverait pas donc là on est sur des réponses qui sont quand même hyper qualitatifs où on a juste à faire des petites modifications pour arriver on va dire presque à la perfection là si on prend le deuxième donc là où est ma commande je ne trouve plus mon numéro de commande voilà donc là il répond il a été cherché dans Shopify il donne bien son numéro de commande il lui donne son statut il lui donne
+
+[17:48] son lien de livraison donc là il lui donne vraiment le lien de suivi du site et non pas le lien du transporteur on voit que l'arme on passe par vraiment le url qui a été personnalisé grâce à l'application de suivi donc en l'occurrence par celle panel et il a bien personnalisé le suivi voilà il lui redonne son numéro de suivi rappel les délais de livraison et comme ça on tombe sur
+
+[18:13] des réponses qui sont assez assez complètes donc voilà à ce niveau maintenant qu'on a créé une son skills qu'on a pu venir le tester un petit peu on peut aussi lui demander de venir enregistrer le skill à l'intérieur de de Claude simplement donc enregistre le skill voilà donc
+
+[18:40] là il m'a préparé le dossier donc là on retrouve la totalité du dossier avec bien tout notre notre arbre de connaissance pour les skills et là on va à droite on a le petit bouton enregistrer la compétence on clique dessus compétence enregistrée et là on va la voir dans nos compétences
+
+[19:02] enregistré et ça ça va servir à ce que à chaque fois que tu vas ouvrir une conversation à n'importe quel endroit de Claude il va pouvoir tu vas pouvoir appeler ta compétence que tu as enregistré ici maintenant on va passer ici à chez du le donc chez du le en fait ça va te permettre de venir
+
+[19:25] devenir créer des tâches donc des tâches par exemple si tu dis à Claude voilà tous les jours je veux qu'à 8h30 tu passe sur mon service client pour traiter mes mails hop donc on va créer une nouvelle tâche on va l'appeler par exemple sav journalier description donc là on va dire par
+
+[19:45] exemple traiter les emails de ma boîte mail hop donc mon adresse mail de mon sav chaque jour à 8h30 par exemple ici je vais du coup lui donner un petit peu plus d'information traiter les mails de
+
+[20:11] ma boîte mail ou mail de moi gmail.com je joue à 8h30 hop et récapitule moi les cas pour les quels tu n'es pas sûr tu n'es pas certain de la réponse ou les cas d'escalate dans une fiche notion
+
+[20:41] voilà donc admettons si je connecte aussi mon ocean à Claude je peux très bien lui demander que chaque jour il me il me traite donc mes mails et il m'envoie un petit un petit récapitulatif en gros où je veux donc ça peut être dans la conversation Claude ça peut être sur nos chaînes ça dépend de vos préférences hop ici je vais venir mettre le skill on va dire qui associe à cette
+
+[21:08] tâche donc là on va enfin le projet plutôt donc là je vais mettre une projet racine qui est celui ici qui s'appelle bah au nom de ma boutique on a le gros dossier qu'on a créé ici je vais faire ignorer les approbations alors tout que connecteur agir sans demander dans chrome
+
+[21:28] ok donc là je passe les approbations simplement parce que quand je vais lancer mes tâches sinon il ne doit pas arrêter de me demander donc des notifications pour accepter certaines bah certaines choses ensuite fréquence bah là je vais venir sélectionner donc manuel c'est moi
+
+[21:53] même qui vais ouvrir Claude et lancer ma tâche c'est parce qu'on veut ici nous on veut une tâche qui se lance de façon automatique donc de façon quotidienne on peut très bien la mettre aussi en horaire on peut la mettre en jour semaine ou en eup de mader donc quotidien on sélectionne une heure donc là on a 18h30 modèle par défaut aussi on peut venir choisir quel modèle est ce
+
+[22:15] qu'il appelle donc par exemple moi je vais mettre sonner puisque maintenant il sait utiliser un petit peu donc bah la connexion chopify qui a été faite la connexion gmail donc là je vais mettre la version un petit peu moins puissante ce qu'il faut savoir aussi c'est que pour lancer donc ces tâches planifiées il faut que son ordinateur soit ouvert donc par exemple là tous les jours si
+
+[22:40] je sais que je suis sur tout temps sur mon ordinateur 8h30 je vais pouvoir levé je pouvoir ouvrir Claude et la tâche va se lancer toute seule sans que j'ai besoin de faire quelque chose donc là j'enregistre ma tâche et on voit qu'elle vient de se créer et vous avez aussi Claude dispatch qui existe donc
+
+[23:01] Claude dispatch vous pouvez l'avoir sur votre téléphone en fait depuis votre téléphone vous pouvez venir lancer des tâches que vous avez déjà planifié au préalable par contre encore une fois il faut que votre ordinateur soit ouvert mais c'est pas mal si vous n'êtes pas devant l'ordinateur que vous voulez lancer votre tâche à distance bah vous pouvez très bien très bien le faire depuis votre tels voilà donc très important à retenir également venez toujours améliorer
+
+[23:27] continuellement votre prompt c'est vraiment ça qui fera gagner en qualité de réponse que Claude pourra apporter à vos clients ne lancez pas votre enfin vos réponses de façon directe c'est à dire laisser le mettre les réponses en brouillon ça vous permettra d'améliorer tout ça et que vos clients ne re ne reçoivent pas n'importe quoi en termes de réponse qui pourrait venir endommager
+
+[23:49] la satisfaction de clients parce que ça risque d'énerver vos clientes si elle répondent si elle reçoivent des réponses un petit peu à côté et également donc pour toute la structure du skills qu'on a vu c'est vraiment une structure basique mais bien évidemment vous pouvez venir l'améliorer au fur et à mesure demander à Claude de créer des nouveaux dossiers par exemple si vous avez une boutique avec abonnement vous pouvez très bien lui rajouter vos politiques d'abonnement bien lui
+
+[24:14] lui pronter donc quels sont vos process par rapport à ça si vous avez des process à modifier si vous avez des process à améliorer ou à amplifier c'est pareil vous avez juste à chatter avec lui et il ira vous modifier directement son skills donc voilà pour cette vidéo
 
 
 
 ======================================================================
 MODULE : GÉRER SON SAV +IA by Onially
 LEÇON 17 : Conclusion IA
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : GÉRER SON SAV +IA by Onially / leçon 17
 ======================================================================
 
@@ -1862,8 +2274,18 @@ L'IA n'est pas là pour te débarrasser de ton SAV, c'est un levier de croissanc
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello, alors on se retrouve dans cette vidéo pour une petite conclusion sur l'intelligence artificielle. Alors aujourd'hui il existe plusieurs façons d'automatiser la gestion de soins savés avec intelligence artificielle. Donc on a plusieurs approches notamment avec Claude comme on m'a pu voir dans les vidéos précédentes. Mais tu as retrouvé aussi l'intelligence artificielle par exemple dans les applications préfaite du genre Zip Chat, Twill Desk et certains CRM comme Fresh Desk, Crips, Zen Desk.
+
+[00:27] Tu as d'autres possibilités comme notamment avec Nmit and Open Cloud tu vas pouvoir faire des flow beaucoup plus complets pour automatiser la gestion de ton support. Par contre ces solutions là je les conseille plutôt à des profils plus avancés parce que ça va être des outils qui sont beaucoup plus techniques. Donc si tu as un profil plutôt débutant ou tu commences à regarder un petit peu les solutions d'intelligence artificielle etc.
+
+[00:52] Tu peux mettre des choses en place assez facilement avec Claude comme on a pu voir. Ou tu peux aller tourner vers des solutions qui ont déjà d'intelligence artificielle à l'intérieur des outils. Donc comme les outils qui ont été cités ici. Dans tous les cas si tu utilises de l'IA, pense à l'amélioration continue. En fait il va toujours falloir venir faillituner en fonction de ta boutique et tes process.
+
+[01:15] Petit à petit les prontes que tu vas lui envoyer et l'alimenter comme ça au fur et à mesure. Plus tes pontes vont être précis, sans erreur, complets, plus l'intelligence artificielle va être pertinente, va arriver à satisfaire tes clients et tu vas arriver comme ça à te créer un système assez périn.
+
+[01:36] Attention au piège par contre l'IA c'est vraiment pas quelque chose à mettre en place pour se débarrasser de soins SAV. Pour rappel, le SAV c'est vraiment un pilier majeur pour le succès de votre business. C'est pas une tâche qu'on aime pas et qu'on cherche à se débarrasser parce que derrière il y aura des problèmes de rentabilité si l'intelligence artificielle répond un petit peu n'importe quoi au client
+
+[01:56] ou des réponses pas du tout pertinentes ou pas qualitatives. Donc voilà pour cette vidéo.
 
 

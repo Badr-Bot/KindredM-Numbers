@@ -4,7 +4,7 @@ lecon: 6
 titre: "Système de progression + nouveaux modules"
 duree: "1:22"
 url: "https://www.skool.com/master/classroom/08461975?md=eb6e02e30ce14de9b1d9f1b78cf01794"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -48,6 +48,12 @@ Chaque vidéo cochée, c'est de la dopamine saine. Tu construis une habitude de 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, information importante également sur la classe rome. Donc pour vous aider à naviguer dans la classe rome, school on crée un système de progression. Ce système de progression, il sert en réalité à deux choses. La première des choses, c'est pour votre cerveau. Simplement, par exemple, vous regardez cette vidéo-là, vous pressez « mark as done »
+
+[00:25] Et bien, ça devient en vert, ici c'est en vert et la barre de progression s'augmente. Ça va alimenter votre cerveau de dopamine, mais c'est de la bonne dopamine parce que c'est du développement personnel et e-commerce, donc c'est vraiment parfait. Mais surtout, le point le plus important, c'est pour voir l'avancement des vidéos que vous faites,
+
+[00:48] que vous visionnez, mais également admettons ici que vous êtes à 100% et qu'on y met une mise à jour en ajoute des nouvelles vidéos, la barre de progression ne sera plus à 100%, mais elle sera au pourcentage comparé aux nouvelles vidéos qu'on a mis. Ok, donc c'est important de jouer avec ça, comme ça vous pouvez voir, ok, à chaque fois
+
+[01:11] quand il y a d'une nouveauté, vous pouvez le voir en un clin d'œil. Donc voilà, petite vidéo importante, mais qui peut faire une grande différence.

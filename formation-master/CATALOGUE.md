@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**508 leçons au total · 422 complètes (83 %)**
+**508 leçons au total · 450 complètes (88 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -268,7 +268,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## GÉRER SON SAV +IA by Onially
 
-17 leçons · 10 complètes · 7 partielles
+17 leçons · 17 complètes · 0 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -282,55 +282,55 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 8 | [Les meilleures applications de suivi colis Shopify](transcriptions/gerer-son-sav-ia-by-onially\08-les-meilleures-applications-de-suivi-colis-shopify.md) | 20:34 | complet |
 | ✅ | 9 | [Gérer et réduire ses litiges & chargebacks](transcriptions/gerer-son-sav-ia-by-onially\09-gerer-et-reduire-ses-litiges-chargebacks.md) | 15:42 | complet |
 | ✅ | 10 | [Contester et gagner ses chargebacks](transcriptions/gerer-son-sav-ia-by-onially\10-contester-et-gagner-ses-chargebacks.md) | 13:43 | complet |
-| 🟡 | 11 | [Les KPIs SAV qui comptent vraiment](transcriptions/gerer-son-sav-ia-by-onially\11-les-kpis-sav-qui-comptent-vraiment.md) | — | partiel |
-| 🟡 | 12 | [Optimiser son site pour réduire le SAV](transcriptions/gerer-son-sav-ia-by-onially\12-optimiser-son-site-pour-reduire-le-sav.md) | — | partiel |
-| 🟡 | 13 | [Implémenter un chatbot IA](transcriptions/gerer-son-sav-ia-by-onially\13-implementer-un-chatbot-ia.md) | — | partiel |
-| 🟡 | 14 | [Récolte, gestion et analyse des avis](transcriptions/gerer-son-sav-ia-by-onially\14-recolte-gestion-et-analyse-des-avis.md) | — | partiel |
-| 🟡 | 15 | [Connecter Claude à Shopify](transcriptions/gerer-son-sav-ia-by-onially\15-connecter-claude-a-shopify.md) | — | partiel |
-| 🟡 | 16 | [Automatiser le SAV Shopify avec Claude](transcriptions/gerer-son-sav-ia-by-onially\16-automatiser-le-sav-shopify-avec-claude.md) | — | partiel |
-| 🟡 | 17 | [Conclusion IA](transcriptions/gerer-son-sav-ia-by-onially\17-conclusion-ia.md) | — | partiel |
+| ✅ | 11 | [Les KPIs SAV qui comptent vraiment](transcriptions/gerer-son-sav-ia-by-onially\11-les-kpis-sav-qui-comptent-vraiment.md) | 10:10 | complet |
+| ✅ | 12 | [Optimiser son site pour réduire le SAV](transcriptions/gerer-son-sav-ia-by-onially\12-optimiser-son-site-pour-reduire-le-sav.md) | 10:22 | complet |
+| ✅ | 13 | [Implémenter un chatbot IA](transcriptions/gerer-son-sav-ia-by-onially\13-implementer-un-chatbot-ia.md) | 13:59 | complet |
+| ✅ | 14 | [Récolte, gestion et analyse des avis](transcriptions/gerer-son-sav-ia-by-onially\14-recolte-gestion-et-analyse-des-avis.md) | 11:54 | complet |
+| ✅ | 15 | [Connecter Claude à Shopify](transcriptions/gerer-son-sav-ia-by-onially\15-connecter-claude-a-shopify.md) | 8:09 | complet |
+| ✅ | 16 | [Automatiser le SAV Shopify avec Claude](transcriptions/gerer-son-sav-ia-by-onially\16-automatiser-le-sav-shopify-avec-claude.md) | 24:30 | complet |
+| ✅ | 17 | [Conclusion IA](transcriptions/gerer-son-sav-ia-by-onially\17-conclusion-ia.md) | 2:03 | complet |
 
 ## INTRODUCTION
 
-12 leçons · 0 complètes · 12 partielles
+12 leçons · 7 complètes · 5 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
-| 🟡 | 1 | [Commencez ICI [Important]](transcriptions/introduction\01-commencez-ici-important.md) | 5:28 | partiel |
-| 🟡 | 2 | [Présentez-vous [Important]](transcriptions/introduction\02-presentez-vous-important.md) | 2:32 | partiel |
-| 🟡 | 3 | [Groupe WhatsApp [Important]](transcriptions/introduction\03-groupe-whatsapp-important.md) | 6:04 | partiel |
-| 🟡 | 4 | [Présentation du Skool MASTER](transcriptions/introduction\04-presentation-du-skool-master.md) | 3:53 | partiel |
-| 🟡 | 5 | [Nouveauté - Mars 2026](transcriptions/introduction\05-nouveaute-mars-2026.md) | 4:12 | partiel |
-| 🟡 | 6 | [Système de progression + nouveaux modules](transcriptions/introduction\06-systeme-de-progression-nouveaux-modules.md) | 1:22 | partiel |
+| ✅ | 1 | [Commencez ICI [Important]](transcriptions/introduction\01-commencez-ici-important.md) | 5:28 | complet |
+| ✅ | 2 | [Présentez-vous [Important]](transcriptions/introduction\02-presentez-vous-important.md) | 2:32 | complet |
+| ✅ | 3 | [Groupe WhatsApp [Important]](transcriptions/introduction\03-groupe-whatsapp-important.md) | 6:04 | complet |
+| ✅ | 4 | [Présentation du Skool MASTER](transcriptions/introduction\04-presentation-du-skool-master.md) | 3:53 | complet |
+| ✅ | 5 | [Nouveauté - Mars 2026](transcriptions/introduction\05-nouveaute-mars-2026.md) | 4:12 | complet |
+| ✅ | 6 | [Système de progression + nouveaux modules](transcriptions/introduction\06-systeme-de-progression-nouveaux-modules.md) | 1:22 | complet |
 | 🟡 | 7 | [Upgrade à l'Annuel](transcriptions/introduction\07-upgrade-a-l-annuel.md) | — | partiel |
 | 🟡 | 8 | [Obtenir des réponses à vos questions](transcriptions/introduction\08-obtenir-des-reponses-a-vos-questions.md) | — | partiel |
 | 🟡 | 9 | [Devenir Affilié(e)](transcriptions/introduction\09-devenir-affilie-e.md) | — | partiel |
 | 🟡 | 10 | [Information importante](transcriptions/introduction\10-information-importante.md) | — | partiel |
-| 🟡 | 11 | [GPT Master](transcriptions/introduction\11-gpt-master.md) | 2:11 | partiel |
+| ✅ | 11 | [GPT Master](transcriptions/introduction\11-gpt-master.md) | 2:11 | complet |
 | 🟡 | 12 | [Skool accessible 24/7](transcriptions/introduction\12-skool-accessible-24-7.md) | — | partiel |
 
 ## LEGAL & ADMINISTRATIF
 
-17 leçons · 0 complètes · 17 partielles
+17 leçons · 14 complètes · 3 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
 | 🟡 | 1 | [Introduction](transcriptions/legal-administratif\01-introduction.md) | — | partiel |
-| 🟡 | 2 | [L'expatriation aux Émirats : est-ce pour vous ?](transcriptions/legal-administratif\02-l-expatriation-aux-emirats-est-ce-pour-vous.md) | — | partiel |
-| 🟡 | 3 | [Le vrai coût de la vie](transcriptions/legal-administratif\03-le-vrai-cout-de-la-vie.md) | — | partiel |
-| 🟡 | 4 | [Lifestyle et développement aux Emirats](transcriptions/legal-administratif\04-lifestyle-et-developpement-aux-emirats.md) | — | partiel |
-| 🟡 | 5 | [Avantages financiers de l’expatriation aux Émirats](transcriptions/legal-administratif\05-avantages-financiers-de-l-expatriation-aux-emirats.md) | — | partiel |
-| 🟡 | 6 | [Le processus d’expatriation](transcriptions/legal-administratif\06-le-processus-d-expatriation.md) | — | partiel |
-| 🟡 | 7 | [Notre accompagnement pour votre expatriation](transcriptions/legal-administratif\07-notre-accompagnement-pour-votre-expatriation.md) | — | partiel |
+| ✅ | 2 | [L'expatriation aux Émirats : est-ce pour vous ?](transcriptions/legal-administratif\02-l-expatriation-aux-emirats-est-ce-pour-vous.md) | 2:22 | complet |
+| ✅ | 3 | [Le vrai coût de la vie](transcriptions/legal-administratif\03-le-vrai-cout-de-la-vie.md) | 8:55 | complet |
+| ✅ | 4 | [Lifestyle et développement aux Emirats](transcriptions/legal-administratif\04-lifestyle-et-developpement-aux-emirats.md) | 3:43 | complet |
+| ✅ | 5 | [Avantages financiers de l’expatriation aux Émirats](transcriptions/legal-administratif\05-avantages-financiers-de-l-expatriation-aux-emirats.md) | 5:56 | complet |
+| ✅ | 6 | [Le processus d’expatriation](transcriptions/legal-administratif\06-le-processus-d-expatriation.md) | 7:34 | complet |
+| ✅ | 7 | [Notre accompagnement pour votre expatriation](transcriptions/legal-administratif\07-notre-accompagnement-pour-votre-expatriation.md) | 6:43 | complet |
 | 🟡 | 8 | [Offre spéciale MASTER](transcriptions/legal-administratif\08-offre-speciale-master.md) | — | partiel |
-| 🟡 | 9 | [Notions clés et pré-requis au dépôt de sa marque](transcriptions/legal-administratif\09-notions-cles-et-pre-requis-au-depot-de.md) | — | partiel |
-| 🟡 | 10 | [Cibler son activités et ses territoires de marché](transcriptions/legal-administratif\10-cibler-son-activites-et-ses-territoires-de-marche.md) | — | partiel |
-| 🟡 | 11 | [Déposer sa marque auprès des Offices](transcriptions/legal-administratif\11-deposer-sa-marque-aupres-des-offices.md) | — | partiel |
-| 🟡 | 12 | [Protéger sa marque à l'international](transcriptions/legal-administratif\12-proteger-sa-marque-a-l-international.md) | — | partiel |
-| 🟡 | 13 | [Surveiller et défendre sa marque](transcriptions/legal-administratif\13-surveiller-et-defendre-sa-marque.md) | — | partiel |
-| 🟡 | 14 | [Valoriser sa marque](transcriptions/legal-administratif\14-valoriser-sa-marque.md) | — | partiel |
-| 🟡 | 15 | [Module Complémentaire 1 : Dépôt en France](transcriptions/legal-administratif\15-module-complementaire-1-depot-en-france.md) | — | partiel |
-| 🟡 | 16 | [Module Complémentaire 2 : Dépôt à l'International](transcriptions/legal-administratif\16-module-complementaire-2-depot-a-l-international.md) | — | partiel |
+| ✅ | 9 | [Notions clés et pré-requis au dépôt de sa marque](transcriptions/legal-administratif\09-notions-cles-et-pre-requis-au-depot-de.md) | 12:27 | complet |
+| ✅ | 10 | [Cibler son activités et ses territoires de marché](transcriptions/legal-administratif\10-cibler-son-activites-et-ses-territoires-de-marche.md) | 12:52 | complet |
+| ✅ | 11 | [Déposer sa marque auprès des Offices](transcriptions/legal-administratif\11-deposer-sa-marque-aupres-des-offices.md) | 12:54 | complet |
+| ✅ | 12 | [Protéger sa marque à l'international](transcriptions/legal-administratif\12-proteger-sa-marque-a-l-international.md) | 21:05 | complet |
+| ✅ | 13 | [Surveiller et défendre sa marque](transcriptions/legal-administratif\13-surveiller-et-defendre-sa-marque.md) | 16:47 | complet |
+| ✅ | 14 | [Valoriser sa marque](transcriptions/legal-administratif\14-valoriser-sa-marque.md) | 12:52 | complet |
+| ✅ | 15 | [Module Complémentaire 1 : Dépôt en France](transcriptions/legal-administratif\15-module-complementaire-1-depot-en-france.md) | 12:38 | complet |
+| ✅ | 16 | [Module Complémentaire 2 : Dépôt à l'International](transcriptions/legal-administratif\16-module-complementaire-2-depot-a-l-international.md) | 19:23 | complet |
 | 🟡 | 17 | [Liens Importants](transcriptions/legal-administratif\17-liens-importants.md) | — | partiel |
 
 ## MASTER ACQUISITION

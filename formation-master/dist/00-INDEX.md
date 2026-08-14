@@ -254,47 +254,47 @@ il ne faut jamais répondre à sa place.
 - ✅ **08 — Les meilleures applications de suivi colis Shopify** · 20:34
 - ✅ **09 — Gérer et réduire ses litiges & chargebacks** · 15:42
 - ✅ **10 — Contester et gagner ses chargebacks** · 13:43
-- 🟡 **11 — Les KPIs SAV qui comptent vraiment** 
-- 🟡 **12 — Optimiser son site pour réduire le SAV** 
-- 🟡 **13 — Implémenter un chatbot IA** 
-- 🟡 **14 — Récolte, gestion et analyse des avis** 
-- 🟡 **15 — Connecter Claude à Shopify** 
-- 🟡 **16 — Automatiser le SAV Shopify avec Claude** 
-- 🟡 **17 — Conclusion IA** 
+- ✅ **11 — Les KPIs SAV qui comptent vraiment** · 10:10
+- ✅ **12 — Optimiser son site pour réduire le SAV** · 10:22
+- ✅ **13 — Implémenter un chatbot IA** · 13:59
+- ✅ **14 — Récolte, gestion et analyse des avis** · 11:54
+- ✅ **15 — Connecter Claude à Shopify** · 8:09
+- ✅ **16 — Automatiser le SAV Shopify avec Claude** · 24:30
+- ✅ **17 — Conclusion IA** · 2:03
 
 ## INTRODUCTION
 
-- 🟡 **01 — Commencez ICI [Important]** · 5:28
-- 🟡 **02 — Présentez-vous [Important]** · 2:32
-- 🟡 **03 — Groupe WhatsApp [Important]** · 6:04
-- 🟡 **04 — Présentation du Skool MASTER** · 3:53
-- 🟡 **05 — Nouveauté - Mars 2026** · 4:12
-- 🟡 **06 — Système de progression + nouveaux modules** · 1:22
+- ✅ **01 — Commencez ICI [Important]** · 5:28
+- ✅ **02 — Présentez-vous [Important]** · 2:32
+- ✅ **03 — Groupe WhatsApp [Important]** · 6:04
+- ✅ **04 — Présentation du Skool MASTER** · 3:53
+- ✅ **05 — Nouveauté - Mars 2026** · 4:12
+- ✅ **06 — Système de progression + nouveaux modules** · 1:22
 - 🟡 **07 — Upgrade à l'Annuel** 
 - 🟡 **08 — Obtenir des réponses à vos questions** 
 - 🟡 **09 — Devenir Affilié(e)** 
 - 🟡 **10 — Information importante** 
-- 🟡 **11 — GPT Master** · 2:11
+- ✅ **11 — GPT Master** · 2:11
 - 🟡 **12 — Skool accessible 24/7** 
 
 ## LEGAL & ADMINISTRATIF
 
 - 🟡 **01 — Introduction** 
-- 🟡 **02 — L'expatriation aux Émirats : est-ce pour vous ?** 
-- 🟡 **03 — Le vrai coût de la vie** 
-- 🟡 **04 — Lifestyle et développement aux Emirats** 
-- 🟡 **05 — Avantages financiers de l’expatriation aux Émirats** 
-- 🟡 **06 — Le processus d’expatriation** 
-- 🟡 **07 — Notre accompagnement pour votre expatriation** 
+- ✅ **02 — L'expatriation aux Émirats : est-ce pour vous ?** · 2:22
+- ✅ **03 — Le vrai coût de la vie** · 8:55
+- ✅ **04 — Lifestyle et développement aux Emirats** · 3:43
+- ✅ **05 — Avantages financiers de l’expatriation aux Émirats** · 5:56
+- ✅ **06 — Le processus d’expatriation** · 7:34
+- ✅ **07 — Notre accompagnement pour votre expatriation** · 6:43
 - 🟡 **08 — Offre spéciale MASTER** 
-- 🟡 **09 — Notions clés et pré-requis au dépôt de sa marque** 
-- 🟡 **10 — Cibler son activités et ses territoires de marché** 
-- 🟡 **11 — Déposer sa marque auprès des Offices** 
-- 🟡 **12 — Protéger sa marque à l'international** 
-- 🟡 **13 — Surveiller et défendre sa marque** 
-- 🟡 **14 — Valoriser sa marque** 
-- 🟡 **15 — Module Complémentaire 1 : Dépôt en France** 
-- 🟡 **16 — Module Complémentaire 2 : Dépôt à l'International** 
+- ✅ **09 — Notions clés et pré-requis au dépôt de sa marque** · 12:27
+- ✅ **10 — Cibler son activités et ses territoires de marché** · 12:52
+- ✅ **11 — Déposer sa marque auprès des Offices** · 12:54
+- ✅ **12 — Protéger sa marque à l'international** · 21:05
+- ✅ **13 — Surveiller et défendre sa marque** · 16:47
+- ✅ **14 — Valoriser sa marque** · 12:52
+- ✅ **15 — Module Complémentaire 1 : Dépôt en France** · 12:38
+- ✅ **16 — Module Complémentaire 2 : Dépôt à l'International** · 19:23
 - 🟡 **17 — Liens Importants** 
 
 ## MASTER ACQUISITION

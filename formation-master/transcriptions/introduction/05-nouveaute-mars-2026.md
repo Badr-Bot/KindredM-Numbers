@@ -4,7 +4,7 @@ lecon: 5
 titre: "Nouveauté - Mars 2026"
 duree: "4:12"
 url: "https://www.skool.com/master/classroom/08461975?md=cea76084d38c4940bf25c7a3f76eb4c0"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -52,6 +52,26 @@ Si tu es débutant, la priorité absolue est de passer par Master Fondation : un
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue à tous, welcome sur master. Si vous êtes nouveau, normalement vous avez déjà vu une vidéo qui explique en détail les fonctionnalités du school. Si c'est pas le cas, regardez cette vidéo, ça va grandement vous aider. Je commence tout de suite déjà par vous dire la première chose la plus importante, c'est de regarder ce module ici
+
+[00:22] introduction. Il faut absolument voir ce module introduction pour que vous sachiez comment le school fonctionne. Si vous êtes un débutant, vous n'avez pas encore 500€ par jour ou un cadet, on a master foundation qui a été demandé par beaucoup de débutants qui arrivent et qui va vous montrer et tape par étape comment faire vos un cadet
+
+[00:44] avec des tutoriels tout simples, tout de A à Z et tape par étape. Donc ça ce sera vraiment pour vous si vous scalez pas encore. Je tiens à informer que le module introduction il faut vraiment pas le passer parce que une des plus valeux du school c'est vraiment le groupe
+
+[01:05] WhatsApp. On a trois groupes à l'heure actuelle, on a school community où il y a tout le monde, ceux qui scale comme des débutants, on a aussi master plus, on a master advanced et on va avoir un nouveau groupe qui sera dédié à tous les débutants qui veulent scalez. Donc ce sera juste des échanges constructifs pour faire passer le plus possible de personnes
+
+[01:27] à master plus où c'est que les personnes font minimum un cadet. Je rappelle ça c'est des groupes qui sont inclus dans le school et simplement vous devez juste chiffrer pour y accéder. Et d'ailleurs petite nouveauté, on va faire des calls avec master plus. Donc tous les membres, il y aura des calls à peu près une fois par mois et pareil avec Anne Vence,
+
+[01:48] dont on l'a déjà fait auparavant, les calls vont revenir et simplement c'est ça qu'il faut savoir sur les groupes WhatsApp et honnêtement la plus value des groupes WhatsApp est Insign. Donc vraiment rejoignez les groupes WhatsApp et ensuite juste suivez ce qu'on vous partage ici dans la classe room. Honnêtement master foundation, si vous êtes débutant ça va
+
+[02:08] être banger pour vous aussi. On aura vraiment tout à l'intérieur, une nouvelle partie sur le mindset et tout de A à Z pour chiffrer, même Shopify, on a les tutoriels que vous avez beaucoup demandé. On a des setups aussi Meta, Comment Lancer etc. Donc il y aura tout sur passer de 0 à un cadet.
+
+[02:33] Et aussi niveau IA, on a mis à jour avec Manus IA, donc la nouvelle IA qui vous permet de créer des centaines de statiques en quelques minutes, c'est dedans. Mais je dirais si vous êtes débutant, regardez principalement master foundation et ensuite furez à mesure des vidéos à l'intérieur, on vous dit d'aller dans les autres classes ou pas, d'aller regarder dans les autres modules
+
+[02:58] ou pas. Et si vous êtes déjà intermédiaire ou avancé, vous savez très bien où regarder pour avoir de la valeur. Par exemple, vous voulez structurer au mieux votre équipe, vous allez regarder ce module et absolument tout il est absolument banger. Ou alors vous avez votre brand, vous voulez ajouter Google Ads, vous pouvez regarder Google Ads, ça va grandement vous aider. Conceintement les prochains lives qu'on a, on va avoir le live avec Matteo et moi samedi prochain,
+
+[03:26] si c'est correct, si c'est pas le cas, on vous tiendra au courant sur WhatsApp et sur School. Mais c'est le calendrier ici, comme vous le voyez, là c'est tous les jours les événements qu'il y a. On a tous les jours des produits tradards, on a live débutant avec Lénie, on a live thématique, donc la thématique de la semaine prochaine c'est sur le sourcing. Donc on aura un expert,
+
+[03:50] un agent qui est en Chine qui va tout vous expliquer sur le sourcing et le dimanche, tous les dimanches on aura la Creative Insight. Donc ça c'est les choses principales à savoir et vraiment rejoignez le groupe WhatsApp. Présentez-vous et welcome à tous.

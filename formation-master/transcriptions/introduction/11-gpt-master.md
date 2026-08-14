@@ -4,7 +4,7 @@ lecon: 11
 titre: "GPT Master"
 duree: "2:11"
 url: "https://www.skool.com/master/classroom/08461975?md=61f72e99012a4353a91a2c3a21fc50dc"
-statut: partiel
+statut: complet
 source: skool-master
 maj: 2026-08-13
 ---
@@ -45,6 +45,16 @@ Si tu es encore en phase débutant ou intermédiaire, ce GPT peut littéralement
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hello à tous. Petite vidéo sur le GPT Master qu'on a créé avec l'équipe. Il faut savoir qu'un membre de notre équipe a simplement repris tous nos podcasts et les a retranscrits dans un GPT. Donc, simplement, on a aussi mis la data, par exemple, de Mateo quand il parle de meta-ads avec les nouveautés. On a repris la data aussi sur les créatives, etc.
+
+[00:22] On a repris pas mal de data du podcast Master et on l'a mis dans un GPT. On peut malheureusement pas le faire encore pour le school parce que sinon le GPT pourrait transmis à trop de personnes et avoir un GPT trop fort sans qu'ils ont l'accès au school. Donc, pour le moment, c'est juste le contenu du podcast qui est déjà extrêmement valuable. Simplement, vous allez avoir ici un lien.
+
+[00:44] Donc, ce sera sur GPT 5, bien évidemment, totalement le dernier. Et simplement, ici, vous pouvez lui poser les questions comme si vous posiez à moi ou Mateo ou à des membres de la communauté et puis avoir des réponses en instant à nez avec des réponses qui sont vraiment à jour. OK, on n'a pas mal de personnes en fait qui l'utilisent déjà dans notre
+
+[01:07] communauté. Si je précise ici sur le chat, on a déjà plus de 5000 personnes qui ont enfin 5000 conversations qui ont été faites et les personnes apprécient vraiment le chat. Donc, ce n'est pas juste du blabla. Le chat vraiment répond de la bonne manière et peut vous aider de A à Z sur votre business en en prenant en compte nos insights.
+
+[01:32] Et moi, ce que je vous recommande également, c'est de votre côté. Faites-vous, par exemple, pour le module créatif, faites-vous un GPT en reprenant tout ce qu'on partage à l'intérieur pour que vous puissiez simplement après poser toutes les questions à un GPT qui répondra. Pour vous. OK.
+
+[01:53] Donc, il y aura le lien dessous cette vidéo là. C'est vraiment ça s'adresse aux personnes qui sont plutôt encore débutantes intermédiaires. Ça va grandement vous aider. Ensuite, vous avez juste à venir ici, presser là et poser toutes les questions que vous voulez. Et ça va grandement vous aider.
