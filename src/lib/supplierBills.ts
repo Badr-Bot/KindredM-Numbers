@@ -68,17 +68,17 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     ordersTo: "#5995",
     ordersCount: 531,
     // Ligne TOTAL du fournisseur : 11 654,41 € de commandes + 410,00 € de
-    // « custom packing » = 12 064,41 €. Le fichier porte AUSSI un « 13 914,91 »
-    // en bout de ligne TOTAL, que rien dans la facture n'explique
-    // (12 064,41 + 1 850,50 ?) — à clarifier avec le fournisseur AVANT
-    // paiement, jamais payer un montant non justifié.
+    // « custom packing » = 12 064,41 €. Le « 13 914,91 » en bout de ligne est
+    // LE MÊME TOTAL EN DOLLARS (confirmé par Badr le 14/08 — vérifié :
+    // 13 914,91 ÷ 12 064,41 = taux 1,1534, cohérent avec le 1,1539 maison).
+    // Le fournisseur (Hong Kong) encaisse en USD : c'est le montant à virer.
     totalCents: 1206441,
     // Gilet surfacturé vs devis : +3,50/4,00 € sur 40 commandes = 153,50 €
     // (+ part gilet de 5 commandes mixtes, ~20 €). Contesté par Badr le 14/08.
     disputedCents: 15350,
     status: "a_payer",
     paidCents: 0,
-    note: "Contient 410 € de « custom packing » (ligne à part) et un « 13 914,91 » inexpliqué en bout de fichier — à clarifier. Gilet contesté : payer 11 910,91 € tant que l'avoir n'est pas émis.",
+    note: "Contient 410 € de « custom packing ». Total en dollars : 13 914,91 $ (taux 1,1534) — montant à virer si paiement en USD. Gilet contesté : payer 11 910,91 € (≈ 13 737,85 $) tant que l'avoir n'est pas émis.",
   },
 ];
 
