@@ -420,6 +420,14 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-nira-cogs-devis-panda-v14";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
+// v11 (14/08) : grilles COGS RÉELLES tirées des factures Panda 01+14/08
+// (1 187 lignes comparées au centime) — Canada x1/x2/x4 datés au 02/08,
+// Suisse, caleçon Canada 2,46 €, grille Long Sleeve. Le COGS étant FIGÉ par
+// commande à la synchro, seul un re-téléchargement recalcule l'historique
+// (limite 60 j de l'API : les commandes plus anciennes gardent l'estimation).
+// GILET volontairement PAS touché : la hausse (+3,50/4,00 €) de la facture
+// du 14/08 est CONTESTÉE par Badr auprès du fournisseur — la grille suit le
+// devis convenu tant que le litige n'est pas tranché.
 // v8 : le CALEÇON n'a JAMAIS été présent dans products_map (ni FR ni ES) —
 // découvert le 05/08 via l'avertissement « produit non mappé » d'un vrai
 // passage de synchro. Conséquence : son COGS était compté 0 € sur TOUT
@@ -448,7 +456,7 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // v10 (08/08) : ORDERS_SINCE_DAY passe du 04/06 au 21/05 (« l'ecom a démarré
 // à partir du 21 mai », Badr) — va chercher les commandes Shopify du
 // 21/05 au 03/06 qui n'avaient jamais été téléchargées.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-08-historique-21-mai-v10";
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-14-grilles-reelles-factures-v11";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
