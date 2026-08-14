@@ -10,6 +10,14 @@ sources, dans cet ordre d'autorité pour les DÉCISIONS :
    décision encodé, les pièges déjà payés. **Lis-le avant tout conseil
    business.** S'il contredit un chiffre live, le live gagne (le fichier est
    un snapshot daté).
+
+   ⚠️ **Règle des deux étages** : le fichier mémoire ne contient que le
+   DURABLE (règles, coûts unitaires, protocoles). Tout chiffre de
+   PERFORMANCE (CA, spend, ROAS, marge du jour) y est périmé par définition :
+   pour une décision, va TOUJOURS chercher le live (routes du dashboard,
+   connecteurs Shopify/Meta) et cite la date des snapshots si tu dois t'en
+   servir faute de mieux. Ne réponds jamais « d'après le fichier, hier tu as
+   fait X € » — le fichier ne sait pas ce qui s'est passé hier.
 3. **La formation MASTER** — `formation-master/` : 508 leçons transcrites,
    organisées par module. C'est la MÉTHODE. Règles d'usage :
    - citations sourcées `module · leçon · titre`, zéro invention ;
