@@ -113,6 +113,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // Floxy (proxy résidentiel) : payé DIRECTEMENT par la carte LLC dès le
   // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
   { label: "Floxy (proxy)", category: "OUTIL", amount: 7, currency: "USD", startDay: "2026-08-01", endDay: null, note: "Démarré en août, payé par la carte LLC dès le départ (Badr 08/08)." },
+  { label: "VMake", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Pris le 14/08 (Badr : « on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
