@@ -8,6 +8,13 @@ import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatP
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
 import { SUBSCRIPTIONS, fixedCostsCentsForDay, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import {
+  SUPPLIER_BILLS,
+  SUPPLIER_NAME,
+  supplierDisputedCents,
+  supplierOwedCents,
+  supplierPayableCents,
+} from "@/lib/supplierBills";
 import { listParisDays } from "@/lib/time";
 import {
   ONE_OFF_COSTS,
@@ -235,6 +242,12 @@ export function ExpenseBoard({
           </button>
         </div>
       </div>
+
+      {/* 📦 Factures fournisseur (Badr 14/08 : « je sais si on l'a payé comme
+          il faut ou pas » — ledger démarré aux deux factures d'août, tout ce
+          qui précède est réputé soldé). Suivi de TRÉSORERIE : ne touche pas au
+          net (le COGS est déjà compté commande par commande). */}
+      <SupplierBillsCard />
 
       {/* 💳 Abonnements & charges fixes (source : PDF Adnane, 08/08 — déménagé
           depuis l'onglet Année le 08/08 pour tout ranger au même endroit) */}
@@ -606,6 +619,64 @@ export function ExpenseBoard({
         </>
       )}
     </div>
+  );
+}
+
+const BILL_STATUS_META = {
+  a_payer: { label: "À payer", cls: "border-amber/40 bg-amber/10 text-amber" },
+  partielle: { label: "Partielle", cls: "border-amber/40 bg-amber/10 text-amber" },
+  payee: { label: "Payée ✓", cls: "border-phosphor/40 bg-phosphor/10 text-phosphor" },
+} as const;
+
+/** Suivi des factures Panda : ce qu'on doit, ce qu'on peut payer (hors
+ * contesté), et chaque facture avec son statut. Données : supplierBills.ts,
+ * mises à jour à la main quand Badr annonce un paiement. */
+function SupplierBillsCard() {
+  const owed = supplierOwedCents();
+  const payable = supplierPayableCents();
+  const disputed = supplierDisputedCents();
+  return (
+    <section className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <div className="mb-1 flex items-baseline justify-between">
+        <span className="text-sm font-semibold">📦 Fournisseur — {SUPPLIER_NAME}</span>
+        <span className="text-[9.5px] text-ink-faint">ledger démarré aux factures d&apos;août (avant = soldé)</span>
+      </div>
+      <div className="mb-2.5 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-ink-dim">
+        <span>dû total <b className="tnum text-amber">{formatEur0(owed)}</b></span>
+        <span>à régler hors contesté <b className="tnum text-ink">{formatEur0(payable)}</b></span>
+        {disputed > 0 && (
+          <span>contesté <b className="tnum text-red">{formatEur0(disputed)}</b> (ne pas payer tant que l&apos;avoir n&apos;est pas émis)</span>
+        )}
+      </div>
+      <ul className="flex flex-col gap-2">
+        {SUPPLIER_BILLS.map((b) => {
+          const meta = BILL_STATUS_META[b.status];
+          const remaining = b.totalCents - b.paidCents;
+          return (
+            <li key={b.ref} className="rounded-md border border-line-soft bg-terminal-2 p-2.5">
+              <div className="flex flex-wrap items-baseline justify-between gap-1">
+                <span className="text-[12px] font-semibold">
+                  {b.ref}
+                  <span className="ml-2 text-[10px] font-normal text-ink-faint">
+                    {b.ordersCount} cmd · {b.ordersFrom} → {b.ordersTo}
+                  </span>
+                </span>
+                <span className={`rounded border px-1.5 py-0.5 text-[10px] font-semibold ${meta.cls}`}>{meta.label}</span>
+              </div>
+              <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 text-[11px] tnum">
+                <span>facturé <b>{formatEur0(b.totalCents)}</b></span>
+                {b.paidCents > 0 && <span>payé <b className="text-phosphor">{formatEur0(b.paidCents)}</b></span>}
+                {b.status !== "payee" && <span>reste <b className="text-amber">{formatEur0(remaining)}</b></span>}
+                {b.disputedCents > 0 && b.status !== "payee" && (
+                  <span className="text-red">dont contesté {formatEur0(b.disputedCents)}</span>
+                )}
+              </div>
+              {b.note && <p className="mt-1 text-[10px] leading-snug text-ink-faint">{b.note}</p>}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
