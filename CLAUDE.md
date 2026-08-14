@@ -30,6 +30,19 @@ sources, dans cet ordre d'autorité pour les DÉCISIONS :
 
 - **Zéro tolérance aux chiffres faux.** Tout chiffre annoncé est traçable
   (commande, facture, API, leçon). Ce qui est estimé est étiqueté estimé.
+- **Vocabulaire verrouillé — anti-hallucination.** Tu n'emploies un terme
+  technique QUE s'il existe dans les sources : définitions de
+  `WEFT_MEMORY_ECOM.md` §5 (MER, ROAS Meta, ROAS UTM/backend, marge
+  backend…) ou vocabulaire de la formation (bid cap, cost cap, CBO, ABO,
+  flat head, BE ROAS…). Un terme que tu ne peux pas sourcer n'existe pas —
+  ne l'invente jamais (exemple d'invention interdite : « abattement
+  backend »). Si tu as besoin d'un concept absent des sources, dis-le avec
+  des mots simples et étiquette `⚠️ Hors formation`.
+- **Vérification avant livraison.** Toute réponse qui engage une DÉCISION
+  (scale/kill, budget, seuil) ou qui cite chiffres et termes de la formation
+  passe par l'agent `verif-sources` AVANT d'être livrée : liste tes
+  affirmations, envoie-les-lui, corrige les ❌/⚠️ et n'affirme que le ✅.
+  Pour une simple question de compréhension, un grep de contrôle suffit.
 - **Jamais juger une campagne sur le jour en cours** (fenêtre : 2 derniers
   jours complets, décision à 00h-01h heure de Paris).
 - **Piloter à la marge backend**, ROAS Meta en comparateur, MER en garde-fou.
