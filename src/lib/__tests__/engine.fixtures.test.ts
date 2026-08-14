@@ -385,3 +385,35 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
     expect(res.taxCents).toBe(300);
   });
 });
+
+describe("Gilet PRIMAIRE — supplément packing (résolu avec Panda le 14/08)", () => {
+  // Le devis = prix du gilet EN UPSELL (colis d'un polo). En produit
+  // primaire, Panda ajoute un packing : +3,50 € (FR ×1) / +4,00 € (le
+  // reste) PAR COMMANDE, depuis la facture 20260814 (#5463, ~02/08).
+  it("prix facturés du 14/08 reproduits au centime (commandes sans polo)", () => {
+    const primary = (c: string, q: number, day: string) =>
+      upsellCogsCents("GILET", c, q, { day, giletPrimaryParcel: true });
+    expect(primary("FR", 1, "2026-08-10")).toBe(1240); // facturé 12,40 €
+    expect(primary("FR", 2, "2026-08-10")).toBe(2120); // facturé 21,20 €
+    expect(primary("BE", 1, "2026-08-10")).toBe(1359); // facturé 13,59 €
+    expect(primary("BE", 2, "2026-08-10")).toBe(2269); // facturé 22,69 €
+    expect(primary("BE", 3, "2026-08-10")).toBe(3177); // facturé 31,77 €
+  });
+
+  it("avant le 02/08 : pas de supplément (facture 20260801 conforme au devis)", () => {
+    expect(upsellCogsCents("GILET", "FR", 1, { day: "2026-07-30", giletPrimaryParcel: true })).toBe(890);
+  });
+
+  it("gilet EN UPSELL (avec un polo) : toujours le prix du devis (#5591 = 8,90 €)", () => {
+    expect(upsellCogsCents("GILET", "FR", 1, { day: "2026-08-10", giletPrimaryParcel: false })).toBe(890);
+    // Sans contexte (appels historiques) : prix upsell, jamais de supplément
+    // silencieux.
+    expect(upsellCogsCents("GILET", "FR", 1)).toBe(890);
+  });
+
+  it("le supplément est PAR COMMANDE, pas par pièce", () => {
+    const base3 = upsellCogsCents("GILET", "BE", 3);
+    const primary3 = upsellCogsCents("GILET", "BE", 3, { day: "2026-08-10", giletPrimaryParcel: true });
+    expect(primary3 - base3).toBe(400);
+  });
+});

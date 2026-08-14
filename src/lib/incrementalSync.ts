@@ -420,6 +420,10 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-nira-cogs-devis-panda-v14";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
+// v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €
+// par commande sans polo, depuis le 02/08) — litige fournisseur levé, son
+// explication vérifiée dans les factures. Le COGS étant figé par commande,
+// re-téléchargement requis pour appliquer aux commandes gilet depuis le 02/08.
 // v11 (14/08) : grilles COGS RÉELLES tirées des factures Panda 01+14/08
 // (1 187 lignes comparées au centime) — Canada x1/x2/x4 datés au 02/08,
 // Suisse, caleçon Canada 2,46 €, grille Long Sleeve. Le COGS étant FIGÉ par
@@ -456,7 +460,7 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // v10 (08/08) : ORDERS_SINCE_DAY passe du 04/06 au 21/05 (« l'ecom a démarré
 // à partir du 21 mai », Badr) — va chercher les commandes Shopify du
 // 21/05 au 03/06 qui n'avaient jamais été téléchargées.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-14-grilles-reelles-factures-v11";
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-14-gilet-primaire-packing-v12";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
