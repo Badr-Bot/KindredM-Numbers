@@ -172,34 +172,34 @@ il ne faut jamais répondre à sa place.
 - ✅ **33 — Ep #35 - Comment créer 108 ads qui convertissent** · 11:36
 - ✅ **34 — Ep #28 - Diversité dans les créatives** · 10:01
 - ✅ **35 — Ep #29 - Narrrative Ads** · 6:50
-- 🟡 **36 — Ep #30 - Curiosité + Reverse Psychology** · 9:35
-- 🟡 **37 — Ep #31 - Techniques Psychologiques Coca-Cola** · 11:32
-- 🟡 **38 — Ep #23 - AI Review Mining Prompt** · 3:14
-- 🟡 **39 — Ep #24 - 8 Hooks Irrésistibles - Partie 2** · 13:27
-- 🟡 **40 — Ep #25 - 2 Créas Banger avec Nico et Andréa** · 1:37:57
-- 🟡 **41 — Ep #26 - Copy Meaning & TrendTrack** · 21:40
-- 🟡 **42 — Ep #27 - Creative Diversification** · 7:01
-- 🟡 **43 — Ep #19 - Analyse de statiques** · 6:10
-- 🟡 **44 — Ep #20 - 5 Winning Hook Practices** · 10:04
-- 🟡 **45 — Ep #21 - 8 Hooks Irrésistibles - Partie 1** · 9:32
-- 🟡 **46 — Ep #22 - Rappels Fondamentaux** · 7:05
-- 🟡 **47 — Ep #16 - Comprendre le Prospect avant achat** · 5:08
-- 🟡 **48 — Ep #17 - Process Duplication Winning Ads** · 9:58
-- 🟡 **49 — Ep #18 - Loss Aversion** · 10:43
-- 🟡 **50 — Ep #11 - Analyse des Ads de Temu** · 7:52
-- 🟡 **51 — Ep #12 - Présentation + Utilisation de HiggsField** · 6:06
-- 🟡 **52 — Ep #13 - Itération des Statics** · 14:57
-- 🟡 **53 — Ep #14 - Les Statics Secret Sauce** · 15:50
-- 🟡 **54 — Ep #15 - Commentaires illimités TikTok** · 7:04
-- 🟡 **55 — Ep #8 - SOP - Avis Client pour les Ads** · 19:54
-- 🟡 **56 — Ep #9 - Analyse Ads Flytex** · 12:15
-- 🟡 **57 — Ep #10 - News Hooks qui cassent le cerveau** · 6:27
-- 🟡 **58 — Ep #4 - Présentation + Utilisation de Mirage** · 7:42
-- 🟡 **59 — Ep #5 - New Concept Ads Inspiration** · 9:07
-- 🟡 **60 — Ep #6 - 10 Copywriting Tips KILLER** · 13:24
-- 🟡 **61 — Ep #7 - 190 Psychological Hooks** · 4:21
-- 🟡 **62 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
-- 🟡 **63 — Ep #2 - Analyse de créatives winneuses** · 10:56
+- ✅ **36 — Ep #30 - Curiosité + Reverse Psychology** · 9:35
+- ✅ **37 — Ep #31 - Techniques Psychologiques Coca-Cola** · 11:32
+- ✅ **38 — Ep #23 - AI Review Mining Prompt** · 3:14
+- ✅ **39 — Ep #24 - 8 Hooks Irrésistibles - Partie 2** · 13:27
+- ✅ **40 — Ep #25 - 2 Créas Banger avec Nico et Andréa** · 1:37:57
+- ✅ **41 — Ep #26 - Copy Meaning & TrendTrack** · 21:40
+- ✅ **42 — Ep #27 - Creative Diversification** · 7:01
+- ✅ **43 — Ep #19 - Analyse de statiques** · 6:10
+- ✅ **44 — Ep #20 - 5 Winning Hook Practices** · 10:04
+- ✅ **45 — Ep #21 - 8 Hooks Irrésistibles - Partie 1** · 9:32
+- ✅ **46 — Ep #22 - Rappels Fondamentaux** · 7:05
+- ✅ **47 — Ep #16 - Comprendre le Prospect avant achat** · 5:08
+- ✅ **48 — Ep #17 - Process Duplication Winning Ads** · 9:58
+- ✅ **49 — Ep #18 - Loss Aversion** · 10:43
+- ✅ **50 — Ep #11 - Analyse des Ads de Temu** · 7:52
+- ✅ **51 — Ep #12 - Présentation + Utilisation de HiggsField** · 6:06
+- ✅ **52 — Ep #13 - Itération des Statics** · 14:57
+- ✅ **53 — Ep #14 - Les Statics Secret Sauce** · 15:50
+- ✅ **54 — Ep #15 - Commentaires illimités TikTok** · 7:04
+- ✅ **55 — Ep #8 - SOP - Avis Client pour les Ads** · 19:54
+- ✅ **56 — Ep #9 - Analyse Ads Flytex** · 12:15
+- ✅ **57 — Ep #10 - News Hooks qui cassent le cerveau** · 6:27
+- ✅ **58 — Ep #4 - Présentation + Utilisation de Mirage** · 7:42
+- ✅ **59 — Ep #5 - New Concept Ads Inspiration** · 9:07
+- ✅ **60 — Ep #6 - 10 Copywriting Tips KILLER** · 13:24
+- ✅ **61 — Ep #7 - 190 Psychological Hooks** · 4:21
+- ✅ **62 — Ep #1 - Arcads IA et formats qui convertissent** · 8:48
+- ✅ **63 — Ep #2 - Analyse de créatives winneuses** · 10:56
 - 🟡 **64 — Ep #3 - Headlines qui convertissent** · 11:17
 
 ## CRO, BOOSTER CA & AOV

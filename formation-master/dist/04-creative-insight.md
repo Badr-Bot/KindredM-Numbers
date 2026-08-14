@@ -3303,7 +3303,7 @@ Le format narratif UGC ("story-telling") permet de vendre sans paraître vendre 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 36 : Ep #30 - Curiosité + Reverse Psychology
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 36
 ======================================================================
 
@@ -3345,16 +3345,66 @@ Ce prompt combine curiosité irrésistible et psychologie inversée pour créer 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Salut la team, aujourd'hui je vous donne un des prompts que j'utilise dans mes process et qui marchent assez bien. Donc c'est curiosité et reverse psychologie. En gros, le but c'est de faire des concepts publicitaires à très forte conversion qui vont surtout captiver beaucoup d'acheteurs. Vous n'avez pas refaire aussi des trucs un peu différents de ce que fait votre industrie.
+
+[00:24] Grâce à la curiosité irrésistible. En gros, on va se dire dans le cerveau de votre prospect, attend quoi, on va lui faire comme un bug. Et on va renverser ses attentes en disant la psychologie inversée pour remettre en question les instincts comportement-croyance du spectateur. En gros, ça c'est l'explication. Ces publicités vont donner l'impression d'une contradiction qui doit être résolue et elle va déclencher le besoin de comprendre pourquoi l'inverse de ce qu'on croit pourrait être vrai.
+
+[00:54] Et ça marche depuis la nuit des temps. C'est ça qui fait les théories des complots, etc. Quand il y a une croyance et qu'on vient à la challenger, ça suscite de la curiosité. Donc ça peut être une adse complète, ça peut être des idées pour hook.
+
+[01:14] Moi je vous donnais le prompt et après à vous de l'utiliser. On peut simplement demander aussi des angles des hooks. Vous allez voir que c'est très puissant. Pourquoi en psychologie ça marche ? Parce que la curiosité n'est qu'il y a un écart d'information. En fait quand on pense qu'on prend quelque chose et qu'on va venir nous raconter que c'est totalement l'opposé,
+
+[01:38] c'est sûr qu'on va venir se questionner. Ça va créer une tension cognitive qui va venir pousser à chercher la réponse. La psychologie inversée fonctionne en assittant quelqu'un à faire ou croire l'opposé de ce que vous voulez réellement. Ça va venir créer une résistance mentale qui paradoxalement rapproche davantage de votre message.
+
+[01:59] C'est comme si je vous dis, par exemple, c'est comme les scripts qu'ils faisaient n'achetez pas. Vous savez n'achetez pas ce stylo. Une fois qu'on écrit avec, ça va être difficile de lâcher. C'est tellement satisfaisant. On n'achetez pas sinon vous allez acheter tous vos autres stylo.
+
+[02:21] C'est comme si on ne voulait pas vendre mais on vend. C'est très puissant. Combiner ces deux tactiques de naissance à un concept publicitaire qui bouscule les certitudes, provoque des décas, des débats et un site, au clic. Sur ces genres d'arts, vous aurez un bon watch time et surtout pas mal d'interactions.
+
+[02:43] C'est pour ça que ça va vous créer des arts winners. Ça, c'est les instructions pour votre chat GBT et ça, c'est les output qui va sortir. Ça, vous pouvez le modifier. Ça va être un copier-collé que vous allez pouvoir faire. Vous pouvez donner tout ça. Et on va faire un exemple. Là, je vais demander de me faire trois concepts darts pour un jeans.
+
+[03:06] Je pense qu'il a compris. C'est qu'on va venir créer d'accursité plus reverse psychologie ensemble. Le concept un qui m'a donné, c'est don't look for a better fit. Les gens qui veulent un jeans, ils veulent un meilleur fit. Là, ils ne vont pas comprendre. La Big ID, c'est chercher un meilleur fit et exactement ce qui empêche la plupart des hommes de trouver le bon jeans.
+
+[03:31] Vous voyez à quel point c'est puissant ? C'est... J'adore. La narrative angle hook ouverture. Stop looking for a better fit. Plan d'un look qui essaie de... En plus, ils donnent des conseils. Moi, ce que je dirais, c'est que prenez vraiment pour le script après les conseils, vous pouvez améliorer. Je ne sais pas si ça va être pertinent par rapport à ça.
+
+[03:53] Là, j'aurais peut-être dû le prompter en disant, donne-moi juste le script. Mais j'aime bien avoir les idées qui donnent pour faire des plans. Ça peut donner des idées après... Si les bt foront le prompter pour dire ok, trouve-moi des idées de scène. Donc, plan d'un look qui essaie de faire un jean, ajuste-t-il. Moi, c'est bien.
+
+[04:14] Go ahead, train another one, another one, does it work ? Le problème, ce n'est pas le fit. C'est que vous essayez de fixer avec ça. C'est quoi que vous essayez de fixer ? Ok, donc là, on a le... On a la narrative hook qui est très très bien.
+
+[04:35] Je suis sûr que ça marche là pour un jean. Et après, vous pouvez construire un script par rapport à ça. Vous pouvez très bien partir de ce script-là et partir d'un de vos scripts qui marche bien et l'adapter. Mais j'adore. Lui conseil de faire un Rails. Même sur un Rails, ça peut être pas mal, honnêtement.
+
+[04:58] En gardant la big idea et puis en ne venant pas parler trop de bénéfices à la fois. Ensuite, concept 2 qui m'a donné... La big idea et un jeans, c'est un red flag. C'est vraiment puissant. C'est vraiment puissant. La big idea et un jeans qui se fait oublier n'est pas toujours un bon signe.
+
+[05:22] Parfois, c'est exactement le problème. Alors on va voir comment ils mécanisent ça. C'est ça qui est le plus intéressant. C'est que là, les dés gèment bien, mais après, comment on le mécaniser, on va voir. Si ton jeans c'est comportable, il y a quelque chose qui est mauvais. Sur garder les choses soft, ce qui est un peu l'osé, c'est plus comment on dit en français,
+
+[05:44] qui est un gros... un petit truc de cet air un peu. Celui que tu arrêtes de stopper. Et l'insel final, c'est confort. Ou il te souhaites tout le temps qu'il y a présence. Le right jeans, doesn't disappear. It holds you together. Ok, donc les mécanismes sont le fait que
+
+[06:06] c'est pas juste que tu le sens pas, c'est que tu le sens le confort. Ok, c'est pas mal. Après, après... Ouais. Je pense qu'ils ont pu mécaniser un peu mieux.
+
+[06:29] Non, pour réunement. Après, bien sûr, ça vous donne des idées. Les idées, ça vous donne juste des idées. Il va pas vous sortir des trucs tout pondus directement. Oui, c'est bien. Mais après, il va falloir aller creuser. Il va falloir prendre ces idées là et simplement faire un script. Mais en fait, le plus gros effet, parce que l'idée est géniale. Mais voyez à quel point c'est puissant de par exemple faire passer.
+
+[06:51] Ok, les jeans qui se font oublier, c'est pas forcément les mieux. Tu dois sentir ce confort. Et voyez, c'est vraiment puissant. Je pense que c'est ça qui voulait dire. Plus comme moi, je le tournerai comme ça. Si votre jean vous le sentez pas, c'est qu'il y a un problème. Les bons jeans, vous le sentez le confort. Vous le sentez soutenu, vous le sentez que ça. Le tissu doux sur votre peau. Vous avez envie d'enlever des trucs justifs.
+
+[07:14] Ensuite, le concept 3. C'est mort, il y a juste ce jeans pire il est. Ok, donc là, je ne suis pas sûr. Je pense qu'ils ajustent beaucoup leur jeans. Ce moment, c'est un problème. Je ne sais pas s'il a vraiment, s'il fait vraiment une contradiction.
+
+[07:34] Le micro-ajustement constant, c'est pas une habitude, c'est un symptôme. Ah ok, il parle de l'habitude de personnes. On a juste constamment le jeans. Si tu fais ça tous les jours, tu dois fixer. Parce que le vrai jeans, tu n'es pas sûr. Ok, celui-là peut être un peu moins bien.
+
+[07:56] Parce que là, c'est plus quelque chose de... Là, on parle plus d'un problème techniquement. Mais plutôt bien. Donc, comment moi, j'aurais converti ça ? J'aurais pu laisser deux idées là. Et j'aurais fait des statiques et des hats. Ok ? Ça, headline.
+
+[08:18] Et puis ensuite, ou ça, plusieurs types d'headlines. Et puis ensuite, une subheadline derrière qui va venir parler de la reverse psychologie. Vous avez même une hat d'un jeans, par exemple, en disant... Une étoile.
+
+[08:38] Ne cherchez pas pour un better fit, c'est pas celui-là. Ça peut attirer massivement commentaire dessus. Et avoir des clics. C'est assez what the fuck, mais vous pouvez tester ça. Ça marche. Et là, pareil, j'aurais fait statiques et... Et des petites hats.
+
+[09:00] J'aime vraiment bien l'idée. Ça, c'est puissant. Non, le fait pas mal, c'est vraiment puissant. Donc voilà, petite épisode aujourd'hui. Je vous donnerai le prompt. Et vous n'avez pas utilisé pour vous, pour vous. Donc n'oubliez pas de, à chaque fois qu'on vous avait un prompt, c'est, il faut fider avec votre produit, votre analyse du marché, etc. Comme ça, ils comprends bien.
+
+[09:20] Là, je vais juste donner de jeans pour avoir un résultat. Et il est assez bon, honnêtement. Mais si je donne encore plus de contexte, je pense qu'il n'aurait pas fait ce terrain-là. Donc voilà, c'était Matheo. A bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 37 : Ep #31 - Techniques Psychologiques Coca-Cola
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 37
 ======================================================================
 
@@ -3396,16 +3446,78 @@ Coca-Cola exploite l'incomplétude visuelle et l'activation émotionnelle incons
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Ok, nouvelle épisode de Creative Insights. Aujourd'hui, on va faire une analyse d'une technique de Coca-Cola. Ce qu'il faut savoir, c'est que Coca-Cola et les grosses brand ont beaucoup de techniques psychologiques à reprendre. Ok, ce ne veut pas dire qu'on doit s'inspirer directement de leurs ads pour faire la même ads meta, mais ils utilisent des techniques psychologiques ultra puissantes qui ne sont pas utilisées en direct réponse.
+
+[00:26] C'est-à-dire qu'il y a très peu de personnes qui utilisent ces hacks sur meta, et donc c'est pour ça que je vous partage ces techniques, parce que vous pouvez appliquer ce genre de technique, et c'est ultra ultra puissant surtout quand vous contruezz une marque. Donc je vous montre une de leurs techniques et je vous montrerai l'article. Donc en gros, ce qu'il dit, c'est que Coca-Cola a fait plusieurs campagnes,
+
+[00:48] c'est que simplement, ils démontrent pas tout. Ok, ils veulent que votre cerveau complète une image. Par exemple, je ne sais pas si on arrive à zoomer sur l'image. Alors je crois que j'ai juste enregistré l'image pour vous la montrer.
+
+[01:11] C'est pas très... c'est pas très... c'est un peu fou. En fait, la la pupe c'était Try to not earth this. Ok. Try to not earth this. Le but en fait de cette technique psychologique, c'est que votre cerveau complète. Je vais donner un breakdown juste après. Je vais déjà vous montrer des pubs.
+
+[01:31] Ça c'est une autre campagne qu'ils avaient fait. To create innovation, Coca-Cola has been at the forefront to go over. This is the case with the brand's latest campaign, where Coca-Cola aims to go even further and convey the taste of the product without showing it. Let's see it. Fantastic.
+
+[01:54] Cell Casting. Et ensuite on va voir la pub.
+
+[02:23] Bref, pourquoi ça a cartonné et pourquoi ça marche? C'est ce qu'on va analyser ici. Donc en gros, ce que l'article décrit, c'est pas le but de montrer le produit. Donc vous comprenez que dans les ads, le but c'est pas de montrer le produit, mais c'est de déclacher une réaction mentale automatique. Donc on veut qu'il y ait quelque chose de fort qui se passe dans l'inconscient du prospect.
+
+[02:48] Et en gros, cette technique-là, elle rebeuse sur plusieurs principes. L'insight centrale, donc ça j'ai fait un résumé GPT, c'est que certaines marques comme Coca-Cola sont tellement ancrées dans le cerveau, c'est-à-dire qu'il n'y a besoin que de déclencheurs pour provoquer une réaction émotionnelle.
+
+[03:10] Donc ça c'est déjà le truc important. Si vous n'avez pas une marque qui est reconnaissable, si les gens n'arrivent pas à compléter quelque chose de connaissable avec leur cerveau, ça va pas marcher. Coca-Cola, tout le monde sait ce que c'est. Tout le monde connaît le branding. Tout le monde sait quel goût ça a, plus ou moins. Tout le monde sait à qu'est-ce que ça fait d'ouvrir une beauté de Coca.
+
+[03:30] Voilà. Les gens ont une cette connaissance-là. C'est-à-dire que là, ils sont instables, c'est qu'en fait, ils peuvent montrer une beauté de Coca avec du flou. Et l'impact sera énorme parce que les gens vont comprendre que c'est Coca-Cola. Vous, si vous faites ça avec votre produit, les gens ne vont pas comprendre. Mais il faut que vous comprenez le principe pour que vous puissiez appliquer ensuite derrière. Donc, voilà. Coca-Cola, par déjà que vous connaissez le goût, le son et la sensation.
+
+[03:52] Donc les puits ne sert plus à expliquer, elles sert à réactiver. Donc, le vrai concept, selon moi le compris, c'est que ce n'est pas des images, ce n'est pas des faits artistiques. Vous savez que les arts, c'est quelque chose de psychologique. On veut qu'il y ait quelque chose qui se passe. Pour vous rappeler déjà, ça, je l'avais déjà mentionné dans une vidéo,
+
+[04:12] comment votre cerveau fonctionne en gros. Vous avez le Subconscient et le Conscient. Le Conscient, il est lent, il analyse très peu de bits par seconde. Il est logique et analytique. Et le Subconscient, c'est à lui qu'on veut vendre. Lui, il a 11 millions de bits par seconde. Il est très émotionnel, très actif, très haut, automatique. Lui, ce qu'il va faire, c'est quand vous lui donnez quelque chose,
+
+[04:33] il va venir mapper et voir en fait dans sa carte, à lui, toutes les choses qui pourraient être liées à ce que vous lui dites. Par exemple, ici, j'avais déjà mentionné, ok, une pizza, ok, si il voit une image d'une pizza, il va se poser plein de questions en même temps. Il va dire, ok, est-ce que j'ai faim ? Quel est ma pizza préférée ?
+
+[04:54] Quand c'est que j'ai mangé une pizza pour la dernière fois, est-ce que c'est un bon souvenir ? Oui, non. Et comme le pizza pour beaucoup de personnes, c'est quelque chose de positif. Quand je vous dis pizza, vous allez automatiquement penser à tout ça. Vous allez penser, ok, j'ai bon souvenir. J'ai mangé pizza dans un restaurant. Quand c'est que j'ai mangé une pizza pour la dernière fois, j'aime la pizza, oui, j'adore la pizza,
+
+[05:14] je ne sais pas, à la truffe, bla, bla, bla, bla. Et vous allez avoir une image positive de la pizza. C'est-à-dire que si je vous montre une pizza, déjà, ça va activer quelque chose de positif. Donc, j'ai assez, il faut comprendre, c'est comment le cerveau fonctionne. Donc, ça, c'est très important. C'est pour ça que les images que vous montrez en hook, etc. impactent l'émotion qu'on va créer.
+
+[05:36] Par la suite. C'est pour ça que les images que vous choisissez, les bírols que vous choisissez, surtout en hook sont très importants. Ça va activer un pic émotionnel. Donc, en gros, pour revenir à Coca-Cola, donc le mécanisme psychologique décomposé. Donc, un, on a un stimulu volontaire incomplet.
+
+[05:57] C'est encore plus puissant quand c'est incomplet. Le cerveau doit compléter lui-même. Ça crée une tension, ça crée un pic émotionnel. C'est exactement pour ça que le but d'un hook, c'est de créer de la curiosité. Si vous dévoilez tout, dire que la sauce, il y aurait l'attention redescente. Donc, c'est pour ça que c'est volontaire.
+
+[06:17] Ils font des gros plans. Donc, c'est souvent des gros plans. On en voit sur l'article. C'est des gros plans. Là aussi, on arrive bien à voir le visuel. En fait, on arrive bien à voir ça. C'est pas filmé de trop loin, vous voyez. C'est filmé proche. On arrive à lire la scène. On arrive à se focus sur ça. C'est pas quelqu'un qui est debout. Donc, c'est quelque chose important. On a des gros plans.
+
+[06:40] Et on a une absence du produit entier. Le cerveau n'a pas assez d'affaut. Ce qui va venir augmenter le taux de watch time. Et ensuite, améliorer l'attention émotionnelle. Ensuite, il y a une obligation de complétion. Guestal, comme ils appellent ça. Donc, le cerveau, il déteste l'inachever. Donc, il va automatiquement compléter la forme, compléter le son,
+
+[07:00] compléter la sensation. Ça, c'est très, très puissant. Ça, vous comprenez pour vous, au niveau dat. C'est-à-dire que souvent, dans vos scripts, il suffit pas de dire directement la chose. Vous pouvez simplement la dire partiellement et montrer un b-roll pour qu'ils comprennent.
+
+[07:20] Ok, je vais prendre un exemple. Vous vendez un... Ok, je vais prendre un exemple que j'ai déjà donné. Vous vendez un complément alimentaire. Ok, des protéines. À la place de dire, ces protéines-là vont vous permettre de vous sentir plus musclés et du coup,
+
+[07:42] du coup, de mieux plaire aux femmes et de mieux vous accoupler. Si vous dites tout ça, ça va pas avoir vraiment de sens. Mieux vous dire, par exemple, ces protéines en pause vont vous permettre de vous ressentir, je sais pas, un vrai mal et de montrer derrière une femme qui tire l'homme dans la chambre.
+
+[08:04] Ok? On ne veut pas avoir toute la scène. Ok? Et là, ça crée une tension émotionnelle parce que là, le cerveau est complet. Il va dire, ok, elle tire pour sa couplée et elle lit avec le produit. Vous voyez? J'espère que vous comprenez, ça c'est complexe, mais c'est très important. C'est pour ça que je fais ces créatifs inside pour vous comprenez, c'est mécanisme psychologique
+
+[08:25] que personne démontre. Même sur le marché américain, personne démontre ça. Ensuite, le transfert sensoriel. Donc en gros, l'image, c'est un visuel. La réaction est l'auditif plus active émotionnel. Try to not hear this. Tu vois, tu en tends et tu ressens. Donc la pub en fait, elle devient multi sensorielle.
+
+[08:46] Parce que vous avez l'image et vous avez l'émotionnel. Donc c'est ultra puissant. C'est vraiment ultra puissant, j'adore. Et ça, ça peut être testé en statique selon vos produits, ça peut être testé en hook. Euh, c'est vraiment très très puissant. Je vous donnerai le doc, comme ça vous pourrez brainstormer avec ChargeBT selon votre marque et faire ça dans vos compagnes.
+
+[09:08] Ensuite, la troisième des choses, c'est la quatrième des choses, c'est qu'on a une association de la marque silencieuse. Donc le logo n'explique rien, il confirme juste qu'on a ressenti. Donc en fait, on a un nombre aversé d'associations que l'on essence et l'encrage. Et là, en fait, on va avoir un encrage très fort et surtout une association de la marque. Là, quand on voit ça, on va se souvenir de Coca-Cola.
+
+[09:28] Et là, je vous garantis que quand vous allez aller au rayon et que vous allez devoir choisir contre Coca-Cola, Pepsi, etc., vous aurez beau avoir Pepsi qui est moins cher, etc. Vous aurez envie de tester Coca-Cola parce que vous aurez eu une expérience émotionnelle avec Coca-Cola. Donc voilà, petit résumé pourquoi cette compagnie puissante parce qu'elle demande aucun effort conscient
+
+[09:50] et déclenche aucune résistance. Elle ne vend rien, elle ne compart rien. C'est juste une activation émotionnelle inconsciente. C'est ultra puissant et c'est encore plus puissant dans les compagnes que font Coca-Cola. C'est du génie. Donc là, j'ai mis un petit framework appliqué à toutes vos marques, enfin, à toutes marques. Donc, un, il faut identifier
+
+[10:11] un mémoire dominant de votre marque. Voilà, j'ai mis des exemples. Deux, il faut isoler un moment socio-riel. Et ça, ça doit être plus fort que le produit lui-même. Donc c'est vraiment une sensation. Il y aura des produits qui se prêtront plus que d'autres. Mais vous allez pouvoir faire pour n'importe quel de vos produits.
+
+[10:32] Ensuite, vous avez créé une image montamment complète, ajouté une phrase provocation cognitive, révélation minimale de la marque et vous pourrez fêter un GPT. Condition obligatoire pour que ça marche, c'est la marge. Si votre marque est inconnue, ça va être plus compliqué. Ce n'est pas, ça n'a pas marché, mais ça va être plus compliqué. C'est produit et purement rationnel aussi.
+
+[10:55] Et si la sensation n'est pas claire, ça va être plus compliqué. Et si tu veux vendre immédiatement, aussi. Ça, ça va être plus une hâte qui va pouvoir être, qui va pouvoir compléter en fait vos ads. Mais ça ne va pas être une ad qui va driver des millions de spend. Mais par contre, très important. Et surtout, faut que vous comprenez le principe. Ça, vous pouvez rajouter dans des ads. OK.
+
+[11:16] Vous pouvez très bien rajouter ceci dans vos hooks, rajouter ceci quand vous dévoilez le produit pour garder cette tension. Donc voilà, important creative insight pour comprenez ces principes psychologiques qui peuvent être appliqués dans vos ads. C'était Matto. Ciao ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 38 : Ep #23 - AI Review Mining Prompt
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 38
 ======================================================================
 
@@ -3447,16 +3559,34 @@ Un prompt IA clé en main pour analyser les avis clients (Amazon, Trustpilot) et
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et la team, Quickwin, Creative Insight, a ses cours, c'est que je donnais juste un prompt à copier-coller qu'on utilise à l'interne et qui est très bien pour trouver des angles, qui est très bien pour vous donner des idées pour vos prochaines créats. Donc, en gros, le but c'est que vous allez venir prendre des reviews Amazon, des reviews
+
+[00:23] TrueSpilot, des choses que des reviews à vous si vous avez. Vous allez venir importer ces reviews dans un fichier CSV ou simplement fider à ChargerBT. Et vous allez utiliser ce prompt-là. Le but c'est d'avoir déjà une première analyse marketing avec, basé sur les reviews, quels sont les customers Pay-Pont, pourquoi ils achètent, c'est quoi les uniques futures
+
+[00:45] qu'ils aiment, c'est quoi leur désir. En fait, il va venir analyser en fonction de qu'est-ce qu'ils ont dit, comment il parle, etc. Les différents block marketing de comment les targeter, quelles sont leurs objections. Et ça vous permet peut-être d'avoir identifié des choses que vous n'avez pas vues et ensuite de pouvoir trouver des angles.
+
+[01:06] Donc ça, ça va déjà vous donner pas mal de data. Donc je vous conseille vraiment de le lire, lire attentivement. Et ensuite, vous allez venir lui demander des idées de prompt classées selon framework épique. Donc émotionnel, en fait, framework épique, c'est pour pouvoir targetter différents angles
+
+[01:27] selon des différents niveaux d'émotion, enfin différents, pas niveau d'émotion, différentes types d'émotion. Ok. Le E, c'est plus qu'émotionnel, ça va être lié à l'oeuvre, le confort, l'empathie, etc. Le P, c'est tout ce qui est pratique. Le I, c'est identitaire au niveau du statut, la confiance, la communauté, faire partie
+
+[01:47] d'un groupe, etc. Et c'est plus ce qui va venir être bénéfice secondaire. Donc il a besoin de preuves, de comparaison, d'avoir des preuves rationnelles, de voir assurer son cerveau. Et le but, en fait, c'est d'avoir différents angles marketing qui targetent ces différents cadrants d'émotion. Ok. Comme ça, vous allez pouvoir attaisser très large. Donc, vous avez simplement lui donné, il aura des exemples d'output, etc.
+
+[02:10] Et lui, il vous sortira des résultats. Donc voilà, je sais qu'il y a pas mal de gens qui nous remessent pour les prompt qui marchent très, très bien, qui sont trouvés des idées de créatifs winnose. Il faut juste copier, coller. Donc là, je ne reviens pas besoin de faire une vidéo pour ça.
+
+[02:30] Vous avez qu'à juste lire ceci, vous copiez, vous collez et vous allez voir que vous allez avoir des outputs. Et je vous rappelle juste, le but avec ces outputs-là, ce n'est pas forcément de directement convertir en créatifs, c'est de lire et peut-être ça va donner d'autres idées. Peut-être que vous allez pouvoir exploiter encore plus loin. Peut-être qu'il va vous donner une idée d'angle qui va pouvoir, ok, ah, mais peut-être ça, ça me fait penser à ça et je pourrai aller plus loin.
+
+[02:51] Ou tu vas lui dire, ok, pour ce tang là, trouve-moi des messages qui pourraient raisonner. Trouve-moi 10, trouve-moi 20 et puis sur les 20, il y a peut-être trois qui seront bangers. Ok. Donc ça, ça vous donne toujours une base. Ce n'est pas juste à copier, coller. Mais c'est des prompts très, très bien fait qui vont vous donner des très, très bons outputs directement.
+
+[03:11] Donc voilà, c'était Mato. A bientôt. Ciao ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 39 : Ep #24 - 8 Hooks Irrésistibles - Partie 2
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 39
 ======================================================================
 
@@ -3498,16 +3628,88 @@ Ce module couvre les hooks visuels 4 à 8 pour des publicités Meta et TikTok à
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:01] Ok, welcome. On est sur la suite du 8hook visuel irrésistible pour Meta. On avait vu déjà les 3 premiers cas de premier. Aujourd'hui, on va continuer ici. Je rappelle que c'est des principes de hook visuel qui marchent vraiment sur Meta, sur TikTok aussi. Le point 4, c'est distorsion de la réalité.
+
+[00:22] Le but, ça va être de créer un scénario qui fait un double take au spectateur. En gros, il va venir lui faire une sorte de pattern interupte sur quelque chose qu'il a l'habitude de voir et quelque chose qui absorbe et qui ne va pas comprendre. Je vous rappelle, le but d'un hook, c'est que le spectateur se pose une question dans la tête. Et quand on se pose une question, on a envie de lui répondre.
+
+[00:42] Et en plus de ça, de cibler la bonne audience. Donc on veut cibler la bonne audience qui se pose une question et qui regarde la suite. Décnicement, c'est un hook. Et donc pour ce faire, on va venir combiner des éléments en famille. Là, en occurrence, on veut taguettez un produit lisseur, je pense. Et quelque chose qui n'explique pas l'absorbité.
+
+[01:04] En occurrence, pourquoi elle se masque les yeux? Et puis, on garde quelque chose comme de normal pour ancrer la scène. Donc là, je vous montre juste un exemple. Ok. Donc là, c'est pour montrer à quel point c'était simple à utiliser. Donc il y a des tas d'exemples.
+
+[01:27] Il y avait une pub très célèbre pour un, je crois que c'était pour un costume. Vous savez qu'en fait, simplement, elles avaient mis un bandeau de pirate à la personne. Et c'est ça un pattern d'intervier. Vous pouvez se dire que ça permet de faire arrêter le cerveau. Et avec quelque chose de what'sfuck. En fait, on va venir plus facilement ancrer l'expérience.
+
+[01:47] Nous, personnellement, à nos contents de créateurs, on demande régulièrement de porter ou d'avoir quelque chose qui est singulier. C'est-à-dire, mettre des lunettes de soleil ou mettre quelque chose, un costume tout blanc en soi avec des couleurs pour vraiment ajouter quelque chose de what'sfuck.
+
+[02:09] Et ça va permettre de mieux marquer les gens. Donc là, j'ai mis quelques emplois. C'est un personne en costume cravate qui joue avec des petites voitures, un don sans plus géant, assis, un bureau, quelqu'un qui se brosser dans ce cuisinant, une personne nia livre sous l'eau, dans une piscine. Vous m'assurez, c'est des exemples pour montrer. C'est quoi quelque chose de what'sfuck dans un environnement que vous connaissez,
+
+[02:31] mais ça doit être en lien avec votre niche. C'est important. Vous n'allez pas faire une personne qui nia livre sous l'eau. Et puis ensuite, vous allez vendre un truc pour une voiture. Par exemple, vous vendez des accessoires pour voitures. Vous n'allez pas une personne en costume cravate qui joue avec des petites voitures. Ça, c'est un sens. Ensuite, le point 5 juxtaposition dramatique.
+
+[02:53] Le but, c'est d'avoir un contraste qui va venir forcer le cerveau à comparer. Donc le cerveau, il ne pourra pas s'empêcher de comparer. Je vous explique. En fait, il va falloir avoir deux mondes opposés qui se rencontrent dans une image, dans un OQ. Donc simplement, vous allez venir. Je vais prendre un exemple d'un produit.
+
+[03:13] C'est que... Qu'est-ce que j'ai mis comme exemple ici ? Une voiture de luxe garée à côté d'un foot truck. Une personne au smoking dans un air de jeu. Une technologie moderne dans un décor vintage. Un minuscule objet placé à côté d'un objet gigantesque. Le but, en fait, c'est de faire un contraste fort. Ok ? Admettons que vous voulez vendre une montre. Ok ? Vous voulez vendre une montre et votre OQ, ça va être
+
+[03:37] une montre vraiment dégueulasse, fait avec du papier. Je ne sais pas. C'est que des cadrans sont du papier comme ça. Ok ? Vous avez votre montre avec le cadran en papier. Et de l'autre côté, vous avez votre montre. Et là, un OQ, je ne sais pas, après, là on parle visuel, mais vous pouvez mettre un OUX.
+
+[03:58] Je vais vous donner comme un exemple de OUQ. Texte, qu'est-ce que j'aurais mis ? J'aurais mis, je viens d'acheter ces deux montres pour moins de 79 dollars. Voici mon honnête review. Et ils vont dire, what the fuck ? Et ils t'en sont ces deux montres pour 79 dollars. Donc vous voyez, c'est ça le principe. Le principe, c'est de juxtaposer deux choses opposées dans une seule image.
+
+[04:20] Donc dans l'exécution, identifier deux opposées claires, placer les léas à côté ou en transition rapide, et puis laisser le contraste raconter l'histoire. Et utiliser la lumière, le cadrage pour accentuer les différences. Donc il faut vraiment qu'on comprenne lequel est le meilleur. Peut-être un peut être un peu plus sombre, l'autre peut être un peu plus mis dans l'avant.
+
+[04:43] Ensuite, le point 6 suspense mise en scène. Ça, j'adore. J'adore et ça crée un pic émotionnel. Et si c'est bien fait, nous, ça nous a fait des OUQ crées à 80%. Vraiment. Et avec un ton de conversion après qui était très bien, parce qu'on l'a très bien fait.
+
+[05:04] Donc vraiment ça, c'est un des top, top, top. Vous pouvez pas bien sûr faire que ces types de OUQ là. Sinon votre audience va, ça va les saturer, mais avoir quelques-uns comme ça, c'est vraiment le top. Donc si vous en avez pas, je vous invite vraiment à faire ces types de OUQ que je vais vous expliquer. Le but, c'est de montrer qu'il y a quelque chose qui va se produire. Ça va pousser les spectateurs à rester jusqu'au bout.
+
+[05:29] Pour l'exécuté, il va falloir créer une tension réelle sans danger. Utilise des angles de caméra pour se gérer un risque, des angles idéalement POV, donner l'impression que quelque chose va arriver et qu'il faut qu'il y ait une tension. Vous pouvez simplement chercher sur TikTok. J'ai trouvé I Find, et puis vous prenez des shots qui sont comme ceci.
+
+[05:59] Ça c'est un TikTok, mais nous on a fait des OUQ du style. J'ai attrapé ma femme qui était en train d'eux. Boom, boom, boom. Et après vous interessez sur votre produit. Et c'est ultra, ultra puissant. Ça m'a un pic émotionnel. Et pour rappel, le but c'est qu'il va s'occuper de l'attente de créer une émotion.
+
+[06:22] Et suivant que ce que vous mettez, ça va amplifier l'émotion. Donc exemple, une pile d'objets en équilibre précaire, un comptard pour qu'il s'affiche à l'écran, une personne marchand vers le bord du cadre, une approchelante vers un objet mystérieux. Voilà, il y a plein de types de manières de faire ce OUQ. Là c'est un type de OUQ avec la porte,
+
+[06:44] mais il y a plein d'autres types. Ça peut être un comptard bourg. Je dévoile pourquoi ma femme m'a largué pour cette chose qui n'est même pas humaine, par exemple, dans 3, 2, 1. Et puis après, je ne sais pas, sa femme utilise un oeuvre de produit. Je ne sais pas. C'est juste un exemple. Ensuite, point 7, révélation surprise.
+
+[07:07] La psychologie derrière, c'est l'anticipation de la découverte active les circuits de récompense du cerveau. Le but du concept, c'est de cacher. En fait, c'est d'avoir un élément caché qui devient visible. Donc ça, ça marche bien, ça ne plie plus complexe à mettre en place. Mais par exemple, j'ai pas mis d'exemple, je ne le retrouvais plus,
+
+[07:30] mais j'avais vu des ades où c'est que simplement, il y a un focus sur quelqu'un, la personne parle, et puis ensuite, derrière de la foule, il y a quelque chose de What's a focus qui sort, et puis ensuite, tout focus est sur la personne. Et en fait, ça casse un peu le rythme, et c'est ultra bon en ochrète. Là, vous aurez des tréfonds ochrètes. Maintenant, il va falloir leur mettre dans le contexte.
+
+[07:54] Donc, il faut construire de l'anticipation autour de la révélation, et rendre cette révélation à la hauteur de l'attente, et relier la surprise à votre message. C'est ça qui est un peu plus complexe. Donc, l'exemple que j'avais vu, c'est qu'il y avait un focus sur quelqu'un qui annonçait, je ne sais plus le produit que c'était. Je ne montres si c'était pas un vêtement.
+
+[08:17] Et le gagnant, voilà, du plus beau, je ne sais pas, de la plus belle veste, et puis ensuite, la personne derrière qui saute, et après, il y a le focus sur lui. Je ne sais plus c'est un truc de ce style. Mais vous comprenez l'idée. Donc, exemple que j'ai mis, la caméra recule pour un contexte inattendu. Une personne s'écarte pour dévoiler une scène cachée,
+
+[08:37] mais ça, par exemple, sur TikTok, ça cartonne. Ça cartonne, ça cartonne vraiment. Un objet se retourne pour montrer sur notre face un zoom arrière révèle un décor bien plus vaste. Un peu plus compliqué, mais ça marche très bien. C'est en gros, révélé, une révélation surprise. En gros, c'est un pattern interrupter qui arrive directement dans un hook. Là, par exemple, je pourrais être là,
+
+[08:59] puis d'un coup, boom, il y a Nico qui me tombe dessus. Puis qui vous dit, tout ce qui vous dit par rapport au hook, c'est du bullshit, voilà la même méthode. En fait, je ne serai plus à même à écouter parce qu'il y aura cette pattern interrupter. Les gens n'auront pas le temps de comprendre. Ok, c'est lui maintenant, il est là, et on doit l'écouter. Vous voyez ce que je veux dire ?
+
+[09:21] On avait fait ça avec un hook pour le school, avec Luca, c'est qu'on l'avait mis dans un cornet poubelle. Il commence à parler, boom, cornet poubelle, j'arrive, et on m'écoute. Et ce hook-là avait vraiment très, très bien marché. Et ça reprend exactement cette révélation surprise. Ok. Ensuite, quotidien amplifié. Ça aussi, ça marche très bien,
+
+[09:43] c'est de transformer des frustrations quotidiennes en situations visuelles extrêmes. On exagère leurs problèmes, par exemple. Donc pour l'exécution, identifier des expériences universelles exagérer à l'échelle de la quantité, garder un pied dans la réalité quand même, et utiliser du mou pour maintenir l'engagement. Donc en gros, admettons que vous avez quelqu'un qui est un peu plus élevé.
+
+[10:05] Et bien, à place de montrer quelques cheveux dans la main, vous avez montré masse de cheveux. Mais ça doit rester quand même plus visible. Vous n'avez pas montré non plus une tonne de cheveux. C'est vraiment très bon, parce qu'en fait, ça va venir exagérer le pay-in point, souvent c'est des hook-up de pay-in point. Et du coup, la personne, ça va créer un pic émotionnel.
+
+[10:26] Donc là, des exemples, une mini-sultace débordant de quantité énorme de café, une boîte mail affichant des milliers des messages non lus. Vous voulez dire à quelqu'un, ok, vous vendez un produit qui nettoie les boîtes mail, et vous dites, ok, t'as d'email que tu sais pas répondre, il y en a 10. Même si lui, réellement, il en a 10, ça ne va pas autant d'impact que si vous montrez des milliers. Vous voyez, on est obligé d'exagérer en Ate.
+
+[10:49] Et quand vous mettez de l'humour, eh bien, ça, c'est en accordance avec le fait qu'on exagère. Et ça reste, ok. Les gens comprennent qu'on veut leur faire passer un message. Et c'est pas juste un bon sang, c'est très important. C'est pour ça que mettre de l'humour dans les Ate, ça fait passer la période beaucoup plus simplement
+
+[11:10] que si, juste vous le dites, il faut acheter, il faut acheter, il faut acheter. Une personne en se vélisse une montagne de reçue, un téléphone rempli de 40, cette application, dans une fonction, bref, vous comprenez l'idée, le but, c'est vraiment d'exagérer. Là, je vous montre un... Que toi aussi, tu détestes quand les petits... Quand ce PQ reste collé à tes poils, le PQ a été inventé durant l'air. Voilà, ça, je crois que c'est une pub de beau cul.
+
+[11:33] Bref, là, vous comprenez, c'est très exagéré. Ça reste pas comme ça, mais ça marche. Ça marche, ça marche, vraiment. Donc ça, vous pouvez simplement fider votre chat GBT. Simplement, vous expliquez ça. C'est surtout pour le fider. Vous voyez, j'ai fait une manière assez corporée et comment on exécute. C'est quoi le concept derrière ? C'est quoi les types psychologiques ?
+
+[11:54] Et simplement, chat GBT vous donnera un tas d'idées. Donc voilà, pro-tips de la fin. Combinez plusieurs hooks ensemble pour un visual plus fort. Vous pouvez combiner plusieurs hooks en même temps, faire un suspense et exagérer. Vous pouvez combiner, en fait, il y a certains hooks qui peuvent être combinés ensemble et ça peut vraiment pouvoir innover
+
+[12:15] et faire des choses vraiment très puissantes. Pucentes, pardon. Testez différentes variations pour voir ce qui résonne avec votre audience. Bien sûr, vous n'avez pas besoin de faire qu'un hook. Vous faites toujours des variations. Vous voyez toujours le hook visual à votre message principal. Ça, c'est la base des hooks. Mais je pense que je vais déjà répéter et répéter. Assurez-vous que les scénarios peuvent être créés
+
+[12:35] en toute sécurité. Ça, c'est de la GBT qui m'avait mis, je crois. Et utilisez ces idées comme base pour des versions générées par l'IA. Maintenant, avec l'IA, vous pouvez créer toutes ces scènes vous-même avec Sora, avec VO3. Donc, c'est pour ça que c'est important d'avoir ces genres de textes pour pouvoir créer ensuite
+
+[12:57] et qu'ils se chiant de la GBT qu'on prenne comment créer. Là, vous allez pouvoir dire, ok, j'ai besoin d'une fille qui prend des cheveux dans sa main dans un lavabo selon un quotidien amplifié. Je veux que ça transforme, sans frustration, etc. Et lui, il vous créera quelque chose prêt à l'emploi. Donc voilà, c'était Matteo.
+
+[13:19] Je vais vous donner accès à ce document. Bon dimanche. À bientôt. Ciao, ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 40 : Ep #25 - 2 Créas Banger avec Nico et Andréa
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 40
 ======================================================================
 
@@ -3550,16 +3752,52 @@ Une marque américaine de weight loss à 4-5M$/mois prouve que la valeur perçue
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Là je vais partager une ad qui est Banger qui est exactement ça. C'est exactement cette entre-marqueting, c'est une marque aux US qui en ce moment fait à peu près 4-5 millions par mois dans le weight loss. Il sait que les hommes et les femmes, je vais partager mon écran, je vais voir ça. Et j'ai regardé cette semaine, il y a juste une de leurs statiques, elle se pende à la spendée à les...
+
+[00:24] Pour la dernière semaine à peu près 120 cas et la création statique elle est... Elle dit juste, ok on est plus cher. Et c'est pour une bonne raison. Voilà, il liste les raisons. Et juste, quand tu choisis un bon tam, tu te différencies, tu joues avec les angles, tu as un prix plus élevé,
+
+[00:46] tu peux justifier ton prix plus élevé et tu peux faire un ordre d'argent. Donc c'est super intéressant, je vais partager l'écran tout de suite. Pour ça, juste pour rebondir, pourquoi j'ai pris l'exemple des clottes menstruales, c'est un truc qu'on a eu très récemment. Une marque qu'on commence à accompagner, qui est un des plus gros vendeurs de clottes menstruales en France. Le mec vend plus cher, mais aussi parce que derrière il est allé se chercher à développer une application.
+
+[01:12] Il a un site qui est plus ou moins plus clean que les autres, il a un marketing qui est différent et tout. Du coup, lui il peut se permettre de faire ça. C'est aussi ça la logique que vous devez avoir, c'est par rapport aussi à la, c'est toujours une question de valeur perçue. Je pense que ce que Nico va montrer, c'est si on a des très bons arguments pour être plus cher, c'est très bien en fait. Ça va se rendre un petit peu mieux. Exactement. Là, je pense qu'on va l'écran.
+
+[01:34] Là c'est sur les crampe d'un âgeur, donc là typiquement les crampe derniers jours. Une de ces top ads, c'est des statiques, c'est presque que des statiques d'ailleurs. Et cette statique en question, donc celle-là ici où il y a tant de spend sur cette brand qui fait à peu près 4,5 mois, sachant que c'est de l'abonnement, elle est assez récente. D'ailleurs, ça c'est une brand que vous pouvez vous inspirer pour faire quelque chose de similaire en Europe.
+
+[02:00] Ils ont fait aussi ce Black Friday Goodbye. Ça d'ailleurs, ça c'est une ad banger à reproduire dès maintenant en fait, c'est une brand en est supplément autre, même qu'importe la brand, j'ai le mot Black Friday et combinez-le avec l'Ads qui se prient depuis un bon moment où on dit à Goodbye, c'est bientôt la fin, etc.
+
+[02:24] de Dines, ça c'est banger. Et du coup, c'est exactement ça. En gros, c'est notre type. Il y a une raison pour ça. Oui, il faut y cut corners, donc si on prend les raccourcis, on ne vous aiderait pas à perdre du gras plus rapidement. Ça ne vous booste pas comme notre GLP1. Ça vous booste.
+
+[02:47] Vous n'aurez pas eu des résultats si rapides. Et en fait, quand on fait ça, les concurrents font le travail à votre place. C'est-à-dire, ici, on vient sur le marché avec un produit de meilleure qualité. On est sûr qu'il y a beaucoup de personnes qui sont intéressées parce que vous avez choisi un produit avec un énorme tam. Et on vient juste se différencier en étant meilleur.
+
+[03:09] Et du coup, cette ade juste statique, elle tue. Parce qu'en fait, tous les autres concurrents font le travail à votre place d'éduquer le marché. Et éduquer même tous les stages de confiance. Et vous, vous venez sur le dernier, on est la meilleure qualité. Et même, vous allez pouvoir taguettez des personnes qui ont acheté un produit similaire et juste n'étaient même pas satisfait.
+
+[03:31] Et du coup, vous allez pouvoir taper sur une audience qui ne doit pas vous les même plus jamais acheter. Mais vu que vous êtes une meilleure qualité, ça prend bien. Donc, d'ailleurs, ils font un quiz. Ça semble-je, c'est leur EP. Direct, un quiz. Et ça, c'est Banger aussi.
+
+[03:53] Donc ça, c'est en Europe, Banger Total. Je voulais vous partager du coup la deuxième ade absolument, absolument Banger qui print. En ce moment, enfin, le type d'ades qui print, c'est ce type d'ades. Alors, en gros, c'est des ades statiques
+
+[04:16] où c'est juste une image d'une circonstance ou juste admettons, on vend un t-shirt. C'est une image de quelqu'un qui a un gros ventre. Et c'est juste une image de ça. Et limite, on entoure le gros ventre.
+
+[04:38] En fait, on montre la problématique en une image toute groue, toute normale. Et on peut le faire même avec d'un ou d'un banana. Avec le module de l'unique, on peut faire des images toutes simples. Et on a réalisé qu'il y a beaucoup, et d'ailleurs, merci Ali, qui est dans notre équipe, qui nous a montré tout ça, mais en gros,
+
+[04:59] il y a pas mal de personnes qui chiffrent sur beaucoup de brand en ce moment. Et leur tout, leur ice lab bruit, c'est que des images comme ça, tout trop. C'est des images groues, images toutes simples, un peu qui choquent. Le chien, il a un coup. Et toutes ces images toutes simples. Vous laissez aller voir leur ice lab bruit.
+
+[05:21] Eux chiffrent pas mal. Et beaucoup d'autres niches dans santé et bien-être, des images toutes simples. Ça, ça prit un an. Et il y a une particularité, c'est que du coup, là, ils mettent un ad copie qui est différent pour chaque ad sans l'inérate. Ils font pas le même ad copie pour toutes les ads. C'est personnalisé en fonction des autres.
+
+[05:43] Et un truc, par rapport à ça aussi, tu peux être grave intéressant pour vous dire là, sur les statiques en ads, fait qu'ils print le plus, ré-exploiter les sites en cas de caroussel sur votre passe-produe. Genre là, typiquement, vous avez la première, où on voit effectivement le chien avec un gros bouton, un truc comme ça. Vous la faites un petit peu plus clean
+
+[06:04] et vous mettez un gros texte. Nous, on appelle ça des images infographiques, où justement on éduque le client sur des choses. Vous réutilisez l'image qui a fait cliquer, vous l'exploitez sur le site. Encore une fois, il faut la modifier un petit peu. Et ça, c'est des trucs qui aident tout. En termes de conversion, quand vous avez votre caroussel, vous savez déjà que les personnes ont cliqué parce qu'elles ont vu cet ad. Donc c'est un putain d'indicateur. Et c'est pour ça que même sur des vidéos,
+
+[06:25] vous ne pouvez pas reprendre une vidéo évidemment dans votre caroussel de produits. Mais par contre, quand vous avez un angle marketing qui a fonctionné dans votre client, pas en votre site, il doit justement reprendre cet angle marketing. Il devait toujours avoir une grosse cohérence entre l'ad et le site. C'est pour ça qu'on fait des funnels. Et c'est comme ça que de base, on n'en est plus à faire des lending page. C'est que justement, on veut une cohérence avec ce qui est dit en A,
+
+[06:46] c'est ce qui a fait cliquer.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 41 : Ep #26 - Copy Meaning & TrendTrack
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 41
 ======================================================================
 
@@ -3602,16 +3840,114 @@ Le "copy meaning" consiste à identifier des publicités gagnantes via TrendTrac
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Nouvelle épisode Creative Insights. Aujourd'hui je vous partage une stratégie. Je vais vous montrer une stratégie que vous devez absolument faire. C'est pas une stratégie secrète. C'est une stratégie que beaucoup de personnes faits mais j'aimerais vous faire prendre conscience à quel point c'est important et comment bien le faire. Cette stratégie là, c'est un s'appelle du copy meaning. Ce qui veut dire que vous allez venir copier
+
+[00:22] un concept, un script qui marche déjà et l'adapter à votre marque. Et ça c'est les types de cartes qui ont le plus fort y trait. C'est à dire qu'on fait un script qui est inspiré d'un script winner. Il y a de grandes chances que ça marche chez nous et chez différentes brain que j'ai pu lancer, différents produits que j'ai pu lancer. C'est ce qui a le plus de...
+
+[00:45] ce qu'il y a de mieux y traite. C'est à dire que le nombre de ads qu'on teste avec ça, le y trait est très très fort. Il est beaucoup plus fort que le reste. Ok? Parce que simplement ça part d'un concept prouvé. Donc simplement ici j'ai une liste de top marque par niche que je vais vous donner accès et vous allez pouvoir simplement vous en inspirer.
+
+[01:05] Ok? Je vais démontrer sur Train Track. Que vous sachiez, j'utilise Train Track. Je vais expliquer la petite histoire de pourquoi on n'en a pas parlé avant. En gros, Nico et moi, on voulait promouvoir un tool un peu sous-côté. Ok? On voulait promouvoir un tool sous-côté.
+
+[01:27] On savait que Train Track existait mais tout le monde utilisait Train Track. Autant moins que Nico quand tout le monde utilisait quelque chose. Automatiquement, ça ne nous intéressait pas. Mais... voilà, on a... on a connu BX. Il nous a dit que le outil était bien.
+
+[01:48] Tout le monde en fait était satisfait et je dis à Nico, bon il faut quand même qu'on teste. Et en testant, c'est vraiment bien. Et là, comme je l'utilise, et bien automatiquement je vais vous partager ce outil. Vous sachiez, vous pouvez prendre un lien d'affiliation, enfin vous pouvez prendre parmi notre lien d'affiliation ou sans. Honnêtement, je m'en fiche.
+
+[02:11] Simplement, moi je démontre le type parce que vous savez que tout ce qu'on partage c'est Cali parce qu'on l'utilise et parce qu'on est satisfait. Donc moi je suis satisfait de Train Track donc je vais vous partager sur Train Track. Il y a aussi Forplay, il y a aussi Attria mais honnêtement, Train Track, c'est vraiment bien. Je vais vous expliquer pourquoi. Donc bref, simplement, nous on a un rabais. Vous aurez 20% sur votre abonnement
+
+[02:37] avec le rabais qu'on a et on mettra ça dans le school et après si vous voulez prendre en dehors voilà, on s'en fiche mais que ça soit transparent. Nous on a un lien affilié, c'est ce que ça se propose. Mais l'outil est vraiment bien. Je vous explique pourquoi. Pour moi c'est presque mieux que Forplay pour certaines manières.
+
+[02:59] Je vous explique pourquoi. Donc là vous avez la liste que je vais vous donner et vous simplement vous allez pouvoir chercher par par votre niche ou par votre niche. Par exemple là je vais taper cure. Je sais cure. Je connais le média buyer. Je connais le Funder. Ils vont faire DM ce mois. Ok, ça veut dire que niveau meta ça se passe bien. Donc là on va taper cure.
+
+[03:22] Donc simplement là je tape cure skincare. Ok, ça apparaît. Là on va ouvrir leur shop US. Et on va ajouter au brand tracker. Ok, c'est ce qui est vous sur Forplay, au spy tracker ou je ne sais plus nom exact. Et là, ok, on va ajouter. Il est déjà. Je vais l'ouvrir. Donc là en fait on voit toutes les pages aussi, les pages secondaires qu'ils utilisent.
+
+[03:45] Donc regardez juste le nombre de pages et de white listing et de partnership qu'ils utilisent. Et c'est très intéressant parce qu'on va pouvoir ajouter L. Ok, ou lui. Et on va pouvoir voir les ades qui font avec ce type de page. Ok. Ok, donc là je suis dans le brand tracker et on va voir ce que cure font. Donc là on a les top 10 ades actifs. Donc comme vous savez en Europe on arrive à voir les impressions.
+
+[04:09] Donc ça c'est très très lourd. Je vais se fermer ça ça va être plus propre. Je vais me mettre plus petit. Donc là on arrive à voir en gros leur top 10 ads du moment. Et ça nous donne pas mal d'inspiration. Et vous en fait votre rôle, c'est d'innover le moins possible. Donc même si vous êtes dans d'autres niches, vous n'allez pas voir que ce concept là vous pouvez le répliquer.
+
+[04:33] Après si vous êtes dans d'autres niches et que vous allez venir copier un concept, là ça va être un peu plus... Mais ça marche. Ça sera à vous, à votre créativité stratégiste, de voir en fait si ça peut être réplicable. Là on a une ade qui dure une minute 40. On va regarder si on peut la répliquer. Donc là Luke déjà j'aime bien. Alors je l'ai mis à rue des preuves et je l'ai fait seulement d'un côté de mon visage.
+
+[04:56] Allez, petite aperçu de comment ça se passe. D'abord je me lève bien les mains et le visage pour être sûr que tout est parfaitement propre. J'attache mes cheveux pour qu'ils ne me gèdent pas. Ensuite j'ouvre une nouvelle tête de glistérielle, c'est beaucoup plus sur niveau infection qu'ensemble de la rembours. Ok, bref là on a un UGC. Un UGC qui démontre en fait le résultat en direct de comment ça se passe. Donc là, voilà si vous êtes pas emboté,
+
+[05:17] peut-être un peu plus compliqué à répliquer. Mais le OU que ça peut inspirer si vous êtes emboté. Mais si vous êtes emboté par exemple, voilà là vous avez une ade que vous pouvez répliquer pour prendre les deux scripts. Même si là c'est moins un script passé plus un UGC. Donc ce serait pas forcément une ade que je reprendrai. On va regarder d'autres ads. Voilà une ade qui active depuis minimum 20 jours.
+
+[05:38] Je sais que Cure en fait y teste un abio par exemple comme beaucoup de marques. Du coup c'est une ade dure depuis 20 jours. Ça veut dire qu'elle est Windows. Et qu'ils sont en train de la skier des. Et après si la reine en Europe on peut voir le nombre d'impression etc. Donc là on voit que leur ade de Black Friday ici, leur meilleur ade c'est ça.
+
+[06:03] Donc là ça peut donner des idées de concept. Je vais essayer de trouver une qui est un peu scriptée pour qu'on puisse s'en prier. Ok ça me a un peu de temps chargé. Ah j'ai bien mon wifi pourtant. Ok c'est bon.
+
+[06:33] Ok là on a un bon concept. Donc on a un concept qui est filmé un peu. Voilà c'est un mashup. On commence à la garantie. 30 jours c'est ce qu'on a besoin pour montrer un poteau ciel. Amélioration et là on a introduit le produit.
+
+[06:55] On voit peut-être un avant après. Ensuite on voit full question, non question ask. En fait il réduise l'anxiété. Il rassure le client directement dans l'at. Donc là on va sûrement être sur une at solution aware.
+
+[07:19] Voilà. Ok.
+
+[07:43] Après l'at slide est plus active j'aurais pris une at sk active. Mais vous comprenez le principe. Alors je vais vous montrer une at sk active et comment on pourra la copier. C'est qu'elle était quand même pas mal. Après simplement ils ne l'ont pas gardé. Je vais garder si on active. Je vais oublier de le faire.
+
+[08:08] Je vais juger si vous êtes en santé. Moi j'aimerais voir une at sk on peut reprendre. Le script qu'on a vu avant, il marchait mais il était pas forcément ouf. Et là vous avez la différence entre l'autre at sk et cette at sk. Donc cette at sk a mieux marché. Ok.
+
+[08:30] Pourquoi ? On va essayer de découvrir pourquoi. Peut-être que ça n'était pas avant. Elle est un peu plus vieille. Et là on a une intro. Ce qu'on voit après le hook différent. Ou le hook est beaucoup mieux. Le hook est beaucoup mieux. Donc voilà.
+
+[08:50] On a cette at sk. Ok. Simplement transcript. Je vais vous faire sauver du temps un peu. Voilà. On copie sans le texte seulement.
+
+[09:13] On regarde juste les détails. En vrai il n'y a pas besoin d'avoir forcément trop de détails. À Tria, ils donnent des détails psychologiques qui ne sont pas forcément très précis. En vrai ce qu'on a besoin c'est juste du transcript. Et on passe sur Chatcha GT ensuite. Donc moi j'utilise le même Chatcha GT que je vous ai donné. Ok. Simplement j'utilise le même adapter à ma brand.
+
+[09:35] C'est ce que je vous avais dit de faire. Donc si vous avez suivi le module créatif c'est ce qu'il faut faire. Donc simplement vous lui donnez vos data au Chatcha GT. Et là vous avez un Chatcha GT qui est entrainé avec mon contenu. Plus qu'à les top livres et formations de copie writing et de créatives. Donc simplement on va dire adapter à mon produit. Ok. On va dire adapt moi.
+
+[09:56] Enfin on va d'abord demander décompose moi ce script en différents blocs marketing. Et puis plus adapt le à mon produit qui est un masclade anti-age.
+
+[10:22] Ok. Ça va moins bien marcher parce que en fait quand vous faites du copy meaning ce qui est très important c'est en fait de décomposer. Donc je vais déjà demander de décomposer en blocs marketing. On va bien le faire. Ok. Donne moi aussi le stage awareness de l'AZ et angle marketing.
+
+[10:50] En gros il va vous faire tout le travail. Voilà. Donc vous voyez exactement ce que j'ai dit avant c'est solution aware. Il targue du solution aware et il faut une AZ assez précise. Donc là on voit que cure il dépense 10 millions par mois et ils font des AZ assez précises au niveau du stage awareness et on le voit clairement dans l'AZ.
+
+[11:10] Et là ils vous donnent comment le script est décomposé. Auc visual plus solution aware et de date. Ils ne voient pas les images. On pourrait donner les images à Gemini. Je crois que Gemini les voit. Mais nous ce qu'on a besoin c'est de décomposer le script. Ok. GodTrendizeToDecide. Pas TerrainTerrafor et qui est une tension temporelle.
+
+[11:32] Donc là ce que vous dites. Là je ne vais pas analyser le script totalement parce que je vais vous montrer juste le process. Mais c'est que vous parlez à quelqu'un qui connaît les solutions et qui ne sait pas encore se décider. Donc là en fait on fait un script qui marche pour cette solution aware. Donc vous il faudra garder ce script en solution aware. Ok.
+
+[11:53] On ne veut pas changer. C'est très important. Vous n'allez pas venir rajouter des problèmes etc. Là vous gardez le script tel quel et vous allez le copier pour votre marque. Donc il faut juste que vous comprenez les différents blocs marketing parce que vous allez venir travailler par bloc. On ne travaille pas directement sur tout le script. Ok. Donc là en gros il est comme je vous ai dit des responsabilisations preuve de confiance. Unique mécanisme. Pourquoi c'est mieux que les autres.
+
+[12:14] Les autres ensuite ils mettent d'éducation et aussi de l'autorité. Des données concrètes. Donc là si vous avez vous fait ce script là il est de grande chance que ça marche pour votre produit. Maintenant comment on va faire. Simplement en gros on l'aurait dit mon produit est un masque led. Il en fallut que je donne les bénéfices en fait parce que quand vous vous adaptez c'est pas juste changer les mots et adapter votre produit.
+
+[12:41] Parce que là en fait il y aura des choses qui ne sont pas adaptées à votre produit. Peut-être des bénéfices qui ne sont pas importants pour votre produit. Donc en fait c'est important qu'il ait en fait un peu de data. Ok. Donc là je vais dire mon produit c'est un masque led. Je vais donner un peu des commentaires à ma zone que ça je vous fais un truc en direct.
+
+[13:03] Ok. Donc simplement ce que je vais faire et je vais donner la data j'avais déjà fait dans le creative insight c'est sur un pantalon. Donc là il va adapter le script par exemple sur un pantalon. Donc là vous voyez que là on est sur la beauté et on peut adapter un script en fashion. Donc là on revoit bloc après bloc. Ça c'est très important c'est qu'on fait du copy meaning. C'est pas tout le script c'est bloc après bloc. C'est comme ça que vous allez pouvoir être plus précis et pouvoir créer quelque chose vraiment de concret.
+
+[13:26] Donc là ou que visuel tu as 30 jours pour le renvoyer mais on sait déjà que tu vas le garder c'est fucking bien. Honnêtement ensuite déresponsabilisation offres en risque. Là on va voir ok chez la marque on sait à quel point elle est pas tellement confortable pour une état journée c'est pour ça qu'on offre 30 jours pour prouver que le nôtre ne change pas du tout. Ok. Donc là c'est bien par contre ça j'aurais changé. Unique mécanisme il est construit avec une tégologie de microarration et une coupe pensée pour suivre chacun de tes mouvements finit les tissus qui collent, hérite et remonte.
+
+[13:55] C'est vraiment bien en fait il s'adapte vraiment au produit. Tu vois les pantalons qui s'accélèrent et qui chauffent et qui viennent sans boule après de lavage ou bien nous aussi ok. Contraste avec les mauvaises solutions. Là peut-être il aurait fallu que je donne plus de contexte par rapport aux autres pantalons je sais pas en fait techniquement les gens qui vendent des pantalons. Qu'est ce que c'est quoi les problèmes mais je pense qu'il fit mal donc peut-être tu vois les pantalons qui fit mal etc.
+
+[14:20] Mais bref c'est vous comprenez le principe. Ensuite preuve sociale qu'on suit pour aux côtés des athlètes et qui n'est des vrais mecs qui détestent ces sous-vêtements chiant. Alors là c'est pas un sous-vêtement c'est un pantalon. Ensuite non 2% des testeurs, 82% des testeurs. Dès que c'est pantalon le plus confortable que j'aimais porter. Il y a 8% pour tes sûrement et 1.
+
+[14:41] Ok c'est bien tu l'enfile tu oublies que tu portes quelque chose c'est simple que ça. Ok c'est plutôt bien c'est comporté du sur mesure mais sans prix du tailleur plus de génie de piège. C'est plutôt bien après ce qui est très important c'est que en fait j'aurais pu donner selon les angles marketing.
+
+[15:03] Là en fait on a un angle marketing qui est pour la beauté et nous on les adapte en fait tu n'es pas dit d'angle. Et quand vous voulez adapter une art et un script qui est dans une noteniche totalement différente il va falloir donner du contexte à l'HGPT pour lui dire ok selon meilleur angle actuel. Donc là je ne sais pas si l'angle par exemple c'était confort et bien là en fait ça fit.
+
+[15:26] Mais si l'angle c'était peut-être ça fit ça fait relever les fesses on voyait que c'est pas adapté. Mais bref nous en fait c'est exactement ça qu'on fait chaque semaine c'est-à-dire chaque semaine. On indique de créatifs stratégies d'abord tu fais ça d'abord tu fais du copy meaning pour eux je vous dis honnêtement c'est ce qu'ils aiment moins le faire. Si vous avez un top créatifs stratégie il va peut faire ça parce que fait c'est simple n'importe qui peut pour elle faire mais c'est pas n'importe qui.
+
+[15:54] Parce qu'en fait il va falloir adapter parfaitement à votre art parfaitement à votre produit donc en fait vraiment indiquer l'heure de chaque semaine faire ça. Selon le volume que vous faites ça peut être un deux copies de script 3 4 etc. Nous simplement ce qu'on fait c'est qu'on copie l'arts directement on fait 8 hooks différents ok c'est-à-dire que là on aurait fait 4 hooks dans la même idée mieux.
+
+[16:20] Et ensuite 4 hooks pour le même stage de awareness différents ok. Et ensuite on aurait fait un note script amélioré part de ce concept là mais qui est amélioré selon notre savoir. Et comme ça en fait en copy meaning nous en fait on va venir adapter on va venir lancer à peu près ses arts pour une inspiration.
+
+[16:43] Et si après on voit vraiment quelque chose de banger on voit peut-être un hook qui est vraiment banger ou un message qui est vraiment banger. Et peut-être commencer l'arts il a commencé comment il a commencé en parlant de 30 jours pour le renvoyer. Ok le concept ça marche bien on va pouvoir peut-être le tester sur tous nos autres arts solution aware. De commencer en fait par rassurer de cette manière là avec bien sûr des différents visuels.
+
+[17:07] Donc vous voyez c'est vraiment très très important et ça marche vraiment vraiment vraiment. Et que nous le it treat il est presque à 50% voir plus parce que je dis on fait on test avec 8 hooks et on fait une autre itération du script. C'est que ok peut-être que là moi en tant que créatrice stratégiste j'aurais mis la preuve sociale plus vite. J'aurais mis un dermatologue qui introduit plus vite le produit c'est-à-dire que eux ils le font avec une main normale moi j'aurais mis une main de dermatologue.
+
+[17:37] Et là j'aurais mis directement des dermatologues après pour leur script ok donc ça c'est mon idée de comment je vais l'améliorer. Et peut-être que j'aurais mis un avant après ou plus vite aussi ok. Là ça va un peu lent au départ. Bref donc ça c'est mes idées c'est des hypothèses ok. Et ensuite on teste. Donc voilà je vous enverrai cette liste de brand ok il y en a plein d'autres mais simplement le process c'est ça.
+
+[18:05] C'est chaque semaine vous copier des scripts qui marchent. Ok alors j'ai dû refaire juste un bout de vidéo juste pour terminer sur l'outil. Donc j'ai dû refaire justement cette vidéo parce qu'après négligation je suis heureux de vous dire qu'on a pu obtenir le meilleur prix train track pour notre communauté. Je vais vous expliquer comment. On avait déjà demandé le meilleur prix mais train track n'était pas chaud qu'on soit il est meilleur.
+
+[18:29] Alors c'est-à-dire qu'on met en avant le prix le plus bas que personne peut obtenir. Pourquoi on a obtenu ce prix là parce simplement nous on a voulu on voulait réduire nos commissions mais par faire des cuités aux autres ils n'étaient pas chauds et on a insisté. Et je peux le dire que dans le school je ne sais pas le dire publiquement mais vous aurez le prix le plus bas qui se fait sur le marché. Ok vous aurez 30% de réduction pas besoin de prendre pour l'annuel testé juste à moins etc.
+
+[18:56] Après je répète on force personne on ne le fait pas pour l'affiliation vous savez très bien c'est dans le school que nous on promote les idées. On utilise les idées de train track mais les équipes utilisent train track c'est pour ça que je le promouvoir mais vous pouvez le prendre si vous voulez à travers un autre lien etc. Mais sachez que nous là on vous obtenit le prix le moins cher parce qu'on a réduit nos commissions. Donc vous n'osez pas le mentionner si vous ne le mentionnez pas mais voilà vous aurez 30% à vie avec notre partenariat.
+
+[19:27] Donc voilà c'était Mathéo à bientôt tchachat.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 42 : Ep #27 - Creative Diversification
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 42
 ======================================================================
 
@@ -3653,16 +3989,54 @@ Depuis la mise à jour Andromeda, Meta récompense algorithmiquement les comptes
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Welcome la team, nouvel épisode de Creative Insight. Aujourd'hui je vais donner un petit épisode avec pas mal de value. Vous savez que depuis Andromeda il faut de la diversité, enfin même avant il fallait de la diversité, ok ? Ça c'est une formule que j'ai déjà partagé dans les Masterminds et que là je vais commencer à vous partager dans le school qui était déjà avant l'Andromeda, ok ? Mais depuis Andromeda c'est encore plus important
+
+[00:24] parce qu'Andromeda réward si vous avez de la diversité au niveau de votre compte, ok ? Pour vous aider, je vais vous donner un cheat, ok ? que j'ai obtenu. Je vais pas vous dire que je l'ai inventé, je l'ai obtenu. J'ai simplement amélioré un petit peu. Et je vous expliquais comment vous allez pouvoir l'utiliser. Donc simplement ce cheat là c'est pour vous assurer que vous ayez de la diversité, ok ?
+
+[00:50] Là vous avez le format que vous pouvez imprimer pour ceux qui aiment imprimer ou donner à vos creatives stratégiques et peut-être chaque semaine, ok, de checker ou vous avez la version notion beaucoup plus simple. Ce qui est important c'est de varier en termes de messages, de formats, de creatives concepts, de placements et ça c'est juste les best practices qu'il faudra faire.
+
+[01:16] Donc en gros je vous expliquais selon ma formule. Pour générer un maximum d'ad-souineuse, il faut des angles marketing, des messages, ok ? Ça va s'adissionner avec l'avatar et le sage d'Avranès. Vous avez touché différents avatars selon différents stages d'Avranès, ok ?
+
+[01:37] Vous avez un même avatar, ça peut être Paul qui a 30 ans et qui est sportif mais qui connaît le produit ou ça peut être Paul qui a 30 ans, qui est sportif mais qui ne connaît pas encore le produit, qui sait même pas encore qu'il a un problème de hanche par exemple ou de pied, ok ?
+
+[01:57] Et en fonction de ça on va venir multiplier un maximum de messages pour Paul. Ça peut être des messages, ok ? Si il a un problème de pied et qu'il est sportif, ça peut être tu portes des mauvaises chussures, enfin tu es porté des nikes sans se mettre en orthopédie que c'est de la merde, ok ? Ça peut être un message qui résonne ou peut-être un autre message qui résonne.
+
+[02:18] Selon son niveau d'Avranès, si il n'est pas aware qu'il a un problème, c'est peut-être si tu ne performes pas, c'est peut-être qu'il y a un problème avec tes semelles, un truc de style, ok ? Et après les concepts, c'est comment on va venir faire véhiculer le message en UGC avec peut-être un gars qui ressemble à Paul ou peut-être en statique
+
+[02:39] avec un dessin, quelque chose dessiné qui va venir expliquer à Paul, ok ? Ok, ça c'est les formules de l'équation, c'est que vous allez pouvoir alterner un maximum de choses. Et ensuite la cohérence index, ça vous allez l'avoir dans la masterclass que je vais donner. Vous aurez accès à une masterclass, un replais, un replais de...
+
+[03:07] Excusez-moi, j'ai perdu les mots, un replais d'une conférence que j'ai fait pendant notre mastermind, ok ? Donc ça non-enlange, je ne l'as que dans les masterminds, on a décidé de vous donner quand même. Donc il y aura de la grosse, grosse value et vous allez comprendre ce que c'est en gros cohérence index, c'est par rapport à toutes les composantes, comment est-ce que tout va être délivré ? Parce que vous allez avoir toutes les beaux de composantes, si vous n'avez pas des bons bíroll,
+
+[03:29] si vous avez des problèmes au niveau de la vie de l'editing, ou si les bírolls peut-être montré ne correspondent pas avec la vatare, mais en fait ça va, même si votre formule est juste, les résultats seront moindres. Donc ça va être boosté par ceci, ok ? C'est pour ça que c'est très important d'avoir des bons vides de l'éditeur, c'est pour ça que c'est très important d'appliquer les techniques psychologiques que je vous donne pour créer des ades muneuses, ok ? Mais si vous suivez ce school, vous avez toutes les armes en main.
+
+[03:51] Donc, vous voulez tester un maximum de messages, un maximum d'avatar, un maximum de... d'avatar et cet âge d'avoir un S, un maximum de concepts. Techniquement, je vous dis comment nous on applique, actuellement dans notre compte, comment Meta nous a dit d'appliquer, ok ? Donc c'est des personnes qui travaillent chez Meta qui sont spécialistes en performance.
+
+[04:11] Ils nous ont dit que Meta réwarde le fait d'apporter de la diversité en termes de messages, ok ? Donc d'angle marketing, ensuite en termes d'avatar et stage à awareness. Donc nous maintenant, ce qu'on fait, c'est que dans nos ades set, on crée presque des ades sets par awareness, ok ? Comme ça, en fait, on va venir toucher les gens qui sont cold,
+
+[04:32] qui sont middle of funnel, bottom of funnel, ok ? Et le fait de séparer, de séparer ceci de manière organisée, Meta aime ça, ok ? Et puis après, plein de concepts différents. Donc je ne vous donne pas des conseils en termes de médiabas, je vous dis juste Meta aime que vous ayez de la diversité.
+
+[04:54] Donc ça c'est juste un bonus. Le sujet de Kratriminsai, c'est surtout ça, ok ? Vous comprenez ceci. Et ça c'est plus un bonus pour vous organiser, pour vous organiser. Je pense que ça vous pouvez la dupliquer, vous pouvez la créer votre propre fiche.
+
+[05:15] Mais le but c'est que vous ayez de la diversité par rapport à votre brand. Au niveau des ratios, c'est quelque chose de très important. Il y a certains ratios comme les carousels. Carousel c'est un hack, c'est qu'en fait pour Meta, même si votre ade c'était déjà Winners on 1, Winners on 1, Winners on 9, 16, le fait que c'est un carousel c'est un nouveau format pour elle. Vous pouvez reprendre deux winning hats
+
+[05:35] et les remettre en carousel et ça sera nouveau pour Meta, ok ? Ça c'est un petit hack. Ensuite si vous avez des statiques, c'est toujours différent format. Ensuite si c'est Winner, ça c'est très simple. Comme ça vous ayez de la diversité. Au maximum vous ayez de la diversité, sur le compte, au mieux Meta va vous promouvoir. Donc c'est la première des choses.
+
+[05:56] C'est d'avoir un plan pour avoir de la diversité. Et ensuite il va falloir s'assurer que cette diversité est de qualité, ok ? Mais une fois que vous avez déjà de la diversité, Meta va voir que vous avez de la diversité et va vous mettre devant une meilleure audience. Parce que vous avez de la diversité, ok ? Ça c'est nouveau avec Meta. Et ensuite il faut de la qualité.
+
+[06:17] Si vous commencez à lancer beaucoup de volume avec des b-rolls etc. qui sont pas bonnes, Meta va vous flag. Et du coup comme il va avoir des similarities avec d'autres ads, parce que vous n'avez pas pour repartir sur de nouvelles craffes from scratch, ça va être plus difficile. Donc faites vraiment attention, faites de la qualité. Il faut vous assurer que tout est bien cohérent, ok ?
+
+[06:38] Vous n'avez pas des ads qui partent pour faire du volume et sans qualité derrière. Voilà, petite épisode important sur ceci. Et ça va se compléter avec la vidéo Masterclass que vous aurez accès. Je vous remercie pour votre partage
+
+[06:58] et vous allez comprendre un peu plus. On va, c'était Mato, à bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 43 : Ep #19 - Analyse de statiques
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 43
 ======================================================================
 
@@ -3700,16 +4074,50 @@ Trois formats de visuels publicitaires statiques testés et validés sur Meta et
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Salut la team ! Alors aujourd'hui, petite partage sur quelques statiques qui marchent et qu'on a testé et qui marchent pour nous aussi. Donc je voulais partage. Alors ce que vous savez c'est que c'est toujours dans ce template que vous avez accès comme ça, vous avez simplement à re-utiliser.
+
+[00:20] Le premier concept c'est simplement ce format là, accepté ou décliné. Et le but c'est d'avoir votre image produit ici et tester différentes headlines ici de la vie du client sans son problème.
+
+[00:41] Et que votre produit ce soit la solution de manière explicite. Donc le but c'est d'avoir ce format là avec ceci. Ça vous n'êtes pas obligés de le mettre, ça c'est de la raison médicale pour une omie. Et de tester différentes messages. Par exemple si votre produit c'est des probiotiques, ok ?
+
+[01:02] Bah ouais enfin non c'est des probiotiques là pardon. Une vie sans ballonnement. Si votre produit c'est je sais pas, voilà cosmétique. Une vie sans bouton par exemple. Voilà ça on est les boutons. Une vie sans bouton et en train d'appeler. Boom. Et en fait c'est très très puissant. Le message est très puissant et ça marche vraiment bien.
+
+[01:24] Et vous avez plusieurs variations. Donc il y a celle-là, au celui-là. La vie c'est d'habiter, abîter les deux. Là vous pouvez mettre aussi quelque chose de plus rationnel. 40% off-hydratation et en train d'appeler. Boom. Donc voilà vraiment un format que vous devez faire. Donc ce que je vous conseille c'est que vous prenez ces deux formats.
+
+[01:44] Et vous créez plein de variations avec différents messages. Et vous pouvez tester avec ou sans votre logo. Donc voilà pour ce premier concept. Le deuxième concept c'est un Nats Winx de Loop. Nats Winx de Loop pardon.
+
+[02:05] C'est de donner un fait et de indiquer par rapport à ce qu'il fait, ce qu'il est, qu'il a un meilleur choix à faire. Ok. Là en gros les loops c'est pour mieux dormir. Et en fait ils appuient sur le fait qu'ils passent énormément de temps à dormir.
+
+[02:28] Du coup c'est le bon choix. Ça a plus de targetté des gens qui sont aware du produit. Et qui n'ont pas encore conscience à quel point il est important. Donc ça c'est des ades qu'il faut faire. Parce que vous avez énormément d'acheteurs, enfin de prospects qui connaissent votre produit. Et qui n'achètent pas encore. Parce qu'ils ne savent pas à quel point c'est important.
+
+[02:49] Donc de faire des statifs, c'est que vous allez venir simplement appuyer sur pourquoi c'est important pour lui. Ok. Par exemple pour du ballonnement. Vous pouvez le faire avec de la chansabilité. Mais ok. Des probiotiques. En gros ils passent, pour rien dire, je ne sais pas ils passent 24 heures sur 24.
+
+[03:10] Avec son bien-être du ventre, fait le bon choix. Ok. Ou le ventre est considéré comme le deuxième cerveau. Ou je ne sais pas, des phrases pour montrer que ce que votre produit résout comme problème est important. Donc ça, ça marche bien. Vous pouvez le faire sous un format très simple.
+
+[03:33] En général, on met le produit au centre. On met l'offre. Ou une proposition de valeur extra ici. Le logo optionnel. Et là la headline puissante. Ce qui avec des chiffres marche toujours bien. Donc là par exemple si vous vendez, on va faire un autre exemple. Si vous vendez peut-être par exemple
+
+[03:55] un produit plus... un t-shirt, du passe, peut-être 18 heures par jour dans votre t-shirt. Fait le bon choix. Et puis ensuite le t-shirt le plus confortable. Donc voilà. Pareil. Faire, prenez quelque chose de simple.
+
+[04:16] Et puis ensuite, testez différentes variations, surtout le message. Et le troisième ici, ça c'est plus un style qui peut marcher en statique, mais aussi en légère vidéo. Ça marche bien sur TikTok. C'est de mettre un listique. Comment être de votre niche, pas en plus attractif. Et là vous allez mettre des trucs. Et à la fin, le porter, je sais pas, le t-shirt classique.
+
+[04:40] Et vous pouvez mettre simplement, vous pouvez faire ce format, ce format statique ou ce format vidéo. C'est-à-dire que vous faites simplement durer les 4-3 secondes. Et ça marche bien. Le but c'est pas d'avoir un listique aussi long que ça, mais d'avoir un listique plus court pour qu'ils aient le temps de lire et que ça n'est pas trop long. Je dirais
+
+[05:01] entre 5 et 7. Là c'est 3. Là c'est juste pour montrer l'idée. Parce que j'avais pas d'exemple à vous montrer. On le teste nous, actuellement. Donc ça c'est pas fort. On a testé, ça on n'a pas encore testé. Mais c'est pour vous donner une idée, parce que j'avais vu que ça marchait sur TikTok. On n'avait pas pu retrouver où mais ça marchait.
+
+[05:22] Et on avait notamment notre ami Hugo sur le podcast Flytex qui avait fait un format similaire et qui avait très bien marché pour lui. Donc simplement le but, c'est pas rapport à votre niche. Comment être moins ballonné par exemple. Comment être moins ballonné. Vous avez des conseils et à la fin, à utiliser tous les jours le HG1. Par exemple, c'est comment comment avoir, je ne sais pas ce qui
+
+[05:45] prend ça, c'est pour peut-être avoir moins de 1000 graines. Comment avoir moins de 1000 graines. Et à la fin, prendre tous les jours le Hydratant. Hydratant. Donc ça c'est vraiment un format à tester avec plein de variations différentes, avec des musiques tendances sur TikTok et ça vous lancez sur Metal et TikTok. Donc voilà, c'était le petit creative insight
+
+[06:07] d'aujourd'hui. C'était Mathéo Abatto. Ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 44 : Ep #20 - 5 Winning Hook Practices
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 44
 ======================================================================
 
@@ -3751,16 +4159,70 @@ Cinq types de hooks publicitaires pour améliorer les résultats sur TikTok et M
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Eh bienvenue dans ce nouvel épisode. Aujourd'hui, on va avoir cinq types de hooks que vous allez pouvoir appliquer. Donc si vous avez une ad qui marche plus ou moins bien au Keywinners, vous allez pouvoir tester l'un de ces hooks ou tous ces hooks sur votre ad et voir à quel point vous allez pouvoir skyrocketer vos résultats ou vous pouvez aller pouvoir appliquer ces types de hooks dans vos nouvelles ads. Donc c'est plutôt des principes que des hooks tout fait.
+
+[00:23] Je ne vous rappelle pas à quel point les hooks c'est important. On ne peut pas avoir une ad minus sur un bon hook. Si vous n'avez pas un hook créé à minimum 30%, ça va être compliqué d'avoir une ad winnose qui dépense des centaines de cas. Allez c'est parti, je mets en plus petit ici. Donc premier hook technique motion. Donc je vous montre déjà le hook, c'est quoi ?
+
+[00:44] Ok, c'est un mouvement qui attire le regard. Donc vous allez pouvoir mettre un effet. Là en l'occurrence, un effet c'est qu'il y a du mouvement où c'est qu'on tombe de manière légèrement accéléré et en fait naturellement ça va venir nous attirer le regard. On aurait pu faire pareil en reverse, c'est-à-dire que le mouvement serait...
+
+[01:06] Elle part d'en bas et elle décolle, ça marche aussi. Le but en fait c'est d'avoir du mouvement. Ok ? Ici un autre point important c'est qu'on parle du produit sans vraiment révéler pourquoi il va impressionner. Dispiller will instantly knock out.
+
+[01:27] En quoi ? Ok ? C'est-à-dire ce produit va faire quoi ? Et là pourquoi il y a ça ? Et c'est pour ça que ça nous hook. Donc en motion il y a plusieurs types de motion que vous avez dit. Vous pouvez accélérer, vous pouvez reverse, vous pouvez faire au ralenti. Au ralenti ça aurait pu aussi jouer ou peut-être lancer le coussin qui tombe au ralenti.
+
+[01:47] Ok ? Ces trois types de hook marchent parce que le mouvement ça attire le regard. Deuxième type de hook qui marche bien c'est facial expression. On est fait pour être arrêté instantanément quand on y a une forte expression parce qu'on est des êtres humains sociaux et quand il y a une forte expression ça veut dire que l'autre en face ressent quelque chose
+
+[02:09] et on veut savoir ce qu'il ressent. Ok ? C'est très important pour nous. Si il y a quelqu'un qui pleure, je vous garantis que j'avais vu une étude que si ils avaient pris des personnes dans la rue, des personnes exprimées certaines expressions, ok ? C'est-à-dire ils pleuraient dans la rue, ils s'énervaient tout seul dans la rue et en fait on a remarqué que ça captivait l'attention des passants
+
+[02:32] beaucoup plus que si la même personne était sur son téléphone ou ne faisait rien. Ok ? C'est logique, mais on le fait fois si c'est logique utiliser en hâte. Ok ? En fait tout ce que vous voyez sur les réseaux sociaux c'est les mêmes principes qui existent. Dans la réalité, dans la réalité vous voyez une, je sais pas, que je peux prendre comme
+
+[02:55] exemple. Vous voyez quelqu'un avoir une expression vraiment inattendue devant quelque chose, vous allez regarder qu'est-ce qui va se passer. Et là sur les réseaux c'est exactement pareil. Et pourquoi elle ne démarre pas ? Je suis rechargé à Goode.
+
+[03:16] Donc là en fait le hook pourquoi il marche bien c'est qu'il y a un mouvement, ok ? Non c'est pas ce qui se passe. Et il y a l'expression. Donc ça comment vous avez pour appliquer vous faut des créateurs. Simplement des créateurs vous avez pour faire des émotions des goûts, des émotions
+
+[03:38] étonnées, des émotions de pleurs. Ok ? Ça marche très très bien pour les produits à offrir, les produits à offrir. Vous pouvez montrer juste la réaction de la personne qui pleure en ouvrant le produit. Ok ? Ça cartonne vraiment. Ensuite l'autre hook c'est product showcase. Donc là simplement vous allez venir présenter directement le produit durant les propres premières
+
+[04:00] secondes. Pourquoi ça marche et pourquoi c'est pas les hooks, c'est que vous allez avoir les plus gros hookret mais vous allez avoir les meilleures conversions. Parce que quand vous montrez votre produit dans un hook si cela marche vous allez avoir un fort taux de conversion et un fort hold rate. Parce que les gens qui regardent ça c'est qu'ils sont intéressés par le produit.
+
+[04:23] Donc c'est très important de faire des hooks où c'est que vous allez venir montrer votre produit dedans parce que vous allez venir toucher d'autres audiences et des audiences qui sont aware du produit. Ok ? Donc c'est très très important et c'est pas sur ces gens de hook là que vous allez avoir du 70%. Je vous garantis mais par contre vous allez pouvoir avoir des hats winnees sur ces types de hooks. C'est pour ça que au départ j'ai dit c'est difficile à avoir une winning hat à moins
+
+[04:45] 30% mais vous pouvez avoir des winning hats à 30% si vous montrez le produit. Parce qu'en fait l'audience que vous allez venir targetter sera beaucoup plus aware. Ok ? Donc là simplement ici qu'est ce qu'on fait ? On présente le produit ici avec un mouvement avec un visage, une nouvelle expression et ensuite directement ici. En fait le hook, vous voyez, le hook là c'est composé de plusieurs images.
+
+[05:08] C'est qu'il y a quelque chose de ok ce qui se passe pourquoi. Donc ça commence à pouvoir l'appliquer simplement plein d'idées. Vous prenez votre produit, prenez un créateur ou vous le montrez en main et vous pouvez stacker avec un autre visuel comme ça weird ou stacker avec un autre footage. Par exemple là moi si j'étais elle qu'est ce que j'aurais fait ?
+
+[05:29] Je l'aurais fait aussi en reverse ok. Le produit tombe et remonte dans sa main. Pardon, juste une petite interruption ici chez moi. La larme a s'endu qui a sonné. On entend encore. Donc je disais ok on aurait pu faire un reverse et puis après montrer le résultat.
+
+[05:51] Parce qu'il faut se mettre dans la tête c'est que la personne qui regarde ses tats elle va être aware au niveau du produit donc elle va être aware au niveau des solutions. Et si on voit quelque chose directement la solution le haut au effect ça va ça irait très bien dans ce haut. Ensuite, relatabilité.
+
+[06:15] Donc là en gros, mieux vous présenter la situation que tu aides de votre client cible plus il s'y reconnaîtra. Donc ça veut dire plus vous serez précis sur ce qu'il expérimente et vraiment dans la vie réelle plus en fait ça va lui parler ok. Par exemple quelqu'un qui perd des cheveux vous allez pouvoir montrer dans un lababo
+
+[06:36] les cheveux dans sa main parce que c'est ce qui arrive ici. C'est là que les gens ressentent de l'émotion ok. Les gens en fait quand ils voient ça sur le canapé je sais pas quelle émotion ils ressentent parce que j'ai jamais vendu de produits de chiens j'ai jamais fait d'études mais je pense qu'en fait ils ressentent une forte émotion négative ok encore. En gros il brûle mon argent en fait le chien brûle mon argent
+
+[07:00] brûle la maison au cosé que j'ai rencontré je me sens pire dans ma maison je me sens pas heureux je pense qu'ils ressentent toutes ces émotions là et quand vous montrez ça et bien en fait c'est exactement ce trigger qui va qui va captiver le client parce qu'il va s'y reconnaître ok. Donc là vous pouvez utiliser des plans rapides voilà 2-3 plans rapides voilà exactement comme ça c'est très très bien
+
+[07:21] comme ça vous allez montrer différentes situations il va dire ouais c'est exactement moi et ça va automatiquement le captiver automatiquement captiver l'attention de votre avatar ok. C'est pour ça que les hooks c'est tellement important parce que c'est pas juste de captiver l'attention tous les goreaux qui vont des hooks qu'il faut juste captiver l'attention c'est faux
+
+[07:42] ce qu'il faut c'est captiver la bonne audience et ensuite avoir un fort taux de conversion c'est vraiment très très important. Donc simplement réfléchissez qu'est-ce que fait face votre avatar quand c'est que ça a eu déclencher des émotions et montrer lui ces images là. Le dernier c'est cet at-ce là c'est une agence qu'il avait fait
+
+[08:06] ils avaient généré plus de 500 cas de revenus avec cet at-ce avec cet at-ce mais je vais vous montrer le hook. Ok donc en fait ici on va avoir une open loop
+
+[08:31] ça va être moins dans le visuel même si le visuel est important ok ils ont choisi quelqu'un un peu atypique ok avec une veste en cuir coupe un peu atypique des lunettes et le texte qui est important ok on a juste interviewé une polyglotte ok what the fuck qu'est ce qu'elle va nous dire et va nous partager
+
+[08:54] sa méthode folle avec nous ok ça captive énormément de monde ça c'est très un hour ok ça c'est un at-ce très très un hour donc en fait on va venir targetter beaucoup de personnes et si après c'est très bien introduit avec le produit et bien c'est banger c'est banger donc l'objectif principal comme j'ai mis c'est de donner envie au spectateur
+
+[09:17] d'en savoir plus et on dévoile pas rapidement ok donc là ça peut être de plein de manière ça peut être par exemple si on reprend un exemple de paire de cheveux je donne des exemples de paire de cheveux mais j'ai jamais vendu d'exemple de paire de cheveux c'est juste que c'est l'exemple que j'ai donné avant on va pouvoir dire ok on a juste interviewé
+
+[09:38] un homme de non longtemps qui a plus de cheveux qu'un homme de vingt ok et il va nous partager ses secrets par exemple et là on va vraiment toucher du très très un hour donc voyez que c'est différent type de hook ça touche différents stages de conscience ok donc voilà
+
+[09:59] utilisez les printé avec c'était Matteo tcha tcha
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 45 : Ep #21 - 8 Hooks Irrésistibles - Partie 1
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 45
 ======================================================================
 
@@ -3798,16 +4260,66 @@ Trois techniques de hook vidéo basées sur la data pour capter les bons avatars
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans cette nouvelle épisode de Creative Insight. Aujourd'hui, on va voir des techniques de OOC. Je sais que vous adorez voir les techniques de OOC. Je sais que c'est très très valuable. On a eu déjà des retours de personnes qui ont pris et appliqué les techniques de OOC que j'ai données et qui ont obtenu directement des résultats et ont obtenu leur ad-sminuse.
+
+[00:22] Donc, je pense donner plus de techniques de OOC dans ce school pour vous puissiez avoir encore plus de résultats. N'hésitez pas à partager aussi ce qui marche pour vous, les techniques de OOC qui marchent pour vous dans le school pour céder each other. C'est vraiment important. Donc, cet épisode, certains seraient certainement décomposés en plusieurs épisodes.
+
+[00:43] Le but, c'est que vous ayez chaque semaine un petit court épisode de Creative Insight. Entre deux et dix minutes maximum. Le but, c'est pas que ce soit trop long. C'est quelque chose de très simple à digérer et très applicable. Donc, on va commencer directement par le premier. Donc, tout ce que je vous dis, c'est toujours baqué par la data.
+
+[01:04] Je ne vous donne pas juste des OOC pour vous donner des OOC. Je vous donne des OOC parce que j'ai des maîtrisées et parce que j'ai eu des ad-sminuse avec et je suis basé sur des compétiteurs qui n'avaient déjà testé. Ok. Il y a quelques trucs que j'ai inventé, mais c'est très rare. Honnêtement, c'est très très rare. En gros, un bon créatif stratégiste, c'est quelqu'un qui sait juste répliquer ce qui
+
+[01:29] marche. Il n'invente pas de zéro, il n'invente pas de sa tête. J'ai déjà eu plein d'idées en inventant de ma tête et honnêtement, le hit rate est très faible. Je le dis avec tout l'amour que j'ai pour moi et pour mes capacités. Mais la réalité, c'est que vous allez pouvoir avoir des idées, plein d'idées, mais le hit rate sera faible.
+
+[01:50] Parce que vous ne pouvez pas maîtriser, vous n'aurez pas à l'invente que le marché veut. Donc je teste toujours des idées que j'ai farfelues, mais je mets en avant en premier tout ce que le marché montre, tout ce qui est winner, tout ce qui fait un compétiteur à déjà tester pour moi. Ok. Ou quelqu'un. Donc le premier interruption inattendue.
+
+[02:12] Il faut qu'il y ait un élément soudain qui perturbe le déroulement normal de la scène. Ok. C'est ce qui va venir faire forcer le cerveau après tes attentions. Donc en fait on peut commencer par une vidéo, quelque chose de classique, ok, par un selfie classique. Ok. Moi je peux commencer ici comme ça.
+
+[02:32] Et d'un coup il y a quelque chose, je ne sais pas, on peut appeler ça, de la peinture qui me tombe dessus. Ok. Ça va interrompre la scène. Maintenant un nouveau, comme je l'ai toujours dit, comme je le vois répète, le but d'un hook, ce n'est pas juste de captiver l'attention, c'est de captiver l'attention de vos avatars. Il faut qu'on suit, ça introduit sur votre produit et que vous ayez une bonne conversion
+
+[02:52] à la fin de la vidéo. Donc ça ne sert à rien de faire des hook what the fuck qui n'ont pas de liaison avec votre produit. Ok. Ça on a déjà testé et ça peut marcher sur TikTok, mais sur Meta et même maintenant ça fonctionne plus parce que vous avez un faible taux de conversion. Ok. Vous allez venir capté des gens en fait qui ne sont pas vos acheteurs. Donc là le but c'est de, comme j'ai dit, faire une interruption, bref, mais marquer.
+
+[03:17] Ok. Vous pouvez mettre des effets sondants, vous pouvez mettre du son. Par exemple si je suis en train de faire un selfie et que j'ai la pâtur qui me tombe dessus, je peux faire une réaction avec du son, on peut mettre un son. C'est important de rajouter le son aussi. Et le texte également. Le texte c'est une autre partie dans le hook, mais en fait ça change tout. Si je suis sur mon téléphone comme ça, il y a une pâtur qui me tombe dessus et
+
+[03:40] que je mets un texte, comment je suis passé, de loser à riche ou comment je suis passé de scroller sur mon téléphone à rencontrer l'amour. Ok. Je vais attirer d'autres types de personnes. Donc ce que vous mettez en caption c'est aussi très, très important parce que avec le même visuel, le même visuel, pardon, le texte va changer.
+
+[04:06] Ok. Avec le même visuel c'est le texte qui va faire la différence. Donc là je vous ai mis des exemples. Un téléphone sur plein volume pendant mon calme, une porte claque s'advient d'ailleurs le speaker, un objet tombe dans un cas depuis le haut. Ça c'est le hook qui a utilisé Hormozie. Ok. Hormozie, qu'est-ce qu'il a fait simplement ? Pour ceux qui ne le savent pas, il a fait 150 m et une de ces ads qu'a le mieux marché,
+
+[04:28] c'est qu'il faisait tomber à son livre et il le rattrapait en dessous. Ok. Simplement, lui il lançait son livre et il le rattrapait en dessous. C'est juste ça. C'est ça. Ok. Et ça c'est Hormozie qui a fait, il a fait 150 m avec. Quelqu'un traverse l'arrière pas en déguisé de façon inhabituelle. Bref, il y a plein d'idées.
+
+[04:49] Moi je vous donne ceci après vous pourrez faire des promptes, vous pourrez vous amuser. Donc là je vous ai montré un exemple qui marche, donc une winning hat. Ça a été fait par IceMide. Donc je vous montre encore une fois. Bref, je vais en montrer depuis le début. Ok, je vais se recharger la page.
+
+[05:19] Donc on va partir. Bam et bam. Donc là en fait il met deux hooks. Ok, vous voyez ça interrompt vraiment. C'est what the fuck en fait. C'est une interruption inattendue. On voit des toilettes bleues qu'est ce que c'est. Il m'imite brossadant. Ensuite on voit qu'il est temps la langue. C'est exactement ça.
+
+[05:40] Ce hook là est génial. Ensuite deux mouvements haute énergie. Donc en fait la vision humaine est câblée pour suivre les objets en mouvement rapide. Un peu si baignoré. Ok, ça on appelle ça motion. Là je voulais traduire en français mais c'est motion. Donc en fait un mouvement vite attire instantanément l'oeil.
+
+[06:02] C'est pour ça que dans tous les hooks il faut choisir attentivement comment vous commencez votre hook et votre mouvement. Ok, admettons que moi je fais ça. Vous allez venir commencer votre hook au moment où c'est que l'objet rentre ici. Ok, ça va être beaucoup plus pertinent que si vous commencez là et que le mouvement arrive de trois secondes plus tard.
+
+[06:25] Ok, donc c'est très très important de toujours mettre du mouvement dans votre hook. Ok, si là je commence mon hook je bouge pas. Ou si j'arrive comme ça, ça va venir captiver naturellement beaucoup plus l'oeil. Donc vous, ce que vous devez faire c'est vous devez venir positionner vous ou le produit comme élément stable de la scène. En fait il faut qu'il y ait quelque chose de stable et il faut qu'il y ait quelque chose qui se passe.
+
+[06:49] Ça peut être à grande vitesse, ça peut être au ralenti, ça peut être de manière inversée. Mais il faut qu'il y ait quelque chose qui se passe de manière visuelle. C'est instinctif en fait. Ça va nous attirer attention. Ok, ça peut être un coureur qui passe un sprint en arrière-plan, ça peut être un skateboard qui traverse rapidement l'écran, ça peut être un drone qui survot la scène, voilà, ça peut être plein de manière, vous comprenez.
+
+[07:10] Il faut qu'il y ait du moment. Là je vais vous montrer un exemple. Donc je vais vous montrer le hook. Quand tu compares un chantier chinois à un chantier européen, tu comprends vite pourquoi certains... Donc là vous voyez en trois secondes tout ce qui se passe, ok, ça c'est trois secondes. Donc là on a le hook, ok, ça se passe vite. Quand tu compares un chantier chinois à un chantier européen, tu comprends vite pourquoi certains...
+
+[07:30] Et là quand tu compares... Quand tu compares un chantier chinois à un chantier européen, tu comprends vite, ok. Donc voilà exactement ce que je voulais vous dire. Ensuite, cas au contrôlé. Donc le cas au contrôlé c'est quoi ? C'est quand il se passe quelque chose qui transforme ou qui se passe d'une manière spectaculaire, ok.
+
+[07:52] C'est naturel, on est captivé par ce qui est de spectaculaire, ok. Ce qui est spectaculaire naturellement ça capture l'attention, ok. C'est exactement ce que je vous avais déjà dit. Si vous voyez quelque chose dans la rue, une explosion, un déluge, naturellement vous allez regarder, ok. C'est spectaculaire. Donc en fait le but nous en réseau sociaux, ce qu'on va faire c'est en venir choisir des objets
+
+[08:17] sans valeur ou remplacables ou qui sont hors contexte. Et puis on va les mettre dans un contexte de destruction ou de manière spectaculaire. Là j'ai mis des exemples, un ballon qui est clât avec des confettis, une pile de papier qui s'envole avec le vent, une sculpture de glace qui font rapidement, ça peut être 10 000 choses.
+
+[08:39] Là je vous ai mis un exemple, c'est simplement une gorde qui est dans une voiture totalement foutue, ok. Et cette atelette là c'était une grosse atlouineuse et je crois, je sais même pas pourquoi lui elle est égale. J'adore cette atelette.
+
+[09:00] Et elle a cartonné, elle a cartonné pour Stanley, c'est une des top marque et commerce pour ceux qui ne savent pas. Et cette atelette là est géniale, elle utilise juste ce principe là de spectaculaire. Donc ça dépend des vos produits mais vous pouvez très bien tourner dans une voiture comme ça éclatée avec votre produit, qui soit délabéré mais je conseillerais plutôt neuf.
+
+[09:22] Si ça fait un contraste ça marche mieux. Donc voilà on aura la suite dans les prochains épisodes. C'était Matteo, allez à bientôt, tchao tchao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 46 : Ep #22 - Rappels Fondamentaux
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 46
 ======================================================================
 
@@ -3845,16 +4357,54 @@ Avant de chercher des creatives gagnantes, trois prérequis sont indispensables 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Eh bienvenue dans ce nouvel épisode de Creative Insight. Aujourd'hui, je vais simplement vous rappeler un concept simple. Donc ça va être très très important parce que c'est simplement la stratégie que vous devez adopter, qu'elle a plus simple pour trouver des winning ads et d'autant plus avec Andromeda. Donc, j'ai publié d'ailleurs une nouvelle vidéo YouTube sur le sujet qui parle des
+
+[00:22] 12 concepts qu'on va appliquer. Vous comme vous êtes dans le school vous en réaxez au concept. Mais c'est juste un rappel par rapport à ceci. Donc, 1, je vous invite à regarder les concepts, pas ça va vous aider pour cette phase là. Et 2, il faut comprendre cette phase là. Donc, pour rappel, pour rappel, pour rappel, ça c'est rien de ce focus sur
+
+[00:42] un ad. Si vous n'avez pas des engue validées, si vous n'avez pas des audiences validées et si vous n'avez pas une offre validée. Donc ça c'est le rappel de base. Les creatives ne font pas tout. Si vous n'avez pas une offre, si vous n'avez pas quelque chose qui marche actuellement, ça va être très dur de faire le reste. Donc, premièrement, il faut avoir une offre qui marche. Il faut que vous vous ayez déjà validé une offre. Une offre ça peut être un prix, ça peut se jouer un prix près entre 49, 99 et 46, 99.
+
+[01:07] Il y a un monde qui change. Ou entre 49, 99 plus un free gift, il y a un monde qui change. Donc, il faut vraiment que vous ayez validé votre offre. Si vous n'avez pas encore validé, regardez le module 0 et optimisez ce qui marche actuellement pour vous en testant peut-être d'offrir du gratuit, peut-être d'offrir des gifts, etc. Le descend de le prix, de monter le prix. Je sais que vous pouvez vraiment vous en offre, vous savez que vous pouvez escaler.
+
+[01:30] Une fois que vous ayez cet offre là, il faut adapter, il faut trouver vos audiences. En général, les audiences ce n'est pas si compliqué à trouver. Et après, il faut aller bon message pour votre audience. Mais ça, en fait, vous pouvez l'obtenir simplement en regardant ce que font les compétiteurs parce que l'adse fait le targeting. L'adse vous permet de trouver des audiences. Et une fois que vous avez trouvé des audiences, il suffit de juste être précis avec les
+
+[01:52] exemples. Donc pour résumer le process que vous devez appliquer, ça, c'est vraiment très important. 1, il faut toujours faire de la recherche et de l'analyse, c'est-à-dire regarder ce que font vos compétiteurs, regarder sur les outils de spy, regarder sur l'adse libérie, regarder ce que font dans votre niche vos compétiteurs, identifier les messages qu'ils
+
+[02:13] utilisent, identifier les types de créatifs qu'ils utilisent et en premier lieu, copier ce qui marche. Ok ? Copier juste ce qui marche. Bien sûr, vous gardez pas leur footage, vous copiez leur script. Ok ? Vous prenez leur script et vous l'adaptez à votre adse. Si c'est une statique, vous prenez votre statique, vous l'adaptez à votre adse. Et en premier lieu, vous testez tout ce qui marche.
+
+[02:35] J'aurais dû le mettre comme ça. Tout ce qui marche pour les compétiteurs. Ok ? De votre niche direct. C'est-à-dire vous vendez des t-shirts. Tout ce qui marche pour les t-shirts. Ensuite, indirect. Vous copiez des ades de pantalon pour vos t-shirts. Ou encore plus indirect. Vous copiez des ades de cosmétiques pour votre t-shirt.
+
+[02:58] Plus vous allez loin, plus ça va être difficile de réadapter pour vous. Mais quand ça marche, c'est banger. Donc, votre premier job, c'est de copier, mille mille des compétiteurs. Donc en fait, chaque semaine, vous allez copier les statiques qui marchent, copier les scripts de vidéo qui marchent et les adapter pour vous. Vous allez vous appeler ça Sunbox, parce qu'il y aura différents concepts, différents messages.
+
+[03:20] En fait, les compétiteurs, France travaille à votre place. Donc en fait, tout le reste sera maché. Ce sera déjà maché pour vous. Donc, chaque semaine, vous copiez des compétiteurs. Et ensuite, chaque semaine, vous testez aussi des messages, des angles. Vous regardez ce qui marche. Par contre, vous êtes dans la niche des cheveux. Vous voyez que le fait de dire que les cheveux, ça range, je ne sais pas,
+
+[03:44] je ne sais pas comment vous pouvez appeler ça, ça rend vieux. Vous devez avoir perdu des cheveux, ça rend vieux. Vous avez identifié que ce message marche là. Vous allez venir l'appliquer. Le moyen le plus simple, c'est tester les statiques. Vous testez votre message avec différents statiques. Je l'ai déjà présenté dans Creative Insights. C'est très simple. Vous avez votre message, 3 différents visuels, adapté à ce message là. Ensuite, un autre message, 3 différents visuels et vous testez un maximum de messages.
+
+[04:06] Et s'il y a des messages qui résonnent, vous n'avez pas recréé des concepts avec. Des concepts d'interration. Donc vraiment, si vous voulez avoir des creatives winnse, copier vos concurrents, testez des messages. C'est le plus simple pour l'instant que je vous conseille. Déjà en phase 1. Ensuite, vous étirez avec des concepts. Ok, vous avez un message qui marche bien. Le message, c'est...
+
+[04:28] si vous perdez vos cheveux, vous allez à l'air de l'air de vieux. Créer des nouveaux concepts. Ça marche bien en statique. Créer en UGC. Créer en mashup. Juste une voix off. Créer une autre statique. Créer en format Funder, etc. C'est pour ça que je vous invite à aller voir la vidéo et le format que je vous envoyais. Parce que vous allez pouvoir ensuite itérer
+
+[04:50] une fois que ça marche. Mais les concepts ne feront pas ceci. Les concepts, c'est ici. C'est juste le dernier véhicule pour faire véhiculer le truc. Le plus important, c'est d'avoir ça. C'est d'avoir vos ongles. Et d'avoir votre audience et vos offres. Donc j'espère que c'était clair. Juste résumer. L'offre fait tout.
+
+[05:11] Si vous n'avez pas la meilleure offre que vous avez actuellement, je vous conseille de l'optimiser. Ensuite, il faut que vous aurez été vos premières audiences. Ça, ça se fait à travers les créatives. Vous allez vite voir si vous avez des jeunes, des vieux, des femmes, vous avez des femmes blancs, ça va être en fonction de vos at-winners quand vous avez déjà. Je parle du principe que vous avez déjà des at-winners et que vous les scalez.
+
+[05:32] Donc en fonction de ça, vous avez déjà vos audiences. Ensuite, vous avez simplement analyser vos audiences plus profondément. Vous pouvez demander à l'Achête du BT, faire deep search. Ok? Analyse-moi mon audience et donne-moi plus d'infos. Et comme ça, après, vous allez pouvoir utiliser des angles pour targueter cette audience-là. Ces angles-là, c'est vraiment le plus important. C'est ce qui peut vous faire scalez dans une niche très concurrentielle.
+
+[05:54] Et aller chercher du gros gros argent. Donc il y a toujours d'argent juste avec un angle différent. Et ensuite, là, ça va comment vous pas calcher l'ensemble ces concepts. Mais je vois trop de personnes qui partagent des types de concepts et ouais, c'est cool, c'est cool à montrer. Mais je vous rappelle les fondations. Les fondations, c'est ça. Donc, faites la recherche chaque semaine ou dites à votre créative stratégie de le faire.
+
+[06:16] Testez, copiez, enfin, ayez un process que chaque semaine vous testez et vous copiez ce qui marche pour vos compétiteurs. Chaque semaine, vos compétiteurs dans le ZZ, chaque semaine, il y a des winners. Vous pouvez voir son foreplay, son brand search, le train track. Et simplement, vous dupliquez. À votre source. Et chaque semaine, vous testez des nouveaux messages. Et en fait, vous avez identifié des messages
+
+[06:38] que peut-être personne aura escalé et là, vous pouvez escaler. Et pour vous édifier les messages, on fait un statique. Et ensuite, une fois que ça marche, les concepts qui marchent, on va venir de ces différents concepts. Donc voilà, c'est des matéaux, une vidéo vraiment très, très importante. C'est juste pour rappeler la base et les concepts les plus simples que je donne à un nouveau créatif stratégique de départ. Je dis que tu fais juste ça.
+
+[06:59] Tu fais juste ça. Et avec ça, on aura une tonne de mineurs. Et après, on va pouvoir complexifier et aller chercher plus long. Et pour l'instant, je sais ça marche. C'est ma théorie.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 47 : Ep #16 - Comprendre le Prospect avant achat
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 47
 ======================================================================
 
@@ -3896,16 +4446,42 @@ Analyser ses prospects avant l'achat est essentiel pour ne pas manquer des segme
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans cet épisode de Creative Insights. Aujourd'hui, je vais vous donner un insight très important qui est de comprendre le prospect avant l'achat. En fait, une erreur que font beaucoup de personnes, c'est qu'ils se basent, ils basent leur analyse marketing, leur copyrighting sur la base de ce que leurs clients leur ont dit. Et en fait, le problème avec ça, c'est que si vous basez sur ce que vos clients
+
+[00:23] vous disent, vous allez pouvoir passer à côté, vous pouvez passer à côté de segments de clients qui ne ressent pas à vos clients. Je m'explique. Vous vendez un savon pour eux. Ok ? Et vos clients vous disent qu'ils ont acheté votre savon parce qu'il avait l'air d'être bien, parce que l'offre était bien, parce qu'il avait l'air de sentir bon.
+
+[00:45] Et oui, ils sont bons, donc ils lavent bien, etc. Et du coup, vous allez baser votre marketing par rapport à ça. Mais que vous n'avez pas identifié, que en fait, vous avez un segment de personnes qui n'ont jamais acheté chez vous parce qu'en fait, c'est des fervents acheteurs de vos compétiteurs, par exemple. Ok ? Ils ont acheté chez Dr. Squash, ils sont achetés chez Dottmark, donc je ne
+
+[01:06] connais pas les noms de savon. Et le problème avec ça, c'est que vous n'allez jamais toucher ce segment de personnes. Du coup, il y a un énorme segment de personnes que vous n'allez jamais toucher si vous n'analysez pas, si vous ne faites pas une analyse de avant l'achat, de qu'est-ce que vous prospé pense par rapport à une solution, par rapport à un produit, par
+
+[01:29] rapport à votre marque. Et ça, c'est très important. Donc, ce qu'il faut faire, c'est venir faire des recherches sur qu'est-ce que vous prospé pense de votre marque déjà. Ok ? Qu'est-ce que votre marque s'appelle Savonpot ? Je ne sais pas, SavonToi. Vous allez venir taper sur Internet SavonToi. Et peut-être que vous n'avez jamais identifié que les gens, par rapport à SavonToi,
+
+[01:53] pensent que peut-être c'est une arnaque. Et du coup, il y a une réputation en ligne qui est d'arnaque par rapport à SavonToi. Ou peut-être SavonToi, ça coûte trop peu cher, c'est une arnaque. Et vos acheteurs, eux, ils vous ont dit qu'ils ont acheté parce que l'offre est les bonnes, mais au final, peut-être qu'il y a un gros segment de personnes qui n'achètent
+
+[02:14] pas parce que le prix est trop bas. Cette insight-last que je vous donne, c'est même en plus écrative, c'est vraiment marketing. C'est Bingers-Bringers. Donc, je vous expliquais un peu plus. Comme d'habitude, on ne va pas faire une vidéo trop longue. Et du coup, vous allez vous aussi pouvoir passer à côté d'acheteurs qui sont déjà acheteurs de d'autres Savon.
+
+[02:35] Et du coup, ils ne voient pas l'intérêt d'acheter chez vous, vu qu'ils ont déjà leurs Savon qui sont bons. Donc, si vous ne faites pas des copies, des copies, des ads qui vont dire discréditer les compétiteurs, vous n'allez jamais toucher ce segment de personnes. Donc, ce qui vous fait, c'est simplement taper sur Google, taper sur YouTube, taper sur TikTok, votre note marque, votre produit et analyser. Et utiliser Gigabrain.
+
+[02:56] Gigabrain, j'en ai déjà parlé, c'est un outil qui permet d'analyser en fait tous les forums, les redits et scraper un peu internet pour faire un condensé de ce que collectivement les gens pensent. Et si, si je tape Sop pour men, je vais voir en fait qu'est-ce que les gens pensent.
+
+[03:17] Pas à pas, on se pourmène. Je vais voir quels sont les marques auxquels les gens pensent quand ils veulent acheter Sop pour men, quels sont les avantages, les bénéfices des marques. Je vais pouvoir voir aussi les questions récurrentes. Ok. Je vais pouvoir voir quels ingrédients veulent les gens collectivement.
+
+[03:40] Peut-être que vous aimez un ingrédient, mais en fait, les gens veulent ceci. Vous allez voir en fait différentes choses que vous n'aimez même pas penser. Et vous pouvez aussi taper par exemple votre nom de marque. Par exemple, vous tapez votre compétiteur ou annoncez votre brain et vous allez pouvoir voir. Ok. Qu'est-ce que les gens pensent sur ma marque ou sur le compétiteur ? Et là, vous allez voir que en fait, Dr. Swash, il avait augmenté en fait ses prix drastiquement.
+
+[04:03] Que, comment la qualité est perçue par les utilisateurs. Qu'est-ce que sont les discussions au sujet de Dr. Swash ? Blah, blah, blah, blah, blah. Donc, c'est juste Bangers, Gigabrain. Et en plus de ça, c'est un plan gratuit.
+
+[04:24] C'est un plan gratuit et qui peut vous permettre de faire beaucoup, beaucoup de choses. Donc voilà, c'est tout pour le Creative Insight d'aujourd'hui. Donc pour résumer, il va falloir que vous analysez vos prospects. Qu'est-ce que vos prospects pensent de votre solution, de votre marque, de votre produit avant d'acheter pour identifier des potentiels acheteurs et d'utiliser ceci
+
+[04:45] pour créer vos créatifs. Simplement, toutes vos recherches que vous trouvez, vous allez venir là enregistrer sur, sur, garder la data, puis après utiliser ChatGBT pour créer des copies, le ChatGBT du, du school. Donc voilà, c'était Matteo. À bientôt. Ciao, ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 48 : Ep #17 - Process Duplication Winning Ads
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 48
 ======================================================================
 
@@ -3947,16 +4523,68 @@ Un process en trois étapes pour transformer une winning concurrente en 25 créa
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui, je vais vous partager un bout de mon process et un bout important. Tout ce que je vous partage fait partie de mes process et chez nous, on a des process comme ceci. On a une tâche qui est claire. On doit la faire et toutes les équipes dedans.
+
+[00:22] En gros, on a quelque chose qui est important. Une fois par semaine, on reprend des ads winning de compétiteurs et on crée des ads winners pour nous. Je vais vous partager aujourd'hui ce process-là parce qu'il est vraiment très important. Il a vraiment un très haut hit rate. Dans ce process-là, vous allez trouver des bangers.
+
+[00:43] Je vous partage l'entertier du process. Vous avez trouvé un ad winners. Ça peut être à travers une recherche, un spying-sider. Vous savez qu'on a des spying-siders. Vous avez qu'à simplement demander. Nico, il le fait plusieurs fois par semaine de spying.
+
+[01:04] Moi, je le fais de manière régulière une fois par mois, minimum, sur des compétiteurs. Et je m'inspire de leurs winnings ads. Et notre process interne, il est comme ceci. On va reprendre son ad winners. On sait qu'il est winners. Qu'est-ce que ça veut dire quand on sait qu'une ad c'est winners ? Ça veut dire que c'est comme si c'était une ad winners pour nous. Parce qu'elle est winners pour le compétiteur.
+
+[01:27] On est sur le même marché. Elle est winners pour nous. Là, on va venir travailler comme si c'était une ad où on avait à nous winner. Qu'est-ce qu'on va faire ? On va faire exactement la même ad. Je vous ai pris pas un exemple après. On va venir reprendre comment ils tournent les footages, le son script, etc. Et on va l'adapter à nos produits. Exactement pareil. Bien sûr, on fait des variations de hoocs.
+
+[01:49] Mais on va faire une même ad. Là, c'est des quatre minimum ads. Minimum. Ensuite, on va venir essayer de battre son ad. On va pas faire sans premier. On va pas dire que je suis plus malin. Je vais changer ça. On va déjà faire une version safe. Et ensuite, on va faire une version, c'est qu'on va essayer de le battre. Là, moi, j'aurais jeté du social proof. Ou peut-être là, j'aurais fait quelque chose différent.
+
+[02:10] Là, on essaie de battre son ad. Et ensuite, on va faire une iteration. On va venir regarder son même concept style de créativement. On va venir changer l'angle. Par exemple, là, j'ai mis l'exemple ici pour mes équipes. Lui, il avait un angle. Ça sauve de l'argent. Et nous, on va tester. Ça sauve du temps. Le but après, c'est de tester tous les provenes winning angles qu'on a.
+
+[02:32] C'est-à-dire, on prend son concept. Ok, il a fait un super concept. Et nous, on va venir tester d'autres angles. Ça, by the way, c'est une très, très bonne technique pour percer ou techeler les compétiteurs. C'est-à-dire, on va venir analyser les compétiteurs. Et en fonction de ce qu'ils ont winnés, on va venir combler les trous. Avec peut-être des angles encore plus banger. Mais bref, là, on va garder simple. Ensuite, on va y térer sur le style de créativement.
+
+[02:55] On va venir regarder les mêmes angles qu'il a. On va venir y tirer sur tous nos concepts qui marchent. Ok, lui, il allait sur un angle. Ça sauve de l'argent. Je n'ai jamais pensé à tester cet angle. On va venir le tester sur tous nos concepts qui marchent, tous nos statiques, tous nos vidéos, etc. Donc là, 8 minimum hats, mais c'est le minimum. C'est-à-dire, quand vous trouvez une winning hat, ça vous fait 25 hats minimum que vous allez avoir dans plusieurs winneors.
+
+[03:23] Donc voilà, c'est assez court. Je vais juste vous montrer un exemple. Donc je vous ai préparé un exemple. Ok. On a trouvé cet hat qui est pour... Ok, vous avez un produit stop air loss. Et là, vous avez trouvé cette winning hat. On va juste regarder le winning hat parce qu'elle est intéressante.
+
+[03:44] Donc, on commence avec un hook d'une femme. C'est attirant. Ok, on se demande qu'est-ce qu'il va se passer, mais on comprend le message. Tu le détrais, non, et chauve. Je ne cherche pas un homme qui ressemble à un bon nom.
+
+[04:21] Ok, donc là, on est sur une hat. Ok, on captive les hommes avec une femme, et ensuite on leur fait un gros pic émotionnel. Ok, tu es là, et tu détrape plus de femmes. Tu vas risquer de finir célibataire, de ne pas avoir... De ne pas assurer ta dé... ta... ta descendance. Mais... non. Puis là, wow, il se dit, oui, mais c'est exactement ça que...
+
+[04:45] Et là, c'est mon monon, comme on l'a émotion. Je suis en train de le dire. Je vais juste vous montrer mes résultats personnels. C'était moi après deux mois, et ça, c'était moi après trois mois. Regarde, je ne vais pas tic-toc-shopper.
+
+[05:07] Je ne vais pas t'accrocher d'une autre chimique shampoo, ou d'un monoxyde, qui se mette dans ta tête. Vous et moi, tous les deux ne travaillent pas long terme. C'est ce qui a été fait. Je n'ai pas eu de transplant. Je n'ai pas spenté 5 000 $ en volant à Turquie et en passant par les pannes.
+
+[05:31] Et là, ça marche pas. C'est ce que les gens pensent, ça marche pas. Et là, ils démontrent, regarde. Si tu penses que ça marche pas, regarde au bout d'un mois, regarde au bout de deux mois, au bout de trois mois. Voilà. Et après, il va venir discréditer. Les gens, en fait, ce qu'ils vont se dire... Je ne connais pas cette niche. Mais les gens, ce qu'ils vont se dire, c'est... Ça marche pas. Ok, là, on démonte que ça marche. Ok, ça marche.
+
+[05:52] Mais oui, mais moi, je ne veux pas de produits, je ne veux pas de chirurgies, etc. Après là, il va venir démonter. Bah non, regarde. Je n'ai pas dépensé 5 000. Je n'ai pas... Donc là, il l'introduit. C'est intéressant. En gros, que... Voilà, ça marchait pour d'autres personnes. Il a trouvé ceci. Et puis après, il va venir expliquer le système.
+
+[06:20] Donc là, il a introduit. C'est intéressant. En gros, que... Voilà. Ça marchait pour d'autres personnes. Il a trouvé ceci. Et puis après, il va venir expliquer le système. comme ginseng, gingeroot, licorice extract, le genre qui stimulera la growthe du folleux. J'ai commencé à utiliser ça consistant. C'est la marque. Maintenant, ils se font 70% de frein,
+
+[06:40] et un guaranteement de 120 jours de ménage. Si vous n'êtes pas heureux, si votre tête a été finie et que vous êtes fâche de les mêmes promesses, ce serait la dernière solution que vous avez essayé. Vous avez des dates ?
+
+[07:01] Il va montrer son utilisation, et ça va venir donner envie de faire pareil. C'est très important, parce que vous avez pour beau mécaniser, mais si vous ne voyez pas utiliser le produit, ce sera plus difficile pour vous de... Qu'est-ce que je dois faire ? Et là, vous savez ce que vous devez faire. Vous devez acheter le produit, il vous le dit en plus, acheter le produit pour faire comme lui,
+
+[07:22] pour avoir ceci. Il y a un point de venir, ceci. C'était juste une décortication d'ad-free. Et maintenant, sur ce concept-là, qu'est-ce que j'aurais fait ? Ce concept-là, il est vraiment bien. Donc, j'aurais testé d'autres angles. Là, je n'aurais pas... Est-ce que tu déteimes ?
+
+[07:42] J'aurais fait d'autres angles similaires. Ok, j'aurais fait peut-être... Je ne sais pas, retrouver son ex, ou qu'est-ce que... Après, je ne connais pas bien cette niche, j'aurais commencé sur des...
+
+[08:03] J'aurais fait d'autres angles similaires, simplement avec le même concept. J'aurais montré les résultats, j'aurais fait ceci, etc. Ensuite, j'aurais testé le même concept, j'aurais testé le même angle, ou le 2D Team, mais en différents concepts. C'est-à-dire, peut-être en UGC, avec LIA en podcast,
+
+[08:24] en format podcast, c'est qu'une femme discute avec un homme, en lui montrant, tu le détrais, ou au micro trottoir. Donc, j'aurais refait un peu le même chose, puis ensuite, le même script, en fait, simplement sous d'autres formats. Et je vais aussi améliorer cette adse, comment je l'aurais amélioré. Alors, elle a un concept unique, qui est assez long, je l'aurais fait, déjà, un concept à peine plus court.
+
+[08:46] Ici, j'aurais fait un au-câpaine plus rapide, tu le détrais, non. Et puis, rapidement, ok, ça fait mal, mais en plus vite, en plus vite, c'est vraiment un moment de ça fait mal, et ensuite, on montre le résultat assez rapidement. Sinon, l'adse, c'est bien. J'aurais testé certains trucs, mais...
+
+[09:07] Mais ceci, elle prouve, c'est bien. La mycadisation, c'est bien. Franchement, très, très bon adse. Là, elle ne tourne pas depuis six jours. Là, je vous ai pris une adse qui tourne depuis un moment. Là, simplement, j'arrivais pas à la retrouver sur la librairie, donc... j'avais trouvé ici, mais c'est une adse qui a apporté beaucoup, et qui a beaucoup du pliqué. Et j'aurais peut-être joué sur d'autres transformations,
+
+[09:28] c'est-à-dire, là, on le voit, mais j'aurais montré en vidéo, peut-être. Ici, ça marche pour moi, mais ça marche pas que pour moi. Regardez, regardez John, regardez Pum, regardez Dan, et voir. Donc, bref, ça, c'est juste des idées, mais ce qui vous comprenez, c'est le concept, c'est le process. Donc, voilà, j'espère cette vidéo
+
+[09:49] vous aura été utile. Elle est vraiment très, très importante. Donc, implémentez ça dès aujourd'hui dans vos process. C'était Mathéo, à bientôt. Ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 49 : Ep #18 - Loss Aversion
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 49
 ======================================================================
 
@@ -3999,16 +4627,70 @@ Le principe d'aversion à la perte (lost aversion) consiste à montrer au prospe
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans cette nouvelle épisode aujourd'hui. Donc aujourd'hui, je vais vous donner un acte psychologique à utiliser. Ça s'appelle la version à la perte, Lost Aversion. Donc je vais vous donner un prompt que vous aurez pouvoir utiliser pour convertir et pour trouver des acheteurs comme vous le savez pas forcément trouver. Aversion à la perte, c'est quoi ? C'est simplement montrer à votre prospect qu'est-ce
+
+[00:23] qu'il va pouvoir perdre si il ne passe pas d'action. Ce que vous savez c'est qu'il y a beaucoup de personnes qui ont un système de fonctionnement où c'est que c'est les motivations qui les font passer à action. C'est-à-dire si on leur dit tu vas plaire aux filles, ça va leur donner une motivation. Pour d'autres personnes, ce qui va être plus puissant c'est de leur montrer ce qui perd. C'est différents activations dans le cerveau et
+
+[00:47] simplement si vous n'appliquez pas plusieurs principes psychologiques, vous allez passer à côté de certaines personnes. Donc aujourd'hui juste vous donner un prompt qui va pouvoir montrer à la personne qu'est-ce qui va pouvoir perdre si il ne passe pas d'action. Donc en gros, ici je vous ai mis un petit dog, qu'est-ce que c'est la version à la perte ? C'est simplement en fait on va exploiter ce que votre public rate ou
+
+[01:09] gaspille en conservant de ses méthodes ou en restant dans une situation actuelle. Donc là il y a des instructions et il y a le prompt. Donc simplement à se retrouver directement sur tchat.jbt pour faire un essai en direct. Donc moi je vais donner le prompt tel quel, le prompt pardon, je ne vais pas donner de contexte, je ne vais pas donner de d'analyse marketing,
+
+[01:30] de produits etc. Je vais juste dire pour un pantalon, ok ? Et on va voir à quel point déjà il est puissant. Donc lui va me donner trois concepts publicitaires pour une marque de pantalon pour baser sur les principes loss aversion que je vais donner. Donc le concept 1 il va vous donner une big idea. Donc le but en fait ça c'est pas que vous ayez un truc copier-coller,
+
+[01:51] là on n'est pas sur un système qu'on automatise avec l'IA. On est sur un système c'est qu'ILIA vous donne des idées et que vous avez, en fait c'est du semi-automatique. C'est-à-dire vous donnez ça tchat.jbt et ensuite vous affinez et vous testez en statique etc. Donc là le concept 1, la big idea c'est tout le monde croit que les pantalons sont jetables. Mon réalité c'est de coups l'achet, c'est dix ans d'argent et de confort perdu à remplacer sans cesse
+
+[02:11] de pantalon qui se dise trop vite. Et là ils vous donnent des idées, c'est d'accélérer un homme achète un pantalon et après 20 pantalons reçus sans pile, ses jambes frottent, le tissus des chats puis révélation en seuls pantalons suffisait pour des décennies. Ils vous donnent juste des idées. Le but c'est en fait de trouver des idées qui ont l'air bien. Là franchement c'était
+
+[02:34] elle a l'air vraiment bien. Ça a l'air vraiment bien ce concept. Et ensuite qu'est-ce qu'il dit ? Donc les premiers principes c'est déconseuler l'idée qu'on doit remplacer ses pantalons chaque année et montrer l'argent, le temps de confort qu'on perd. Donc là simplement si je comprends bien, moi ça me donne des idées, ça serait de voir des pantalons qui s'empirent et de
+
+[02:56] voir l'argent qui s'empile aussi et puis montrer un versus un pantalon, un indivient, un indice et l'argent économisé avec VO3 ou filmant manuellement. Et puis lui qu'est-ce qu'il dit ? Il s'agit de ce format, montrer l'homme je tente des pantalons après pantalon, qu'une bretale, boom, boom, boom, 20 pantalons
+
+[03:17] ordinaire versus un pantalon premium. Statique, une pile reçu avec les textes disant un pantalon tout ça perdu. Franchement, celui là il est très bien. Donc celui là il va être pour être exploité. Pour moi celui là il est exploité. Donc ensuite qu'est-ce qu'on va faire quand il est exploité ? On va lui dire concept fait moi un D headline, le concept 1
+
+[03:44] et il dit ok je donne même pas la liste de TikTok on va faire juste juste du basic pour voir de la liste d'eux qui donne. 10 ans de pantalon, si tout ça avait été caché, le mensonge des pantalons de table ça vous coûte vraiment limite. Très bien, chaque pantalon ne pas cher.
+
+[04:07] Vous coûtez une fortune cachée très très bien. Vous voyez on est sur des styles de headline qui pourraient être mis en magazine. Le calcul est choquant 10 ans et galvan pantalon un petit mensonge. Ensuite, un pantalon une vérité, stop on la paire de cachée 10 ans de confort volé. On vous ment depuis toujours. Ok, la Léouk peut être améliorée.
+
+[04:29] Un pantalon 10 ans de guizard ou gâchis. Léouk peut être amélioré mais simplement on peut donner la liste de ouk, une liste de ouk que quand vous allez donner et il trouvera des bonnes idées. Mais par ref le concept 1 très très bien. Le concept 2 confort taxe. Les hommes acceptent toujours un confort comme normal dans leur pantalon. Ce n'est pas normal. C'est une taxe silencieuse qui pêche à chaque jour. J'adore. J'adore comment ils trouvent en fait en fait c'est
+
+[04:53] que je vais vous expliquer c'est qu'en fait chadriméthe si on connaît les principes psychologiques. Lui il les connaît mais de base il ne va pas utiliser des principes psychologiques même si on lui demande. Il va être trop brode parce que les principes psychologiques il n'en existe pas. Mais quand il donne un principe précis il est très bon fait pour comprendre et le tourner. Et ça c'est vraiment très bon. Un homme
+
+[05:13] dans une réunion en distrait réunion tirant sa nature, le texte chaque jour d'un confort c'est une part de votre concentration de vos confiances perdues. Ouais c'est top top top. Et pourquoi on accepte qu'un pantalon de serre gratte ou chauffe ? L'inconfort voit la productivité, la productivité, confiance et plaisir. Split screen d'un homme à gauche à un
+
+[05:35] homme à droite. Honnêtement j'ai déjà vu des produits similaires. Je pense à des t-shirts et c'est exactement le concept qu'ils avaient utilisé. Donc c'est fort fort fort. Et le concept 3 style décaille. On pense qu'il s'est le style c'est d'acheter plus souvent qu'il suivra la mode. Il faut chaque achat rapide détruit le style personnel et l'élégance durable.
+
+[05:55] Au fil du temps le machin de 15 montments différents jamais le look parfait toujours daté. Puis la révélation en portée en temps pourré. C'est ok mais moins puissant celui là. En mon avis c'est ok mais moins puissant. Ouais donc je vais vraiment exploiter les deux premiers. Donc simplement qu'on utilise ce prompt vous ça vous donne des
+
+[06:16] idées avec ces idées là où il demandait de faire dix oucs selon la principe des oucs on a dit dix et de l'âne et ensuite vous testez tout en statique et en vidéo. Et pour les statiques simplement vous lui demandez dix vingt trente et après même vous lui demandez de créer les images. Simplement là je vais donner tiens mon pantalon.
+
+[06:37] Aujourd'hui on a plutôt fait le chimie nano banana. Tiens mon pantalon crée moi. Ok on va le faire en tirée comme ça. Vous allez pouvoir voir. Je vais pas perdre tant je sais que les épisodes de la petite cesse restait court. Je vais dire je vais dire pour
+
+[07:06] le concept incrément un prompt pour démontrer parfaitement le concept en images sans texte. Ok lui va me donner un prompt ce prompt là simplement je vais mettre après sur sur gbt prompteur et je vais aller son nano banana puis je vais créer l'image. Ensuite je vais mettre sur conva et je vais mettre mes 10 lines avec cette image là.
+
+[07:27] Ensuite je vais mettre de trois autres images et vous aurez une cinquantaine de statiques concrètement. Donc je résume. Je prends ça. J'utilise ceci avec le prompteur. J'utilise avec simplement lui. Ok lui va m'améliorer le prompt.
+
+[07:51] Une fois qu'on a ce prompt là je vais son nano banana. Ok il m'a donné une idée là. Après je vais demander plus premium pour voir ce qui peut m'améliorer mais là c'est déjà très bien. Ouais c'est bien. Moi je vais copier coller. Donc là on se retrouve sur le conva c'est que je vous ai donné. Donc je mets tout à la fin.
+
+[08:11] Simplement moi j'aime bien c'est. Je copie que l'image ici comme ceci. Ok. Ensuite je vais la mettre. Donc là simplement il y a plusieurs hacks en gros pour juste supprimer la génie et se prendre un plan. Soit comme ceci. Et là moi j'aimerais juste un truc
+
+[08:33] comme ceci. Ok là je me les mettre une espèce de call to action. Et puis ensuite. On aurait la base de l'image. Une. Ok. Donc là on va lui demander simplement des idées de statiques.
+
+[08:55] On va pas mettre d'offres là. Ça va faire trop chargé. On va pas mettre des d'offres. Donc il nous avait donné ça comme. Comme message. Plutôt bien. Ok. Pas cher.
+
+[09:39] Et là j'aurais mis un peu plus. Moins d'espace. On call en un atto. Un statique type advertorial. C'est-à-dire c'est plus quelque chose qui va vraiment être qui peut être vraiment très un aware et toucher beaucoup de personnes qui ne va pas trop vendre. Donc ça c'est vraiment une atte qui va tout toucher bottom of funnel.
+
+[09:59] Top of funnel pardon. Et pas en retard yeting. Donc si ça marche, ça marche très fort. Donc voilà comment j'aurais construit. Et après simplement j'aurais dupliqué. Ici dupliqué bam bam bam. Et j'aurais mis plusieurs images et ensuite plusieurs textes avec les différentes images. Voilà comment on teste multiples variantes. On teste pas une seule et de l'un avec une seule image. On teste une et de l'un avec plusieurs images
+
+[10:21] et plusieurs images avec plusieurs et de l'un. Donc voilà c'était Matéo pour ce creative insight. J'espère que c'était valuable. N'oublie pas de toujours appliquer directement. A bientôt. Ciao ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 50 : Ep #11 - Analyse des Ads de Temu
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 50
 ======================================================================
 
@@ -4046,16 +4728,54 @@ Temu produit des publicités virales ultra-dynamiques tournées comme des vidéo
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, aujourd'hui Creative Insights on va voir les pubs de Temu. Donc ce qu'il faut savoir c'est que Temu fait des très très bonnes ads, des ads qui, c'est qui dépensent énormément. Donc on a eu les insights je ne sais pas si ici on voit avec la transparence européenne. Non on peut pas voir mais il a d'énormes spaines sur des ads.
+
+[00:22] Donc en fait Temu crée des ads winner de Fouferu. Vraiment il fait des ads qui dépensent des centaines de milliers, pour avoir des millions. Et je vais vous montrer un peu le concept de ces ads. Ce sont des ads qui sont trop parfaits, qui sont très copiés. C'est-à-dire ces gens d'ads c'est ce qu'on d'habitude copie quand on voyait
+
+[00:43] une ad winner sur Minéa par le passé. Mais on en fait peu pour nos marques et on en fait peu comme type de concept. Donc je vais vous montrer c'est plus un concept ad virale. Donc pour que vous comprenez je vais montrer des exemples. Ok on va voir déjà celle-ci.
+
+[01:26] Right now this excavator and other machines are on sale on Temu. Click on my video to get your special deal and if it's not what you're looking for you can return it for nothing. Look at that, this is the mini excavator I bought on Temu. And now it's going to deliver to my field. It has a 13.5. Pourquoi ça marche ? En scene-asque c'est très dynamique. C'est agarbe à regarder c'est très natif. Donc là vous voyez c'est pas filmé avec la grosse production.
+
+[01:48] On voit que c'est filmé avec un iPhone. Donc ça portait mieux qu'on les moyens. Il filmait avec un iPhone. Ensuite le O qui est très bien le cadat. On a quelque chose de très intitocable en fait. Ça c'est quelque chose qu'on peut avoir sur TikTok. Et ensuite on a quelqu'un qui parle avec un accent un peu russe ou de l'est. Donc je pense que c'est plus là et je sais pas si c'est pour les US
+
+[02:10] ou c'est plutôt pour un public plus plutôt russe. Et alors pour ce genre de personnes mais en fait ils montrent simplement démonstration du produit. Ils montrent l'effet wow. On parlait beaucoup d'effets wow en 2018. Et ça c'est ce qui continue à faire. En gros ils montrent l'effet wow du truc. Vous pouvez l'avoir. Vous pouvez me le renvoyer ou rembourser pour rien du tout.
+
+[02:33] Une des pubs c'était pas le meilleur exemple. Je vais vous montrer d'autres exemples. Mieux. J'avais sélectionné pour vous. Alors où c'est? Juste mettre pause. Voilà par exemple. Qui va pouvoir vous donner une idée.
+
+[02:55] Donc on le ouc déjà. Là on voit que on veut mon mon très pantalon mais c'est ça qu'on va en premier. Donc c'est ça qui captive le ouc.
+
+[03:26] Donc là ce qui est innovateur c'est qu'on a tourné avec une femme. C'est très dynamique. Il y a les borics qui sont satisfaisants. On le voit sur tous les angles qui mettent le pantalon. Donc là ça s'adresse à des hommes. Ça s'adresse à des hommes. Mais ils ont utilisé une femme pour captiver attention des hommes justement. Et là on voit ok c'est ce boiteur pouf. Effet wow immédiat.
+
+[03:48] Ensuite on monte l'élastique. On montre que tu peux très bien bouger. Justement c'est plus puissant encore de tourner avec une femme pour montrer ça. Qu'un homme qui se pèse un peu. Là c'est vraiment impressionnant. On exagère en fait. Et c'est très dynamique. Et puis là on met un tas de choses dedans pour montrer qu'on peut prendre un tas de trucs. Franchement très fort. Très fort. Faut faire ce genre de concept.
+
+[04:09] Vraiment faut en faire. On a plein d'âtes comme ça. Si vous regardez juste émuses, ils sont vraiment très forts. Il y avait quoi d'autre qui était bien virage. Alors ça pour tout ce qui est vêtement c'est pas... C'est pas nouveau de faire des aides comme ça. C'est qu'on montre l'asticité sous différents angles etc.
+
+[04:32] Il y avait une aides très forte. Que je ne retrouve pas ici sur un sac. Un sac de voyage. C'était une pub très très bien faite. Ce qui se calait énormément. Mais je ne la retrouve pas sur la sleeper. Mais vraiment regarder les pubs de Thémy. Et commencer à faire des aides type virale.
+
+[04:55] C'est à dire des aides. Il n'y a pas énormément de copier-writing au niveau de la voix, au niveau du texte. Mais ça va très vite, c'est très dynamique. Et c'est comme une aides virale. On va voir un autre exemple ici.
+
+[05:25] Alors là vous avez compris les patentes qui se répètent. Une femme pour tourner sur un truc d'homme. Elle peut qu'elle attoser. Elle est pour montrer aussi que c'est simple.
+
+[05:51] Donc là vous avez compris les patentes qui se répètent. Une femme pour tourner sur un truc d'homme. Pour qu'elle t'aie bien attention. Et pour montrer aussi que c'est simple. Démonstration et fait wow. Donc là même si on comprend peut-être pas, moi je ne suis pas mécano mais on voit que c'est wow sa vis ça tourne en quelques secondes, il y a les bruits qui accentuent en exagère
+
+[06:13] c'est très dynamique et toujours sur environ 30 secondes. Donc en fait c'est des patentes qui se répètent et c'est pas pour rien qu'ils continuent à faire ces gendates et que c'est totalement mineur. On va voir celle ci, ça c'est Sine, gros co-banger, il dépense aussi énormément dessus, on va voir.
+
+[06:34] Le travail aussi du son, ils incorporent dans beaucoup de leurs vidéos un peu d'un SMR c'est qu'on entend des sons satisfaisants, c'est que c'est... il y a des transitions, c'est rapide, c'est pour moi. Là on a des pews, et à nouveau tourner avec une femme, ils ont compris.
+
+[07:07] Donc voilà c'était la petite creative inside d'aujourd'hui. Testé plus d'arts comme ceci, film avec vos téléphones, vous même ou avec des acteurs, actrices. Ce différent plan très bien exécuté, laissez deux secondes entre chaque transition. La musique aussi importante, la musique doit être virale.
+
+[07:29] Et il faut de l'effet, wow, il faut que le bénéfice le plus fort de le produit se comprenne dans les premières secondes, si ce n'est après le hook. Et que tout du long ça soit captivant à regarder et que ça dure entre 15 et 30 secondes. Si à peu près, pendant ce qu'on a pu observer, j'étais ému.
+
+[07:49] Donc voilà pour la petite creative inside d'aujourd'hui.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 51 : Ep #12 - Présentation + Utilisation de HiggsField
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 51
 ======================================================================
 
@@ -4098,16 +4818,48 @@ Une méthode pour créer des hooks vidéo viraux en combinant une app de génér
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Le nouvel épisode de Creative Insight, aujourd'hui je vais vous montrer comment faire ceci. Il peut être une idée d'un hook, enfin une idée, c'est un hook qui marche que vous pouvez adapter par rapport à votre marque et qui marche bien en ce moment sur les réseaux. Donc quand il y a quelque chose qui marche bien sur les réseaux organiques, il va automatiquement captiver l'attention sur les réseaux, sur les ades.
+
+[00:22] Donc je vais vous montrer le concept. Donc pour ce faire, je vous montre le tutoriel qu'ils ont donné après je vous montrerai comment vous pouvez l'adapter en A. Simplement vous allez faire une vidéo de vous-même, prenez en photo,
+
+[00:45] vous le faites un petit peu distant. Vous avez sur cette table là, qui est bien et qui pourra vous faire d'autres choses, je vous montrerai après. Simplement vous allez choisir ce modula et ça va vous faire partir en fait depuis en haut et zoomer sur vous.
+
+[01:07] Et vous, ce que vous voulez c'est juste faire un pompe. Donc vous allez donner votre image dans chat d'HPT et dans chat d'HPT, il va vous décrire juste votre image. Et là simplement vous allez venir mettre votre pompe ici. Donc là vous allez mettre votre pompe là et votre image. Ici je conseillerai de tester une fois on et une fois off.
+
+[01:27] Quand c'est on, ça prend un peu plus de temps. C'est juste qu'il faut savoir. Voilà, vous générez et ensuite ça va donner la vidéo.
+
+[01:50] Mais c'est que ça part de vous et vous, ce que vous voulez, c'est que ça part de la terre. Simplement vous allez sur CapCut et vous cliquez sur l'effet reverse. D'ailleurs reverse, ça marche très bien en hook. Parce qu'automatiquement, c'est qu'a petit la tension. Donc utiliser cet effet là pour n'importe quel hook.
+
+[02:13] Nous on a un process qui est quand on fait des intérations, on teste de hook, on teste le même hook en reverse. Si il peut. C'est à dire que si on apparence une bouteille qui tombe ici dans la main, on va venir tester la même chose, c'est que la bouteille repart à l'inverse. Et souvent, souvent, ça marche encore mieux en reverse. Ça capte la tension. Donc vraiment un gros hook, un gros tips, c'est de l'utiliser ceci.
+
+[02:38] Et puis ensuite, et ensuite vous pouvez rajouter pour compléter la vidéo que vous avez faite initialement. Ça c'est un petit bonus mais c'est pas nécessaire.
+
+[02:59] Et ça en fait, ça va être très utile pour créer des hooks. Donc ce que je vous conseille, c'est de prendre vos meilleures pictures. Si vous avez des lifestyle pictures statiques, si vous avez des statiques qui sont winneuses, et les faire avec cette option là. Ou sinon, de simplement préparer un concept en filmant en réel
+
+[03:19] et en le faisant. Et X-field, il y a plein plein d'autres, plein plein d'autres fonctionnalités. Nous, on commence à l'utiliser. Donc je vous ferai plusieurs tutoriels sur ce qui marche bien. Mais techniquement, il y a plein plein de fonctionnalités. Ce que j'adore, c'est que ça a plus créé de manière très réaliste.
+
+[03:40] C'est-à-dire, ça fait moins, ça fait pas IA. Je vais vous montrer. En fait, vous pouvez choisir d'avoir des rendus iPhone, des rendus vraiment très, très réalistes. Des rendus qu'on pourrait trouver sur TikTok.
+
+[04:04] Donc nous, ce qu'on est en train de tester, c'est de créer des images vraiment natives, natives TikTok, comme c'était Prickliphone. Ce qui est un peu plus difficile à faire avec les autres applications IA jusqu'à présent. Ce qu'on va aussi créer, c'est des UGC. Donc des UGC, simplement, vous pouvez utiliser des templates. Général, c'est sans prompt.
+
+[04:26] Sans prompt tout court. Ou après, si la fille pleure, si elle vend, si elle est, disons, un miroir, etc. Ce que je conseille, c'est de laisser général, ensuite de mettre des images, mettre les actions, de mettre le texte. Mais je vous ferai des tutoriels, on fera des tutoriels, simplement,
+
+[04:46] la règle quand on utilise ces genres d'outils. C'est de toujours savoir ce qu'on veut, de faire les promptes avec Chatchabit. C'est-à-dire, souvent, vous aurez besoin des images, donc il vous faut faire un prompt, créer l'image avec Chatchabit. Et une fois que vous avez votre image, après, vous allez pouvoir reploquer de là. Et Chatchabit, vous vous dites, ok, je veux faire ceci. C'est-à-dire, je veux un UGC,
+
+[05:07] d'une fille qui essaie du make-up. Donc, fais-moi le prompt. Ok, ensuite, décris-moi la scène. Ensuite, donne-moi des idées de texte. Ensuite, donne-moi des idées de headline à mettre, par exemple, de copie à mettre dans mon texte. Donc, utilisez bien Chatchabit, ou Clos pour avoir cette base-là. Puis ensuite, vous utilisez. Donc, l'outil est vraiment sympa.
+
+[05:27] On vous fera des tutoriels, comme j'ai dit. Mais, testez déjà pour faire des hooks avec l'option... l'option Erte, comme je vous ai montré avant. Parce que nous, on l'a fait. Et comme je vous ai dit, Creative Insights, c'est pour vous partager en direct ce qu'on fait. Donc là, cette semaine,
+
+[05:48] on a créé des hooks comme ceci. Vous savez qu'on a pris des images lifestyle qu'on avait qui marchaient bien, qu'on a converti, plus d'autres footages qui pourraient s'apparenter à ça. Puis on va venir tester le concept, simplement sur nos winnings hats. Donc voilà, c'était Matheo, Creative Insights, aujourd'hui, à bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 52 : Ep #13 - Itération des Statics
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 52
 ======================================================================
 
@@ -4149,16 +4901,48 @@ La stratégie consiste à valider un message fort via des visuels simples, puis 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Le nouvel épisode de Creative Insight, aujourd'hui je vais vous montrer comment faire ceci. Il peut être une idée d'un hook, enfin une idée, c'est un hook qui marche que vous pouvez adapter par rapport à votre marque et qui marche bien en ce moment sur les réseaux. Donc quand il y a quelque chose qui marche bien sur les réseaux organiques, il va automatiquement captiver l'attention sur les réseaux, sur les ades.
+
+[00:22] Donc je vais vous montrer le concept. Donc pour ce faire, je vous montre le tutoriel qu'ils ont donné après je vous montrerai comment vous pouvez l'adapter en A. Simplement vous allez faire une vidéo de vous-même, prenez en photo,
+
+[00:45] vous le faites un petit peu distant. Vous avez sur cette table là, qui est bien et qui pourra vous faire d'autres choses, je vous montrerai après. Simplement vous allez choisir ce modula et ça va vous faire partir en fait depuis en haut et zoomer sur vous.
+
+[01:07] Et vous, ce que vous voulez c'est juste faire un pompe. Donc vous allez donner votre image dans chat d'HPT et dans chat d'HPT, il va vous décrire juste votre image. Et là simplement vous allez venir mettre votre pompe ici. Donc là vous allez mettre votre pompe là et votre image. Ici je conseillerai de tester une fois on et une fois off.
+
+[01:27] Quand c'est on, ça prend un peu plus de temps. C'est juste qu'il faut savoir. Voilà, vous générez et ensuite ça va donner la vidéo.
+
+[01:50] Mais c'est que ça part de vous et vous, ce que vous voulez, c'est que ça part de la terre. Simplement vous allez sur CapCut et vous cliquez sur l'effet reverse. D'ailleurs reverse, ça marche très bien en hook. Parce qu'automatiquement, c'est qu'a petit la tension. Donc utiliser cet effet là pour n'importe quel hook.
+
+[02:13] Nous on a un process qui est quand on fait des intérations, on teste de hook, on teste le même hook en reverse. Si il peut. C'est à dire que si on apparence une bouteille qui tombe ici dans la main, on va venir tester la même chose, c'est que la bouteille repart à l'inverse. Et souvent, souvent, ça marche encore mieux en reverse. Ça capte la tension. Donc vraiment un gros hook, un gros tips, c'est de l'utiliser ceci.
+
+[02:38] Et puis ensuite, et ensuite vous pouvez rajouter pour compléter la vidéo que vous avez faite initialement. Ça c'est un petit bonus mais c'est pas nécessaire.
+
+[02:59] Et ça en fait, ça va être très utile pour créer des hooks. Donc ce que je vous conseille, c'est de prendre vos meilleures pictures. Si vous avez des lifestyle pictures statiques, si vous avez des statiques qui sont winneuses, et les faire avec cette option là. Ou sinon, de simplement préparer un concept en filmant en réel
+
+[03:19] et en le faisant. Et X-field, il y a plein plein d'autres, plein plein d'autres fonctionnalités. Nous, on commence à l'utiliser. Donc je vous ferai plusieurs tutoriels sur ce qui marche bien. Mais techniquement, il y a plein plein de fonctionnalités. Ce que j'adore, c'est que ça a plus créé de manière très réaliste.
+
+[03:40] C'est-à-dire, ça fait moins, ça fait pas IA. Je vais vous montrer. En fait, vous pouvez choisir d'avoir des rendus iPhone, des rendus vraiment très, très réalistes. Des rendus qu'on pourrait trouver sur TikTok.
+
+[04:04] Donc nous, ce qu'on est en train de tester, c'est de créer des images vraiment natives, natives TikTok, comme c'était Prickliphone. Ce qui est un peu plus difficile à faire avec les autres applications IA jusqu'à présent. Ce qu'on va aussi créer, c'est des UGC. Donc des UGC, simplement, vous pouvez utiliser des templates. Général, c'est sans prompt.
+
+[04:26] Sans prompt tout court. Ou après, si la fille pleure, si elle vend, si elle est, disons, un miroir, etc. Ce que je conseille, c'est de laisser général, ensuite de mettre des images, mettre les actions, de mettre le texte. Mais je vous ferai des tutoriels, on fera des tutoriels, simplement,
+
+[04:46] la règle quand on utilise ces genres d'outils. C'est de toujours savoir ce qu'on veut, de faire les promptes avec Chatchabit. C'est-à-dire, souvent, vous aurez besoin des images, donc il vous faut faire un prompt, créer l'image avec Chatchabit. Et une fois que vous avez votre image, après, vous allez pouvoir reploquer de là. Et Chatchabit, vous vous dites, ok, je veux faire ceci. C'est-à-dire, je veux un UGC,
+
+[05:07] d'une fille qui essaie du make-up. Donc, fais-moi le prompt. Ok, ensuite, décris-moi la scène. Ensuite, donne-moi des idées de texte. Ensuite, donne-moi des idées de headline à mettre, par exemple, de copie à mettre dans mon texte. Donc, utilisez bien Chatchabit, ou Clos pour avoir cette base-là. Puis ensuite, vous utilisez. Donc, l'outil est vraiment sympa.
+
+[05:27] On vous fera des tutoriels, comme j'ai dit. Mais, testez déjà pour faire des hooks avec l'option... l'option Erte, comme je vous ai montré avant. Parce que nous, on l'a fait. Et comme je vous ai dit, Creative Insights, c'est pour vous partager en direct ce qu'on fait. Donc là, cette semaine,
+
+[05:48] on a créé des hooks comme ceci. Vous savez qu'on a pris des images lifestyle qu'on avait qui marchaient bien, qu'on a converti, plus d'autres footages qui pourraient s'apparenter à ça. Puis on va venir tester le concept, simplement sur nos winnings hats. Donc voilà, c'était Matheo, Creative Insights, aujourd'hui, à bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 53 : Ep #14 - Les Statics Secret Sauce
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 53
 ======================================================================
 
@@ -4200,16 +4984,94 @@ La méthode repose sur deux stratégies combinées : copier les winning ads des 
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue dans un nouvel épisode de Creative Insights. Aujourd'hui, je vais vous partager quelques secrets sur les statics qui vont vous permettre d'avoir beaucoup plus de résultats au niveau des statics. Pour rappel, épisode de Creative Insights, c'est en quelques minutes vous donner de la valeur qui est directement applicable. Dans les statics, vous pouvez
+
+[00:24] vraiment faire des master classes et faire des modules complets de dizaines d'heures de vidéos. Je vais essayer de vraiment condenser ce qui va vous rapporter le plus aujourd'hui. On va voir ensemble quoi planifier comme création de statics, c'est-à-dire quel type de concept faire et ensuite on va voir ce qui rapporte le plus et le process exact et une démonstration en direct comment l'appliquer.
+
+[00:46] Donc premièrement, les statics je vais vous montrer un screenshot de notre azana. Donc ça c'est un screenshot de notre template de ce qu'on produit minimum par semaine au niveau des statics et je vous expliquais pourquoi. Donc là on a le titre des statics et là on a l'impact si c'est netnew statics, le nombre de vidéos
+
+[01:10] que ça fait minimum et le temps à peu près pour éditer. Comme ça on peut voir en fait que pour produire à peu près 200 statics, ça nous prend estime 9 heures. C'est-à-dire que si on a quelqu'un qui fait que des statics et qui travaille 40 heures par semaine techniquement avec ce process on peut produire ben 5 fois plus. Ouais, à peu près 4-5 fois plus.
+
+[01:36] C'est-à-dire qu'on pourrait produire énormément de statics. Donc c'est pour ça que c'est important l'organisation et c'est important de choisir ce qui a le plus d'impact. Si vous voyez que vous testez des idées farfelues un peu aléatoires et qu'il y a une statique sur 200 qui marche, c'est pas height impact. Si vous voyez que vous copiez des ads de compétiteurs ou de brand et ça marche
+
+[01:57] une sur trois, ça height impact. Donc simplement height impact c'est les cartes qui ont height haut, height right. C'est-à-dire que vous testez ça une fois sur trois, vous avez des winners. Donc pour nous c'est copier les winning hats de compétiteurs direct et indirect. C'est-à-dire qu'on va venir reprendre le
+
+[02:22] type de concept de l'ads du compétiteur et on va venir refaire à peu près la même chose pour notre produit. Bien sûr, adapter le copywriting à notre produit, adapter le branding, etc. Donc ça c'est quelque chose qu'on fait beaucoup. Vous voyez, c'est copier winning hats de compétiteurs, d'une marque
+
+[02:44] inspirante. Donc ça on en fait beaucoup. Après on a une liste de marque chez les quels qui font des bonnes statiques qu'on peut reprendre. Simplement on regarde sur four play les tests qu'elles font et dès qu'ils ont un winning hat, on reprend. Je vais vous montrer un exemple. Donc là j'ai pris la marque truc classique et on peut voir qu'ici si on la met dans spider,
+
+[03:05] vous ajoutez la marque dans spider, vous avez donc créatif test et là vous pouvez voir les créatives tests qui run et ensuite même les winners identifiés. Donc simplement vous allez voir que là ils ont lancé 5 hats et une une qui est toujours en live. Et simplement vous écappoir, simplement juste
+
+[03:27] payez les ads qu'elles lancent et celle qui reste winner, et bien celle qui reste en live c'est que c'est un winner. Donc là par exemple pour ce format là on aurait simplement copié collé boom et on aurait demandé à chadbt de réadapter le concept et d'extraire le concept et simplement on l'aurait mis sur
+
+[03:49] kanva et sur kanva et simplement on l'aurait mis sur kanva de cette manière là. Donc j'ai déjà montré plusieurs fois, simplement copié collé boom et puis ensuite
+
+[04:11] on aurait fait le concept pour notre produit. Donc ça c'est juste l'explication. Donc ensuite un autre truc qui rapporte beaucoup c'est messaging testing. Vous savez qu'on va venir tester des messages qui résonnent. C'est la chose la plus importante et c'est ce qu'on va voir aujourd'hui. Ad level ici, simplement on va venir itérer. Ça je vous montrerai dans une autre vidéo.
+
+[04:32] Et ensuite batch static, là c'est simplement des nouvelles idées de la personne qui fait des statiques. Elle va venir tester des nouveaux concepts là aussi. On va venir tester des nouveaux concepts, des nouvelles idées qu'on a. Par exemple de montrer l'Athe en dessin, par exemple de montrer l'Athe en fruit ou je sais pas le produit en fruit etc.
+
+[04:52] Donc là de nouveaux concepts. Trespilot ça c'est simplement on va venir reprendre nos avis Trespilot et on va juste mettre en Athe. Ça va être principalement pour le targeting et des ads type funny etc. Là c'est un impact mais c'est pas un impact on doit adapter. Ça c'est un test qu'on est en train de faire actuellement. Donc voilà aujourd'hui je voulais vous parler de ce qui a le plus d'impact et c'est
+
+[05:16] messaging testing parce qu'après ce qui va vous permettre de dérouler plein d'autres winning ads. Parce qu'en fait ça c'est bien de tester. En fait chaque semaine vous allez venir tester ça et vous allez venir découvrir des nouveaux concepts qui marchent. Vous allez venir découvrir des nouvelles ads qui marchent et des nouveaux messages qui marchent. Ensuite vous allez pouvoir mixer ensemble. C'est à dire vous avoir un nouveau concept qui est de faire l'Athe je sais pas avec votre produit en dessin. Vous vendez je sais pas produit pour
+
+[05:47] on va prendre un exemple. Ok j'ai pris un exemple que je vais montrer après. Vous vendez un porte monnaie et là simplement c'est de le faire sous forme de dessin. Ok ça marche bien. Vous allez venir tester vos messages winner que vous avez testé la semaine d'avant avec vos nouveaux concepts. Donc ça en fait avec ça vous aurez des ads illimité chaque semaine parce que vous allez
+
+[06:08] pouvoir combiner ensuite les éléments qui vont bien ensemble. Mais la chose la plus importante est ce qui vend c'est les messages. Donc je vais vous montrer le process qu'on utilise pour les messages qui est très simple. En fait chaque semaine vous allez venir tester quatre à cinq messages que vous aurez recherché auparavant. Ce n'est pas des messages aléatoires. C'est-à-dire vous
+
+[06:30] allez vous allez faire une recherche marketing. Vous allez venir regarder qu'est ce que disent vos clients. Vous allez venir regarder qu'est ce que disent votre trottinette ou le trottinette de vos clients de vos compétiteurs. Vous allez venir regarder qu'est ce qu'il y a comme message winner pour votre marché. Par exemple si on va ici sur forplay et qu'on regarde trucs
+
+[06:53] classiques on va venir par exemple voir top hooks qu'est ce qu'ils ont dans les top hooks. Juste un grand dire. If a man wear this he is definitely getting the look at tonight. Voilà par exemple ça c'est une idée ok ça marche pour le compétiteur on va pouvoir le tester
+
+[07:15] en headline par exemple. Voilà juste un moyen simple de retrouver des headlines donc le but c'est vous trouver des headlines et des messages et ensuite vous allez venir tester ces messages là avec plusieurs visuels différents. Le premier visuel c'est toujours quelque chose de prouver c'est-à-dire vous avez une statique qui marche bien avec un visuel vous allez venir
+
+[07:38] prendre le même visuel. Visuel B c'est un autre visuel visuel C un autre visuel visuel est ce que je recommande en principe c'est de réutiliser des visuels que vous avez et aussi de créer avec l'IA ou un graphique designer des nouveaux visuels à chaque fois. Comme ça vous alimenter constamment et vous pouvez débloquer de nouveaux visuels. Si vous utilisez que les
+
+[07:59] mêmes visuels et bien même si le message est bien les gens remarvent de voir les mêmes visuels. Donc c'est toujours important de rajouter des choses nouvelles ici et simplement simplement voilà ça vous fait une vingtaine d'hats en format 1.1 et après on y taire dans d'autres formats et on édite sur Canva donc je vais préparer un exemple.
+
+[08:25] Donc sur le Canva du school qu'on vous a donné je vous ai mis ici messager testing et là vous aurez un résumé du process. Donc en gros vous avez headline sub headline headline sub headline c'est possible de faire que headline aussi et visuel 1 2 3 en principe qu'est-ce ça donne.
+
+[08:46] Donc je vous édite en direct donc là j'ai pris l'exemple de riche ok riche on va prendre un exemple de message pour riche alors j'avais ouvert notre pilot laissez-moi avoir ok alors j'avais ouvert notre pilot je regarde un petit peu je donne à chazib et on va trouver des headlines inspirés de ce que les clients ont dit. Je vois la plus grosse valeur la proportion de
+
+[09:14] valeur ici c'est still going strong after 8 ans en gros pour montrer que c'est ça dure très très longtemps et les sub headlines sont un peu trop longs je vais demander fait moins sub headline plus courte et on va utiliser cette ligne là ok très très bien donc là on a notre notre message qu'on
+
+[09:45] va tester donc ça va être ceci et là ça va être ceci en sub headline donc vous n'êtes pas toujours obligé de mettre des sub headline simplement ça peut se tester avec et sans là on va voir si on arrive à mettre sur une ligne ok donc là on va faire un design basique c'est juste pour que vous
+
+[10:09] comprenez je vais pas éditer parfaitement ok donc là on a notre on a notre message et l'en va faire visuel 1 donc là le but c'est d'avoir un concept avec le visuel 1 ça va être celui-ci ok donc là le but c'est de faire avec ce visuel 1 donc simplement ben je juste
+
+[10:30] éditer proprement pour que ça donne quand même bien là je supprime juste le texte et je vais agrandir pour faire quelque chose de propre comme ça vous voyez en direct comment on édite
+
+[10:51] des choses basiques sur quand va mais quand va c'est très très bien pour éditer ça va on choisit la version qui va le mieux pour moi c'est celle ci ok boum position arrière plan et là on
+
+[11:16] va mettre en blanc et si c'est pas très lisible ce que vous pouvez faire c'est mettre un dégradé comme ceci donc là là ça devient beaucoup plus visible donc là on a notre visuel 1 ok ensuite on aura
+
+[11:43] notre visuel 2 donc là ça va être je choisis des images juste pour vous démontrer ok ça va être ça boum donc là on va mettre le visuel 2 à mettre donc que ça là voilà on peut mettre un visuel 2 c'est
+
+[12:05] qu'on montre quelques bullet points de des bénéfices ça va aussi très bien donc là on peut faire une image complète ou une image avec juste le texte en blanc comme ça ça se fait aussi surtout avec des images plus lifestyle et là j'aurais pris peut-être un format comme ceci là ça m'aurait donné
+
+[12:30] comme ça ok boum boum opé face et arrière plan j'aime bien tester toujours avec du blanc c'est beaucoup plus lisible on va faire comme ça le blanc c'est beaucoup plus visible après en principe dans
+
+[12:54] esthétique il faut que ce soit il est visible et facilement scannable et que le produit soit mis en avant avec un contraste quand ça faut blanc et le produit là il ressort des fois avec certains fonds on voit pas très bien puis ensuite le dernier format ça aurait été celui là hop hop hop et là on aurait pu utiliser format format de texte un peu différent ça peut aller aussi je ne vais pas
+
+[13:26] perdre trop de temps non plus en éditing mais c'est pour vous comprenir ok trop petit mais c'est juste
+
+[13:52] pour vous comprenir ok boum et boum et là on va grandir un peu voilà donc voilà on a un message
+
+[14:17] à tester voilà un moyen de tester ces messages donc la message c'était de ça reste strong mais après 8 ans et là on a plusieurs moyens de le montrer et ça aurait pu être aussi ce qui aurait été même plus pertinent un avant après par exemple on montrant le wallet il y a 8 ans le wallet aujourd'hui qui ressemble enfin qui il le cliquent exactement pareil par exemple mais c'est
+
+[14:45] juste pour vous comprenez la manière de tester les messages donc ça c'est très très important chaque semaine vous allez venir tester pas mal de messages et comme ça chaque semaine vous allez voir voir les messages ou une heure et aussi des design winner par exemple on a ceci qui en marche bien bah venir tester pour tout simplement les prochains messages avec ce concept là où on a ce message qui est winner va venir le décliner plein de variations avec plein de nouveaux visuels donc ça
+
+[15:08] c'est vraiment très très important et c'est ça devrait être obligatoire chaque semaine donc si vous avez une marque c'est un produit que vous voulez skier des to the moon et faut mettre en place ceci chaque semaine puis une fois que vous avez un message winner vous allez pouvoir en faire des clips de vidéo en faire des clips de ouc par exemple décliner ceci en ouc donc vous
+
+[15:30] comprenez le message c'est que même après huit ans il reste fort il reste le même donc là vous allez pouvoir démontrer en visuel de ouc plein de déclinations différentes avec plein de messages différents donc voilà donc un message c'est vraiment ce qui résonne avec la vata et c'est ce que vous devez tester chaque semaine c'était matéo à bientôt
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 54 : Ep #15 - Commentaires illimités TikTok
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 54
 ======================================================================
 
@@ -4251,16 +5113,52 @@ Un outil de génération de commentaires TikTok basé sur les croyances et objec
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Nouvelle épisode de Creative Insight et aujourd'hui ça va être un épisode très court mais pour donner un outil qu'on utilise au hebdomada. Donc c'est simplement une manière de générer des TikTok commentaires donc en fait simplement c'est ce outil va vous permettre de mettre en place ces gens de choses donc je vous expliquez à quel point
+
+[00:20] comment on le fait donc simplement ici vous allez mettre username ok donc vous allez pouvoir même mettre par exemple le docteur docteur je sais pas Johnson vous allez pouvoir mettre une image de docteur à mes tons, j'ai déjà bidonoké
+
+[00:44] et là vous allez mettre des commentaires donc ce qui est important à faire ici c'est de c'est ce que les gens vont lire en premier c'est dire ça va être votre ouc donc là ce que vous allez mettre va être très important. Je vous montre un exemple ici alors je fais une mise cet exemple là ok
+
+[01:08] ici ça va dire concerner un produit pour pour corriger les poches donc là essaye-le au dessus de tes yeux donc là c'est une top hat des trente derniers jours sur les états unis elle fait partie des tops top hats il y a eu énormément de likes et non commentaire non partage ils ont emprimé de l'argent et
+
+[01:34] simplement le ouc donc les gens avant que le comment voilà essaye-le au dessus des yeux et les gens ça les intriguez ok et c'est quoi et ensuite ils vont venir regarder la vidéo donc en fait c'est une manière qui marche et qui marchera toujours de captiver l'attention donc ici simplement
+
+[01:59] vous allez pouvoir rentrer plein de types de questions pour y opposer que vos prospects pour vous poser ce qui marche très très bien est-ce que nous on applique c'est de c'est de répondre aux objections par exemple votre prospect admettons que voilà c'est la même crème qui permet d'enlever les rites et ben une des objections c'est ouais et ben essaye-le au dessus des poupières on va voir s'enlève les rites c'est exactement ce qu'ils ont fait ou par exemple
+
+[02:25] je prends un autre exemple c'est par exemple vous avez vous avez une croyance que votre prospect à part pour votre produit ok par exemple vous vendez un jeans et et votre prospect il croit parce que vous avez étudié de votre analyse marketing que un jeans pas cher
+
+[02:47] ça veut dire qu'il n'est pas confortable et là vous allez mettre un truc du style vous allez mettre par exemple un jeans ne peut pas être confortable après ouais job idon
+
+[03:09] on va mettre quelqu'un d'autre et après vous allez venir démontrer l'inverse donc ça marche très très bien et c'est ce que nous on fait hebdomain d'hermand fait hebdomain d'hermand ce qu'on va faire c'est qu'on va venir reprendre des winning ads et on va venir changer les hooks avec un hook qui commence avec une croyance
+
+[03:29] qu'ils ont par rapport à notre produit par rapport à l'industrie et on va venir la démontrer la démonter donc ça marche très très bien c'est quelque chose de psychologique donc simplement vous allez partir sur quelque chose qui croit donc quelque chose que votre prospect croit par rapport à votre produit et que vous allez venir
+
+[03:51] challenger donc ça marche très très bien par exemple vous vendez qu'est ce que je peux prendre d'autres exemples vous vendez un produit qui est moins cher que qu'un produit existant par exemple vendez des faux airpods et et vous vendez une version moins chère c'est quelque chose qui cartonne une commerce et juste reprendre des
+
+[04:12] des produits qui cartonnent et simplement les vendre la même qualité similaire un prix abordable vous avez la croyance numéro 1 ou l'objection numéro 1 c'est à ce prix là ça ne peut pas être ça peut pas avoir la même qualité et maintenant vous allez venir la démonter de plein de manière différente vous pouvez bien sûr utiliser de la gbt vous le demandez ok qu'est ce sont les croyances de mes prospects par rapport
+
+[04:37] par rapport à mon produit qu'est ce qu'il croit et ensuite génère moi des des hoocs des questions que les prospects pourraient se poser à mettre en hooc du nat donc par exemple pour des airpods ça pourrait être ça pourrait être impossible de
+
+[05:05] de je sais quoi je vais utiliser de la gbt pour voir ok il m'a donné des trucs sympas par exemple j'ai avoir le style des airpods sans dépenser une fortune par exemple ça c'est très très bien
+
+[05:29] les que les copies ne doivent pas avoir un bon son voilà et pour vous démontrer dans la vidéo que le sont incroyable est ce que ça se voit que ce n'est pas de vrai et là dans votre vidéo vous démontrez que le vrai avec le faux sont exactement identiques donc tous ces genres de trucs c'est vraiment game game changer et vous pouvez voir constamment si vous êtes dans la bibliothèque
+
+[05:50] librairie de de tik tok que dans les tops at de la semaine du moins il ya constamment ces genres de hâte donc autant les utiliser donc nous c'est quelque chose qu'on teste hebdomadèrement donc hebdomadèrement notre process c'est de reprendre nos winning hâte et de rafraîchir avec des des hoocs de ce style là
+
+[06:10] notamment un hook qui reprend le même message qu'on a en hook et qui se convertit en commentaire par exemple notre hook c'est je sais pas si vous portez si vous portez ces airpods vous allez attirer les foules ok c'est ce hook là et ensuite on va venir
+
+[06:31] regarder la chagapité qu'on peut le convertir en question ou même des fois on le remet ici si vous portez ce si vous portez si vous portez ces airpods vous allez attirer le regard de la faute voilà un exemple donc voilà court épisode aujourd'hui mais vraiment puissant appliquez le on vous met donnera le lien et
+
+[06:55] vraiment appliquez le chaque semaine testez vos winnings ou vos winning hats avec plusieurs nouveaux hook style tik tok c'était matéo à bientôt
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 55 : Ep #8 - SOP - Avis Client pour les Ads
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 55
 ======================================================================
 
@@ -4302,16 +5200,80 @@ Un process hebdomadaire en trois étapes : scraper les avis clients (Trustpilot,
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Ok, nouvel épisode de Creative Insight aujourd'hui. Je suis obligé de vous partager ceci, qui est un process qui marche vraiment bien actuellement pour nous, et qu'on fait chaque semaine. C'est simplement comment prendre des avis clients pour recréer ces avis en ads. Donc de créer des ads ultra réalistes qui parlent à vos travatards,
+
+[00:22] simplement en s'aspirant des avis traspalotes et Amazon. C'est parti. Je vais vous donner le process exact qu'on utilise. Nous, on utilise ce process chaque semaine. Chaque semaine, on va venir aller sur traspalote, aller sur Amazon aussi, pour reprendre nos propres avis de clients et créer des ads. On a un système qui est automatique,
+
+[00:44] qui nous permet chaque semaine de créer des ads. Vu que ça marche bien, vu que maintenant on peut même créer des UGC avec LIA, je vous donne le process. Donc, étape 1. Simplement, vous allez aller sur traspalote. Si vous n'avez pas un traspalote, si vous n'avez pas assez d'avis sur traspalote, vous pouvez prendre un traspalote de votre concurrent. Ce qui compte, c'est d'avoir une dizaine d'avis. Vous pouvez aller sur Amazon aussi.
+
+[01:06] Donc là, je vous donne deux outils pour télécharger les avis. Les deux sont gratuits et les deux sont limités. C'est-à-dire les deux, au bout d'un moment, il faudra passer sur un plan payant ou refaire un compte. Donc pour ceux qui veulent économiser, vous pouvez simplement refaire un compte avec une autre Asmail. Autrement, vous pouvez payer un petit forfait. Ce n'est pas très cher. Donc, simplement, vous allez sur traspalote et vous allez venir télécharger.
+
+[01:28] Vous allez simplement ensuite venir télécharger les avis. Donc, autant sur Amazon que sur traspalote, je vous conseille de télécharger les avis et de mettre sur un CSV ou un Google Sheet pour ensuite avoir une base de données de tous vos avis que vous pourrez utiliser par la suite. Donc cette base-là, ça va servir de data
+
+[01:50] pour alimenter le GPT. Ensuite, on va venir utiliser ce prompt qu'on a amélioré et qui fonctionne très bien actuellement. Ensuite, on va venir utiliser ce prompt qu'on a créé et développé et amélioré. Le but, c'est simplement d'utiliser ce prompt
+
+[02:10] avec le chat GPT, si vous êtes dans le school, le GPT Copy Master qui est alimenté par de la data qui a déjà beaucoup donné au niveau Copywriting et au niveau Ads. Et notamment, qui a une grosse bibliothèque de hook, ça va nous aider par la suite. Vous allez venir lui donner ce script, donc en gros qui est un copywriter spécialisé en direct-response et qui va venir
+
+[02:31] créer trois structures, trois scripts à IDA, selon les reviews que l'on va lui donner ici. Et simplement, vous, vous devrez juste lui dire votre nom de marque, nom de produit et l'analyse marketing ou simplement des informations sur votre produit. Ensuite, lui, il va venir nous créer
+
+[02:52] trois scripts sur la formule IDA. IDA, pour ceux qui ne connaissent pas, c'est une formule simple, très courte, qui va venir commencer avec l'attention, le but c'est de captiver l'attention. Ensuite, devenir sur l'intérêt, susciter le désir et pas ses élections. Et pourquoi cette structure-là ? Parce qu'en fait, elle fit très bien avec les avis clients.
+
+[03:13] Ils vont venir parler de leur intérêt, pourquoi ils ont acheté de différenciations par rapport peut-être aux autres marques. Et ça va être très précis, que si on utilise un autre framework ou c'est qu'on va venir parler du problème, on n'aura pas cette réponse-là parmi les clients. C'est-à-dire que les clients, souvent, quand ils vont venir parler de leur problème
+
+[03:34] ou de ce qu'ils veulent vraiment, il y a un désir, il y a une couche plus profonde. Je m'explique. Ils vont dire qu'ils ont acheté la Ferrari parce qu'ils l'ont toujours voulu et puisque là, elle avait un bon prix. Mais au final, ils ne vont pas dire qu'ils ont acheté la Ferrari pour montrer leur richesse. Et nous, quand on a étudié notre avatar, on sait que c'est pour ça,
+
+[03:56] on sait que c'est la raison profonde. On ne peut pas utiliser n'importe quel script quand on demande à un chat GBT de reutiliser les paroles sur une structure. C'est pour ça qu'on dit ces structures-là, à Eda. On va venir créer trois scripts avec cette formule. Le premier, ça va être écrit à première personne. Donc on va utiliser
+
+[04:16] l'avis tel qu'il est, enfin, les mixes d'avis pour recréer un script. La deuxième, pareil, mais simplement, il va venir utiliser un ton un peu plus humoristique ou sceptique pour faire quelque chose de différent en autre script. Il troisième, on va venir tourner ça avec un narrateur. Par exemple, le narrateur, il va dire, il y a un client qui a commandé 30 pontes à long sur une seule commande. On va voir pourquoi.
+
+[04:38] Et puis ensuite, on va pouvoir insérer les reviews ou parler à la troisième personne. Et ces trois scripts, ils auront chacun quatre hooks. Deux hooks, ils vont être inspirés du winning hook Framork Libarary, qui utilise des psychologiques à le trigger. Donc ça, ça sera dans le chat GBT. Il est déjà intégré dans le chat GBT.
+
+[05:00] Et les deux autres, ils vont venir reprendre, ils vont venir analyser les z-lines, les punch émotionnels qui vont venir matcher avec un hook. Ça c'est très puissant, c'est très fort. Souvent on a des pépites. Et il va utiliser exactement le même langage du customer, il ne va pas refraser. Et tout ça dans un script qui va venir rester émotionnel, très relaté
+
+[05:22] et conversion driven. Et là, vous auriez juste à mettre les reviews. Donc, pour faire un exemple, je sais que vous voulez un exemple, j'ai pris un marque de... j'ai voulu faire pour un pantalon. Donc je dis ok, on va faire une marque de pantalon, j'ai inventé, j'ai donné et je montre ce que ça donne.
+
+[05:44] Donc le script 1, c'est un ton de voix client honnête, c'est un enthousiasme, voilà, les 4 hooks. J'ai littéralement donné tous mes autres pantalons. Je ne peux plus porter autre chose, ok? Bien, je n'ai recommandé direct 3 de plus. C'est du mon uniforme. Ok uniforme, je ne sais pas si ça match. Ils sont si doux, je ne les sens même pas. Mon mari les adore. Il dit qu'il n'a jamais eu des pantalons si confortables. Très bien.
+
+[06:06] Honnêtement là, sur les 4, 3 pour utiliser tel quel. Après, je vous rappelle, le but de... on lit ça, c'est de le péter. Ce n'est pas d'avoir un copier collé tel quel, mais c'est d'avoir déjà une base pour utiliser ou soit de faire du gros volume. C'est-à-dire de reprendre tel quel et vraiment produire un gros volume pour avoir des Aswinners sur le volume. Mais là, ce qu'il est le plus smart, c'est
+
+[06:28] de prendre cette base-là et ensuite juste venir peaufiner. Ensuite, franchement, j'ai essayé tous les pantalons confort, jogging, chino, même des trucs à 150€. Rien de malais vraiment, jusqu'à qui je découvre cela. Top, là, j'ai rien à dire. Pantis, c'est une marque de... marque haut de gamme qui crée des pantalons conçus pour ceux qui ont le vrai confort d'un pyjama avec le style d'un pantalon de ville. C'est parfait.
+
+[06:50] Franchement, ça, c'est directement lié, directement sorti du customer. Donc, ça, ça résonne. Matière respirante, coup ajusté, zéro frontement, pas de ceinture qui sert, juste du confort pur. Stop. Désir. Dès que je les ai mis, j'ai compris. Ça est plus de corps sans coller, c'est fluide, ça respire, mon quotidien a changé. Plus de gêne, plus de sueur,
+
+[07:11] plus compromis. Et tout le monde me demande si je l'ai trouvé. En honnêtement, c'est parfait et c'est très émotionnel et ça parle. C'est très, très bien écrit. Franchement, c'est très, très bien écrit. Action France, clique maintenant pour tester Pantalon.10. Près bien, tu ne me verras plus jamais pour autre chose. Par contre, la culture action, après, vous pouvez très bien mettre un culture action qui marche pour vous et qui match avec un skip UGC, mais un truc simple, pas besoin de feu.
+
+[07:33] Il ne faut pas que ça fasse trop vendeur sur le UGC. Donc, un truc très simple. Tu ne me verras plus jamais pour autre chose. Ça irait très bien, par exemple. Donc ensuite, je lui ai dit de me faire deux autres. Il m'a dit, ce qui continue, yes. Et là, il m'a fait un skip 2. Donc, vous voyez, cléant un peu plus sceptique. Je pensais que c'était du bullshit de pub. Maintenant, j'en ai 5. J'ai 5, Pantalon.10.
+
+[07:55] Voilà, je formule je formulerai un petit peu. Ils sont tellement bien que ma copine m'l'épique. Ça top. J'ai l'impression d'être un poil, mais c'est...il est. Voilà, c'est bien. Super doux. Je suis surpris. Allez porter 3 jours de suite. Ça, c'est très bien. Les UGC sont bien. Ensuite, attention. J'étais le roi des jeans mal coupés, des jogging tristes. Et quand j'ai vu les pubs
+
+[08:17] Pantis, j'ai levé les yeux au ciel. Mais bon, j'ai tenté et woow. Ouais, j'adore. C'est très bien, vous allez parler à plusieurs types de clients. Vous aurez des clients sceptiques. Vous aurez des clients chez lesquels ils seront moins sceptiques. Et en fait, il y a des scripts qui ne vont pas parler à des clients sceptiques. Ces genres de scripts là, ça ne va pas parler
+
+[08:39] à quelqu'un qui est déjà sceptique. Mais pourtant, c'est le même client et ils sont sur le même stage d'avoir un S. C'est-à-dire le même niveau de conscience par rapport au produit. Peut-être qu'ils connaissent déjà tout les styles, mais il y en a d'ailleurs qui sont plus sceptiques. Peut-être qu'il y en a d'ailleurs qui ont essayé tellement de sortes de Pantalon qu'ils y croient plus. Et là, en voyant ça, vous pouvez convaincre tous ceux qui y croient plus. Tandis que ça, non. C'est pour ça qu'il est important de faire des variations.
+
+[09:01] Interesse Pantalon, c'est dingue. Pantis a tout compris une matière qui te caresse la peau, une coupe qui fait bonne impression et un confort qui donne envie de dormir dedans. C'est très visuel, très émotionnel. J'adore. Franchement, j'adore. Désir, c'est simple. Je bosse avec, je sors avec, je traîne avec, je traîne chez moi avec. Il est beau, il est beau, il respire, il tient la route. Même ma meuf les a piquées. Donc je l'en ai rachetée deux autres.
+
+[09:23] Même ma copine, peut-être même ma femme, je vais changer. Test les. Sérieusement, si t'as pas envie de l'enfiler, dégueulé voix, tu peux me juger. Ouais, pas tu peux me juger, mais je vais changer légèrement. Mais sinon, top. Et le script 3, avec le narrateur, donc un clé en carrément donné tous les autres Pantalon, tous ces autres Pantalon, pour essayer celui-ci. On dirait un jogging
+
+[09:45] mais stylé et classe, moins fan. J'ai jamais été aussi à l'aise dans un Pantalon. Mon mari les adore, il veut plus mettre autre chose. Ouais, bien, j'aurais peut-être deux sur les quatre, là. Imagine un Pantalon que les clients comparent à Pijaman Mux, mais qu'il porte pour aller bosser. C'est ce que Pantis a réussi à faire, à créer. Avec un tissu respirant, une taille pour le confort et une allure qui colle au quotidien,
+
+[10:07] Pantis redéfinit la façon dont on s'en s'habille en 2025. C'est bien. Elle pourrait faire mieux, mais c'est pas mal. Les témoignages sont unanimes. Je les enlève que pour dormir. C'est devenu mon uniforme. Il est si confortable que j'ai oublié. Même les plus sceptiques en commande d'eutre dès la première journée. C'est bien. Franchement c'est bien. C'est très bien. Et action, tu veux voir
+
+[10:29] pourquoi tout le monde en parle, clique ici pour essayer Pantis aujourd'hui. C'est bien. En français, ça ne donne pas très bien. Mais les punchlines comme ça sont top. Donc ensuite, le process de ça, donc le process que nous on fait actuellement, c'est qu'on prend ces scripts là et on va venir prendre ces 3 scripts
+
+[10:51] avec les 4 roucs et on va venir faire avec 3 Zavatar IA différents. Donc on va utiliser Arcade ou Mirage App pour créer automatiquement des contenus UGC qui résonnent. Et comme ça ça nous permet d'avoir 36 HATs si je dis pas de bêtises. 36 HATs. Donc là
+
+[11:13] en quelques minutes vous donnez un prompt enfin vous donnez de la data, vous donnez un prompt et vous avez 36 HATs qui sort en UGC. Puis ensuite vous allez regarder quelle HATs résonne le mieux, quelle acteur marche le mieux et vous allez venir double down améliorer le script utiliser l'acteur pour le prochain script ou utiliser des locaux acteurs. Donc voilà c'était Mato, j'espère que cette vidéo vous a plu. Bien sûr, je donnerai le prompt.
+
+[11:35] Allez à bientôt. Tchao tchao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 56 : Ep #9 - Analyse Ads Flytex
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 56
 ======================================================================
 
@@ -4353,16 +5315,74 @@ Analyse d'une pub vidéo à 12 millions de vues pour Flytex, une genouillère de
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hey, une nouvelle épisode de Creative Insights. Aujourd'hui, on va analyser une banger hat. Donc on a Hugo qui est un ami à moi qui est venu à l'AutomasterMind et on a discuté et je lui ai demandé c'était quoi son top top hat et il nous a donné sa top hat et ce que j'ai décidé aujourd'hui c'est de décortiquer cette top hat.
+
+[00:23] Donc ce qu'il faut savoir c'est qu'il est d'accord de partager cette top hat. Il l'a même partagé sur un pot de casque qu'on a fait mais pour vous je vais aller en profondeur je vais décortiquer comment cette top hat est structurée et pourquoi elle a marché et comment vous avez pouvoir répliquer. Donc la meilleure manière pour ça c'est de vous montrer l'hat et de décomposer bloc par bloc pour comprendre quel impact psychologique. Donc ce qu'on va déjà
+
+[00:47] faire c'est analyser le hook. Donc là je vous ai mis le lien de l'hat ici. Donc là on va ouvrir l'hat. Donc là comme vous pouvez le voir il y a 12 millions de vues plus de 1000 de commentaires. Donc grosse grosse winning hats. Donc analysons l'hat. Donc tout d'abord le hook. Donc là on voit
+
+[01:09] qu'il utilise une prothèse de genoux et un bruit de graissement ce qui en fait capturent les intentions. Parce qu'on a du mouvement on a quelque chose d'intriguant, on se dit qu'est ce qu'il fait et en entend un bruit qui résonne très très bien avec ce que son avatar ressent. Un bruit de
+
+[01:30] graissement de porte. Donc ensuite... Donc là on voit qu'il met du temps à se lever. Donc c'est pas ultra dynamique mais ça fait une hat très organique en fait. Donc là il se lève avec des lunettes ici le micro. On se demande mais ok qu'est ce qu'il va nous dire. On comprend enfin on voit le logo
+
+[01:55] ici qu'on comprend pas ce que c'est. Et là est-ce que vous avez des douleurs aux genoux après vos courses ? Au genoux avant après vos courses. Donc là on est il est sur quelque chose de très très précis par rapport à son avatar et en fait l'avatar va dire oui une première fois. Donc là en fait il a une phrase très très précise. Il va pas dire que vous avez des douleurs aux genoux chroniques. Il
+
+[02:17] va vraiment venir dire est-ce que vous avez des douleurs aux genoux après vos courses. Ce qui est très très précis et du coup ce qui va venir cibler tous les coureurs qui sont dans cette position là. Si oui, il va être à cause d'une ancienne blessure. Si oui et là ce qu'il va faire il va venir expliquer, éduquer pourquoi ils ont ces douleurs aux genoux. Parce qu'il faut savoir c'est qu'il y a des personnes qui ont des douleurs aux genoux et qui savent même pas pourquoi. Donc lui il va venir
+
+[02:39] éduquer. On appelle ça expliquer la route cause. Donc là il va venir expliquer. Évidemment fissures de ménisques ou bien encore de l'arthrose. Là il va être plus précis. Donc c'est comme un docteur. Il va dire ok ça peut venir dans une blessure de fissures de ménisques ou arthrose. Donc là il est très très large parce qu'il y a un tam très très énorme sur ces trois blessures. Du coup il est
+
+[03:00] sûr que la personne va dire oui encore. Donc la personne qui a une douleur aux genoux elle va dire oui. J'ai deux douleurs aux genoux après que je cours ou avant. Et oui c'est moi j'avais une fissure de ménisques. C'est moi j'ai de l'arthrose. Donc là elle va dire ok ça c'est vraiment pour moi il faut que je sois attentif. Il faut que je garde. Donc là il doit avoir un très bon hold rate et au crate parce que c'est en cohérence en fait. Il n'est pas venu me montrer ici une fille
+
+[03:25] d'utinue puis ensuite ensuite parler de genoux parce que là les gens ont renaché. Là il parle à des coureurs et il va encore affiner. Donc là ensuite ce qu'il va dire. C'est oui du traquote d'une ancienne blessure au ligament fissure de ménisques ou bien encore de l'arthrose. Mais sachez que vous êtes à une solution pour recourir sans douleur. Voilà donc là là il est sur une émotion
+
+[03:48] plutôt négative et ensuite il va venir il va venir montrer une visualisation positive. Vous êtes à une solution pour recourir sans douleur et il le montre qui recoure lui. Donc là les gens vont encore captiver attention. Il va avoir une douleur. Il va certainement essayer plusieurs solutions. Et là
+
+[04:08] il va venir discréditer tout ce que les gens ont essayé. Donc là aussi il faut être très précis. Mais sans succès. Les anti-douleur. Des séances s'élequinées. Alors même des genouières classiques mais rien ne marche. Aujourd'hui vous vous... Voilà des genouières classiques rien ne marche. Donc là c'est très bien il est très précis par rapport aux solutions les plus courantes. Donc là on a une personne qui regarde qu'un courant. Il va venir dire oui j'ai doulé après ou avant les courses.
+
+[04:32] Oui j'ai une ancienne blessure et oui j'ai essayé ça. Donc là il va venir dire trois fois oui et ce trois fois oui va venir valider ensuite quasiment ce qu'il va proposer parce qu'en fait ils sont enclins à ensuite rationaliser ce qu'il va dire. Donc là... Il est très précis et c'est ce
+
+[04:57] qui fait que là ça fonctionne très bien. C'est une ades qui est à l'air organique. Funder Ang mais qui est très très précis son tiric responce. Donc là ensuite... 60% des cohorts se blessent chaque année pour la majorité d'entre eux c'est le genou qui est touché. Donc là en fait il est très très précis. Voilà là il a captivé l'audience parce que le danse va
+
+[05:19] se reconnaître parfaitement et ensuite il a montré qu'il y a une preuve d'autorité parce qu'il connaît bien les blessures, il connaît les statistiques et qu'on connaît les statistiques ou qu'on ait les blessures. C'est forcément qu'on est un expert. Donc là ensuite il se présente lui-même. Donc là on a introduit la personne c'est la figure d'autorité et ce qu'il va faire c'est pas
+
+[05:41] vraiment avoir une position de docteur mais il va avoir une position de miroir par rapport à la personne. Il est comme son avatar. Il est exactement comme son avatar. Donc il explique son histoire. Je suis fait opérer et même après la rééducation j'ai gardé des
+
+[06:02] douleurs chroniques dans le genou ce qui m'empêchait de faire du sport avec confiance dans mes appuis. Mais comme vous j'ai pas lâché l'affaire. Je me suis renseigné. Donc là en fait il y a quelque chose de très important et je sais pas si il est au courant c'est qu'en fait voilà là il est comme la personne mais ça sert rien d'être comme la personne. Ce qui compte c'est d'avoir le même le même why. Et en fait là où c'est très fort c'est ça. C'est comme vous j'ai pas
+
+[06:26] lâché l'affaire. Donc là en fait ce qu'il est en train de dire c'est que lui il est comme son avatar c'est une personne qui adore le sport et qui ne voudra jamais arrêter le sport. Et en gros là c'est son why. Et les gens toutes les personnes qui sont dans cette situation là ils sont prêts à acheter n'importe quoi parce que il est venu les captiver. Il est venu les faire adhérer à un
+
+[06:51] why adhérer à si vous êtes comme moi que vous ne lâcherez jamais le sport vous êtes prêts à tout pour continuer. Et bah j'ai une solution et en plus de ça c'est pas des anti-douleurs c'est pas des sangs chers kinés c'est les valetaires. Sur des méthodes qui me permettrait de soulager mon inflammation articulaire et de reprendre le sport comme avant. Ces recherches ont mené à la compression ciblée une méthode. Donc là il vient sur l'unique mécanisation de la solution. Donc il aurait
+
+[07:20] pu rajouter une unique mécanisation du problème en expliquant pourquoi ils n'arrivaient pas à continuer à s'entraîner parce que peut-être qu'il y avait une mauvaise compression ciblée et ensuite venir introduire l'unique mécanisation de la solution. Donc qui est augmenté le flux sang... la compression ciblée pardon pour augmenter le flux sanguin et protège sans réduire la mobilité.
+
+[07:42] Donc ça c'est l'unique mécanisation c'est-à-dire c'est la proposition unique de son projet. Et ensuite là il met le produit. Et là les gens comprennent que c'est ce qu'ils ont vu avant.
+
+[08:12] Qu'ils permettent de descendre les escaliers en courant, de courir. Donc là simplement il introduit le produit assez tard au bout d'une minute il introduit son produit. Mais les gens ont déjà aidé à son wild. Les gens ont déjà validé quasiment le produit et là on va rajouter de la rationalisation. Donc là ça va pas être émotionnel. Là ça va être ok ça fonctionne parce que le produit
+
+[08:37] fait ce mécanisme. Donc là on est plutôt sur du ho et avant on était sur du why et là plutôt sur targeter la personne. Et ensuite il va je pense répondre what c'est à dire. La compression ciblée va soulager l'articulation en augmentant le flux sanguin. Voilà. Y ho what là il va expliquer que la
+
+[09:04] compression ciblée va la maintenir pour protéger des blessures sans réduire la mobilité. Voilà. Donc là on est sur des trucs rationnels ça ça fait pas vendre. Il aurait commencé par ça si on n'a pas marché. On va prendre soin de vos genoux et surtout reprendre la course à pied. Voilà reprendre la course à pied ensuite. Plus de plaisir. Donc là on est ici reprendre la course à pied avec plus de plaisir. Donc on est sur de la visualisation. Donc là on est nouveau sur une émotion avec
+
+[09:28] vos performances d'avant. Grâce à ça j'ai plus de douleur au genoux et je recours sans douleur. Alors il n'y a rien de magique là dedans. C'est aussi parce que je fais du renforcement articulaire, de la mobilité et que j'utilise des machines de compression pendant l'effort et après pour une meilleure récupération. Cette année on a aidé plus de 4 000 sportifs à soulager leur douleur au genoux. Donc là on a le social proof. Donc plus de 4 000 sportifs. Là c'est pas juste
+
+[09:51] 4 000 sportifs. Vous ne croyez pas sur parole au niveau des effets. Vous ne croyez pas sur parole au niveau des effets. Donc là ce qui dit c'est que voilà même si vous avez un derrière moi il reste tellement quelqu'un de net qui va dire au corps regardez le spoiler. Donc si vous souhaitez recourir sans
+
+[10:13] douleur au genoux, rendez-vous sur flaytex.fr pour commander vos mains à compression. Donc voilà banger hats, banger banger hats ici je vous laisse la structure et comment l'adapter. Mais concrètement comment l'adapter. Donc là c'est une ad qui est très orientée sur produit à problème. Donc vous allez pouvoir avec un prompt chat du bt une fois que vous décomposez bien,
+
+[10:37] vous lui redonnez ceci et vous lui dites simplement aide moi à adapter ce script pour mon problème enfin pour mon produit vous donnez le problème, vous donnez tout le contexte, tout ce que vos clients ont dit et votre marque. Et après, idéalement, vous devrez mettre en avant une figure d'autorité donc ça peut être fonder. Ça marche très bien fonder si
+
+[10:59] c'est vous, simplement faut bien tourner l'âte. Vous voyez là c'est bien éclairé, c'est un endroit joli, il y a de la nature, ça parle en fait. S'il avait tourné dans un environnement médical, il ne saurait pas raisonner avec son avatar selon moi, parce que son avatar il aimait courir en plein air et je ne pense pas qu'il est fan des docteurs et des opérations. Donc en fait l'environnement était parfait pour son script.
+
+[11:28] Et tout est bien dans l'ordre. En fait c'est une vsl, une mini vsl avec l'aspect fonder. Donc voilà c'était ma top pour le petit creative insight aujourd'hui.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 57 : Ep #10 - News Hooks qui cassent le cerveau
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 57
 ======================================================================
 
@@ -4404,16 +5424,48 @@ Beaucoup de publicités échouent non pas à cause d'un mauvais texte ou visuel,
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et une nouvelle épisode de Creative Insights, aujourd'hui éclairage un peu moins bien. On va voir aujourd'hui une technique psychologique pour comment créer des hooks qui castent le cerveau. En fait, il y a quelque chose qu'on fait en hooks et en leads notamment, qui permet d'avoir des résultats totalement différents.
+
+[00:22] Et c'est pas quelque chose qui se voit à la nuit, c'est pas quelque chose qui arrive à se remarquer. En gros, j'explique, il y a beaucoup de hooks qui sont très bien, c'est-à-dire que techniquement c'est un bon texte, techniquement c'est un bon visuel, mais le problème c'est que ça crée pas quelque chose de très émotionnel et ça tire. Ça crée pas un lead suffisant chez nos avatars, pour que ensuite ils achètent.
+
+[00:47] Pourquoi ? Parce que c'est pas que le prospect, il se dit que le produit est nul, c'est en fait, il va se dire que c'est pas pour lui et ça va rien, il y a eu l'activer émotionnellement. Parce qu'en fait, il a des croyances et il faut que la pub le challenge. Je m'explique, là je vous ai mis un petit prompt, je vais pas aller trop loin non plus,
+
+[01:12] je vais pas faire une masterclass simplement juste Creative Insights, juste que vous puissiez appliquer ceci directement après la vidéo. Mais en gros, pour vos ads qui marchent bien, ce que je vous conseille, c'est de venir utiliser ce prompt là pour recréer des nouveaux hooks, des nouveaux leads. Le volid c'est en gros un peu plus loin que le hook, c'est peut-être les 5-10 premiers hook.
+
+[01:34] En lui posant ces questions là, c'est-à-dire votre avatar vous devez vous demander qu'est-ce qui croit sur lui-même ? Ok, vous vendez un t-shirt, qu'est-ce qui l'empêche d'acheter ce produit ? Peut-être qu'il se dit ce c-shirt, c'est pas pour les mecs comme lui. Donc même si votre hook est bien, même si votre texte est bien, lui, si il se dit ça, si c'est les croyances populaires de votre client, ça va rien lui animer émotionnellement.
+
+[01:59] Donc vous devez le challenger, vous devez rentrer dans ces croyances pour s'anigner à lui. Et vous décomprendez aussi quelle histoire il se raconte. Vous voyez une pub, il ne passe pas l'action. Pourquoi ? Peut-être que tout est bien, peut-être que votre premier, votre offre est incroyable, peut-être que votre pub est bien, mais si vous n'arrivez pas à comprendre pourquoi, quelle histoire il se raconte et pourquoi il ne l'achète pas,
+
+[02:20] ça risque de ne pas marcher. En le faisant ici, Chachabette vous donne directement les réponses, si vous donnez un peu de data, pour faire des trucs qui y sont bangers. Personnellement, sur des gros stats, c'est une pattern que j'ai revue, c'est qu'on va venir challenger les croyances. Et ensuite, quelle croyance il doit lâcher, peut-être qu'il a une croyance limitante.
+
+[02:44] Et par contre, pour le t-shirt, peut-être que je peux être stylé et à l'aise. Peut-être qu'il se dit que être stylé, c'est pas avoir du confort. Ou avoir du confort, ça ne peut pas être stylé. Et peut-être qu'il croit ça, c'est-à-dire que même votre adse vous dit que c'est le meilleur confort du monde, lui va se dire que ce n'est pas stylé. Il ne va même pas regarder la suite. Donc je ne sais pas si vous comprenez, mais c'est ultra puissant de comprendre ça. C'est vraiment ultra ultra puissant, pour vraiment s'aligner et qu'il se dit,
+
+[03:09] ok, c'est pour moi, ah ok, je veux, je dois acheter ça. Donc simplement, qu'est-ce que vous allez faire ? Vous allez venir, on appelle ça une dissonance cognitive. Donc en gros, leur cerveau, il va vouloir résoudre le conflit, il va se remettre aux questions et à la fin il va se dire, ok, c'est pour moi. Simplement vous donnez ce prompt là, dans chat GBT, donc ce prompt là.
+
+[03:33] Et vous donnez les réponses. Je vous ai fait un exemple avec chat GBT, on va voir ça tout de suite. Ok, là on a un exemple avec un t-shirt. Je prends un t-shirt parce que c'est quelque chose de très simple, et à chaque fois, très simple à démontrer. Et vraiment quelque chose de très basique. Donc si on avait un truc du bon coopérating avec un t-shirt, quand on a un produit à plus fort problème, on s'amuse encore mieux.
+
+[03:55] Donc là, je vais donner le prompt tel quel je voulais montrer. Donc là, ce qui me dit en 1, que croyez-vous sur lui-même, à mon âge, je ne suis pas censé faire attention à mon style, sur un t-shirt, c'est pour les jeunes. Donc ça, c'est ce que notre avatar pour ce t-shirt se dit. C'est un t-shirt qui permet d'être stylé, même temps confortable.
+
+[04:17] Donc en fait, si vous comprenez ça, vous allez pouvoir faire des hooks ensuite en fonction de ça, ou même mettre ceci tel quel en question dans le hook. Et ça va venir vraiment marcher. Je vous promets pas ce que l'on le fait et ça marche. Ensuite, quelle histoire il se raconte, encore une marque qui est mise sur le look et pas sur le confort, je vais transpirer là-dedans, ça va me le tailler.
+
+[04:38] Donc en fait, ça, c'est l'histoire qui se raconte. Donc ça, il faudrait être au courant pour pouvoir répondre à ceci. Vous pouvez même faire un hook avec ceci, et guider ensuite ceci, et ensuite venir montrer la croyance qui doit lâcher. Mais on va vous prouver que Marc, par exemple, il peut se sentir bien et les corps, il est à l'aise sans devoir s'imblier comme un vieux.
+
+[05:02] Donc en fait, avec ça ensuite, je peux dire, génère-moi des hooks avec cela. Je n'ai pas utilisé le GPT Master, mais si vous demandez de générer des hooks, il va vous générer par rapport à la bibliothèque de hooks. Et du coup, ça sera beaucoup plus pertinent que celui-là.
+
+[05:26] On va voir ce qui me donne. A 50 ans, je ne vois pas l'intérêt de se faire tout de suite, comme un ado. C'est fou comme un petit shop offerte sans chérien, de vous bien dans la peau, très bien. Je pensais que le confort et le style étaient les erreurs. Je le savais tort. Voilà, c'est très bien. C'est très bien. Ensuite, il faut retourner les hooks, que ce soit un peu clic-able. Mais c'est très très bien. Et je vous promets que la psychologie
+
+[05:49] bat les concepts. C'est-à-dire que ce n'est pas le micro-trottoir, ce n'est pas le podcast qui marche. Même si c'est des concepts très bien. Après, derrière, il faut avoir la psychologie. Il faut venir parler de la bonne manière à la personne pour qu'elle ait un désir d'achat. Donc, voilà, utiliser ce prompt, convertir ça en hooks, tester sur meilleur vidéo,
+
+[06:11] et même créer des nouveaux concepts en fonction de ceci. Et ça va changer drastiquement tous vos prochains résultats. Donc quelque chose de vraiment game-game-changer. C'était Mathieu, à bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 58 : Ep #4 - Présentation + Utilisation de Mirage
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 58
 ======================================================================
 
@@ -4455,16 +5507,56 @@ La b-roll fatigue est un problème critique sur Meta : utiliser les mêmes shots
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui, j'aimerais faire un petit creative insight sur quelque chose qu'on utilise actuellement et qu'on a setup dans nos process. Je pensais important de vous partager. Pour résumer quelque chose de très important dans le domaine des créatifs, c'est qu'il faut avoir des footage, il faut avoir des b-rolls. Et c'est les b-rolls qui vont pouvoir illustrer le contenu.
+
+[00:22] Dans vos meilleurs rats, il n'y a pas que le script, il n'y a pas que les principes psychologiques, il y a aussi la qualité des b-rolls. Donc les b-rolls sont ultra importants. Nous, on a eu plusieurs fois des b-rolls fatigues. Des b-rolls fatigues, c'est quoi ? C'est qu'on avait les mêmes shots qui marchaient très bien, qui avaient dépensé des millions.
+
+[00:42] Et que nos videoteurs utilisaient encore et encore, même sur des nouveaux scripts, même sur des nouveaux concepts. Ce qui faisait qu'il y avait moins d'attractions, ce qui faisait que Meta avait toujours vu ses footage. Et les mettaient moins en avant que les gens réagissaient moins bien. Donc c'est très important d'avoir un système qui permet d'avoir de footage frais chaque semaine. Donc pour ça, il y a des comptantes créateurs.
+
+[01:04] Il y a des videographeurs, c'est-à-dire, vous pouvez trouver des videographeurs sur Fiverr ou vous-même, qui tournent du contenu frais chaque semaine, chaque mois et qui envoient du nouveau contenu. Personnellement, nous ce qui a mieux marché, c'est de faire le contenu maison, c'est-à-dire le contenu que je tourne moi-même avec des proches.
+
+[01:27] Et c'est le contenu qui a mieux marché parce que des fois j'ai des idées et on prend plus le temps à faire des choses calies. Donc voilà, il faut avoir du contenu frais. Et pour ça, maintenant, il utilise des outils. Nous maintenant, on utilise une manière de speed-up et à moindre coût d'avoir de footer chaque semaine.
+
+[01:48] Et c'est l'éhigh. Donc je vous avais déjà présenté Arcade. Sauf qu'Arcade, il y a quelques limites. Et là, on utilise une autre app en plus, qui est incroyable pour le contenu UGC. Parce qu'en fait, vous pouvez créer des avatars de zéro et vous pouvez créer des avatars comme vous voulez.
+
+[02:10] Je vous montre un exemple tout bête pour montrer à quel point ça peut être puissant. Pour une brand, on a fait une analyse de l'avatar type, de l'outra-vatar type. On a défini des fans à avatar type. Et on leur a demandé, ok, défini-moi la personne, à quoi ressemble la personne qui pourra avoir de l'influence sur lui
+
+[02:31] sans être une preuve d'autorité. Il y a quelqu'un qui ressemble à pas l'outra-vatar et qui pourrait inspirer notre autorité. Et on a créé Ron ici. On a version avec cheveux et sans cheveux. Et ensuite, on s'est dit, ok, on va pouvoir créer des concepts podcast. Et on a mis un fond derrière comme Joe Rogan. Je ne sais pas si vous connaissez le podcast Joe Rogan, mais c'est ultra célèbre aux US.
+
+[02:54] Et du coup, je pense clairement, je vous fais cette vidéo parce que je venais de le faire ce matin. On a créé cet avatar avec Chatubit et qui est réaliste. Et là, avec cet app là Mirage App, on va pouvoir faire parler cet avatar en podcast. Et je ne peux pas vous montrer le résultat,
+
+[03:15] mais je vais vous effaire un résultat test pour vous montrer comment ça donne. C'est très performant, c'est très bien fait. Et pour le français, c'est mieux que Arcat. Pour le français, c'est mieux que Arcat. Et je crois qu'il y a une manière, si on contacte le support, de faire uploader des voix. Donc comme ça, vous pouvez faire des voix sur Eleven-Lens et faire uploader.
+
+[03:39] Et donc voilà, ce que je vous conseille, du disestable, c'est un app assez cher qui coûte 199€ le mois pour les premiers mois test, mais qui permet en fait d'avoir du contenu très peu cher, vu la qualité et qui permet de tester des concepts. C'est-à-dire tester des formats podcasts, tester des formats micro trottoirs, tester en fait n'importe quoi parce que seule votre imagination,
+
+[04:02] seule votre imagination pourra vous arrêter. Parce que vous pouvez très bien faire à quelqu'un qui se fait arrêter dans la rue, quelqu'un qui je ne sais pas, est en combinaison de cosmonaute. Et c'est très, très réaliste. C'est vraiment très, très réaliste. Donc là, vous avez des avatars qui vous ont posés. Moi, j'ai pris un exemple avec lui. Donc je vous ai fait un exemple.
+
+[04:26] Et ce qui est bien, c'est qu'en fait, simplement, vous mettez le texte, ça génère la voix. Ensuite, vous sélectionnez votre avatar. Vous pourrez sélectionner plusieurs et voir le prévu de comment ça donne avec plusieurs. Et après, vous pouvez corriger frame par frame. C'est-à-dire, même si une frame qui n'a pas l'air authentique, eh bien, vous pouvez la refaire jusqu'à que ça marche. Donc là, ça, c'est le résultat frame par frame.
+
+[04:47] Je n'aurais préféré ne jamais découvrir cette marque. Maintenant, je ne peux plus porter autre chose. Si vous êtes un homme de plus de 40 ans, cela va vous changer la vie. Vraiment, je trouve ça très, très bien fait, très réaliste. Et ce qu'il faut bien sûr tenir compte, c'est qu'on utilise ça seulement pendant 2 secondes dans l'AT.
+
+[05:10] C'est-à-dire, on voit 2 secondes là, 2 secondes là, 2 secondes là, 2 secondes là. Les gens se croient que ça n'en a pas de casse, mais après, derrière, on illustre avec des bireaux. Donc c'est vraiment ultra puissant. Ultra puissant, je vais vous montrer la vidéo en entière. Je n'aurais préféré ne jamais...
+
+[05:30] Ah ouais, non, je peux juste la tête chercher comme ça. Donc je vais vous la montrer en entière. Ok. Marc, maintenant je ne peux plus porter autre chose. Si vous êtes un homme de plus de 40 ans, cela va vous changer la vie. Donc ouais, moi je trouve ça vraiment, vraiment très bien fait.
+
+[05:53] Honnêtement, on a fait quelques zettes et ça donne super bien. Donc ce que je conseille, c'est de faire déjà votre personne qui résonne avec votre avatar. Format podcast, inspirez-vous de ce qui marche. Si vous faites des formats street interview, inspirez-vous de hats qui marchent en street interview et vous demandez de mettre un fonds pareil. C'est pour ça que j'ai mis ce fonds là sur podcast,
+
+[06:15] parce que c'est inspiré d'un podcast célèbre. C'est-à-dire que pour les gens, ça va déjà être quelque chose qu'ils ont l'habitude de voir. Donc là, on peut aussi générer de manière automatique des acteurs. Ah non, ok, ils génèrent ici. Pardon, c'est si très bien éclairé, c'est très bien.
+
+[06:37] Ils appliquent en plus des bons principes. Là, il y a un peu trop de choses derrière, mais vous pouvez très bien créer avec des fonds verts. Mais ce que je veux dire, c'est que en fait, l'oral avatar est très bien fait, parce que son arcade, c'est un peu plus aléatoire. Là, ils sont très bien cadrés. C'est-à-dire qu'il y a une bonne numérité.
+
+[06:58] Pardon, les acteurs. Ouais, ça c'est très bien. Sa pare-ambre va l'utiliser, s'en va l'utiliser. Ça, ça pourrait être très très bien. Ça aussi, et ça fait vraiment naturel. Donc, j'utilise de tester et mirage. Donc, il n'y a pas de collaboration ni rien. Simplement, c'est nappes qu'on utilise maintenant,
+
+[07:22] que j'ai mis dans mes process récemment. Et que je sais qu'ils marchent pour des agences de créatives. C'est comme ça que j'ai découvert. Et vraiment pour avoir des acteurs registrés à moins dans le coup, et d'avoir du contenu frais chaque semaine. Donc voilà, c'était Matteo, Creative Insights, à bientôt.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 59 : Ep #5 - New Concept Ads Inspiration
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 59
 ======================================================================
 
@@ -4506,16 +5598,64 @@ Quatre concepts créatifs à faible coût de production pour diversifier ses for
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Bienvenue à un nouvel épisode de Creative Insight. Aujourd'hui, je vais vous faire partager des nouveaux concepts que j'ai enregistrés personnellement. Et je vais vous partager pourquoi ces concepts sont intéressants et en quoi vous allez pouvoir utiliser pour vos ads. Donc, le premier concept ici, ça va être le premier ad-winners.
+
+[00:20] Je vais la mettre puis ensuite on va analyser. Juste... Ok.
+
+[00:46] Alors, il y a plusieurs choses que j'ai retenues de cet ad. Et c'est un concept que j'adore. C'est le fait de tenir dans la main. En fait là, vous allez voir le produit, vous pensez que c'est le produit, mais le concept qui est intéressant ici, c'est le fait de voir des choses tenir dans la main ici, comme ça. C'est très captivant en fait.
+
+[01:07] C'est très captivant, ça ressemble un peu à un Uigli Ads. C'est que c'est... On dirait que c'est filmé plus censé, il faut une dernière. Et en gros là, il discrédite Apple. Donc il y a ça que j'aime beaucoup. C'est très dynamique. Donc là, boum. Et on voit que c'est UGC. On voit que c'est pas un ad bien fait, c'est pas une belle voiture.
+
+[01:29] On voit que c'est quelqu'un qui a filmé de lui-même. C'est dynamique, donc ça change toutes les deux secondes. Et voilà, ça c'est la partie que j'ai préférée. Ça, en OUQ.
+
+[01:49] Je suis persuadé que ça peut marcher. Je suis persuadé que ça peut marcher. Donc ça c'est une inspiration. Donc là, c'est pas pour rien qu'en premier lieu, il le voit le dos du fuck. Et il met Apple. Ça pourrait être un OUQ. Moi personnellement, comme je l'ai noté, là, ce m'une prochaine, on va faire des OUQ. On va shooter des OUQ. En discréditant les concurrents.
+
+[02:10] Ici, des concurrents bam bam. En OUQ. Et en gardant un type UGLY ADS. Un UGLY ADS, ça veut dire que c'est pas une NAT, polychette, c'est pas une NAT fait avec Lite production. C'est tourné avec un iPhone. Montage simple, type TikTok. Et voilà le concept.
+
+[02:31] J'adore. Vraiment, j'adore et il faut s'inspirer. Ensuite, le deuxième, là, c'est aussi un UGLY ADS. Donc là, je vais vous ouvrir le lien. Il est ici. Donc je vais montrer. Des UGLY ADS, il faut vraiment en faire. C'est lui qui a pas mal popularisé. En fait, UGLY ADS, ça veut surtout dire
+
+[02:52] une NAT fait brute par un content créateur. Par un... un... comment on a peut ? Je perds le terme. Par quelqu'un de la plateforme. C'est-à-dire, UGLY ADS, c'est une NAT sur TikTok qui a été filmée, sur TikTok par quelqu'un. C'est très authentique, c'est très brute. Il n'y a pas de montage, ça ne fait pas vent, en fait.
+
+[03:15] C'est pour ça qu'on appelle ça UGLY ADS. Et là, on va voir une NAT. Donc là, on a le hook. C'est qu'il montre une chips.
+
+[03:40] Bref, la vidéo dure 3 minutes. Donc voilà, c'est quoi une UGLY ADS. C'est filmé face cam. OK, on teste le produit en direct. C'est bon, c'est bon. On donne des vrais arguments, des arguments authentiques. Et en fait, ça donne un son ultra authentique. Donc ça, c'est une très bonne ADS faite.
+
+[04:00] D'ailleurs, c'est lui Barry Hott. Donc c'est un créatif stratégiste. Et il a tourné l'ADS lui-même. Et il n'y a rien d'exceptionnel. Il n'y a rien d'exceptionnel niveau simulatographique. Simplement, ce qui compte, c'est les arguments qu'il va dire. Donc les arguments sont importants. Il met en avant la meilleure proposition de valeur. Je n'ai pas étudié le produit, mais pour des chips,
+
+[04:23] c'est que c'est bon. Donc là, directement, c'est bon, ça crunge. Donc voilà le concept. Pour mon nouveau vale, on peut le répliquer. Simplement, avec un avatar qui fit avec votre avatar, qui se filme face cam dans la voiture chez lui, qui montre le produit, qui laissez le produit et qui dise un avis honnête.
+
+[04:45] Vous pouvez d'ailleurs aller sur Amazon. Et Amazon, vous avez des avis aussi qui sont bien, avis vidéo et qui font très natifs, très uglies. Donc voilà ce que c'est uglies. Faite-temps, vous allez voir, les résultats sont surprenants par rapport à ce que ça vous coûte et par rapport à la simplicité. Il faut vraiment que l'ADS soit la plus brute possible,
+
+[05:07] la plus authentique possible. Ensuite, on a deux autres ads qui sont très intéressantes également. Je vais vous montrer. Donc là, on a des concepts, en fait,
+
+[05:36] qui vont venir toucher si vous avez un produit problème. Et selon l'audience, ça, ça marche très bien pour eux. Ils ont fait énormément de variations. Et c'est très simple à créer parce que simplement, en fait, ça, vous pouvez créer Clia, très, très facilement. Et ça vous fait une adse qui vous coûte quasi rien et qui fait Clia.
+
+[05:57] Derrière, vous mettez une voiceover faite à Clia qui parle en jetant avec du texte comme ça. C'est un très bon concept à répliquer. Donc comment répliquer? Simplement, vous choisissez un angle qui résonne par rapport à votre créativ. Vous faites un script pas trop long
+
+[06:19] avec les arguments. Et après, vous faites du montage en images comme ceci avec ChatGBT. Et vous pouvez donner à PK Art, vous pouvez donner à Leonardo Hyai pour animer en fait les images qui résonnent. Mais le but, idéalement, c'est d'avoir votre avatar et votre avatar dans la vie réelle
+
+[06:41] en exagéré. Idealement, on exagérant. Par exemple, ils sont pas bien, mais vous montrez qu'ils sont vraiment pas bien. Ils sont pas bien, mais ils sont bien. Et puis, vous avez un peu de la musique qui était de déterrer. Et ensuite, avec une petite musique et voir le concept. Ensuite, on a un nouveau concept qui commence à de mieux en mieux marcher.
+
+[07:02] C'est aussi pour vous donner une idée. Donc c'est la même marque.
+
+[07:26] Bref, cette branle là, je la suis. Et en fait, ça c'est une des itérations parce qu'ils ont fait des concepts winner. En fait, eux, ils ont leur script qui est winner. Le script ne les change pas de ce qu'ils disent. C'est en gros ce que ressentent les gens qui ont... Et après, le fond, on plaint de déclinaisons de concepts. Donc ce concept là, de chant qui marche.
+
+[07:48] J'ai vu plusieurs rades mineuses. Et ensuite, ils déclinent plusieurs types de chant. En plusieurs types de footages. Et il y a des apps maintenant qui permettent de le faire. De faire des sons. Donc il n'existe pas mal. Pour l'instant, on a testé quelques-unes qui sont ok.
+
+[08:10] On n'a pas eu d'ad-souineuse, mais on va continuer à tester. Et là, en voyant ça, je me suis dit qu'il faut qu'on teste définitivement plus. Donc voilà un très bon concept. Vous prenez simplement vos meilleurs scripts. Des footages pas forcément animés. Des footages, des réels footages. Et vous faites le script en chanson. Ce qui peut très bien marcher sur les plateformes comme TikTok, etc.
+
+[08:32] C'est que le chant marche très bien. Sur Meta, à voir. Là, c'est sur que Meta, mais sur Insta, ça passe aussi. Donc voilà les quatre concepts. Pour vous donner des idées, pour donner de la diversité, pour rappel, les créatives, c'est un jeu, c'est de diversité. Quand vous avez un script, une ad-ski marche. Vous pouvez l'itérer en plein de concepts différents. C'est-à-dire que vous avez votre message qui résonne.
+
+[08:54] Ensuite, vous devez faire différents formats pour faire véhiculer ce message. Et il y a des formats qui vont être beaucoup plus bangers que d'autres. Donc voilà, c'était Matéo. Allez, à bientôt. Ciao ciao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 60 : Ep #6 - 10 Copywriting Tips KILLER
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 60
 ======================================================================
 
@@ -4557,16 +5697,86 @@ Un prompt ChatGPT en 10 points pour générer des headlines et hooks ultra percu
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Hey bienvenue à une nouvelle épisode de Creative Insights. Comme d'habitude, ça va être une vidéo assez courte, très condensée pour aller droit au but. Aujourd'hui, je vous donne 10 copyrighting tips killer sous-exploité qui vont vous permettre de rendre vos headlines ultra-percutantes. Du moins, vous donnez des idées de headline qui marchent. Là, si je vous le donne, c'est parce que je l'applique.
+
+[00:21] C'est quelque chose qui fait partie de notre process. Régulièrement, on reprend des idées avec ce framework. Vous allez vous donner ce prompt-là. Ce qu'il faut en préalable, c'est que vous ayez fait une analyse marketing, comment on le donne dans le school, dans la partie Creative Analyse Marketing, pour que Charity Bt connaisse votre client et pas juste votre produit.
+
+[00:44] Parce que le but pour que Charity Bt puisse vendre de manière avec des triggers psychologiques, il doit connaître votre avatar. Il faut que le minimum vous donnez votre analyse marketing, qui comprend les extraits d'avis clients, et ensuite votre t-shirt produit, et comme ça, il comprend le produit ce qu'il fait.
+
+[01:05] Et il va pouvoir créer quelque chose. Donc ça, c'est le prompt. Donne-moi 5 points pertinents pour 5 bullet points plutôt. J'ai un peu mal traduit. En fait, si vous voulez, ça fait partie de mon process. Après, je vous le traduis pour vous. Donc, des fois, c'est un peu mal traduit. Je vous laisse aussi en anglais, parce que des fois, en anglais, il donne des réponses plus pertinentes.
+
+[01:27] Nous, on a tout en anglais. Donc, en gros, le premier point, c'est de mettre en valeur des caractéristiques invisibles. C'est comme si vous voulez vendre un simple t-shirt en coton, et que vous dites que votre t-shirt, il a des fibres de coton, qu'est-ce que je pourrais dire, plus un système de ventilation intégré.
+
+[01:52] Ok, ce n'est pas quelque chose qu'on aurait vu, mais vous donnez une caractéristique invisible, qui peut peut-être raisonner avec la VATAR. Ensuite, point 2, c'est de porter du contexte au testimonial pour avoir une meilleure visualisation mentale, une meilleure image mentale. Point 3, c'est de dramatiser l'état antérieur
+
+[02:12] avant l'AFTAR, d'accentuer les émotions, de transformer les informations en US en métaphore, ça raisonne beaucoup mieux, d'adapter le ton à l'état cible, de supprimer des équilibres énergétiques. En gros, ce n'est pas ultra bien tradumé, il va comprendre, il va comprendre. Utilisez la répétition pour stimuler la mémoire,
+
+[02:33] pour se voir avec une reconnaissance rapide et augmenter la perception de la compétence. Le but, c'est pas que vous comprenez totalement ces points-là, c'est simplement que vous allez voir le résultat avec Chatibété. Donc, non, on l'a fait maintes et maintes fois, j'ai pris un exemple là rapidement. Donc, je lui ai donné ici, crème antiride, et je lui ai donné quand même quelques avis client pour qu'ils comprennent.
+
+[02:55] Donc, laissez-moi un petit peu de temps. Donc, petite aparté, Amazon est toujours ultra-ultra-puissant pour avoir du contenu, pour comprendre ce que veut votre avatar, c'est Banger, vraiment. Par exemple, ça, en Ate, je suis sûr que ça peut marcher. Et ça fait vraiment natif.
+
+[03:17] Bref, alors, je lui ai donné le contenu, on va voir ce qu'il nous fait en direct. Donc, j'utilisais le Chatibété qu'on vous a donné. Alors, il n'a pas compris. Je vais lui redire 5 bulletins pour chacun des points.
+
+[03:55] Après, ce qui m'a donné, c'est ultra bien. Les rites disparaissent sous les yeux dès la première semaine. Je n'ai jamais eu la peau aussi belle, j'ai 42 ans et je me donne 30. C'est ultra-puissant. Vraiment, ça va vous donner des idées pour vos headlines, pour vos hoocs. Ultra-puissant, texture riche qui pénètre sans filme gras, pas de sensation collante, mais d'être assolorié le matin, la peau est douce et elle ne peut pas.
+
+[04:18] Donc là, on a aussi une headline qui est bien. C'est un peu moins émotionnel, mais c'est très bien. Ça peut être très bien pour contrer les objections. Le geste facile qui change tout. Une pression, coup visage, adore le flacon, faciat dosé. Sensations de peau plus ferme, visibles mémo touchées. Résultat proie, un peu à petit prix.
+
+[04:40] Ça vous donne plein d'angles et de lignes. Ça, par exemple, ça va être très un hour. Vous n'avez pas rascallé énormément. Ça, ça peut très bien marcher sur du plus hour. On va venir décortiquer pour chacun des points. OK, highlight invisible future. Ce que tu ne vois pas, c'est ce qui change tout.
+
+[05:01] Trois types de collagène pour un effet de tenseur dès la première réplication. Trois types de collagène. Voilà, par exemple, c'est exactement ça que je voulais dire. Là, vous n'avez pas un collagène, vous avez trois types de collagène. Donc en fait, ça vous donne un mécanisme en plus pour convertir. C'est ultra-puissant. Je n'aurais pas pris ça. Je n'aurais pris que ça. Donc le but, c'est de vous donner des idées bien sûr.
+
+[05:22] Bien sûr, ils donnent des trucs quasiment prêts à copier-coller, mais vous pouvez toujours modifier, toujours améliorer. Penêtre les couches d'épidère pour lancer la régénation cellulaire. C'est top. Donc ça, ce n'est pas pour vous donner des hooks, des headlines directement prêts, mais ça peut être pour combiner. Par exemple, vous, vous avez votre headline, qui est ceci.
+
+[05:43] Par exemple, moi, ce que j'aurais trouvé intéressant, c'est de faire des combinaisons entre les deux. Les deux sont ultra-biens. Par exemple, je n'ai jamais eu de ride. Je n'ai jamais eu la peau aussi belle que quand on donne 30.
+
+[06:04] Et là, là après, pénètre les couches d'épidère pour lancer la régénation cellulaire. On aurait pu faire un peu mieux. Trois types de collagène. Je l'aurais fait comme ça. Trois types de collagène qui pénètre les couches liens. Voilà, par exemple. Là, ça, pour une statique,
+
+[06:27] c'est banger. Bref, on va voir qu'est-ce qu'il y a de les deux qu'on midait. Une texture intelligente qui est adaptée à son, ok. Visible à nuit, mais un effet glow au réveil. Bien aussi. Donne du contexte sur les testimonials. J'ai 67 ans, je croyais qu'aucune crème ne marcherait encore sur ma peau marquée. Ça, c'est banger.
+
+[06:48] Après le raseur, j'avais toujours à possès. Sèche ce soin à tout changer. Moi, qui travaillais en lecture, je voyais ma peau sur le raseur, je l'ai fait maintenant. C'est ultra précis. Ce qu'on veut actuellement, c'est d'avoir que votre avatar se dit, c'est moi. Et qui vous voyent en fait la même image mentale. Là, si ils travaillent en extérieur, tous ceux qui travaillent en extérieur,
+
+[07:10] qui fittent avec votre avatar, ça va être ultra banger. Ça, c'est bien. Avec une petite preuve d'autorité. Franchement, c'est très bien. Là, ça vous donne plein d'idées de headline que vous pouvez tester massivement. Vous testez. Vous regardez ce qui résonne le mieux. Et après, si vous voyez que c'est ça qui résonne le mieux,
+
+[07:31] vous faites des idées d'idées, vous testez avec des subheads de line. Vous améliorer un peu votre rate. Et c'est là qu'après, vous allez avoir des bangers. Même si vous la trouvez direct avec une de ces headslines. Dramatise les epiphore states. Avant, hit profonde, tirail ment interne. Et ensuite, après, on voit la peau. Par exemple, avec l'image qu'on a vu sur Amazon. Vous souvenez
+
+[07:53] de cette sensation de pose sèche reste sur les doigts. Pas ultra top. Le miroir vous renvoie un visage fatigué. Creusée. La peau vous tirail après chaque rasage. Comme une ingression quotidienne. Chaque matin, des rides un peu plus marquées autour des peaux. Des yeux à la bouche. Voilà, par exemple.
+
+[08:15] Je pense que c'est très marquant. Je connais pas du tout ce produit. Je connais pas du tout ces avatars. Mais ça, c'est très marquant. Je suis très froid. Je vais un peu speeder pour pas que vous faîtes une vidéo trop longue. MAKE EMOTION LUDER. Je me redécouvre. Enfant, un son qui donne confiance même sans maquillage.
+
+[08:37] Ça, c'est bien. Ensuite, je suis survolé. Le 5. Turn boring clean into metaphor. Comme un lifting invisible que vous sentez dès le matin. Ça, c'est top. Une armure légère. Un peu moins fan. Je vous dis pourquoi je suis un peu moins fan. Parce que c'est une histoire d'image mentale ou de sensation.
+
+[09:00] Pour moi, une armure légère, armure pour moi, c'est lourd. L'image mentale est lourd. Comment est-ce que notre subconscient fonctionne ? Quand vous le donnez à moi, il va venir repenser à tout ce que vous avez comme association par rapport à ce mot-là. Artur, armure, pardon. Moi, quand je pense à armure,
+
+[09:22] je vois les chevaliers. Je vois la guerre. Je vois des combats. Je vois quelque chose de très masculin, très puissant. Pour moi, ça ne fit pas du tout avec ça. Parce que j'arrive à analyser qu'est-ce que subconscient armure me fait penser. C'est pour ça que des messages sont winner ou non. Même si le terme veut dire la même chose,
+
+[09:44] l'image va renvoyer sur plein de connexions différentes. Pour moi, ça ne c'est pas une bonne headline. Parce que inconsciemment, ça ne va pas peser quasiment sûr. Pareil pour nouvelles armes, ça peut être positif ou pas. Mais en fait, il faut vraiment connaître votre avatar pour connaître comment il parle
+
+[10:06] et ensuite, vous allez pouvoir lui donner les bons mots pour venir faire trigger ses émotions. Là, en fait, je pense qu'il veut une peau plus ride, enfin, avec moins de rides, pour se sentir plus jeune, pour sentir encore plus désiré, pour sentir encore pour pas... J'ai pas vraiment d'analyse, mais je pense que c'est...
+
+[10:28] la première couche, c'est sans se sentir plus jeune pour être encore désiré, pour plaire encore, pour avoir du plaisir quand il se regarde le matin, pour ne pas avoir des émotions négatives quand il touche sa peau, quand il se regarde dans le miroir, pour ne pas se dire qu'il va bientôt mourir. C'est tous ces genres de sous-layer que
+
+[10:50] votre produit va faire votre clime va faire sentir. Donc en fait, il faut connaître ça pour ensuite savoir si vos messages vont l'apacter pas. Bref, je continue. Pour les hommes exigeants qui veulent un avatar visible sans ses chiens. Ok, pensez pour ceux qui veulent agir, pas juste s'espérer. Les visages marqués par le temps, mais pas résignés. Ok, ni l'ournigra.
+
+[11:14] Ok, pas besoin de 10 étapes, j'ai ce simple matin. Ça par exemple, c'est très bien en sub-headline. Très bien. En gros, je donne un autre tips. Nous dans Headline, on fait souvent quelque chose de très émotionnel et ensuite quelque chose de très rationnel. C'est-à-dire là en gros, c'est obtenir la Ferrari
+
+[11:36] avec une image que c'est cullé une Ferrari et quelqu'un qui se sent bien dedans. C'est très émotionnel. Puis ensuite après, pour seulement 1000 euros le mois, par exemple. Et quelque chose de rationnel, offre spécial. Le but c'est toujours faire sentir une émotion et puis ensuite de rationaliser pour le faire acheter. Parce qu'on
+
+[11:58] n'achète pas que avec les émotions. Il y a toujours une phase que l'on va quand même réfléchir, surtout si le produit a un certain prix. Remouvre les énergies mystiques, ça on a lu, une répétition où tu gueules le memory, une pop plus ferme, pop plus lisse, une pop plus lumineuse. Donc ça, c'est pour ça que, souvent, dans une art, on va faire passer un message clé et on va venir répéter pour
+
+[12:20] renforcer le message clé qu'on veut faire passer. Donc en gros, si le message clé c'est une pop plus lisse, on va venir revainter tout notre copier-writing autour de ce pop plus lisse. C'est l'unique proposition de valeur qu'on veut faire. Donc en fait, le collagé va rendre la pop plus lisse, la pop va être nette. En fait, on va trouver tout des synonymes pour que ça répète. Ensuite, design for fast
+
+[12:42] condition, format pour pratiquer une seule pression suffit, ok, faire consorber élégant. Donc là, on aura aussi plutôt une sub-bedline plutôt un truc logique. Et le point 10 increase percer votre compétence. Formule testé cliniquement sur les pôles matures, réelaboré par des experts en dermatologie, utiliser, recommander, ça par emp... c'est tout qui est bien. Honnêtement, j'aurais testé ça avec mes top-bedline.
+
+[13:04] C'est-à-dire, rétuellement, vous avez une top-bedline et vous testez ça en sub-bedline. Ou par-dessus. Mais c'est quelque chose de puissant, très puissant. Donc voilà, c'était Matteo. Je vous donne le prompt que vous aurez juste à copier coller. Et j'espère que cette vidéo vous a plu. Allez, à bientôt. Tchao, tchao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 61 : Ep #7 - 190 Psychological Hooks
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 61
 ======================================================================
 
@@ -4608,16 +5818,40 @@ Une librairie de 190 hooks catégorisés en 21 frameworks psychologiques éprouv
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et une nouvelle épisode de Creative Insights. Aujourd'hui, je vous partage un pompe que j'utilise dans mon business et la librairie de hook qu'on utilise, c'est exactement la même. Je vous laissais en anglais parce qu'on utilise exactement la même. Elle est catégorisée de différentes manières.
+
+[00:20] Déjà, elle est basée sur 21 frameworks qui marchent en headline. Ça marche autant en statics que en fait c'est fait pour faire passer un désir, faire passer un message de manière forte. Donc si vous utilisez ça avec le chat GBT qu'on vous a fondi dans le school, ça va être banger. Donc il y a différents frameworks, il y a Fast and Specific Results.
+
+[00:43] Donc c'est un framework prouvé. Et ensuite, il y a différents stages. Ensuite, c'est décomposer ce différent stage de awareness. Comme ça, vous pouvez targetter une aware si vous demandez une aware, solution aware si vous voulez une solution aware, ou most aware si vous voulez du most aware. Vous avez simplement besoin de dire à chat GBT ensuite,
+
+[01:06] fais-moi des déclinaisons en solution aware. Fais-moi des déclinaisons en most aware. Le but, c'est de pouvoir utiliser cette headline ou ce hook dans la vidéo qui vous correspond. C'est-à-dire si vous avez une vidéo qui est focus-problem aware, ça va servir à rien de mettre un hook most aware. Il va falloir mettre un hook problem aware ou une aware.
+
+[01:26] Par contre, si vous avez une ad-sq solution aware, c'est pas si grave de mettre du problème aware ou une aware. C'est même conseillé. Donc ici, vous avez 21 frameworks, donc unique solution to a first starting problem, une expected novelty, ça marche très bien. Both promising, plein, plein, plein. C'est tous des frameworks psychologiques
+
+[01:47] qui marchent pour faire passer un headline. Et je vous ai mis 190, 190 hook qui est tous des hook prouvé. Donc vous, simplement, vous avez besoin juste de copier ce prompt, de le mettre en chat GBT qu'on vous a donné dans le school et de donner des informations sur votre produit et sur votre marque.
+
+[02:10] Si normalement, vous avez fait l'analyse marketing, vous pouvez donner l'analyse marketing. Plus vous lui donnez de contexte, plus il pourra créer quelque chose de puissant. Donc là, j'ai fait un exemple. Donc j'ai utilisé celui qu'on vous a fourni dans le school. Je vais donner juste une marque de complément alimentaire qui donne vraiment de la force.
+
+[02:33] Je vais rien donner de plus et on va voir à ce qu'il m'a mis. Donc il m'a mis différents hooks selon les différents frameworks. Donc tu ne devineras jamais ce simple complément qui va permettre de soulever. Prépare-toi à être choqué par l'énergie humaine que j'ai dénichée. Regarde jusqu'au bout, tu ne devineras jamais ce que j'ai fait au gym. C'est plus à l'agile ou plutôt. Donc très bien.
+
+[02:54] Maintenant, ce framework, what if, s'il avait une manière simple de faire d'atteindre le désir. Et si un seul comprimier me rendait plus fort qu'en salle, ce n'est pas très clair, mais on comprend. Imagine trainé avec la force d'un héros en 30 secondes. Voilà par exemple, c'est très puissant.
+
+[03:14] Il faut te demander de très, très bon hook. I was today years old when I learned this. Je me demandais pourquoi personne ne parlait de ces boosters de muscles. Je vais juste détester ce produit, je suis bluffé. Donc c'est bien. C'est bien après, vous pouvez les coller tel quel ou les améliorer. Par exemple, je vais prendre une au hasard.
+
+[03:35] Pourquoi j'ai décuplé ma puissance en seulement trois semaines. Voici pourquoi. Donc là c'est très bien. Après on pourrait très bien l'améliorer. Moi j'aurais fait peut-être... Voici comment je suis passé de ça à ça en trois semaines. Par exemple, il montrait avec une image claire de la personne avant et après. Voilà, c'est un exemple.
+
+[03:57] Ce petit pilule m'a permis de sauver plus lourd plus vite. Voilà, c'est bien. Franchement, ça donne des très, très bons hooks, des très, très bons enlikes. Et ça après, vous pouvez les utiliser pour vos statiques. Donc voilà, gros, gros, spécifique. C'est simplement un des process qu'on utilise. Et vous avez qu'à simplement utiliser ce prompt pour avoir des tonnes, tonnes de line et d'octobre.
+
+[04:20] C'était Mateo. Allez, tchao tchao.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 62 : Ep #1 - Arcads IA et formats qui convertissent
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 62
 ======================================================================
 
@@ -4659,16 +5893,62 @@ Arcads permet de créer des ads UGC avec des acteurs IA à moindre coût en expl
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Aujourd'hui, je ne vais pas vous montrer un concept, une trend qui marche, mais plusieurs concepts qui marchent et en plus comment vous allez pouvoir les implémenter directement avec l'IA. Donc ça vous coûter beaucoup moins cher. Et si je commence à vous en parler, c'est parce qu'on a testé et ça marche, on a des winning ads avec des acteurs. Donc je vais vous montrer sur une petite vidéo.
+
+[00:21] Donc c'est Creative Insights. Simplement le but c'est de vous faire découvrir les nouveautés, les tendances sur quoi il faut surfer. Et ce qui marche actuellement pour nous. Donc c'est ce que je vais faire. Ça n'a pas une très longue vidéo, je vais simplement vous montrer et ensuite à vous d'un peu aller dedans creuser l'outil. C'est très simple à utiliser. Donc le premier format qui marche très bien pour votre produit, c'est un format skit ou
+
+[00:44] ce qui a deux personnes qui se parlent. Donc il faut un acteur, il faut un bon acteur. Et là sur ARCAT, donc on est sur arcat.ai. On a plein plat d'avateurs et maintenant ils sont très bien fait. Et vous pouvez choisir deux acteurs, un homme, une femme qui se parle et qui se regarde. Et c'est très très puissant.
+
+[01:05] Donc simplement vous pouvez prendre vos meilleurs scripts et le faire sous forme de discussion. Vous pouvez simplement demander à Tchasse UBT ou plus dire le Tchasse UBT de la communauté, enfin du school pour lui dire ok reprends mon meilleur script et simplement fait pour un format skit ou ce qui a deux personnes se parlent. Et c'est un format qui est très diversif, divertissant, pardon, et qui marche aussi beaucoup
+
+[01:31] sur TikTok. Ce que je conseille pour ce type de format, c'est taper sur du solution product aware. Produit, ça va être un peu plus compliqué de l'étenir tout du long sur un format assez court. Donc là je ferai une ad de 30 à 1 minute 30 maximum sous ce format là. Ça marche très bien et on a des superacteurs et donc vous pouvez
+
+[01:55] et vous pouvez être très bien. Elle est très bien et si la voix vous convient pas, vous pouvez mettre votre propre voix de l'Evenlabs. Ceci possible. Ce que je conseille, c'est sourcer pour là qui sont assez loin, c'est de zoomer. Là c'est trop loin. Là en fait on a un espace qui est trop loin que l'on n'arrive pas à lire les émotions.
+
+[02:19] Donc quand vous reprenez vos plans, il faut que vous mettez un plan si plus zoomé. Donc voilà, ça c'est bien. Mais ça c'est trop loin. Voilà juste un tips. Ensuite ce qui marche très bien aussi c'est street interview. Donc street interview vous pouvez faire comme si vous avez fait un street interview. Par exemple vous avez un produit, on va dire vous avez un parfum.
+
+[02:41] Ok, qu'est-ce que vous avez pensé de ce parfum ? Si vous avez déjà des scènes que vous avez tournées dans le réel, juste d'une scène c'est que vous faites sentir à quelqu'un qui est vous pensez du parfum. La personne réagit puis ensuite vous faites une réaction de plein de personnes différentes. Ok, donc question elle peut pas penser. Elle lui dit amazing j'adore l'odeur.
+
+[03:01] Elle elle dit j'aimerais que mon mari sente ça. Ça m'excite pas importe je sais pas. Et vous pouvez combiner plein de personnes, plein de diaries ici. Et avoir un résultat ou c'est que c'est un effet social proof de ouf. Donc c'est vraiment très puissant. Après il y a des formats comme ça ou c'est un peu poussé.
+
+[03:24] Mais moi ce que je conseille c'est le street interview. Si vous avez déjà une scène préfaite ça peut montrer votre produit. Le seul inconvénient c'est qu'on comprend pas votre produit. Donc il faudrait que vous montrez votre produit pour faire un montage. C'est que les gens ils savent que ça parle du produit. Si on voit pas du tout produit dans la vidéo c'est pas top. Mais c'est pour ça que je conseille d'utiliser vraiment arcade.
+
+[03:46] Comme complément et pas faire toute une vidéo avec. C'est à dire ça peut ajouter la voiceover, le talking head de la vidéo. Mais après derrière il faut que vous mettez des footage. Ok je sais pas pourquoi il y a des faits d'artifice. Il faut que vous mettez des footage qui montrent votre produit etc. Donc le street interview marche très bien aussi.
+
+[04:07] Ça dépend des produits. Là pareil on peut faire du format un peu plus long. On peut faire du problème à ouère. Mais après il faudra mécaniser donc c'est un peu plus dur en street interview. Je dirais en street interview faites sur des réactions. Sur des réactions et des choses très physiologiques. Tout ce qui est attirance ou tout ce qui est beauté.
+
+[04:28] Donc voilà. Ensuite on avait quoi d'intéressant ? On a tout ce qui est docteur aussi. Donc docteur ça c'est un format. Il marche bien pour tout ce qui est santé. Alors ou c'est qu'on a le docteur. Je vais vous montrer d'abord le format podcast. Le format podcast.
+
+[04:50] Très très bien. Et ça marche. Il y a pas mal de winning hats notamment. Il tourne sur beaucoup de winning hats. Pas savoir où est bien. Donc il n'y a pas forcément de la modifier. Mais il y a beaucoup de plans qui sont très très très bien. Alors je vais vous montrer le docteur aussi.
+
+[05:10] Docteur. Docteur. Docteur. Docteur. Donc très puissant. Soit vous prenez un docteur comme ça et vous lui montrez. Tant en tant dans la vidéo. Ça passe.
+
+[05:32] Rien que le fait de voir le docteur en début de la vidéo par exemple. Juste une seconde qui dit une phrase. Et après tout le reste. Vous avez vous fouté. Ça va changer totalement la vidéo. Donc je vous invite à regarder. Parce qu'il y a plein plein de choses. Ils ont mis beaucoup de choses. À jour. Voilà on peut même questionner. Questionner des pompiers.
+
+[05:54] Si on pense. Il y a même quelque chose que ça je vous dirai pour la fin d'année. Mais qui est très puissant. C'est ça. Je vais vous montrer. C'est une vidéo avec le père Noël. Et qui est tout. Je suis persuadé. Selon une niche. Mais de vidéos bien scriptées.
+
+[06:16] Avec le père Noël. Ça peut cartonner. Donc voilà. Je vous donne le site Arcat. Peut-être qu'on peut regarder pour avoir une réduction. Une appellation web. Pour l'instant on s'en fout. Allez sur Arcat. Prenez un abonnement. Ça coûte 100 dollars.
+
+[06:38] On est prêt. Mais ça les vaut. Parce que des acteurs. C'est minimum 100 dollars. Et là vous avez. Je sais plus combien de vidéos. Je coigne une dizaine de vidéos pour 100 dollars. Ça vaut vraiment la peine. Quand vous testez des acteurs. Je vous conseille vraiment de reprendre vos meilleurs scripts. Vos meilleurs angles.
+
+[07:00] Ne venez pas tester de manière toute nouvelle. Tout avec les acteurs. Partez sur des choses validées. Ce qu'on fait c'est comprendre nos meilleurs scripts. Ici. Ça j'ai fait un test. On le modifie avec Transibété selon le concept. Par exemple si c'est un concept podcast. On va venir adapter. À que ça soit naturel en podcast. Ça parle pas de la marque. Enfin on vous propose ce produit.
+
+[07:22] Mais ça parle de cette marque. Parle de ceci etc. Donc voilà. Il y a aussi par accessoire. Vous pouvez regarder. Des gens qui portent des bijoux. Des fruits qui sont très bien pour les hooks. En tout cas c'est un petit type. Ce que je vous donne en hook. Ça ça cartonne. C'est dommage qu'ils ont pas mis plus de femmes.
+
+[07:44] Parce que là avec les femmes ça aurait continué de marcher. Donc je vous montre en fait. Pourquoi ça cartonne. Alors. Pourquoi on n'arrive pas à le voir. Encore. Voilà. Voilà.
+
+[08:06] Je vous invite vraiment. Allez en profondeur. Si ça vous plaît. Je vous ferai plus de vidéos. Plus détaillées sur Arcat. Sur des cas concrets. Donc. Pour des scripts. Pour des concepts qui marchent pour nous. Je pourrais vous faire l'effort. De refaire un exemple pour vous.
+
+[08:28] Pour montrer pourquoi ça marchait pour nous. Je ne vous montrerai pas exactement les mêmes acteurs. Si vous avez déjà un bon volume. Il va falloir diversifier vos scripts actuels. Avec Arcat. Ça va vous donner des nouveaux concepts frais. Avec un Tata d'acteur. Donc il y a vraiment de quoi faire. On voit cet émateur. Allez. Tcha tcha.
 
 
 
 ======================================================================
 MODULE : CRÉATIVE INSIGHT
 LEÇON 63 : Ep #2 - Analyse de créatives winneuses
-STATUT DE LA SOURCE : partiel
+STATUT DE LA SOURCE : complet
 RÉFÉRENCE À CITER : CRÉATIVE INSIGHT / leçon 63
 ======================================================================
 
@@ -4706,9 +5986,63 @@ Analyse de deux publicités performantes dans le secteur parfum, dont une à 700
 
 ## Transcription
 
-> **Source : audio**
+> **Source : audio (Whisper local, modèle small)**
 
-_(colle ici le verbatim brut — voir ../../COMMENT-TRANSCRIRE.md)_
+[00:00] Et la team, j'espère que vous allez tous bien. Vous avez nombreux à avoir demandé des analyses de créards pour vous donner des idées et pour décortiquer comment des créards marchent. Donc je vais faire un premier loom et vous vous priez un retour sur quoi vous en avez pensé. Donc je vais faire un loom assez court, vous savez que j'ai analysé deux ads que personnellement j'ai adoré, qui m'ont chiffré, énormément chiffré.
+
+[00:24] Et on va décortiquer ensemble pourquoi. Donc la première ad, elle a généré 700K, je le sais parce que je connais l'agence qui a fait cette ad cela. Et cette ad cela a généré 700K, donc ça montre que c'est sérieux. Je vais vous montrer l'ad, c'est un format assez différent. Donc je vais mettre déjà l'ad.
+
+[00:46] Donc ce qu'il faut déjà comprendre, c'est là on a un concept.
+
+[01:17] On a un concept qui est ASMR, c'est-à-dire d'avoir débourri cette dissuasion. On a un autre concept qui est derrière de chuchoter. Chuchoter, ça marche très très bien. Je vais vous expliquer pourquoi. Parce qu'en fait on habite quand quelqu'un chuchote, c'est qu'on doit écouter, c'est quelque chose d'important. C'est même une technique pour captiver l'attention, c'est de commencer à chuchoter.
+
+[01:40] Parce qu'on chuchote, automatiquement, ça force les autres à écouter ce que la personne a à dire. Parce que dans la vie en régénérale, quand on chuchote, c'est quelque chose d'important. Il y a personne qui chuchote et ça veut dire. Donc quand vous chuchote, même dans la vie générale, la personne va vous écouter. Donc là en fait on a quelque chose qui captive l'attention des locs, parce qu'il y a quelqu'un qui chuchote et tout du long de l'attre, elle chuchote.
+
+[02:03] Donc ça maintient l'attention, ensuite on a du visuel qui est super captivant. Donc là on commence, on sait pas trop ce que c'est. On sait pas trop ce que c'est, il y a des moments qui prennent un objet, il y a du mouvement, il y a du texte, c'est clean, il n'y a pas trop de couleur. Donc le OU qui est bien, le OU qui est vraiment bien, on pousse avec la voix, ça donne très bien. On a le pouroui du paquet avec la voix, on sait pas ce que c'est.
+
+[02:25] Et ensuite on a direct un plan. Donc là, deux secondes du OU qui est ensuite on a direct un plan. Il y a eu une seconde, donc tout est très dynamique. Là on a luxurier et fragrance, on a des fonds qui sont bien filmés, on a du carri. Pardon, un fond qui est satisfaisant, on a du carri, on a le parfum. On a ça qui font couler dessus, qui donne quelque chose de captivant et satisfaisant.
+
+[02:50] Et ensuite ils mettent leurs bénéfices, 5% seulement de fragrance OU. Ça a été inspiré par les parfums. Voilà, ils introduisent mon marque. Ils introduisent directement le pricing. Donc là vous voyez, il n'y a pas que le concept en fait. Le script de l'Az est très important.
+
+[03:12] C'est-à-dire qu'ils n'auraient pas pu générer 700K si derrière ils aient juste démontré le produit de différentes manières. Là un débutant, il va trouver ses lats live et va dire ok, j'ai trouvé un concept qui marche. Il va refaire le concept sans adapter le script à son produit. Et c'est là qu'il va pas réussir. Ce qu'il faut comprendre sur des cortiques d'une manière scriptée.
+
+[03:34] Donc là il y a un très bon OU. Donc elle a juste fait une note parfum luxueux. Donc l'angle, il va targetter tous les gens qui veulent le parfum luxueux. Donc je pense que c'est un OU qui est prouvé. Et qu'ils savent qu'ils ont un beau tas. C'est-à-dire qu'il y a un total adresseur du market qui est énorme. C'est-à-dire qu'ils peuvent scaleer. Parce qu'il y a beaucoup de personnes qui sont intéressées par les parfums luxueux.
+
+[03:56] En fait, ils n'ont qu'activer d'attention. Ils n'ont pas qu'activer d'attention de seulement ceux qui sont intéressés par leur produit. Ils n'ont qu'activer d'attention de tous ceux qui sont intéressés par les parfums luxueux. Ensuite, ils introduisent, je pense, leur unique proposition de valeur. 5% de fragrance oil.
+
+[04:17] Ça a été inspiré par les parfums à célébr. Et après directement, ils positionnent un autre avantage qu'ils ont. C'est que ça commence des 4 pounds. Donc là, s'ils ne l'avaient pas dit, je suis sûr que là, ça ne va pas marcher pareil. Parce que là, ok, parfums luxueux pour 4 pounds, on a une composition marketing qui marche dans beaucoup de domaines.
+
+[04:42] C'est le luxueux affordable. Ça marche parce que les gens veulent du luxe, ça a pris l'apportable. Donc là, c'est exactement sur quoi ils orientent leurs aides. Ensuite, il y a du sens et satisfaisant de regarder. Sontez comme votre favori. Des aides de leur brand. Ça dure toute la journée.
+
+[05:03] Ils répondent à leur objection numéro 1. Donc ça, c'est scripté. C'est pas pour rien. Ils ne mettent pas juste du contenu pour meubler. Ça, c'est leur objecton numéro 1. Ok, parfums luxueux. Parfums luxueux, oui, mais ça dure pas. Et là, ça dure toute la journée. Donc là, ils démontent directement la première objection.
+
+[05:27] Etat de fragrance, de parfums. Voilà, ils introduisent la première objection sur le site. Ensuite, social proof. Il y a des 1000 reviews excellentes. Ce social proof au max. Ils réduisent les risques.
+
+[05:48] 30 des monnaies pas garanties. Donc là, le script est très bien. Et je pense qu'ils ont été arrivent, c'est là. Soit c'est une intération, un script qui marchait bien. Puis ils l'ont fait sur ce format. Ou si c'est leur premier concept, ce que je pense pas. Après, ils ont fait plein d'intérations. C'est-à-dire qu'ils reprennent le même script. C'est-à-dire ce format-là, luxueux, affordable.
+
+[06:11] On parle de l'unique position ici. On parle du prix. On met le social proof ici. On démontre les objections. Et ça, en fait, on peut démontrer de plein de manières différentes. Donc ça, c'est une situation de hâte. On peut la faire en plein de manières ensuite. Et vous, pour l'adapteur à votre produit, simplement, il faut décortiquer au niveau copérating. C'est-à-dire, au départ, vous allez venir mettre votre angle ici.
+
+[06:34] Si vous avez un produit qui peut être luxueux, affordable, vous allez mettre ici. Si vous avez montré pourquoi votre produit est différent, le prix, si vous avez un avantage compétitif sur le prix, après, ce self-proof, enfin, votre bénéfice, ce self-proof, votre bénéfice, pardon, objection, ce self-proof,
+
+[06:59] une petite coltoaction là une fois, social proof, réduction des risques avec la garantie, et deuxième coltoaction. Donc voilà, un vrai pépi de cet hâte. Mais parce qu'elle a été très, très bien faite. Mais derrière, c'est le script qui est bien.
+
+[07:20] Ensuite, je vais vous montrer une autre hâte. Donc là, en fait, ça, c'est une marque de parfum aussi.
+
+[07:50] C'est pas la même marque. Et simplement, ils ont fait un concept, un concept qui est un peu comme un micro trottoir unique, c'est-à-dire aussi qui n'interroge qu'une seule personne. Ça fait très naturel, mais c'est un actrice. Mais ça fait très, très naturel. Donc le premier point à faire, c'est, si vous voulez, recopier ces têtes, le premier truc, est yer un acteur naturel.
+
+[08:12] Ça donne un acteur naturel. Donc là, demande aux étrangers quel parfum ils portent, mais c'est pas à n'importe quel étranger. Donc là, on montre que le parfum est tellement bon que ça va taper les gens, les gens vont le sentir.
+
+[08:35] C'est-à-dire, on positionne une valeur de produit assez élevée, parce que si vous portez un parfum et que les gens vont le sentir dans la rue, c'est incroyable. Ça donne envie d'acheter le produit. Ben en fait, ils introduisent directement le produit après. C'est pas la première personne à avoir dit ça.
+
+[08:59] J'avais analysé leur ratse en fait, parce que au départ, ils galéraient. Ils galéraient à lancer le produit. Ils ont testé pas mal de concepts, pas mal d'ambits. Et ça, c'est l'angle. Le concept et ce qui a mis le marché, ça interpète les gens dans la rue. Et c'est la preuve parce que c'est pas la première personne à demander. Et c'est comme ça qu'ils ont adapté leur ratse. Ils ont fait pas mal de variations.
+
+[09:32] Après, c'est un script très simple. C'est le concept de vraiment ce qu'il va jouer. Là, c'est le concept, acteur. Et quand même d'avoir, d'ailleurs, une proposition très forte. Leur proposition de la ratse, c'est les gens vont vous arrêter dans le rue. Et pas qu'une fois. Et en gros, c'est ça qu'il faut comprendre. Donc là, moi j'avais cette attaque. Ce que je ferai, je reprendrai beaucoup d'attrises différentes.
+
+[09:56] Des blanches, d'autres etemis, des plus vieilles, des plus jeunes, pour arrêter différentes amateurs. Je ferai aussi sur l'angle. Je sais pas si ça c'est d'angle. Pour à son homme d'acheter fait un cadeau à votre femme. Vous allez être amant. Ça vous rend une cerveau. Ou vraiment, angle, cadeau, à femme.
+
+[10:19] Et puis après, je ferai comme ils ont fait un format podcast aussi. Pareil, discute. Et qu'est-ce que tu sens ? Ça sent merveillusement bon. Parfum de Tom Carter, de la nana. Et pas la première personne qui va me demander. Exact. Le même concept, en fait. La même proposition que l'heure. Achez à vos propres frics.
+
+[10:41] Ils soulignent vraiment le fait que ça va intercoiller les gens. Voilà pour la petite analyse. 10 minutes, enfin de sa fin 5 minutes. Donc dites-moi ce que vous en pensez. C'était Matéo, tchatcha.
 
 
 

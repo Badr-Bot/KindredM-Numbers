@@ -1,7 +1,7 @@
 # Catalogue — état de la transcription
 
 _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la main._
-**624 leçons au total · 200 complètes (32 %)**
+**624 leçons au total · 228 complètes (36 %)**
 
 
 ## 0 to 1 : MASTER ONE
@@ -149,7 +149,7 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 
 ## CRÉATIVE INSIGHT
 
-64 leçons · 35 complètes · 29 partielles
+64 leçons · 63 complètes · 1 partielles
 
 | | # | Leçon | Durée | Statut |
 |-|---|-------|-------|--------|
@@ -188,34 +188,34 @@ _Fichier généré par `python3 scripts/formation.py etat`. Ne pas éditer à la
 | ✅ | 33 | [Ep #35 - Comment créer 108 ads qui convertissent](transcriptions/creative-insight\33-ep-35-comment-creer-108-ads-qui-convertissent.md) | 11:36 | complet |
 | ✅ | 34 | [Ep #28 - Diversité dans les créatives](transcriptions/creative-insight\34-ep-28-diversite-dans-les-creatives.md) | 10:01 | complet |
 | ✅ | 35 | [Ep #29 - Narrrative Ads](transcriptions/creative-insight\35-ep-29-narrrative-ads.md) | 6:50 | complet |
-| 🟡 | 36 | [Ep #30 - Curiosité + Reverse Psychology](transcriptions/creative-insight\36-ep-30-curiosite-reverse-psychology.md) | 9:35 | partiel |
-| 🟡 | 37 | [Ep #31 - Techniques Psychologiques Coca-Cola](transcriptions/creative-insight\37-ep-31-techniques-psychologiques-coca-cola.md) | 11:32 | partiel |
-| 🟡 | 38 | [Ep #23 - AI Review Mining Prompt](transcriptions/creative-insight\38-ep-23-ai-review-mining-prompt.md) | 3:14 | partiel |
-| 🟡 | 39 | [Ep #24 - 8 Hooks Irrésistibles - Partie 2](transcriptions/creative-insight\39-ep-24-8-hooks-irresistibles-partie-2.md) | 13:27 | partiel |
-| 🟡 | 40 | [Ep #25 - 2 Créas Banger avec Nico et Andréa](transcriptions/creative-insight\40-ep-25-2-creas-banger-avec-nico-et.md) | 1:37:57 | partiel |
-| 🟡 | 41 | [Ep #26 - Copy Meaning & TrendTrack](transcriptions/creative-insight\41-ep-26-copy-meaning-trendtrack.md) | 21:40 | partiel |
-| 🟡 | 42 | [Ep #27 - Creative Diversification](transcriptions/creative-insight\42-ep-27-creative-diversification.md) | 7:01 | partiel |
-| 🟡 | 43 | [Ep #19 - Analyse de statiques](transcriptions/creative-insight\43-ep-19-analyse-de-statiques.md) | 6:10 | partiel |
-| 🟡 | 44 | [Ep #20 - 5 Winning Hook Practices](transcriptions/creative-insight\44-ep-20-5-winning-hook-practices.md) | 10:04 | partiel |
-| 🟡 | 45 | [Ep #21 - 8 Hooks Irrésistibles - Partie 1](transcriptions/creative-insight\45-ep-21-8-hooks-irresistibles-partie-1.md) | 9:32 | partiel |
-| 🟡 | 46 | [Ep #22 - Rappels Fondamentaux](transcriptions/creative-insight\46-ep-22-rappels-fondamentaux.md) | 7:05 | partiel |
-| 🟡 | 47 | [Ep #16 - Comprendre le Prospect avant achat](transcriptions/creative-insight\47-ep-16-comprendre-le-prospect-avant-achat.md) | 5:08 | partiel |
-| 🟡 | 48 | [Ep #17 - Process Duplication Winning Ads](transcriptions/creative-insight\48-ep-17-process-duplication-winning-ads.md) | 9:58 | partiel |
-| 🟡 | 49 | [Ep #18 - Loss Aversion](transcriptions/creative-insight\49-ep-18-loss-aversion.md) | 10:43 | partiel |
-| 🟡 | 50 | [Ep #11 - Analyse des Ads de Temu](transcriptions/creative-insight\50-ep-11-analyse-des-ads-de-temu.md) | 7:52 | partiel |
-| 🟡 | 51 | [Ep #12 - Présentation + Utilisation de HiggsField](transcriptions/creative-insight\51-ep-12-presentation-utilisation-de-higgsfield.md) | 6:06 | partiel |
-| 🟡 | 52 | [Ep #13 - Itération des Statics](transcriptions/creative-insight\52-ep-13-iteration-des-statics.md) | 14:57 | partiel |
-| 🟡 | 53 | [Ep #14 - Les Statics Secret Sauce](transcriptions/creative-insight\53-ep-14-les-statics-secret-sauce.md) | 15:50 | partiel |
-| 🟡 | 54 | [Ep #15 - Commentaires illimités TikTok](transcriptions/creative-insight\54-ep-15-commentaires-illimites-tiktok.md) | 7:04 | partiel |
-| 🟡 | 55 | [Ep #8 - SOP - Avis Client pour les Ads](transcriptions/creative-insight\55-ep-8-sop-avis-client-pour-les-ads.md) | 19:54 | partiel |
-| 🟡 | 56 | [Ep #9 - Analyse Ads Flytex](transcriptions/creative-insight\56-ep-9-analyse-ads-flytex.md) | 12:15 | partiel |
-| 🟡 | 57 | [Ep #10 - News Hooks qui cassent le cerveau](transcriptions/creative-insight\57-ep-10-news-hooks-qui-cassent-le-cerveau.md) | 6:27 | partiel |
-| 🟡 | 58 | [Ep #4 - Présentation + Utilisation de Mirage](transcriptions/creative-insight\58-ep-4-presentation-utilisation-de-mirage.md) | 7:42 | partiel |
-| 🟡 | 59 | [Ep #5 - New Concept Ads Inspiration](transcriptions/creative-insight\59-ep-5-new-concept-ads-inspiration.md) | 9:07 | partiel |
-| 🟡 | 60 | [Ep #6 - 10 Copywriting Tips KILLER](transcriptions/creative-insight\60-ep-6-10-copywriting-tips-killer.md) | 13:24 | partiel |
-| 🟡 | 61 | [Ep #7 - 190 Psychological Hooks](transcriptions/creative-insight\61-ep-7-190-psychological-hooks.md) | 4:21 | partiel |
-| 🟡 | 62 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/creative-insight\62-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | partiel |
-| 🟡 | 63 | [Ep #2 - Analyse de créatives winneuses](transcriptions/creative-insight\63-ep-2-analyse-de-creatives-winneuses.md) | 10:56 | partiel |
+| ✅ | 36 | [Ep #30 - Curiosité + Reverse Psychology](transcriptions/creative-insight\36-ep-30-curiosite-reverse-psychology.md) | 9:35 | complet |
+| ✅ | 37 | [Ep #31 - Techniques Psychologiques Coca-Cola](transcriptions/creative-insight\37-ep-31-techniques-psychologiques-coca-cola.md) | 11:32 | complet |
+| ✅ | 38 | [Ep #23 - AI Review Mining Prompt](transcriptions/creative-insight\38-ep-23-ai-review-mining-prompt.md) | 3:14 | complet |
+| ✅ | 39 | [Ep #24 - 8 Hooks Irrésistibles - Partie 2](transcriptions/creative-insight\39-ep-24-8-hooks-irresistibles-partie-2.md) | 13:27 | complet |
+| ✅ | 40 | [Ep #25 - 2 Créas Banger avec Nico et Andréa](transcriptions/creative-insight\40-ep-25-2-creas-banger-avec-nico-et.md) | 1:37:57 | complet |
+| ✅ | 41 | [Ep #26 - Copy Meaning & TrendTrack](transcriptions/creative-insight\41-ep-26-copy-meaning-trendtrack.md) | 21:40 | complet |
+| ✅ | 42 | [Ep #27 - Creative Diversification](transcriptions/creative-insight\42-ep-27-creative-diversification.md) | 7:01 | complet |
+| ✅ | 43 | [Ep #19 - Analyse de statiques](transcriptions/creative-insight\43-ep-19-analyse-de-statiques.md) | 6:10 | complet |
+| ✅ | 44 | [Ep #20 - 5 Winning Hook Practices](transcriptions/creative-insight\44-ep-20-5-winning-hook-practices.md) | 10:04 | complet |
+| ✅ | 45 | [Ep #21 - 8 Hooks Irrésistibles - Partie 1](transcriptions/creative-insight\45-ep-21-8-hooks-irresistibles-partie-1.md) | 9:32 | complet |
+| ✅ | 46 | [Ep #22 - Rappels Fondamentaux](transcriptions/creative-insight\46-ep-22-rappels-fondamentaux.md) | 7:05 | complet |
+| ✅ | 47 | [Ep #16 - Comprendre le Prospect avant achat](transcriptions/creative-insight\47-ep-16-comprendre-le-prospect-avant-achat.md) | 5:08 | complet |
+| ✅ | 48 | [Ep #17 - Process Duplication Winning Ads](transcriptions/creative-insight\48-ep-17-process-duplication-winning-ads.md) | 9:58 | complet |
+| ✅ | 49 | [Ep #18 - Loss Aversion](transcriptions/creative-insight\49-ep-18-loss-aversion.md) | 10:43 | complet |
+| ✅ | 50 | [Ep #11 - Analyse des Ads de Temu](transcriptions/creative-insight\50-ep-11-analyse-des-ads-de-temu.md) | 7:52 | complet |
+| ✅ | 51 | [Ep #12 - Présentation + Utilisation de HiggsField](transcriptions/creative-insight\51-ep-12-presentation-utilisation-de-higgsfield.md) | 6:06 | complet |
+| ✅ | 52 | [Ep #13 - Itération des Statics](transcriptions/creative-insight\52-ep-13-iteration-des-statics.md) | 14:57 | complet |
+| ✅ | 53 | [Ep #14 - Les Statics Secret Sauce](transcriptions/creative-insight\53-ep-14-les-statics-secret-sauce.md) | 15:50 | complet |
+| ✅ | 54 | [Ep #15 - Commentaires illimités TikTok](transcriptions/creative-insight\54-ep-15-commentaires-illimites-tiktok.md) | 7:04 | complet |
+| ✅ | 55 | [Ep #8 - SOP - Avis Client pour les Ads](transcriptions/creative-insight\55-ep-8-sop-avis-client-pour-les-ads.md) | 19:54 | complet |
+| ✅ | 56 | [Ep #9 - Analyse Ads Flytex](transcriptions/creative-insight\56-ep-9-analyse-ads-flytex.md) | 12:15 | complet |
+| ✅ | 57 | [Ep #10 - News Hooks qui cassent le cerveau](transcriptions/creative-insight\57-ep-10-news-hooks-qui-cassent-le-cerveau.md) | 6:27 | complet |
+| ✅ | 58 | [Ep #4 - Présentation + Utilisation de Mirage](transcriptions/creative-insight\58-ep-4-presentation-utilisation-de-mirage.md) | 7:42 | complet |
+| ✅ | 59 | [Ep #5 - New Concept Ads Inspiration](transcriptions/creative-insight\59-ep-5-new-concept-ads-inspiration.md) | 9:07 | complet |
+| ✅ | 60 | [Ep #6 - 10 Copywriting Tips KILLER](transcriptions/creative-insight\60-ep-6-10-copywriting-tips-killer.md) | 13:24 | complet |
+| ✅ | 61 | [Ep #7 - 190 Psychological Hooks](transcriptions/creative-insight\61-ep-7-190-psychological-hooks.md) | 4:21 | complet |
+| ✅ | 62 | [Ep #1 - Arcads IA et formats qui convertissent](transcriptions/creative-insight\62-ep-1-arcads-ia-et-formats-qui-convertissent.md) | 8:48 | complet |
+| ✅ | 63 | [Ep #2 - Analyse de créatives winneuses](transcriptions/creative-insight\63-ep-2-analyse-de-creatives-winneuses.md) | 10:56 | complet |
 | 🟡 | 64 | [Ep #3 - Headlines qui convertissent](transcriptions/creative-insight\64-ep-3-headlines-qui-convertissent.md) | 11:17 | partiel |
 
 ## CRO, BOOSTER CA & AOV
