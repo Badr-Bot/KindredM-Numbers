@@ -196,9 +196,35 @@ describe("Taxe UE — forfait 3€/colis (révision Badr 04/08, ex-« 3€/produ
 });
 
 describe("Grille COGS polo — pays non listé et quantités hors grille", () => {
-  it("pays non listé (ex. CA) = max(pays listés, même bundle) + 1,50€", () => {
-    // max 2pcs parmi FR/IT/ES/DE/GB/BE = BE 16.29€ = 1629 cents
-    expect(poloCogsCents("CA", 2)).toBe(1629 + 150);
+  it("pays non listé (ex. US) = max(pays listés, même bundle) + 1,50€", () => {
+    // max 2pcs parmi FR/IT/ES/DE/GB/BE/CH = CH 17,07 € = 1707 cents.
+    // (Le Canada n'est PLUS un exemple valable : prix réels depuis le 14/08.)
+    expect(poloCogsCents("US", 2)).toBe(1707 + 150);
+  });
+
+  it("Canada : prix RÉELS des factures Panda, datés au 02/08 (x1/x2 +1 €, x4 inchangé)", () => {
+    // Avant le 02/08 (facture 20260801) : 8,65 / 14,60 / 27,90.
+    expect(poloCogsCents("CA", 1, "2026-07-20")).toBe(865);
+    expect(poloCogsCents("CA", 2, "2026-08-01")).toBe(1460);
+    expect(poloCogsCents("CA", 4, "2026-07-20")).toBe(2790);
+    // Depuis le 02/08 (facture 20260814) : 9,65 / 15,60 / 27,90 (x4 constant,
+    // vérifié : POLOx4+CALECON = 30,36 € sur les DEUX factures).
+    expect(poloCogsCents("CA", 1, "2026-08-05")).toBe(965);
+    expect(poloCogsCents("CA", 2, "2026-08-10")).toBe(1560);
+    expect(poloCogsCents("CA", 4, "2026-08-10")).toBe(2790);
+    // Sans jour fourni (repères/cartes) : prix COURANTS, jamais les anciens.
+    expect(poloCogsCents("CA", 2)).toBe(1560);
+  });
+
+  it("Suisse : prix réels des factures (constants sur les deux factures)", () => {
+    expect(poloCogsCents("CH", 1)).toBe(1027);
+    expect(poloCogsCents("CH", 2)).toBe(1707);
+    expect(poloCogsCents("CH", 4)).toBe(3144);
+  });
+
+  it("Caleçon Canada : 2,46 € réel (même prix que la France, plus le repli 4,24)", () => {
+    expect(upsellCogsCents("CALECON", "CA", 1)).toBe(246);
+    expect(upsellCogsCents("CALECON", "CA", 2)).toBe(492);
   });
 
   it("3 polos (hors grille) = grille[2pcs] + (grille[2pcs] − grille[1pc]) × (qty−2)", () => {

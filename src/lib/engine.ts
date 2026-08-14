@@ -97,7 +97,23 @@ const POLO_GRID_CENTS: Record<string, Record<PoloTier, number>> = {
   DE: { 1: 936, 2: 1518, 4: 2649 },
   GB: { 1: 802, 2: 1330, 4: 2365 },
   BE: { 1: 991, 2: 1629, 4: 2899 },
+  // CH : prix RÉELS relevés sur les factures Panda des 01 et 14/08 (56
+  // commandes, constants sur les deux factures). Remplacent le repli
+  // « max + 1,50 » qui surcomptait le x1/x2 et sous-comptait le x4.
+  CH: { 1: 1027, 2: 1707, 4: 3144 },
 };
+
+// ---------------------------------------------------------------------------
+// CANADA — prix RÉELS relevés sur les factures Panda (138 commandes), datés :
+// le fournisseur a augmenté le x1 et le x2 de 1,00 € à partir de la facture
+// du 14/08, qui commence à la commande #5463 (~02/08). Le x4 n'a PAS bougé
+// (30,36 € = 27,90 + caleçon 2,46 sur LES DEUX factures — vérifié, ce n'est
+// pas un oubli). Avant ces relevés, le Canada passait par le repli
+// « max + 1,50 » qui surcomptait 2 à 3 € par commande (~330 € cumulés).
+// ---------------------------------------------------------------------------
+export const CA_POLO_PRICE_CHANGE_DAY = "2026-08-02"; // 1er jour de la facture 14/08
+const CA_POLO_OLD_CENTS: Record<PoloTier, number> = { 1: 865, 2: 1460, 4: 2790 };
+const CA_POLO_NEW_CENTS: Record<PoloTier, number> = { 1: 965, 2: 1560, 4: 2790 };
 
 // §4.2/4.3 — pays non listé : plafond conservateur fixé par Badr.
 const NON_LISTED_SURCHARGE_CENTS = 150;
@@ -109,24 +125,30 @@ function maxListedForTier<Tier extends number>(
   return Math.max(...Object.values(grid).map((row) => row[tier]));
 }
 
-function poloGridValueCents(country: string, tier: PoloTier): number {
+function poloGridValueCents(country: string, tier: PoloTier, day?: string): number {
+  if (country === "CA") {
+    // Sans jour fourni (repères, cartes) : prix COURANTS — jamais les anciens.
+    return day && day < CA_POLO_PRICE_CHANGE_DAY ? CA_POLO_OLD_CENTS[tier] : CA_POLO_NEW_CENTS[tier];
+  }
   const row = POLO_GRID_CENTS[country];
   if (row) return row[tier];
   return maxListedForTier(POLO_GRID_CENTS, tier) + NON_LISTED_SURCHARGE_CENTS;
 }
 
-/** COGS polo pour un bundle de `qty` pièces, livré dans `country` (ISO-2). */
-export function poloCogsCents(country: string, qty: number): number {
+/** COGS polo pour un bundle de `qty` pièces, livré dans `country` (ISO-2).
+ * `day` (YYYY-MM-DD, jour de la commande) ne sert qu'aux pays à prix datés
+ * (Canada) — omis, les prix COURANTS s'appliquent. */
+export function poloCogsCents(country: string, qty: number, day?: string): number {
   if (qty <= 0) return 0;
   if (qty === 1 || qty === 2 || qty === 4) {
-    return poloGridValueCents(country, qty);
+    return poloGridValueCents(country, qty, day);
   }
   // Quantités hors grille (ex. 3 polos, ou >4) : coût marginal par pièce
   // supplémentaire au-delà du bundle 2pcs (formule §4.2, appliquée aussi
   // au-delà de 4 en l'absence d'un palier explicite plus élevé — à confirmer
   // par Badr si des bundles >4 apparaissent en pratique).
-  const g2 = poloGridValueCents(country, 2);
-  const g1 = poloGridValueCents(country, 1);
+  const g2 = poloGridValueCents(country, 2, day);
+  const g1 = poloGridValueCents(country, 1, day);
   return Math.round(g2 + (g2 - g1) * (qty - 2));
 }
 
@@ -258,6 +280,10 @@ const CALECON_GRID_CENTS: Record<string, number> = {
   FR: 246,
   BE: 274,
   ES: 247,
+  // Prix RÉEL relevé sur les factures Panda 01+14/08 (déduit de 24 commandes
+  // POLO+CALECON : 30,36 − 27,90 = 2,46, constant sur les deux factures).
+  // Le repli « max + 1,50 » comptait 4,24 — 1,78 € de trop par caleçon CA.
+  CA: 246,
 };
 
 function caleconUnitCogsCents(country: string): number {
@@ -512,7 +538,7 @@ export interface OrderCogsTax {
 }
 
 export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
-  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty);
+  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
   const cogsUpsellsCents = order.upsells.reduce(
     (sum, u) => sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty),
     0
@@ -596,7 +622,7 @@ export interface TolerantOrderCogsTax extends OrderCogsTax {
 export function computeOrderCogsTaxTolerant(
   order: OrderForEngine & { unknownDistinctCount?: number }
 ): TolerantOrderCogsTax {
-  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty);
+  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
   const unknownUpsellKeys: string[] = [];
   let cogsUpsellsCents = 0;
   for (const u of order.upsells) {
