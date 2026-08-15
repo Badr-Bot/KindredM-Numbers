@@ -225,6 +225,11 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - Le moteur mappe par **titre EXACT** (products_map) : tout renommage Shopify sort les ventes du comptage tant que le nouveau titre n'est pas chargé. Réflexe à avoir à CHAQUE renommage : ajouter la ligne dans products_map + bumper `REQUIRED_FULL_RESYNC_VERSION`.
 - **Caleçon : jamais mappé depuis le début** (découvert 05/08) → COGS compté 0 € sur tout l'historique alors qu'il est offert dans une grosse part des commandes → Net légèrement SURESTIMÉ depuis le 04/06. Mapping FR + ES chargé le 05/08, resync v8 déclenchée pour corriger l'historique.
 
+## Style du checkout Shopify (15/08)
+- Style maison = thème live **`NIVA — Maison V6`** : encre `#151515`, ivoire `#FAF9F6`, crème `#F7F3EB`, sable clair `#F2ECE1`, sable `#E8E1D4`, bordure de champ `#7C7C7A` (encre à 55 %). Police **Poppins** 400/600. **Coins à 0 partout**, aucune ombre. Ne jamais inventer une couleur : tout sort de `config/settings_data.json`.
+- **L'API de branding checkout est Plus-only.** Les stores sont en Advanced → `checkoutBrandingUpsert` renvoie « Access denied » et n'est même pas exposé dans le schéma Admin (son successeur `checkoutAndAccountsConfigurationUpdate` non plus). Ne pas re-tester : le style se saisit à la main dans Paramètres → Paiement → Personnaliser, **par store** (ES/UK/DE/FR).
+- Valeurs exactes + procédure : `NIVA_CHECKOUT_STYLE.md`. Payload versionné : `src/lib/checkoutBranding.ts` (validé contre le schéma Admin), applicable en une commande le jour d'un passage Plus : `npm run checkout-branding -- --market FR --apply`.
+
 ## Conventions
 - Jamais de chiffre inventé ; en cas de doute, le dire. Toute erreur trouvée = la corriger partout (code + spec + STATUT.md + ce MEMO).
 - Montants en centimes (integers) dans le code. Tests fixtures §8 = validés au centime, ne jamais casser.

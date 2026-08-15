@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "discover-products": "tsx scripts/discover-products.ts",
-    "backfill": "tsx scripts/backfill.ts"
+    "backfill": "tsx scripts/backfill.ts",
+    "checkout-branding": "tsx scripts/checkout-branding.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
