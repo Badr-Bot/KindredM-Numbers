@@ -1,0 +1,26 @@
+name: Audit frais (lecture day-aggregates)
+
+# Diagnostic READ-ONLY : lit les lignes daily_aggregates du dashboard pour une
+# liste de jours (les runners GitHub joignent Vercel, l'environnement de Claude
+# non — même raison d'être que l'étape 4bis de fix-products-map.yml).
+# Aucune écriture : ni sync, ni upsert. Relançable à volonté.
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Jours à lire, séparés par des espaces (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-12 2026-08-13 2026-08-14 2026-08-15 2026-08-16"
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lire daily_aggregates pour chaque jour
+        run: |
+          for D in ${{ inputs.days }}; do
+            echo "=== $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D" || true
+            echo
+          done
