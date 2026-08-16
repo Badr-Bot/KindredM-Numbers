@@ -22,7 +22,7 @@ import { DailyBarLineChart, type ChartPoint } from "./DailyBarLineChart";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
-  taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
+  taxCents: 0, feesCents: 0, feesEstimatedCents: 0, netCents: 0, refundedCents: 0,
 };
 
 function sum(rows: DayLine[]): Totals {
@@ -36,6 +36,7 @@ function sum(rows: DayLine[]): Totals {
       cogsUpsellsCents: a.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: a.taxCents + r.taxCents,
       feesCents: a.feesCents + r.feesCents,
+      feesEstimatedCents: (a.feesEstimatedCents ?? 0) + (r.feesEstimatedCents ?? 0),
       netCents: a.netCents + r.netCents,
       refundedCents: a.refundedCents + r.refundedCents,
     }),
@@ -211,7 +212,14 @@ export function MonthBoard({
                   <Td className="text-right text-ink-dim">{l.spendCents ? formatEur0(l.spendCents) : "—"}</Td>
                   <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.cogsCents) : "—"}</Td>
                   <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.taxCents) : "—"}</Td>
-                  <Td className="text-right text-ink-dim">{l.caCents ? formatEur0(l.feesCents) : "—"}</Td>
+                  {/* « ~ » = une partie des frais du jour est encore l'estimation
+                      3 % (pas la lecture réelle par commande). Rendre l'estimé
+                      reconnaissable au premier coup d'œil : l'effacement des
+                      frais réels (16/08) est resté invisible précisément parce
+                      qu'un 3 % estimé s'affichait comme un vrai frais. */}
+                  <Td className="text-right text-ink-dim">
+                    {l.caCents ? `${(l.feesEstimatedCents ?? 0) > 0 ? "~" : ""}${formatEur0(l.feesCents)}` : "—"}
+                  </Td>
                   {tab === "GLOBAL" && (
                     <Td className="text-right text-amber/80">
                       {fixedCostsCentsForDay(l.day) ? formatEur0(fixedCostsCentsForDay(l.day)) : "—"}
@@ -239,7 +247,9 @@ export function MonthBoard({
               <Td className="text-right text-ink-dim">{formatEur0(totals.spendCents)}</Td>
               <Td className="text-right text-ink-dim">{formatEur0(totals.cogsCents)}</Td>
               <Td className="text-right text-ink-dim">{formatEur0(totals.taxCents)}</Td>
-              <Td className="text-right text-ink-dim">{formatEur0(totals.feesCents)}</Td>
+              <Td className="text-right text-ink-dim">
+                {`${(totals.feesEstimatedCents ?? 0) > 0 ? "~" : ""}${formatEur0(totals.feesCents)}`}
+              </Td>
               {tab === "GLOBAL" && (
                 <Td className="text-right text-amber/80">
                   {formatEur0(monthDays.reduce((a, l) => a + fixedCostsCentsForDay(l.day), 0))}
@@ -257,7 +267,8 @@ export function MonthBoard({
         ⚡ jour en cours — mis à jour à chaque synchro (peut avoir quelques minutes de retard sur le
         Live, qui interroge Shopify à la seconde) · Net & ROAS colorés selon les seuils dynamiques
         (14 j) · Cumul depuis le début · Charges (onglet Global) = abonnements/équipe étalés par
-        jour + frais ponctuels (ex. LLC le 21/06), déjà déduites du Net
+        jour + frais ponctuels (ex. LLC le 21/06), déjà déduites du Net · ~ devant les Frais =
+        encore (en partie) l&apos;estimation 3 %, pas la lecture réelle Shopify
       </p>
     </div>
   );

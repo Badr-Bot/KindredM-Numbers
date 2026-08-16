@@ -224,6 +224,35 @@ export async function runIncrementalSync(
     }
   }
 
+  // SENTINELLE frais réels (16/08) : compte les commandes récentes SANS frais
+  // réels en base, hors fenêtre de lecture J-2→J. En régime normal ce compte
+  // vaut 0 (la fenêtre quotidienne + le rattrapage historique couvrent tout) —
+  // s'il devient positif, quelque chose a effacé ou raté des frais et le net
+  // regonfle en silence sur le repli 3 %, exactement le bug qui a vidé le
+  // rattrapage du 12/08 sans qu'aucun signal ne le dise. Le warning remonte
+  // sur /debug et le marqueur « ~ » de l'onglet Mois le rend visible à Badr.
+  if (hasFeeColumns) {
+    try {
+      const sentinelFrom = addDaysToDay(today, -30);
+      const sentinelTo = addDaysToDay(today, -3);
+      const { count, error } = await supabase
+        .from("orders")
+        .select("id", { count: "exact", head: true })
+        .gte("day", sentinelFrom)
+        .lte("day", sentinelTo)
+        .is("fee_total_cents", null);
+      if (!error && (count ?? 0) > 0) {
+        warnings.push(
+          `⚠️ ${count} commande(s) du ${sentinelFrom} au ${sentinelTo} sans frais réels en base ` +
+            `(repli 3 % appliqué → net trop optimiste d'environ 2,7 % de leur CA). ` +
+            `Attendu : 0 une fois le rattrapage v2 passé — si ça persiste ou revient, des frais ont été effacés ou ratés.`
+        );
+      }
+    } catch {
+      // Sonde best effort : ne jamais faire échouer la synchro pour elle.
+    }
+  }
+
   // ⚠️ RECALCUL IMMÉDIAT, AVANT TOUTE LA PARTIE META.
   // daily_aggregates est la table que le dashboard LIT. Tant que ce recalcul
   // n'a pas tourné, les commandes fraîchement écrites ci-dessus restent

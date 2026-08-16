@@ -36,6 +36,12 @@ export interface DailyRow {
   cogsUpsellsCents: number;
   taxCents: number;
   feesCents: number;
+  // Part de feesCents qui n'est PAS issue d'une lecture réelle par commande :
+  // le repli 3 % (fees_cents − ventilation processing/fx/autres). Sert au
+  // marqueur « ~ » de l'onglet Mois — un frais estimé qui s'affiche avec la
+  // même tête qu'un frais réel est exactement ce qui a rendu invisible le bug
+  // d'effacement du 16/08. 0 quand les colonnes de ventilation manquent.
+  feesEstimatedCents: number;
   netCents: number;
   refundedCents: number; // brut remboursé (déjà déduit du CA/net) — pour la vue Contrôle
 }
@@ -50,6 +56,10 @@ export interface Totals {
   cogsUpsellsCents: number;
   taxCents: number;
   feesCents: number;
+  /** Part estimée (repli 3 %) de feesCents — voir DailyRow. Optionnel : seuls
+   * les chemins de l'onglet Mois la propagent ; absent = pas de marqueur,
+   * jamais un chiffre faux. */
+  feesEstimatedCents?: number;
   netCents: number;
   refundedCents: number;
 }
@@ -69,6 +79,7 @@ const EMPTY_TOTALS: Totals = {
   cogsUpsellsCents: 0,
   taxCents: 0,
   feesCents: 0,
+  feesEstimatedCents: 0,
   netCents: 0,
   refundedCents: 0,
 };
@@ -131,9 +142,14 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
   // filet que acquisitionColumnsReady côté écriture).
   const { error: probeError } = await supabase.from("daily_aggregates").select("cogs_product_cents").limit(1);
   const hasCogsSplit = !probeError;
+  // Ventilation des frais (migration 0013) : sert à distinguer les frais
+  // RÉELS (ventilés processing/fx/autres) du repli 3 % (aucune ventilation).
+  const { error: feeProbeError } = await supabase.from("daily_aggregates").select("fee_processing_cents").limit(1);
+  const hasFeeBreakdown = !feeProbeError;
   const cols =
     "day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents" +
-    (hasCogsSplit ? ", cogs_product_cents, cogs_upsells_cents" : "");
+    (hasCogsSplit ? ", cogs_product_cents, cogs_upsells_cents" : "") +
+    (hasFeeBreakdown ? ", fee_processing_cents, fee_fx_cents, fee_other_cents" : "");
 
   interface RawAggRow {
     day: string;
@@ -146,6 +162,9 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
     cogs_upsells_cents?: number | null;
     tax_cents: number;
     fees_cents: number;
+    fee_processing_cents?: number | null;
+    fee_fx_cents?: number | null;
+    fee_other_cents?: number | null;
     net_cents: number;
     refunded_cents: number | null;
   }
@@ -172,6 +191,14 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
     cogsUpsellsCents: hasCogsSplit ? r.cogs_upsells_cents ?? 0 : 0,
     taxCents: r.tax_cents,
     feesCents: r.fees_cents,
+    // Ce que la ventilation ne couvre pas = repli 3 % (les frais réels, la
+    // table juin et les entrées manuelles alimentent tous la ventilation).
+    feesEstimatedCents: hasFeeBreakdown
+      ? Math.max(
+          0,
+          r.fees_cents - ((r.fee_processing_cents ?? 0) + (r.fee_fx_cents ?? 0) + (r.fee_other_cents ?? 0))
+        )
+      : 0,
     netCents: r.net_cents,
     refundedCents: r.refunded_cents ?? 0,
   }));
@@ -192,6 +219,7 @@ export function sumRows(rows: DailyRow[]): Totals {
       cogsUpsellsCents: acc.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: acc.taxCents + r.taxCents,
       feesCents: acc.feesCents + r.feesCents,
+      feesEstimatedCents: (acc.feesEstimatedCents ?? 0) + (r.feesEstimatedCents ?? 0),
       netCents: acc.netCents + r.netCents,
       refundedCents: acc.refundedCents + r.refundedCents,
     }),
@@ -218,6 +246,7 @@ export function collapseByDay(rows: DailyRow[]): Array<{ day: string } & Totals>
       cogsUpsellsCents: cur.cogsUpsellsCents + r.cogsUpsellsCents,
       taxCents: cur.taxCents + r.taxCents,
       feesCents: cur.feesCents + r.feesCents,
+      feesEstimatedCents: (cur.feesEstimatedCents ?? 0) + r.feesEstimatedCents,
       netCents: cur.netCents + r.netCents,
       refundedCents: cur.refundedCents + r.refundedCents,
     });
@@ -510,7 +539,9 @@ function cardsFromTotals(
   // (qui, lui, somme toutes les lignes du jour sans filtrer par marché).
   // Bug réel constaté 27/07 : le bandeau d'alerte affirmait « déjà compté
   // dans le total » alors que ce total l'ignorait complètement.
-  globalTotals: Totals = sumRows(MARKETS.map((m) => ({ day: "", market: m, ...perMarket[m] })))
+  globalTotals: Totals = sumRows(
+    MARKETS.map((m) => ({ day: "", market: m, feesEstimatedCents: 0, ...perMarket[m] }))
+  )
 ): TodayMarketCard[] {
   const globalCard: TodayMarketCard = {
     market: "GLOBAL",
