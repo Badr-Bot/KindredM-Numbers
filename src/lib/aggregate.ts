@@ -3,6 +3,7 @@ import { computeDailyAggregate, fallbackShopifyFeeCents, type Market } from "./e
 import { MARKETS } from "./markets";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
+import { JUNE_REAL_FEES } from "./juneRealFees";
 
 // Dérivé de MARKETS (markets.ts) et non recopié : la liste avait divergé à
 // l'ajout du Canada (06/08) — CA existait dans le type et l'UI mais pas ici,
@@ -25,6 +26,7 @@ const UNMAPPED_MARKET = "UNMAPPED";
 interface OrderAggInput {
   day: string;
   store: string;
+  order_name: string;
   total_cents: number;
   refunded_cents: number;
   cogs_product_cents: number;
@@ -95,7 +97,7 @@ export async function recomputeDailyAggregatesForDays(
   const { error: feeProbeError } = await supabase.from("orders").select("fee_total_cents").limit(1);
   const hasRealFees = !feeProbeError;
   const orderCols =
-    "id, day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents" +
+    "id, day, store, order_name, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents" +
     (hasRealFees ? ", fee_total_cents, fee_processing_cents, fee_fx_cents, fee_other_cents" : "");
 
   const [ordersRaw, spendRaw] = await Promise.all([
@@ -200,8 +202,19 @@ export async function recomputeDailyAggregatesForDays(
       b.feeFxCents += o.fee_fx_cents ?? 0;
       b.feeOtherCents += o.fee_other_cents ?? 0;
     } else {
-      b.shopifyFeeCents += fallbackShopifyFeeCents(orderCa);
-      b.feesEstimated = true;
+      // Hors de portée du rattrapage API (>60 j) mais mesuré à la main via la
+      // connexion Shopify de Badr : frais réels du 04→13/06 (juneRealFees.ts),
+      // 100 % processing_fee (aucun frais de change en juin). La lecture en
+      // base garde la priorité : ce bloc ne joue que si fee_total_cents est
+      // NULL, donc un futur re-scan réel écrase la valeur en dur de lui-même.
+      const juneReal = o.store === "FR" ? JUNE_REAL_FEES.get(o.order_name) : undefined;
+      if (typeof juneReal === "number") {
+        b.shopifyFeeCents += juneReal;
+        b.feeProcessingCents += juneReal;
+      } else {
+        b.shopifyFeeCents += fallbackShopifyFeeCents(orderCa);
+        b.feesEstimated = true;
+      }
     }
   }
   for (const s of spendRows ?? []) {

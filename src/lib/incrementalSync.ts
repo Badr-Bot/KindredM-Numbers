@@ -417,7 +417,12 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-nira-cogs-devis-panda-v14";
+// v15 (16/08) : frais Shopify RÉELS du 04→13/06 (juneRealFees.ts) — ces 10
+// jours restaient au repli 3 % (hors fenêtre 60 j de l'API) alors que le réel
+// mesuré est 2,26 % : le forfait surestimait les frais de 142,02 €. Recompute
+// seul, aucun appel API : les valeurs sont dans le code, consommées par
+// aggregate.ts quand fee_total_cents est NULL.
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-16-frais-reels-juin-0413-v15";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €
