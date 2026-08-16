@@ -1,0 +1,35 @@
+name: Audit frais (lecture day-aggregates)
+
+# Diagnostic READ-ONLY : lit les lignes daily_aggregates du dashboard pour une
+# liste de jours (les runners GitHub joignent Vercel, l'environnement de Claude
+# non — même raison d'être que l'étape 4bis de fix-products-map.yml).
+# Aucune écriture : ni sync, ni upsert. Relançable à volonté.
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Jours à lire, séparés par des espaces (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-12 2026-08-13 2026-08-14 2026-08-15 2026-08-16"
+  # Le connecteur GitHub de la session n'a pas le droit de dispatch (403,
+  # même limite que fix-products-map.yml) : pousser le fichier déclencheur
+  # lance le job avec la liste de jours qu'il contient.
+  push:
+    branches: ["claude/shopify-fees-margins-81q385"]
+    paths: [".github/fees-audit-trigger"]
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lire daily_aggregates pour chaque jour
+        run: |
+          DAYS="${{ inputs.days }}"
+          if [ -z "$DAYS" ]; then DAYS=$(cat .github/fees-audit-trigger); fi
+          for D in $DAYS; do
+            echo "=== $D ==="
+            curl -sS --max-time 60 "https://kindred-m-numbers.vercel.app/api/admin/day-aggregates?day=$D" || true
+            echo
+          done

@@ -4,13 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSound } from "../sound/SoundProvider";
 
+// Ordre voulu par Badr (16/08) : Année juste après Mois, puis Dépenses,
+// et Analyse/Créas à la fin.
 const ITEMS = [
   { href: "/", label: "Live", emoji: "⚡" },
   { href: "/mois", label: "Mois", emoji: "🗓️" },
-  { href: "/analyse", label: "Analyse", emoji: "📊" },
-  { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
+  { href: "/analyse", label: "Analyse", emoji: "📊" },
+  { href: "/creas", label: "Créas", emoji: "🎬" },
 ];
 // /controle existe toujours (affectation d'une campagne Meta toute neuve à
 // un marché, lien direct depuis le bandeau ⚠️ du Live) mais n'est plus dans

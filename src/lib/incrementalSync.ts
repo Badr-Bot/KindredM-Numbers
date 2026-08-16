@@ -35,6 +35,26 @@ export interface IncrementalSyncResult {
 }
 
 /**
+ * Sépare les lignes de commandes qui portent les colonnes fee_* de celles qui
+ * ne les portent pas, pour les upserter en lots HOMOGÈNES. Exporté pour test.
+ *
+ * Raison d'être : postgrest-js envoie `columns` = union des clés de toutes
+ * les lignes du lot, et une ligne à qui il manque une clé listée se fait
+ * écrire NULL dessus (defaultToNull). Un lot mixte efface donc les frais
+ * réels des commandes hors fenêtre J-2→J — le bug qui a vidé le rattrapage
+ * du 12/08 (voir l'appelant).
+ */
+export function splitRowsByFeeKeys(rows: Record<string, unknown>[]): {
+  withFees: Record<string, unknown>[];
+  withoutFees: Record<string, unknown>[];
+} {
+  const withFees: Record<string, unknown>[] = [];
+  const withoutFees: Record<string, unknown>[] = [];
+  for (const r of rows) ("fee_total_cents" in r ? withFees : withoutFees).push(r);
+  return { withFees, withoutFees };
+}
+
+/**
  * Rescan incrémental : commandes modifiées sur les 7 derniers jours (§4.7,
  * remboursements tardifs) + spend Meta J-7→J-1, puis recalcule les jours
  * touchés + toujours J-2/J-1/J en filet de sécurité (voir cron/route.ts).
@@ -177,17 +197,59 @@ export async function runIncrementalSync(
             : {}),
         });
       }
-      for (let i = 0; i < rows.length; i += ORDER_CHUNK) {
-        const { error } = await supabase.from("orders").upsert(rows.slice(i, i + ORDER_CHUNK));
-        // Une écriture qui échoue doit se VOIR (warning sur /debug), jamais
-        // passer en silence — cause du « j'ai eu des ventes et rien ne bouge ».
-        if (error) throw new Error(`écriture commandes échouée : ${error.message}`);
+      // ⚠️ DEUX lots séparés : avec frais / sans frais — JAMAIS mélangés.
+      // postgrest-js construit la liste de colonnes de l'upsert comme l'UNION
+      // des clés de TOUTES les lignes du lot (et defaultToNull=true) : dans un
+      // lot mixte, une commande sans clés fee_* se faisait donc écrire
+      // fee_*=NULL, EFFAÇANT ses frais réels déjà en base. Comme la fenêtre de
+      // lecture des frais est J-2→J alors que le rescan couvre J-7, chaque
+      // synchro effaçait les frais réels des jours J-7→J-3 — c'est ce qui a
+      // vidé le rattrapage du 12/08 (constaté le 16/08 : tout ≤ J-3 retombé au
+      // repli 3 %, sauf une commande ES dont le lot ne contenait aucune ligne
+      // avec frais).
+      const { withFees, withoutFees } = splitRowsByFeeKeys(rows);
+      for (const batch of [withFees, withoutFees]) {
+        for (let i = 0; i < batch.length; i += ORDER_CHUNK) {
+          const { error } = await supabase.from("orders").upsert(batch.slice(i, i + ORDER_CHUNK));
+          // Une écriture qui échoue doit se VOIR (warning sur /debug), jamais
+          // passer en silence — cause du « j'ai eu des ventes et rien ne bouge ».
+          if (error) throw new Error(`écriture commandes échouée : ${error.message}`);
+        }
       }
       await supabase
         .from("sync_state")
         .upsert({ store: config.market, last_orders_sync: new Date().toISOString() });
     } catch (err) {
       warnings.push(`${config.market} ignoré : ${(err as Error).message}`);
+    }
+  }
+
+  // SENTINELLE frais réels (16/08) : compte les commandes récentes SANS frais
+  // réels en base, hors fenêtre de lecture J-2→J. En régime normal ce compte
+  // vaut 0 (la fenêtre quotidienne + le rattrapage historique couvrent tout) —
+  // s'il devient positif, quelque chose a effacé ou raté des frais et le net
+  // regonfle en silence sur le repli 3 %, exactement le bug qui a vidé le
+  // rattrapage du 12/08 sans qu'aucun signal ne le dise. Le warning remonte
+  // sur /debug et le marqueur « ~ » de l'onglet Mois le rend visible à Badr.
+  if (hasFeeColumns) {
+    try {
+      const sentinelFrom = addDaysToDay(today, -30);
+      const sentinelTo = addDaysToDay(today, -3);
+      const { count, error } = await supabase
+        .from("orders")
+        .select("id", { count: "exact", head: true })
+        .gte("day", sentinelFrom)
+        .lte("day", sentinelTo)
+        .is("fee_total_cents", null);
+      if (!error && (count ?? 0) > 0) {
+        warnings.push(
+          `⚠️ ${count} commande(s) du ${sentinelFrom} au ${sentinelTo} sans frais réels en base ` +
+            `(repli 3 % appliqué → net trop optimiste d'environ 2,7 % de leur CA). ` +
+            `Attendu : 0 une fois le rattrapage v2 passé — si ça persiste ou revient, des frais ont été effacés ou ratés.`
+        );
+      }
+    } catch {
+      // Sonde best effort : ne jamais faire échouer la synchro pour elle.
     }
   }
 
@@ -417,7 +479,12 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // SEUL, sans appel API : les lignes meta_spend n'ont jamais quitté la base,
 // elles étaient seulement écartées de la somme — il suffit de re-sommer.
 // v8 (05/08) : le spend des campagnes NIRA sortait du calcul (CA non mesurable).
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-12-nira-cogs-devis-panda-v14";
+// v15 (16/08) : frais Shopify RÉELS du 04→13/06 (juneRealFees.ts) — ces 10
+// jours restaient au repli 3 % (hors fenêtre 60 j de l'API) alors que le réel
+// mesuré est 2,26 % : le forfait surestimait les frais de 142,02 €. Recompute
+// seul, aucun appel API : les valeurs sont dans le code, consommées par
+// aggregate.ts quand fee_total_cents est NULL.
+const REQUIRED_RECOMPUTE_VERSION = "2026-08-16-frais-reels-juin-0413-v15";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €
@@ -477,7 +544,12 @@ const FEES_BACKFILL_VERSION_KEY = "fees_backfill_version";
 // frais par commande sur tout l'historique accessible (fenêtre 60 j de l'API
 // sans le scope read_all_orders — les plus anciennes gardent le repli,
 // signalé en warning), UN store par appel, puis recalcule les agrégats.
-const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-12-frais-reels-historique-v1";
+// v2 (16/08, « les frais que t'as donnés n'ont rien à voir avec le dash ») :
+// le rattrapage v1 a été EFFACÉ au fil des jours par le rescan quotidien
+// (lots d'upsert mixtes → fee_*=NULL, voir splitRowsByFeeKeys). L'effacement
+// étant corrigé, on relit une fois de plus tout l'historique accessible pour
+// réécrire les frais réels perdus.
+const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-16-frais-reels-historique-v2";
 
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
