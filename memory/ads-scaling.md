@@ -1,0 +1,55 @@
+# Publicité, attribution, scaling
+
+> Protocole de décision Meta + tout ce qui touche à l'attribution (MER vs ROAS, UTM, campagnes exclues, produits en test) et au rapport quotidien.
+>
+> Mémoire Kindred — chargée automatiquement via `CLAUDE.md`.
+> Mise à jour à chaque changement de règle, jamais en double ailleurs.
+
+## Protocole scaling (Master, validé Badr 03/08) — base : moyenne ROAS réel 3 j
+- SCALE si moy ≥ cible15 ET santé OK (CTR stable, CVR ±10 %, fréq <2, CPM <+20 %) : <200 €/j +25 % · 200-600 +20 % · 600-1500 +15 % · >1500 +10 %. Max +30 %. CBO fourchette basse. Attendre 48-72 h entre scales. Duplication seulement >1000-1500 €/j très stable.
+- HOLD si BE < moy < cible : rien toucher 5-7 j ; plafond ~7 j → nouvelles créas AVANT budget.
+- DESCALE si moy < BE : 90-100 % du BE −15 % · 80-90 % −20 % · <80 % −30 %. Jamais −50 %.
+- COUPER : 2 fenêtres consécutives < BE sans reprise, OU <70 % du BE avec spend ≫ CPA.
+- Cas particuliers prioritaires : campagne <3 j → pas de ROAS (CTR/CPM/CVR) · budget <50 €/j → volume insuffisant · post-scale → 48-72 h sans décision lourde.
+
+## Faits vérifiés (ne pas re-prouver)
+- **ROAS Meta du jour J sous-estime fortement** (attribution) — se corrige en 24-72 h (jours anciens matchent Shopify exactement). Piloter au ROAS réel = CA Shopify ÷ spend, via UTM (utmParameters.campaign = ID campagne) **pour le Polo** (plusieurs campagnes en parallèle, UTM = seule méthode possible).
+- **Gilet/Lancaster : NE PAS utiliser l'UTM seul** (05/08, Badr) — tant qu'une seule campagne Gilet existe, toute commande contenant un Gilet lui appartient (vérifier les line items, pas le champ UTM). Une partie des commandes perdent leur UTM (pixel/CAPI Meta les trackait quand même via wetracked) — confirmé 04/08 : 2 commandes Gilet sur 3 avaient UTM null, 3 achats Meta = 3 commandes Shopify Gilet à l'euro près. Casse dès qu'une 2ᵉ campagne Gilet est lancée (repasser à l'UTM strict).
+- **Polo : correction partielle possible, PAS totale** (05/08, vérifié sur 04/08, 59 commandes) — contrairement au Gilet, 3 campagnes actives tournent en même temps (FRTEST/WORLD/ZOMBIE), donc « 1 commande = 1 campagne » ne marche pas. Deux phénomènes distincts : (1) UTM last-visit perdu comme le Gilet → se corrige PARTIELLEMENT en retombant sur firstVisit (1er clic) SI ET SEULEMENT SI il pointe vers une des 3 campagnes actives ET que lastVisit est vraiment vide (jamais si lastVisit pointe déjà vers une autre campagne active — voir (2)) ; testé sur 04/08 : récupère 3 commandes/59 (2 FRTEST, 1 WORLD) → FRTEST 17/18 Meta (94 %), WORLD 17/21 (81 %), ZOMBIE 11/14 (79 %), mieux qu'avant (15/16/11) mais toujours incomplet. (2) Vrai multi-touch inter-campagnes (~20 % des commandes/jour, ex 04/08 : 12/59) : le client clique sur 2 pubs Polo différentes avant d'acheter — normal dès qu'on fait tourner plusieurs campagnes Polo en parallèle, PAS un bug ; garder le last-touch (convention standard), ne jamais l'écraser par firstVisit. Certaines commandes ne gardent qu'un clic vers une vieille campagne déjà en pause (ex CBO-POLO-WORLDWIDE-FR du 21/06) → non récupérables, la campagne ne tourne plus. Contrairement au Gilet (certitude 100 %, vérifiée 3/3 vs Meta), cette correction Polo reste une ESTIMATION avec marge d'erreur résiduelle — toujours le dire à Badr quand on l'utilise.
+- ~20-25 % des commandes = organique (Google/Direct) — jamais attribuées par Meta, normal (part réelle un peu plus basse vu le point UTM ci-dessus).
+- **Net par PAYS = indicatif seulement, pas fiable ; le Global est la vérité** (05/08, décision Badr « laisse comme ça »). Le spend est imputé par NOM de campagne (aucune campagne active n'a de marqueur pays autre que FR → 100 % du spend tombe sur FR), alors que les commandes sont réparties par BOUTIQUE Shopify. Conséquence structurelle : les boutiques ES/UK/DE encaissent du CA sans porter de pub → net artificiellement positif (ex. 05/08 : DE +57 € pour 90 € de CA et 0 € de spend), et FR est sous-évaluée d'autant. Le Global et les cartes produit (Gilet+Polo) restent justes au centime. Correctif possible mais NON appliqué (répartition du spend au prorata du CA par boutique) : Badr a tranché pour garder la règle du 29/07 « campagne sans pays = FR ». **Ne pas re-signaler comme un bug.**
+- Jours en heure de PARIS (UTC+2 été) — une commande 22h30 UTC = lendemain Paris.
+- Quasi 0 client récurrent (22/23 premiers achats sur l'échantillon vérifié).
+- GitHub Actions heartbeat réel : toutes les 1-2h30 (pas 5 min — throttling GitHub).
+
+## MER ≠ ROAS — vocabulaire corrigé (12/08, Badr)
+- **Badr : « c'est pas un ROAS mais un MER »** — il avait raison, le dashboard appelait « ROAS » un calcul CA TOTAL ÷ spend total. Corrigé partout.
+  - **MER** (Marketing Efficiency Ratio) = **CA total ÷ spend total**. Inclut organique, direct, e-mail, récurrents. Mesure l'efficacité GLOBALE de la boutique. C'est ce que le dashboard affiche (Mois, Année, Live) et c'est à lui que se comparent les seuils dérivés de la marge de contribution (`roasBreakEven`/`roasTarget15` gardent leur nom historique mais sont bien des seuils de MER).
+  - **ROAS** = **CA attribué à la pub ÷ spend**. Toujours PLUS BAS que le MER. Dépend de la source d'attribution : Meta (ce que Meta s'attribue) ou UTM Shopify (ventes réellement tracées).
+- `engine.ts` : `roas()` → **`mer()`**, + `roasFromAttributed()` pour le vrai ROAS. Champ `metrics.roas` → `metrics.mer`, `StatusPill roasLabel` → `merLabel`. Libellés UI « ROAS » → « MER » (Mois, Année, seuils du Live).
+- **Fiche produit (onglet Live) : les DEUX métriques** côte à côte (demandé par Badr) — MER et ROAS Meta. `ProductSplitCard.metaPurchaseValueCents` porte la valeur attribuée par Meta, découpée Gilet/Polo/Testing avec EXACTEMENT les mêmes mots-clés de campagne que le spend (sinon on rapporterait une recette et une dépense qui ne parlent pas des mêmes campagnes).
+
+## Campagnes exclues du calcul
+- **NIRA : spend TOTALEMENT exclu** (Badr, 05/08) — son CA ne remonte pas dans les boutiques Shopify branchées (pas de token), donc compter sa dépense sans sa recette faussait le net à la baisse et tous les ROAS/marges. Exclue rétroactivement (depuis son lancement le 05/08) du net, de l'onglet Analyse, des créas et du journal.
+- Mécanique : `isExcludedCampaign()` dans `meta.ts`, filtre par NOM (couvre les futures « CBO 2 - NIRA … »). Appliqué dans `aggregate.ts` (net), `analytics.ts` (insights + créas), `journal.ts` (événements).
+- **À l'ajout du CA NIRA** : retirer "NIRA" de `EXCLUDED_CAMPAIGN_KEYWORDS` et rebumper `REQUIRED_RECOMPUTE_VERSION`. Badr veut réintégrer **CA + spend ENSEMBLE**, jamais l'un sans l'autre.
+
+## Produits en TEST (convention Badr, 07/08)
+- **Mot-clé « PRODTEST » dans le nom de campagne** = produit en test → son spend sort automatiquement du calcul Polo/Gilet et atterrit dans la carte **🧪 Testing** de l'onglet Aujourd'hui. Rien d'autre à faire côté Badr. (« TESTING » seul est inutilisable comme marqueur : toutes les campagnes du compte le portent déjà.)
+- Produit testé SANS boutique Shopify branchée : CA/COGS saisis à la main (manualRevenue.ts, clé produit à ajouter dans TESTING_PRODUCT_KEYS d'analytics.ts).
+- **NIRA (test 05→07/08, Canada) : ARRÊTÉ le 07/08** — campagne active mise en pause via l'API Meta sur demande Badr, produit jugé non rentable (~508 € de spend, 110 € de CA, net ≈ −430 €). **Historique CONSERVÉ** : argent réellement dépensé, l'effacer aurait gonflé le bénéfice — la carte Testing s'efface seule les jours sans spend ni vente. Le mot-clé NIRA reste dans TESTING_CAMPAIGN_KEYWORDS et le mapping NIRA→CA reste en place pour l'historique.
+
+## Rapport perf Slack — enfin en code (12/08)
+- **Cause de « ça le fait merdiquement »** : la routine 23h05 n'avait AUCUN code (voir section dédiée plus haut) — elle réinterrogeait Meta/Shopify et recalculait de tête à chaque run. D'où (1) des chiffres différents d'un run à l'autre et (2) un ROAS Meta pris pour la vérité alors qu'il SOUS-ESTIME le jour même (délai d'attribution, se corrige en 24-72 h) → campagnes annoncées bien pires qu'elles ne sont, risque de couper à tort.
+- **Fix** : `lib/roasReport.ts` + route **`GET /api/roas-report?day=YYYY-MM-DD`** (`day=hier` accepté). Calcul pur `computeRoasReport()` testé sur fixtures, zéro appel réseau : tout se lit en base. Le champ `text` est le message Slack prêt à poster — **la routine n'a plus qu'à appeler et poster**, plus rien à recalculer.
+- Le rapport donne PAR CAMPAGNE : spend, **ROAS Meta** (attribution Meta) ET **ROAS UTM** (ventes Shopify tracées via `utm_campaign` lu dans `landing_site`, déjà stocké depuis la migration 0008 — pas besoin de rappeler Shopify). Plus le MER global, le CA non attribué (organique/direct) et des avertissements (CA rattaché à une campagne sans spend, commandes sans `landing_site`, écart Meta/Shopify anormal).
+- **Une campagne qui dépense sans vendre APPARAÎT** (ROAS 0) au lieu de disparaître — c'est le cas le plus important d'un rapport de fin de journée.
+- `landing_site` est stocké TRONQUÉ à 300 caractères : si l'`utm_campaign` est coupé, la commande est comptée « non attribuée » plutôt que rattachée à un ID partiel (un faux rattachement fausse DEUX campagnes).
+- ⚠️ **`EXCLUDED_CAMPAIGN_KEYWORDS` est VIDE** depuis le 06/08 (NIRA réintégré) : rien n'est filtré nulle part. Le rapport utilise quand même `isExcludedCampaign()` pour rester aligné sur le net et l'onglet Analyse le jour où la liste se remplit.
+
+## Rapport ROAS routine 23h05 (08/08, 1er run réel)
+- Pas de code dédié dans le dépôt : à chaque déclenchement, la session relit MEMO.md, interroge Meta (spend/CTR/CPM/fréquence par campagne) et Shopify en direct (GraphQL `customerJourneySummary.lastVisit/firstVisit.utmParameters.campaign` + ligne « Gilet » pour Lancaster), recoupe avec `day-aggregates` (contrôle), puis livre un rapport Slack. Champ `utmParameters` confirmé RÉEL côté Shopify Admin GraphQL (pas stocké en base par l'app — `orders` ne garde que source_name/referring_site/landing_site — donc cette attribution UTM fine est recalculée à la volée, jamais persistée).
+- Filtre `created_at:>=YYYY-MM-DD` de la recherche Shopify GraphQL est à granularité JOUR, ancré sur le fuseau de la boutique (Paris) — un `T22:00:00Z` ajouté est ignoré, seule la date compte. Toujours utiliser des dates nues pour une fenêtre exacte.
+- 1er run (05→07/08) : LANCASTER **SCALE +25 %** (ROAS réel 2,82×) · FRTEST **HOLD** (2,17×, CTR -15 % à surveiller) · ZOMBIE **DESCALE -20 %** (1,38×, fréquence en hausse) · WORLD **COUPER recommandé, pas exécuté** (1,03×, à 60 % du BE, mauvaise journée le 06/08 confirmée aussi côté Meta) — **décision de Badr encore en attente sur WORLD**.
+- Contrôle du 07/08 : CA dashboard = CA recalculé à l'euro et à la commande près (3 262,08 €/48 commandes), frais 6,9 % (norme).
+- ⚠️ Connecteur Slack pas activé pour la session liée au trigger (`enabledInChat:false`) → 1er rapport livré en texte dans la session faute de mieux. À corriger côté réglages connecteurs pour que les prochains partent vraiment sur Slack.
