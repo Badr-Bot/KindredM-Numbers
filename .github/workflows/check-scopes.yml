@@ -19,8 +19,9 @@ jobs:
       - name: Quel commit est reellement deploye
         run: |
           curl -sS --max-time 60 https://kindred-m-numbers.vercel.app/api/admin/env-check \
-            | head -c 400 || true
-          echo
+            | grep -o '"deployedCommit":"[^"]*"' || echo "deployedCommit introuvable"
+          echo "--- commit attendu (HEAD de la branche par defaut) ---"
+          git ls-remote https://github.com/Badr-Bot/KindredM-Numbers refs/heads/claude/kindredm-dashboard-setup-epbxha
 
       - name: Lire les portees accordees
         run: |
