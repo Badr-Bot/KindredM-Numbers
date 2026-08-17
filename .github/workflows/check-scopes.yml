@@ -25,5 +25,9 @@ jobs:
 
       - name: Lire les portees accordees
         run: |
-          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
-            https://kindred-m-numbers.vercel.app/api/admin/scopes || true
+          # Sortie FILTREE : une page 404 Next.js fait ~10 000 lignes de HTML,
+          # illisible dans les logs. On ne garde que les champs utiles.
+          OUT=$(curl -sS --max-time 60 -w "\nHTTP:%{http_code}" \
+            https://kindred-m-numbers.vercel.app/api/admin/scopes || echo "curl a echoue")
+          echo "$OUT" | grep -o '"market":"[^"]*"\|"granted":\[[^]]*\]\|"canReadDisputes":[a-z]*\|"canReadOldOrders":[a-z]*\|"missingRequired":\[[^]]*\]\|"reason":"[^"]*"\|HTTP:[0-9]*' \
+            || echo "AUCUN JSON — la route ne repond pas (voir code HTTP ci-dessus si present)"
