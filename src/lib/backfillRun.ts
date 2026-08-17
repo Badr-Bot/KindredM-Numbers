@@ -189,7 +189,25 @@ export async function backfillOrderFeesOneStore(
     .select("value")
     .eq("key", FEES_BACKFILL_PROGRESS_KEY)
     .maybeSingle();
-  const doneStores = new Set<string>(progress?.value ? JSON.parse(progress.value as string) : []);
+  // Deux formes acceptées : ancien tableau ["ES","UK"] (v1/v2) ou nouvel objet
+  // { done: [...], attempts: { FR: 2 } } — le compteur de tentatives date du
+  // 17/08 : en v2, un store en échec était marqué traité DU PREMIER COUP
+  // (« mode partiel ») ; FR a planté en cours de route, a été sauté avec un
+  // warning que personne n'a lu, et 1 209 commandes du 18/07→14/08 sont
+  // restées au repli 3 % pendant que le marqueur « terminé » se posait. C'est
+  // la sentinelle de la synchro qui l'a détecté. Désormais : 3 tentatives
+  // (réparties sur des appels /api/sync distincts, donc des budgets de temps
+  // neufs) avant d'abandonner un store.
+  const raw = progress?.value ? JSON.parse(progress.value as string) : [];
+  const doneStores = new Set<string>(Array.isArray(raw) ? raw : (raw.done ?? []));
+  const attempts: Record<string, number> = Array.isArray(raw) ? {} : (raw.attempts ?? {});
+  const MAX_ATTEMPTS = 3;
+  const saveProgress = () =>
+    supabase.from("app_state").upsert({
+      key: FEES_BACKFILL_PROGRESS_KEY,
+      value: JSON.stringify({ done: [...doneStores], attempts }),
+      updated_at: new Date().toISOString(),
+    });
 
   const config = configs.find((c) => !doneStores.has(c.market));
   if (!config) return { done: true, warnings };
@@ -246,18 +264,27 @@ export async function backfillOrderFeesOneStore(
       );
     }
   } catch (err) {
-    // Mode partiel, comme backfillOrders : un store en échec est signalé et
-    // passé — sinon la chaîne de rattrapage bouclerait dessus pour toujours.
-    // Rebumper REQUIRED_FEES_BACKFILL_VERSION relancera tout une fois réparé.
-    warnings.push(`Frais Shopify ${config.market} (historique) ignoré : ${(err as Error).message}`);
+    // Un store en échec est RETENTÉ au prochain appel (jusqu'à MAX_ATTEMPTS,
+    // chaque appel /api/sync ayant son propre budget de temps) — l'abandon du
+    // premier coup est ce qui a laissé FR au repli 3 % en v2. Après
+    // MAX_ATTEMPTS : abandonné avec warning, rebumper la version relancera
+    // tout une fois la cause réparée — la sentinelle de la synchro continue
+    // de compter les commandes sans frais réels dans tous les cas.
+    attempts[config.market] = (attempts[config.market] ?? 0) + 1;
+    if (attempts[config.market] < MAX_ATTEMPTS) {
+      warnings.push(
+        `Frais Shopify ${config.market} (historique) : échec tentative ${attempts[config.market]}/${MAX_ATTEMPTS}, sera retenté — ${(err as Error).message}`
+      );
+      await saveProgress();
+      return { done: false, warnings };
+    }
+    warnings.push(
+      `Frais Shopify ${config.market} (historique) ABANDONNÉ après ${MAX_ATTEMPTS} tentatives : ${(err as Error).message}`
+    );
   }
 
   doneStores.add(config.market);
-  await supabase.from("app_state").upsert({
-    key: FEES_BACKFILL_PROGRESS_KEY,
-    value: JSON.stringify([...doneStores]),
-    updated_at: new Date().toISOString(),
-  });
+  await saveProgress();
 
   return { done: configs.every((c) => doneStores.has(c.market)), warnings };
 }

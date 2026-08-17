@@ -549,7 +549,12 @@ const FEES_BACKFILL_VERSION_KEY = "fees_backfill_version";
 // (lots d'upsert mixtes → fee_*=NULL, voir splitRowsByFeeKeys). L'effacement
 // étant corrigé, on relit une fois de plus tout l'historique accessible pour
 // réécrire les frais réels perdus.
-const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-16-frais-reels-historique-v2";
+// v3 (17/08) : le v2 s'est terminé avec le store FR en échec silencieux —
+// « mode partiel » le marquait traité dès la première erreur, 1 209 commandes
+// du 18/07→14/08 sont restées au repli 3 % (détecté par la sentinelle).
+// backfillOrderFeesOneStore retente désormais un store 3 fois avant de
+// l'abandonner ; ce bump relance le rattrapage complet.
+const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-17-frais-reels-historique-v3";
 
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
