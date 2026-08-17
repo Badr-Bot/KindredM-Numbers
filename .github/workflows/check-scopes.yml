@@ -1,0 +1,22 @@
+name: Verifier les portees Shopify accordees
+
+# Lecture seule : demande a Shopify quelles portees l'app a REELLEMENT
+# obtenues (currentAppInstallation.accessScopes). Publier une nouvelle
+# version ne suffit pas — le marchand doit approuver les nouvelles portees,
+# sinon le token garde les anciennes. Cette sonde tranche la question sans
+# deviner. Declenchee par push du fichier .github/check-scopes-trigger.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["claude/shopify-fees-margins-81q385"]
+    paths: [".github/check-scopes-trigger"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lire les portees accordees
+        run: |
+          curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
+            https://kindred-m-numbers.vercel.app/api/admin/scopes || true
