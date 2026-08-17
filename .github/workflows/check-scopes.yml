@@ -16,6 +16,12 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - name: Quel commit est reellement deploye
+        run: |
+          curl -sS --max-time 60 https://kindred-m-numbers.vercel.app/api/admin/env-check \
+            | head -c 400 || true
+          echo
+
       - name: Lire les portees accordees
         run: |
           curl -sS --max-time 60 -w "\nHTTP %{http_code}\n" \
