@@ -255,30 +255,41 @@ export async function backfillOrderFeesOneStore(
     for (let i = 0; i < rows.length; i += CHUNK) {
       const chunk = rows.slice(i, i + CHUNK);
       let { error } = await supabase.from("orders").upsert(chunk);
-      // Constat des 16-17/08 (v2 abandonné en silence, v3 en échec 23502) :
-      // malgré le filtre « ids déjà en base », Postgres refuse parfois le lot
-      // entier avec « null value in column store » — donc AU MOINS un id du
-      // lot n'existe pas (ou plus) au moment de l'écriture, cause exacte non
-      // identifiée (course avec une synchro concurrente ?). Auto-réparation :
-      // re-vérifier l'existence de chaque id du lot, réécrire l'intersection,
-      // et SIGNALER les ids fantômes — le diagnostic remonte au lieu de
-      // bloquer 1 200 commandes pour quelques lignes.
+      // Constat des 16-17/08 (v2 abandonné en silence, v3/v4 en échec 23502) :
+      // l'upsert PARTIEL {id, fee_*} est refusé en prod avec « null value in
+      // column store » alors que le contrôle d'existence dit que TOUS les ids
+      // du lot sont en base — la résolution de conflit ne joue pas, la ligne
+      // part en INSERT (cause côté base non identifiée : contrainte/cache
+      // PostgREST ?). Les upserts PLEINS (lignes complètes avec store) de la
+      // synchro quotidienne, eux, fonctionnent. Contournement garanti par la
+      // sémantique SQL : bascule en UPDATE par commande — un UPDATE ne peut
+      // pas violer un NOT NULL qu'il ne touche pas. Par paquets de 20 en
+      // parallèle pour tenir dans le budget de temps de la fonction.
       if (error && /store|not-null|23502/i.test(error.message ?? "")) {
-        const { data: existing, error: verifyError } = await supabase
-          .from("orders")
-          .select("id")
-          .in("id", chunk.map((r) => r.id));
-        if (!verifyError) {
-          const okIds = new Set((existing ?? []).map((r) => String(r.id)));
-          const kept = chunk.filter((r) => okIds.has(String(r.id)));
-          const dropped = chunk.filter((r) => !okIds.has(String(r.id)));
-          warnings.push(
-            `Frais Shopify ${config.market} (historique) : ${dropped.length} id(s) au bloc fees ABSENTS de la table orders ` +
-              `(ex. ${dropped.slice(0, 5).map((r) => r.id).join(", ")}) — écartés, le reste du lot est écrit. À investiguer.`
+        const PARALLEL = 20;
+        let failedUpdates = 0;
+        let firstUpdateError = "";
+        for (let j = 0; j < chunk.length; j += PARALLEL) {
+          const results = await Promise.all(
+            chunk.slice(j, j + PARALLEL).map(({ id, ...feeCols }) =>
+              supabase.from("orders").update(feeCols).eq("id", id)
+            )
           );
-          if (kept.length > 0) ({ error } = await supabase.from("orders").upsert(kept));
-          else error = null;
+          for (const res of results) {
+            if (res.error) {
+              failedUpdates += 1;
+              if (!firstUpdateError) firstUpdateError = res.error.message;
+            }
+          }
         }
+        if (failedUpdates === chunk.length) throw error; // rien n'est passé : vraie panne
+        if (failedUpdates > 0) {
+          warnings.push(
+            `Frais Shopify ${config.market} (historique) : upsert refusé (23502), bascule en UPDATE — ` +
+              `${failedUpdates}/${chunk.length} échec(s) résiduel(s) (${firstUpdateError}).`
+          );
+        }
+        error = null;
       }
       if (error) throw error;
     }
