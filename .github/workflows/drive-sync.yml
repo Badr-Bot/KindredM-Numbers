@@ -1,0 +1,36 @@
+name: Piloter la synchro (enchainer les rattrapages)
+
+# Appelle /api/sync en boucle tant que la reponse annonce moreWork:true —
+# c'est exactement ce que fait LiveSync quand le dashboard est ouvert, mais
+# depuis un runner GitHub (les rattrapages historiques avancent d'UNE etape
+# par appel et personne ne regarde le dash a 2h du matin). Idempotent : la
+# route est throttlee et versionnee cote serveur, appeler trop ne fait rien.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["claude/shopify-fees-margins-81q385"]
+    paths: [".github/drive-sync-trigger"]
+
+jobs:
+  drive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enchaîner les passages de synchro jusqu'a epuisement du travail
+        run: |
+          for i in $(seq 1 25); do
+            OUT=$(curl -sS --max-time 290 -X POST https://kindred-m-numbers.vercel.app/api/sync || echo '{"curl":"failed"}')
+            echo "passage $i : $OUT"
+            if echo "$OUT" | grep -q '"moreWork":true'; then
+              sleep 15
+              continue
+            fi
+            if echo "$OUT" | grep -q '"ran":false'; then
+              # Throttle ou course avec le cron : reessayer un peu plus tard.
+              sleep 65
+              continue
+            fi
+            echo "=== plus de travail en attente ==="
+            exit 0
+          done
+          echo "AVERTISSEMENT : encore du travail apres 25 passages (voir sorties ci-dessus)."
