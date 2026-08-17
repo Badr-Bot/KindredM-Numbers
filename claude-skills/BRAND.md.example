@@ -1,0 +1,57 @@
+# BRAND.md — contexte de marque KindredM
+
+> Copier en `BRAND.md` et remplir. Lu automatiquement par la skill `ugc-brand`
+> avant chaque génération. **Chaque champ rempli ici est une question qui ne
+> sera plus jamais posée et un aller-retour de crédits économisé.**
+
+## Marque
+
+- Nom :
+- Ce qu'on vend, en une phrase :
+- Marchés / langues : ES · UK · DE · FR
+- Positionnement (une phrase, sans superlatif) :
+
+## Persona créateur — le visage des UGC
+
+- Âge / genre / look :
+- Énergie : (calme et posé / enthousiaste / drôle / expert)
+- Décor par défaut : (cuisine lumineuse / chambre / salle de bain / extérieur)
+- Référence visuelle verrouillée : `assets/persona-ref.png`
+- Variantes par marché ? (oui/non — si oui, une réf par marché)
+
+## Produits
+
+| Produit | Réf packaging | Bénéfice principal | Objection à lever |
+|---|---|---|---|
+|  |  |  |  |
+
+## Ton
+
+- On dit :
+- On ne dit jamais :
+- Interdits absolus : « game changer », « révolutionnaire », chiffres inventés,
+  promesses de résultat, comparaison nommant un concurrent
+
+## Format par défaut
+
+- Ratio : 9:16
+- Durée : 15-25 s
+- Hook : < 2 s
+- Sous-titres : oui, incrustés
+- Prix à l'écran : non
+- CTA : 
+
+## Interdits visuels
+
+- pas de fond studio blanc
+- pas de texte généré dans le décor
+- pas de mains déformées
+- pas de packaging réinventé — toujours la référence
+
+## Journal des créas
+
+> Rempli après chaque validation. C'est ce qui rend les suivantes plus rapides.
+
+| Date | Produit | Angle | Hook | Résultat | À refaire / éviter |
+|---|---|---|---|---|---|
+|  |  |  |  |  |  |
