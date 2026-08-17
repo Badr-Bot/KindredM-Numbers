@@ -253,7 +253,33 @@ export async function backfillOrderFeesOneStore(
       });
     const CHUNK = 250;
     for (let i = 0; i < rows.length; i += CHUNK) {
-      const { error } = await supabase.from("orders").upsert(rows.slice(i, i + CHUNK));
+      const chunk = rows.slice(i, i + CHUNK);
+      let { error } = await supabase.from("orders").upsert(chunk);
+      // Constat des 16-17/08 (v2 abandonné en silence, v3 en échec 23502) :
+      // malgré le filtre « ids déjà en base », Postgres refuse parfois le lot
+      // entier avec « null value in column store » — donc AU MOINS un id du
+      // lot n'existe pas (ou plus) au moment de l'écriture, cause exacte non
+      // identifiée (course avec une synchro concurrente ?). Auto-réparation :
+      // re-vérifier l'existence de chaque id du lot, réécrire l'intersection,
+      // et SIGNALER les ids fantômes — le diagnostic remonte au lieu de
+      // bloquer 1 200 commandes pour quelques lignes.
+      if (error && /store|not-null|23502/i.test(error.message ?? "")) {
+        const { data: existing, error: verifyError } = await supabase
+          .from("orders")
+          .select("id")
+          .in("id", chunk.map((r) => r.id));
+        if (!verifyError) {
+          const okIds = new Set((existing ?? []).map((r) => String(r.id)));
+          const kept = chunk.filter((r) => okIds.has(String(r.id)));
+          const dropped = chunk.filter((r) => !okIds.has(String(r.id)));
+          warnings.push(
+            `Frais Shopify ${config.market} (historique) : ${dropped.length} id(s) au bloc fees ABSENTS de la table orders ` +
+              `(ex. ${dropped.slice(0, 5).map((r) => r.id).join(", ")}) — écartés, le reste du lot est écrit. À investiguer.`
+          );
+          if (kept.length > 0) ({ error } = await supabase.from("orders").upsert(kept));
+          else error = null;
+        }
+      }
       if (error) throw error;
     }
 

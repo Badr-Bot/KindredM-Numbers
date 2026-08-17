@@ -554,7 +554,12 @@ const FEES_BACKFILL_VERSION_KEY = "fees_backfill_version";
 // du 18/07→14/08 sont restées au repli 3 % (détecté par la sentinelle).
 // backfillOrderFeesOneStore retente désormais un store 3 fois avant de
 // l'abandonner ; ce bump relance le rattrapage complet.
-const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-17-frais-reels-historique-v3";
+// v4 (17/08) : le v3 a capturé l'erreur exacte de FR/ES — « null value in
+// column store » : un lot d'upsert entier rejeté parce qu'AU MOINS un id du
+// lot n'existe pas dans orders au moment de l'écriture (malgré le filtre).
+// L'écriture est désormais auto-réparante : elle re-vérifie l'existence,
+// écrit l'intersection et signale les ids fantômes. Ce bump relance tout.
+const REQUIRED_FEES_BACKFILL_VERSION = "2026-08-17-frais-reels-historique-v4";
 
 const RESYNC_LOCK_KEY = "full_resync_in_progress_at";
 const RESYNC_LOCK_TTL_MS = 10 * 60 * 1000; // > maxDuration (300s) du backfill
