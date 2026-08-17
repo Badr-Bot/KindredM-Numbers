@@ -527,7 +527,15 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // v10 (08/08) : ORDERS_SINCE_DAY passe du 04/06 au 21/05 (« l'ecom a démarré
 // à partir du 21 mai », Badr) — va chercher les commandes Shopify du
 // 21/05 au 03/06 qui n'avaient jamais été téléchargées.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-14-gilet-primaire-packing-v12";
+// v13 (17/08, demande Badr : « va mettre les prix débardeur et chemise ») :
+// « Le Débardeur Compression » et « La Chemise Turenne — Édition Manches
+// Courtes » n'étaient dans AUCUN mapping → COGS compté 0 € sur toutes leurs
+// commandes (net trop optimiste, warning à chaque synchro). Les deux clés et
+// leurs grilles existaient déjà (COMPRESSION_TANK_TOP, SHORT_SLEEVE_DRESS_
+// SHIRT) : seul le lien titre→clé manquait, ajouté dans fix-products-map.yml.
+// Le COGS étant FIGÉ par commande à l'écriture, seul un re-téléchargement
+// applique les grilles aux commandes déjà en base — d'où ce bump.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-08-17-mapping-debardeur-chemise-mc-v13";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
