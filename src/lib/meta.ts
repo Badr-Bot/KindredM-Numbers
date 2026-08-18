@@ -386,3 +386,62 @@ export async function loadCampaignOverrides(
   if (error) return new Map();
   return new Map((data ?? []).map((r) => [r.campaign_id as string, r.market as Market]));
 }
+
+// ---------------------------------------------------------------------------
+// 🪜 Escalier — snapshot live des campagnes (statut, budget quotidien,
+// updated_time). Lecture seule, comme tout ce fichier côté décision.
+// ---------------------------------------------------------------------------
+
+export interface CampaignLiveInfo {
+  name: string | null;
+  active: boolean;
+  /** daily_budget Meta (CBO) en cents de la devise du compte. null = budget
+   * porté par les adsets (ABO) ou non exposé. */
+  dailyBudgetCents: number | null;
+  /** updated_time — PROXY du dernier changement de budget : il marque
+   * n'importe quelle modification de la campagne. */
+  updatedTime: string | null;
+}
+
+interface MetaCampaignsBudgetRow {
+  id: string;
+  name?: string;
+  effective_status: string;
+  daily_budget?: string;
+  updated_time?: string;
+}
+
+export async function fetchCampaignLiveInfos(): Promise<Map<string, CampaignLiveInfo>> {
+  const token = process.env.META_ACCESS_TOKEN;
+  const accountId = process.env.META_AD_ACCOUNT_ID;
+  if (!token || !accountId) {
+    throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
+  }
+  const infos = new Map<string, CampaignLiveInfo>();
+  const params = new URLSearchParams({
+    fields: "id,name,effective_status,daily_budget,updated_time",
+    limit: "500",
+    access_token: token,
+  });
+  let url: string | null =
+    `https://graph.facebook.com/${API_VERSION}/act_${accountId}/campaigns?` + params.toString();
+
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Meta API error ${res.status}: ${await res.text()}`);
+    }
+    const body: { data: MetaCampaignsBudgetRow[]; paging?: { next?: string } } = await res.json();
+    for (const row of body.data) {
+      const budget = row.daily_budget ? Number(row.daily_budget) : NaN;
+      infos.set(row.id, {
+        name: row.name ?? null,
+        active: row.effective_status === "ACTIVE",
+        dailyBudgetCents: Number.isFinite(budget) && budget > 0 ? Math.round(budget) : null,
+        updatedTime: row.updated_time ?? null,
+      });
+    }
+    url = body.paging?.next ?? null;
+  }
+  return infos;
+}
