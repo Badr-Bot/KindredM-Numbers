@@ -13,7 +13,7 @@ const ITEMS = [
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
   { href: "/analyse", label: "Analyse", emoji: "📊" },
   { href: "/creas", label: "Créas", emoji: "🎬" },
-  { href: "/escalier", label: "Escalier", emoji: "🪜" },
+  { href: "/scaling", label: "Scaling", emoji: "🪜" },
 ];
 // /controle existe toujours (affectation d'une campagne Meta toute neuve à
 // un marché, lien direct depuis le bandeau ⚠️ du Live) mais n'est plus dans
