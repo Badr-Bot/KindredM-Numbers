@@ -3,10 +3,12 @@ import {
   budgetAtDayStart,
   classifyCampaignProduct,
   computeScaling,
+  decisionDayFor,
   MONTEE_PALIERS_CENTS,
   nextPalierCents,
   PLANCHER_BUDGET_CENTS,
   reductionCents,
+  scaleTargetCents,
   type ProductThresholdsInput,
   type ScalingDailyRow,
 } from "../scaling";
@@ -86,6 +88,18 @@ describe("échelle de montée et réduction (T35/T24)", () => {
     expect(reductionCents(30000)).toBe(25500); // 300 € → 255 €
     expect(reductionCents(10500)).toBe(PLANCHER_BUDGET_CENTS);
   });
+  it("montée : ×2 plafonné à 500 € sous 500, palier par palier au-dessus (lecture Badr)", () => {
+    expect(scaleTargetCents(20000)).toBe(40000); // 200 → 400 (×2, sous le plafond)
+    expect(scaleTargetCents(30000)).toBe(50000); // 300 → ×2 = 600 plafonné à 500
+    expect(scaleTargetCents(50000)).toBe(75000); // dès 500 : palier suivant
+    expect(scaleTargetCents(127_50)).toBe(25500); // 127,50 → ×2 = 255
+  });
+  it("bascule 7 h : avant 7 h le jour de décision est HIER", () => {
+    expect(decisionDayFor(TODAY, 0)).toBe(d(17));
+    expect(decisionDayFor(TODAY, 6)).toBe(d(17));
+    expect(decisionDayFor(TODAY, 7)).toBe(TODAY);
+    expect(decisionDayFor(TODAY, 15)).toBe(TODAY);
+  });
 });
 
 describe("fenêtres : hier + aujourd'hui en dernier", () => {
@@ -125,8 +139,8 @@ describe("verdicts et crans (décision de la nuit)", () => {
     const c = r.campaigns[0];
     expect(c.action).toBe("SCALE");
     expect(c.cran).toBeNull();
-    expect(c.suggestedCents).toBe(50000);
-    expect(c.suggestedMaxCents).toBe(60000); // ×2 si tout est parfait
+    expect(c.suggestedCents).toBe(50000); // 300 → ×2 = 600 plafonné à 500
+    expect(c.suggestedMaxCents).toBeNull();
     expect(c.creasRequired).toBe(true);
   });
 
@@ -222,6 +236,63 @@ describe("garde-fous", () => {
     ];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns.map((c) => c.campaignId)).toEqual(["dead", "win"]);
+  });
+});
+
+describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)", () => {
+  const move = (time: string, oldEur: number, newEur: number, id = "c1") => ({
+    campaignId: id,
+    campaignName: "POLO A",
+    eventTime: time,
+    kind: "budget" as const,
+    oldBudgetCents: oldEur * 100,
+    newBudgetCents: newEur * 100,
+    statusTo: null,
+  });
+
+  it("série de NON mais AUCUNE réduction exécutée → plafonné à DESCALE, jamais RESCUE", () => {
+    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: [] });
+    expect(r.campaigns[0].action).toBe("DESCALE");
+    expect(r.campaigns[0].why).toContain("aucune réduction encore exécutée");
+  });
+
+  it("le streak ne compte qu'à partir du premier mouvement de budget réel", () => {
+    // NON depuis le 12, mais premier mouvement le 17 → seules les fenêtres
+    // finissant le 17+ comptent : streak 2 → DESCALE cran 2, pas RESCUE.
+    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: null,
+      activities: [move("2026-08-17T23:28:00+0200", 150, 128)],
+    });
+    expect(r.campaigns[0].nonStreak).toBe(2);
+    expect(r.campaigns[0].action).toBe("DESCALE");
+  });
+
+  it("RESCUE possible une fois les réductions réellement déroulées", () => {
+    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: null,
+      activities: [
+        move("2026-08-12T00:30:00+0200", 300, 255),
+        move("2026-08-13T00:30:00+0200", 255, 216),
+        move("2026-08-14T00:30:00+0200", 216, 184),
+      ],
+    });
+    expect(r.campaigns[0].action).toBe("RESCUE");
+  });
+
+  it("mode nuit (liveDay=false) : fenêtres figées finissant au jour de décision, rien en cours", () => {
+    const r = computeScaling({ today: d(17), rows: mkSeries([0.2]), thresholds: TH, live: null, activities: null, liveDay: false });
+    expect(r.mode).toBe("night");
+    expect(r.windowLabels[r.windowLabels.length - 1]).toBe("16+17");
+    expect(r.campaigns[0].windows.every((w) => !w.inProgress)).toBe(true);
   });
 });
 

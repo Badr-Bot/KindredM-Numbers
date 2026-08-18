@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
-import { buildScalingReport } from "@/lib/scaling";
+import { formatInTimeZone } from "date-fns-tz";
+import { BASCULE_HEURE, buildScalingReport, decisionDayFor } from "@/lib/scaling";
 import { todayParisDay } from "@/lib/time";
 
 export const dynamic = "force-dynamic";
@@ -22,14 +23,18 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const raw = searchParams.get("day");
-  const day = !raw || raw === "today" ? todayParisDay() : raw;
+  const parisHour = Number(formatInTimeZone(new Date(), "Europe/Paris", "H"));
+  // Sans paramètre : règle horaire (00h-07h = veille figée, ensuite jour J
+  // live). Avec ?day= : rejeu d'un jour précis, fenêtre figée.
+  const day = !raw || raw === "today" ? decisionDayFor(todayParisDay(), parisHour) : raw;
+  const liveDay = (!raw || raw === "today") && parisHour >= BASCULE_HEURE;
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
     return NextResponse.json({ error: `jour invalide : ${day} (attendu YYYY-MM-DD)` }, { status: 400 });
   }
 
   try {
-    const report = await buildScalingReport(createSupabaseServerClient(), day);
+    const report = await buildScalingReport(createSupabaseServerClient(), day, liveDay);
     return NextResponse.json(report);
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message, day }, { status: 500 });
