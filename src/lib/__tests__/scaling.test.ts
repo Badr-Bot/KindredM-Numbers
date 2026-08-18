@@ -88,21 +88,23 @@ describe("échelle de montée et réduction (T35/T24)", () => {
   });
 });
 
-describe("fenêtres : closes + en cours", () => {
-  it("6 fenêtres closes finissant à HIER + 1 fenêtre en cours finissant AUJOURD'HUI", () => {
+describe("fenêtres : hier + aujourd'hui en dernier", () => {
+  it("6 fenêtres 2 jours, la dernière = hier + aujourd'hui (en cours)", () => {
     const r = computeScaling({ today: TODAY, rows: [], thresholds: TH, live: null, activities: null });
-    expect(r.officialEndDay).toBe(d(17));
-    expect(r.windowLabels).toEqual(["11+12", "12+13", "13+14", "14+15", "15+16", "16+17", "17+18"]);
+    expect(r.windowLabels).toEqual(["12+13", "13+14", "14+15", "15+16", "16+17", "17+18"]);
   });
 
-  it("la décision de la nuit ignore le jour en cours : verdict stable toute la journée", () => {
-    // 7 jours clos excellents ; aujourd'hui catastrophique (attribution vide).
-    const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, 0.1)];
+  it("la décision se prend sur hier + aujourd'hui et bouge en live (formation : les 2 derniers jours)", () => {
+    // Jours 12-17 excellents ; aujourd'hui bon aussi → la fenêtre 17+18 est
+    // jugée avec le jour même dedans, flag en cours.
+    const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.25))];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const c = r.campaigns[0];
-    expect(c.action).toBe("SCALE"); // la nuit a dit OUI, le jour partiel ne change rien
-    expect(c.windows[c.windows.length - 1].inProgress).toBe(true);
-    expect(c.liveVerdict).toBe("NON"); // mais le provisoire est visible
+    expect(c.action).toBe("SCALE");
+    const lastW = c.windows[c.windows.length - 1];
+    expect(lastW.inProgress).toBe(true);
+    expect(lastW.verdict).toBe("OUI");
+    expect(c.why).toContain("fenêtre en cours");
   });
 
   it("label lisible quand la fenêtre chevauche deux mois", () => {
@@ -129,7 +131,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
   });
 
   it("1 NON isolé → ATTENDRE cran 1 ; tout NON → SAUVETAGE avec diagnostic", () => {
-    const one = computeScaling({ today: TODAY, rows: [row(d(17), "c1", "POLO A", 100, 1.5)], thresholds: TH, live: null, activities: null });
+    const one = computeScaling({ today: TODAY, rows: [row(TODAY, "c1", "POLO A", 100, 1.5)], thresholds: TH, live: null, activities: null });
     expect(one.campaigns[0].cran).toBe(1);
     expect(one.campaigns[0].action).toBe("HOLD");
 
@@ -158,8 +160,10 @@ describe("verdicts et crans (décision de la nuit)", () => {
     expect(r.campaigns[0].action).not.toBe("RESCUE");
   });
 
-  it("un trou de diffusion CASSE la série de NON", () => {
-    const rows = [row(d(11), "c1", "POLO A", 100, 1.2), row(d(12), "c1", "POLO A", 100, 1.2), row(d(17), "c1", "POLO A", 100, 1.2)];
+  it("un trou de diffusion CASSE la série de NON (relance ≠ sauvetage)", () => {
+    // NON les 12-13, pause, relance aujourd'hui en NON : la vieille série ne
+    // compte plus — jamais RESCUE après une relance.
+    const rows = [row(d(12), "c1", "POLO A", 100, 1.2), row(d(13), "c1", "POLO A", 100, 1.2), row(TODAY, "c1", "POLO A", 100, 1.2)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns[0].nonStreak).toBe(1);
     expect(r.campaigns[0].action).toBe("HOLD");
@@ -168,7 +172,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
 
 describe("garde-fous", () => {
   it("dépense sans vente : la campagne APPARAÎT, zone below", () => {
-    const rows = [row(d(16), "c9", "POLO MORT", 150, 0), row(d(17), "c9", "POLO MORT", 150, 0)];
+    const rows = [row(d(17), "c9", "POLO MORT", 150, 0), row(TODAY, "c9", "POLO MORT", 150, 0)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns).toHaveLength(1);
     expect(r.campaigns[0].windows[5].zone).toBe("below");
@@ -184,8 +188,8 @@ describe("garde-fous", () => {
 
   it("réserve d'échantillon : < 15 conversions sur la fenêtre jugée → lowSample", () => {
     const rows = [
-      row(d(16), "c1", "CBO — LANCASTER", 100, 1.41, { purchases: 4 }),
       row(d(17), "c1", "CBO — LANCASTER", 100, 1.41, { purchases: 4 }),
+      row(TODAY, "c1", "CBO — LANCASTER", 100, 1.41, { purchases: 4 }),
     ];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns[0].product).toBe("GILET");
@@ -221,12 +225,13 @@ describe("garde-fous", () => {
   });
 });
 
-describe("campagne lancée aujourd'hui (fix review v2)", () => {
-  it("aucune fenêtre close jugeable → PAS de décision inventée, warning", () => {
-    const rows = [row(TODAY, "new1", "POLO NEUVE", 100, 0.5)]; // spend uniquement aujourd'hui
+describe("campagne lancée aujourd'hui", () => {
+  it("jugeable dès aujourd'hui (fenêtre hier+aujourd'hui), jamais de RESCUE fabriqué", () => {
+    const rows = [row(TODAY, "new1", "POLO NEUVE", 100, 0.5)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
-    expect(r.campaigns).toHaveLength(0);
-    expect(r.warnings.some((w) => w.includes("POLO NEUVE") && w.includes("première décision cette nuit"))).toBe(true);
+    expect(r.campaigns).toHaveLength(1);
+    expect(r.campaigns[0].action).toBe("HOLD"); // 1er NON, cran 1
+    expect(r.campaigns[0].windows[5].inProgress).toBe(true);
   });
 });
 
@@ -263,13 +268,32 @@ describe("budgets depuis le journal d'activités Meta", () => {
       live: new Map([["c1", { active: true, dailyBudgetCents: 12800, updatedTime: null }]]),
       activities: [move("2026-08-17T23:28:00+0200", 150, 128)],
     });
-    const t = r.campaigns[0].dailyTable;
-    expect(t).toHaveLength(10);
+    const c = r.campaigns[0];
+    const t = c.dailyTable;
+    expect(t).toHaveLength(10); // l'old_value du move rend tout l'historique connu
     expect(t[t.length - 1].isToday).toBe(true);
     expect(t[t.length - 1].budgetCents).toBe(12800); // aujourd'hui = live
     expect(t[t.length - 2].budgetCents).toBe(15000); // hier : l'ancien budget
     expect(t[t.length - 2].spendCents).toBe(10000);
     expect(t[t.length - 2].roas).toBeCloseTo(roasForMargin(0.626, 0.2), 3);
+    expect(c.budgetSinceLabel).toBe("17/08 23h28"); // « depuis » de l'affichage compact
+  });
+
+  it("sans activités Meta : le tracking commence AUJOURD'HUI (pas de lignes vides du passé)", () => {
+    const r = computeScaling({
+      today: TODAY,
+      rows: mkSeries([0.2]),
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 12800, updatedTime: null }]]),
+      activities: [],
+    });
+    const t = r.campaigns[0].dailyTable;
+    expect(t).toHaveLength(10); // budget live connu → appliqué comme courant
+    // ...mais si AUCUN budget n'est connu (ni live ni override), seule la
+    // ligne du jour reste :
+    const r2 = computeScaling({ today: TODAY, rows: mkSeries([0.2]), thresholds: TH, live: null, activities: [] });
+    expect(r2.campaigns[0].dailyTable).toHaveLength(1);
+    expect(r2.campaigns[0].dailyTable[0].isToday).toBe(true);
   });
 
   it("les derniers mouvements Meta sont exposés, plus récents d'abord", () => {
