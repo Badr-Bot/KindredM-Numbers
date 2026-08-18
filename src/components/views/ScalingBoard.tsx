@@ -213,9 +213,7 @@ function DailyTable({ c }: { c: ScalingCampaign }) {
 }
 
 function CampaignPanel({ c }: { c: ScalingCampaign }) {
-  const closed = c.windows.filter((w) => !w.inProgress);
-  const lastClosed = [...closed].reverse().find((w) => w.verdict !== null) ?? closed[closed.length - 1];
-  const live = c.windows[c.windows.length - 1];
+  const judged = [...c.windows].reverse().find((w) => w.verdict !== null) ?? c.windows[c.windows.length - 1];
   return (
     <section className="card-shadow rounded-xl border border-line bg-panel">
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-line-soft p-3.5">
@@ -259,16 +257,16 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
         <dl className="flex flex-wrap gap-x-4 gap-y-1">
           {[
             {
-              t: `Fenêtre jugée (${lastClosed?.label ?? "—"})`,
-              v: lastClosed?.margin == null ? "—" : formatPct(lastClosed.margin),
-              cls: lastClosed ? ZONE_TEXT[lastClosed.zone] : "text-ink-faint",
+              t: `Fenêtre de décision (${judged.label}${judged.inProgress ? " ⏳" : ""})`,
+              v: judged.margin === null ? "—" : formatPct(judged.margin),
+              cls: ZONE_TEXT[judged.zone],
             },
             {
-              t: `Aujourd'hui ⏳ (${live.label})`,
-              v: live.margin === null ? "—" : formatPct(live.margin),
-              cls: ZONE_TEXT[live.zone],
+              t: "ROAS fenêtre",
+              v: judged.roas === null ? "—" : `${formatRoasBare(judged.roas)}×`,
+              cls: ZONE_TEXT[judged.zone],
             },
-            { t: "Conversions (fenêtre jugée)", v: String(lastClosed?.purchases ?? 0), cls: c.lowSample ? "text-amber" : "text-ink" },
+            { t: "Conversions", v: String(judged.purchases), cls: c.lowSample ? "text-amber" : "text-ink" },
           ].map((m) => (
             <div key={m.t}>
               <dt className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">{m.t}</dt>
@@ -281,29 +279,38 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
         </div>
       </div>
 
-      <div className="border-t border-line-soft p-3.5">
-        <h3 className="mb-1 text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-          Budget vs spend, jour par jour (même budget = même couleur)
-        </h3>
-        <DailyTable c={c} />
-      </div>
+      <details className="group border-t border-line-soft">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
+          <span className="flex items-center gap-2">
+            <span className={`tnum inline-block rounded border px-1.5 py-0.5 text-[10.5px] font-bold ${BUDGET_CHIP_CURRENT}`}>
+              {c.budgetCents !== null ? `${eur(c.budgetCents)}/j` : "budget ?"}
+            </span>
+            <span className="text-ink-dim">
+              {c.budgetSinceLabel ? `depuis le ${c.budgetSinceLabel}` : "budget actuel (Meta)"}
+            </span>
+          </span>
+          <span className="text-[10px] text-ink-faint transition-transform group-open:rotate-180">▾ historique</span>
+        </summary>
+        <div className="px-3.5 pb-3">
+          <DailyTable c={c} />
+        </div>
+      </details>
 
       <div className="border-t border-line-soft p-3.5 text-[11px] leading-relaxed text-ink-dim">
         <p>
           <b className="text-ink">{c.why}</b>
         </p>
-        {c.liveVerdict !== null && (
+        {judged.inProgress && (
           <p className="mt-1">
-            ⏳ <b className="text-ink">Fenêtre en cours ({live.label})</b> : marge{" "}
-            {live.margin === null ? "—" : formatPct(live.margin)} → si ça tient jusqu&apos;à minuit, prochaine décision ={" "}
-            <b className={`uppercase ${ACTION_META[c.liveAction ?? c.action].text}`}>{ACTION_META[c.liveAction ?? c.action].label}</b>. Provisoire :
-            l&apos;attribution Meta du jour même sous-estime et se corrige en 24-72 h — ce chiffre ne peut que monter.
+            ⏳ <b className="text-ink">Fenêtre en cours</b> : la journée n&apos;est pas finie et l&apos;attribution Meta se
+            remplit en 24-72 h — cette marge ne peut que <b className="text-ink">monter</b> d&apos;ici minuit. Exécute le
+            mouvement entre minuit et 1 h, sur le chiffre figé.
           </p>
         )}
         {c.sauvetageDiagnostic && <p className="mt-1 text-red">🩺 {c.sauvetageDiagnostic}</p>}
         {c.lowSample && (
           <p className="mt-1 text-amber">
-            ⚠️ {lastClosed?.purchases ?? 0} conversions sur la fenêtre jugée (&lt; 15) : traite ce verdict comme un ajustement,
+            ⚠️ {judged.purchases} conversions sur la fenêtre (&lt; 15) : traite ce verdict comme un ajustement,
             pas comme un jugement sur le produit.
           </p>
         )}
@@ -335,11 +342,11 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] leading-relaxed text-ink-dim">
-        <b className="text-ink">La décision de la nuit</b> se prend sur la fenêtre close{" "}
-        <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 2]}</b> — stable toute la journée ;
-        les budgets et leurs mouvements sont <b className="text-ink">lus sur Meta</b> (journal d&apos;activités du compte).
-        La fenêtre <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]} ⏳</b> tourne en live
-        avec le jour même. Marge ≥ 15 % → <b className="text-phosphor">SCALE</b> (échelle{" "}
+        <b className="text-ink">Fenêtre de décision : hier + aujourd&apos;hui</b>{" "}
+        (<b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]} ⏳</b>) — elle tourne en live et
+        se fige à minuit, l&apos;exécution se fait entre 00 h et 1 h. Budgets et mouvements{" "}
+        <b className="text-ink">lus sur Meta</b> (journal d&apos;activités du compte). Marge ≥ 15 % →{" "}
+        <b className="text-phosphor">SCALE</b> (échelle{" "}
         <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>, SURFSCALE ×2 si parfait) ; sinon un
         cran par nuit : <b className="text-amber">HOLD</b> · <b className="text-red">DESCALE −15 %</b> ·{" "}
         <b className="text-red">DESCALE −15 %</b> · <b className="text-red">RESCUE</b>. Plancher 100 €/j.

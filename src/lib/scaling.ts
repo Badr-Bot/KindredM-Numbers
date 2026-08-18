@@ -37,17 +37,16 @@ import { formatInTimeZone } from "date-fns-tz";
 // rentables » [12:50], attribution click ≥ 70 % [13:11]). Aucune campagne n'y
 // est : l'onglet le SIGNALE au lieu d'appliquer le mauvais régime en silence.
 //
-// DEUX verdicts par campagne (demande Badr 18/08) :
-//  • la DÉCISION DE LA NUIT (fenêtre close, hier compris) — stable toute la
-//    journée, c'est elle qu'on exécute entre minuit et 1 h ;
-//  • la fenêtre EN COURS (avec le jour même, partiel) — PROVISOIRE, se met à
-//    jour dans la journée. ⚠️ le ROAS Meta du jour J SOUS-ESTIME (attribution
-//    24-72 h, fait vérifié) : ce provisoire ne peut que MONTER.
+// LA fenêtre de décision = HIER + AUJOURD'HUI (retour Badr 18/08 : « on est
+// le 18, la décision c'est aujourd'hui plus la veille ») : le verdict tourne
+// en continu dans la journée et se fige à minuit. ⚠️ le ROAS Meta du jour J
+// SOUS-ESTIME (attribution 24-72 h, fait vérifié) : le verdict du jour ne
+// peut que S'AMÉLIORER d'ici minuit — l'exécution reste le geste de 00h-01h.
 //
-// L'application des décisions est VÉRIFIÉE sur Meta (journal d'activités du
-// compte : changements de budget ancien → nouveau, horodatés) — plus aucun
-// pointage manuel. Ce module RECOMMANDE, il n'exécute jamais (aucune écriture
-// Meta ; Badr applique lui-même).
+// Les budgets et leurs mouvements sont LUS sur Meta (journal d'activités du
+// compte : changements ancien → nouveau, horodatés) — aucun pointage manuel.
+// Ce module RECOMMANDE, il n'exécute jamais (aucune écriture Meta ; Badr
+// applique lui-même).
 // ---------------------------------------------------------------------------
 
 export type ScalingProduct = "GILET" | "POLO";
@@ -81,7 +80,7 @@ export const SEUIL_OUI = 0.15;
 /** Sous ~15 conversions sur la fenêtre le verdict est un ajustement, pas un
  * jugement sur le produit (réserve d'échantillon — cf. Lancaster à 8 conv). */
 export const MIN_CONVERSIONS_FIABLES = 15;
-/** Fenêtres CLOSES affichées (la fenêtre en cours s'y ajoute). */
+/** Fenêtres affichées (la dernière = hier + aujourd'hui, en cours). */
 export const NB_FENETRES = 6;
 /** Profondeur du tableau jour par jour. */
 export const NB_JOURS_TABLEAU = 10;
@@ -163,28 +162,22 @@ export interface ScalingCampaign {
   /** Seuils du produit, affichés sur la carte (demande Badr). */
   breakEven: number | null;
   target: number | null;
-  /** 6 fenêtres closes + 1 fenêtre en cours (inProgress). */
+  /** 6 fenêtres 2 jours ; la dernière (hier + aujourd'hui) est en cours. */
   windows: ScalingWindow[];
-  // -- Décision de la nuit (fenêtre close) : STABLE toute la journée --
   nonStreak: number;
   cran: 1 | 2 | 3 | 4 | null;
   action: ScalingAction;
   /** UN chiffre : le budget cible à appliquer (−15 % ou palier suivant). */
   suggestedCents: number | null;
-  /** Borne haute optionnelle de la montée (« ×2 si tout est parfait »). */
+  /** Borne haute de la montée (SURFSCALE ×2 si tout est parfait). */
   suggestedMaxCents: number | null;
-  /** Vérifié sur Meta : la décision de la nuit a-t-elle été exécutée ? */
-  applied: "done" | "todo" | "nothing_to_do" | "unknown";
-  appliedDetail: string | null;
-  // -- Fenêtre en cours (jour même, partiel) : PROVISOIRE --
-  liveVerdict: "OUI" | "NON" | null;
-  liveMargin: number | null;
-  liveAction: ScalingAction | null;
   // -- Contexte --
   budgetCents: number | null;
   budgetEstimated: boolean;
   /** Derniers changements de budget lus sur Meta (les plus récents d'abord). */
   moves: BudgetMove[];
+  /** « depuis 17/08 23h28 » — horodatage du dernier changement de budget. */
+  budgetSinceLabel: string | null;
   /** Tableau jour par jour : budget (pastille couleur côté UI) + spend + ROAS. */
   dailyTable: DailyBudgetSpendRow[];
   lowSample: boolean;
@@ -197,10 +190,8 @@ export interface ScalingCampaign {
 }
 
 export interface ScalingReport {
-  /** Jour même (Europe/Paris) — la fenêtre en cours finit ici. */
+  /** Jour même (Europe/Paris) — la fenêtre de décision (hier + aujourd'hui) finit ici. */
   today: string;
-  /** Dernier jour CLOS — la décision de la nuit se prend sur la fenêtre qui finit ici. */
-  officialEndDay: string;
   windowLabels: string[];
   thresholds: Record<ScalingProduct, ProductThresholdsInput | null>;
   campaigns: ScalingCampaign[];
@@ -337,16 +328,14 @@ export function computeScaling(input: {
   const { today, rows, thresholds, live, activities } = input;
   const overrides = input.budgetOverridesCents ?? null;
   const warnings: string[] = [];
-  const officialEndDay = addDaysToDay(today, -1);
 
-  // 6 fenêtres closes (la plus récente finit HIER) + la fenêtre en cours
-  // (finit AUJOURD'HUI, partielle, provisoire).
+  // 6 fenêtres 2 jours glissantes ; la plus récente = HIER + AUJOURD'HUI
+  // (en cours, se met à jour dans la journée).
   const windowDefs: { startDay: string; endDay: string; inProgress: boolean }[] = [];
   for (let k = NB_FENETRES - 1; k >= 0; k--) {
-    const e = addDaysToDay(officialEndDay, -k);
-    windowDefs.push({ startDay: addDaysToDay(e, -1), endDay: e, inProgress: false });
+    const e = addDaysToDay(today, -k);
+    windowDefs.push({ startDay: addDaysToDay(e, -1), endDay: e, inProgress: k === 0 });
   }
-  windowDefs.push({ startDay: officialEndDay, endDay: today, inProgress: true });
   const windowLabels = windowDefs.map((w) => windowLabel(w.startDay, w.endDay));
 
   // Regroupement des lignes journalières par campagne.
@@ -437,9 +426,6 @@ export function computeScaling(input: {
       };
     });
 
-    const closedWindows = winData.slice(0, NB_FENETRES);
-    const liveWindow = winData[winData.length - 1];
-
     if (winData.every((w) => w.roas === null)) continue;
     if (winData.every((w) => w.verdict === null)) {
       warnings.push(
@@ -448,25 +434,10 @@ export function computeScaling(input: {
       continue;
     }
 
-    // -- Décision de la nuit : sur les fenêtres CLOSES uniquement --
-    const { nonStreak, lastIdx } = streakOf(closedWindows);
-    const hasClosedVerdict = lastIdx >= 0;
-    // Campagne lancée/relancée AUJOURD'HUI : aucune fenêtre close jugeable —
-    // on n'invente pas de décision (le bug inverse fabriquait un SCALE avec
-    // un « OUI » à marge négative). Première décision cette nuit.
-    if (!hasClosedVerdict) {
-      const lm = liveWindow.margin === null ? "—" : `${(liveWindow.margin * 100).toFixed(1)} %`;
-      warnings.push(
-        `${entry.name} : lancée/relancée aujourd'hui, aucune fenêtre close jugeable — première décision cette nuit (live : marge ${lm}, provisoire).`
-      );
-      continue;
-    }
+    // -- Décision : sur la fenêtre hier + aujourd'hui (streak complet) --
+    const { nonStreak, lastIdx } = streakOf(winData);
     const action = actionFromStreak(nonStreak);
-    const last = closedWindows[lastIdx];
-
-    // -- Fenêtre en cours : verdict provisoire --
-    const liveStreak = streakOf(winData);
-    const liveAction = liveWindow.verdict === null ? null : actionFromStreak(liveStreak.nonStreak);
+    const last = winData[lastIdx];
 
     // Budget : override > live Meta > estimation.
     const budgetOverride = overrides?.[campaignId];
@@ -487,12 +458,22 @@ export function computeScaling(input: {
       }))
       .reverse();
 
-    // Tableau jour par jour : budget au début du jour + spend + ROAS.
+    // Tableau jour par jour : budget au début du jour + spend + ROAS. Le
+    // tracking commence là où on SAIT (activités Meta / live) : les jours du
+    // passé sans budget connu ne s'affichent pas (retour Badr 18/08).
     const tableDays: string[] = [];
     for (let k = NB_JOURS_TABLEAU - 1; k >= 0; k--) tableDays.push(addDaysToDay(today, -k));
     // override > live (jamais l'estimation : le tableau n'affiche que du sûr)
     const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? null, tableDays);
-    const dailyTable: DailyBudgetSpendRow[] = tableDays.map((day, i) => {
+    let firstKnown = tableDays.length - 1; // au minimum le jour même
+    for (let i = 0; i < tableDays.length; i++) {
+      if (budgets[i] !== null) {
+        firstKnown = i;
+        break;
+      }
+    }
+    const dailyTable: DailyBudgetSpendRow[] = tableDays.slice(firstKnown).map((day, j) => {
+      const i = firstKnown + j;
       const row = entry.days.get(day);
       const spend = row?.spendCents ?? 0;
       const value = row?.purchaseValueCents ?? 0;
@@ -504,6 +485,10 @@ export function computeScaling(input: {
         isToday: day === today,
       };
     });
+    // « dernier budget + date/heure » pour l'affichage compact : l'horodatage
+    // du dernier changement Meta ; sans historique, le live sans date.
+    const lastMoveActivity = rawMoves.length > 0 ? rawMoves[rawMoves.length - 1] : null;
+    const budgetSinceLabel = lastMoveActivity ? fmtParis(lastMoveActivity.eventTime, "dd/MM HH'h'mm") : null;
 
     // Prescription : UN chiffre.
     let suggestedCents: number | null = null;
@@ -516,56 +501,22 @@ export function computeScaling(input: {
       suggestedCents = reductionCents(budgetCents);
     }
 
-    // Application vérifiée sur Meta : un changement de budget depuis 21h la
-    // veille du jour même (les décisions se prennent entre 23h et 1h).
-    const appliedSince = `${officialEndDay} 21:00`;
-    const movesSince = rawMoves.filter((m) => fmtParis(m.eventTime, "yyyy-MM-dd HH:mm") >= appliedSince);
-    let applied: ScalingCampaign["applied"];
-    let appliedDetail: string | null = null;
-    const fmtMove = (m: CampaignActivity) =>
-      `${m.oldBudgetCents !== null ? Math.round(m.oldBudgetCents / 100) : "?"} € → ${
-        m.newBudgetCents !== null ? Math.round(m.newBudgetCents / 100) : "?"
-      } € (${fmtParis(m.eventTime, "dd/MM HH'h'mm")})`;
-    if (!activities) {
-      applied = "unknown";
-      appliedDetail = "Journal d'activités Meta indisponible — application non vérifiable.";
-    } else if (action === "HOLD" || action === "RESCUE") {
-      applied = "nothing_to_do";
-      if (movesSince.length > 0) appliedDetail = `Mouvement détecté quand même : ${fmtMove(movesSince[movesSince.length - 1])}.`;
-    } else {
-      const wanted = action === "DESCALE" ? -1 : 1;
-      const match = movesSince.find(
-        (m) =>
-          m.oldBudgetCents !== null &&
-          m.newBudgetCents !== null &&
-          Math.sign(m.newBudgetCents - m.oldBudgetCents) === wanted
-      );
-      if (match) {
-        applied = "done";
-        appliedDetail = `Vu sur Meta : ${fmtMove(match)}.`;
-      } else {
-        applied = "todo";
-        appliedDetail =
-          movesSince.length > 0 ? `Seul mouvement vu : ${fmtMove(movesSince[movesSince.length - 1])}.` : null;
-      }
-    }
-
-    // Saturation créative : CPMr de la dernière fenêtre JUGÉE (close) vs
-    // médiane des fenêtres closes précédentes.
-    const prevCpmrs = closedWindows.slice(0, Math.max(0, lastIdx)).map((w) => w.cpmr).filter((v): v is number => v !== null);
+    // Saturation créative : CPMr de la dernière fenêtre jugée vs médiane des
+    // fenêtres précédentes.
+    const prevCpmrs = winData.slice(0, Math.max(0, lastIdx)).map((w) => w.cpmr).filter((v): v is number => v !== null);
     const cpmrMed = median(prevCpmrs);
     const cpmrRising = cpmrMed !== null && last.cpmr !== null && last.cpmr > cpmrMed * 1.2;
 
     const cran: ScalingCampaign["cran"] = nonStreak === 0 ? null : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
     const lowSample = last.purchases < MIN_CONVERSIONS_FIABLES;
     const creasRequired = action === "SCALE" || action === "DESCALE" || action === "RESCUE";
-    const recentVerdicts = closedWindows.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
+    const recentVerdicts = winData.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
     let flips = 0;
     for (let i = 1; i < recentVerdicts.length; i++) if (recentVerdicts[i] !== recentVerdicts[i - 1]) flips++;
     const unstable = flips >= 2;
-    const sauvetageDiagnostic = action === "RESCUE" ? diagnoseSauvetage(closedWindows, lastIdx) : null;
+    const sauvetageDiagnostic = action === "RESCUE" ? diagnoseSauvetage(winData, lastIdx) : null;
 
-    const marginTxt = last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1)} %`;
+    const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1)} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
     const why =
       action === "SCALE"
         ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro → SCALE au palier suivant + créas neuves (T35).`
@@ -595,14 +546,10 @@ export function computeScaling(input: {
       action,
       suggestedCents,
       suggestedMaxCents,
-      applied,
-      appliedDetail,
-      liveVerdict: liveWindow.verdict,
-      liveMargin: liveWindow.margin,
-      liveAction,
       budgetCents,
       budgetEstimated,
       moves: moves.slice(0, 6),
+      budgetSinceLabel,
       dailyTable,
       lowSample,
       cpmrRising,
@@ -631,7 +578,7 @@ export function computeScaling(input: {
     warnings.push("Seuils produit non calculables (commandes illisibles) : aucun verdict fiable.");
   }
 
-  return { today, officialEndDay, windowLabels, thresholds, campaigns, warnings };
+  return { today, windowLabels, thresholds, campaigns, warnings };
 }
 
 // ---------------------------------------------------------------------------
