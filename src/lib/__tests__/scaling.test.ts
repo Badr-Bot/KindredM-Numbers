@@ -100,7 +100,7 @@ describe("fenêtres : closes + en cours", () => {
     const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, 0.1)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const c = r.campaigns[0];
-    expect(c.action).toBe("MONTER"); // la nuit a dit OUI, le jour partiel ne change rien
+    expect(c.action).toBe("SCALE"); // la nuit a dit OUI, le jour partiel ne change rien
     expect(c.windows[c.windows.length - 1].inProgress).toBe(true);
     expect(c.liveVerdict).toBe("NON"); // mais le provisoire est visible
   });
@@ -121,7 +121,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
       activities: [],
     });
     const c = r.campaigns[0];
-    expect(c.action).toBe("MONTER");
+    expect(c.action).toBe("SCALE");
     expect(c.cran).toBeNull();
     expect(c.suggestedCents).toBe(50000);
     expect(c.suggestedMaxCents).toBe(60000); // ×2 si tout est parfait
@@ -131,10 +131,10 @@ describe("verdicts et crans (décision de la nuit)", () => {
   it("1 NON isolé → ATTENDRE cran 1 ; tout NON → SAUVETAGE avec diagnostic", () => {
     const one = computeScaling({ today: TODAY, rows: [row(d(17), "c1", "POLO A", 100, 1.5)], thresholds: TH, live: null, activities: null });
     expect(one.campaigns[0].cran).toBe(1);
-    expect(one.campaigns[0].action).toBe("ATTENDRE");
+    expect(one.campaigns[0].action).toBe("HOLD");
 
     const all = computeScaling({ today: TODAY, rows: mkSeries([0.05]), thresholds: TH, live: null, activities: null });
-    expect(all.campaigns[0].action).toBe("SAUVETAGE");
+    expect(all.campaigns[0].action).toBe("RESCUE");
     expect(all.campaigns[0].cran).toBe(4);
     expect(all.campaigns[0].sauvetageDiagnostic).toBeTruthy();
   });
@@ -148,21 +148,21 @@ describe("verdicts et crans (décision de la nuit)", () => {
       live: new Map([["c1", { active: true, dailyBudgetCents: 12800, updatedTime: null }]]),
       activities: [],
     });
-    expect(r.campaigns[0].action).toBe("REDUIRE");
+    expect(r.campaigns[0].action).toBe("DESCALE");
     expect(r.campaigns[0].suggestedCents).toBe(10900); // 128 € → 109 €
   });
 
   it("un OUI au milieu remet le compteur à zéro", () => {
     const rows = mkSeries([0.05, 0.05, 0.05, 0.25, 0.25, 0.14, 0.14]);
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
-    expect(r.campaigns[0].action).not.toBe("SAUVETAGE");
+    expect(r.campaigns[0].action).not.toBe("RESCUE");
   });
 
   it("un trou de diffusion CASSE la série de NON", () => {
     const rows = [row(d(11), "c1", "POLO A", 100, 1.2), row(d(12), "c1", "POLO A", 100, 1.2), row(d(17), "c1", "POLO A", 100, 1.2)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns[0].nonStreak).toBe(1);
-    expect(r.campaigns[0].action).toBe("ATTENDRE");
+    expect(r.campaigns[0].action).toBe("HOLD");
   });
 });
 
@@ -218,6 +218,15 @@ describe("garde-fous", () => {
     ];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns.map((c) => c.campaignId)).toEqual(["dead", "win"]);
+  });
+});
+
+describe("campagne lancée aujourd'hui (fix review v2)", () => {
+  it("aucune fenêtre close jugeable → PAS de décision inventée, warning", () => {
+    const rows = [row(TODAY, "new1", "POLO NEUVE", 100, 0.5)]; // spend uniquement aujourd'hui
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
+    expect(r.campaigns).toHaveLength(0);
+    expect(r.warnings.some((w) => w.includes("POLO NEUVE") && w.includes("première décision cette nuit"))).toBe(true);
   });
 });
 

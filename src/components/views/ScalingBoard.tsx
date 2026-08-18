@@ -11,10 +11,10 @@ import { formatEur0, formatPct, formatRoasBare } from "@/lib/format";
 // Le composant AFFICHE, il n'exécute jamais : aucune écriture Meta.
 
 const ACTION_META: Record<ScalingAction, { label: string; badge: string; text: string }> = {
-  MONTER: { label: "Monter", badge: "border-phosphor/60 bg-phosphor/10 text-phosphor", text: "text-phosphor" },
-  ATTENDRE: { label: "Attendre", badge: "border-amber/60 bg-amber/10 text-amber", text: "text-amber" },
-  REDUIRE: { label: "Réduire", badge: "border-red/60 bg-red/10 text-red", text: "text-red" },
-  SAUVETAGE: { label: "Sauvetage", badge: "border-red bg-red/20 text-red", text: "text-red" },
+  SCALE: { label: "Scale", badge: "border-phosphor/60 bg-phosphor/10 text-phosphor", text: "text-phosphor" },
+  HOLD: { label: "Hold", badge: "border-amber/60 bg-amber/10 text-amber", text: "text-amber" },
+  DESCALE: { label: "Descale", badge: "border-red/60 bg-red/10 text-red", text: "text-red" },
+  RESCUE: { label: "Rescue", badge: "border-red bg-red/20 text-red", text: "text-red" },
 };
 
 const ZONE_BAR: Record<ScalingWindow["zone"], string> = {
@@ -48,23 +48,26 @@ function eur(cents: number | null): string {
 
 function VerdictZone({ c }: { c: ScalingCampaign }) {
   const meta = ACTION_META[c.action];
-  // Un seul repère : le badge + le %. Le détail des budgets vit dans le
-  // tableau jour par jour (demande Badr 18/08 — pas de fourchette illisible).
-  const detail =
-    c.action === "REDUIRE"
-      ? `−15 %${c.suggestedCents !== null ? ` ≈ ${eur(c.suggestedCents)}/j` : ""}`
-      : c.action === "MONTER"
-        ? `palier${c.suggestedCents !== null ? ` ${eur(c.suggestedCents)}/j` : ""}`
-        : c.action === "ATTENDRE"
-          ? "rien 24 h"
-          : "diagnostic";
+  // Badge = le verbe (anglais) + le % ; en dessous, LE budget d'arrivée en
+  // gros — l'onglet dit exactement à combien passer (demande Badr 18/08).
+  const pct =
+    c.action === "DESCALE" ? "−15 %" : c.action === "SCALE" ? "palier" : c.action === "HOLD" ? "24 h" : "diagnostic";
   return (
     <div className="flex flex-col items-end gap-1 text-right">
       <span className={`rounded-md border px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide ${meta.badge}`}>
-        {meta.label} <span className="tnum normal-case">{detail}</span>
+        {meta.label} <span className="tnum normal-case">{pct}</span>
       </span>
-      {c.action === "MONTER" && c.suggestedMaxCents !== null && (
-        <span className="text-[9.5px] text-ink-dim">jusqu&apos;à {eur(c.suggestedMaxCents)} (×2) si tout est parfait</span>
+      {(c.action === "DESCALE" || c.action === "SCALE") && c.suggestedCents !== null && (
+        <span className={`tnum text-[15px] font-extrabold ${meta.text}`}>
+          {c.budgetCents !== null ? `${eur(c.budgetCents)} ` : ""}→ {eur(c.suggestedCents)}/j
+        </span>
+      )}
+      {c.action === "HOLD" && <span className="text-[11px] font-bold text-ink">budget inchangé — on rejuge à minuit</span>}
+      {c.action === "RESCUE" && <span className="text-[11px] font-bold text-ink">on ne rabote plus — voir le diagnostic 🩺</span>}
+      {c.action === "SCALE" && c.suggestedMaxCents !== null && (
+        <span className="text-[9.5px] text-ink-dim">
+          SURFSCALE ×2 possible → {eur(c.suggestedMaxCents)}/j si tout est parfait
+        </span>
       )}
     </div>
   );
@@ -121,10 +124,10 @@ function WindowChart({ c }: { c: ScalingCampaign }) {
 
 function Rail({ c }: { c: ScalingCampaign }) {
   const rungs = [
-    { n: 1, label: "attendre" },
-    { n: 2, label: "réduire" },
-    { n: 3, label: "réduire" },
-    { n: 4, label: "sauvetage" },
+    { n: 1, label: "hold" },
+    { n: 2, label: "descale" },
+    { n: 3, label: "descale" },
+    { n: 4, label: "rescue" },
   ];
   return (
     <div className="flex flex-col gap-1">
@@ -153,8 +156,8 @@ function Rail({ c }: { c: ScalingCampaign }) {
         {c.cran === null
           ? "Compteur à zéro (dernier verdict : OUI)."
           : c.cran >= 4
-            ? "Escalier épuisé : phase de sauvetage."
-            : `${4 - c.cran} cran${4 - c.cran > 1 ? "s" : ""} avant la phase de sauvetage.`}
+            ? "Escalier épuisé : RESCUE."
+            : `${4 - c.cran} cran${4 - c.cran > 1 ? "s" : ""} avant RESCUE.`}
       </div>
     </div>
   );
@@ -293,7 +296,7 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
           <p className="mt-1">
             ⏳ <b className="text-ink">Fenêtre en cours ({live.label})</b> : marge{" "}
             {live.margin === null ? "—" : formatPct(live.margin)} → si ça tient jusqu&apos;à minuit, prochaine décision ={" "}
-            <b className={ACTION_META[c.liveAction ?? c.action].text}>{ACTION_META[c.liveAction ?? c.action].label}</b>. Provisoire :
+            <b className={`uppercase ${ACTION_META[c.liveAction ?? c.action].text}`}>{ACTION_META[c.liveAction ?? c.action].label}</b>. Provisoire :
             l&apos;attribution Meta du jour même sous-estime et se corrige en 24-72 h — ce chiffre ne peut que monter.
           </p>
         )}
@@ -333,12 +336,13 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
     <div className="flex flex-col gap-4">
       <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] leading-relaxed text-ink-dim">
         <b className="text-ink">La décision de la nuit</b> se prend sur la fenêtre close{" "}
-        <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 2]}</b> — elle est stable toute la
-        journée et son application est <b className="text-ink">vérifiée sur Meta</b> (journal d&apos;activités du compte).
+        <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 2]}</b> — stable toute la journée ;
+        les budgets et leurs mouvements sont <b className="text-ink">lus sur Meta</b> (journal d&apos;activités du compte).
         La fenêtre <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]} ⏳</b> tourne en live
-        avec le jour même. Un OUI (marge ≥ 15 %) monte le budget (échelle{" "}
-        <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>, ×2 si parfait) ; un NON avance d&apos;un
-        cran : attendre · réduire −15 % · réduire −15 % · sauvetage. Plancher 100 €/j.
+        avec le jour même. Marge ≥ 15 % → <b className="text-phosphor">SCALE</b> (échelle{" "}
+        <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>, SURFSCALE ×2 si parfait) ; sinon un
+        cran par nuit : <b className="text-amber">HOLD</b> · <b className="text-red">DESCALE −15 %</b> ·{" "}
+        <b className="text-red">DESCALE −15 %</b> · <b className="text-red">RESCUE</b>. Plancher 100 €/j.
       </p>
 
       {report.warnings.length > 0 && (
@@ -354,8 +358,8 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
       ))}
 
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> marge ≥ 15 % — OUI, on monte</span>
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et cible — NON, un cran</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> marge ≥ 15 % — SCALE</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et cible — un cran (HOLD/DESCALE)</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — la campagne perd de l&apos;argent</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-line bg-panel opacity-60" /> ⏳ fenêtre en cours (provisoire)</span>
       </div>

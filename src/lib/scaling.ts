@@ -135,7 +135,7 @@ export interface ScalingWindow {
   cvr: number | null;
 }
 
-export type ScalingAction = "MONTER" | "ATTENDRE" | "REDUIRE" | "SAUVETAGE";
+export type ScalingAction = "SCALE" | "HOLD" | "DESCALE" | "RESCUE";
 
 export interface BudgetMove {
   time: string; // ISO Meta
@@ -299,7 +299,7 @@ function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
 }
 
 function actionFromStreak(nonStreak: number): ScalingAction {
-  return nonStreak === 0 ? "MONTER" : nonStreak === 1 ? "ATTENDRE" : nonStreak <= 3 ? "REDUIRE" : "SAUVETAGE";
+  return nonStreak === 0 ? "SCALE" : nonStreak === 1 ? "HOLD" : nonStreak <= 3 ? "DESCALE" : "RESCUE";
 }
 
 /** Compte les NON consécutifs en fin de série (fenêtres jugées seulement).
@@ -451,8 +451,18 @@ export function computeScaling(input: {
     // -- Décision de la nuit : sur les fenêtres CLOSES uniquement --
     const { nonStreak, lastIdx } = streakOf(closedWindows);
     const hasClosedVerdict = lastIdx >= 0;
+    // Campagne lancée/relancée AUJOURD'HUI : aucune fenêtre close jugeable —
+    // on n'invente pas de décision (le bug inverse fabriquait un SCALE avec
+    // un « OUI » à marge négative). Première décision cette nuit.
+    if (!hasClosedVerdict) {
+      const lm = liveWindow.margin === null ? "—" : `${(liveWindow.margin * 100).toFixed(1)} %`;
+      warnings.push(
+        `${entry.name} : lancée/relancée aujourd'hui, aucune fenêtre close jugeable — première décision cette nuit (live : marge ${lm}, provisoire).`
+      );
+      continue;
+    }
     const action = actionFromStreak(nonStreak);
-    const last = hasClosedVerdict ? closedWindows[lastIdx] : liveWindow;
+    const last = closedWindows[lastIdx];
 
     // -- Fenêtre en cours : verdict provisoire --
     const liveStreak = streakOf(winData);
@@ -480,7 +490,8 @@ export function computeScaling(input: {
     // Tableau jour par jour : budget au début du jour + spend + ROAS.
     const tableDays: string[] = [];
     for (let k = NB_JOURS_TABLEAU - 1; k >= 0; k--) tableDays.push(addDaysToDay(today, -k));
-    const budgets = budgetAtDayStart(rawMoves, budgetLive ?? budgetCents, tableDays);
+    // override > live (jamais l'estimation : le tableau n'affiche que du sûr)
+    const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? null, tableDays);
     const dailyTable: DailyBudgetSpendRow[] = tableDays.map((day, i) => {
       const row = entry.days.get(day);
       const spend = row?.spendCents ?? 0;
@@ -497,11 +508,11 @@ export function computeScaling(input: {
     // Prescription : UN chiffre.
     let suggestedCents: number | null = null;
     let suggestedMaxCents: number | null = null;
-    if (action === "MONTER" && budgetCents !== null) {
+    if (action === "SCALE" && budgetCents !== null) {
       suggestedCents = nextPalierCents(budgetCents);
       const x2 = Math.min(budgetCents * 2, SEUIL_SCALING_CENTS);
       suggestedMaxCents = x2 > suggestedCents ? x2 : null;
-    } else if (action === "REDUIRE" && budgetCents !== null) {
+    } else if (action === "DESCALE" && budgetCents !== null) {
       suggestedCents = reductionCents(budgetCents);
     }
 
@@ -518,11 +529,11 @@ export function computeScaling(input: {
     if (!activities) {
       applied = "unknown";
       appliedDetail = "Journal d'activités Meta indisponible — application non vérifiable.";
-    } else if (action === "ATTENDRE" || action === "SAUVETAGE") {
+    } else if (action === "HOLD" || action === "RESCUE") {
       applied = "nothing_to_do";
       if (movesSince.length > 0) appliedDetail = `Mouvement détecté quand même : ${fmtMove(movesSince[movesSince.length - 1])}.`;
     } else {
-      const wanted = action === "REDUIRE" ? -1 : 1;
+      const wanted = action === "DESCALE" ? -1 : 1;
       const match = movesSince.find(
         (m) =>
           m.oldBudgetCents !== null &&
@@ -547,22 +558,22 @@ export function computeScaling(input: {
 
     const cran: ScalingCampaign["cran"] = nonStreak === 0 ? null : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
     const lowSample = last.purchases < MIN_CONVERSIONS_FIABLES;
-    const creasRequired = action === "MONTER" || action === "REDUIRE" || action === "SAUVETAGE";
+    const creasRequired = action === "SCALE" || action === "DESCALE" || action === "RESCUE";
     const recentVerdicts = closedWindows.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
     let flips = 0;
     for (let i = 1; i < recentVerdicts.length; i++) if (recentVerdicts[i] !== recentVerdicts[i - 1]) flips++;
     const unstable = flips >= 2;
-    const sauvetageDiagnostic = action === "SAUVETAGE" ? diagnoseSauvetage(closedWindows, lastIdx) : null;
+    const sauvetageDiagnostic = action === "RESCUE" ? diagnoseSauvetage(closedWindows, lastIdx) : null;
 
     const marginTxt = last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1)} %`;
     const why =
-      action === "MONTER"
-        ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro, montée au palier suivant + créas neuves (T35).`
-        : action === "ATTENDRE"
-          ? `1er NON sur ${last.label} (${marginTxt} < 15 %) : cran 1, on attend 24 h sans toucher au budget (T35).`
-          : action === "REDUIRE"
-            ? `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) : cran ${nonStreak}, réduction de 15 % + créas neuves (T35/T24).`
-            : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : escalier épuisé → phase de sauvetage, on ne rabote plus, on diagnostique (T35).`;
+      action === "SCALE"
+        ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro → SCALE au palier suivant + créas neuves (T35).`
+        : action === "HOLD"
+          ? `1er NON sur ${last.label} (${marginTxt} < 15 %) : cran 1 → HOLD 24 h, on ne touche pas au budget (T35).`
+          : action === "DESCALE"
+            ? `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) : cran ${nonStreak} → DESCALE −15 % + créas neuves (T35/T24).`
+            : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35).`;
 
     if (scalingRegime) {
       warnings.push(
@@ -603,7 +614,7 @@ export function computeScaling(input: {
     });
   }
 
-  const order: Record<ScalingAction, number> = { SAUVETAGE: 0, REDUIRE: 1, ATTENDRE: 2, MONTER: 3 };
+  const order: Record<ScalingAction, number> = { RESCUE: 0, DESCALE: 1, HOLD: 2, SCALE: 3 };
   campaigns.sort(
     (a, b) => order[a.action] - order[b.action] || b.nonStreak - a.nonStreak || a.campaignId.localeCompare(b.campaignId)
   );
