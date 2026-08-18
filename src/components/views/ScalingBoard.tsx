@@ -320,6 +320,16 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
             🎬 <b className="text-ink">Créas neuves obligatoires</b> avec ce mouvement (règle du protocole, montée comprise).
           </p>
         )}
+        {c.creaPlan.length > 0 && (
+          <ul className="mt-1 flex flex-col gap-1 rounded-lg border border-line-soft bg-terminal/50 p-2.5">
+            {c.creaPlan.map((line) => (
+              <li key={line} className="flex gap-1.5">
+                <span aria-hidden>▸</span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );
@@ -375,6 +385,34 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et cible — un cran (HOLD/DESCALE)</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — la campagne perd de l&apos;argent</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-line bg-panel opacity-60" /> ⏳ fenêtre en cours (provisoire)</span>
+      </div>
+
+      <div className="rounded-lg border border-line bg-panel/40 p-3 text-[10.5px] leading-relaxed text-ink-dim">
+        <h3 className="mb-1 text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+          🎬 SOP créas (formation T36/T37) — le rappel complet
+        </h3>
+        <ul className="flex flex-col gap-1">
+          <li>
+            ▸ <b className="text-ink">Batch</b> : 3-6 ads par NOUVEL adset · 2-3 adcopies + 2-3 titres + 1 description par
+            ad · une adcopy par ANGLE · miniature choisie à la main · 50 % page marque / 50 % page tierce.
+          </li>
+          <li>
+            ▸ <b className="text-ink">Où</b> (compte &lt; 3 000 €/j) : nouvel adset dans la CBO — jamais plus de 15 ads par
+            adset — avec minimum spend 10-15 €/j pendant 2 jours. L&apos;ABO testing dédiée (~20 % du budget) n&apos;arrive
+            qu&apos;à 3K+/j.
+          </li>
+          <li>
+            ▸ <b className="text-ink">Lancement</b> : mardi → vendredi (jamais lundi), adset live entre minuit et 7 h ·
+            Advantage+ créative OFF sauf relevant comments · placements originaux · exclure les acheteurs.
+          </li>
+          <li>
+            ▸ <b className="text-ink">Winners</b> : ad à ≥ 6 ventes ET ≥ 10 % de marge (14 j) → marquer « WIN &lt;mois&gt;
+            &lt;semaine&gt; » → dupliquer AVEC LE MÊME POST ID (garde commentaires/social proof) dans un nouvel adset
+            « winners » de la CBO scaling, minimum spend 10-15 €/j. Entre BE et 10 % avec ≥ 6 ventes = potential winner →
+            injecter aussi. L&apos;originale reste active tant qu&apos;elle est rentable. Un adset qui performe peut recevoir
+            1-2 créas max à la fois — un nouvel adset repart avec un apprentissage neuf.
+          </li>
+        </ul>
       </div>
 
       <div className="rounded-lg border border-line bg-panel/40 p-3 text-[10px] leading-relaxed text-ink-faint">
