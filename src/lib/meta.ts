@@ -445,3 +445,96 @@ export async function fetchCampaignLiveInfos(): Promise<Map<string, CampaignLive
   }
   return infos;
 }
+
+// ---------------------------------------------------------------------------
+// 🪜 Meta Scaling — journal d'activités du compte : les changements de budget
+// RÉELS (ancien → nouveau, horodatés) et les pauses/relances de campagne.
+// C'est la source de vérité de « qu'est-ce qui a été appliqué » — plus aucun
+// pointage manuel. Lecture seule.
+// ---------------------------------------------------------------------------
+
+export interface CampaignActivity {
+  campaignId: string;
+  campaignName: string | null;
+  /** ISO Meta (ex. 2026-08-17T23:28:41+0200) */
+  eventTime: string;
+  kind: "budget" | "status";
+  /** budget : anciens/nouveaux daily_budget en cents. status : null. */
+  oldBudgetCents: number | null;
+  newBudgetCents: number | null;
+  /** status : la valeur d'arrivée (ACTIVE, PAUSED…). budget : null. */
+  statusTo: string | null;
+}
+
+interface MetaActivityRow {
+  event_type: string;
+  event_time: string;
+  object_id?: string;
+  object_name?: string;
+  extra_data?: string;
+}
+
+/** Les activités budget/statut du compte depuis `sinceDay` (YYYY-MM-DD),
+ * triées par date croissante. extra_data des changements de budget porte
+ * new_value/old_value en sous-unité de la devise du compte (cents). */
+export async function fetchCampaignActivities(sinceDay: string): Promise<CampaignActivity[]> {
+  const token = process.env.META_ACCESS_TOKEN;
+  const accountId = process.env.META_AD_ACCOUNT_ID;
+  if (!token || !accountId) {
+    throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
+  }
+  const params = new URLSearchParams({
+    fields: "event_type,event_time,object_id,object_name,extra_data",
+    since: sinceDay,
+    limit: "500",
+    access_token: token,
+  });
+  let url: string | null =
+    `https://graph.facebook.com/${API_VERSION}/act_${accountId}/activities?` + params.toString();
+
+  const out: CampaignActivity[] = [];
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Meta API error ${res.status}: ${await res.text()}`);
+    }
+    const body: { data: MetaActivityRow[]; paging?: { next?: string } } = await res.json();
+    for (const row of body.data) {
+      if (!row.object_id) continue;
+      let extra: Record<string, unknown> = {};
+      try {
+        extra = row.extra_data ? JSON.parse(row.extra_data) : {};
+      } catch {
+        /* extra_data illisible : on garde l'événement sans détail */
+      }
+      if (row.event_type === "update_campaign_budget") {
+        const nv = Number(extra["new_value"]);
+        const ov = Number(extra["old_value"]);
+        out.push({
+          campaignId: row.object_id,
+          campaignName: row.object_name ?? null,
+          eventTime: row.event_time,
+          kind: "budget",
+          newBudgetCents: Number.isFinite(nv) && nv > 0 ? Math.round(nv) : null,
+          oldBudgetCents: Number.isFinite(ov) && ov > 0 ? Math.round(ov) : null,
+          statusTo: null,
+        });
+      } else if (row.event_type === "update_campaign_run_status") {
+        out.push({
+          campaignId: row.object_id,
+          campaignName: row.object_name ?? null,
+          eventTime: row.event_time,
+          kind: "status",
+          newBudgetCents: null,
+          oldBudgetCents: null,
+          statusTo: typeof extra["new_value"] === "string" ? (extra["new_value"] as string) : null,
+        });
+      }
+    }
+    url = body.paging?.next ?? null;
+  }
+  // tri par instant réel : deux ISO à offsets différents (+0200 vs +0000)
+  // se comparent mal en chaîne.
+  out.sort((a, b) => new Date(a.eventTime).getTime() - new Date(b.eventTime).getTime());
+  return out;
+}
