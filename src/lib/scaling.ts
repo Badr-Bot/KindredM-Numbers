@@ -17,14 +17,18 @@ import { formatInTimeZone } from "date-fns-tz";
 //   (T35 [03:22-03:44] : « rentable dans votre poche : ads − shipping − frais
 //    de processeur », donc marge de contribution APRÈS pub, hors OPEX)
 //
-//  • OUI → on monte le budget : palier suivant de l'échelle 500 → 750 → 1000
-//    → 1500 → 1800 → 2000 → 3000, jusqu'à ×2 si tout est parfait (T35 [05:18]
-//    « fois 2 si petit, +30 % si près des 3000 » ; T24 [17:36], prioritaire :
-//    « moi je double le budget »). Compteur de NON remis à zéro. Créas neuves.
+//  • OUI → on monte le budget (T35 [05:18] « fois 2 si petit », lecture Badr
+//    18/08) : sous 500 €/j → ×2 PLAFONNÉ à 500 ; à partir de 500 → palier
+//    par palier sur 500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000 (+30 % au
+//    delà). Compteur de NON remis à zéro. Créas neuves à chaque montée.
 //  • NON n°1 → on attend 24 h sans toucher au budget (T35 [03:44-04:08]).
 //  • NON n°2 et n°3 → on réduit de 15 % (défaut T24 [16:54] ; bande 10-15 %
 //    T35 [19:09]) + créas neuves à chaque fois.
-//  • NON n°4 → phase de SAUVETAGE (T35 [04:29]) : on ne rabote plus, on
+//  • NON n°4 → phase de SAUVETAGE (T35 [04:29]) — RESCUE seulement si les
+//    crans ont été RÉELLEMENT déroulés : la série de NON ne compte qu'à
+//    partir du premier mouvement de budget vu sur Meta (Badr n'a commencé à
+//    piloter les budgets que le 17/08), et il faut au moins une réduction
+//    exécutée ; sinon le verdict est plafonné à DESCALE. On ne rabote plus, on
 //    diagnostique où ça fuit (cadran T35 [06:47-09:36] / T34 [03:47]) :
 //      - CVR ok mais CPC mauvais  → problème CRÉAS (hooks, angles, mécanismes)
 //      - CPC ok mais CVR mauvais  → problème FUNNEL (above the fold, Clarity)
@@ -37,11 +41,14 @@ import { formatInTimeZone } from "date-fns-tz";
 // rentables » [12:50], attribution click ≥ 70 % [13:11]). Aucune campagne n'y
 // est : l'onglet le SIGNALE au lieu d'appliquer le mauvais régime en silence.
 //
-// LA fenêtre de décision = HIER + AUJOURD'HUI (retour Badr 18/08 : « on est
-// le 18, la décision c'est aujourd'hui plus la veille ») : le verdict tourne
-// en continu dans la journée et se fige à minuit. ⚠️ le ROAS Meta du jour J
-// SOUS-ESTIME (attribution 24-72 h, fait vérifié) : le verdict du jour ne
-// peut que S'AMÉLIORER d'ici minuit — l'exécution reste le geste de 00h-01h.
+// LA fenêtre de décision = LE JOUR MÊME + LA VEILLE, avec la règle horaire de
+// Badr (18/08 soir) :
+//  • de MINUIT à 7 H : on garde les données figées de la veille 23h59
+//    (fenêtre avant-hier + hier) — c'est la plage d'exécution SCALE/DESCALE ;
+//  • à partir de 7 H : bascule sur le jour J (hier + aujourd'hui, live, le
+//    verdict se met à jour dans la journée et se fige à minuit).
+// ⚠️ le ROAS Meta du jour J SOUS-ESTIME (attribution 24-72 h, fait vérifié) :
+// en journée la marge affichée ne peut que S'AMÉLIORER d'ici minuit.
 //
 // Les budgets et leurs mouvements sont LUS sur Meta (journal d'activités du
 // compte : changements ancien → nouveau, horodatés) — aucun pointage manuel.
@@ -80,8 +87,16 @@ export const SEUIL_OUI = 0.15;
 /** Sous ~15 conversions sur la fenêtre le verdict est un ajustement, pas un
  * jugement sur le produit (réserve d'échantillon — cf. Lancaster à 8 conv). */
 export const MIN_CONVERSIONS_FIABLES = 15;
-/** Fenêtres affichées (la dernière = hier + aujourd'hui, en cours). */
+/** Fenêtres affichées (la dernière = la fenêtre de décision). */
 export const NB_FENETRES = 6;
+/** Heure (Paris) de bascule : avant 7 h on reste sur les données de la
+ * veille 23h59 (plage d'exécution), après on suit le jour J en live. */
+export const BASCULE_HEURE = 7;
+
+/** Le jour de décision selon l'heure de Paris : avant 7 h → hier. */
+export function decisionDayFor(todayDay: string, parisHour: number): string {
+  return parisHour < BASCULE_HEURE ? addDaysToDay(todayDay, -1) : todayDay;
+}
 /** Profondeur du tableau jour par jour. */
 export const NB_JOURS_TABLEAU = 10;
 
@@ -190,8 +205,11 @@ export interface ScalingCampaign {
 }
 
 export interface ScalingReport {
-  /** Jour même (Europe/Paris) — la fenêtre de décision (hier + aujourd'hui) finit ici. */
+  /** Jour de décision (Europe/Paris) — la dernière fenêtre finit ici. */
   today: string;
+  /** "night" = 00h-07h, données figées de la veille 23h59 (plage d'exécution) ;
+   * "day" = fenêtre du jour J, live. */
+  mode: "night" | "day";
   windowLabels: string[];
   thresholds: Record<ScalingProduct, ProductThresholdsInput | null>;
   campaigns: ScalingCampaign[];
@@ -222,6 +240,15 @@ function zoneFor(margin: number | null, roas: number | null, breakEven: number |
 export function nextPalierCents(budgetCents: number): number {
   for (const p of MONTEE_PALIERS_CENTS) if (p > budgetCents) return p;
   return Math.round(budgetCents * 1.3);
+}
+
+/** Montée SCALE : sous 500 €/j → ×2 plafonné à 500 (« fois 2 si petit »,
+ * lecture Badr 18/08) ; à partir de 500 → palier suivant de l'échelle. */
+export function scaleTargetCents(budgetCents: number): number {
+  if (budgetCents < MONTEE_PALIERS_CENTS[0]) {
+    return Math.min(budgetCents * 2, MONTEE_PALIERS_CENTS[0]);
+  }
+  return nextPalierCents(budgetCents);
 }
 
 /** Réduction par défaut (−15 %), arrondie à l'euro, plancher 100 €. */
@@ -295,15 +322,18 @@ function actionFromStreak(nonStreak: number): ScalingAction {
 
 /** Compte les NON consécutifs en fin de série (fenêtres jugées seulement).
  * Les fenêtres vides en QUEUE sont ignorées ; un trou de diffusion au MILIEU
- * casse la série (relance après pause = nouveau départ). */
-function streakOf(windows: ScalingWindow[]): { nonStreak: number; lastIdx: number } {
+ * casse la série (relance après pause = nouveau départ). `anchorDay` (jour du
+ * premier mouvement de budget réel) tronque l'historique : les fenêtres
+ * closes AVANT le pilotage effectif ne comptent pas (règle Badr 18/08). */
+function streakOf(windows: ScalingWindow[], anchorDay: string | null = null): { nonStreak: number; lastIdx: number } {
   let lastIdx = windows.length - 1;
   while (lastIdx >= 0 && windows[lastIdx].verdict === null) lastIdx--;
   let nonStreak = 0;
   for (let i = lastIdx; i >= 0; i--) {
-    const v = windows[i].verdict;
-    if (v === null) break;
-    if (v === "NON") nonStreak++;
+    const w = windows[i];
+    if (anchorDay !== null && w.endDay < anchorDay) break;
+    if (w.verdict === null) break;
+    if (w.verdict === "NON") nonStreak++;
     else break;
   }
   return { nonStreak, lastIdx };
@@ -318,14 +348,18 @@ function fmtParis(timeIso: string, fmt: string): string {
 }
 
 export function computeScaling(input: {
+  /** Jour de DÉCISION (= jour J après 7 h, la veille entre minuit et 7 h). */
   today: string;
   rows: ScalingDailyRow[];
   thresholds: Record<ScalingProduct, ProductThresholdsInput | null>;
   live: Map<string, CampaignLiveInput> | null;
   activities: CampaignActivity[] | null;
   budgetOverridesCents?: Record<string, number> | null;
+  /** false = fenêtre FIGÉE (mode nuit 00h-07h ou rejeu d'un jour passé). */
+  liveDay?: boolean;
 }): ScalingReport {
   const { today, rows, thresholds, live, activities } = input;
+  const liveDay = input.liveDay ?? true;
   const overrides = input.budgetOverridesCents ?? null;
   const warnings: string[] = [];
 
@@ -334,7 +368,7 @@ export function computeScaling(input: {
   const windowDefs: { startDay: string; endDay: string; inProgress: boolean }[] = [];
   for (let k = NB_FENETRES - 1; k >= 0; k--) {
     const e = addDaysToDay(today, -k);
-    windowDefs.push({ startDay: addDaysToDay(e, -1), endDay: e, inProgress: k === 0 });
+    windowDefs.push({ startDay: addDaysToDay(e, -1), endDay: e, inProgress: k === 0 && liveDay });
   }
   const windowLabels = windowDefs.map((w) => windowLabel(w.startDay, w.endDay));
 
@@ -434,10 +468,26 @@ export function computeScaling(input: {
       continue;
     }
 
-    // -- Décision : sur la fenêtre hier + aujourd'hui (streak complet) --
-    const { nonStreak, lastIdx } = streakOf(winData);
-    const action = actionFromStreak(nonStreak);
+    // -- Décision : streak ancré au premier mouvement de budget réel --
+    const rawMovesForAnchor = movesByCampaign.get(campaignId) ?? [];
+    const anchorDay = rawMovesForAnchor.length > 0 ? toParisDay(rawMovesForAnchor[0].eventTime) : null;
+    const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
+    let action = actionFromStreak(nonStreak);
     const last = winData[lastIdx];
+    // RESCUE exige au moins une réduction RÉELLEMENT exécutée sur Meta ;
+    // sinon on plafonne à DESCALE (les crans n'ont pas été déroulés).
+    let rescueCapped = false;
+    if (action === "RESCUE") {
+      const hasExecutedDecrease =
+        activities !== null &&
+        rawMovesForAnchor.some(
+          (m) => m.oldBudgetCents !== null && m.newBudgetCents !== null && m.newBudgetCents < m.oldBudgetCents
+        );
+      if (activities !== null && !hasExecutedDecrease) {
+        action = "DESCALE";
+        rescueCapped = true;
+      }
+    }
 
     // Budget : override > live Meta > estimation.
     const budgetOverride = overrides?.[campaignId];
@@ -448,7 +498,7 @@ export function computeScaling(input: {
     const scalingRegime = budgetCents !== null && budgetCents >= SEUIL_SCALING_CENTS;
 
     // Mouvements de budget lus sur Meta (les plus récents d'abord pour l'UI).
-    const rawMoves = movesByCampaign.get(campaignId) ?? [];
+    const rawMoves = rawMovesForAnchor;
     const moves: BudgetMove[] = rawMoves
       .map((m) => ({
         time: m.eventTime,
@@ -492,11 +542,9 @@ export function computeScaling(input: {
 
     // Prescription : UN chiffre.
     let suggestedCents: number | null = null;
-    let suggestedMaxCents: number | null = null;
+    const suggestedMaxCents: number | null = null;
     if (action === "SCALE" && budgetCents !== null) {
-      suggestedCents = nextPalierCents(budgetCents);
-      const x2 = Math.min(budgetCents * 2, SEUIL_SCALING_CENTS);
-      suggestedMaxCents = x2 > suggestedCents ? x2 : null;
+      suggestedCents = scaleTargetCents(budgetCents);
     } else if (action === "DESCALE" && budgetCents !== null) {
       suggestedCents = reductionCents(budgetCents);
     }
@@ -507,7 +555,8 @@ export function computeScaling(input: {
     const cpmrMed = median(prevCpmrs);
     const cpmrRising = cpmrMed !== null && last.cpmr !== null && last.cpmr > cpmrMed * 1.2;
 
-    const cran: ScalingCampaign["cran"] = nonStreak === 0 ? null : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
+    const cran: ScalingCampaign["cran"] =
+      nonStreak === 0 ? null : rescueCapped ? 3 : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
     const lowSample = last.purchases < MIN_CONVERSIONS_FIABLES;
     const creasRequired = action === "SCALE" || action === "DESCALE" || action === "RESCUE";
     const recentVerdicts = winData.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
@@ -525,6 +574,9 @@ export function computeScaling(input: {
           : action === "DESCALE"
             ? `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) : cran ${nonStreak} → DESCALE −15 % + créas neuves (T35/T24).`
             : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35).`;
+    const whyFinal = rescueCapped
+      ? `${nonStreak} NON consécutifs (${marginTxt}) MAIS aucune réduction encore exécutée sur Meta : les crans n'ont pas été déroulés → DESCALE −15 % d'abord (RESCUE seulement après avoir réellement bougé le budget).`
+      : why;
 
     if (scalingRegime) {
       warnings.push(
@@ -557,7 +609,7 @@ export function computeScaling(input: {
       unstable,
       sauvetageDiagnostic,
       scalingRegime,
-      why,
+      why: whyFinal,
     });
   }
 
@@ -578,7 +630,7 @@ export function computeScaling(input: {
     warnings.push("Seuils produit non calculables (commandes illisibles) : aucun verdict fiable.");
   }
 
-  return { today, windowLabels, thresholds, campaigns, warnings };
+  return { today, mode: liveDay ? "day" : "night", windowLabels, thresholds, campaigns, warnings };
 }
 
 // ---------------------------------------------------------------------------
@@ -586,7 +638,11 @@ export function computeScaling(input: {
 // buildRoasReport : tout le calcul est dans computeScaling (pur, testé).
 // ---------------------------------------------------------------------------
 
-export async function buildScalingReport(supabase: SupabaseClient, today: string): Promise<ScalingReport> {
+export async function buildScalingReport(
+  supabase: SupabaseClient,
+  today: string,
+  liveDay: boolean = true
+): Promise<ScalingReport> {
   const startDay = addDaysToDay(today, -(NB_FENETRES + NB_JOURS_TABLEAU));
 
   // reach n'existe sur meta_insights que depuis la migration 0007 : on sonde
@@ -656,9 +712,9 @@ export async function buildScalingReport(supabase: SupabaseClient, today: string
     import("./analytics"),
     import("./meta"),
   ]);
-  // Seuils calculés sur les 14 jours CLOS (le jour même, partiel, fausserait le CM).
+  // Seuils calculés sur les 14 jours CLOS (un jour partiel fausserait le CM).
   const [productThresholds, liveInfos, activities] = await Promise.all([
-    getProductRoasThresholds(addDaysToDay(today, -1)).catch(() => null),
+    getProductRoasThresholds(liveDay ? addDaysToDay(today, -1) : today).catch(() => null),
     fetchCampaignLiveInfos().catch(() => null),
     fetchCampaignActivities(startDay).catch(() => null),
   ]);
@@ -673,6 +729,7 @@ export async function buildScalingReport(supabase: SupabaseClient, today: string
     live: liveInfos,
     activities,
     budgetOverridesCents: budgetOverrides,
+    liveDay,
   });
   report.warnings.push(...extraWarnings);
   return report;

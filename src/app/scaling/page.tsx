@@ -1,5 +1,6 @@
 import { getDataMode, referenceToday } from "@/lib/data";
-import { buildScalingReport, type ScalingReport } from "@/lib/scaling";
+import { formatInTimeZone } from "date-fns-tz";
+import { BASCULE_HEURE, buildScalingReport, decisionDayFor, type ScalingReport } from "@/lib/scaling";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
@@ -24,7 +25,15 @@ export default async function ScalingPage() {
 
   let report: ScalingReport;
   try {
-    report = await buildScalingReport(createSupabaseServerClient(), await referenceToday());
+    const today = await referenceToday();
+    const parisHour = Number(formatInTimeZone(new Date(), "Europe/Paris", "H"));
+    // 00h-07h : données figées de la veille 23h59 (plage d'exécution) ;
+    // ensuite : jour J en live.
+    report = await buildScalingReport(
+      createSupabaseServerClient(),
+      decisionDayFor(today, parisHour),
+      parisHour >= BASCULE_HEURE
+    );
   } catch (err) {
     return (
       <div>

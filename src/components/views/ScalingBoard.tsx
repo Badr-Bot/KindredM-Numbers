@@ -64,11 +64,6 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
       )}
       {c.action === "HOLD" && <span className="text-[11px] font-bold text-ink">budget inchangé — on rejuge à minuit</span>}
       {c.action === "RESCUE" && <span className="text-[11px] font-bold text-ink">on ne rabote plus — voir le diagnostic 🩺</span>}
-      {c.action === "SCALE" && c.suggestedMaxCents !== null && (
-        <span className="text-[9.5px] text-ink-dim">
-          SURFSCALE ×2 possible → {eur(c.suggestedMaxCents)}/j si tout est parfait
-        </span>
-      )}
     </div>
   );
 }
@@ -342,14 +337,25 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] leading-relaxed text-ink-dim">
-        <b className="text-ink">Fenêtre de décision : hier + aujourd&apos;hui</b>{" "}
-        (<b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]} ⏳</b>) — elle tourne en live et
-        se fige à minuit, l&apos;exécution se fait entre 00 h et 1 h. Budgets et mouvements{" "}
-        <b className="text-ink">lus sur Meta</b> (journal d&apos;activités du compte). Marge ≥ 15 % →{" "}
-        <b className="text-phosphor">SCALE</b> (échelle{" "}
-        <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>, SURFSCALE ×2 si parfait) ; sinon un
-        cran par nuit : <b className="text-amber">HOLD</b> · <b className="text-red">DESCALE −15 %</b> ·{" "}
-        <b className="text-red">DESCALE −15 %</b> · <b className="text-red">RESCUE</b>. Plancher 100 €/j.
+        {report.mode === "night" ? (
+          <>
+            🌙 <b className="text-ink">Mode nuit (00 h → 7 h)</b> : données figées d&apos;hier 23h59, fenêtre{" "}
+            <b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]}</b> — c&apos;est TA plage
+            d&apos;exécution SCALE / DESCALE. À 7 h, l&apos;onglet bascule sur le jour J.
+          </>
+        ) : (
+          <>
+            <b className="text-ink">Fenêtre de décision : hier + aujourd&apos;hui</b>{" "}
+            (<b className="tnum text-ink">{report.windowLabels[report.windowLabels.length - 1]} ⏳</b>) — en live jusqu&apos;à
+            minuit ; exécution entre 00 h et 7 h sur les chiffres figés.
+          </>
+        )}{" "}
+        Budgets et mouvements <b className="text-ink">lus sur Meta</b>. Marge ≥ 15 % → <b className="text-phosphor">SCALE</b>{" "}
+        (×2 plafonné à 500 €/j en dessous de 500, puis palier par palier :{" "}
+        <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>) ; sinon un cran par nuit :{" "}
+        <b className="text-amber">HOLD</b> · <b className="text-red">DESCALE −15 %</b> ·{" "}
+        <b className="text-red">DESCALE −15 %</b> · <b className="text-red">RESCUE</b> (seulement après des réductions
+        réellement exécutées). Plancher 100 €/j.
       </p>
 
       {report.warnings.length > 0 && (
