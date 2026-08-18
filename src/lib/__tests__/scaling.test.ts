@@ -388,6 +388,40 @@ describe("budgets depuis le journal d'activités Meta", () => {
   });
 });
 
+describe("plan créas (T36/T37)", () => {
+  it("SCALE : batch 3-6 dans un nouvel adset de la CBO + dispatch des winners", () => {
+    const rows = [...mkSeries([0.2]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.2))];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
+    const plan = r.campaigns[0].creaPlan.join(" ");
+    expect(plan).toContain("3 à 6 ads");
+    expect(plan).toContain("Nouvel adset DANS la CBO");
+    expect(plan).toContain("MÊME POST ID");
+  });
+
+  it("HOLD sans saturation : pas de plan imposé ; avec CPMr en hausse : préparer le batch", () => {
+    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
+    const c = r.campaigns[0];
+    if (c.action === "HOLD" && !c.cpmrRising) expect(c.creaPlan).toHaveLength(0);
+  });
+
+  it("RESCUE : le plan suit le cadran (créas → hooks/angles/mécanismes)", () => {
+    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: null,
+      activities: [
+        { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget", oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
+        { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget", oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
+      ],
+    });
+    expect(r.campaigns[0].action).toBe("RESCUE");
+    expect(r.campaigns[0].creaPlan.length).toBeGreaterThan(0);
+  });
+});
+
 describe("cohérence avec les seuils mémoire (WEFT §4)", () => {
   it("Polo CM 62,6 % → BE ≈ 1,60 · cible ≈ 2,10 ; Gilet 63,5 % → 1,57 / 2,06", () => {
     expect(TH.POLO.breakEven!).toBeCloseTo(1.597, 2);

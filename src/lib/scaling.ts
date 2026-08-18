@@ -198,6 +198,9 @@ export interface ScalingCampaign {
   lowSample: boolean;
   cpmrRising: boolean;
   creasRequired: boolean;
+  /** Plan créas concret selon le verdict — combien, quelles variantes, dans
+   * quel adset (T36 « Processus de testing », T37 « Dispatcher les winners »). */
+  creaPlan: string[];
   unstable: boolean;
   sauvetageDiagnostic: string | null;
   scalingRegime: boolean;
@@ -314,6 +317,69 @@ function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
   if (cvrBad)
     return "CPC tient mais le CVR chute vs l'historique → problème FUNNEL : revoir l'above-the-fold, objections, Microsoft Clarity (T35).";
   return "CPC et CVR dans les normes de la campagne mais marge insuffisante → problème AOV : upsells, bundles, e-mails (T35).";
+}
+
+/** Le plan créas de la formation, adapté au verdict et au budget du compte.
+ * Source : T36 (batch 3-6 ads / nouvel adset / minimum spend / variantes) et
+ * T37 (dispatch des winners). En dessous de 3 000 €/j de spend, tout se joue
+ * DANS la CBO ([04:23] « alimenter la CBO ») ; l'ABO testing dédiée (~20 % du
+ * budget) n'arrive qu'à 3K+/j ([02:07]). */
+function buildCreaPlan(input: {
+  action: ScalingAction;
+  scalingRegime: boolean;
+  cpmrRising: boolean;
+  sauvetageDiagnostic: string | null;
+}): string[] {
+  const { action, scalingRegime, cpmrRising } = input;
+  const where = scalingRegime
+    ? "Campagne ABO testing dédiée (~20 % du budget) : nouvel adset par batch, budget ≈ 2-2,5 × CPA, décision à 2-3 j (T36 [02:07])."
+    : "Nouvel adset DANS la CBO (ou complète un adset existant s'il a < 15 ads), minimum spend 10-15 €/j pendant 2 jours pour forcer Meta à tester (T36 [04:23-05:05]).";
+  const batch =
+    "Batch de 3 à 6 ads : 2-3 adcopies + 2-3 titres + 1 description par ad, angles VARIÉS (une adcopy par angle), miniature choisie à la main, 50 % page marque / 50 % page tierce (T36).";
+  const setup =
+    "Réglages : Advantage+ créative OFF sauf relevant comments, placements originaux, exclure les acheteurs. Lancement mardi→vendredi (jamais lundi), adset live entre minuit et 7 h (T36 [00:20-01:03]).";
+
+  if (action === "HOLD") {
+    return cpmrRising
+      ? ["Pas d'obligation au cran 1, MAIS le CPMr monte : prépare le prochain batch (hooks neufs) pour être prêt à injecter au premier mouvement (T35/T36)."]
+      : [];
+  }
+  if (action === "SCALE") {
+    return [
+      where,
+      batch,
+      "Et dispatch tes winners : une ad à ≥ 6 ventes et ≥ 10 % de marge (14 j) → duplique-la AVEC LE MÊME POST ID (garde les commentaires) dans un NOUVEL adset « <mois> winners » de la CBO, minimum spend 10-15 €/j (T37).",
+      setup,
+    ];
+  }
+  if (action === "DESCALE") {
+    return [
+      where,
+      "Batch de 3 à 6 ads « valeurs sûres » (T35 [04:08] : des trucs dont on est sûrs) + 1-2 hooks neufs" +
+        (cpmrRising ? " — priorité aux HOOKS : le CPMr monte, l'audience sature (T36)." : " (T36)."),
+      setup,
+    ];
+  }
+  // RESCUE : le focus dépend du cadran (T35 [06:47-09:36])
+  const diag = input.sauvetageDiagnostic ?? "";
+  if (diag.includes("CRÉAS"))
+    return [
+      "Le cadran pointe les CRÉAS : batch complet 3-6 ads avec nouveaux HOOKS, nouveaux ANGLES, nouveaux MÉCANISMES — pas des variantes de l'existant (T35 [06:47]).",
+      where,
+      setup,
+    ];
+  if (diag.includes("FUNNEL"))
+    return [
+      "Le cadran pointe le FUNNEL : le focus est la LP (above-the-fold, objections, Microsoft Clarity) — les créas continuent en fond (« toujours ajouter », T35 [08:13]) mais ce n'est pas là que ça fuit.",
+    ];
+  if (diag.includes("AOV"))
+    return [
+      "Le cadran pointe l'AOV : upsells, bundles, e-mails d'abord (T35 [08:33-09:15]) — les créas continuent en fond, le déblocage est dans l'offre.",
+    ];
+  return [
+    "Tout fuit (big swing) : nouvelle LP voire nouvelle offre, ET batch complet nouveaux hooks/angles/mécanismes — re-analyse les compétiteurs (T35 [10:17-10:59]).",
+    where,
+  ];
 }
 
 function actionFromStreak(nonStreak: number): ScalingAction {
@@ -606,6 +672,7 @@ export function computeScaling(input: {
       lowSample,
       cpmrRising,
       creasRequired,
+      creaPlan: buildCreaPlan({ action, scalingRegime, cpmrRising, sauvetageDiagnostic }),
       unstable,
       sauvetageDiagnostic,
       scalingRegime,
