@@ -570,7 +570,7 @@ export function computeScaling(input: {
       action === "SCALE"
         ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro → SCALE au palier suivant + créas neuves (T35).`
         : action === "HOLD"
-          ? `1er NON sur ${last.label} (${marginTxt} < 15 %) : cran 1 → HOLD 24 h, on ne touche pas au budget (T35).`
+          ? `1er NON sur ${last.label} (${marginTxt} < 15 %) : cran 1 → HOLD 24 h, on ne touche pas au budget — l'attribution de la fenêtre se remplit encore (24-72 h) et, si un mouvement récent a eu lieu, Meta ré-explore. Encore < 15 % demain → DESCALE (T35 ; arbitrage Badr 18/08 : le NON compte même sans mouvement récent, sinon une dérive lente ne serait jamais réduite).`
           : action === "DESCALE"
             ? `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) : cran ${nonStreak} → DESCALE −15 % + créas neuves (T35/T24).`
             : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35).`;
