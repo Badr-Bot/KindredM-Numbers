@@ -79,16 +79,22 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - Gilet : marge ≈ 70 % en upsell ; **en PRIMAIRE (cas Lancaster) le packing +4 €/cmd la ramène à ~63-64 % → BE ≈ 1,57× · cible 15 % ≈ 2,06×** (recalé 14/08 après la levée du litige packing).
 - Dashboard : seuils dynamiques 14 j glissants (jamais figés). Cible = 15 % net (aligné Master 04/08, ex-20 %) : `roasTarget15` = 1/(CM−0,15). Seuils aussi calculés PAR PRODUIT pour les créas (Lancaster→Gilet, sinon Polo).
 
-## Protocole scaling (Master, validé Badr 03/08) — base : moyenne ROAS réel 3 j
+## ~~Protocole scaling (03/08)~~ — OBSOLÈTE (arbitrage Badr 18/08 : la leçon 35 fait foi)
+> ⚠️ Remplacé par le protocole de la formation (leçon 35) appliqué par l'onglet 🪜 Escalier
+> (section suivante). Conservé pour l'historique — NE PLUS s'en servir pour décider :
+> les deux ne donnent pas le même verdict (ex. entre BE et cible : HOLD 5-7 j ici,
+> escalier de NON là-bas). `decideCampaign` (roasReport.ts) et la skill verdict-scaling
+> qui l'appliquent encore sont à migrer.
 - SCALE si moy ≥ cible15 ET santé OK (CTR stable, CVR ±10 %, fréq <2, CPM <+20 %) : <200 €/j +25 % · 200-600 +20 % · 600-1500 +15 % · >1500 +10 %. Max +30 %. CBO fourchette basse. Attendre 48-72 h entre scales. Duplication seulement >1000-1500 €/j très stable.
 - HOLD si BE < moy < cible : rien toucher 5-7 j ; plafond ~7 j → nouvelles créas AVANT budget.
 - DESCALE si moy < BE : 90-100 % du BE −15 % · 80-90 % −20 % · <80 % −30 %. Jamais −50 %.
 - COUPER : 2 fenêtres consécutives < BE sans reprise, OU <70 % du BE avec spend ≫ CPA.
 - Cas particuliers prioritaires : campagne <3 j → pas de ROAS (CTR/CPM/CVR) · budget <50 €/j → volume insuffisant · post-scale → 48-72 h sans décision lourde.
 
-## 🪜 Onglet Escalier (18/08) — protocole leçon 35, ⚠️ arbitrage Badr en attente
+## 🪜 Onglet Escalier (18/08) — protocole leçon 35 (arbitrage Badr 18/08 : FAIT FOI)
 - Nouvel onglet `/escalier` + `GET /api/escalier` : rejoue chaque nuit la décision budget/campagne du protocole de la FORMATION (MASTER ACQUISITION leçon 35, transcription vérifiée) : fenêtre 2 jours glissants, « rentable au backend ≥ 15 % ? » → OUI = monter (paliers 500→750→1000→1500→1800→2000→3000, jusqu'à ×2 si petit) + compteur à zéro · NON 1 = attendre 24 h · NON 2-3 = réduire 10-15 % (défaut 15 %, T24) + créas · NON 4 = SAUVETAGE (cadran CPC×CVR : créas / funnel / AOV / big swing). Plancher 100 €/j. Jour en cours toujours exclu (verdict de 15 h = verdict de minuit). Logique pure dans `escalier.ts`, testée ; l'onglet RECOMMANDE, n'exécute jamais (aucune écriture Meta).
-- **⚠️ CONFLIT non tranché avec le « Protocole scaling (validé 03/08) » ci-dessus** (moyenne ROAS 3 j, HOLD 5-7 j, hausses ±25/20/15/10 %) : deux lectures différentes de la formation qui ne donnent PAS le même verdict (ex. ROAS entre BE et cible → HOLD 5-7 j pour l'un, escalier de NON pour l'autre). L'onglet applique la leçon 35 ; `decideCampaign` (roasReport.ts, non branché en prod) applique encore le 03/08. Badr doit trancher lequel fait foi — ne pas mélanger en silence (règle ARBITRAGES).
+- **Arbitrage rendu (Badr, 18/08) : la leçon 35 fait foi**, le protocole du 03/08 est obsolète (section précédente). Reste à migrer : `decideCampaign` (roasReport.ts, non branché en prod) et la skill verdict-scaling appliquent encore l'ancien.
+- **Paliers 1800/2000 vs 1850/2250 : Badr vérifie le schéma Whimsical de la leçon** (lien dans la transcription T35) — réaligner `MONTEE_PALIERS_CENTS` si le schéma dit autre chose que l'audio.
 - Budget/j : override `app_state.campaign_daily_budgets` > `daily_budget` Meta (CBO, via `fetchCampaignLiveInfos`) > estimation par le spend max (flag « estimé »). Décisions appliquées mémorisées via le journal (`events`, type budget) — bouton « ✓ appliqué » sur chaque carte.
 - Écarts connus vs formation (vérif agent 18/08) : paliers 1850/2250 du schéma Whimsical NON archivé → alignés sur l'audio (1800/2000) en attendant ; fenêtre 3 j « si instable » (T24) signalée par un flag, pas appliquée ; régime SCALING ≥ 3 000 €/j (barème à la marge T35 [15:03]) non codé, warning explicite.
 
