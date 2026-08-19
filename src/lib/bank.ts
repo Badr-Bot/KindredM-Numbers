@@ -233,7 +233,7 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
   };
 }
 
-export async function fetchSlashData(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[] }> {
+export async function fetchSlashData(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[]; balances: BankBalance[] }> {
   const token = process.env.SLASH_API_TOKEN;
   if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
 
@@ -335,7 +335,40 @@ export async function fetchSlashData(sinceDay: string, untilDay: string): Promis
     }
     txs.push(mapped);
   }
-  return { txs };
+
+  // Soldes (doc collée par Badr 19/08 : GET /account/{id}/balance). Pour une
+  // charge card, cash (excédent) + credit (collatéral) sont TOUS LES DEUX
+  // l'argent de la société ; debit pour un compte débit. On somme
+  // l'AVAILABLE de chaque balance de chaque compte — un seul total Slash USD.
+  let balances: BankBalance[] = [];
+  try {
+    const headers: Record<string, string> = { "X-API-Key": token };
+    if (legalEntity) headers["x-legal-entity"] = legalEntity;
+    const accRes = await fetch(`${SLASH_API}/account`, { headers });
+    if (accRes.ok) {
+      const accJson = (await accRes.json()) as { items?: { id?: string }[] };
+      let totalCents = 0;
+      let any = false;
+      for (const a of accJson.items ?? []) {
+        if (typeof a.id !== "string") continue;
+        const balRes = await fetch(`${SLASH_API}/account/${encodeURIComponent(a.id)}/balance`, { headers });
+        if (!balRes.ok) continue;
+        const balJson = (await balRes.json()) as { balances?: { available?: { amountCents?: number } }[] };
+        for (const b of balJson.balances ?? []) {
+          if (typeof b.available?.amountCents === "number") {
+            totalCents += b.available.amountCents;
+            any = true;
+          }
+        }
+      }
+      if (any) {
+        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD") }];
+      }
+    }
+  } catch {
+    // solde illisible : signalé dans le rapport, les transactions restent valables
+  }
+  return { txs, balances };
 }
 
 interface WiseStatementTx {
@@ -839,7 +872,11 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       const slash = await fetchSlashCached(sinceDay, untilDay);
       txs = txs.concat(slash.txs);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
+      balances = balances.concat(slash.balances);
       slashConnected = true;
+      if (slash.balances.length === 0) {
+        warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
+      }
     } catch (err) {
       warnings.push(`Slash : ${(err as Error).message}`);
     }

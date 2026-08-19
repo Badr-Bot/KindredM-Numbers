@@ -102,9 +102,12 @@ function HealthHeader({ tiles }: { tiles: DomainTile[] }) {
       <div className={`rounded-lg border p-3 text-[13px] font-extrabold ${banner.cls}`}>{banner.txt}</div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {tiles.map((t) => (
-          <div key={t.title} className={`rounded-lg border bg-panel p-2.5 ${HEALTH_TILE[t.health]}`}>
+          <div
+            key={t.title}
+            className={`rounded-lg border bg-panel p-2.5 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] ${HEALTH_TILE[t.health]}`}
+          >
             <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-ink-faint">
-              <span className={`h-2 w-2 shrink-0 rounded-full ${HEALTH_DOT[t.health]}`} />
+              <span className={`h-2 w-2 shrink-0 rounded-full ${t.health !== "green" ? "animate-pulse" : ""} ${HEALTH_DOT[t.health]}`} />
               {t.title}
             </div>
             <div className="mt-0.5 text-[12.5px] font-extrabold text-ink">{t.value}</div>
@@ -296,7 +299,9 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
         <div>
           Solde total connu <b className="tnum text-ink">{formatEur0(totalCents)}</b>
           {horsTotal.length > 0 && <span className="block text-[9.5px] text-ink-faint">hors {horsTotal.join(", ")} (sans taux)</span>}
-          {!report.slashConnected && <span className="block text-[9.5px] text-amber">⚠️ solde Slash non compté (à brancher)</span>}
+          {!report.balances.some((b) => b.bank === "SLASH") && (
+            <span className="block text-[9.5px] text-amber">⚠️ solde Slash non compté</span>
+          )}
         </div>
         <div>
           Part Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
