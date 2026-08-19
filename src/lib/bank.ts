@@ -29,7 +29,7 @@ import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 const WISE_API = "https://api.wise.com";
 
 export type BankName = "WISE" | "SLASH";
-export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "INTERNE" | "AUTRE";
+export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "FOURNISSEUR" | "FRAIS" | "INTERNE" | "AUTRE";
 /** Affectation manuelle d'une transaction (table bank_tx_labels).
  * FAHD = ADNANE (confirmé Badr 19/08) : même personne que l'associé du
  * ledger « Entre associés ». Une dépense perso payée par la carte LLC est
@@ -76,6 +76,17 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "Vercel", re: /vercel/i },
   { label: "Canva", re: /canva/i },
   { label: "Hushed", re: /hushed/i },
+  // Ajouts 19/08 (Badr : « normalement tu connais tout ») — la liste
+  // officielle de subscriptions.ts, reconnue en banque par mots-clés.
+  { label: "Higgsfield ×2 (Adnane + Ismael)", re: /higgs\s*field|higgsfield/i },
+  { label: "Eleven Labs ×2 (Adnane + monteur)", re: /eleven\s*labs/i },
+  { label: "VMake", re: /v\s*make|vmake/i },
+  { label: "TrendTrack", re: /trend\s*track/i },
+  { label: "Floxy (proxy)", re: /floxy/i },
+  { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
+  { label: "Google Workspace", re: /google\s*[*.]?\s*workspace|gsuite/i },
+  { label: "Marwa", re: /marwa/i },
+  { label: "Seif (fixe, hors %)", re: /\bseif\b/i },
   // Apps Shopify — parfois débitées en direct, parfois via la facture
   // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
   // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
@@ -91,9 +102,17 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // « À affecter », jamais dans les parts — remarque Badr 19/08 : « juste
   // j'ai pris USD et je l'ai converti en euros, c'est resté dans le compte ».
   // (« wise » couvre les virements Slash → Wise vus côté Slash — un marchand
-  // nommé « wise » serait un faux positif, assumé et signalé ici.)
-  if (/^converted\b/.test(d) || /kindredm/.test(d) || /\bwise\b/.test(d)) return { category: "INTERNE", subscriptionLabel: null };
+  // nommé « wise » serait un faux positif, assumé et signalé ici. « daily
+  // credit » = remboursement quotidien automatique de la carte à débit
+  // différé Slash, du compte cash vers le compte crédit : le compter serait
+  // COMPTER DEUX FOIS chaque dépense carte, déjà présente individuellement.)
+  if (/^converted\b/.test(d) || /kindredm/.test(d) || /\bwise\b/.test(d) || /daily\s*credit/.test(d))
+    return { category: "INTERNE", subscriptionLabel: null };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
+  // Fournisseur (Badr 19/08 : « Panda Dropshipping c'est le fournisseur ») —
+  // les factures détaillées vivent dans l'onglet Dépenses ; ici le paiement
+  // bancaire, et ses frais de virement lui sont rattachés (poste COGS réel).
+  if (/panda/.test(d)) return { category: "FOURNISSEUR", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };
   for (const p of SUBSCRIPTION_PATTERNS) {
@@ -183,6 +202,9 @@ export interface SlashTx {
   merchantData?: { description?: string };
   /** Carte associée (absente hors transactions carte). */
   cardId?: string;
+  /** Présent quand la transaction est un FRAIS Slash (FX, virement…) —
+   * relatedTransaction pointe la transaction d'origine du frais. */
+  feeInfo?: { relatedTransaction?: { id?: string; amount?: number } };
 }
 
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
@@ -276,10 +298,36 @@ export async function fetchSlashData(sinceDay: string, untilDay: string): Promis
     // cartes illisibles : pas bloquant, l'affectation reste manuelle
   }
 
+  // Frais Slash (FX, virement…) : chaque frais SUIT sa transaction d'origine
+  // (Badr 19/08 : « les fees foreign transaction, c'est les dépenses
+  // d'Adnane/Fahd ; si ça correspond au paiement Meta, rajoute-le dans les
+  // frais Meta ; les frais du virement fournisseur vont au COGS ») —
+  // frais d'une dépense perso → la case perso de la carte ; frais Meta →
+  // META ; frais du virement Panda → FOURNISSEUR ; parent introuvable →
+  // FRAIS (société, à surveiller).
+  const byId = new Map(raw.map((t) => [t.id, t]));
   const txs: BankTx[] = [];
   for (const t of raw) {
     const mapped = mapSlashTx(t);
     if (!mapped) continue;
+    const relId = t.feeInfo?.relatedTransaction?.id;
+    if (relId !== undefined) {
+      const parent = byId.get(relId);
+      const parentDesc = parent ? parent.merchantData?.description || parent.description || "" : "";
+      const parentCat = parent ? categorizeTx(parentDesc, parent.amountCents).category : "AUTRE";
+      const parentOwner = parent?.cardId ? owners.get(parent.cardId) : undefined;
+      mapped.subscriptionLabel = null;
+      if (parentOwner && parentCat === "AUTRE") {
+        mapped.category = "FRAIS";
+        mapped.label = parentOwner.label;
+        mapped.labelNote = `frais lié à « ${parentDesc} » (${parentOwner.note})`;
+      } else {
+        mapped.category = parentCat === "AUTRE" || parentCat === "INTERNE" ? "FRAIS" : parentCat;
+        mapped.labelNote = parent ? `frais lié à « ${parentDesc} »` : "frais Slash — transaction d'origine hors fenêtre";
+      }
+      txs.push(mapped);
+      continue;
+    }
     const owner = t.cardId ? owners.get(t.cardId) : undefined;
     if (owner && mapped.category === "AUTRE" && mapped.amountCents < 0) {
       mapped.label = owner.label;
@@ -538,22 +586,28 @@ export function computeControl(input: {
     (t) => t.category === "ABONNEMENT" && /shopify/i.test(t.description) && t.amountCents < 0
   );
   const sinceLabel = `${sinceDay.slice(8, 10)}/${sinceDay.slice(5, 7)}`;
+  // UNE seule alerte groupée — 13 cartes empilées noyaient la page (Badr
+  // 19/08 : « bien organisé, on repère et on descend lire le détail »).
+  const abosManquants: string[] = [];
   for (const p of SUBSCRIPTION_PATTERNS) {
     const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
     if (!known || known.endDay !== null || known.amount <= 0) continue;
     if (known.paidBy) continue; // avance perso (Badr/Adnane) — pas un débit LLC
     if (known.category === "APP_SHOPIFY" && factureShopifyVue) continue;
     const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
-    if (!paid) {
-      anomalies.push({
-        kind: "ABO_NON_DEBITE",
-        severity: "amber",
-        label: `${p.label} : aucun débit vu depuis le ${sinceLabel} (attendu ~${eur(monthlyEurCents(known))}/mois)`,
-        detail: slashConnected
-          ? "Payé via la facture Shopify ? Sinon : impayé — vérifier avant une coupure de service."
-          : "Peut passer sur la carte Slash (pas encore branchée) ou via la facture Shopify — à confirmer au branchement. Sinon : impayé.",
-      });
-    }
+    if (!paid) abosManquants.push(`${p.label} (~${eur(monthlyEurCents(known))}/mois)`);
+  }
+  if (abosManquants.length > 0) {
+    anomalies.push({
+      kind: "ABO_NON_DEBITE",
+      severity: "amber",
+      label: `${abosManquants.length} abonnement(s) sans débit vu depuis le ${sinceLabel}`,
+      detail:
+        `${abosManquants.join(" · ")}. ` +
+        (slashConnected
+          ? "Payés via la facture Shopify ? Sinon : impayés — vérifier avant une coupure de service."
+          : "Peuvent passer sur la carte Slash (pas encore branchée) ou via la facture Shopify — à confirmer au branchement."),
+    });
   }
 
   // 3) Abonnement débité à un montant qui ne colle pas (> ±20 % du mensuel).
@@ -625,9 +679,16 @@ export function computeControl(input: {
   }
 
   // Parts : Société = catégories société + affectés SOCIETE ; perso = affectés.
+  // Un FRAIS hérité d'une dépense perso (label PERSO_*) reste dans la part
+  // perso — jamais compté deux fois.
   const sumAbs = (list: BankTx[]) => list.reduce((a, t) => a + Math.abs(t.amountEurCents ?? 0), 0);
+  const CATS_SOCIETE: TxCategory[] = ["META", "ABONNEMENT", "FOURNISSEUR", "FRAIS"];
   const societe = debits.filter(
-    (t) => t.category === "META" || t.category === "ABONNEMENT" || (t.category === "SHOPIFY" && t.amountCents < 0) || t.label === "SOCIETE"
+    (t) =>
+      ((CATS_SOCIETE.includes(t.category) || (t.category === "SHOPIFY" && t.amountCents < 0)) &&
+        t.label !== "PERSO_BADR" &&
+        t.label !== "PERSO_FAHD") ||
+      t.label === "SOCIETE"
   );
   const badr = debits.filter((t) => t.label === "PERSO_BADR");
   const fahd = debits.filter((t) => t.label === "PERSO_FAHD");

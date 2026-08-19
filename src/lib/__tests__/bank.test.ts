@@ -29,7 +29,33 @@ describe("categorizeTx", () => {
     expect(categorizeTx("Shopify Payments payout", 150000).category).toBe("SHOPIFY");
     expect(categorizeTx("SHOPIFY INC monthly", -3900).category).toBe("ABONNEMENT");
     expect(categorizeTx("ANTHROPIC PBC", -2706).subscriptionLabel).toBe("Claude (Badr)");
-    expect(categorizeTx("Fournisseur Panda", -80000).category).toBe("AUTRE");
+    expect(categorizeTx("Fournisseur Panda", -80000).category).toBe("FOURNISSEUR"); // Badr 19/08 : Panda = fournisseur
+    expect(categorizeTx("Restaurant Al Majed", -1200).category).toBe("AUTRE");
+  });
+
+  it("fournisseur, daily credit, abonnements connus (Badr 19/08 : « tu connais tout »)", () => {
+    expect(categorizeTx("PANDA DROPSHIPPING", -500000).category).toBe("FOURNISSEUR");
+    // remboursement quotidien de la carte à débit différé Slash : le compter
+    // doublerait chaque dépense carte déjà listée individuellement
+    expect(categorizeTx("Daily credit payment", -120000).category).toBe("INTERNE");
+    expect(categorizeTx("HIGGSFIELD AI", -13000).category).toBe("ABONNEMENT");
+    expect(categorizeTx("VMAKE.AI", -999).category).toBe("ABONNEMENT");
+    expect(categorizeTx("TRENDTRACK", -2500).category).toBe("ABONNEMENT");
+    expect(categorizeTx("SKOOL.COM", -21600).category).toBe("ABONNEMENT");
+  });
+
+  it("un FRAIS hérité d'une dépense perso reste dans la part perso, jamais société", () => {
+    const c = computeControl({
+      txs: [
+        tx("2026-08-18", "Foreign transaction fee", -1.2, { category: "FRAIS", label: "PERSO_FAHD" } as Partial<BankTx>),
+        tx("2026-08-18", "Foreign transaction fee 2", -1.5, { category: "FRAIS" } as Partial<BankTx>),
+      ],
+      reconciliation: null,
+      sinceDay: "2026-08-01",
+      untilDay: "2026-08-19",
+    });
+    expect(c.parts.persoFahdCents).toBe(120); // le frais perso suit la carte
+    expect(c.parts.societeCents).toBe(150); // le frais société reste société
   });
 
   it("conversion de devise et virement entre nos comptes = INTERNE, jamais à affecter", () => {
@@ -77,7 +103,7 @@ describe("reconcile", () => {
 
   it("le reste part en AUTRE, jamais avalé ; devise inconnue signalée", () => {
     const txs = [
-      tx("2026-08-18", "Virement Panda Dropshipping", -900),
+      tx("2026-08-18", "Virement inconnu XYZ", -900),
       tx("2026-08-18", "Mystère", -50, { currency: "GBP", amountEurCents: null }),
     ];
     const r = reconcile(txs, expected, "2026-08-18", "2026-08-19");
@@ -110,22 +136,22 @@ describe("computeControl — anomalies et parts", () => {
     const txs = [tx("2026-08-18", "FACEBK", -100)];
     const c = computeControl({ txs, reconciliation: null, ...W });
     // Klaviyo & co : « c'est la LLC qui paye — tu les trouveras » (Badr 19/08).
-    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Klaviyo"))).toBe(true);
+    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Klaviyo"))).toBe(true);
     // Hushed : payé perso par Adnane EN CONTINU (Badr 19/08) — jamais réclamé.
-    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Hushed"))).toBe(false);
+    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Hushed"))).toBe(false);
   });
 
   it("apps Shopify pas réclamées individuellement si une facture Shopify est débitée", () => {
     const sans = computeControl({ txs: [tx("2026-08-18", "FACEBK", -100)], reconciliation: null, ...W });
-    expect(sans.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("CWILL"))).toBe(true);
+    expect(sans.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("CWILL"))).toBe(true);
     const avec = computeControl({
       txs: [tx("2026-08-18", "SHOPIFY INC monthly", -89)],
       reconciliation: null,
       ...W,
     });
     // La facture Shopify peut porter les apps (CWILL, Moon Bundles) → pas d'alerte.
-    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("CWILL"))).toBe(false);
-    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Moon"))).toBe(false);
+    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("CWILL"))).toBe(false);
+    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Moon"))).toBe(false);
   });
 
   it("zéro débit Meta + Slash absent = metaPending, ni warning ni anomalie", () => {
