@@ -57,10 +57,16 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
       <span className={`rounded-md border px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide ${meta.badge}`}>
         {meta.label} <span className="tnum normal-case">{pct}</span>
       </span>
-      {(c.action === "DESCALE" || c.action === "SCALE") && c.suggestedCents !== null && (
-        <span className={`tnum text-[15px] font-extrabold ${meta.text}`}>
-          {c.budgetCents !== null ? `${eur(c.budgetCents)} ` : ""}→ {eur(c.suggestedCents)}/j
-        </span>
+      {c.applied ? (
+        // Le mouvement a DÉJÀ été fait sur Meta : on le dit au lieu de
+        // re-prescrire un 2ᵉ mouvement depuis le budget déjà bougé.
+        <span className="tnum text-[12px] font-bold text-phosphor">✓ appliqué : {c.appliedLabel} — on rejuge à la prochaine fenêtre</span>
+      ) : (
+        (c.action === "DESCALE" || c.action === "SCALE") && c.suggestedCents !== null && (
+          <span className={`tnum text-[15px] font-extrabold ${meta.text}`}>
+            {c.budgetCents !== null ? `${eur(c.budgetCents)} ` : ""}→ {eur(c.suggestedCents)}/j
+          </span>
+        )
       )}
       {c.action === "HOLD" && <span className="text-[11px] font-bold text-ink">budget inchangé — on rejuge à minuit</span>}
       {c.action === "RESCUE" && <span className="text-[11px] font-bold text-ink">on ne rabote plus — voir le diagnostic 🩺</span>}
@@ -208,15 +214,19 @@ function DailyTable({ c }: { c: ScalingCampaign }) {
 }
 
 function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) {
-  const tag = a.winner
-    ? { txt: "WINNER", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" }
-    : a.potentialWinner
-      ? { txt: "POTENTIEL", cls: "border-cyan/50 bg-cyan/10 text-cyan" }
-      : a.toZombie
-        ? { txt: "→ ZOMBIE", cls: "border-red/50 bg-red/10 text-red" }
-        : a.saturating
-          ? { txt: "SATURE", cls: "border-amber/50 bg-amber/10 text-amber" }
-          : null;
+  const tag = a.alreadyMarked
+    ? { txt: "MARQUÉE", cls: "border-line text-ink-faint" }
+    : a.winner
+      ? { txt: "WINNER", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" }
+      : a.potentialWinner
+        ? { txt: "POTENTIEL", cls: "border-cyan/50 bg-cyan/10 text-cyan" }
+        : a.earlySignal
+          ? { txt: "SIGNAL", cls: "border-cyan/50 bg-cyan/10 text-cyan" }
+          : a.toZombie
+            ? { txt: "→ ZOMBIE", cls: "border-red/50 bg-red/10 text-red" }
+            : a.saturating
+              ? { txt: "SATURE", cls: "border-amber/50 bg-amber/10 text-amber" }
+              : null;
   const roasCls =
     a.roas === null || breakEven === null
       ? "text-ink-faint"
@@ -249,10 +259,10 @@ function RescueBlock({ c }: { c: ScalingCampaign }) {
   // « anticipé » = on montre le diagnostic avant la bascule (cran 3 réel).
   // Quand RESCUE est plafonné faute de réduction exécutée, la campagne ne
   // bascule PAS mécaniquement : on ne promet pas le contraire.
-  const anticipated = c.action !== "RESCUE";
-  const capped = c.why.includes("aucune réduction encore exécutée");
+  const anticipated = c.action !== "RESCUE" && !c.rescueCapped;
+  const capped = c.rescueCapped;
   return (
-    <details className="group border-t border-line-soft" open={!anticipated}>
+    <details className="group border-t border-line-soft" open={!anticipated || capped}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
         <span className="font-semibold text-ink">
           🩺 Diagnostic{" "}
@@ -412,14 +422,14 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
           <p className="mt-1">
             ⏳ <b className="text-ink">Fenêtre en cours</b> : la journée n&apos;est pas finie et l&apos;attribution Meta se
             remplit en 24-72 h — cette marge ne peut que <b className="text-ink">monter</b> d&apos;ici minuit. Exécute le
-            mouvement entre minuit et 1 h, sur le chiffre figé.
+            mouvement sur le chiffre figé, entre minuit et 7 h (idéalement 00h-1h, T35).
           </p>
         )}
         {c.sauvetageDiagnostic && <p className="mt-1 text-red">🩺 {c.sauvetageDiagnostic}</p>}
         {c.lowSample && (
           <p className="mt-1 text-amber">
             ⚠️ {judged.purchases} conversions sur la fenêtre (&lt; 15) : traite ce verdict comme un ajustement,
-            pas comme un jugement sur le produit.
+            pas comme un jugement sur le produit. <span className="text-ink-faint">(seuil hors formation)</span>
           </p>
         )}
         {c.unstable && (
@@ -516,21 +526,29 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
           </li>
           <li>
             ▸ <b className="text-ink">Lancement</b> : mardi → vendredi (jamais lundi), adset live entre minuit et 7 h ·
-            Advantage+ créative OFF sauf relevant comments · placements originaux · exclure les acheteurs.
+            Advantage+ créative OFF sauf relevant comments · placements originaux · exclure les acheteurs · audience
+            identique au 1er lancement (même pays, même langue, on ne teste rien d&apos;autre) · adcopy et titre doivent
+            matcher la LP et l&apos;offre (Meta les lit) · attribution : 7-day-click + 1-day-view en ABO testing,
+            7-day-click only en CBO/scaling · naming : « Creative Testing &lt;mois&gt; &lt;semaine&gt; — &lt;batch&gt; ».
           </li>
           <li>
-            ▸ <b className="text-ink">Winners</b> : ad à ≥ 6 ventes ET ≥ 10 % de marge (14 j) → marquer « WIN &lt;mois&gt;
-            &lt;semaine&gt; » → dupliquer AVEC LE MÊME POST ID (garde commentaires/social proof) dans un nouvel adset
-            « winners » de la CBO scaling, minimum spend 10-15 €/j. Entre BE et 10 % avec ≥ 6 ventes = potential winner →
-            injecter aussi. L&apos;originale reste active tant qu&apos;elle est rentable. Un adset qui performe peut recevoir
-            1-2 créas max à la fois — un nouvel adset repart avec un apprentissage neuf.
+            ▸ <b className="text-ink">Winners</b> (≥ 6 ventes ET ≥ 10 % de marge sur 14 j) : marquer « WIN &lt;mois&gt;
+            &lt;semaine&gt; » — une ad marquée n&apos;est dispatchée qu&apos;UNE fois. ⚠️ Le dispatch (dupliquer avec le
+            MÊME POST ID dans un nouvel adset « winners », min spend ≈ AOV×2÷7, en pratique 10-15 $) est le process
+            ABO → CBO : « si vous êtes en CBO, il n&apos;y a rien à faire, vos ads sont déjà là » (T37). En CBO, seuls
+            partent en ZOMBIE les ≥ 6 ventes sous le BE. Potential winner (entre BE et 10 %) et signal précoce (&lt; 6
+            ventes mais marge ≥ 15 %) : à surveiller/injecter (T37). À ≥ 50 ventes toujours rentable → renommer BANGER.
+            Un adset qui performe peut recevoir 1-2 créas max à la fois.
           </li>
         </ul>
       </div>
 
       <div className="rounded-lg border border-line bg-panel/40 p-3 text-[10px] leading-relaxed text-ink-faint">
         <p>
-          <b className="text-ink-dim">Réserves.</b> Marges calculées sur le <b>ROAS Meta</b> (marge = CM − 1/ROAS), un
+          <b className="text-ink-dim">Réserves.</b> Paramètres chiffrés <b>hors formation</b> (elle lit ces signaux à
+          l&apos;œil, sans seuil) : ±20 % vs la médiane de la campagne pour le cadran CPC/CVR et la saturation (4 j et
+          1 000 impressions minimum par moitié), 15 conversions pour la réserve d&apos;échantillon, série de NON cassée
+          par un trou de diffusion. Marges calculées sur le <b>ROAS Meta</b> (marge = CM − 1/ROAS), un
           plafond à confronter à <code className="tnum">/api/roas-report</code> (ROAS UTM Shopify). Attribution Meta :
           24-72 h pour se remplir. Budgets et mouvements : <b>lus sur Meta</b> (daily_budget + journal d&apos;activités du
           compte). Seuils BE/Cible : CM 14 j glissants par produit. Protocole : formation Master, leçon 35 (arbitrage

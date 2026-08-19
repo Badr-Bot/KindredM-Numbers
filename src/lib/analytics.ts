@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
 import { isExcludedCampaign } from "./meta";
@@ -578,7 +579,7 @@ export interface ProductRoasThresholds {
 
 /** endDay inclus, 14 jours glissants. null si les commandes sont illisibles
  * (le composant retombe alors sur les seuils GLOBAL). */
-export async function getProductRoasThresholds(
+async function getProductRoasThresholdsUncached(
   endDay: string
 ): Promise<Record<CreaProduct, ProductRoasThresholds> | null> {
   const supabase = createSupabaseServerClient();
@@ -633,3 +634,17 @@ export async function getProductRoasThresholds(
 
   return { GILET: toThresholds(gilet), POLO: toThresholds(polo) };
 }
+
+/**
+ * Version cachée 5 min (même pattern que getTodaySnapshot, live.ts) : le
+ * calcul pagine la table orders (line_items compris, ~Mo de JSON) à chaque
+ * appel alors qu'il ne porte que sur des jours CLOS — 5 min de staleness sur
+ * un CM 14 j est indiscernable pour un seuil comparé à 15 %. endDay fait
+ * partie de la clé (unstable_cache intègre les arguments). Invalidable par
+ * le bouton Actualiser (tag, cf. /api/refresh).
+ */
+export const getProductRoasThresholds = unstable_cache(
+  getProductRoasThresholdsUncached,
+  ["product-roas-thresholds"],
+  { revalidate: 300, tags: ["product-roas-thresholds"] }
+);

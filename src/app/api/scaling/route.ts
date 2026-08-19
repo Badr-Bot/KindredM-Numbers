@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { formatInTimeZone } from "date-fns-tz";
 import { BASCULE_HEURE, buildScalingReport, decisionDayFor } from "@/lib/scaling";
-import { todayParisDay } from "@/lib/time";
+
 
 export const dynamic = "force-dynamic";
 
@@ -23,10 +23,13 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const raw = searchParams.get("day");
-  const parisHour = Number(formatInTimeZone(new Date(), "Europe/Paris", "H"));
+  // Un SEUL instant de référence pour le jour ET l'heure (cohérence à minuit).
+  const now = new Date();
+  const parisHour = Number(formatInTimeZone(now, "Europe/Paris", "H"));
+  const todayNow = formatInTimeZone(now, "Europe/Paris", "yyyy-MM-dd");
   // Sans paramètre : règle horaire (00h-07h = veille figée, ensuite jour J
   // live). Avec ?day= : rejeu d'un jour précis, fenêtre figée.
-  const day = !raw || raw === "today" ? decisionDayFor(todayParisDay(), parisHour) : raw;
+  const day = !raw || raw === "today" ? decisionDayFor(todayNow, parisHour) : raw;
   const liveDay = (!raw || raw === "today") && parisHour >= BASCULE_HEURE;
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {

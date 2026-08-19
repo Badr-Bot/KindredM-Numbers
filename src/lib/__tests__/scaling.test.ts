@@ -141,7 +141,6 @@ describe("verdicts et crans (décision de la nuit)", () => {
     expect(c.action).toBe("SCALE");
     expect(c.cran).toBeNull();
     expect(c.suggestedCents).toBe(50000); // 300 → ×2 = 600 plafonné à 500
-    expect(c.suggestedMaxCents).toBeNull();
     expect(c.creasRequired).toBe(true);
   });
 
@@ -399,11 +398,16 @@ describe("plan créas (T36/T37)", () => {
     expect(plan).toContain("MÊME POST ID");
   });
 
-  it("HOLD sans saturation : pas de plan imposé ; avec CPMr en hausse : préparer le batch", () => {
-    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+  it("HOLD sans saturation : pas de plan imposé (assertions dures)", () => {
+    // 6 jours excellents puis AUJOURD'HUI franchement mauvais : la fenêtre
+    // 17+18 (mixte) passe sous 15 % → 1er NON → HOLD garanti. Volumes
+    // constants jour à jour → pas de cpmrRising.
+    const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, 1.2)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const c = r.campaigns[0];
-    if (c.action === "HOLD" && !c.cpmrRising) expect(c.creaPlan).toHaveLength(0);
+    expect(c.action).toBe("HOLD");
+    expect(c.cpmrRising).toBe(false);
+    expect(c.creaPlan).toHaveLength(0);
   });
 
   it("RESCUE : le plan suit le cadran (créas → hooks/angles/mécanismes)", () => {
@@ -472,14 +476,15 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     expect(win.winner).toBe(true);
     expect(zomb.toZombie).toBe(true); // ≥ 6 ventes, sous le BE
     const plan = c.rescue!.plan.join(" ");
-    // le plan nomme les annonces concernées, et ne parle JAMAIS de couper
+    const evidence = c.rescue!.evidence.join(" ");
+    // le plan nomme les annonces à dispatcher en zombie, jamais de coupe
     expect(plan).toContain("Statique promo");
     expect(plan).toContain("ZOMBIE");
-    expect(plan).toContain("MÊME POST ID");
-    // aucune consigne de coupe : la seule occurrence tolérée est la phrase
-    // « on ne coupe pas, on déplace »
     expect(plan.toLowerCase()).not.toContain("coupe d'abord");
     expect(plan.toLowerCase()).toContain("on ne coupe pas");
+    // T37 [01:32] : en CBO les winners sont étiquetées, JAMAIS « à dupliquer »
+    expect(plan).not.toContain("MÊME POST ID");
+    expect(evidence).toContain("rien à dupliquer");
   });
 
   it("cadran CRÉAS : CPC qui dérape, CVR qui tient", () => {
@@ -499,7 +504,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       adRows: [ad(d(17), "a1", "Vidéo A", 50, 1.2)],
     });
     expect(r.campaigns[0].rescue!.leak).toBe("CREAS");
-    expect(r.campaigns[0].rescue!.verdict).toContain("CRÉATIF");
+    expect(r.campaigns[0].rescue!.verdict).toContain("CRÉAS");
   });
 
   it("le diagnostic est aussi calculé au cran 3 (anticipation)", () => {
@@ -518,7 +523,8 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       adRows: [ad(d(17), "a1", "Vidéo A", 50, 1.2)],
     });
     const c = r.campaigns[0];
-    if (c.cran === 3) expect(c.rescue).not.toBeNull();
+    expect(c.cran).toBe(3);
+    expect(c.rescue).not.toBeNull();
   });
 
   it("une annonce ARRÊTÉE avant la fenêtre de décision ne « saigne » plus", () => {
@@ -583,10 +589,13 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       adRows: [ad(d(17), "a1", "Vidéo A", 60, 0, { purchases: 0 })],
     });
     const c = r.campaigns[0];
-    if (c.rescue) {
-      expect(c.rescue.leak).toBe("INSUFFISANT");
-      expect(c.rescue.ads.every((a) => !a.winner)).toBe(true);
-    }
+    expect(c.rescue).not.toBeNull();
+    expect(c.rescue!.leak).toBe("INSUFFISANT");
+    expect(c.rescue!.ads.every((a) => !a.winner)).toBe(true);
+    // B2 : le plan créas ne fabrique JAMAIS un big swing sur données
+    // insuffisantes — il dit de vérifier avant de lancer quoi que ce soit.
+    expect(c.creaPlan.join(" ")).not.toContain("big swing");
+    expect(c.creaPlan.join(" ")).toContain("Données insuffisantes");
   });
 
   it("sans données annonce : pas de diagnostic inventé", () => {
@@ -599,6 +608,111 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     });
     expect(r.campaigns[0].action).toBe("RESCUE");
     expect(r.campaigns[0].rescue).toBeNull();
+  });
+});
+
+describe("application détectée (audit 19/08 : pas de double mouvement la même nuit)", () => {
+  const mv = (time: string, oldEur: number, newEur: number) => ({
+    campaignId: "c1", campaignName: "POLO A", eventTime: time,
+    kind: "budget" as const, oldBudgetCents: oldEur * 100, newBudgetCents: newEur * 100, statusTo: null,
+  });
+
+  it("DESCALE déjà exécuté après la clôture → applied, prescription depuis le budget d'AVANT", () => {
+    // Pilotage démarré le 14 (ancre), 2 NON purs (16+17, 17+18) → DESCALE.
+    // Badr applique 300→255 à 00h30 (le 19).
+    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({
+      today: TODAY, rows, thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 25500, updatedTime: null }]]),
+      activities: [mv("2026-08-14T10:00:00+0200", 350, 300), mv("2026-08-19T00:30:00+0200", 300, 255)],
+    });
+    const c = r.campaigns[0];
+    expect(c.action).toBe("DESCALE");
+    expect(c.applied).toBe(true);
+    expect(c.appliedLabel).toContain("300 € → 255 €");
+    // surtout PAS reductionCents(25500)=21700 : la base reste 300 €
+    expect(c.suggestedCents).toBe(25500);
+  });
+
+  it("mouvement AVANT la clôture de la fenêtre jugée → pas « appliqué »", () => {
+    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const r = computeScaling({
+      today: TODAY, rows, thresholds: TH, live: null,
+      activities: [mv("2026-08-16T23:50:00+0200", 350, 300)],
+    });
+    expect(r.campaigns[0].applied).toBe(false);
+  });
+
+  it("I2 : une réduction d'un streak PASSÉ ne débloque pas RESCUE", () => {
+    // OUI sur 12+13 (compteur remis à zéro), puis 4 fenêtres NON (14+15 →
+    // 17+18) ; la seule réduction date du 12 (streak précédent) → RESCUE
+    // plafonné à DESCALE.
+    const rows = [
+      ...[12, 13].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
+      ...[14, 15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.05))),
+      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05)),
+    ];
+    const r = computeScaling({
+      today: TODAY, rows, thresholds: TH, live: null,
+      activities: [mv("2026-08-12T00:30:00+0200", 350, 300)],
+    });
+    const c = r.campaigns[0];
+    expect(c.action).toBe("DESCALE");
+    expect(c.rescueCapped).toBe(true);
+  });
+
+  it("I3 : en mode nuit, le jour jugé garde le budget auquel il a TOURNÉ", () => {
+    // Nuit du 19 (today=18 figé). Badr a exécuté 300→255 à 00h30 le 19 : la
+    // ligne du 18 doit rester à 300 (le 18 a tourné à 300), pas à 255.
+    const rows = mkSeries([0.2]).concat([row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.2))]);
+    const r = computeScaling({
+      today: TODAY, rows, thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 25500, updatedTime: null }]]),
+      activities: [mv("2026-08-19T00:30:00+0200", 300, 255)],
+      liveDay: false,
+    });
+    const t = r.campaigns[0].dailyTable;
+    expect(t[t.length - 1].budgetCents).toBe(30000); // budget d'AVANT minuit
+  });
+});
+
+describe("T37 : signal précoce et anti-redispatch", () => {
+  const rescueRows2 = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+  const descales = [
+    { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
+    { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
+  ];
+  const mkAd = (adId: string, adName: string, roas: number, purchases: number): AdDailyRow[] =>
+    [15, 16, 17, 18].map((n) => ({
+      day: d(n),
+      adId,
+      adName,
+      campaignId: "c1",
+      spendCents: 3000,
+      purchases,
+      purchaseValueCents: Math.round(3000 * roas),
+      impressions: 3000,
+      clicks: 60,
+      reach: 2500,
+    }));
+
+  it("< 6 ventes mais marge ≥ 15 % → SIGNAL précoce (T37 [05:12])", () => {
+    // ROAS 3× → marge ≈ 29 % ; 1 vente/jour × 4 jours = 4 ventes (< 6)
+    const adRows = mkAd("sig", "Hook curiosité", 3.0, 1);
+    const r = computeScaling({ today: TODAY, rows: rescueRows2, thresholds: TH, live: null, activities: descales, adRows });
+    const sig = r.campaigns[0].rescue!.ads.find((a) => a.adId === "sig")!;
+    expect(sig.earlySignal).toBe(true);
+    expect(sig.winner).toBe(false);
+  });
+
+  it("une ad déjà marquée WIN n'est jamais re-recommandée (T37 [05:57])", () => {
+    const adRows = mkAd("w1", "WIN AUGUST 1 — UGC douleur", 3.0, 2); // 8 ventes, marquée
+    const r = computeScaling({ today: TODAY, rows: rescueRows2, thresholds: TH, live: null, activities: descales, adRows });
+    const w = r.campaigns[0].rescue!.ads.find((a) => a.adId === "w1")!;
+    expect(w.alreadyMarked).toBe(true);
+    // ni dans l'evidence winners ni dans le plan zombie
+    expect(r.campaigns[0].rescue!.evidence.join(" ")).not.toContain("UGC douleur");
+    expect(r.campaigns[0].rescue!.plan.join(" ")).not.toContain("UGC douleur");
   });
 });
 
