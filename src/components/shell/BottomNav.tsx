@@ -14,10 +14,11 @@ const ITEMS = [
   { href: "/analyse", label: "Analyse", emoji: "📊" },
   { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/scaling", label: "Scaling", emoji: "🪜" },
+  { href: "/controle", label: "Contrôle", emoji: "🛃" },
 ];
-// /controle existe toujours (affectation d'une campagne Meta toute neuve à
-// un marché, lien direct depuis le bandeau ⚠️ du Live) mais n'est plus dans
-// la barre — retiré le 08/08 (Badr : « l'onglet Contrôle sert à rien »).
+// /controle est REVENU dans la barre le 19/08 (Badr : « il faudra un onglet
+// à part de contrôle ») : il porte désormais le rapprochement bancaire en
+// plus de l'affectation des campagnes Meta neuves.
 
 export function BottomNav() {
   const pathname = usePathname();
