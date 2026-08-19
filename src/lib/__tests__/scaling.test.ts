@@ -776,6 +776,24 @@ describe("T37 : signal précoce et anti-redispatch", () => {
   });
 });
 
+describe("départ officiel du protocole (Badr 19/08 : « on démarre aujourd'hui »)", () => {
+  it("les fenêtres en perte d'AVANT le départ ne comptent pas — départ propre", () => {
+    // Pertes tous les jours, mais protocole démarré le 17 → seules les
+    // fenêtres finissant le 17+ comptent : streak 2, pas RESCUE.
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: null,
+      activities: null,
+      protocolStartDay: d(17),
+    });
+    expect(r.campaigns[0].nonStreak).toBe(2);
+    expect(r.campaigns[0].action).toBe("DESCALE");
+  });
+});
+
 describe("cohérence avec les seuils mémoire (WEFT §4)", () => {
   it("Polo CM 62,6 % → BE ≈ 1,60 · cible ≈ 2,10 ; Gilet 63,5 % → 1,57 / 2,06", () => {
     expect(TH.POLO.breakEven!).toBeCloseTo(1.597, 2);

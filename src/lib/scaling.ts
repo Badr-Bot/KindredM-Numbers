@@ -85,6 +85,12 @@ export const SEUIL_SCALING_CENTS = 300000;
 export const REDUCTION_DEFAUT = 0.15;
 /** Marge nette qui fait basculer OUI/NON (T35 [03:44] « 15 % de marge minimum »). */
 export const SEUIL_OUI = 0.15;
+/** Départ officiel du protocole T24 (Badr, 19/08 : « on démarre ce nouveau
+ * protocole à partir d'aujourd'hui ») : les fenêtres closes AVANT ce jour ne
+ * comptent dans AUCUNE série de perte — départ propre, les verdicts rendus
+ * sous l'ancien barème ne pénalisent personne. */
+export const PROTOCOLE_T24_START_DAY = "2026-08-19";
+
 /** Bandes du barème T24 [17:15] : 0-10 stabiliser · 10-15 petit scale ·
  * 15-30 bonne marge · > 30 « bien au-dessus » → doubler. */
 export const BANDE_STABLE_MAX = 0.10;
@@ -798,6 +804,9 @@ export function computeScaling(input: {
   budgetOverridesCents?: Record<string, number> | null;
   /** false = fenêtre FIGÉE (mode nuit 00h-07h ou rejeu d'un jour passé). */
   liveDay?: boolean;
+  /** Plancher du comptage des pertes : les fenêtres finissant AVANT ce jour
+   * ne comptent pas (départ du protocole). null = pas de plancher (tests). */
+  protocolStartDay?: string | null;
   /** Lignes ANNONCE (14 j) — alimentent le diagnostic de sauvetage. */
   adRows?: AdDailyRow[];
   /** 1er jour de la fenêtre annonce réellement lue en base. */
@@ -933,7 +942,14 @@ export function computeScaling(input: {
     const moveAnchorDay = (m: CampaignActivity) =>
       decisionDayFor(toParisDay(m.eventTime), Number(fmtParis(m.eventTime, "H")));
     const rawMovesForAnchor = movesByCampaign.get(campaignId) ?? [];
-    const anchorDay = rawMovesForAnchor.length > 0 ? moveAnchorDay(rawMovesForAnchor[0]) : null;
+    const moveAnchor = rawMovesForAnchor.length > 0 ? moveAnchorDay(rawMovesForAnchor[0]) : null;
+    // Double plancher : le premier mouvement réel ET le départ officiel du
+    // protocole T24 — le plus récent des deux gagne.
+    const startFloor = input.protocolStartDay ?? null;
+    const anchorDay =
+      moveAnchor !== null && startFloor !== null
+        ? (moveAnchor > startFloor ? moveAnchor : startFloor)
+        : (moveAnchor ?? startFloor);
     const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
     const last = winData[lastIdx];
     // Perte en cours → crans (T24 [16:54] + escalier T35). Sinon → barème
@@ -1378,6 +1394,7 @@ export async function buildScalingReport(
     liveDay,
     adRows,
     adWindowStartDay: adStartDay,
+    protocolStartDay: PROTOCOLE_T24_START_DAY,
   });
   report.warnings.push(...extraWarnings);
   return report;
