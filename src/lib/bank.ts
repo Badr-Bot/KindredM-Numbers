@@ -15,10 +15,10 @@ import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 //    privée RSA dont la clé publique a été uploadée sur le compte Wise
 //    (docs.wise.com/api-docs/guides/strong-customer-authentication-2fa).
 //    Env : WISE_API_TOKEN (read-only) + WISE_PRIVATE_KEY (PEM, multi-ligne).
-//  • SLASH — API en bêta (X-API-Key) ; la doc exacte (docs.slash.com) n'était
-//    pas accessible depuis l'environnement de dev : le connecteur attend
-//    l'URL exacte de l'endpoint transactions pour être branché.
-//    Env : SLASH_API_TOKEN (déjà posé, non consommé tant que non branché).
+//  • SLASH — API en bêta, branchée le 19/08 (doc OpenAPI collée par Badr) :
+//    GET /transaction, header X-API-Key, x-legal-entity auto-découvert pour
+//    les clés user-scoped, pagination cursor/nextCursor, montants en cents
+//    USD (négatif = débit). Env : SLASH_API_TOKEN.
 //
 // Côté « prévu », tout vient du dashboard : spend Meta et CA (daily_aggregates,
 // GLOBAL = somme des marchés) et abonnements (subscriptions.ts).
@@ -148,6 +148,98 @@ async function fetchWiseRates(currencies: string[], token: string): Promise<Map<
     })
   );
   return rates;
+}
+
+// --- Client Slash --------------------------------------------------------------
+// Doc collée par Badr le 19/08 (docs.slash.com, OpenAPI) :
+//   GET https://api.slash.com/transaction — header X-API-Key ; clé user-scoped
+//   ⇒ header x-legal-entity obligatoire (entité découverte via GET
+//   /legal-entity, seule route qui n'exige pas le header). Réponse
+//   { items: Transaction[], metadata: { nextCursor?, count } } ; filtres
+//   filter:from_date / filter:to_date en timestamp UNIX MILLISECONDES.
+//   amountCents en cents USD, négatif = débit.
+
+const SLASH_API = "https://api.slash.com";
+
+export interface SlashTx {
+  id: string;
+  /** UTC — date de post (ou de création si pending/failed) */
+  date: string;
+  description: string;
+  amountCents: number;
+  status: "pending" | "posted" | "failed";
+  detailedStatus: string;
+  memo?: string;
+  merchantData?: { description?: string };
+}
+
+/** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
+ * `settled` (et refund/returned/dispute) restent — l'argent est engagé. */
+const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "reversed", "pending_approval", "in_review"]);
+
+/** Mapping pur (testé) : une transaction Slash → BankTx, ou null si le
+ * statut n'a pas bougé d'argent. Compte Slash en USD ⇒ conversion au taux
+ * figé du dashboard, comme partout. */
+export function mapSlashTx(t: SlashTx): BankTx | null {
+  if (t.status === "failed" || SLASH_STATUTS_SANS_ARGENT.has(t.detailedStatus)) return null;
+  const description = t.merchantData?.description || t.description || t.memo || "(sans libellé)";
+  const { category, subscriptionLabel } = categorizeTx(description, t.amountCents);
+  return {
+    bank: "SLASH",
+    txId: t.id,
+    day: toParisDay(t.date),
+    amountCents: t.amountCents,
+    currency: "USD",
+    amountEurCents: toEurCents(t.amountCents, "USD"),
+    description,
+    category,
+    subscriptionLabel,
+    label: null,
+    labelNote: null,
+  };
+}
+
+export async function fetchSlashData(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[] }> {
+  const token = process.env.SLASH_API_TOKEN;
+  if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
+
+  let legalEntity: string | null = null;
+  const call = (cursor: string | null): Promise<Response> => {
+    const qs = new URLSearchParams({
+      "filter:from_date": String(Date.parse(`${sinceDay}T00:00:00.000Z`)),
+      "filter:to_date": String(Date.parse(`${untilDay}T23:59:59.999Z`)),
+    });
+    if (cursor) qs.set("cursor", cursor);
+    const headers: Record<string, string> = { "X-API-Key": token };
+    if (legalEntity) headers["x-legal-entity"] = legalEntity;
+    return fetch(`${SLASH_API}/transaction?${qs}`, { headers });
+  };
+
+  let res = await call(null);
+  // Clé user-scoped sans header ⇒ 400 : découvrir l'entité puis rejouer.
+  if (res.status === 400 && !legalEntity) {
+    const leRes = await fetch(`${SLASH_API}/legal-entity`, { headers: { "X-API-Key": token } });
+    if (!leRes.ok) throw new Error(`Slash /legal-entity : HTTP ${leRes.status} — ${(await leRes.text()).slice(0, 200)}`);
+    const leJson = (await leRes.json()) as { items?: { id?: string }[] } | { id?: string }[];
+    const arr = Array.isArray(leJson) ? leJson : (leJson.items ?? []);
+    legalEntity = arr[0]?.id ?? null;
+    if (!legalEntity) throw new Error("Slash : aucune legal entity accessible avec cette clé.");
+    res = await call(null);
+  }
+
+  const txs: BankTx[] = [];
+  for (let page = 0; page < 20; page++) {
+    if (!res.ok) throw new Error(`Slash /transaction : HTTP ${res.status} — ${(await res.text()).slice(0, 200)}`);
+    const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
+    for (const t of json.items ?? []) {
+      const mapped = mapSlashTx(t);
+      if (mapped) txs.push(mapped);
+    }
+    const next = json.metadata?.nextCursor;
+    if (!next) break;
+    res = await call(next);
+  }
+  return { txs };
 }
 
 interface WiseStatementTx {
@@ -574,15 +666,21 @@ const fetchWiseCached = unstable_cache(
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
+const fetchSlashCached = unstable_cache(
+  async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
+  ["slash-data"],
+  { revalidate: 900, tags: ["bank"] }
+);
+
 /** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
 export async function buildBankReport(supabase: SupabaseClient | null): Promise<BankReport> {
   const untilDay = todayParisDay();
   const sinceDay = addDaysToDay(untilDay, -(WINDOW_DAYS - 1));
   const setup: string[] = [];
   const warnings: string[] = [];
-  // Passe à true quand le connecteur Slash sera branché (doc endpoint en
-  // attente) — débloque le contrôle Meta + abonnements sur la carte LLC.
-  const slashConnected = false;
+  // true dès que le fetch Slash réussit — débloque le contrôle Meta +
+  // abonnements sur la carte LLC (metaPending, ABO_NON_DEBITE complet).
+  let slashConnected = false;
 
   // Fenêtre de CONTRÔLE : jamais avant le 01/08 (décision Badr 19/08) —
   // l'affichage des transactions garde ses 30 j, les alertes non.
@@ -617,10 +715,17 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       warnings.push(`Wise : ${(err as Error).message}`);
     }
   }
-  if (process.env.SLASH_API_TOKEN) {
-    setup.push(
-      "Slash : jeton posé mais connecteur en attente — la doc API (docs.slash.com) n'était pas accessible depuis l'environnement de dev ; donner l'URL exacte de l'endpoint transactions pour brancher."
-    );
+  if (!process.env.SLASH_API_TOKEN) {
+    setup.push("Slash : ajouter SLASH_API_TOKEN (clé API du dashboard Slash) dans les variables Vercel.");
+  } else {
+    try {
+      const slash = await fetchSlashCached(sinceDay, untilDay);
+      txs = txs.concat(slash.txs);
+      txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
+      slashConnected = true;
+    } catch (err) {
+      warnings.push(`Slash : ${(err as Error).message}`);
+    }
   }
 
   // Affectations manuelles (bank_tx_labels) — table optionnelle : si la

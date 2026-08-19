@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { categorizeTx, computeControl, reconcile, type BankTx } from "../bank";
+import { categorizeTx, computeControl, mapSlashTx, reconcile, type BankTx, type SlashTx } from "../bank";
 
 /** 🏦 Rapprochement bancaire — catégorisation et écarts (pur, sans réseau). */
 
@@ -143,6 +143,43 @@ describe("computeControl — anomalies et parts", () => {
   });
 });
 
+
+describe("mapSlashTx — transaction Slash → BankTx (compte USD)", () => {
+  const raw = (over?: Partial<SlashTx>): SlashTx => ({
+    id: "tx_123",
+    date: "2026-08-18T14:03:00.000Z",
+    description: "KLAVIYO INC",
+    amountCents: -2500,
+    status: "posted",
+    detailedStatus: "settled",
+    ...over,
+  });
+
+  it("mappe un débit réglé : USD, jour Paris, catégorisation par libellé marchand", () => {
+    const t = mapSlashTx(raw({ merchantData: { description: "KLAVIYO SOFTWARE" } }));
+    expect(t).not.toBeNull();
+    expect(t!.bank).toBe("SLASH");
+    expect(t!.currency).toBe("USD");
+    expect(t!.day).toBe("2026-08-18");
+    expect(t!.description).toBe("KLAVIYO SOFTWARE"); // merchantData prioritaire
+    expect(t!.category).toBe("ABONNEMENT");
+    expect(t!.amountEurCents).toBeLessThan(0); // converti au taux figé
+  });
+
+  it("exclut les statuts qui n'ont pas bougé d'argent, garde pending et refund", () => {
+    expect(mapSlashTx(raw({ detailedStatus: "declined" }))).toBeNull();
+    expect(mapSlashTx(raw({ detailedStatus: "canceled" }))).toBeNull();
+    expect(mapSlashTx(raw({ detailedStatus: "reversed" }))).toBeNull();
+    expect(mapSlashTx(raw({ status: "failed", detailedStatus: "failed" }))).toBeNull();
+    expect(mapSlashTx(raw({ status: "pending", detailedStatus: "pending" }))).not.toBeNull();
+    expect(mapSlashTx(raw({ detailedStatus: "refund", amountCents: 2500 }))).not.toBeNull();
+  });
+
+  it("un débit FACEBK sur Slash part en META (débloque metaPending)", () => {
+    const t = mapSlashTx(raw({ description: "FACEBK *ADS 12345", amountCents: -150000 }));
+    expect(t!.category).toBe("META");
+  });
+});
 
 describe("entre associés via banque (Fahd = Adnane, 50/50)", () => {
   it("le perso payé par la LLC crée une dette de la moitié vers l'autre", () => {

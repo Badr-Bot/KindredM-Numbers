@@ -129,6 +129,15 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Devises sans taux figé (CAD, CHF, MAD…)** : converties au taux Wise du jour (`GET /v1/rates`, dans le même cache 15 min) — fini « 3 transactions hors totaux ». L'USD garde son taux FIGÉ (décision Badr 08/08), l'EUR 1:1 ; taux introuvable = devise affichée mais hors totaux (jamais convertie au pif).
 - **Mode démo** : `buildBankReport(null)` sert des données bancaires synthétiques déterministes qui traversent le vrai pipeline (catégorisation → reconcile → computeControl) — permet de vérifier l'UI sans token. Vérifié Playwright 390×844 + 1280×900 : bandeau + 6 tuiles, zéro débordement.
 
+## 🏦 Slash branché (19/08 soir) — doc OpenAPI collée par Badr dans le chat
+- Clé « Weft Dash » créée par Badr (Personal settings → API keys → user-scoped) et posée dans Vercel (`SLASH_API_TOKEN`).
+- Connecteur (`fetchSlashData`) : `GET https://api.slash.com/transaction`, header `X-API-Key` ; clé user-scoped ⇒ header `x-legal-entity` auto-découvert via `GET /legal-entity` (rejoué après un 400) ; pagination `cursor`/`metadata.nextCursor` (cap 20 pages) ; filtres `filter:from_date`/`to_date` en timestamp UNIX **millisecondes**. Cache 15 min, tag `bank` (comme Wise).
+- Montants : cents **USD** (négatif = débit) → conversion au taux figé du dashboard, `currency: "USD"` affiché. Jour = `toParisDay(date)`.
+- Statuts exclus (aucun argent bougé) : canceled, failed, declined, reversed, pending_approval, in_review. Gardés : pending, settled, refund, returned, dispute. Mapping pur `mapSlashTx` testé.
+- **`slashConnected` devient dynamique** : true dès qu'un fetch Slash réussit → réactive automatiquement `META_ECART` (fin du metaPending) et `ABO_NON_DEBITE` complet. Un échec Slash = warning affiché + tuile Banques orange « Slash ✗ », jamais silencieux.
+- Non branché faute de doc collée : soldes Slash (`account-balance-get`) — transactions suffisent au contrôle ; à ajouter si Badr colle la page.
+- ⚠️ Jamais testé contre l'API réelle depuis l'environnement de dev (egress bloqué) : la vérité arrive au premier chargement de /controle en prod — la page auto-diagnostique (warning explicite si 4xx).
+
 ## (détail v1) Banque — rapprochement prévu vs réel (section de l'onglet 🛃 Contrôle)
 - Demande Badr : « vérifier l'argent qui rentre et sort et voir si ça colle avec ce qui est prévu ». Page HORS nav (règle « minimum d'onglets »), lecture seule de bout en bout (aucun ordre de paiement possible).
 - **Wise branché** (`bank.ts`) : profils → soldes → relevés 30 j (cache 15 min, tag `bank`, invalidé par Actualiser). ⚠️ Les relevés Wise exigent la **SCA** même en read-only : 403 + header `x-2fa-approval` à SIGNER en RSA-SHA256 avec une clé privée dont la clé publique est uploadée sur le compte Wise. Env : `WISE_API_TOKEN` + `WISE_PRIVATE_KEY` (PEM). Sans la clé : message d'installation explicite, pas de crash.
