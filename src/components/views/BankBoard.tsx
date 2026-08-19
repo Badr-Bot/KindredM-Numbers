@@ -120,6 +120,7 @@ const CAT_CHIP: Record<BankTx["category"], { txt: string; cls: string }> = {
   META: { txt: "META", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
   SHOPIFY: { txt: "SHOPIFY", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" },
   ABONNEMENT: { txt: "ABO", cls: "border-amber/50 bg-amber/10 text-amber" },
+  INTERNE: { txt: "INTERNE", cls: "border-line text-ink-faint" },
   AUTRE: { txt: "AUTRE", cls: "border-line text-ink-dim" },
 };
 
