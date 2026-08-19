@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getDataMode, getTabDayData, HISTORY_START, referenceToday, type DayAgg } from "@/lib/data";
 import type { MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
@@ -46,7 +47,7 @@ export default async function ExpensePage() {
   if (mode === "unconfigured") {
     return (
       <div>
-        <PageHeading emoji="🍩" title="Répartition des dépenses" />
+        <PageHeading emoji="🍩" title="Répartition des dépenses"  right={<Link href="/banque" className="rounded border border-line px-2 py-1 text-[10.5px] text-ink-dim hover:text-ink">🏦 Banque</Link>} />
         <EmptyState />
       </div>
     );
@@ -56,7 +57,7 @@ export default async function ExpensePage() {
   if ("error" in result) {
     return (
       <div>
-        <PageHeading emoji="🍩" title="Répartition des dépenses" />
+        <PageHeading emoji="🍩" title="Répartition des dépenses"  right={<Link href="/banque" className="rounded border border-line px-2 py-1 text-[10.5px] text-ink-dim hover:text-ink">🏦 Banque</Link>} />
         <DataError message={result.error} />
       </div>
     );
