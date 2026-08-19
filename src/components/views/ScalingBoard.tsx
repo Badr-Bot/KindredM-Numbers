@@ -57,10 +57,16 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
       <span className={`rounded-md border px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide ${meta.badge}`}>
         {meta.label} <span className="tnum normal-case">{pct}</span>
       </span>
-      {(c.action === "DESCALE" || c.action === "SCALE") && c.suggestedCents !== null && (
-        <span className={`tnum text-[15px] font-extrabold ${meta.text}`}>
-          {c.budgetCents !== null ? `${eur(c.budgetCents)} ` : ""}→ {eur(c.suggestedCents)}/j
-        </span>
+      {c.applied ? (
+        // Le mouvement a DÉJÀ été fait sur Meta : on le dit au lieu de
+        // re-prescrire un 2ᵉ mouvement depuis le budget déjà bougé.
+        <span className="tnum text-[12px] font-bold text-phosphor">✓ appliqué : {c.appliedLabel} — on rejuge à la prochaine fenêtre</span>
+      ) : (
+        (c.action === "DESCALE" || c.action === "SCALE") && c.suggestedCents !== null && (
+          <span className={`tnum text-[15px] font-extrabold ${meta.text}`}>
+            {c.budgetCents !== null ? `${eur(c.budgetCents)} ` : ""}→ {eur(c.suggestedCents)}/j
+          </span>
+        )
       )}
       {c.action === "HOLD" && <span className="text-[11px] font-bold text-ink">budget inchangé — on rejuge à minuit</span>}
       {c.action === "RESCUE" && <span className="text-[11px] font-bold text-ink">on ne rabote plus — voir le diagnostic 🩺</span>}
@@ -253,10 +259,10 @@ function RescueBlock({ c }: { c: ScalingCampaign }) {
   // « anticipé » = on montre le diagnostic avant la bascule (cran 3 réel).
   // Quand RESCUE est plafonné faute de réduction exécutée, la campagne ne
   // bascule PAS mécaniquement : on ne promet pas le contraire.
-  const anticipated = c.action !== "RESCUE";
-  const capped = c.why.includes("aucune réduction encore exécutée");
+  const anticipated = c.action !== "RESCUE" && !c.rescueCapped;
+  const capped = c.rescueCapped;
   return (
-    <details className="group border-t border-line-soft" open={!anticipated}>
+    <details className="group border-t border-line-soft" open={!anticipated || capped}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
         <span className="font-semibold text-ink">
           🩺 Diagnostic{" "}

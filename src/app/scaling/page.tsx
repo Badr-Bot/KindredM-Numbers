@@ -44,8 +44,11 @@ export default async function ScalingPage() {
 async function BoardLoader() {
   let report: ScalingReport;
   try {
-    const today = await referenceToday();
-    const parisHour = Number(formatInTimeZone(new Date(), "Europe/Paris", "H"));
+    // Un SEUL instant de référence pour le jour ET l'heure : deux new Date()
+    // séparés autour de minuit donnaient un jour et une heure incohérents.
+    const now = new Date();
+    const today = getDataMode() === "demo" ? await referenceToday() : formatInTimeZone(now, "Europe/Paris", "yyyy-MM-dd");
+    const parisHour = Number(formatInTimeZone(now, "Europe/Paris", "H"));
     // 00h-07h : données figées de la veille 23h59 (plage d'exécution) ;
     // ensuite : jour J en live.
     report = await buildScalingReport(

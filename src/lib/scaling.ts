@@ -245,6 +245,11 @@ export interface ScalingCampaign {
   action: ScalingAction;
   /** UN chiffre : le budget cible à appliquer (−15 % ou palier suivant). */
   suggestedCents: number | null;
+  /** La prescription courante a DÉJÀ été exécutée sur Meta (mouvement dans le
+   * bon sens depuis la clôture de la fenêtre jugée) : on affiche « appliqué »
+   * au lieu de re-prescrire un 2ᵉ mouvement depuis le budget déjà bougé. */
+  applied: boolean;
+  appliedLabel: string | null;
   // -- Contexte --
   budgetCents: number | null;
   budgetEstimated: boolean;
@@ -260,6 +265,9 @@ export interface ScalingCampaign {
   /** Plan créas concret selon le verdict — combien, quelles variantes, dans
    * quel adset (T36 « Processus de testing », T37 « Dispatcher les winners »). */
   creaPlan: string[];
+  /** true = série de NON complète MAIS aucune réduction exécutée : RESCUE
+   * plafonné à DESCALE (les crans n'ont pas été déroulés). */
+  rescueCapped: boolean;
   /** Diagnostic annonce par annonce — rempli en RESCUE et au cran 3 (juste
    * avant de basculer), calculé côté serveur depuis meta_ad_insights. */
   rescue: RescueDiagnostic | null;
@@ -311,7 +319,8 @@ export function nextPalierCents(budgetCents: number): number {
  * lecture Badr 18/08) ; à partir de 500 → palier suivant de l'échelle. */
 export function scaleTargetCents(budgetCents: number): number {
   if (budgetCents < MONTEE_PALIERS_CENTS[0]) {
-    return Math.min(budgetCents * 2, MONTEE_PALIERS_CENTS[0]);
+    // arrondi à l'euro, comme la réduction — pas de 255,98 € dans le JSON
+    return Math.min(Math.round((budgetCents * 2) / 100) * 100, MONTEE_PALIERS_CENTS[0]);
   }
   return nextPalierCents(budgetCents);
 }
@@ -335,11 +344,15 @@ function median(values: number[]): number | null {
 export function budgetAtDayStart(
   moves: { eventTime: string; oldBudgetCents: number | null; newBudgetCents: number | null }[],
   currentBudgetCents: number | null,
-  days: string[]
+  days: string[],
+  /** true (défaut) = le dernier jour est le jour calendaire réel → budget
+   * live. En mode nuit le « dernier jour » est HIER : il doit porter le
+   * budget auquel il a TOURNÉ, pas celui d'après l'exécution de minuit. */
+  applyLiveToLast: boolean = true
 ): (number | null)[] {
   return days.map((day, idx) => {
     const isLast = idx === days.length - 1;
-    if (isLast && currentBudgetCents !== null) return currentBudgetCents;
+    if (isLast && applyLiveToLast && currentBudgetCents !== null) return currentBudgetCents;
     // dernier changement STRICTEMENT avant le début du jour
     let value: number | null = null;
     let hasBefore = false;
@@ -360,11 +373,31 @@ export function budgetAtDayStart(
 /** Cadran de la phase de sauvetage (T35 [06:47-09:36]) — CPC et CVR de la
  * dernière fenêtre JUGÉE comparés à l'historique de la campagne elle-même
  * (la formation lit ce cadran à l'œil, sans seuil absolu : on prend ±20 %,
- * paramètre ⚠️ hors formation, assumé comme tel). */
-function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
+ * paramètre ⚠️ hors formation, assumé comme tel).
+ *
+ * SOURCE UNIQUE : le même cadran alimente le verdict campagne, le diagnostic
+ * annonce (diagnoseRescue) et le plan créas (buildCreaPlan) — deux cadrans
+ * séparés avaient divergé (audit 19/08 : « problème AOV » affiché à côté de
+ * « seuils incalculables »). */
+export function computeCadran(
+  windows: ScalingWindow[],
+  lastIdx: number,
+  cm: number | null
+): { leak: RescueLeak; verdict: string } {
   const last = windows[lastIdx];
+  if (cm === null) {
+    return {
+      leak: "INSUFFISANT",
+      verdict:
+        "Seuils produit incalculables (pas de commandes récentes sur ce produit ?) : ni marge, ni winner, ni cadran fiables — vérifier les données avant de décider.",
+    };
+  }
   if (last.cpcCents === null && last.cvr === null) {
-    return "Fenêtre sans clics mesurés : données insuffisantes pour le cadran CPC × CVR — vérifier la diffusion avant de diagnostiquer.";
+    return {
+      leak: "INSUFFISANT",
+      verdict:
+        "Fenêtre sans clics mesurés : données insuffisantes pour le cadran CPC × CVR — vérifier la diffusion avant de diagnostiquer.",
+    };
   }
   const prevCpcs = windows.slice(0, lastIdx).map((w) => w.cpcCents).filter((v): v is number => v !== null);
   const prevCvrs = windows.slice(0, lastIdx).map((w) => w.cvr).filter((v): v is number => v !== null);
@@ -373,12 +406,25 @@ function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
   const cpcBad = last.cpcCents !== null && cpcMed !== null && last.cpcCents > cpcMed * 1.2;
   const cvrBad = last.cvr !== null && cvrMed !== null && last.cvr < cvrMed * 0.8;
   if (cpcBad && cvrBad)
-    return "CPC en hausse ET CVR en baisse vs l'historique → tout fuit : big swing (nouvelle LP / offre) SANS attendre — « on ne va pas passer cinq jours, on change tout direct » (T35 [11:21]). Si un compétiteur scale toujours, c'est qu'on fait une erreur → on corrige d'abord ; couper seulement si le big swing ne sauve pas.";
+    return {
+      leak: "BIG_SWING",
+      verdict:
+        "CPC en hausse ET CVR en baisse vs l'historique → tout fuit : big swing (nouvelle LP / offre) SANS attendre — « on ne va pas passer cinq jours, on change tout direct » (T35 [11:21]). Si un compétiteur scale toujours, c'est qu'on fait une erreur → on corrige d'abord ; couper seulement si le big swing ne sauve pas.",
+    };
   if (cpcBad)
-    return "CVR tient mais le CPC dérape vs l'historique → problème CRÉAS : nouveaux hooks, nouveaux angles, nouveaux mécanismes (T35).";
+    return {
+      leak: "CREAS",
+      verdict: "CVR tient mais le CPC dérape vs l'historique → problème CRÉAS : nouveaux hooks, nouveaux angles, nouveaux mécanismes (T35).",
+    };
   if (cvrBad)
-    return "CPC tient mais le CVR chute vs l'historique → problème FUNNEL : revoir l'above-the-fold, objections, Microsoft Clarity (T35).";
-  return "CPC et CVR dans les normes de la campagne mais marge insuffisante → problème AOV : upsells, bundles, e-mails (T35).";
+    return {
+      leak: "FUNNEL",
+      verdict: "CPC tient mais le CVR chute vs l'historique → problème FUNNEL : revoir l'above-the-fold, objections, Microsoft Clarity (T35).",
+    };
+  return {
+    leak: "AOV",
+    verdict: "CPC et CVR dans les normes de la campagne mais marge insuffisante → problème AOV : upsells, bundles, e-mails (T35).",
+  };
 }
 
 export interface AdDailyRow {
@@ -512,11 +558,9 @@ export function diagnoseRescue(input: {
   const prevCvrs = windows.slice(0, lastIdx).map((w) => w.cvr).filter((v): v is number => v !== null);
   const cpcMed = median(prevCpcs);
   const cvrMed = median(prevCvrs);
-  const cpcBad = last.cpcCents !== null && cpcMed !== null && last.cpcCents > cpcMed * 1.2;
-  const cvrBad = last.cvr !== null && cvrMed !== null && last.cvr < cvrMed * 0.8;
 
   const evidence: string[] = [];
-  const eur = (c: number) => `${(c / 100).toFixed(2)} €`;
+  const eur = (c: number) => `${(c / 100).toFixed(2).replace(".", ",")} €`;
   if (last.cpcCents !== null && cpcMed !== null) {
     const delta = Math.round((last.cpcCents / cpcMed - 1) * 100);
     evidence.push(`CPC ${eur(last.cpcCents)} vs ${eur(cpcMed)} médian (${delta >= 0 ? "+" : ""}${delta} %)`);
@@ -524,7 +568,7 @@ export function diagnoseRescue(input: {
   if (last.cvr !== null && cvrMed !== null) {
     const delta = Math.round((last.cvr / cvrMed - 1) * 100);
     evidence.push(
-      `CVR ${(last.cvr * 100).toFixed(2)} % vs ${(cvrMed * 100).toFixed(2)} % médian (${delta >= 0 ? "+" : ""}${delta} %)`
+      `CVR ${(last.cvr * 100).toFixed(2).replace(".", ",")} % vs ${(cvrMed * 100).toFixed(2).replace(".", ",")} % médian (${delta >= 0 ? "+" : ""}${delta} %)`
     );
   }
   const saturated = adDiags.filter((a) => a.saturating);
@@ -537,31 +581,9 @@ export function diagnoseRescue(input: {
     evidence.push(`${zombies.length} annonce(s) sous le break-even avec ≥ 6 ventes → campagne ZOMBIE`);
   }
 
-  let leak: RescueLeak;
-  let verdict: string;
+  const { leak, verdict } = computeCadran(windows, lastIdx, cm);
   if (cm === null) {
-    // Sans marge de contribution calculable, ni marge ni winner ne le sont :
-    // on ne fabrique surtout pas un « c'est l'AOV » par défaut.
-    leak = "INSUFFISANT";
-    verdict =
-      "Seuils produit incalculables (pas de commandes récentes sur ce produit ?) : ni marge, ni winner, ni cadran fiables — vérifier les données avant de décider.";
     evidence.push("Marge de contribution indisponible : aucune annonce ne peut être classée winner");
-  } else if (last.cpcCents === null && last.cvr === null) {
-    leak = "INSUFFISANT";
-    verdict = "Pas de clics mesurés sur la fenêtre : vérifier la diffusion avant tout diagnostic.";
-  } else if (cpcBad && cvrBad) {
-    leak = "BIG_SWING";
-    verdict =
-      "CPC en hausse ET CVR en baisse : tout fuit — big swing (nouvelle LP / nouvelle offre) sans attendre (T35 [11:21] « on change tout direct »). Couper seulement si le big swing ne sauve pas.";
-  } else if (cpcBad) {
-    leak = "CREAS";
-    verdict = "Le CVR tient mais le CPC dérape : le problème est CRÉATIF, pas la page ni l'offre.";
-  } else if (cvrBad) {
-    leak = "FUNNEL";
-    verdict = "Le CPC tient mais le CVR chute : le problème est le FUNNEL (landing page), pas les créas.";
-  } else {
-    leak = "AOV";
-    verdict = "CPC et CVR dans les normes mais la marge ne suit pas : le problème est l'AOV (panier moyen).";
   }
 
   // --- 3. Le plan, priorisé, avec les annonces nommées ---
@@ -635,7 +657,8 @@ function buildCreaPlan(input: {
   action: ScalingAction;
   scalingRegime: boolean;
   cpmrRising: boolean;
-  sauvetageDiagnostic: string | null;
+  /** Cadran calculé UNE fois (computeCadran) — jamais de sniffing de texte. */
+  leak: RescueLeak | null;
 }): string[] {
   const { action, scalingRegime, cpmrRising } = input;
   const where = scalingRegime
@@ -668,18 +691,21 @@ function buildCreaPlan(input: {
     ];
   }
   // RESCUE : le focus dépend du cadran (T35 [06:47-09:36])
-  const diag = input.sauvetageDiagnostic ?? "";
-  if (diag.includes("CRÉAS"))
+  if (input.leak === "INSUFFISANT")
+    return [
+      "Données insuffisantes (seuils produit ou clics manquants) : vérifier la diffusion et la synchro AVANT tout plan — on ne lance rien à l'aveugle.",
+    ];
+  if (input.leak === "CREAS")
     return [
       "Le cadran pointe les CRÉAS : batch complet 3-6 ads avec nouveaux HOOKS, nouveaux ANGLES, nouveaux MÉCANISMES — pas des variantes de l'existant (T35 [06:47]).",
       where,
       setup,
     ];
-  if (diag.includes("FUNNEL"))
+  if (input.leak === "FUNNEL")
     return [
       "Le cadran pointe le FUNNEL : le focus est la LP (above-the-fold, objections, Microsoft Clarity) — les créas continuent en fond (« toujours ajouter », T35 [08:13]) mais ce n'est pas là que ça fuit.",
     ];
-  if (diag.includes("AOV"))
+  if (input.leak === "AOV")
     return [
       "Le cadran pointe l'AOV : upsells, bundles, e-mails d'abord (T35 [08:33-09:15]) — les créas continuent en fond, le déblocage est dans l'offre.",
     ];
@@ -852,8 +878,17 @@ export function computeScaling(input: {
     }
 
     // -- Décision : streak ancré au premier mouvement de budget réel --
+    // NB : les activités sont lues sur ~16 j ; si le premier mouvement date
+    // de plus loin, l'ancre est simplement plus récente que la réalité —
+    // conservateur (jamais un RESCUE de trop).
+    // Un mouvement exécuté dans la plage nocturne (00h-07h) répond à la
+    // décision de la VEILLE : son jour d'ancrage est le jour de décision
+    // (même règle que la bascule 7 h), sinon l'exécution elle-même
+    // effacerait le streak qu'elle vient de sanctionner (audit 19/08).
+    const moveAnchorDay = (m: CampaignActivity) =>
+      decisionDayFor(toParisDay(m.eventTime), Number(fmtParis(m.eventTime, "H")));
     const rawMovesForAnchor = movesByCampaign.get(campaignId) ?? [];
-    const anchorDay = rawMovesForAnchor.length > 0 ? toParisDay(rawMovesForAnchor[0].eventTime) : null;
+    const anchorDay = rawMovesForAnchor.length > 0 ? moveAnchorDay(rawMovesForAnchor[0]) : null;
     const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
     let action = actionFromStreak(nonStreak);
     const last = winData[lastIdx];
@@ -861,10 +896,18 @@ export function computeScaling(input: {
     // sinon on plafonne à DESCALE (les crans n'ont pas été déroulés).
     let rescueCapped = false;
     if (action === "RESCUE") {
+      // La réduction exécutée doit dater du streak COURANT (depuis la 1re
+      // fenêtre NON de la série) — une descale d'un streak passé, déjà
+      // remise à zéro par un OUI, ne compte pas (audit 19/08).
+      const streakStartDay = winData[Math.max(0, lastIdx - nonStreak + 1)].startDay;
       const hasExecutedDecrease =
         activities !== null &&
         rawMovesForAnchor.some(
-          (m) => m.oldBudgetCents !== null && m.newBudgetCents !== null && m.newBudgetCents < m.oldBudgetCents
+          (m) =>
+            m.oldBudgetCents !== null &&
+            m.newBudgetCents !== null &&
+            m.newBudgetCents < m.oldBudgetCents &&
+            moveAnchorDay(m) >= streakStartDay
         );
       if (activities !== null && !hasExecutedDecrease) {
         action = "DESCALE";
@@ -897,7 +940,7 @@ export function computeScaling(input: {
     const tableDays: string[] = [];
     for (let k = NB_JOURS_TABLEAU - 1; k >= 0; k--) tableDays.push(addDaysToDay(today, -k));
     // override > live (jamais l'estimation : le tableau n'affiche que du sûr)
-    const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? null, tableDays);
+    const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? null, tableDays, liveDay);
     let firstKnown = tableDays.length - 1; // au minimum le jour même
     for (let i = 0; i < tableDays.length; i++) {
       if (budgets[i] !== null) {
@@ -923,12 +966,37 @@ export function computeScaling(input: {
     const lastMoveActivity = rawMoves.length > 0 ? rawMoves[rawMoves.length - 1] : null;
     const budgetSinceLabel = lastMoveActivity ? fmtParis(lastMoveActivity.eventTime, "dd/MM HH'h'mm") : null;
 
-    // Prescription : UN chiffre.
+    // Application déjà faite ? Un mouvement dans le sens prescrit depuis la
+    // clôture de la fenêtre jugée (21 h le soir de son dernier jour — les
+    // exécutions réelles vont de 23 h à 7 h). Sans ça, un rechargement après
+    // exécution re-prescrivait un 2ᵉ −15 % depuis le budget déjà réduit
+    // (bug relevé à l'audit 19/08).
+    const executedSince = `${last.endDay} 21:00`;
+    const executedMove =
+      action === "SCALE" || action === "DESCALE"
+        ? rawMovesForAnchor.find(
+            (m) =>
+              m.oldBudgetCents !== null &&
+              m.newBudgetCents !== null &&
+              Math.sign(m.newBudgetCents - m.oldBudgetCents) === (action === "SCALE" ? 1 : -1) &&
+              fmtParis(m.eventTime, "yyyy-MM-dd HH:mm") >= executedSince
+          ) ?? null
+        : null;
+    const applied = executedMove !== null;
+    const appliedLabel = executedMove
+      ? `${executedMove.oldBudgetCents !== null ? Math.round(executedMove.oldBudgetCents / 100) : "?"} € → ${
+          executedMove.newBudgetCents !== null ? Math.round(executedMove.newBudgetCents / 100) : "?"
+        } € à ${fmtParis(executedMove.eventTime, "HH'h'mm")}`
+      : null;
+
+    // Prescription : UN chiffre — calculée sur le budget d'AVANT exécution
+    // quand le mouvement a déjà été fait (sinon on cascade les -15 %).
+    const basisCents = executedMove?.oldBudgetCents ?? budgetCents;
     let suggestedCents: number | null = null;
-    if (action === "SCALE" && budgetCents !== null) {
-      suggestedCents = scaleTargetCents(budgetCents);
-    } else if (action === "DESCALE" && budgetCents !== null) {
-      suggestedCents = reductionCents(budgetCents);
+    if (action === "SCALE" && basisCents !== null) {
+      suggestedCents = scaleTargetCents(basisCents);
+    } else if (action === "DESCALE" && basisCents !== null) {
+      suggestedCents = reductionCents(basisCents);
     }
 
     // Saturation créative : CPMr de la dernière fenêtre jugée vs médiane des
@@ -945,9 +1013,10 @@ export function computeScaling(input: {
     let flips = 0;
     for (let i = 1; i < recentVerdicts.length; i++) if (recentVerdicts[i] !== recentVerdicts[i - 1]) flips++;
     const unstable = flips >= 2;
-    const sauvetageDiagnostic = action === "RESCUE" ? diagnoseSauvetage(winData, lastIdx) : null;
+    const cadran = action === "RESCUE" ? computeCadran(winData, lastIdx, cm) : null;
+    const sauvetageDiagnostic = cadran?.verdict ?? null;
 
-    const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1)} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
+    const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1).replace(".", ",")} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
     const why =
       action === "SCALE"
         ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro → SCALE au palier suivant + créas neuves (T35).`
@@ -979,6 +1048,8 @@ export function computeScaling(input: {
       cran,
       action,
       suggestedCents,
+      applied,
+      appliedLabel,
       budgetCents,
       budgetEstimated,
       moves: moves.slice(0, 6),
@@ -987,7 +1058,8 @@ export function computeScaling(input: {
       lowSample,
       cpmrRising,
       creasRequired,
-      creaPlan: buildCreaPlan({ action, scalingRegime, cpmrRising, sauvetageDiagnostic }),
+      creaPlan: buildCreaPlan({ action, scalingRegime, cpmrRising, leak: cadran?.leak ?? null }),
+      rescueCapped,
       // Diagnostic annonce par annonce : en RESCUE, et dès le cran 3 pour
       // anticiper (un NON de plus et la campagne bascule).
       rescue:
@@ -1140,7 +1212,18 @@ export async function buildScalingReport(
   // manger les vieux jours, jamais ceux qui portent la décision.
   const adStartDay = addDaysToDay(today, -13);
   const AD_MAX_ROWS = 20000;
-  const campaignIds = [...new Set(rows.map((r) => r.campaignId))];
+  // Seules les campagnes du protocole (ni exclues ni TESTING) : leurs annonces
+  // n'alimentent aucun diagnostic et gonfleraient la limite pour rien.
+  const campaignIds = [
+    ...new Set(
+      rows
+        .filter((r) => {
+          const name = r.campaignName ?? r.campaignId;
+          return !isExcludedCampaign(name) && classifyCampaignProduct(name) !== "TESTING";
+        })
+        .map((r) => r.campaignId)
+    ),
+  ];
   const adRes = campaignIds.length
     ? await supabase
         .from("meta_ad_insights")
