@@ -226,8 +226,9 @@ export function BankBoard({ report, unmappedCount }: { report: BankReport; unmap
 
       {control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
         <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
-          👥 <b className="text-ink">Entre associés (via banque, 30 j)</b> — le perso payé par la LLC est une avance,
-          moitié due à l&apos;autre (50/50) :{" "}
+          👥 <b className="text-ink">Entre associés (via banque, depuis le 01/08)</b> — le perso payé par la LLC est
+          déduit du net de celui qui l&apos;a dépensé (cartes Fahd/Adnane = perso Adnane, carte Badr = perso Badr,
+          affectées automatiquement) ; la moitié est due à l&apos;autre (50/50) :{" "}
           {control.parts.soldeBadrDoitAFahdCents === 0 ? (
             <b className="text-phosphor">équilibré</b>
           ) : control.parts.soldeBadrDoitAFahdCents > 0 ? (

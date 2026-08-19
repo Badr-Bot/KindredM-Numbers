@@ -312,6 +312,10 @@ export interface ScalingCampaign {
   sauvetageDiagnostic: string | null;
   scalingRegime: boolean;
   why: string;
+  /** Le dernier jour de la fenêtre jugée est SEUL en perte alors que la
+   * fenêtre (jour + veille additionnés) reste bonne — affiché pour expliquer
+   * un SCALE avec un jour rouge (remarque Badr 19/08, campagne Lancaster). */
+  dayAloneNote: string | null;
 }
 
 export interface ScalingReport {
@@ -405,6 +409,29 @@ export function budgetAtDayStart(
     if (first && toParisDay(first.eventTime) >= day) return first.oldBudgetCents;
     return currentBudgetCents;
   });
+}
+
+/** Répare les trous des activités Meta (extra_data parfois sans ancienne ou
+ * nouvelle valeur) : la NOUVELLE d'un mouvement se déduit de l'ANCIENNE du
+ * suivant (le budget n'a pas bougé entre deux mouvements), celle du dernier
+ * = le budget live ; l'ANCIENNE d'un mouvement = la NOUVELLE du précédent.
+ * « Je ne veux pas voir des points d'interrogation alors que tu connais le
+ * dernier changement de budget » (Badr 19/08). Jamais de valeur inventée :
+ * uniquement des déductions de la chaîne réelle. */
+export function repairMoves<T extends { oldBudgetCents: number | null; newBudgetCents: number | null }>(
+  moves: T[],
+  liveBudgetCents: number | null
+): T[] {
+  const out = moves.map((m) => ({ ...m }));
+  for (let i = out.length - 1; i >= 0; i--) {
+    if (out[i].newBudgetCents === null) {
+      out[i].newBudgetCents = i + 1 < out.length ? out[i + 1].oldBudgetCents : liveBudgetCents;
+    }
+  }
+  for (let i = 0; i < out.length; i++) {
+    if (out[i].oldBudgetCents === null && i > 0) out[i].oldBudgetCents = out[i - 1].newBudgetCents;
+  }
+  return out;
 }
 
 /** Cadran de la phase de sauvetage (T35 [06:47-09:36]) — CPC et CVR de la
@@ -941,7 +968,9 @@ export function computeScaling(input: {
     // effacerait le streak qu'elle vient de sanctionner (audit 19/08).
     const moveAnchorDay = (m: CampaignActivity) =>
       decisionDayFor(toParisDay(m.eventTime), Number(fmtParis(m.eventTime, "H")));
-    const rawMovesForAnchor = movesByCampaign.get(campaignId) ?? [];
+    // Chaîne réparée : plus de « ? » quand la valeur se déduit du mouvement
+    // voisin ou du budget live (Badr 19/08).
+    const rawMovesForAnchor = repairMoves(movesByCampaign.get(campaignId) ?? [], liveInfo?.dailyBudgetCents ?? null);
     const moveAnchor = rawMovesForAnchor.length > 0 ? moveAnchorDay(rawMovesForAnchor[0]) : null;
     // Double plancher : le premier mouvement réel ET le départ officiel du
     // protocole T24 — le plus récent des deux gagne.
@@ -984,12 +1013,15 @@ export function computeScaling(input: {
       }
     }
 
-    // Budget : override > live Meta > estimation.
+    // Budget : override > live Meta > dernier changement connu > estimation.
     const budgetOverride = overrides?.[campaignId];
     const budgetLive = liveInfo?.dailyBudgetCents ?? null;
+    // Le dernier changement de budget lu sur Meta fait foi quand le live
+    // manque — jamais un « ? » alors qu'on connaît le dernier mouvement.
+    const lastMoveBudget = [...rawMovesForAnchor].reverse().find((m) => m.newBudgetCents !== null)?.newBudgetCents ?? null;
     const maxDailySpend = Math.max(0, ...[...entry.days.values()].map((d) => d.spendCents));
-    const budgetCents = budgetOverride ?? budgetLive ?? (maxDailySpend > 0 ? maxDailySpend : null);
-    const budgetEstimated = budgetOverride === undefined && budgetLive === null;
+    const budgetCents = budgetOverride ?? budgetLive ?? lastMoveBudget ?? (maxDailySpend > 0 ? maxDailySpend : null);
+    const budgetEstimated = budgetOverride === undefined && budgetLive === null && lastMoveBudget === null;
     const scalingRegime = budgetCents !== null && budgetCents >= SEUIL_SCALING_CENTS;
 
     // Mouvements de budget lus sur Meta (les plus récents d'abord pour l'UI).
@@ -1009,7 +1041,7 @@ export function computeScaling(input: {
     const tableDays: string[] = [];
     for (let k = NB_JOURS_TABLEAU - 1; k >= 0; k--) tableDays.push(addDaysToDay(today, -k));
     // override > live (jamais l'estimation : le tableau n'affiche que du sûr)
-    const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? null, tableDays, liveDay);
+    const budgets = budgetAtDayStart(rawMoves, budgetOverride ?? budgetLive ?? lastMoveBudget ?? null, tableDays, liveDay);
     let firstKnown = tableDays.length - 1; // au minimum le jour même
     for (let i = 0; i < tableDays.length; i++) {
       if (budgets[i] !== null) {
@@ -1126,6 +1158,29 @@ export function computeScaling(input: {
       );
     }
 
+    // Divergence jour/fenêtre : le DERNIER JOUR de la fenêtre jugée est seul
+    // en perte alors que la fenêtre (jour + veille ADDITIONNÉS, T24 [16:32])
+    // reste bonne → on l'affiche pour que le SCALE ne ressemble pas à une
+    // erreur (« Lancaster dit SCALE alors qu'elle perd aujourd'hui », Badr
+    // 19/08). Aucune décision changée : la fenêtre reste l'unité de jugement.
+    let dayAloneNote: string | null = null;
+    if (action === "SCALE") {
+      const dayRow = entry.days.get(last.endDay);
+      const daySpend = dayRow?.spendCents ?? 0;
+      const dayRoas = dayRow && daySpend > 0 ? dayRow.purchaseValueCents / daySpend : null;
+      const dayMargin = dayRoas !== null && dayRoas > 0 && cm !== null ? cm - 1 / dayRoas : null;
+      const dayBand = marginBand(dayMargin, dayRoas, th?.breakEven ?? null);
+      if (dayBand === "PERTE") {
+        const dd = `${last.endDay.slice(8, 10)}/${last.endDay.slice(5, 7)}`;
+        dayAloneNote =
+          `Le ${dd} seul est EN PERTE${dayMargin !== null ? ` (marge ${(dayMargin * 100).toFixed(1).replace(".", ",")} %)` : ""} — ` +
+          `le verdict reste SCALE parce que la fenêtre jugée additionne jour + veille et reste bonne (T24 [16:32]).` +
+          (last.inProgress
+            ? " Fenêtre en cours : si la journée reste rouge, le verdict basculera d'ici la décision de minuit — ne pas exécuter le scale avant (T24 [16:11])."
+            : "");
+      }
+    }
+
     campaigns.push({
       campaignId,
       campaignName: entry.name,
@@ -1169,6 +1224,7 @@ export function computeScaling(input: {
       sauvetageDiagnostic,
       scalingRegime,
       why: whyFinal,
+      dayAloneNote,
     });
   }
 
@@ -1218,6 +1274,20 @@ const fetchCampaignActivitiesCached = unstable_cache(
   ["meta-activities"],
   { revalidate: 60, tags: ["meta-live"] }
 );
+// Insights du JOUR en DIRECT sur Meta. Le cron n'écrit meta_insights qu'à
+// 01h05 Paris : sans ce fetch, la fenêtre « hier + aujourd'hui » jugeait
+// hier tout seul pendant la journée — bug Lancaster (Badr 19/08) : SCALE
+// affiché alors que la campagne perdait de l'argent le jour même, parce que
+// le jour même était absent des données. Cache 5 min, invalidé par
+// Actualiser (tag meta-live). Même parsing que le sync (fetchMetaInsights).
+const fetchTodayInsightsCached = unstable_cache(
+  async (day: string) => {
+    const { fetchMetaInsights } = await import("./meta");
+    return fetchMetaInsights(day, day);
+  },
+  ["meta-today-insights"],
+  { revalidate: 300, tags: ["meta-live"] }
+);
 
 // P2 (audit perf) — la sonde « reach » ne peut pas régresser dans la vie d'un
 // process (un schéma migré le reste) : on ne re-sonde que tant qu'elle n'a
@@ -1239,6 +1309,9 @@ export async function buildScalingReport(
       getProductRoasThresholds(liveDay ? addDaysToDay(today, -1) : today).catch(() => null),
       fetchCampaignLiveInfosCached().catch(() => null),
       fetchCampaignActivitiesCached(startDay).catch(() => null),
+      // Jour J en direct — seulement en mode jour (la nuit, les données de la
+      // veille sont déjà stabilisées par le sync de 01h05).
+      liveDay ? fetchTodayInsightsCached(today).catch(() => null) : Promise.resolve(null),
     ] as const)
   );
 
@@ -1378,12 +1451,37 @@ export async function buildScalingReport(
   }
 
   // Seuils calculés sur les 14 jours CLOS (un jour partiel fausserait le CM).
-  const [productThresholds, liveEntries, activities] = await sidePromise;
+  const [productThresholds, liveEntries, activities, todayLive] = await sidePromise;
   const liveInfos = liveEntries ? new Map(liveEntries) : null;
+
+  // Mode jour : le jour J vient du LIVE Meta, jamais du snapshot (écrit à
+  // 01h05 seulement) — les lignes « today » de la table sont remplacées.
+  let mergedRows = rows;
+  if (liveDay && todayLive) {
+    mergedRows = rows
+      .filter((r) => r.day !== today)
+      .concat(
+        todayLive.map((r) => ({
+          day: r.day,
+          campaignId: r.campaignId,
+          campaignName: r.campaignName,
+          spendCents: r.spendCents,
+          purchases: r.purchases,
+          purchaseValueCents: r.purchaseValueCents,
+          impressions: r.impressions,
+          clicks: r.clicks,
+          reach: r.reach,
+        }))
+      );
+  } else if (liveDay && !todayLive) {
+    extraWarnings.push(
+      "Insights du jour indisponibles en direct (Meta) — verdicts basés sur le dernier snapshot (sync 01h05) : le jour J peut être incomplet."
+    );
+  }
 
   const report = computeScaling({
     today,
-    rows,
+    rows: mergedRows,
     thresholds: {
       GILET: productThresholds?.GILET ?? null,
       POLO: productThresholds?.POLO ?? null,

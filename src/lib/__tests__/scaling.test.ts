@@ -9,6 +9,7 @@ import {
   nextPalierCents,
   PLANCHER_BUDGET_CENTS,
   reductionCents,
+  repairMoves,
   scaleTargetCents,
   type ProductThresholdsInput,
   type ScalingDailyRow,
@@ -800,5 +801,33 @@ describe("cohérence avec les seuils mémoire (WEFT §4)", () => {
     expect(TH.POLO.target!).toBeCloseTo(2.101, 2);
     expect(TH.GILET.breakEven!).toBeCloseTo(1.575, 2);
     expect(TH.GILET.target!).toBeCloseTo(2.062, 2);
+  });
+});
+
+describe("repairMoves — plus de « ? » quand la valeur se déduit de la chaîne (Badr 19/08)", () => {
+  it("comble old depuis le new précédent, new depuis le old suivant, le dernier depuis le live", () => {
+    const moves = [
+      { eventTime: "2026-08-17T23:30:00+0200", oldBudgetCents: 30000, newBudgetCents: null },
+      { eventTime: "2026-08-18T23:40:00+0200", oldBudgetCents: 50000, newBudgetCents: null },
+    ];
+    const fixed = repairMoves(moves, 75000);
+    // new du 1er = old du 2e (le budget n'a pas bougé entre les deux)
+    expect(fixed[0].newBudgetCents).toBe(50000);
+    // new du dernier = budget live
+    expect(fixed[1].newBudgetCents).toBe(75000);
+  });
+
+  it("comble old manquant depuis le new du mouvement précédent", () => {
+    const moves = [
+      { eventTime: "2026-08-17T23:30:00+0200", oldBudgetCents: 30000, newBudgetCents: 50000 },
+      { eventTime: "2026-08-18T23:40:00+0200", oldBudgetCents: null, newBudgetCents: 75000 },
+    ];
+    const fixed = repairMoves(moves, 75000);
+    expect(fixed[1].oldBudgetCents).toBe(50000);
+  });
+
+  it("n'invente jamais : premier old inconnu sans précédent reste null", () => {
+    const moves = [{ eventTime: "2026-08-17T23:30:00+0200", oldBudgetCents: null, newBudgetCents: 50000 }];
+    expect(repairMoves(moves, null)[0].oldBudgetCents).toBeNull();
   });
 });
