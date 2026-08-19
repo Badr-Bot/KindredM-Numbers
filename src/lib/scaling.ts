@@ -151,6 +151,51 @@ export interface ScalingWindow {
 
 export type ScalingAction = "SCALE" | "HOLD" | "DESCALE" | "RESCUE";
 
+/** Une annonce de la campagne, sur la fenêtre de diagnostic (14 j). */
+export interface AdDiagnostic {
+  adId: string;
+  adName: string;
+  spendCents: number;
+  purchases: number;
+  valueCents: number;
+  roas: number | null;
+  /** Marge = CM − 1/ROAS (null si pas de vente ou seuils inconnus). */
+  margin: number | null;
+  cpcCents: number | null;
+  cvr: number | null;
+  cpmCents: number | null;
+  frequency: number | null;
+  /** Jours de diffusion observés, et âge depuis le 1er jour vu. */
+  daysLive: number;
+  ageDays: number;
+  /** ≥ 6 ventes ET ≥ 10 % de marge (T37) → à dupliquer (même post ID). */
+  winner: boolean;
+  /** ≥ 6 ventes, entre BE et 10 % de marge (T37) → potential winner. */
+  potentialWinner: boolean;
+  /** CPM ou fréquence en forte hausse sur la 2ᵉ moitié de la fenêtre. */
+  saturating: boolean;
+  /** Dépense significative sans rentabilité : elle mange le budget. */
+  bleeding: boolean;
+}
+
+export type RescueLeak = "CREAS" | "FUNNEL" | "AOV" | "BIG_SWING" | "INSUFFISANT";
+
+/** Diagnostic complet, calculé côté serveur (aucune session Claude requise). */
+export interface RescueDiagnostic {
+  /** Où ça fuit, selon le cadran de la formation (T35). */
+  leak: RescueLeak;
+  /** Phrase de conclusion du cadran. */
+  verdict: string;
+  /** Les chiffres qui déclenchent le diagnostic, prêts à afficher. */
+  evidence: string[];
+  /** Annonces triées par spend décroissant sur 14 j. */
+  ads: AdDiagnostic[];
+  /** Le plan d'action, déjà priorisé. */
+  plan: string[];
+  /** Date du dernier batch injecté (1re diffusion de l'annonce la plus jeune). */
+  lastBatchDay: string | null;
+}
+
 export interface BudgetMove {
   time: string; // ISO Meta
   /** « 17/08 23h28 » (Europe/Paris), prêt à afficher */
@@ -201,6 +246,9 @@ export interface ScalingCampaign {
   /** Plan créas concret selon le verdict — combien, quelles variantes, dans
    * quel adset (T36 « Processus de testing », T37 « Dispatcher les winners »). */
   creaPlan: string[];
+  /** Diagnostic annonce par annonce — rempli en RESCUE et au cran 3 (juste
+   * avant de basculer), calculé côté serveur depuis meta_ad_insights. */
+  rescue: RescueDiagnostic | null;
   unstable: boolean;
   sauvetageDiagnostic: string | null;
   scalingRegime: boolean;
@@ -319,6 +367,203 @@ function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
   return "CPC et CVR dans les normes de la campagne mais marge insuffisante → problème AOV : upsells, bundles, e-mails (T35).";
 }
 
+export interface AdDailyRow {
+  day: string;
+  adId: string;
+  adName: string | null;
+  campaignId: string;
+  spendCents: number;
+  purchases: number;
+  purchaseValueCents: number;
+  impressions: number;
+  clicks: number;
+  reach: number;
+}
+
+/**
+ * 🩺 Diagnostic de sauvetage — le travail que faisait le media buyer à la
+ * main : descendre au niveau des ANNONCES pour trouver où ça fuit.
+ * Tourne côté serveur, à chaque chargement de l'onglet (aucune session Claude,
+ * aucun connecteur, aucune autorisation à donner).
+ *
+ * Cadran de la formation (T35 [06:47-09:36]), lu sur l'historique de la
+ * campagne elle-même : CPC qui dérape → créas · CVR qui chute → funnel ·
+ * les deux corrects mais marge faible → AOV · les deux mauvais → big swing.
+ */
+export function diagnoseRescue(input: {
+  campaignName: string;
+  windows: ScalingWindow[];
+  lastIdx: number;
+  ads: AdDailyRow[];
+  cm: number | null;
+  breakEven: number | null;
+  today: string;
+  budgetCents: number | null;
+}): RescueDiagnostic {
+  const { windows, lastIdx, ads, cm, breakEven, today } = input;
+  const last = windows[lastIdx];
+
+  // --- 1. Agrégation par annonce sur la fenêtre de diagnostic ---
+  const byAd = new Map<string, AdDailyRow[]>();
+  for (const r of ads) {
+    const list = byAd.get(r.adId) ?? [];
+    list.push(r);
+    byAd.set(r.adId, list);
+  }
+  const dayNumber = (d: string) => Math.round(new Date(`${d}T00:00:00Z`).getTime() / 86400000);
+  const todayN = dayNumber(today);
+
+  const adDiags: AdDiagnostic[] = [];
+  for (const [adId, rows] of byAd) {
+    const sorted = [...rows].sort((a, b) => a.day.localeCompare(b.day));
+    const sum = (f: (r: AdDailyRow) => number) => sorted.reduce((acc, r) => acc + f(r), 0);
+    const spend = sum((r) => r.spendCents);
+    if (spend === 0) continue;
+    const value = sum((r) => r.purchaseValueCents);
+    const purchases = sum((r) => r.purchases);
+    const clicks = sum((r) => r.clicks);
+    const impressions = sum((r) => r.impressions);
+    const reach = sum((r) => r.reach);
+    const roas = spend > 0 ? value / spend : null;
+    const margin = roas !== null && roas > 0 && cm !== null ? cm - 1 / roas : null;
+
+    // Saturation : CPM et fréquence de la 2ᵉ moitié vs la 1re moitié.
+    const half = Math.floor(sorted.length / 2);
+    const slice = (rs: AdDailyRow[]) => {
+      const sp = rs.reduce((a, r) => a + r.spendCents, 0);
+      const im = rs.reduce((a, r) => a + r.impressions, 0);
+      const re = rs.reduce((a, r) => a + r.reach, 0);
+      return {
+        cpm: im > 0 ? (sp / im) * 1000 : null,
+        freq: re > 0 ? im / re : null,
+      };
+    };
+    const first = slice(sorted.slice(0, half || 1));
+    const second = slice(sorted.slice(half || 1));
+    const saturating =
+      half >= 1 &&
+      ((first.cpm !== null && second.cpm !== null && second.cpm > first.cpm * 1.2) ||
+        (first.freq !== null && second.freq !== null && second.freq > first.freq * 1.2));
+
+    adDiags.push({
+      adId,
+      adName: sorted[0].adName ?? adId,
+      spendCents: spend,
+      purchases,
+      valueCents: value,
+      roas,
+      margin,
+      cpcCents: clicks > 0 ? spend / clicks : null,
+      cvr: clicks > 0 ? purchases / clicks : null,
+      cpmCents: impressions > 0 ? (spend / impressions) * 1000 : null,
+      frequency: reach > 0 ? impressions / reach : null,
+      daysLive: sorted.length,
+      ageDays: todayN - dayNumber(sorted[0].day),
+      // Seuils winner/potential winner : T37 [01:08] et [04:28].
+      winner: purchases >= 6 && margin !== null && margin >= 0.1,
+      potentialWinner:
+        purchases >= 6 && margin !== null && margin < 0.1 && roas !== null && breakEven !== null && roas >= breakEven,
+      saturating,
+      bleeding:
+        spend >= 5000 && (roas === null || roas === 0 || (breakEven !== null && roas < breakEven * 0.7)),
+    });
+  }
+  adDiags.sort((a, b) => b.spendCents - a.spendCents);
+
+  // --- 2. Le cadran, sur l'historique de la campagne ---
+  const prevCpcs = windows.slice(0, lastIdx).map((w) => w.cpcCents).filter((v): v is number => v !== null);
+  const prevCvrs = windows.slice(0, lastIdx).map((w) => w.cvr).filter((v): v is number => v !== null);
+  const cpcMed = median(prevCpcs);
+  const cvrMed = median(prevCvrs);
+  const cpcBad = last.cpcCents !== null && cpcMed !== null && last.cpcCents > cpcMed * 1.2;
+  const cvrBad = last.cvr !== null && cvrMed !== null && last.cvr < cvrMed * 0.8;
+
+  const evidence: string[] = [];
+  const eur = (c: number) => `${(c / 100).toFixed(2)} €`;
+  if (last.cpcCents !== null && cpcMed !== null) {
+    const delta = Math.round((last.cpcCents / cpcMed - 1) * 100);
+    evidence.push(`CPC ${eur(last.cpcCents)} vs ${eur(cpcMed)} médian (${delta >= 0 ? "+" : ""}${delta} %)`);
+  }
+  if (last.cvr !== null && cvrMed !== null) {
+    const delta = Math.round((last.cvr / cvrMed - 1) * 100);
+    evidence.push(
+      `CVR ${(last.cvr * 100).toFixed(2)} % vs ${(cvrMed * 100).toFixed(2)} % médian (${delta >= 0 ? "+" : ""}${delta} %)`
+    );
+  }
+  const saturated = adDiags.filter((a) => a.saturating);
+  if (saturated.length > 0) evidence.push(`${saturated.length} annonce(s) en saturation (CPM/fréquence en hausse)`);
+  const bleeders = adDiags.filter((a) => a.bleeding);
+  if (bleeders.length > 0) {
+    const wasted = bleeders.reduce((a, b) => a + b.spendCents, 0);
+    evidence.push(`${bleeders.length} annonce(s) mangent ${eur(wasted)} sans rentabilité`);
+  }
+
+  let leak: RescueLeak;
+  let verdict: string;
+  if (last.cpcCents === null && last.cvr === null) {
+    leak = "INSUFFISANT";
+    verdict = "Pas de clics mesurés sur la fenêtre : vérifier la diffusion avant tout diagnostic.";
+  } else if (cpcBad && cvrBad) {
+    leak = "BIG_SWING";
+    verdict = "CPC en hausse ET CVR en baisse : tout fuit — big swing (nouvelle LP / nouvelle offre), voire couper.";
+  } else if (cpcBad) {
+    leak = "CREAS";
+    verdict = "Le CVR tient mais le CPC dérape : le problème est CRÉATIF, pas la page ni l'offre.";
+  } else if (cvrBad) {
+    leak = "FUNNEL";
+    verdict = "Le CPC tient mais le CVR chute : le problème est le FUNNEL (landing page), pas les créas.";
+  } else {
+    leak = "AOV";
+    verdict = "CPC et CVR dans les normes mais la marge ne suit pas : le problème est l'AOV (panier moyen).";
+  }
+
+  // --- 3. Le plan, priorisé, avec les annonces nommées ---
+  const plan: string[] = [];
+  const nameOf = (a: AdDiagnostic) => (a.adName.length > 42 ? a.adName.slice(0, 42) + "…" : a.adName);
+  if (bleeders.length > 0) {
+    plan.push(
+      `Coupe d'abord ce qui saigne : ${bleeders.slice(0, 3).map(nameOf).join(", ")} — ${eur(bleeders.reduce((a, b) => a + b.spendCents, 0))} dépensés sous 70 % du break-even.`
+    );
+  }
+  const winners = adDiags.filter((a) => a.winner);
+  const potentials = adDiags.filter((a) => a.potentialWinner);
+  if (winners.length > 0) {
+    plan.push(
+      `Duplique tes gagnantes AVEC LE MÊME POST ID (garde commentaires et social proof) dans un nouvel adset « winners » : ${winners.slice(0, 3).map(nameOf).join(", ")} (T37).`
+    );
+  }
+  if (potentials.length > 0) {
+    plan.push(`Potential winners à injecter aussi (≥ 6 ventes, entre BE et 10 % de marge) : ${potentials.slice(0, 3).map(nameOf).join(", ")} (T37).`);
+  }
+  if (leak === "CREAS" || leak === "BIG_SWING") {
+    plan.push(
+      "Batch de 3 à 6 ads NEUVES dans un nouvel adset de la CBO (minimum spend 10-15 €/j, 2 jours) : nouveaux HOOKS, nouveaux ANGLES, nouveaux MÉCANISMES — pas des variantes de l'existant (T35/T36)."
+    );
+  }
+  if (leak === "FUNNEL") {
+    plan.push("Priorité LP : above-the-fold, objections répondues, Microsoft Clarity pour voir où ça décroche. Les créas continuent en fond mais ce n'est pas là que ça fuit (T35).");
+  }
+  if (leak === "AOV") {
+    plan.push("Priorité offre : upsells, bundles, e-mails post-achat — remonter le panier moyen suffit souvent à repasser rentable (T35 [08:33-09:15]).");
+  }
+  if (leak === "BIG_SWING") {
+    plan.push("Nouvelle landing page voire nouvelle offre, et re-analyse ce que font les compétiteurs qui scalent (T35 [10:17]).");
+  }
+  if (saturated.length > 0) {
+    plan.push(`Audience saturée sur ${saturated.slice(0, 3).map(nameOf).join(", ")} : la réponse est des créas neuves, jamais du budget (T36).`);
+  }
+  plan.push("Réglages du batch : 2-3 adcopies + 2-3 titres + 1 description par ad, une adcopy par angle, miniature choisie à la main, 50 % page marque / 50 % page tierce, Advantage+ créative OFF sauf relevant comments, lancement mardi→vendredi entre minuit et 7 h.");
+
+  const youngest = adDiags.length > 0 ? Math.min(...adDiags.map((a) => a.ageDays)) : null;
+  const lastBatchDay =
+    youngest === null ? null : new Date((todayN - youngest) * 86400000).toISOString().slice(0, 10);
+  if (youngest !== null && youngest >= 14) {
+    evidence.push(`Aucune créa neuve depuis ${youngest} jours`);
+  }
+
+  return { leak, verdict, evidence, ads: adDiags.slice(0, 8), plan, lastBatchDay };
+}
+
 /** Le plan créas de la formation, adapté au verdict et au budget du compte.
  * Source : T36 (batch 3-6 ads / nouvel adset / minimum spend / variantes) et
  * T37 (dispatch des winners). En dessous de 3 000 €/j de spend, tout se joue
@@ -423,9 +668,17 @@ export function computeScaling(input: {
   budgetOverridesCents?: Record<string, number> | null;
   /** false = fenêtre FIGÉE (mode nuit 00h-07h ou rejeu d'un jour passé). */
   liveDay?: boolean;
+  /** Lignes ANNONCE (14 j) — alimentent le diagnostic de sauvetage. */
+  adRows?: AdDailyRow[];
 }): ScalingReport {
   const { today, rows, thresholds, live, activities } = input;
   const liveDay = input.liveDay ?? true;
+  const adRowsByCampaign = new Map<string, AdDailyRow[]>();
+  for (const r of input.adRows ?? []) {
+    const list = adRowsByCampaign.get(r.campaignId) ?? [];
+    list.push(r);
+    adRowsByCampaign.set(r.campaignId, list);
+  }
   const overrides = input.budgetOverridesCents ?? null;
   const warnings: string[] = [];
 
@@ -673,6 +926,21 @@ export function computeScaling(input: {
       cpmrRising,
       creasRequired,
       creaPlan: buildCreaPlan({ action, scalingRegime, cpmrRising, sauvetageDiagnostic }),
+      // Diagnostic annonce par annonce : en RESCUE, et dès le cran 3 pour
+      // anticiper (un NON de plus et la campagne bascule).
+      rescue:
+        (action === "RESCUE" || cran === 3) && adRowsByCampaign.has(campaignId)
+          ? diagnoseRescue({
+              campaignName: entry.name,
+              windows: winData,
+              lastIdx,
+              ads: adRowsByCampaign.get(campaignId) ?? [],
+              cm,
+              breakEven: th?.breakEven ?? null,
+              today,
+              budgetCents,
+            })
+          : null,
       unstable,
       sauvetageDiagnostic,
       scalingRegime,
@@ -721,7 +989,10 @@ export async function buildScalingReport(
     (hasReach ? ", reach" : "");
 
   const MAX_ROWS = 5000;
-  const [insightsRes, overridesRes] = await Promise.all([
+  // Fenêtre du diagnostic annonce : 14 jours (même horizon que T37 pour les
+  // winners « sur les 14 derniers jours »).
+  const adStartDay = addDaysToDay(today, -13);
+  const [insightsRes, overridesRes, adRes] = await Promise.all([
     supabase
       .from("meta_insights")
       .select(insightCols)
@@ -731,6 +1002,13 @@ export async function buildScalingReport(
       .order("campaign_id", { ascending: true })
       .limit(MAX_ROWS),
     supabase.from("app_state").select("value").eq("key", "campaign_daily_budgets").maybeSingle(),
+    supabase
+      .from("meta_ad_insights")
+      .select("day, ad_id, ad_name, campaign_id, spend_cents, purchases, purchase_value_cents, impressions, clicks" + (hasReach ? ", reach" : ""))
+      .gte("day", adStartDay)
+      .lte("day", today)
+      .order("day", { ascending: true })
+      .limit(MAX_ROWS),
   ]);
   if (insightsRes.error) throw new Error(insightsRes.error.message);
 
@@ -765,6 +1043,38 @@ export async function buildScalingReport(
     reach: r.reach ?? 0,
   }));
 
+  type RawAdRow = {
+    day: string;
+    ad_id: string;
+    ad_name: string | null;
+    campaign_id: string | null;
+    spend_cents: number | null;
+    purchases: number | null;
+    purchase_value_cents: number | null;
+    impressions: number | null;
+    clicks: number | null;
+    reach?: number | null;
+  };
+  const adRows: AdDailyRow[] = adRes.error
+    ? []
+    : ((adRes.data ?? []) as unknown as RawAdRow[])
+        .filter((r) => r.campaign_id)
+        .map((r) => ({
+          day: String(r.day),
+          adId: r.ad_id,
+          adName: r.ad_name ?? null,
+          campaignId: r.campaign_id as string,
+          spendCents: r.spend_cents ?? 0,
+          purchases: r.purchases ?? 0,
+          purchaseValueCents: r.purchase_value_cents ?? 0,
+          impressions: r.impressions ?? 0,
+          clicks: r.clicks ?? 0,
+          reach: r.reach ?? 0,
+        }));
+  if (adRes.error) {
+    extraWarnings.push("Détail par annonce illisible : le diagnostic de sauvetage reste au niveau campagne.");
+  }
+
   let budgetOverrides: Record<string, number> | null = null;
   const rawOverrides = overridesRes.data?.value;
   if (rawOverrides && typeof rawOverrides === "object") {
@@ -797,6 +1107,7 @@ export async function buildScalingReport(
     activities,
     budgetOverridesCents: budgetOverrides,
     liveDay,
+    adRows,
   });
   report.warnings.push(...extraWarnings);
   return report;
