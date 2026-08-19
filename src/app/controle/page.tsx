@@ -1,6 +1,8 @@
 import { Suspense } from "react";
-import { fetchUnmappedCampaigns, getDataMode, type DataMode } from "@/lib/data";
+import { fetchUnmappedCampaigns, getDataMode, getTabDayData, HISTORY_START, referenceToday, type DataMode } from "@/lib/data";
 import { buildBankReport, type BankReport } from "@/lib/bank";
+import { associateTotalsSinceStart } from "@/lib/associates";
+import { MARKETS } from "@/lib/markets";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
@@ -53,13 +55,34 @@ export default async function ControlPage() {
   );
 }
 
+// Nets cumulés par associé (même arithmétique que l'onglet Année) — pour le
+// bloc « à qui appartient l'argent des comptes » (règle Badr 19/08 : part
+// Badr = son net Année, le reste = Adnane). Échec ⇒ null, le bloc s'efface.
+async function loadAssociateTotals(): Promise<{ badrCents: number; adnaneCents: number } | null> {
+  try {
+    const today = await referenceToday();
+    const dayData = await getTabDayData(HISTORY_START, today);
+    const flat: { market: (typeof MARKETS)[number]; day: string; netCents: number }[] = [];
+    for (const m of MARKETS) for (const r of dayData[m]) flat.push({ market: m, day: r.day, netCents: r.netCents });
+    const lastDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
+    const t = associateTotalsSinceStart(flat, HISTORY_START, lastDay || HISTORY_START);
+    return { badrCents: t.badrCents, adnaneCents: t.adnaneCents };
+  } catch {
+    return null;
+  }
+}
+
 async function BankSection({ mode, unmappedCount }: { mode: DataMode; unmappedCount: number }) {
   let report: BankReport;
+  let annee: { badrCents: number; adnaneCents: number } | null = null;
   try {
     // mode démo : buildBankReport(null) sert des données synthétiques
-    report = await buildBankReport(mode === "demo" ? null : createSupabaseServerClient());
+    [report, annee] = await Promise.all([
+      buildBankReport(mode === "demo" ? null : createSupabaseServerClient()),
+      loadAssociateTotals(),
+    ]);
   } catch (err) {
     return <DataError message={(err as Error).message} />;
   }
-  return <BankBoard report={report} unmappedCount={unmappedCount} />;
+  return <BankBoard report={report} unmappedCount={unmappedCount} annee={annee} />;
 }

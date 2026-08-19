@@ -59,6 +59,9 @@ export interface BankBalance {
   bank: BankName;
   currency: string;
   amountCents: number;
+  /** Contre-valeur EUR (taux figé USD / taux Wise du jour) — null si devise
+   * sans taux : affichée mais hors du total « à qui appartient l'argent ». */
+  amountEurCents: number | null;
 }
 
 // --- Catégorisation par mots-clés --------------------------------------------
@@ -351,7 +354,10 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
   txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
   return {
     txs,
-    balances: balances.map((b) => ({ bank: "WISE" as const, currency: b.currency, amountCents: Math.round(b.amount.value * 100) })),
+    balances: balances.map((b) => {
+      const amountCents = Math.round(b.amount.value * 100);
+      return { bank: "WISE" as const, currency: b.currency, amountCents, amountEurCents: toEurCents(amountCents, b.currency, liveRates) };
+    }),
   };
 }
 
@@ -697,9 +703,9 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
     mk(d(6), "Received money from SLASH - KINDREDM", 2000),
   ];
   const balances: BankBalance[] = [
-    { bank: "WISE", currency: "EUR", amountCents: 742596 },
-    { bank: "WISE", currency: "USD", amountCents: 140000 },
-    { bank: "WISE", currency: "CAD", amountCents: 178478 },
+    { bank: "WISE", currency: "EUR", amountCents: 742596, amountEurCents: 742596 },
+    { bank: "WISE", currency: "USD", amountCents: 140000, amountEurCents: Math.round(140000 * USD_TO_EUR) },
+    { bank: "WISE", currency: "CAD", amountCents: 178478, amountEurCents: null },
   ];
   const expected: ExpectedDaily[] = Array.from({ length: 7 }, (_, i) => ({
     day: d(i),

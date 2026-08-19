@@ -187,7 +187,59 @@ function AssignButtons({ tx, compact = false }: { tx: BankTx; compact?: boolean 
   );
 }
 
-export function BankBoard({ report, unmappedCount }: { report: BankReport; unmappedCount: number }) {
+// 🏛️ À qui appartient l'argent des comptes (règle Badr 19/08) : le net de
+// l'onglet Année ne bouge JAMAIS ; ici on répartit le SOLDE réel — la part
+// de Badr = son net Année (moins son perso banque, 0 tant que la carte Badr
+// dort), TOUT LE RESTE = Adnane. Sa part doit dépasser son net Année : la
+// différence = l'apport perso qu'il a injecté dans la LLC et qui y est encore.
+function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCents: number; adnaneCents: number } }) {
+  const known = report.balances.filter((b) => b.amountEurCents !== null);
+  if (known.length === 0) return null;
+  const totalCents = known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0);
+  const horsTotal = report.balances.filter((b) => b.amountEurCents === null).map((b) => b.currency);
+  const persoBadr = report.control?.parts.persoBadrCents ?? 0;
+  const partBadr = annee.badrCents - persoBadr;
+  const partAdnane = totalCents - partBadr;
+  const apportAdnane = partAdnane - annee.adnaneCents;
+  return (
+    <div className="rounded-lg border border-line bg-panel p-3">
+      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+        🏛️ À qui appartient l&apos;argent des comptes
+      </div>
+      <div className="mt-1.5 grid grid-cols-1 gap-1.5 text-[12px] sm:grid-cols-3">
+        <div>
+          Solde total connu <b className="tnum text-ink">{formatEur0(totalCents)}</b>
+          {horsTotal.length > 0 && <span className="block text-[9.5px] text-ink-faint">hors {horsTotal.join(", ")} (sans taux)</span>}
+          {!report.slashConnected && <span className="block text-[9.5px] text-amber">⚠️ solde Slash non compté (à brancher)</span>}
+        </div>
+        <div>
+          Part Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
+          <span className="block text-[9.5px] text-ink-faint">= net Année{persoBadr > 0 ? ` − ${formatEur0(persoBadr)} perso banque` : " (zéro dépense perso)"}</span>
+        </div>
+        <div>
+          Part Adnane <b className="tnum text-amber">{formatEur0(partAdnane)}</b>
+          <span className="block text-[9.5px] text-ink-faint">= le reste du solde</span>
+        </div>
+      </div>
+      <p className="mt-2 border-t border-line-soft pt-2 text-[10.5px] leading-snug text-ink-dim">
+        Net Année d&apos;Adnane : <b className="tnum text-ink">{formatEur0(annee.adnaneCents)}</b> →{" "}
+        {apportAdnane >= 0 ? (
+          <>
+            sa part sur les comptes dépasse son net de <b className="tnum text-phosphor">{formatEur0(apportAdnane)}</b> ={" "}
+            <b>son apport perso encore dans la LLC</b> (il avait transféré de son argent perso).
+          </>
+        ) : (
+          <b className="text-red">
+            ⚠️ sa part sur les comptes est INFÉRIEURE de {formatEur0(-apportAdnane)} à son net Année — solde Slash manquant ou
+            argent sorti non tracé : à creuser.
+          </b>
+        )}
+      </p>
+    </div>
+  );
+}
+
+export function BankBoard({ report, unmappedCount, annee = null }: { report: BankReport; unmappedCount: number; annee?: { badrCents: number; adnaneCents: number } | null }) {
   const control = report.control;
   return (
     <div className="flex flex-col gap-4">
@@ -223,6 +275,8 @@ export function BankBoard({ report, unmappedCount }: { report: BankReport; unmap
           ))}
         </div>
       )}
+
+      {annee && <OwnershipBlock report={report} annee={annee} />}
 
       {control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
         <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">

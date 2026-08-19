@@ -1,6 +1,7 @@
 import type { Market } from "./engine";
 import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "./subscriptions";
 import { badrNetLedgerCentsForDay } from "./associateLedger";
+import { listParisDays } from "./time";
 
 // ---------------------------------------------------------------------------
 // Répartition du résultat entre associés (Badr, 06/08).
@@ -134,6 +135,59 @@ export function applyAssociateLedger(shares: MonthlyShare[], days: string[]): Mo
     byYm.set(ym, cur);
   }
   return [...byYm.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
+}
+
+/**
+ * NET CUMULÉ PAR ASSOCIÉ depuis le début (règle par boutique + charges fixes
+ * + solde entre associés) — la MÊME arithmétique que le bloc « Net par
+ * associé » de l'onglet Année, extraite ici pour servir aussi le contrôle
+ * bancaire (Badr 19/08 : « Badr ça correspond au net dans Année, le reste
+ * c'est Adnane »). Une seule source de vérité : YearBoard appelle ceci.
+ */
+export function associateTotalsSinceStart(
+  perMarketRows: { market: Market; day: string; netCents: number }[],
+  historyStart: string,
+  historyEnd: string
+): { badrCents: number; adnaneCents: number; soloNetCents: number; sharedNetCents: number } {
+  let adnane = 0;
+  let badr = 0;
+  let soloNet = 0;
+  let sharedNet = 0;
+  for (const r of perMarketRows) {
+    const share = badrShareFor(r.market, r.day);
+    if (share === 0) {
+      adnane += r.netCents;
+      soloNet += r.netCents;
+    } else {
+      const badrPart = r.netCents * share;
+      badr += badrPart;
+      adnane += r.netCents - badrPart;
+      sharedNet += r.netCents;
+    }
+  }
+  // Charges fixes (08/08) : 100 % Adnane avant le 14/07, 50/50 ensuite, sur
+  // TOUS les jours calendaires ; solde entre associés sur sa vraie date.
+  if (historyEnd >= historyStart) {
+    for (const day of listParisDays(historyStart, historyEnd)) {
+      const fixed = fixedCostsCentsForDay(day);
+      if (fixed) {
+        const bp = badrFixedCostsCentsForDay(day);
+        badr -= bp;
+        adnane -= fixed - bp;
+      }
+      const owed = badrNetLedgerCentsForDay(day);
+      if (owed) {
+        badr += owed;
+        adnane -= owed;
+      }
+    }
+  }
+  return {
+    badrCents: Math.round(badr),
+    adnaneCents: Math.round(adnane),
+    soloNetCents: soloNet,
+    sharedNetCents: sharedNet,
+  };
 }
 
 /**
