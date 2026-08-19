@@ -86,9 +86,11 @@ export function categorizeTx(description: string, amountCents: number): { catego
   return { category: "AUTRE", subscriptionLabel: null };
 }
 
-function toEurCents(amountCents: number, currency: string): number | null {
+function toEurCents(amountCents: number, currency: string, liveRates?: Map<string, number>): number | null {
   if (currency === "EUR") return amountCents;
-  if (currency === "USD") return Math.round(amountCents * USD_TO_EUR);
+  if (currency === "USD") return Math.round(amountCents * USD_TO_EUR); // taux FIGÉ du dashboard (décision Badr 08/08)
+  const rate = liveRates?.get(currency);
+  if (rate !== undefined) return Math.round(amountCents * rate); // taux Wise du jour (CAD, CHF, MAD…)
   return null; // devise inconnue : on l'affiche telle quelle, jamais convertie au pif
 }
 
@@ -119,6 +121,29 @@ async function wiseFetch(path: string, token: string, privateKeyPem: string | nu
   return res;
 }
 
+/** Taux du jour Wise (mid-market) pour les devises sans taux figé au
+ * dashboard (CAD, CHF, MAD…). L'USD garde son taux figé. Un taux
+ * introuvable laisse la devise hors totaux (jamais convertie au pif). */
+async function fetchWiseRates(currencies: string[], token: string): Promise<Map<string, number>> {
+  const rates = new Map<string, number>();
+  await Promise.all(
+    currencies.map(async (c) => {
+      try {
+        const res = await fetch(`${WISE_API}/v1/rates?source=${encodeURIComponent(c)}&target=EUR`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const arr = (await res.json()) as { rate?: number }[];
+        const rate = arr?.[0]?.rate;
+        if (typeof rate === "number" && rate > 0) rates.set(c, rate);
+      } catch {
+        // taux indisponible : la devise reste affichée mais hors totaux
+      }
+    })
+  );
+  return rates;
+}
+
 interface WiseStatementTx {
   type: "DEBIT" | "CREDIT";
   date: string;
@@ -142,6 +167,9 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
   const balancesRes = await wiseFetch(`/v4/profiles/${profile.id}/balances?types=STANDARD`, token, privateKey);
   if (!balancesRes.ok) throw new Error(`Wise /balances : HTTP ${balancesRes.status}`);
   const balances = (await balancesRes.json()) as { id: number; currency: string; amount: { value: number } }[];
+
+  const extraCurrencies = [...new Set(balances.map((b) => b.currency))].filter((c) => c !== "EUR" && c !== "USD");
+  const liveRates = extraCurrencies.length > 0 ? await fetchWiseRates(extraCurrencies, token) : new Map<string, number>();
 
   const txs: BankTx[] = [];
   for (const b of balances) {
@@ -168,7 +196,7 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
         day: toParisDay(t.date),
         amountCents,
         currency: t.amount.currency,
-        amountEurCents: toEurCents(amountCents, t.amount.currency),
+        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates),
         description,
         category,
         subscriptionLabel,
@@ -200,6 +228,12 @@ export interface BankReconciliation {
    * PALIERS (pas jour par jour) : seul le TOTAL doit coller, l'écart
    * journalier est normal — dit dans l'UI. */
   meta: { bankCents: number; expectedCents: number; gapCents: number };
+  /** true = AUCUN débit Meta visible sur les banques branchées ET Slash pas
+   * encore connecté : Meta est débité sur la carte Slash (constaté 19/08 —
+   * zéro débit facebk sur Wise pour 47 k€ de spend). Contrôle EN ATTENTE du
+   * branchement Slash, pas une anomalie (règle Badr 19/08 : « pars du
+   * principe que c'est prélevé »). */
+  metaPending: boolean;
   /** Shopify : crédits banque (payouts) vs CA net des frais estimés. Les
    * payouts arrivent en DIFFÉRÉ (2-4 j) : indicatif sur la fenêtre. */
   shopify: { bankCents: number; expectedCents: number; gapCents: number };
@@ -210,7 +244,14 @@ export interface BankReconciliation {
   warnings: string[];
 }
 
-export function reconcile(txs: BankTx[], expected: ExpectedDaily[], sinceDay: string, untilDay: string): BankReconciliation {
+export function reconcile(
+  txs: BankTx[],
+  expected: ExpectedDaily[],
+  sinceDay: string,
+  untilDay: string,
+  opts?: { slashConnected?: boolean }
+): BankReconciliation {
+  const slashConnected = opts?.slashConnected ?? false;
   const warnings: string[] = [];
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay);
 
@@ -244,7 +285,10 @@ export function reconcile(txs: BankTx[], expected: ExpectedDaily[], sinceDay: st
   const others = inWindow.filter((t) => t.category === "AUTRE");
 
   const metaGap = metaBank - metaExpected;
-  if (metaExpected > 0 && Math.abs(metaGap) > Math.max(1000, metaExpected * 0.05)) {
+  // Zéro débit Meta visible + Slash absent = Meta passe sur la carte Slash :
+  // en attente du branchement, pas un écart (Badr 19/08).
+  const metaPending = metaTx.length === 0 && metaExpected > 0 && !slashConnected;
+  if (!metaPending && metaExpected > 0 && Math.abs(metaGap) > Math.max(1000, metaExpected * 0.05)) {
     warnings.push(
       `Meta : la banque a débité ${(metaBank / 100).toFixed(0)} € pour ${(metaExpected / 100).toFixed(0)} € de spend enregistré — écart ${(metaGap / 100).toFixed(0)} €. Meta facture par paliers : vérifier seulement si l'écart persiste plusieurs jours.`
     );
@@ -254,6 +298,7 @@ export function reconcile(txs: BankTx[], expected: ExpectedDaily[], sinceDay: st
     sinceDay,
     untilDay,
     meta: { bankCents: metaBank, expectedCents: metaExpected, gapCents: metaGap },
+    metaPending,
     shopify: { bankCents: shopifyBank, expectedCents: shopifyExpected, gapCents: shopifyBank - shopifyExpected },
     subscriptions: subs,
     others,
@@ -307,8 +352,13 @@ export function computeControl(input: {
   reconciliation: BankReconciliation | null;
   sinceDay: string;
   untilDay: string;
+  /** true seulement quand le connecteur Slash est branché — tant qu'il ne
+   * l'est pas, les débits carte LLC (Meta, abonnements) passent sur Slash et
+   * sont invisibles ici : on ne crie pas « impayé » sur ce qu'on ne voit pas. */
+  slashConnected?: boolean;
 }): ControlReport {
   const { txs, reconciliation, sinceDay, untilDay } = input;
+  const slashConnected = input.slashConnected ?? false;
   const anomalies: Anomaly[] = [];
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay && t.label !== "IGNORER");
   const debits = inWindow.filter((t) => t.amountCents < 0);
@@ -325,19 +375,25 @@ export function computeControl(input: {
     });
   }
 
-  // 2) Abonnement attendu mais JAMAIS débité sur la fenêtre (≥ 30 j) — soit
-  //    il est payé ailleurs (à confirmer une fois), soit il n'est PAS payé.
-  for (const p of SUBSCRIPTION_PATTERNS) {
-    const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
-    if (!known || known.endDay !== null || known.amount <= 0) continue;
-    const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
-    if (!paid) {
-      anomalies.push({
-        kind: "ABO_NON_DEBITE",
-        severity: "amber",
-        label: `${p.label} : aucun débit vu sur 30 j (attendu ~${eur(monthlyEurCents(known))}/mois)`,
-        detail: "Payé sur un autre compte ? Sinon : impayé — vérifier avant une coupure de service.",
-      });
+  // 2) Abonnement attendu mais JAMAIS débité sur la fenêtre (≥ 30 j) —
+  //    SEULEMENT quand toutes les banques sont branchées. Tant que Slash
+  //    manque, les abonnements passent sur la carte Slash ou sur les comptes
+  //    PERSO des associés : « pars du principe que c'est prélevé »
+  //    (Badr 19/08) — pas d'alerte « impayé » sur ce qu'on ne peut pas voir.
+  if (slashConnected) {
+    for (const p of SUBSCRIPTION_PATTERNS) {
+      const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
+      if (!known || known.endDay !== null || known.amount <= 0) continue;
+      if (known.paidBy) continue; // payé perso (Badr/Adnane) — jamais visible en banque LLC, supposé prélevé
+      const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
+      if (!paid) {
+        anomalies.push({
+          kind: "ABO_NON_DEBITE",
+          severity: "amber",
+          label: `${p.label} : aucun débit vu sur 30 j (attendu ~${eur(monthlyEurCents(known))}/mois)`,
+          detail: "Payé sur un autre compte ? Sinon : impayé — vérifier avant une coupure de service.",
+        });
+      }
     }
   }
 
@@ -359,8 +415,9 @@ export function computeControl(input: {
     }
   }
 
-  // 4) Écart Meta significatif (le total de fenêtre doit coller).
-  if (reconciliation && reconciliation.meta.expectedCents > 0) {
+  // 4) Écart Meta significatif (le total de fenêtre doit coller) — sauf en
+  //    attente Slash (metaPending) : le spend est débité sur la carte Slash.
+  if (reconciliation && !reconciliation.metaPending && reconciliation.meta.expectedCents > 0) {
     const gap = reconciliation.meta.gapCents;
     if (Math.abs(gap) > Math.max(1000, reconciliation.meta.expectedCents * 0.05)) {
       anomalies.push({
@@ -433,6 +490,8 @@ export interface BankReport {
   ready: boolean;
   /** message d'installation quand une banque n'est pas branchée */
   setup: string[];
+  /** false tant que le connecteur Slash n'est pas branché (doc en attente) */
+  slashConnected: boolean;
   balances: BankBalance[];
   txs: BankTx[];
   reconciliation: BankReconciliation | null;
@@ -442,17 +501,82 @@ export interface BankReport {
 
 const WINDOW_DAYS = 30;
 
+// --- Démo (NIVA_DEMO) : données synthétiques déterministes -------------------
+// Même philosophie que le reste du mode démo : aucune API appelée, mais tout
+// le pipeline réel (catégorisation → rapprochement → contrôle) s'exécute.
+function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[]; expected: ExpectedDaily[] } {
+  const d = (n: number) => addDaysToDay(untilDay, -n);
+  const mk = (day: string, description: string, eur: number): BankTx => {
+    const amountCents = Math.round(eur * 100);
+    const { category, subscriptionLabel } = categorizeTx(description, amountCents);
+    return {
+      bank: "WISE",
+      txId: `demo-${day}-${description}`,
+      day,
+      amountCents,
+      currency: "EUR",
+      amountEurCents: amountCents,
+      description,
+      category,
+      subscriptionLabel,
+      label: null,
+      labelNote: null,
+    };
+  };
+  const txs = [
+    mk(d(0), "Received money from Stripe Payments UK Ltd with reference Shopify D9K9P7", 2045.72),
+    mk(d(1), "Received money from Stripe Payments UK Ltd with reference Shopify Q2U6X0", 1392.31),
+    mk(d(2), "Received money from Stripe Payments UK Ltd with reference Shopify F0J6G0", 1654.43),
+    mk(d(2), "OVH SAS", -34.9),
+    mk(d(3), "KLAVIYO INC", -25),
+    mk(d(5), "Received money from Stripe Payments UK Ltd with reference Shopify J6J0Z1", 1814.09),
+    mk(d(6), "Received money from SLASH - KINDREDM", 2000),
+  ];
+  const balances: BankBalance[] = [
+    { bank: "WISE", currency: "EUR", amountCents: 742596 },
+    { bank: "WISE", currency: "USD", amountCents: 140000 },
+    { bank: "WISE", currency: "CAD", amountCents: 178478 },
+  ];
+  const expected: ExpectedDaily[] = Array.from({ length: 7 }, (_, i) => ({
+    day: d(i),
+    caCents: 400000,
+    spendCents: 150000,
+    feesCents: 80000,
+  }));
+  return { txs, balances, expected };
+}
+
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
   ["wise-data"],
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
-export async function buildBankReport(supabase: SupabaseClient): Promise<BankReport> {
+/** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
+export async function buildBankReport(supabase: SupabaseClient | null): Promise<BankReport> {
   const untilDay = todayParisDay();
   const sinceDay = addDaysToDay(untilDay, -(WINDOW_DAYS - 1));
   const setup: string[] = [];
   const warnings: string[] = [];
+  // Passe à true quand le connecteur Slash sera branché (doc endpoint en
+  // attente) — débloque le contrôle Meta + abonnements sur la carte LLC.
+  const slashConnected = false;
+
+  if (!supabase) {
+    const demo = demoBankData(untilDay);
+    const reconciliation = reconcile(demo.txs, demo.expected, sinceDay, untilDay, { slashConnected });
+    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay, untilDay, slashConnected });
+    return {
+      ready: true,
+      setup: ["Mode démo : données bancaires synthétiques (aucune API appelée)."],
+      slashConnected,
+      balances: demo.balances,
+      txs: demo.txs,
+      reconciliation,
+      control,
+      warnings: [],
+    };
+  }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
@@ -516,13 +640,13 @@ export async function buildBankReport(supabase: SupabaseClient): Promise<BankRep
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
       }
-      reconciliation = reconcile(txs, [...byDay.values()], sinceDay, untilDay);
+      reconciliation = reconcile(txs, [...byDay.values()], sinceDay, untilDay, { slashConnected });
       warnings.push(...reconciliation.warnings);
     }
   }
 
   const control =
-    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay, untilDay }) : null;
+    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay, untilDay, slashConnected }) : null;
 
-  return { ready: txs.length > 0, setup, balances, txs: txs.slice(0, 120), reconciliation, control, warnings };
+  return { ready: txs.length > 0, setup, slashConnected, balances, txs: txs.slice(0, 120), reconciliation, control, warnings };
 }

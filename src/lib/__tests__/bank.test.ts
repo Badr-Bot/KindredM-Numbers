@@ -91,10 +91,28 @@ describe("computeControl — anomalies et parts", () => {
     expect(c.anomalies.some((a) => a.kind === "TX_NON_AFFECTEE")).toBe(false);
   });
 
-  it("abonnement actif jamais débité sur 30 j → anomalie « non débité »", () => {
+  it("abonnement jamais débité → anomalie SEULEMENT quand Slash est branché", () => {
     const txs = [tx("2026-08-18", "FACEBK", -100)];
-    const c = computeControl({ txs, reconciliation: null, ...W });
-    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Klaviyo"))).toBe(true);
+    // Slash branché : on voit toute la carte LLC → un abo absent = anomalie.
+    const avecSlash = computeControl({ txs, reconciliation: null, ...W, slashConnected: true });
+    expect(avecSlash.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Klaviyo"))).toBe(true);
+    // Slash absent (défaut) : abos payés en perso ou sur la carte Slash —
+    // « pars du principe que c'est prélevé » (Badr 19/08), aucune alerte.
+    const sansSlash = computeControl({ txs, reconciliation: null, ...W });
+    expect(sansSlash.anomalies.some((a) => a.kind === "ABO_NON_DEBITE")).toBe(false);
+  });
+
+  it("zéro débit Meta + Slash absent = metaPending, ni warning ni anomalie", () => {
+    const expected = [{ day: "2026-08-18", caCents: 0, spendCents: 100000, feesCents: 0 }];
+    const r = reconcile([tx("2026-08-18", "Shopify payout", 500)], expected, "2026-08-18", "2026-08-19");
+    expect(r.metaPending).toBe(true);
+    expect(r.warnings.some((w) => w.includes("Meta"))).toBe(false);
+    const c = computeControl({ txs: [], reconciliation: r, ...W });
+    expect(c.anomalies.some((a) => a.kind === "META_ECART")).toBe(false);
+    // Slash branché : le même trou devient un vrai écart.
+    const r2 = reconcile([tx("2026-08-18", "Shopify payout", 500)], expected, "2026-08-18", "2026-08-19", { slashConnected: true });
+    expect(r2.metaPending).toBe(false);
+    expect(r2.warnings.some((w) => w.includes("Meta"))).toBe(true);
   });
 
   it("double débit même jour / même montant / même libellé → anomalie", () => {

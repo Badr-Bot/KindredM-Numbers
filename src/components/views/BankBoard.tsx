@@ -2,13 +2,112 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { BankReport, BankTx, TxLabel } from "@/lib/bank";
+import type { AnomalyKind, BankReport, BankTx, TxLabel } from "@/lib/bank";
 import { formatEur0 } from "@/lib/format";
 
 // 🏦 Contrôle bancaire — chaque euro sorti doit finir dans exactement une
 // case (Société / Perso Badr / Perso Fahd), tout le reste est une anomalie
 // affichée jusqu'à affectation. Lecture seule côté banque : aucun ordre de
 // paiement, l'affectation n'écrit que dans le dashboard.
+//
+// Organisation (Badr 19/08) : « quand tout est vert c'est que c'est tout
+// bon » — un bandeau de santé global + une tuile par domaine, le détail
+// seulement en dessous. On repère l'anomalie d'un coup d'œil, on descend
+// lire ensuite.
+
+type Health = "green" | "amber" | "red";
+
+const HEALTH_DOT: Record<Health, string> = {
+  green: "bg-phosphor",
+  amber: "bg-amber",
+  red: "bg-red",
+};
+const HEALTH_TILE: Record<Health, string> = {
+  green: "border-phosphor/30",
+  amber: "border-amber/50 bg-amber/[0.04]",
+  red: "border-red/50 bg-red/[0.05]",
+};
+
+interface DomainTile {
+  title: string;
+  health: Health;
+  value: string;
+  note: string;
+}
+
+function buildTiles(report: BankReport, unmappedCount: number): DomainTile[] {
+  const control = report.control;
+  const anomalies = control?.anomalies ?? [];
+  const has = (k: AnomalyKind) => anomalies.some((a) => a.kind === k);
+
+  const banques: DomainTile = !report.ready
+    ? report.warnings.some((w) => w.startsWith("Wise"))
+      ? { title: "Banques", health: "red", value: "Wise en erreur", note: "Voir le détail en dessous." }
+      : { title: "Banques", health: "amber", value: "À brancher", note: "Ajouter les jetons dans Vercel — voir en dessous." }
+    : report.slashConnected
+      ? { title: "Banques", health: "green", value: "Wise ✓ · Slash ✓", note: "Les deux comptes remontent." }
+      : { title: "Banques", health: "amber", value: "Wise ✓ · Slash à brancher", note: "Doc API Slash en attente." };
+
+  const nAffecter = control?.parts.aAffecterCount ?? 0;
+  const affectations: DomainTile =
+    nAffecter > 0
+      ? { title: "Affectations", health: "red", value: `${nAffecter} sans case`, note: "Chaque euro doit avoir une case — à traiter." }
+      : has("DOUBLE_DEBIT")
+        ? { title: "Affectations", health: "amber", value: "Double débit ?", note: "Deux passages identiques — voir le détail." }
+        : { title: "Affectations", health: "green", value: "Tout est affecté", note: "Chaque euro a sa case." };
+
+  const abos: DomainTile = !report.slashConnected
+    ? { title: "Abonnements", health: "green", value: "Supposés prélevés", note: "Payés en perso ou carte Slash (règle 19/08) — contrôle au branchement Slash." }
+    : has("ABO_NON_DEBITE") || has("ABO_MONTANT")
+      ? { title: "Abonnements", health: "amber", value: "Écart détecté", note: "Un abonnement ne colle pas — voir le détail." }
+      : { title: "Abonnements", health: "green", value: "Montants OK", note: "Débits conformes aux mensuels attendus." };
+
+  const meta: DomainTile = report.reconciliation?.metaPending
+    ? { title: "Meta Ads", health: "amber", value: "Débité sur Slash", note: "Contrôle en attente du branchement Slash." }
+    : has("META_ECART")
+      ? { title: "Meta Ads", health: "red", value: "Écart banque/spend", note: "Le total de fenêtre ne colle pas — voir le détail." }
+      : { title: "Meta Ads", health: "green", value: "Écart OK", note: "Débits banque ≈ spend enregistré." }
+;
+
+  const shopify: DomainTile = has("PAYOUT_MANQUANT")
+    ? { title: "Shopify", health: "amber", value: "Payout en retard", note: "Aucun versement récent — voir le détail." }
+    : { title: "Shopify", health: "green", value: "Payouts réguliers", note: "Les versements arrivent normalement." };
+
+  const campagnes: DomainTile =
+    unmappedCount > 0
+      ? { title: "Campagnes Meta", health: "amber", value: `${unmappedCount} sans marché`, note: "Du spend non rattaché — voir la section en bas." }
+      : { title: "Campagnes Meta", health: "green", value: "Toutes affectées", note: "Tout le spend est rattaché à un marché." };
+
+  return [banques, affectations, abos, meta, shopify, campagnes];
+}
+
+function HealthHeader({ tiles }: { tiles: DomainTile[] }) {
+  const worst: Health = tiles.some((t) => t.health === "red") ? "red" : tiles.some((t) => t.health === "amber") ? "amber" : "green";
+  const nOff = tiles.filter((t) => t.health !== "green").length;
+  const banner =
+    worst === "green"
+      ? { cls: "border-phosphor/40 bg-phosphor/[0.06] text-phosphor", txt: "✅ Tout est vert — rien à traiter." }
+      : worst === "amber"
+        ? { cls: "border-amber/50 bg-amber/[0.06] text-amber", txt: `⚠️ ${nOff} point(s) à surveiller — le détail est en dessous.` }
+        : { cls: "border-red/50 bg-red/[0.07] text-red", txt: `🚨 ${nOff} point(s) à traiter — le détail est en dessous.` };
+  return (
+    <div className="flex flex-col gap-2">
+      <div className={`rounded-lg border p-3 text-[13px] font-extrabold ${banner.cls}`}>{banner.txt}</div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        {tiles.map((t) => (
+          <div key={t.title} className={`rounded-lg border bg-panel p-2.5 ${HEALTH_TILE[t.health]}`}>
+            <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-ink-faint">
+              <span className={`h-2 w-2 shrink-0 rounded-full ${HEALTH_DOT[t.health]}`} />
+              {t.title}
+            </div>
+            <div className="mt-0.5 text-[12.5px] font-extrabold text-ink">{t.value}</div>
+            <p className="mt-0.5 text-[9.5px] leading-snug text-ink-faint">{t.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const CAT_CHIP: Record<BankTx["category"], { txt: string; cls: string }> = {
   META: { txt: "META", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
@@ -23,9 +122,9 @@ function money(cents: number | null, currency = "EUR"): string {
   return `${v} ${currency === "EUR" ? "€" : currency}`;
 }
 
-function GapTile({ title, bank, expected, note }: { title: string; bank: number; expected: number; note: string }) {
+function GapTile({ title, bank, expected, note, pending = false }: { title: string; bank: number; expected: number; note: string; pending?: boolean }) {
   const gap = bank - expected;
-  const gapCls = Math.abs(gap) <= Math.max(1000, expected * 0.05) ? "text-phosphor" : "text-red";
+  const gapCls = pending ? "text-ink-faint" : Math.abs(gap) <= Math.max(1000, expected * 0.05) ? "text-phosphor" : "text-red";
   return (
     <div className="flex-1 rounded-lg border border-line bg-panel p-3">
       <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">{title}</div>
@@ -80,10 +179,12 @@ function AssignButtons({ tx, compact = false }: { tx: BankTx; compact?: boolean 
   );
 }
 
-export function BankBoard({ report }: { report: BankReport }) {
+export function BankBoard({ report, unmappedCount }: { report: BankReport; unmappedCount: number }) {
   const control = report.control;
   return (
     <div className="flex flex-col gap-4">
+      <HealthHeader tiles={buildTiles(report, unmappedCount)} />
+
       {control && control.anomalies.length > 0 && (
         <div className="flex flex-col gap-1.5">
           {control.anomalies.map((a, i) => (
@@ -99,12 +200,6 @@ export function BankBoard({ report }: { report: BankReport }) {
           ))}
         </div>
       )}
-      {control && control.anomalies.length === 0 && report.ready && (
-        <div className="rounded-lg border border-phosphor/40 bg-phosphor/[0.05] p-2.5 text-[11px] font-semibold text-phosphor">
-          ✅ Aucune anomalie : tout l&apos;argent sorti est identifié et les montants collent.
-        </div>
-      )}
-
       {control && (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {[
@@ -187,7 +282,12 @@ export function BankBoard({ report }: { report: BankReport }) {
               title={`Meta Ads (${report.reconciliation.sinceDay.slice(8)}/${report.reconciliation.sinceDay.slice(5, 7)} → aujourd'hui)`}
               bank={report.reconciliation.meta.bankCents}
               expected={report.reconciliation.meta.expectedCents}
-              note="Meta facture par paliers, pas jour par jour : seul le TOTAL de la fenêtre doit coller."
+              pending={report.reconciliation.metaPending}
+              note={
+                report.reconciliation.metaPending
+                  ? "Meta est débité sur la carte Slash (pas encore branchée) — contrôle actif dès le branchement, pas un écart."
+                  : "Meta facture par paliers, pas jour par jour : seul le TOTAL de la fenêtre doit coller."
+              }
             />
             <GapTile
               title="Versements Shopify"
@@ -205,7 +305,13 @@ export function BankBoard({ report }: { report: BankReport }) {
                   {report.reconciliation.subscriptions.map((s) => (
                     <tr key={s.label} className="border-t border-line-soft">
                       <td className="py-1">{s.label}</td>
-                      <td className="py-1 text-right tnum">payé {formatEur0(s.paidCents)}</td>
+                      <td className="py-1 text-right tnum">
+                        {s.paidCents === 0 && !report.slashConnected ? (
+                          <span className="text-ink-faint">perso / Slash — supposé prélevé</span>
+                        ) : (
+                          <>payé {formatEur0(s.paidCents)}</>
+                        )}
+                      </td>
                       <td className="py-1 text-right tnum text-ink-dim">attendu ~{formatEur0(s.expectedMonthlyCents)}/mois</td>
                     </tr>
                   ))}
@@ -243,7 +349,8 @@ export function BankBoard({ report }: { report: BankReport }) {
 
       <p className="text-[10px] text-ink-faint">
         Lecture seule (aucun ordre de paiement possible). Wise : relevés sur 30 j, rafraîchis toutes les 15 min — le bouton
-        Actualiser force la relecture. USD converti au taux figé du dashboard (1 € = 1,1539 $).
+        Actualiser force la relecture. USD converti au taux figé du dashboard (1 € = 1,1539 $) ; autres devises (CAD, CHF, MAD…)
+        au taux Wise du jour.
       </p>
     </div>
   );
