@@ -20,7 +20,10 @@
 // jamais une conversion recalculée — le relevé bancaire est la vérité.
 // ---------------------------------------------------------------------------
 
-export type Payer = "BADR" | "ADNANE";
+/** Qui a SORTI l'argent. « LLC » = carte de la société : c'est une charge
+ * société directe, il n'y a AUCUNE avance à régler entre associés (le net
+ * baisse pour les deux, mais personne ne doit rien à personne). */
+export type Payer = "BADR" | "ADNANE" | "LLC";
 
 /**
  * Part de Badr sur les charges fixes d'un jour : 0 avant le 14/07, 50 %
@@ -65,6 +68,18 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
   { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 28456, original: "325 $", paidBy: "BADR", badrShare: 0.5 },
   { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 12433, original: "142 $", paidBy: "BADR", badrShare: 0.5 },
   { day: "2026-06-21", label: "Frais LLC — Corporate Filings", eurCents: 10945, original: "125 $", paidBy: "BADR", badrShare: 0.5 },
+  // API Claude (usage à la consommation, hors abonnement mensuel) — débit du
+  // 18/08 sur la CARTE LLC (Badr, 19/08). Charge société directe : elle baisse
+  // le net des deux, mais il n'y a aucune avance perso à régler.
+  {
+    day: "2026-08-18",
+    label: "API Claude — usage",
+    eurCents: 2706,
+    original: "31,22 $",
+    paidBy: "LLC",
+    badrShare: 0.5,
+    note: "Conversion au taux figé du dashboard (1 € = 1,1539 $). Dépense variable : à rajouter chaque fois qu'un débit tombe.",
+  },
 ];
 
 export interface AssociateTransfer {
@@ -150,6 +165,8 @@ export function badrNetLedgerCentsForDay(day: string): number {
   let net = 0;
   for (const c of ONE_OFF_COSTS) {
     if (c.day !== day) continue;
+    // Carte LLC : la société a payé elle-même, rien à régler entre associés.
+    if (c.paidBy === "LLC") continue;
     // Part de l'AUTRE (celle que le payeur a avancée pour lui) — jamais la sienne.
     const otherShareCents =
       c.paidBy === "BADR" ? Math.round(c.eurCents * (1 - c.badrShare)) : Math.round(c.eurCents * c.badrShare);

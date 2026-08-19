@@ -1,7 +1,7 @@
 "use client";
 
-import type { ScalingAction, ScalingCampaign, ScalingReport, ScalingWindow } from "@/lib/scaling";
-import { formatEur0, formatPct, formatRoasBare } from "@/lib/format";
+import type { AdDiagnostic, ScalingAction, ScalingCampaign, ScalingReport, ScalingWindow } from "@/lib/scaling";
+import { formatEur, formatEur0, formatPct, formatRoasBare } from "@/lib/format";
 
 // 🪜 Meta Scaling — un panneau par campagne : la décision de la nuit (un seul
 // chiffre), son état d'application VÉRIFIÉ sur Meta (journal d'activités),
@@ -207,6 +207,117 @@ function DailyTable({ c }: { c: ScalingCampaign }) {
   );
 }
 
+function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) {
+  const tag = a.winner
+    ? { txt: "WINNER", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" }
+    : a.potentialWinner
+      ? { txt: "POTENTIEL", cls: "border-cyan/50 bg-cyan/10 text-cyan" }
+      : a.bleeding
+        ? { txt: "SAIGNE", cls: "border-red/50 bg-red/10 text-red" }
+        : a.saturating
+          ? { txt: "SATURE", cls: "border-amber/50 bg-amber/10 text-amber" }
+          : null;
+  const roasCls =
+    a.roas === null || breakEven === null
+      ? "text-ink-faint"
+      : a.roas >= breakEven
+        ? "text-phosphor"
+        : "text-red";
+  return (
+    <tr className="border-t border-line-soft align-top">
+      <td className="py-1 pr-2">
+        <span className="block max-w-[220px] truncate text-ink" title={a.adName}>
+          {a.adName}
+        </span>
+        <span className="flex flex-wrap items-center gap-1 text-[9px] text-ink-faint">
+          {tag && <span className={`rounded border px-1 font-bold ${tag.cls}`}>{tag.txt}</span>}
+          <span className="tnum">{a.ageTruncated ? `≥ ${a.ageDays} j` : `${a.ageDays} j`}</span>
+        </span>
+      </td>
+      <td className="py-1 pr-2 text-right tnum">{formatEur0(a.spendCents)}</td>
+      <td className="py-1 pr-2 text-right tnum">{a.purchases}</td>
+      <td className={`py-1 pr-2 text-right tnum ${roasCls}`}>{a.roas === null ? "—" : `${formatRoasBare(a.roas)}×`}</td>
+      <td className="py-1 pr-2 text-right tnum">{a.cpcCents === null ? "—" : formatEur(Math.round(a.cpcCents))}</td>
+      <td className="py-1 text-right tnum">{a.cvr === null ? "—" : `${(a.cvr * 100).toFixed(1)} %`}</td>
+    </tr>
+  );
+}
+
+function RescueBlock({ c }: { c: ScalingCampaign }) {
+  const r = c.rescue;
+  if (!r) return null;
+  // « anticipé » = on montre le diagnostic avant la bascule (cran 3 réel).
+  // Quand RESCUE est plafonné faute de réduction exécutée, la campagne ne
+  // bascule PAS mécaniquement : on ne promet pas le contraire.
+  const anticipated = c.action !== "RESCUE";
+  const capped = c.why.includes("aucune réduction encore exécutée");
+  return (
+    <details className="group border-t border-line-soft" open={!anticipated}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
+        <span className="font-semibold text-ink">
+          🩺 Diagnostic{" "}
+          {capped
+            ? "(escalier épuisé, mais les crans n'ont pas été déroulés)"
+            : anticipated
+              ? "(anticipé — un NON de plus et elle bascule)"
+              : "de sauvetage"}
+        </span>
+        <span className="text-[10px] text-ink-faint transition-transform group-open:rotate-180">▾</span>
+      </summary>
+      <div className="flex flex-col gap-2.5 px-3.5 pb-3.5 text-[11px] leading-relaxed text-ink-dim">
+        <p className="rounded-lg border border-red/30 bg-red/[0.04] p-2 font-semibold text-red">{r.verdict}</p>
+
+        {r.evidence.length > 0 && (
+          <ul className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10.5px]">
+            {r.evidence.map((e) => (
+              <li key={e} className="tnum">
+                • {e}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {r.ads.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[460px] text-[10.5px]">
+              <thead>
+                <tr className="text-left text-[9px] font-bold uppercase tracking-wider text-ink-faint">
+                  <th className="py-1 pr-2">Annonce (14 j)</th>
+                  <th className="py-1 pr-2 text-right">Spend</th>
+                  <th className="py-1 pr-2 text-right">Ventes</th>
+                  <th className="py-1 pr-2 text-right">ROAS</th>
+                  <th className="py-1 pr-2 text-right">CPC</th>
+                  <th className="py-1 text-right">CVR</th>
+                </tr>
+              </thead>
+              <tbody>
+                {r.ads.map((a) => (
+                  <AdRow key={a.adId} a={a} breakEven={c.breakEven} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <ol className="flex flex-col gap-1">
+          {r.plan.map((line, i) => (
+            <li key={line} className="flex gap-1.5">
+              <span className="font-bold text-ink">{i + 1}.</span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ol>
+
+        {r.lastBatchDay && (
+          <p className="text-[10px] text-ink-faint">
+            Dernier batch injecté : <span className="tnum">{r.lastBatchDay.slice(8, 10)}/{r.lastBatchDay.slice(5, 7)}</span>
+          </p>
+        )}
+      </div>
+    </details>
+  );
+}
+
 function CampaignPanel({ c }: { c: ScalingCampaign }) {
   const judged = [...c.windows].reverse().find((w) => w.verdict !== null) ?? c.windows[c.windows.length - 1];
   return (
@@ -291,6 +402,8 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
         </div>
       </details>
 
+      <RescueBlock c={c} />
+
       <div className="border-t border-line-soft p-3.5 text-[11px] leading-relaxed text-ink-dim">
         <p>
           <b className="text-ink">{c.why}</b>
@@ -320,7 +433,7 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
             🎬 <b className="text-ink">Créas neuves obligatoires</b> avec ce mouvement (règle du protocole, montée comprise).
           </p>
         )}
-        {c.creaPlan.length > 0 && (
+        {c.creaPlan.length > 0 && c.rescue === null && (
           <ul className="mt-1 flex flex-col gap-1 rounded-lg border border-line-soft bg-terminal/50 p-2.5">
             {c.creaPlan.map((line) => (
               <li key={line} className="flex gap-1.5">
