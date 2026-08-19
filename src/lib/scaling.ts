@@ -85,6 +85,28 @@ export const SEUIL_SCALING_CENTS = 300000;
 export const REDUCTION_DEFAUT = 0.15;
 /** Marge nette qui fait basculer OUI/NON (T35 [03:44] « 15 % de marge minimum »). */
 export const SEUIL_OUI = 0.15;
+/** Bandes du barème T24 [17:15] : 0-10 stabiliser · 10-15 petit scale ·
+ * 15-30 bonne marge · > 30 « bien au-dessus » → doubler. */
+export const BANDE_STABLE_MAX = 0.10;
+export const BANDE_LIGHT_MAX = 0.15;
+export const BANDE_TOP_MIN = 0.30;
+/** « On augmente un petit peu » (10-15 %) : +10 %, bas de la bande « 10 à
+ * 20 % » de T35 [15:03] — la formation ne chiffre pas le « petit peu ». */
+export const SCALE_LIGHT_PCT = 0.10;
+
+export type MarginBand = "PERTE" | "STABLE" | "LIGHT" | "GOOD" | "TOP";
+
+/** La bande T24 d'une fenêtre jugée. PERTE = sous le break-even. */
+export function marginBand(margin: number | null, roas: number | null, breakEven: number | null): MarginBand | null {
+  if (roas === null) return null;
+  if (roas === 0) return "PERTE";
+  if (breakEven !== null && roas < breakEven) return "PERTE";
+  if (margin === null) return null; // cm incalculable : pas de bande
+  if (margin < BANDE_STABLE_MAX) return "STABLE";
+  if (margin < BANDE_LIGHT_MAX) return "LIGHT";
+  if (margin <= BANDE_TOP_MIN) return "GOOD";
+  return "TOP";
+}
 /** Sous ~15 conversions sur la fenêtre le verdict est un ajustement, pas un
  * jugement sur le produit (réserve d'échantillon — cf. Lancaster à 8 conv). */
 export const MIN_CONVERSIONS_FIABLES = 15;
@@ -143,6 +165,10 @@ export interface ScalingWindow {
   /** CM − 1/ROAS. null si spend = 0 ou seuils incalculables. */
   margin: number | null;
   zone: WindowZone;
+  /** Bande du barème T24 (PERTE/STABLE/LIGHT/GOOD/TOP). null = injugeable. */
+  band: MarginBand | null;
+  /** NON = fenêtre EN PERTE (sous le break-even, T24 [16:54] — c'est elle qui
+   * avance les crans). OUI = rentable backend. null = injugeable. */
   verdict: "OUI" | "NON" | null;
   /** CPMr = CPM × fréquence — l'indicateur de saturation créative. */
   cpmr: number | null;
@@ -151,6 +177,9 @@ export interface ScalingWindow {
 }
 
 export type ScalingAction = "SCALE" | "HOLD" | "DESCALE" | "RESCUE";
+/** Déclinaison de la montée (T24 [17:15-17:36]) : LIGHT = +10 % (10-15 %),
+ * LADDER = palier/×2 plafonné (15-30 %), DOUBLE = ×2 (> 30 %). */
+export type ScaleKind = "LIGHT" | "LADDER" | "DOUBLE";
 
 /** Une annonce de la campagne, sur la fenêtre de diagnostic (14 j). */
 export interface AdDiagnostic {
@@ -250,6 +279,8 @@ export interface ScalingCampaign {
    * au lieu de re-prescrire un 2ᵉ mouvement depuis le budget déjà bougé. */
   applied: boolean;
   appliedLabel: string | null;
+  /** Déclinaison de la montée : LIGHT +10 % · LADDER palier · DOUBLE ×2. */
+  scaleKind: ScaleKind | null;
   // -- Contexte --
   budgetCents: number | null;
   budgetEstimated: boolean;
@@ -715,8 +746,19 @@ function buildCreaPlan(input: {
   ];
 }
 
+/** Crans sur les fenêtres EN PERTE (T24 [16:54] : « après 2 jours
+ * consécutifs », jamais au 1er rouge → 1re perte = HOLD ; escalier T35
+ * ensuite). Hors perte, l'action vient de la bande (voir actionFromBand). */
 function actionFromStreak(nonStreak: number): ScalingAction {
   return nonStreak === 0 ? "SCALE" : nonStreak === 1 ? "HOLD" : nonStreak <= 3 ? "DESCALE" : "RESCUE";
+}
+
+/** Barème T24 [17:15] pour une fenêtre RENTABLE. */
+function actionFromBand(band: MarginBand): { action: ScalingAction; scaleKind: ScaleKind | null } {
+  if (band === "STABLE") return { action: "HOLD", scaleKind: null }; // 0-10 % : stabiliser
+  if (band === "LIGHT") return { action: "SCALE", scaleKind: "LIGHT" }; // 10-15 % : un petit peu
+  if (band === "TOP") return { action: "SCALE", scaleKind: "DOUBLE" }; // > 30 % : doubler
+  return { action: "SCALE", scaleKind: "LADDER" }; // 15-30 % : la bonne marge
 }
 
 /** Compte les NON consécutifs en fin de série (fenêtres jugées seulement).
@@ -846,8 +888,10 @@ export function computeScaling(input: {
       const roas = spend > 0 ? value / spend : null;
       const margin = roas !== null && roas > 0 && cm !== null ? cm - 1 / roas : null;
       const zone = zoneFor(margin, roas, th?.breakEven ?? null);
-      const verdict: "OUI" | "NON" | null =
-        roas === null ? null : roas === 0 ? "NON" : cm === null ? null : margin !== null && margin >= SEUIL_OUI ? "OUI" : "NON";
+      const band = marginBand(margin, roas, th?.breakEven ?? null);
+      // Verdict : NON = fenêtre EN PERTE (T24 [16:54] — seul déclencheur du
+      // descale). ROAS 0 = perte même sans cm ; cm null (hors ROAS 0) = null.
+      const verdict: "OUI" | "NON" | null = band === null ? null : band === "PERTE" ? "NON" : "OUI";
       const cpmVal = impressions > 0 ? (spend / impressions) * 1000 : null;
       const freq = reach > 0 ? impressions / reach : null;
       return {
@@ -862,6 +906,7 @@ export function computeScaling(input: {
         roas,
         margin,
         zone,
+        band,
         verdict,
         cpmr: cpmVal !== null && freq !== null ? cpmVal * freq : null,
         cpcCents: clicks > 0 ? spend / clicks : null,
@@ -890,8 +935,16 @@ export function computeScaling(input: {
     const rawMovesForAnchor = movesByCampaign.get(campaignId) ?? [];
     const anchorDay = rawMovesForAnchor.length > 0 ? moveAnchorDay(rawMovesForAnchor[0]) : null;
     const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
-    let action = actionFromStreak(nonStreak);
     const last = winData[lastIdx];
+    // Perte en cours → crans (T24 [16:54] + escalier T35). Sinon → barème
+    // T24 [17:15] sur la bande de la fenêtre jugée.
+    let action = actionFromStreak(nonStreak);
+    let scaleKind: ScaleKind | null = null;
+    if (nonStreak === 0 && last.band !== null) {
+      const fromBand = actionFromBand(last.band);
+      action = fromBand.action;
+      scaleKind = fromBand.scaleKind;
+    }
     // RESCUE exige au moins une réduction RÉELLEMENT exécutée sur Meta ;
     // sinon on plafonne à DESCALE (les crans n'ont pas été déroulés).
     let rescueCapped = false;
@@ -994,7 +1047,22 @@ export function computeScaling(input: {
     const basisCents = executedMove?.oldBudgetCents ?? budgetCents;
     let suggestedCents: number | null = null;
     if (action === "SCALE" && basisCents !== null) {
-      suggestedCents = scaleTargetCents(basisCents);
+      if (scaleKind === "LIGHT") {
+        // 10-15 % : « on augmente un petit peu » — +10 % (T24 [17:15],
+        // chiffre = bas de la bande T35 [15:03], arrondi à l'euro)
+        suggestedCents = Math.round((basisCents * (1 + SCALE_LIGHT_PCT)) / 100) * 100;
+      } else if (scaleKind === "DOUBLE") {
+        // > 30 % : « je double le budget » (T24 [17:36]) — plafonné à 500
+        // sous 500 (lecture Badr) et au seuil de scaling (changement de
+        // régime à 3 000 €/j, T35 [06:02])
+        const doubled = Math.round((basisCents * 2) / 100) * 100;
+        suggestedCents =
+          basisCents < MONTEE_PALIERS_CENTS[0]
+            ? Math.min(doubled, MONTEE_PALIERS_CENTS[0])
+            : Math.min(doubled, SEUIL_SCALING_CENTS);
+      } else {
+        suggestedCents = scaleTargetCents(basisCents);
+      }
     } else if (action === "DESCALE" && basisCents !== null) {
       suggestedCents = reductionCents(basisCents);
     }
@@ -1019,12 +1087,18 @@ export function computeScaling(input: {
     const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1).replace(".", ",")} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
     const why =
       action === "SCALE"
-        ? `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : compteur remis à zéro → SCALE au palier suivant + créas neuves (T35).`
+        ? scaleKind === "LIGHT"
+          ? `Marge entre 10 et 15 % sur ${last.label} (${marginTxt}) → « on augmente un petit peu » : +10 % + créas neuves (T24 [17:15]).`
+          : scaleKind === "DOUBLE"
+            ? `« Bien au-dessus » sur ${last.label} (${marginTxt} > 30 %) → « je double le budget, et tant que c'est bien, je double » + créas neuves (T24 [17:36]).`
+            : `Bonne marge sur ${last.label} (${marginTxt}) → SCALE au palier suivant + créas neuves (T24 [17:15] / T35 [05:18]).`
         : action === "HOLD"
-          ? `1er NON sur ${last.label} (${marginTxt} < 15 %) : cran 1 → HOLD 24 h, on ne touche pas au budget — l'attribution de la fenêtre se remplit encore (24-72 h) et, si un mouvement récent a eu lieu, Meta ré-explore. Encore < 15 % demain → DESCALE (T35 ; arbitrage Badr 18/08 : le NON compte même sans mouvement récent, sinon une dérive lente ne serait jamais réduite).`
+          ? nonStreak === 1
+            ? `1re fenêtre EN PERTE (${last.label} : ${marginTxt}) → on ne descend JAMAIS sur un seul rouge, « c'est la meilleure manière de faire du yo-yo » (T24 [16:54]) : HOLD 24 h. Encore en perte demain → DESCALE −15 %. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
+            : `Marge entre 0 et 10 % sur ${last.label} (${marginTxt}) → « on ne fait rien, stabiliser » (T24 [17:15]) : HOLD, on rejuge demain.`
           : action === "DESCALE"
-            ? `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) : cran ${nonStreak} → DESCALE −15 % + créas neuves (T35/T24).`
-            : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35).`;
+            ? `${nonStreak}ᵉ fenêtre EN PERTE consécutive (${last.label} : ${marginTxt}) → DESCALE −15 %, « on vient dire à Meta : là je ne suis pas content » + créas neuves (T24 [16:54]).`
+            : `${nonStreak} fenêtres EN PERTE consécutives (dernière : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35 [04:29]).`;
     const whyFinal = rescueCapped
       ? `${nonStreak} NON consécutifs (${marginTxt}) MAIS aucune réduction encore exécutée sur Meta : les crans n'ont pas été déroulés → DESCALE −15 % d'abord (RESCUE seulement après avoir réellement bougé le budget).`
       : why;
@@ -1048,6 +1122,7 @@ export function computeScaling(input: {
       cran,
       action,
       suggestedCents,
+      scaleKind,
       applied,
       appliedLabel,
       budgetCents,
