@@ -56,11 +56,11 @@ function buildTiles(report: BankReport, unmappedCount: number): DomainTile[] {
         ? { title: "Affectations", health: "amber", value: "Double débit ?", note: "Deux passages identiques — voir le détail." }
         : { title: "Affectations", health: "green", value: "Tout est affecté", note: "Chaque euro a sa case." };
 
-  const abos: DomainTile = !report.slashConnected
-    ? { title: "Abonnements", health: "green", value: "Supposés prélevés", note: "Payés en perso ou carte Slash (règle 19/08) — contrôle au branchement Slash." }
-    : has("ABO_NON_DEBITE") || has("ABO_MONTANT")
-      ? { title: "Abonnements", health: "amber", value: "Écart détecté", note: "Un abonnement ne colle pas — voir le détail." }
-      : { title: "Abonnements", health: "green", value: "Montants OK", note: "Débits conformes aux mensuels attendus." };
+  const nAbo = anomalies.filter((a) => a.kind === "ABO_NON_DEBITE" || a.kind === "ABO_MONTANT").length;
+  const abos: DomainTile =
+    nAbo > 0
+      ? { title: "Abonnements", health: "amber", value: `${nAbo} à vérifier`, note: "Abo LLC sans débit visible ou montant qui ne colle pas — voir le détail." }
+      : { title: "Abonnements", health: "green", value: "Débits OK", note: "Abos LLC conformes (avances perso exclues)." };
 
   const meta: DomainTile = report.reconciliation?.metaPending
     ? { title: "Meta Ads", health: "amber", value: "Débité sur Slash", note: "Contrôle en attente du branchement Slash." }
@@ -203,7 +203,7 @@ export function BankBoard({ report, unmappedCount }: { report: BankReport; unmap
       {control && (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {[
-            { t: "Société (30 j)", v: control.parts.societeCents, cls: "text-cyan" },
+            { t: "Société (dep. 01/08)", v: control.parts.societeCents, cls: "text-cyan" },
             { t: "Perso Badr", v: control.parts.persoBadrCents, cls: "text-net-5" },
             { t: "Perso Fahd", v: control.parts.persoFahdCents, cls: "text-amber" },
             { t: `À affecter (${control.parts.aAffecterCount})`, v: control.parts.aAffecterCents, cls: control.parts.aAffecterCount > 0 ? "text-red" : "text-phosphor" },
@@ -299,15 +299,17 @@ export function BankBoard({ report, unmappedCount }: { report: BankReport; unmap
 
           {report.reconciliation.subscriptions.length > 0 && (
             <div className="rounded-lg border border-line bg-panel p-3">
-              <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">Abonnements (30 j)</div>
+              <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+                Abonnements LLC (depuis le {report.reconciliation.sinceDay.slice(8, 10)}/{report.reconciliation.sinceDay.slice(5, 7)} — avances perso exclues)
+              </div>
               <table className="mt-1 w-full text-[11px]">
                 <tbody>
                   {report.reconciliation.subscriptions.map((s) => (
                     <tr key={s.label} className="border-t border-line-soft">
                       <td className="py-1">{s.label}</td>
                       <td className="py-1 text-right tnum">
-                        {s.paidCents === 0 && !report.slashConnected ? (
-                          <span className="text-ink-faint">perso / Slash — supposé prélevé</span>
+                        {s.paidCents === 0 ? (
+                          <span className="text-ink-faint">non vu — Slash ? facture Shopify ?</span>
                         ) : (
                           <>payé {formatEur0(s.paidCents)}</>
                         )}
@@ -350,7 +352,8 @@ export function BankBoard({ report, unmappedCount }: { report: BankReport; unmap
       <p className="text-[10px] text-ink-faint">
         Lecture seule (aucun ordre de paiement possible). Wise : relevés sur 30 j, rafraîchis toutes les 15 min — le bouton
         Actualiser force la relecture. USD converti au taux figé du dashboard (1 € = 1,1539 $) ; autres devises (CAD, CHF, MAD…)
-        au taux Wise du jour.
+        au taux Wise du jour. Contrôle (anomalies, affectations, rapprochement) depuis le 01/08 — l&apos;antérieur est affiché
+        mais ne génère aucune alerte (décision Badr 19/08).
       </p>
     </div>
   );

@@ -91,15 +91,26 @@ describe("computeControl — anomalies et parts", () => {
     expect(c.anomalies.some((a) => a.kind === "TX_NON_AFFECTEE")).toBe(false);
   });
 
-  it("abonnement jamais débité → anomalie SEULEMENT quand Slash est branché", () => {
+  it("abonnement LLC jamais débité → anomalie ; avance perso (paidBy) exclue", () => {
     const txs = [tx("2026-08-18", "FACEBK", -100)];
-    // Slash branché : on voit toute la carte LLC → un abo absent = anomalie.
-    const avecSlash = computeControl({ txs, reconciliation: null, ...W, slashConnected: true });
-    expect(avecSlash.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Klaviyo"))).toBe(true);
-    // Slash absent (défaut) : abos payés en perso ou sur la carte Slash —
-    // « pars du principe que c'est prélevé » (Badr 19/08), aucune alerte.
-    const sansSlash = computeControl({ txs, reconciliation: null, ...W });
-    expect(sansSlash.anomalies.some((a) => a.kind === "ABO_NON_DEBITE")).toBe(false);
+    const c = computeControl({ txs, reconciliation: null, ...W });
+    // Klaviyo & co : « c'est la LLC qui paye — tu les trouveras » (Badr 19/08).
+    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Klaviyo"))).toBe(true);
+    // Hushed : payé perso par Adnane EN CONTINU (Badr 19/08) — jamais réclamé.
+    expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Hushed"))).toBe(false);
+  });
+
+  it("apps Shopify pas réclamées individuellement si une facture Shopify est débitée", () => {
+    const sans = computeControl({ txs: [tx("2026-08-18", "FACEBK", -100)], reconciliation: null, ...W });
+    expect(sans.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("CWILL"))).toBe(true);
+    const avec = computeControl({
+      txs: [tx("2026-08-18", "SHOPIFY INC monthly", -89)],
+      reconciliation: null,
+      ...W,
+    });
+    // La facture Shopify peut porter les apps (CWILL, Moon Bundles) → pas d'alerte.
+    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("CWILL"))).toBe(false);
+    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && a.label.includes("Moon"))).toBe(false);
   });
 
   it("zéro débit Meta + Slash absent = metaPending, ni warning ni anomalie", () => {

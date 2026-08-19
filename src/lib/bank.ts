@@ -73,6 +73,12 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "Vercel", re: /vercel/i },
   { label: "Canva", re: /canva/i },
   { label: "Hushed", re: /hushed/i },
+  // Apps Shopify — parfois débitées en direct, parfois via la facture
+  // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
+  // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
+  // réclame pas ces apps individuellement (voir computeControl).
+  { label: "CWILL (Parcel Panel)", re: /cwill|parcel\s*panel/i },
+  { label: "Moon Bundles", re: /moon\s*bundles?/i },
 ];
 
 export function categorizeTx(description: string, amountCents: number): { category: TxCategory; subscriptionLabel: string | null } {
@@ -273,6 +279,9 @@ export function reconcile(
   for (const p of SUBSCRIPTION_PATTERNS) {
     const paid = -sumEur(inWindow.filter((t) => t.subscriptionLabel === p.label));
     const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
+    // Avance perso (ex. Hushed payé par Adnane) : pas un flux LLC — masqué
+    // tant que rien n'apparaît en banque (si un débit apparaît, on l'affiche).
+    if (known?.paidBy && paid === 0) continue;
     if (paid !== 0 || known) {
       subs.push({
         label: p.label,
@@ -375,25 +384,32 @@ export function computeControl(input: {
     });
   }
 
-  // 2) Abonnement attendu mais JAMAIS débité sur la fenêtre (≥ 30 j) —
-  //    SEULEMENT quand toutes les banques sont branchées. Tant que Slash
-  //    manque, les abonnements passent sur la carte Slash ou sur les comptes
-  //    PERSO des associés : « pars du principe que c'est prélevé »
-  //    (Badr 19/08) — pas d'alerte « impayé » sur ce qu'on ne peut pas voir.
-  if (slashConnected) {
-    for (const p of SUBSCRIPTION_PATTERNS) {
-      const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
-      if (!known || known.endDay !== null || known.amount <= 0) continue;
-      if (known.paidBy) continue; // payé perso (Badr/Adnane) — jamais visible en banque LLC, supposé prélevé
-      const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
-      if (!paid) {
-        anomalies.push({
-          kind: "ABO_NON_DEBITE",
-          severity: "amber",
-          label: `${p.label} : aucun débit vu sur 30 j (attendu ~${eur(monthlyEurCents(known))}/mois)`,
-          detail: "Payé sur un autre compte ? Sinon : impayé — vérifier avant une coupure de service.",
-        });
-      }
+  // 2) Abonnement LLC attendu mais JAMAIS débité depuis le début de la
+  //    fenêtre de contrôle. Précision Badr 19/08 : « Klaviyo etc. tout ça
+  //    c'est la LLC qui paye — tu les trouveras » → on les CHERCHE. Exclus :
+  //    • paidBy posé = avance perso d'un associé (ex. Hushed, payé par
+  //      Adnane en continu) — jamais visible en banque LLC ;
+  //    • apps Shopify quand une facture Shopify est débitée sur la fenêtre
+  //      (elles passent peut-être dedans, pas en direct).
+  const factureShopifyVue = inWindow.some(
+    (t) => t.category === "ABONNEMENT" && /shopify/i.test(t.description) && t.amountCents < 0
+  );
+  const sinceLabel = `${sinceDay.slice(8, 10)}/${sinceDay.slice(5, 7)}`;
+  for (const p of SUBSCRIPTION_PATTERNS) {
+    const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
+    if (!known || known.endDay !== null || known.amount <= 0) continue;
+    if (known.paidBy) continue; // avance perso (Badr/Adnane) — pas un débit LLC
+    if (known.category === "APP_SHOPIFY" && factureShopifyVue) continue;
+    const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
+    if (!paid) {
+      anomalies.push({
+        kind: "ABO_NON_DEBITE",
+        severity: "amber",
+        label: `${p.label} : aucun débit vu depuis le ${sinceLabel} (attendu ~${eur(monthlyEurCents(known))}/mois)`,
+        detail: slashConnected
+          ? "Payé via la facture Shopify ? Sinon : impayé — vérifier avant une coupure de service."
+          : "Peut passer sur la carte Slash (pas encore branchée) ou via la facture Shopify — à confirmer au branchement. Sinon : impayé.",
+      });
     }
   }
 
@@ -501,6 +517,12 @@ export interface BankReport {
 
 const WINDOW_DAYS = 30;
 
+/** Décision Badr 19/08 : « les abonnements du mois d'avant tu les oublies —
+ * je veux les nouveaux problèmes à partir du début août ». Le CONTRÔLE
+ * (anomalies, rapprochement, inbox À affecter) ne regarde JAMAIS avant ce
+ * jour ; les transactions plus anciennes restent affichées, sans alerte. */
+export const CONTROLE_START_DAY = "2026-08-01";
+
 // --- Démo (NIVA_DEMO) : données synthétiques déterministes -------------------
 // Même philosophie que le reste du mode démo : aucune API appelée, mais tout
 // le pipeline réel (catégorisation → rapprochement → contrôle) s'exécute.
@@ -562,10 +584,14 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   // attente) — débloque le contrôle Meta + abonnements sur la carte LLC.
   const slashConnected = false;
 
+  // Fenêtre de CONTRÔLE : jamais avant le 01/08 (décision Badr 19/08) —
+  // l'affichage des transactions garde ses 30 j, les alertes non.
+  const controlSince = sinceDay > CONTROLE_START_DAY ? sinceDay : CONTROLE_START_DAY;
+
   if (!supabase) {
     const demo = demoBankData(untilDay);
-    const reconciliation = reconcile(demo.txs, demo.expected, sinceDay, untilDay, { slashConnected });
-    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay, untilDay, slashConnected });
+    const reconciliation = reconcile(demo.txs, demo.expected, controlSince, untilDay, { slashConnected });
+    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected });
     return {
       ready: true,
       setup: ["Mode démo : données bancaires synthétiques (aucune API appelée)."],
@@ -640,13 +666,15 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
       }
-      reconciliation = reconcile(txs, [...byDay.values()], sinceDay, untilDay, { slashConnected });
+      reconciliation = reconcile(txs, [...byDay.values()].filter((e) => e.day >= controlSince), controlSince, untilDay, {
+        slashConnected,
+      });
       warnings.push(...reconciliation.warnings);
     }
   }
 
   const control =
-    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay, untilDay, slashConnected }) : null;
+    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
 
   return { ready: txs.length > 0, setup, slashConnected, balances, txs: txs.slice(0, 120), reconciliation, control, warnings };
 }
