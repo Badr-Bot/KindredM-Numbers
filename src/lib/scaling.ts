@@ -168,6 +168,13 @@ export interface AdDiagnostic {
   /** Jours de diffusion observés, et âge depuis le 1er jour vu. */
   daysLive: number;
   ageDays: number;
+  /** Dernier jour où l'annonce a réellement dépensé. */
+  lastDay: string;
+  /** Premier jour de diffusion vu dans la fenêtre lue. */
+  lastFirstDay: string;
+  /** true = l'annonce existait déjà avant la fenêtre lue : son âge réel est
+   * SUPÉRIEUR à ageDays (on ne l'invente pas, on le dit). */
+  ageTruncated: boolean;
   /** ≥ 6 ventes ET ≥ 10 % de marge (T37) → à dupliquer (même post ID). */
   winner: boolean;
   /** ≥ 6 ventes, entre BE et 10 % de marge (T37) → potential winner. */
@@ -391,16 +398,17 @@ export interface AdDailyRow {
  * les deux corrects mais marge faible → AOV · les deux mauvais → big swing.
  */
 export function diagnoseRescue(input: {
-  campaignName: string;
   windows: ScalingWindow[];
   lastIdx: number;
   ads: AdDailyRow[];
   cm: number | null;
   breakEven: number | null;
   today: string;
-  budgetCents: number | null;
+  /** 1er jour de la fenêtre LUE en base — sert à savoir si l'âge d'une
+   * annonce est tronqué (elle diffusait peut-être bien avant). */
+  windowStartDay: string;
 }): RescueDiagnostic {
-  const { windows, lastIdx, ads, cm, breakEven, today } = input;
+  const { windows, lastIdx, ads, cm, breakEven, today, windowStartDay } = input;
   const last = windows[lastIdx];
 
   // --- 1. Agrégation par annonce sur la fenêtre de diagnostic ---
@@ -440,14 +448,34 @@ export function diagnoseRescue(input: {
     };
     const first = slice(sorted.slice(0, half || 1));
     const second = slice(sorted.slice(half || 1));
+    // 4 jours minimum et du volume des deux côtés : sur 1 jour contre 1 jour,
+    // +20 % de CPM est du bruit quotidien, pas une saturation.
+    const enoughForSaturation =
+      sorted.length >= 4 &&
+      sorted.slice(0, half).reduce((a, r) => a + r.impressions, 0) >= 1000 &&
+      sorted.slice(half).reduce((a, r) => a + r.impressions, 0) >= 1000;
     const saturating =
-      half >= 1 &&
+      enoughForSaturation &&
       ((first.cpm !== null && second.cpm !== null && second.cpm > first.cpm * 1.2) ||
         (first.freq !== null && second.freq !== null && second.freq > first.freq * 1.2));
 
+    const lastDay = sorted[sorted.length - 1].day;
+    const ageDays = todayN - dayNumber(sorted[0].day);
+    // « Saigne » seulement si l'annonce DÉPENSE ENCORE (présente dans la
+    // fenêtre de décision) et a passé sa phase d'apprentissage (≥ 3 j) :
+    // sinon on ferait couper une créa lancée hier, ou une déjà arrêtée.
+    const stillRunning = lastDay >= last.startDay;
+    const bleeding =
+      stillRunning &&
+      ageDays >= 3 &&
+      spend >= 5000 &&
+      (roas === 0 || (roas !== null && breakEven !== null && roas < breakEven * 0.7));
+
     adDiags.push({
       adId,
-      adName: sorted[0].adName ?? adId,
+      // dernier nom connu : une annonce renommée doit s'afficher sous son
+      // nom actuel, pas sous l'ancien.
+      adName: sorted[sorted.length - 1].adName ?? sorted[0].adName ?? adId,
       spendCents: spend,
       purchases,
       valueCents: value,
@@ -458,14 +486,16 @@ export function diagnoseRescue(input: {
       cpmCents: impressions > 0 ? (spend / impressions) * 1000 : null,
       frequency: reach > 0 ? impressions / reach : null,
       daysLive: sorted.length,
-      ageDays: todayN - dayNumber(sorted[0].day),
+      ageDays,
+      lastDay,
+      lastFirstDay: sorted[0].day,
+      ageTruncated: sorted[0].day <= windowStartDay,
       // Seuils winner/potential winner : T37 [01:08] et [04:28].
       winner: purchases >= 6 && margin !== null && margin >= 0.1,
       potentialWinner:
         purchases >= 6 && margin !== null && margin < 0.1 && roas !== null && breakEven !== null && roas >= breakEven,
       saturating,
-      bleeding:
-        spend >= 5000 && (roas === null || roas === 0 || (breakEven !== null && roas < breakEven * 0.7)),
+      bleeding,
     });
   }
   adDiags.sort((a, b) => b.spendCents - a.spendCents);
@@ -500,7 +530,14 @@ export function diagnoseRescue(input: {
 
   let leak: RescueLeak;
   let verdict: string;
-  if (last.cpcCents === null && last.cvr === null) {
+  if (cm === null) {
+    // Sans marge de contribution calculable, ni marge ni winner ne le sont :
+    // on ne fabrique surtout pas un « c'est l'AOV » par défaut.
+    leak = "INSUFFISANT";
+    verdict =
+      "Seuils produit incalculables (pas de commandes récentes sur ce produit ?) : ni marge, ni winner, ni cadran fiables — vérifier les données avant de décider.";
+    evidence.push("Marge de contribution indisponible : aucune annonce ne peut être classée winner");
+  } else if (last.cpcCents === null && last.cvr === null) {
     leak = "INSUFFISANT";
     verdict = "Pas de clics mesurés sur la fenêtre : vérifier la diffusion avant tout diagnostic.";
   } else if (cpcBad && cvrBad) {
@@ -554,14 +591,21 @@ export function diagnoseRescue(input: {
   }
   plan.push("Réglages du batch : 2-3 adcopies + 2-3 titres + 1 description par ad, une adcopy par angle, miniature choisie à la main, 50 % page marque / 50 % page tierce, Advantage+ créative OFF sauf relevant comments, lancement mardi→vendredi entre minuit et 7 h.");
 
-  const youngest = adDiags.length > 0 ? Math.min(...adDiags.map((a) => a.ageDays)) : null;
-  const lastBatchDay =
-    youngest === null ? null : new Date((todayN - youngest) * 86400000).toISOString().slice(0, 10);
-  if (youngest !== null && youngest >= 14) {
-    evidence.push(`Aucune créa neuve depuis ${youngest} jours`);
+  // Dernier batch : uniquement si l'annonce la plus jeune est apparue DANS la
+  // fenêtre lue. Sinon son âge est tronqué et donner une date serait un
+  // mensonge (elle diffusait peut-être depuis des mois).
+  const youngest = adDiags.length > 0 ? adDiags.reduce((a, b) => (a.ageDays <= b.ageDays ? a : b)) : null;
+  const lastBatchDay = youngest && !youngest.ageTruncated ? youngest.lastFirstDay : null;
+  if (youngest && youngest.ageTruncated) {
+    evidence.push(`Aucune créa neuve depuis au moins ${youngest.ageDays} jours`);
   }
 
-  return { leak, verdict, evidence, ads: adDiags.slice(0, 8), plan, lastBatchDay };
+  const shown = adDiags.slice(0, 8);
+  if (adDiags.length > shown.length) {
+    evidence.push(`${shown.length} annonces affichées sur ${adDiags.length} (les plus grosses dépenses)`);
+  }
+
+  return { leak, verdict, evidence, ads: shown, plan, lastBatchDay };
 }
 
 /** Le plan créas de la formation, adapté au verdict et au budget du compte.
@@ -670,6 +714,8 @@ export function computeScaling(input: {
   liveDay?: boolean;
   /** Lignes ANNONCE (14 j) — alimentent le diagnostic de sauvetage. */
   adRows?: AdDailyRow[];
+  /** 1er jour de la fenêtre annonce réellement lue en base. */
+  adWindowStartDay?: string;
 }): ScalingReport {
   const { today, rows, thresholds, live, activities } = input;
   const liveDay = input.liveDay ?? true;
@@ -931,14 +977,13 @@ export function computeScaling(input: {
       rescue:
         (action === "RESCUE" || cran === 3) && adRowsByCampaign.has(campaignId)
           ? diagnoseRescue({
-              campaignName: entry.name,
               windows: winData,
               lastIdx,
               ads: adRowsByCampaign.get(campaignId) ?? [],
               cm,
               breakEven: th?.breakEven ?? null,
               today,
-              budgetCents,
+              windowStartDay: input.adWindowStartDay ?? addDaysToDay(today, -13),
             })
           : null,
       unstable,
@@ -989,10 +1034,7 @@ export async function buildScalingReport(
     (hasReach ? ", reach" : "");
 
   const MAX_ROWS = 5000;
-  // Fenêtre du diagnostic annonce : 14 jours (même horizon que T37 pour les
-  // winners « sur les 14 derniers jours »).
-  const adStartDay = addDaysToDay(today, -13);
-  const [insightsRes, overridesRes, adRes] = await Promise.all([
+  const [insightsRes, overridesRes] = await Promise.all([
     supabase
       .from("meta_insights")
       .select(insightCols)
@@ -1002,13 +1044,6 @@ export async function buildScalingReport(
       .order("campaign_id", { ascending: true })
       .limit(MAX_ROWS),
     supabase.from("app_state").select("value").eq("key", "campaign_daily_budgets").maybeSingle(),
-    supabase
-      .from("meta_ad_insights")
-      .select("day, ad_id, ad_name, campaign_id, spend_cents, purchases, purchase_value_cents, impressions, clicks" + (hasReach ? ", reach" : ""))
-      .gte("day", adStartDay)
-      .lte("day", today)
-      .order("day", { ascending: true })
-      .limit(MAX_ROWS),
   ]);
   if (insightsRes.error) throw new Error(insightsRes.error.message);
 
@@ -1043,6 +1078,26 @@ export async function buildScalingReport(
     reach: r.reach ?? 0,
   }));
 
+  // Fenêtre du diagnostic annonce : 14 jours (horizon T37 pour les winners).
+  // Requêtée APRÈS les insights pour être filtrée sur les seules campagnes
+  // retenues (le compte porte 300+ annonces : sans filtre on sature la limite),
+  // et triée du plus RÉCENT au plus ancien — une troncature éventuelle doit
+  // manger les vieux jours, jamais ceux qui portent la décision.
+  const adStartDay = addDaysToDay(today, -13);
+  const AD_MAX_ROWS = 20000;
+  const campaignIds = [...new Set(rows.map((r) => r.campaignId))];
+  const adRes = campaignIds.length
+    ? await supabase
+        .from("meta_ad_insights")
+        .select("day, ad_id, ad_name, campaign_id, spend_cents, purchases, purchase_value_cents, impressions, clicks" + (hasReach ? ", reach" : ""))
+        .in("campaign_id", campaignIds)
+        .gte("day", adStartDay)
+        .lte("day", today)
+        .order("day", { ascending: false })
+        .order("ad_id", { ascending: true })
+        .limit(AD_MAX_ROWS)
+    : { data: [], error: null };
+
   type RawAdRow = {
     day: string;
     ad_id: string;
@@ -1073,6 +1128,14 @@ export async function buildScalingReport(
         }));
   if (adRes.error) {
     extraWarnings.push("Détail par annonce illisible : le diagnostic de sauvetage reste au niveau campagne.");
+  } else if (adRows.length >= AD_MAX_ROWS) {
+    extraWarnings.push(
+      `Détail par annonce tronqué à ${AD_MAX_ROWS} lignes — le diagnostic de sauvetage peut être incomplet.`
+    );
+  } else if (adRows.length === 0 && campaignIds.length > 0) {
+    extraWarnings.push(
+      "Aucune donnée par annonce sur 14 j (synchro des annonces en retard ?) : le diagnostic de sauvetage est indisponible."
+    );
   }
 
   let budgetOverrides: Record<string, number> | null = null;
@@ -1108,6 +1171,7 @@ export async function buildScalingReport(
     budgetOverridesCents: budgetOverrides,
     liveDay,
     adRows,
+    adWindowStartDay: adStartDay,
   });
   report.warnings.push(...extraWarnings);
   return report;

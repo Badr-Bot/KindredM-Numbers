@@ -470,7 +470,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     const win = c.rescue!.ads.find((a) => a.adId === "win")!;
     const dead = c.rescue!.ads.find((a) => a.adId === "dead")!;
     expect(win.winner).toBe(true);
-    expect(dead.bleeding).toBe(true);
+    expect(dead.bleeding).toBe(true); // encore en diffusion, ≥ 3 j, ≥ 50 €
     // le plan nomme les annonces concernées
     expect(c.rescue!.plan.join(" ")).toContain("Statique promo");
     expect(c.rescue!.plan.join(" ")).toContain("MÊME POST ID");
@@ -513,6 +513,74 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     });
     const c = r.campaigns[0];
     if (c.cran === 3) expect(c.rescue).not.toBeNull();
+  });
+
+  it("une annonce ARRÊTÉE avant la fenêtre de décision ne « saigne » plus", () => {
+    // grosse dépense mais plus rien depuis le 14 : elle ne doit pas être
+    // proposée à la coupe (elle est déjà éteinte).
+    const adRows = [12, 13, 14].map((n) => ad(d(n), "old", "Vieille statique", 100, 0, { purchases: 0 }));
+    const r = computeScaling({
+      today: TODAY,
+      rows: rescueRows,
+      thresholds: TH,
+      live: null,
+      activities: executedDescales,
+      adRows,
+    });
+    const old = r.campaigns[0].rescue!.ads.find((a) => a.adId === "old")!;
+    expect(old.bleeding).toBe(false);
+  });
+
+  it("une créa lancée hier n'est jamais taguée « saigne » (apprentissage)", () => {
+    const adRows = [ad(TODAY, "neuve", "Batch du jour", 80, 0, { purchases: 0 })];
+    const r = computeScaling({
+      today: TODAY,
+      rows: rescueRows,
+      thresholds: TH,
+      live: null,
+      activities: executedDescales,
+      adRows,
+    });
+    const neuve = r.campaigns[0].rescue!.ads.find((a) => a.adId === "neuve")!;
+    expect(neuve.bleeding).toBe(false);
+    expect(neuve.ageDays).toBe(0);
+  });
+
+  it("âge tronqué : annonce déjà en ligne avant la fenêtre lue → pas de fausse date de batch", () => {
+    const start = d(6); // = today - 13, 1er jour lu
+    const adRows = [start, d(10), TODAY].map((day) => ad(day, "vieille", "Créa historique", 30, 1.2));
+    const r = computeScaling({
+      today: TODAY,
+      rows: rescueRows,
+      thresholds: TH,
+      live: null,
+      activities: executedDescales,
+      adRows,
+      adWindowStartDay: start,
+    });
+    const a0 = r.campaigns[0].rescue!.ads[0];
+    expect(a0.ageTruncated).toBe(true);
+    expect(r.campaigns[0].rescue!.lastBatchDay).toBeNull();
+    expect(r.campaigns[0].rescue!.evidence.join(" ")).toContain("Aucune créa neuve");
+  });
+
+  it("seuils produit incalculables : ni winner ni cadran AOV fabriqués", () => {
+    const NO_TH = { POLO: { cm: null, breakEven: null, target: null }, GILET: TH.GILET };
+    // ROAS 0 → verdict NON possible même sans cm, donc la campagne atteint RESCUE
+    const zeroRows = [12, 13, 14, 15, 16, 17, 18].map((n) => row(d(n), "c1", "POLO A", 100, 0));
+    const r = computeScaling({
+      today: TODAY,
+      rows: zeroRows,
+      thresholds: NO_TH,
+      live: null,
+      activities: executedDescales,
+      adRows: [ad(d(17), "a1", "Vidéo A", 60, 0, { purchases: 0 })],
+    });
+    const c = r.campaigns[0];
+    if (c.rescue) {
+      expect(c.rescue.leak).toBe("INSUFFISANT");
+      expect(c.rescue.ads.every((a) => !a.winner)).toBe(true);
+    }
   });
 
   it("sans données annonce : pas de diagnostic inventé", () => {

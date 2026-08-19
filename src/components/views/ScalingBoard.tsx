@@ -231,7 +231,7 @@ function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) 
         </span>
         <span className="flex flex-wrap items-center gap-1 text-[9px] text-ink-faint">
           {tag && <span className={`rounded border px-1 font-bold ${tag.cls}`}>{tag.txt}</span>}
-          <span className="tnum">{a.ageDays} j</span>
+          <span className="tnum">{a.ageTruncated ? `≥ ${a.ageDays} j` : `${a.ageDays} j`}</span>
         </span>
       </td>
       <td className="py-1 pr-2 text-right tnum">{formatEur0(a.spendCents)}</td>
@@ -246,12 +246,21 @@ function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) 
 function RescueBlock({ c }: { c: ScalingCampaign }) {
   const r = c.rescue;
   if (!r) return null;
+  // « anticipé » = on montre le diagnostic avant la bascule (cran 3 réel).
+  // Quand RESCUE est plafonné faute de réduction exécutée, la campagne ne
+  // bascule PAS mécaniquement : on ne promet pas le contraire.
   const anticipated = c.action !== "RESCUE";
+  const capped = c.why.includes("aucune réduction encore exécutée");
   return (
     <details className="group border-t border-line-soft" open={!anticipated}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
         <span className="font-semibold text-ink">
-          🩺 Diagnostic {anticipated ? "(anticipé — un NON de plus et elle bascule)" : "de sauvetage"}
+          🩺 Diagnostic{" "}
+          {capped
+            ? "(escalier épuisé, mais les crans n'ont pas été déroulés)"
+            : anticipated
+              ? "(anticipé — un NON de plus et elle bascule)"
+              : "de sauvetage"}
         </span>
         <span className="text-[10px] text-ink-faint transition-transform group-open:rotate-180">▾</span>
       </summary>
