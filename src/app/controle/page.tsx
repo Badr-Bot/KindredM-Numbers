@@ -41,7 +41,7 @@ export default async function ControlPage() {
       <section className="mb-6">
         <h2 className="mb-2 text-[12px] font-extrabold uppercase tracking-wider text-ink-dim">🏦 Banque — l&apos;argent qui rentre et sort</h2>
         <Suspense fallback={<div className="h-64 animate-pulse rounded-xl border border-line bg-panel/50" />}>
-          <BankSection />
+          <BankSection mode={mode} unmappedCount={unmappedCampaigns.length} />
         </Suspense>
       </section>
 
@@ -53,12 +53,13 @@ export default async function ControlPage() {
   );
 }
 
-async function BankSection() {
+async function BankSection({ mode, unmappedCount }: { mode: DataMode; unmappedCount: number }) {
   let report: BankReport;
   try {
-    report = await buildBankReport(createSupabaseServerClient());
+    // mode démo : buildBankReport(null) sert des données synthétiques
+    report = await buildBankReport(mode === "demo" ? null : createSupabaseServerClient());
   } catch (err) {
     return <DataError message={(err as Error).message} />;
   }
-  return <BankBoard report={report} />;
+  return <BankBoard report={report} unmappedCount={unmappedCount} />;
 }
