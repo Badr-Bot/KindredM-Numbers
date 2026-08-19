@@ -212,8 +212,8 @@ function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) 
     ? { txt: "WINNER", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" }
     : a.potentialWinner
       ? { txt: "POTENTIEL", cls: "border-cyan/50 bg-cyan/10 text-cyan" }
-      : a.bleeding
-        ? { txt: "SAIGNE", cls: "border-red/50 bg-red/10 text-red" }
+      : a.toZombie
+        ? { txt: "→ ZOMBIE", cls: "border-red/50 bg-red/10 text-red" }
         : a.saturating
           ? { txt: "SATURE", cls: "border-amber/50 bg-amber/10 text-amber" }
           : null;

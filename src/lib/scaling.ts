@@ -181,8 +181,10 @@ export interface AdDiagnostic {
   potentialWinner: boolean;
   /** CPM ou fréquence en forte hausse sur la 2ᵉ moitié de la fenêtre. */
   saturating: boolean;
-  /** Dépense significative sans rentabilité : elle mange le budget. */
-  bleeding: boolean;
+  /** ≥ 6 ventes mais SOUS le break-even (T37 [05:33]) → à injecter dans la
+   * campagne ZOMBIE. On ne coupe jamais une annonce qui tourne : la formation
+   * la déplace, elle ne la supprime pas (arbitrage Badr 19/08). */
+  toZombie: boolean;
 }
 
 export type RescueLeak = "CREAS" | "FUNNEL" | "AOV" | "BIG_SWING" | "INSUFFISANT";
@@ -461,15 +463,13 @@ export function diagnoseRescue(input: {
 
     const lastDay = sorted[sorted.length - 1].day;
     const ageDays = todayN - dayNumber(sorted[0].day);
-    // « Saigne » seulement si l'annonce DÉPENSE ENCORE (présente dans la
-    // fenêtre de décision) et a passé sa phase d'apprentissage (≥ 3 j) :
-    // sinon on ferait couper une créa lancée hier, ou une déjà arrêtée.
+    // Critère T37 [05:33] tel quel : ≥ 6 ventes ET sous le break-even →
+    // direction ZOMBIE. Aucun seuil de dépense inventé, aucun « couper ».
+    // On exige seulement qu'elle diffuse encore (une annonce déjà éteinte
+    // n'a rien à dispatcher).
     const stillRunning = lastDay >= last.startDay;
-    const bleeding =
-      stillRunning &&
-      ageDays >= 3 &&
-      spend >= 5000 &&
-      (roas === 0 || (roas !== null && breakEven !== null && roas < breakEven * 0.7));
+    const toZombie =
+      stillRunning && purchases >= 6 && roas !== null && breakEven !== null && roas < breakEven;
 
     adDiags.push({
       adId,
@@ -495,7 +495,7 @@ export function diagnoseRescue(input: {
       potentialWinner:
         purchases >= 6 && margin !== null && margin < 0.1 && roas !== null && breakEven !== null && roas >= breakEven,
       saturating,
-      bleeding,
+      toZombie,
     });
   }
   adDiags.sort((a, b) => b.spendCents - a.spendCents);
@@ -522,10 +522,9 @@ export function diagnoseRescue(input: {
   }
   const saturated = adDiags.filter((a) => a.saturating);
   if (saturated.length > 0) evidence.push(`${saturated.length} annonce(s) en saturation (CPM/fréquence en hausse)`);
-  const bleeders = adDiags.filter((a) => a.bleeding);
-  if (bleeders.length > 0) {
-    const wasted = bleeders.reduce((a, b) => a + b.spendCents, 0);
-    evidence.push(`${bleeders.length} annonce(s) mangent ${eur(wasted)} sans rentabilité`);
+  const zombies = adDiags.filter((a) => a.toZombie);
+  if (zombies.length > 0) {
+    evidence.push(`${zombies.length} annonce(s) sous le break-even avec ≥ 6 ventes → campagne ZOMBIE`);
   }
 
   let leak: RescueLeak;
@@ -557,9 +556,9 @@ export function diagnoseRescue(input: {
   // --- 3. Le plan, priorisé, avec les annonces nommées ---
   const plan: string[] = [];
   const nameOf = (a: AdDiagnostic) => (a.adName.length > 42 ? a.adName.slice(0, 42) + "…" : a.adName);
-  if (bleeders.length > 0) {
+  if (zombies.length > 0) {
     plan.push(
-      `Coupe d'abord ce qui saigne : ${bleeders.slice(0, 3).map(nameOf).join(", ")} — ${eur(bleeders.reduce((a, b) => a + b.spendCents, 0))} dépensés sous 70 % du break-even.`
+      `Dispatche en campagne ZOMBIE (≥ 6 ventes mais sous le break-even) : ${zombies.slice(0, 3).map(nameOf).join(", ")} — on ne coupe pas, on déplace (T37 [05:33]).`
     );
   }
   const winners = adDiags.filter((a) => a.winner);

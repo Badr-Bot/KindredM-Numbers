@@ -447,14 +447,14 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
   ];
 
-  it("identifie winner, potential winner et annonce qui saigne", () => {
+  it("identifie winner et dispatch ZOMBIE — jamais de « couper » (T37, arbitrage Badr)", () => {
     const adRows: AdDailyRow[] = [];
     for (const n of [14, 15, 16, 17, 18]) {
       const d0 = d(n);
       // winner : 8 ventes cumulées, ROAS 3× (marge ≈ 29 % ≥ 10 %)
       adRows.push(ad(d0, "win", "UGC hook douleur", 40, 3.0, { purchases: 2 }));
-      // gouffre : 300 € cumulés, ROAS 0
-      adRows.push(ad(d0, "dead", "Statique promo", 60, 0, { purchases: 0 }));
+      // sous le break-even mais ≥ 6 ventes cumulées → direction ZOMBIE
+      adRows.push(ad(d0, "zomb", "Statique promo", 60, 1.2, { purchases: 2 }));
     }
     const r = computeScaling({
       today: TODAY,
@@ -468,12 +468,18 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     expect(c.action).toBe("RESCUE");
     expect(c.rescue).not.toBeNull();
     const win = c.rescue!.ads.find((a) => a.adId === "win")!;
-    const dead = c.rescue!.ads.find((a) => a.adId === "dead")!;
+    const zomb = c.rescue!.ads.find((a) => a.adId === "zomb")!;
     expect(win.winner).toBe(true);
-    expect(dead.bleeding).toBe(true); // encore en diffusion, ≥ 3 j, ≥ 50 €
-    // le plan nomme les annonces concernées
-    expect(c.rescue!.plan.join(" ")).toContain("Statique promo");
-    expect(c.rescue!.plan.join(" ")).toContain("MÊME POST ID");
+    expect(zomb.toZombie).toBe(true); // ≥ 6 ventes, sous le BE
+    const plan = c.rescue!.plan.join(" ");
+    // le plan nomme les annonces concernées, et ne parle JAMAIS de couper
+    expect(plan).toContain("Statique promo");
+    expect(plan).toContain("ZOMBIE");
+    expect(plan).toContain("MÊME POST ID");
+    // aucune consigne de coupe : la seule occurrence tolérée est la phrase
+    // « on ne coupe pas, on déplace »
+    expect(plan.toLowerCase()).not.toContain("coupe d'abord");
+    expect(plan.toLowerCase()).toContain("on ne coupe pas");
   });
 
   it("cadran CRÉAS : CPC qui dérape, CVR qui tient", () => {
@@ -528,7 +534,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       adRows,
     });
     const old = r.campaigns[0].rescue!.ads.find((a) => a.adId === "old")!;
-    expect(old.bleeding).toBe(false);
+    expect(old.toZombie).toBe(false);
   });
 
   it("une créa lancée hier n'est jamais taguée « saigne » (apprentissage)", () => {
@@ -542,7 +548,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       adRows,
     });
     const neuve = r.campaigns[0].rescue!.ads.find((a) => a.adId === "neuve")!;
-    expect(neuve.bleeding).toBe(false);
+    expect(neuve.toZombie).toBe(false);
     expect(neuve.ageDays).toBe(0);
   });
 
