@@ -141,7 +141,6 @@ describe("verdicts et crans (décision de la nuit)", () => {
     expect(c.action).toBe("SCALE");
     expect(c.cran).toBeNull();
     expect(c.suggestedCents).toBe(50000); // 300 → ×2 = 600 plafonné à 500
-    expect(c.suggestedMaxCents).toBeNull();
     expect(c.creasRequired).toBe(true);
   });
 
@@ -472,14 +471,15 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     expect(win.winner).toBe(true);
     expect(zomb.toZombie).toBe(true); // ≥ 6 ventes, sous le BE
     const plan = c.rescue!.plan.join(" ");
-    // le plan nomme les annonces concernées, et ne parle JAMAIS de couper
+    const evidence = c.rescue!.evidence.join(" ");
+    // le plan nomme les annonces à dispatcher en zombie, jamais de coupe
     expect(plan).toContain("Statique promo");
     expect(plan).toContain("ZOMBIE");
-    expect(plan).toContain("MÊME POST ID");
-    // aucune consigne de coupe : la seule occurrence tolérée est la phrase
-    // « on ne coupe pas, on déplace »
     expect(plan.toLowerCase()).not.toContain("coupe d'abord");
     expect(plan.toLowerCase()).toContain("on ne coupe pas");
+    // T37 [01:32] : en CBO les winners sont étiquetées, JAMAIS « à dupliquer »
+    expect(plan).not.toContain("MÊME POST ID");
+    expect(evidence).toContain("rien à dupliquer");
   });
 
   it("cadran CRÉAS : CPC qui dérape, CVR qui tient", () => {
@@ -599,6 +599,46 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     });
     expect(r.campaigns[0].action).toBe("RESCUE");
     expect(r.campaigns[0].rescue).toBeNull();
+  });
+});
+
+describe("T37 : signal précoce et anti-redispatch", () => {
+  const rescueRows2 = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+  const descales = [
+    { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
+    { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
+  ];
+  const mkAd = (adId: string, adName: string, roas: number, purchases: number): AdDailyRow[] =>
+    [15, 16, 17, 18].map((n) => ({
+      day: d(n),
+      adId,
+      adName,
+      campaignId: "c1",
+      spendCents: 3000,
+      purchases,
+      purchaseValueCents: Math.round(3000 * roas),
+      impressions: 3000,
+      clicks: 60,
+      reach: 2500,
+    }));
+
+  it("< 6 ventes mais marge ≥ 15 % → SIGNAL précoce (T37 [05:12])", () => {
+    // ROAS 3× → marge ≈ 29 % ; 1 vente/jour × 4 jours = 4 ventes (< 6)
+    const adRows = mkAd("sig", "Hook curiosité", 3.0, 1);
+    const r = computeScaling({ today: TODAY, rows: rescueRows2, thresholds: TH, live: null, activities: descales, adRows });
+    const sig = r.campaigns[0].rescue!.ads.find((a) => a.adId === "sig")!;
+    expect(sig.earlySignal).toBe(true);
+    expect(sig.winner).toBe(false);
+  });
+
+  it("une ad déjà marquée WIN n'est jamais re-recommandée (T37 [05:57])", () => {
+    const adRows = mkAd("w1", "WIN AUGUST 1 — UGC douleur", 3.0, 2); // 8 ventes, marquée
+    const r = computeScaling({ today: TODAY, rows: rescueRows2, thresholds: TH, live: null, activities: descales, adRows });
+    const w = r.campaigns[0].rescue!.ads.find((a) => a.adId === "w1")!;
+    expect(w.alreadyMarked).toBe(true);
+    // ni dans l'evidence winners ni dans le plan zombie
+    expect(r.campaigns[0].rescue!.evidence.join(" ")).not.toContain("UGC douleur");
+    expect(r.campaigns[0].rescue!.plan.join(" ")).not.toContain("UGC douleur");
   });
 });
 

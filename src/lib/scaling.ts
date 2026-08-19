@@ -13,9 +13,9 @@ import { formatInTimeZone } from "date-fns-tz";
 //
 // Phase de PRÉ-SCALING (budgets < 3 000 €/j — le cas de toutes les campagnes
 // actuelles). Une seule question, posée chaque nuit entre minuit et une heure
-// (T35 [19:09]), par campagne :
+// (T35 [18:48]), par campagne :
 //   « est-on rentable AU BACKEND sur les 2 derniers jours, ≥ 15 % de marge ? »
-//   (T35 [03:22-03:44] : « rentable dans votre poche : ads − shipping − frais
+//   (T35 [02:39-03:00] : « rentable dans votre poche : ads − shipping − frais
 //    de processeur », donc marge de contribution APRÈS pub, hors OPEX)
 //
 //  • OUI → on monte le budget (T35 [05:18] « fois 2 si petit », lecture Badr
@@ -180,6 +180,12 @@ export interface AdDiagnostic {
   winner: boolean;
   /** ≥ 6 ventes, entre BE et 10 % de marge (T37) → potential winner. */
   potentialWinner: boolean;
+  /** < 6 ventes mais très bon ROAS (marge ≥ 15 %, T37 [05:12] « moins de six
+   * mais un très bon ROAS… vous pouvez les injecter ») → signal précoce. */
+  earlySignal: boolean;
+  /** Nom contenant WIN/POT : déjà marquée et dispatchée UNE FOIS (T37
+   * [03:05], [05:57]) — on ne la re-recommande jamais. */
+  alreadyMarked: boolean;
   /** CPM ou fréquence en forte hausse sur la 2ᵉ moitié de la fenêtre. */
   saturating: boolean;
   /** ≥ 6 ventes mais SOUS le break-even (T37 [05:33]) → à injecter dans la
@@ -239,8 +245,6 @@ export interface ScalingCampaign {
   action: ScalingAction;
   /** UN chiffre : le budget cible à appliquer (−15 % ou palier suivant). */
   suggestedCents: number | null;
-  /** Borne haute de la montée (SURFSCALE ×2 si tout est parfait). */
-  suggestedMaxCents: number | null;
   // -- Contexte --
   budgetCents: number | null;
   budgetEstimated: boolean;
@@ -369,7 +373,7 @@ function diagnoseSauvetage(windows: ScalingWindow[], lastIdx: number): string {
   const cpcBad = last.cpcCents !== null && cpcMed !== null && last.cpcCents > cpcMed * 1.2;
   const cvrBad = last.cvr !== null && cvrMed !== null && last.cvr < cvrMed * 0.8;
   if (cpcBad && cvrBad)
-    return "CPC en hausse ET CVR en baisse vs l'historique → tout fuit : big swing (nouvelle LP / offre) voire couper si un compétiteur scale toujours (T35).";
+    return "CPC en hausse ET CVR en baisse vs l'historique → tout fuit : big swing (nouvelle LP / offre) SANS attendre — « on ne va pas passer cinq jours, on change tout direct » (T35 [11:21]). Si un compétiteur scale toujours, c'est qu'on fait une erreur → on corrige d'abord ; couper seulement si le big swing ne sauve pas.";
   if (cpcBad)
     return "CVR tient mais le CPC dérape vs l'historique → problème CRÉAS : nouveaux hooks, nouveaux angles, nouveaux mécanismes (T35).";
   if (cvrBad)
@@ -491,10 +495,12 @@ export function diagnoseRescue(input: {
       lastDay,
       lastFirstDay: sorted[0].day,
       ageTruncated: sorted[0].day <= windowStartDay,
-      // Seuils winner/potential winner : T37 [01:08] et [04:28].
+      // Seuils winner/potential/signal : T37 [01:08], [04:28], [05:12].
       winner: purchases >= 6 && margin !== null && margin >= 0.1,
       potentialWinner:
         purchases >= 6 && margin !== null && margin < 0.1 && roas !== null && breakEven !== null && roas >= breakEven,
+      earlySignal: purchases > 0 && purchases < 6 && margin !== null && margin >= 0.15,
+      alreadyMarked: /\bwin\b|\bpot\b|winner|potential/i.test(sorted[sorted.length - 1].adName ?? ""),
       saturating,
       toZombie,
     });
@@ -523,7 +529,10 @@ export function diagnoseRescue(input: {
   }
   const saturated = adDiags.filter((a) => a.saturating);
   if (saturated.length > 0) evidence.push(`${saturated.length} annonce(s) en saturation (CPM/fréquence en hausse)`);
-  const zombies = adDiags.filter((a) => a.toZombie);
+  // T37 [05:57] : une ad marquée WIN/POT a déjà été dispatchée UNE FOIS —
+  // on ne la re-recommande pas à chaque chargement.
+  const fresh = adDiags.filter((a) => !a.alreadyMarked);
+  const zombies = fresh.filter((a) => a.toZombie);
   if (zombies.length > 0) {
     evidence.push(`${zombies.length} annonce(s) sous le break-even avec ≥ 6 ventes → campagne ZOMBIE`);
   }
@@ -542,7 +551,8 @@ export function diagnoseRescue(input: {
     verdict = "Pas de clics mesurés sur la fenêtre : vérifier la diffusion avant tout diagnostic.";
   } else if (cpcBad && cvrBad) {
     leak = "BIG_SWING";
-    verdict = "CPC en hausse ET CVR en baisse : tout fuit — big swing (nouvelle LP / nouvelle offre), voire couper.";
+    verdict =
+      "CPC en hausse ET CVR en baisse : tout fuit — big swing (nouvelle LP / nouvelle offre) sans attendre (T35 [11:21] « on change tout direct »). Couper seulement si le big swing ne sauve pas.";
   } else if (cpcBad) {
     leak = "CREAS";
     verdict = "Le CVR tient mais le CPC dérape : le problème est CRÉATIF, pas la page ni l'offre.";
@@ -562,15 +572,23 @@ export function diagnoseRescue(input: {
       `Dispatche en campagne ZOMBIE (≥ 6 ventes mais sous le break-even) : ${zombies.slice(0, 3).map(nameOf).join(", ")} — on ne coupe pas, on déplace (T37 [05:33]).`
     );
   }
-  const winners = adDiags.filter((a) => a.winner);
-  const potentials = adDiags.filter((a) => a.potentialWinner);
+  const winners = fresh.filter((a) => a.winner);
+  const potentials = fresh.filter((a) => a.potentialWinner);
+  const signals = fresh.filter((a) => a.earlySignal);
+  // ⚠️ T37 [01:32] réserve le dispatch winners au passage ABO → CBO : « si
+  // vous êtes en CBO il n'y aura rien à faire, vos ads seront déjà là ». En
+  // compte 100 % CBO (< 3 000 €/j), les gagnantes sont donc seulement
+  // ÉTIQUETÉES (visibilité), jamais « à dupliquer » — seule l'injection
+  // ZOMBIE s'applique en CBO (T37 [01:59-02:21]).
   if (winners.length > 0) {
-    plan.push(
-      `Duplique tes gagnantes AVEC LE MÊME POST ID (garde commentaires et social proof) dans un nouvel adset « winners » : ${winners.slice(0, 3).map(nameOf).join(", ")} (T37).`
+    evidence.push(
+      `${winners.length} winner(s) (≥ 6 ventes, ≥ 10 % de marge) — déjà dans la CBO, rien à dupliquer (T37 [01:32]) : marque-les WIN <mois> <semaine>.`
     );
   }
-  if (potentials.length > 0) {
-    plan.push(`Potential winners à injecter aussi (≥ 6 ventes, entre BE et 10 % de marge) : ${potentials.slice(0, 3).map(nameOf).join(", ")} (T37).`);
+  if (potentials.length > 0 || signals.length > 0) {
+    evidence.push(
+      `${potentials.length + signals.length} annonce(s) à surveiller : potential winners et signaux précoces (< 6 ventes mais marge ≥ 15 %, T37 [05:12]).`
+    );
   }
   if (leak === "CREAS" || leak === "BIG_SWING") {
     plan.push(
@@ -621,7 +639,7 @@ function buildCreaPlan(input: {
 }): string[] {
   const { action, scalingRegime, cpmrRising } = input;
   const where = scalingRegime
-    ? "Campagne ABO testing dédiée (~20 % du budget) : nouvel adset par batch, budget ≈ 2-2,5 × CPA, décision à 2-3 j (T36 [02:07])."
+    ? "Campagne ABO testing dédiée (~20 % du budget) : nouvel adset par batch, budget ≈ 2-2,5 × CPA, décision à 2-3 j (T36 [02:28-02:48])."
     : "Nouvel adset DANS la CBO (ou complète un adset existant s'il a < 15 ads), minimum spend 10-15 €/j pendant 2 jours pour forcer Meta à tester (T36 [04:23-05:05]).";
   const batch =
     "Batch de 3 à 6 ads : 2-3 adcopies + 2-3 titres + 1 description par ad, angles VARIÉS (une adcopy par angle), miniature choisie à la main, 50 % page marque / 50 % page tierce (T36).";
@@ -645,7 +663,7 @@ function buildCreaPlan(input: {
     return [
       where,
       "Batch de 3 à 6 ads « valeurs sûres » (T35 [04:08] : des trucs dont on est sûrs) + 1-2 hooks neufs" +
-        (cpmrRising ? " — priorité aux HOOKS : le CPMr monte, l'audience sature (T36)." : " (T36)."),
+        (cpmrRising ? " — priorité aux HOOKS : le CPMr monte, l'audience sature (T24 [10:16])." : " (T36)."),
       setup,
     ];
   }
@@ -907,7 +925,6 @@ export function computeScaling(input: {
 
     // Prescription : UN chiffre.
     let suggestedCents: number | null = null;
-    const suggestedMaxCents: number | null = null;
     if (action === "SCALE" && budgetCents !== null) {
       suggestedCents = scaleTargetCents(budgetCents);
     } else if (action === "DESCALE" && budgetCents !== null) {
@@ -962,7 +979,6 @@ export function computeScaling(input: {
       cran,
       action,
       suggestedCents,
-      suggestedMaxCents,
       budgetCents,
       budgetEstimated,
       moves: moves.slice(0, 6),
