@@ -14,7 +14,7 @@ const ITEMS = [
   { href: "/analyse", label: "Analyse", emoji: "📊" },
   { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/scaling", label: "Scaling", emoji: "🪜" },
-  { href: "/controle", label: "Contrôle", emoji: "🛃" },
+  { href: "/controle", label: "Comptable", emoji: "🧾" },
 ];
 // /controle est REVENU dans la barre le 19/08 (Badr : « il faudra un onglet
 // à part de contrôle ») : il porte désormais le rapprochement bancaire en

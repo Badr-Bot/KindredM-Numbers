@@ -28,7 +28,9 @@ describe("categorizeTx", () => {
     expect(categorizeTx("Meta Platforms Ireland", -25000).category).toBe("META");
     expect(categorizeTx("Shopify Payments payout", 150000).category).toBe("SHOPIFY");
     expect(categorizeTx("SHOPIFY INC monthly", -3900).category).toBe("ABONNEMENT");
-    expect(categorizeTx("ANTHROPIC PBC", -2706).subscriptionLabel).toBe("Claude (Badr)");
+    expect(categorizeTx("ANTHROPIC PBC", -2706).subscriptionLabel).toBe("Claude (Badr + Adnane)"); // 120 €/mois plafond (Badr 19/08)
+    expect(categorizeTx("Slash fee: Foreign transaction fee for 08.18.26", -1942).category).toBe("FRAIS");
+    expect(categorizeTx("ACH Withdrawal to Emailing : Altura", -180000).subscriptionLabel).toBe("Jeremy — emailing (fixe, hors %)"); // Altura = LLC de Jeremy (Badr 19/08)
     expect(categorizeTx("Fournisseur Panda", -80000).category).toBe("FOURNISSEUR"); // Badr 19/08 : Panda = fournisseur
     expect(categorizeTx("Restaurant Al Majed", -1200).category).toBe("AUTRE");
   });

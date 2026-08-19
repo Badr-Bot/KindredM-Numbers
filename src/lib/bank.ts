@@ -69,7 +69,10 @@ export interface BankBalance {
 // (subscriptions.ts) : un abonnement reconnu est rapproché de son montant
 // attendu ; tout le reste part en AUTRE, jamais avalé en silence.
 const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
-  { label: "Claude (Badr)", re: /anthropic|claude/i },
+  // Claude : UN motif pour les DEUX comptes — 100 € (Badr) + 20 € (Adnane)
+  // = 120 €/mois PLAFOND (Badr 19/08 : « normalement on ne dépassera plus
+  // les 120 € par mois, le reste c'était des crédits consommés »).
+  { label: "Claude (Badr + Adnane)", re: /anthropic|claude/i },
   { label: "Klaviyo", re: /klaviyo/i },
   { label: "Shopify (abonnement)", re: /shopify\s*(inc)?\b(?!.*payout)/i },
   { label: "WeTracked", re: /wetracked/i },
@@ -87,6 +90,9 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "Google Workspace", re: /google\s*[*.]?\s*workspace|gsuite/i },
   { label: "Marwa", re: /marwa/i },
   { label: "Seif (fixe, hors %)", re: /\bseif\b/i },
+  // « Emailing : Altura » = la LLC de Jeremy (Badr 19/08 : « emailing c'est
+  // pour Jeremy ») — ses virements ACH/wire sont sa presta emailing.
+  { label: "Jeremy — emailing (fixe, hors %)", re: /emailing|altura/i },
   // Apps Shopify — parfois débitées en direct, parfois via la facture
   // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
   // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
@@ -108,6 +114,10 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // COMPTER DEUX FOIS chaque dépense carte, déjà présente individuellement.)
   if (/^converted\b/.test(d) || /kindredm/.test(d) || /\bwise\b/.test(d) || /daily\s*credit/.test(d))
     return { category: "INTERNE", subscriptionLabel: null };
+  // Agrégat quotidien de frais Slash (« Slash fee: Foreign transaction fee
+  // for MM.DD.YY ») : FRAIS — ventilé perso/société au prorata dans
+  // fetchSlashData quand les fxFeeInfo du jour le permettent.
+  if (/^slash fee/.test(d)) return { category: "FRAIS", subscriptionLabel: null };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // Fournisseur (Badr 19/08 : « Panda Dropshipping c'est le fournisseur ») —
   // les factures détaillées vivent dans l'onglet Dépenses ; ici le paiement
@@ -119,6 +129,18 @@ export function categorizeTx(description: string, amountCents: number): { catego
     if (p.re.test(description)) return { category: "ABONNEMENT", subscriptionLabel: p.label };
   }
   return { category: "AUTRE", subscriptionLabel: null };
+}
+
+/** Abonnements couverts par un motif bancaire. Un motif peut en couvrir
+ * PLUSIEURS : « Claude (Badr + Adnane) » additionne les deux comptes Claude
+ * (100 € + 20 € = 120 €/mois plafond, Badr 19/08). Match par label exact ou
+ * premier mot ; un abonnement résilié reste couvert jusqu'à son endDay
+ * (ex. Jeremy jusqu'au 31/08). */
+function subsForPattern(patternLabel: string, untilDay: string) {
+  const first = patternLabel.split(" ")[0];
+  return SUBSCRIPTIONS.filter(
+    (s) => (s.endDay === null || s.endDay >= untilDay) && s.amount > 0 && (s.label === patternLabel || s.label.startsWith(first))
+  );
 }
 
 function toEurCents(amountCents: number, currency: string, liveRates?: Map<string, number>): number | null {
@@ -205,6 +227,11 @@ export interface SlashTx {
   /** Présent quand la transaction est un FRAIS Slash (FX, virement…) —
    * relatedTransaction pointe la transaction d'origine du frais. */
   feeInfo?: { relatedTransaction?: { id?: string; amount?: number } };
+  /** Frais FX facturé POUR cette transaction (sert à ventiler l'agrégat
+   * quotidien « Slash fee: Foreign transaction fee for MM.DD.YY »). */
+  fxFeeInfo?: { amountCents?: number };
+  /** Cashback gagné sur cette transaction (à récupérer). */
+  cashbackInfo?: { amountCents?: number; rate?: number };
 }
 
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
@@ -233,7 +260,10 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
   };
 }
 
-export async function fetchSlashData(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[]; balances: BankBalance[] }> {
+export async function fetchSlashData(
+  sinceDay: string,
+  untilDay: string
+): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number }> {
   const token = process.env.SLASH_API_TOKEN;
   if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
 
@@ -306,10 +336,67 @@ export async function fetchSlashData(sinceDay: string, untilDay: string): Promis
   // META ; frais du virement Panda → FOURNISSEUR ; parent introuvable →
   // FRAIS (société, à surveiller).
   const byId = new Map(raw.map((t) => [t.id, t]));
+
+  // Ventilation des frais FX : chaque transaction carte porte SON frais
+  // (fxFeeInfo) ; l'agrégat quotidien « Slash fee: Foreign transaction fee
+  // for MM.DD.YY » est redécoupé au prorata perso/société du jour référencé
+  // (« ça part chez eux » pour le perso, le reste en frais société — le gros
+  // vient de Meta facturé en EUR sur un compte USD). Cashback : sommé à part
+  // (gagné, à récupérer — pas encore de l'argent entré).
+  const fxByDay = new Map<string, { fahd: number; badr: number; societe: number }>();
+  let cashbackCents = 0;
+  for (const t of raw) {
+    const cb = t.cashbackInfo?.amountCents;
+    if (typeof cb === "number" && cb > 0) cashbackCents += cb;
+    const fee = t.fxFeeInfo?.amountCents;
+    if (typeof fee !== "number" || fee <= 0) continue;
+    const day = toParisDay(t.date);
+    const owner = t.cardId ? owners.get(t.cardId) : undefined;
+    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, societe: 0 };
+    if (owner?.label === "PERSO_FAHD") slot.fahd += fee;
+    else if (owner?.label === "PERSO_BADR") slot.badr += fee;
+    else slot.societe += fee;
+    fxByDay.set(day, slot);
+  }
+
   const txs: BankTx[] = [];
   for (const t of raw) {
     const mapped = mapSlashTx(t);
     if (!mapped) continue;
+    // Agrégat quotidien de frais FX → redécoupé au prorata du jour référencé.
+    const agg = /^slash fee: foreign transaction fee for (\d{2})\.(\d{2})\.(\d{2})/i.exec(t.description);
+    if (agg) {
+      const refDay = `20${agg[3]}-${agg[1]}-${agg[2]}`; // MM.DD.YY → YYYY-MM-DD
+      const slot = fxByDay.get(refDay) ?? fxByDay.get(mapped.day);
+      const total = slot ? slot.fahd + slot.badr + slot.societe : 0;
+      if (slot && total > 0) {
+        const parts = (
+          [
+            { suffix: "fahd", share: slot.fahd / total, label: "PERSO_FAHD", qui: "dépenses carte Adnane/Fahd" },
+            { suffix: "badr", share: slot.badr / total, label: "PERSO_BADR", qui: "dépenses carte Badr" },
+            { suffix: "ste", share: slot.societe / total, label: null, qui: "dépenses société (Meta en EUR surtout)" },
+          ] as { suffix: string; share: number; label: TxLabel | null; qui: string }[]
+        ).filter((p) => p.share > 0);
+        let restCents = mapped.amountCents;
+        parts.forEach((p, idx) => {
+          const amount = idx === parts.length - 1 ? restCents : Math.round(mapped.amountCents * p.share);
+          restCents -= amount;
+          if (amount === 0) return;
+          txs.push({
+            ...mapped,
+            txId: `${mapped.txId}-${p.suffix}`,
+            amountCents: amount,
+            amountEurCents: toEurCents(amount, "USD"),
+            category: "FRAIS",
+            label: p.label,
+            labelNote: `frais FX du ${refDay.slice(8, 10)}/${refDay.slice(5, 7)} — part ${p.qui} (ventilé automatiquement)`,
+          });
+        });
+      } else {
+        txs.push({ ...mapped, category: "FRAIS", labelNote: "frais FX du jour — non ventilable (détail indisponible), compté société" });
+      }
+      continue;
+    }
     const relId = t.feeInfo?.relatedTransaction?.id;
     if (relId !== undefined) {
       const parent = byId.get(relId);
@@ -368,7 +455,7 @@ export async function fetchSlashData(sinceDay: string, untilDay: string): Promis
   } catch {
     // solde illisible : signalé dans le rapport, les transactions restent valables
   }
-  return { txs, balances };
+  return { txs, balances, cashbackCents };
 }
 
 interface WiseStatementTx {
@@ -502,15 +589,18 @@ export function reconcile(
   const subs: BankReconciliation["subscriptions"] = [];
   for (const p of SUBSCRIPTION_PATTERNS) {
     const paid = -sumEur(inWindow.filter((t) => t.subscriptionLabel === p.label));
-    const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
-    // Avance perso (ex. Hushed payé par Adnane) : pas un flux LLC — masqué
-    // tant que rien n'apparaît en banque (si un débit apparaît, on l'affiche).
-    if (known?.paidBy && paid === 0) continue;
-    if (paid !== 0 || known) {
+    const matches = subsForPattern(p.label, untilDay);
+    // Avances perso (ex. Hushed/Seif payés par Adnane) : pas un flux LLC —
+    // masqué tant que rien n'apparaît en banque (un débit qui apparaît
+    // quand même s'affiche).
+    if (matches.length > 0 && matches.every((s) => s.paidBy) && paid === 0) continue;
+    if (paid !== 0 || matches.length > 0) {
       subs.push({
         label: p.label,
         paidCents: paid,
-        expectedMonthlyCents: known ? monthlyEurCents(known) : 0,
+        // Un motif peut couvrir PLUSIEURS abonnements (Claude : 100 + 20 =
+        // 120 €/mois plafond, Badr 19/08) → somme des mensuels couverts.
+        expectedMonthlyCents: matches.reduce((a, s) => a + monthlyEurCents(s), 0),
       });
     }
   }
@@ -623,12 +713,13 @@ export function computeControl(input: {
   // 19/08 : « bien organisé, on repère et on descend lire le détail »).
   const abosManquants: string[] = [];
   for (const p of SUBSCRIPTION_PATTERNS) {
-    const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
-    if (!known || known.endDay !== null || known.amount <= 0) continue;
-    if (known.paidBy) continue; // avance perso (Badr/Adnane) — pas un débit LLC
-    if (known.category === "APP_SHOPIFY" && factureShopifyVue) continue;
+    // Seuls les abonnements payés par la LLC et non couverts par la facture
+    // Shopify sont réclamés (avances perso : paidBy posé → jamais réclamé).
+    const actifs = subsForPattern(p.label, untilDay).filter((s) => !s.paidBy);
+    if (actifs.length === 0) continue;
+    if (actifs.every((s) => s.category === "APP_SHOPIFY") && factureShopifyVue) continue;
     const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
-    if (!paid) abosManquants.push(`${p.label} (~${eur(monthlyEurCents(known))}/mois)`);
+    if (!paid) abosManquants.push(`${p.label} (~${eur(actifs.reduce((a, s) => a + monthlyEurCents(s), 0))}/mois)`);
   }
   if (abosManquants.length > 0) {
     anomalies.push({
@@ -643,11 +734,16 @@ export function computeControl(input: {
     });
   }
 
-  // 3) Abonnement débité à un montant qui ne colle pas (> ±20 % du mensuel).
+  // 3) Abonnement débité à un montant qui ne colle pas (> ±20 % du mensuel
+  //    couvert — Claude = 120 €/mois plafond, au-delà = crédits consommés).
+  //    Un abonnement en FIN DE CONTRAT (endDay posé, ex. Jeremy payé en une
+  //    fois : prorata juillet + août complet) fait des paiements de clôture
+  //    atypiques NORMAUX → pas d'alerte de montant (Badr 19/08).
   for (const p of SUBSCRIPTION_PATTERNS) {
-    const known = SUBSCRIPTIONS.find((sub) => sub.label === p.label || sub.label.startsWith(p.label.split(" ")[0]));
-    if (!known) continue;
-    const expected = monthlyEurCents(known);
+    const matches = subsForPattern(p.label, untilDay);
+    if (matches.length === 0) continue;
+    if (matches.every((s) => s.endDay !== null)) continue;
+    const expected = matches.reduce((a, s) => a + monthlyEurCents(s), 0);
     if (expected <= 0) continue;
     const paidTx = inWindow.filter((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
     const paid = -paidTx.reduce((a, t) => a + (t.amountEurCents ?? 0), 0);
@@ -755,7 +851,75 @@ export interface BankReport {
   reconciliation: BankReconciliation | null;
   control: ControlReport | null;
   warnings: string[];
+  /** Cashback Slash gagné sur la fenêtre (contre-valeur EUR) — à récupérer,
+   * pas encore de l'argent entré. null = Slash absent. */
+  slashCashbackEurCents: number | null;
+  /** Argent EN ROUTE : le solde Shopify Payments réel (ce que Shopify doit,
+   * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
+   * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
+  enRoute: { totalEurCents: number; missingScopes: boolean } | null;
 }
+
+/** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
+ * versé) — la « part d'Adnane réaliste » en dépend (Badr 19/08 : « il y a de
+ * l'argent qu'on n'a pas encaissé, comment on peut avoir la réalité ? »).
+ * Nécessite le scope read_shopify_payments_accounts sur chaque app custom. */
+async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingScopes: boolean; skipped: string[] }> {
+  const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
+  let totalEurCents = 0;
+  let missingScopes = false;
+  const skipped: string[] = [];
+  const pending: { amount: number; currency: string }[] = [];
+  for (const config of getShopifyStoreConfigs()) {
+    try {
+      const token = await resolveAccessToken(config);
+      const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+        body: JSON.stringify({ query: "{ shopifyPaymentsAccount { balance { amount currencyCode } } }" }),
+      });
+      if (!res.ok) {
+        skipped.push(`${config.market} (HTTP ${res.status})`);
+        continue;
+      }
+      const json = (await res.json()) as {
+        data?: { shopifyPaymentsAccount?: { balance?: { amount?: string; currencyCode?: string }[] | { amount?: string; currencyCode?: string } } | null };
+        errors?: { message?: string }[];
+      };
+      if (json.errors?.some((e) => /access denied|scope/i.test(e.message ?? ""))) {
+        missingScopes = true;
+        skipped.push(`${config.market} (scope manquant)`);
+        continue;
+      }
+      const bal = json.data?.shopifyPaymentsAccount?.balance;
+      const list = Array.isArray(bal) ? bal : bal ? [bal] : [];
+      for (const b of list) {
+        const amount = Number(b.amount);
+        if (Number.isFinite(amount) && b.currencyCode) pending.push({ amount, currency: b.currencyCode });
+      }
+    } catch (err) {
+      skipped.push(`${config.market} (${(err as Error).message.slice(0, 60)})`);
+    }
+  }
+  // Conversion EUR : EUR direct, USD au taux figé, le reste (GBP…) au taux
+  // Wise du jour quand le jeton Wise est là — sinon la devise est ignorée
+  // et signalée (jamais convertie au pif).
+  const others = [...new Set(pending.map((p) => p.currency).filter((c) => c !== "EUR" && c !== "USD"))];
+  const wiseToken = process.env.WISE_API_TOKEN;
+  const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken) : new Map<string, number>();
+  for (const p of pending) {
+    const cents = Math.round(p.amount * 100);
+    const eur = toEurCents(cents, p.currency, rates);
+    if (eur === null) skipped.push(`${p.currency} sans taux`);
+    else totalEurCents += eur;
+  }
+  return { totalEurCents, missingScopes, skipped };
+}
+
+const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v1"], {
+  revalidate: 900,
+  tags: ["bank"],
+});
 
 const WINDOW_DAYS = 30;
 
@@ -853,11 +1017,17 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       reconciliation,
       control,
       warnings: [],
+      slashCashbackEurCents: 2150,
+      enRoute: { totalEurCents: 185000, missingScopes: false },
     };
   }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
+  let slashCashbackEurCents: number | null = null;
+  // Argent en route (solde Shopify Payments réel) — lancé en parallèle des
+  // banques, jamais bloquant : échec = null, le bloc bascule en estimation.
+  const enRoutePromise = fetchShopifyEnRouteCached().catch(() => null);
   if (!process.env.WISE_API_TOKEN) {
     setup.push("Wise : ajouter WISE_API_TOKEN (jeton read-only) dans les variables Vercel.");
   } else {
@@ -879,6 +1049,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
+      slashCashbackEurCents = typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD") : null;
       slashConnected = true;
       if ((slash.balances ?? []).length === 0) {
         warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
@@ -941,5 +1112,24 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   const control =
     txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
 
-  return { ready: txs.length > 0, setup, slashConnected, balances, txs: txs.slice(0, 120), reconciliation, control, warnings };
+  const enRouteRes = await enRoutePromise;
+  const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
+  if (enRouteRes?.missingScopes) {
+    setup.push(
+      "Argent en route : ajouter les scopes read_shopify_payments_accounts + read_shopify_payments_payouts sur chaque app custom (dev.shopify.com → app → Scopes) pour lire le solde exact que Shopify vous doit."
+    );
+  }
+
+  return {
+    ready: txs.length > 0,
+    setup,
+    slashConnected,
+    balances,
+    txs: txs.slice(0, 200),
+    reconciliation,
+    control,
+    warnings,
+    slashCashbackEurCents,
+    enRoute,
+  };
 }

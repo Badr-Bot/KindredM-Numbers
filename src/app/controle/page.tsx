@@ -26,7 +26,7 @@ export default async function ControlPage() {
   if (mode === "unconfigured") {
     return (
       <div>
-        <PageHeading emoji="🛃" title="Contrôle" />
+        <PageHeading emoji="🧾" title="Le comptable" />
         <EmptyState />
       </div>
     );
@@ -37,9 +37,9 @@ export default async function ControlPage() {
   return (
     <div>
       <PageHeading
-        emoji="🛃"
-        title="Contrôle"
-        subtitle="Banque (prévu vs réel) · campagnes Meta non affectées — lecture seule"
+        emoji="🧾"
+        title="Le comptable"
+        subtitle="Encaissé vs décaissé · marge réelle · anomalies · à qui appartient l'argent — lecture seule"
       />
 
       <section className="mb-6">
