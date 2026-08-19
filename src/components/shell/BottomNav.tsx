@@ -43,13 +43,13 @@ export function BottomNav() {
         {ITEMS.map((item) => {
           const active = pathname === item.href;
           return (
-            <li key={item.href} className="min-w-0">
+            <li key={item.href} className="flex-none">
               <Link
                 href={item.href}
                 onClick={() => play("tab")}
                 aria-current={active ? "page" : undefined}
                 aria-label={item.label}
-                className={`group flex items-center gap-1.5 rounded-full px-2.5 py-2.5 transition-all duration-300 ease-out ${
+                className={`group flex items-center rounded-full px-2.5 py-2.5 transition-colors duration-300 ease-out ${
                   active
                     ? "bg-white/10 text-phosphor-brand shadow-[inset_0_0_0_1px_rgba(255,255,255,0.10)]"
                     : "text-white/45 hover:bg-white/5 hover:text-white/85"
@@ -63,12 +63,21 @@ export function BottomNav() {
                 >
                   {item.emoji}
                 </span>
+                {/* Le nom s'ouvre vers sa largeur NATURELLE (grid 0fr→1fr) :
+                    jamais tronqué, quelle que soit sa longueur — le max-width
+                    fixe coupait « ANNÉE » en « ANN… » (Badr, 19/08). */}
                 <span
-                  className={`overflow-hidden whitespace-nowrap text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ease-out ${
-                    active ? "max-w-[76px] opacity-100" : "max-w-0 opacity-0"
+                  className={`grid transition-[grid-template-columns] duration-300 ease-out ${
+                    active ? "grid-cols-[1fr]" : "grid-cols-[0fr]"
                   }`}
                 >
-                  {item.label}
+                  <span
+                    className={`overflow-hidden whitespace-nowrap pl-1.5 text-[10px] font-bold uppercase tracking-wider transition-opacity duration-300 ${
+                      active ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
                 </span>
               </Link>
             </li>
