@@ -854,6 +854,8 @@ export interface BankReport {
   /** Cashback Slash gagné sur la fenêtre (contre-valeur EUR) — à récupérer,
    * pas encore de l'argent entré. null = Slash absent. */
   slashCashbackEurCents: number | null;
+  /** Cashback TOTAL depuis le tout début (macaron, Badr 19/08). */
+  cashbackTotalEurCents: number | null;
   /** Argent EN ROUTE : le solde Shopify Payments réel (ce que Shopify doit,
    * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
    * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
@@ -920,6 +922,52 @@ const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute
   revalidate: 900,
   tags: ["bank"],
 });
+
+/** CASHBACK TOTAL depuis le tout début (macaron demandé par Badr 19/08 :
+ * « pour se rendre compte de ce que ça représente ») — balayage léger de
+ * toutes les transactions Slash depuis le début d'activité, on ne somme QUE
+ * cashbackInfo. Cache 1 h : le total ne bouge pas à la minute. */
+async function fetchSlashCashbackTotal(sinceDay: string): Promise<number> {
+  const token = process.env.SLASH_API_TOKEN;
+  if (!token) throw new Error("SLASH_API_TOKEN manquant.");
+  let legalEntity: string | null = null;
+  const call = (cursor: string | null): Promise<Response> => {
+    const qs = new URLSearchParams({ "filter:from_date": String(Date.parse(`${sinceDay}T00:00:00.000Z`)) });
+    if (cursor) qs.set("cursor", cursor);
+    const headers: Record<string, string> = { "X-API-Key": token };
+    if (legalEntity) headers["x-legal-entity"] = legalEntity;
+    return fetch(`${SLASH_API}/transaction?${qs}`, { headers });
+  };
+  let res = await call(null);
+  if (res.status === 400 && !legalEntity) {
+    const leRes = await fetch(`${SLASH_API}/legal-entity`, { headers: { "X-API-Key": token } });
+    if (!leRes.ok) throw new Error(`Slash /legal-entity : HTTP ${leRes.status}`);
+    const leJson = (await leRes.json()) as { items?: { id?: string }[] } | { id?: string }[];
+    const arr = Array.isArray(leJson) ? leJson : (leJson.items ?? []);
+    legalEntity = arr[0]?.id ?? null;
+    if (!legalEntity) throw new Error("Slash : aucune legal entity.");
+    res = await call(null);
+  }
+  let totalCents = 0;
+  for (let page = 0; page < 60; page++) {
+    if (!res.ok) throw new Error(`Slash /transaction (cashback) : HTTP ${res.status}`);
+    const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
+    for (const t of json.items ?? []) {
+      const cb = t.cashbackInfo?.amountCents;
+      if (typeof cb === "number" && cb > 0) totalCents += cb;
+    }
+    const next = json.metadata?.nextCursor;
+    if (!next) break;
+    res = await call(next);
+  }
+  return totalCents;
+}
+
+const fetchSlashCashbackTotalCached = unstable_cache(
+  async (sinceDay: string) => fetchSlashCashbackTotal(sinceDay),
+  ["slash-cashback-total-v1"],
+  { revalidate: 3600, tags: ["bank"] }
+);
 
 const WINDOW_DAYS = 30;
 
@@ -1018,6 +1066,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       control,
       warnings: [],
       slashCashbackEurCents: 2150,
+      cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
     };
   }
@@ -1025,9 +1074,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
   let slashCashbackEurCents: number | null = null;
-  // Argent en route (solde Shopify Payments réel) — lancé en parallèle des
-  // banques, jamais bloquant : échec = null, le bloc bascule en estimation.
+  // Argent en route (solde Shopify Payments réel) + cashback total depuis le
+  // début — lancés en parallèle des banques, jamais bloquants.
   const enRoutePromise = fetchShopifyEnRouteCached().catch(() => null);
+  const cashbackTotalPromise = process.env.SLASH_API_TOKEN
+    ? fetchSlashCashbackTotalCached("2026-05-01").catch(() => null)
+    : Promise.resolve(null);
   if (!process.env.WISE_API_TOKEN) {
     setup.push("Wise : ajouter WISE_API_TOKEN (jeton read-only) dans les variables Vercel.");
   } else {
@@ -1112,7 +1164,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   const control =
     txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
 
-  const enRouteRes = await enRoutePromise;
+  const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
+  const cashbackTotalEurCents = typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD") : null;
   const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
   if (enRouteRes?.missingScopes) {
     setup.push(
@@ -1130,6 +1183,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     control,
     warnings,
     slashCashbackEurCents,
+    cashbackTotalEurCents,
     enRoute,
   };
 }
