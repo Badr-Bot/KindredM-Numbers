@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { isExcludedCampaign, type CampaignActivity } from "./meta";
 import { addDaysToDay, toParisDay } from "./time";
@@ -1017,6 +1018,33 @@ export function computeScaling(input: {
 // buildRoasReport : tout le calcul est dans computeScaling (pur, testé).
 // ---------------------------------------------------------------------------
 
+// P4 (audit perf) — les 2 appels Meta live, cachés 60 s : les budgets et
+// activités ne bougent que quand Badr les bouge ; 60 s de retard est
+// invisible pour une décision nocturne, et le tag « meta-live » est invalidé
+// par le bouton Actualiser. ⚠️ unstable_cache sérialise en JSON : la Map de
+// fetchCampaignLiveInfos passe par un tableau d'entrées.
+const fetchCampaignLiveInfosCached = unstable_cache(
+  async () => {
+    const { fetchCampaignLiveInfos } = await import("./meta");
+    return [...(await fetchCampaignLiveInfos())];
+  },
+  ["meta-live-infos"],
+  { revalidate: 60, tags: ["meta-live"] }
+);
+const fetchCampaignActivitiesCached = unstable_cache(
+  async (sinceDay: string) => {
+    const { fetchCampaignActivities } = await import("./meta");
+    return fetchCampaignActivities(sinceDay);
+  },
+  ["meta-activities"],
+  { revalidate: 60, tags: ["meta-live"] }
+);
+
+// P2 (audit perf) — la sonde « reach » ne peut pas régresser dans la vie d'un
+// process (un schéma migré le reste) : on ne re-sonde que tant qu'elle n'a
+// pas répondu vrai. Économise 1 aller-retour séquentiel à chaque chargement.
+let hasReachMemo: boolean | null = null;
+
 export async function buildScalingReport(
   supabase: SupabaseClient,
   today: string,
@@ -1024,10 +1052,22 @@ export async function buildScalingReport(
 ): Promise<ScalingReport> {
   const startDay = addDaysToDay(today, -(NB_FENETRES + NB_JOURS_TABLEAU));
 
-  // reach n'existe sur meta_insights que depuis la migration 0007 : on sonde
-  // avant de le demander, sinon une base non migrée ferait échouer TOUT.
-  const { error: reachProbeError } = await supabase.from("meta_insights").select("reach").limit(1);
-  const hasReach = !reachProbeError;
+  // P1 (audit perf) — seuils produit + Meta live ne dépendent d'AUCUNE lecture
+  // Supabase ci-dessous : lancés immédiatement, leur latence (Meta : 0,3-2 s)
+  // est recouverte par la chaîne Supabase au lieu de s'y additionner.
+  const sidePromise = import("./analytics").then(({ getProductRoasThresholds }) =>
+    Promise.all([
+      getProductRoasThresholds(liveDay ? addDaysToDay(today, -1) : today).catch(() => null),
+      fetchCampaignLiveInfosCached().catch(() => null),
+      fetchCampaignActivitiesCached(startDay).catch(() => null),
+    ] as const)
+  );
+
+  if (hasReachMemo !== true) {
+    const { error: reachProbeError } = await supabase.from("meta_insights").select("reach").limit(1);
+    hasReachMemo = !reachProbeError;
+  }
+  const hasReach = hasReachMemo;
   const insightCols =
     "day, campaign_id, campaign_name, spend_cents, purchases, purchase_value_cents, impressions, clicks" +
     (hasReach ? ", reach" : "");
@@ -1147,16 +1187,9 @@ export async function buildScalingReport(
     }
   }
 
-  const [{ getProductRoasThresholds }, { fetchCampaignLiveInfos, fetchCampaignActivities }] = await Promise.all([
-    import("./analytics"),
-    import("./meta"),
-  ]);
   // Seuils calculés sur les 14 jours CLOS (un jour partiel fausserait le CM).
-  const [productThresholds, liveInfos, activities] = await Promise.all([
-    getProductRoasThresholds(liveDay ? addDaysToDay(today, -1) : today).catch(() => null),
-    fetchCampaignLiveInfos().catch(() => null),
-    fetchCampaignActivities(startDay).catch(() => null),
-  ]);
+  const [productThresholds, liveEntries, activities] = await sidePromise;
+  const liveInfos = liveEntries ? new Map(liveEntries) : null;
 
   const report = computeScaling({
     today,

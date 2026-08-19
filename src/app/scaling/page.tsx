@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getDataMode, referenceToday } from "@/lib/data";
 import { formatInTimeZone } from "date-fns-tz";
 import { BASCULE_HEURE, buildScalingReport, decisionDayFor, type ScalingReport } from "@/lib/scaling";
@@ -23,6 +24,24 @@ export default async function ScalingPage() {
     );
   }
 
+  // Le shell (titre, nav) peint immédiatement ; le board arrive en streaming
+  // dès que les données sont prêtes (audit perf P5) — le temps total ne change
+  // pas, l'attente devant un écran vide, si.
+  return (
+    <div>
+      <PageHeading
+        emoji="🪜"
+        title="Meta Scaling"
+        subtitle="Protocole Master (leçon 35) — décision de la nuit + fenêtre en cours, budgets lus sur Meta"
+      />
+      <Suspense fallback={<BoardSkeleton />}>
+        <BoardLoader />
+      </Suspense>
+    </div>
+  );
+}
+
+async function BoardLoader() {
   let report: ScalingReport;
   try {
     const today = await referenceToday();
@@ -35,22 +54,18 @@ export default async function ScalingPage() {
       parisHour >= BASCULE_HEURE
     );
   } catch (err) {
-    return (
-      <div>
-        <PageHeading emoji="🪜" title="Meta Scaling" />
-        <DataError message={(err as Error).message} />
-      </div>
-    );
+    return <DataError message={(err as Error).message} />;
   }
+  return <ScalingBoard report={report} />;
+}
 
+function BoardSkeleton() {
   return (
-    <div>
-      <PageHeading
-        emoji="🪜"
-        title="Meta Scaling"
-        subtitle="Protocole Master (leçon 35) — décision de la nuit + fenêtre en cours, application vérifiée sur Meta"
-      />
-      <ScalingBoard report={report} />
+    <div className="flex animate-pulse flex-col gap-4" aria-label="Chargement des verdicts…">
+      <div className="h-16 rounded-lg border border-line bg-panel/40" />
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="card-shadow h-64 rounded-xl border border-line bg-panel/60" />
+      ))}
     </div>
   );
 }
