@@ -80,6 +80,11 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
       )}
       {c.action === "HOLD" && <span className="text-[11px] font-bold text-ink">budget inchangé — on rejuge à minuit</span>}
       {c.action === "RESCUE" && <span className="text-[11px] font-bold text-ink">on ne rabote plus — voir le diagnostic 🩺</span>}
+      {c.dayAloneNote && (
+        <span className="max-w-[340px] rounded-md border border-amber/50 bg-amber/[0.07] px-2 py-1 text-[10.5px] font-semibold leading-snug text-amber">
+          ⚠️ {c.dayAloneNote}
+        </span>
+      )}
     </div>
   );
 }

@@ -87,7 +87,9 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // le compte, virement entre nos propres comptes Slash ↔ Wise). Jamais dans
   // « À affecter », jamais dans les parts — remarque Badr 19/08 : « juste
   // j'ai pris USD et je l'ai converti en euros, c'est resté dans le compte ».
-  if (/^converted\b/.test(d) || /kindredm/.test(d)) return { category: "INTERNE", subscriptionLabel: null };
+  // (« wise » couvre les virements Slash → Wise vus côté Slash — un marchand
+  // nommé « wise » serait un faux positif, assumé et signalé ici.)
+  if (/^converted\b/.test(d) || /kindredm/.test(d) || /\bwise\b/.test(d)) return { category: "INTERNE", subscriptionLabel: null };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };
@@ -176,6 +178,8 @@ export interface SlashTx {
   detailedStatus: string;
   memo?: string;
   merchantData?: { description?: string };
+  /** Carte associée (absente hors transactions carte). */
+  cardId?: string;
 }
 
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
@@ -232,17 +236,53 @@ export async function fetchSlashData(sinceDay: string, untilDay: string): Promis
     res = await call(null);
   }
 
-  const txs: BankTx[] = [];
+  const raw: SlashTx[] = [];
   for (let page = 0; page < 20; page++) {
     if (!res.ok) throw new Error(`Slash /transaction : HTTP ${res.status} — ${(await res.text()).slice(0, 200)}`);
     const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
-    for (const t of json.items ?? []) {
-      const mapped = mapSlashTx(t);
-      if (mapped) txs.push(mapped);
-    }
+    raw.push(...(json.items ?? []));
     const next = json.metadata?.nextCursor;
     if (!next) break;
     res = await call(next);
+  }
+
+  // Cartes : le TITULAIRE de la carte décide de la case (Badr 19/08 : « les
+  // dépenses des cartes Fahd/Adnane, c'est le perso d'Adnane — moi j'ai zéro
+  // dépense tant que je n'ai pas utilisé la carte Badr »). Seuls les débits
+  // AUTRE sont auto-affectés (Meta/abos restent des charges société) ; une
+  // affectation MANUELLE (bank_tx_labels) écrase toujours l'auto.
+  const owners = new Map<string, { label: TxLabel; note: string }>();
+  try {
+    const headers: Record<string, string> = { "X-API-Key": token };
+    if (legalEntity) headers["x-legal-entity"] = legalEntity;
+    const cardsRes = await fetch(`${SLASH_API}/card`, { headers });
+    if (cardsRes.ok) {
+      const cardsJson = (await cardsRes.json()) as { items?: Record<string, unknown>[] };
+      for (const c of cardsJson.items ?? []) {
+        const id = typeof c.id === "string" ? c.id : null;
+        if (!id) continue;
+        const name =
+          [c.name, c.nickname, c.displayName, c.cardholderName]
+            .concat(typeof c.cardholder === "object" && c.cardholder !== null ? [(c.cardholder as Record<string, unknown>).name, (c.cardholder as Record<string, unknown>).fullName] : [])
+            .find((v): v is string => typeof v === "string" && v.length > 0) ?? "";
+        if (/adnane|fahd/i.test(name)) owners.set(id, { label: "PERSO_FAHD", note: `auto : carte « ${name} »` });
+        else if (/badr/i.test(name)) owners.set(id, { label: "PERSO_BADR", note: `auto : carte « ${name} »` });
+      }
+    }
+  } catch {
+    // cartes illisibles : pas bloquant, l'affectation reste manuelle
+  }
+
+  const txs: BankTx[] = [];
+  for (const t of raw) {
+    const mapped = mapSlashTx(t);
+    if (!mapped) continue;
+    const owner = t.cardId ? owners.get(t.cardId) : undefined;
+    if (owner && mapped.category === "AUTRE" && mapped.amountCents < 0) {
+      mapped.label = owner.label;
+      mapped.labelNote = owner.note;
+    }
+    txs.push(mapped);
   }
   return { txs };
 }
@@ -556,21 +596,26 @@ export function computeControl(input: {
     }
   }
 
-  // 6) Double débit : même jour, même montant, même libellé.
-  const seen = new Map<string, BankTx>();
+  // 6) Double débit : même jour, même montant, même libellé — UNE alerte par
+  //    groupe (3 passages identiques ne font pas 2 alertes), et uniquement
+  //    sur l'argent SOCIÉTÉ : deux courses Careem identiques sur la carte
+  //    perso d'Adnane ne sont pas un sujet de contrôle LLC (Badr 19/08).
+  const seen = new Map<string, { tx: BankTx; count: number }>();
   for (const t of debits) {
+    if (t.label === "PERSO_BADR" || t.label === "PERSO_FAHD") continue;
     const key = `${t.day}|${t.amountCents}|${t.description.toLowerCase().replace(/\s+/g, " ").trim()}`;
-    const dup = seen.get(key);
-    if (dup) {
-      anomalies.push({
-        kind: "DOUBLE_DEBIT",
-        severity: "amber",
-        label: `Double débit possible le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : « ${t.description} » ×2 (${eur(t.amountCents)})`,
-        detail: "Deux passages identiques le même jour — si c'est voulu, marque l'un des deux « Ignorer ».",
-      });
-    } else {
-      seen.set(key, t);
-    }
+    const g = seen.get(key);
+    if (g) g.count++;
+    else seen.set(key, { tx: t, count: 1 });
+  }
+  for (const { tx: t, count } of seen.values()) {
+    if (count < 2) continue;
+    anomalies.push({
+      kind: "DOUBLE_DEBIT",
+      severity: "amber",
+      label: `Double débit possible le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : « ${t.description} » ×${count} (${eur(t.amountCents)} chacun)`,
+      detail: "Passages identiques le même jour — si c'est voulu, marque les doublons « Ignorer ».",
+    });
   }
 
   // Parts : Société = catégories société + affectés SOCIETE ; perso = affectés.
