@@ -149,14 +149,14 @@ describe("verdicts et crans (décision de la nuit)", () => {
     expect(one.campaigns[0].cran).toBe(1);
     expect(one.campaigns[0].action).toBe("HOLD");
 
-    const all = computeScaling({ today: TODAY, rows: mkSeries([0.05]), thresholds: TH, live: null, activities: null });
+    const all = computeScaling({ today: TODAY, rows: mkSeries([-0.1]), thresholds: TH, live: null, activities: null });
     expect(all.campaigns[0].action).toBe("RESCUE");
     expect(all.campaigns[0].cran).toBe(4);
     expect(all.campaigns[0].sauvetageDiagnostic).toBeTruthy();
   });
 
   it("2-3 NON → REDUIRE avec UN chiffre (−15 %)", () => {
-    const rows = mkSeries([0.25, 0.25, 0.25, 0.25, 0.05, 0.05, 0.05]);
+    const rows = mkSeries([0.25, 0.25, 0.25, 0.25, -0.1, -0.1, -0.1]);
     const r = computeScaling({
       today: TODAY,
       rows,
@@ -169,7 +169,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
   });
 
   it("un OUI au milieu remet le compteur à zéro", () => {
-    const rows = mkSeries([0.05, 0.05, 0.05, 0.25, 0.25, 0.14, 0.14]);
+    const rows = mkSeries([-0.1, -0.1, -0.1, 0.25, 0.25, 0.14, 0.14]);
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns[0].action).not.toBe("RESCUE");
   });
@@ -181,6 +181,66 @@ describe("verdicts et crans (décision de la nuit)", () => {
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     expect(r.campaigns[0].nonStreak).toBe(1);
     expect(r.campaigns[0].action).toBe("HOLD");
+  });
+});
+
+describe("barème T24 [17:15] : bandes de marge (arbitrage Badr 19/08 : la formation prime)", () => {
+  const withBudget = (rows: ScalingDailyRow[], budgetCents: number) =>
+    computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: budgetCents, updatedTime: null }]]),
+      activities: [],
+    });
+
+  it("marge 0-10 % → HOLD « on ne fait rien, stabiliser »", () => {
+    const r = withBudget(mkSeries([0.07]), 30000);
+    expect(r.campaigns[0].action).toBe("HOLD");
+    expect(r.campaigns[0].why).toContain("stabiliser");
+    expect(r.campaigns[0].nonStreak).toBe(0); // pas une perte : aucun cran consommé
+  });
+
+  it("marge 10-15 % → SCALE LIGHT +10 % « on augmente un petit peu »", () => {
+    const r = withBudget(mkSeries([0.12]), 30000);
+    const c = r.campaigns[0];
+    expect(c.action).toBe("SCALE");
+    expect(c.scaleKind).toBe("LIGHT");
+    expect(c.suggestedCents).toBe(33000); // 300 € +10 % = 330 €
+  });
+
+  it("marge 15-30 % → SCALE palier (×2 plafonné à 500 sous 500)", () => {
+    const r = withBudget(mkSeries([0.2]), 30000);
+    const c = r.campaigns[0];
+    expect(c.scaleKind).toBe("LADDER");
+    expect(c.suggestedCents).toBe(50000);
+  });
+
+  it("marge > 30 % → DOUBLE « tant que c'est bien, je double »", () => {
+    const r = withBudget(mkSeries([0.35]), 80000); // 800 €/j, marge 35 %
+    const c = r.campaigns[0];
+    expect(c.action).toBe("SCALE");
+    expect(c.scaleKind).toBe("DOUBLE");
+    expect(c.suggestedCents).toBe(160000); // 800 → 1600, pas le palier 1000
+  });
+
+  it("DOUBLE respecte le plafond 500 sous 500 (lecture Badr) et le seuil 3000", () => {
+    const under = withBudget(mkSeries([0.35]), 30000);
+    expect(under.campaigns[0].suggestedCents).toBe(50000); // 300 ×2 = 600 → 500
+    const near = withBudget(mkSeries([0.35]), 200000);
+    expect(near.campaigns[0].suggestedCents).toBe(300000); // 2000 ×2 = 4000 → 3000
+  });
+
+  it("une fenêtre STABLE (0-10 %) casse une série de pertes", () => {
+    // pertes puis un jour à ~7 % : le compteur repart de zéro (pas un NON)
+    const rows = [
+      ...[12, 13, 14].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
+      ...[15, 16].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.07))),
+      ...[17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
+      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1)),
+    ];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
+    expect(r.campaigns[0].action).not.toBe("RESCUE");
   });
 });
 
@@ -251,7 +311,7 @@ describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)
   });
 
   it("série de NON mais AUCUNE réduction exécutée → plafonné à DESCALE, jamais RESCUE", () => {
-    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: [] });
     expect(r.campaigns[0].action).toBe("DESCALE");
     expect(r.campaigns[0].why).toContain("aucune réduction encore exécutée");
@@ -260,7 +320,7 @@ describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)
   it("le streak ne compte qu'à partir du premier mouvement de budget réel", () => {
     // NON depuis le 12, mais premier mouvement le 17 → seules les fenêtres
     // finissant le 17+ comptent : streak 2 → DESCALE cran 2, pas RESCUE.
-    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY,
       rows,
@@ -273,7 +333,7 @@ describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)
   });
 
   it("RESCUE possible une fois les réductions réellement déroulées", () => {
-    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY,
       rows,
@@ -399,10 +459,10 @@ describe("plan créas (T36/T37)", () => {
   });
 
   it("HOLD sans saturation : pas de plan imposé (assertions dures)", () => {
-    // 6 jours excellents puis AUJOURD'HUI franchement mauvais : la fenêtre
-    // 17+18 (mixte) passe sous 15 % → 1er NON → HOLD garanti. Volumes
-    // constants jour à jour → pas de cpmrRising.
-    const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, 1.2)];
+    // 6 jours excellents puis AUJOURD'HUI médiocre : la fenêtre 17+18
+    // (mixte) atterrit en bande STABLE (marge ~8 %, T24 : « on ne fait rien,
+    // stabiliser ») → HOLD garanti. Volumes constants → pas de cpmrRising.
+    const rows = [...mkSeries([0.25]), row(TODAY, "c1", "POLO A", 100, 1.0)];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const c = r.campaigns[0];
     expect(c.action).toBe("HOLD");
@@ -411,7 +471,7 @@ describe("plan créas (T36/T37)", () => {
   });
 
   it("RESCUE : le plan suit le cadran (créas → hooks/angles/mécanismes)", () => {
-    const rows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY,
       rows,
@@ -445,7 +505,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     };
   };
   /** 14 jours de série NON → la campagne est en RESCUE (avec réductions vues). */
-  const rescueRows = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+  const rescueRows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
   const executedDescales = [
     { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
     { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
@@ -491,9 +551,9 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     // CPC de la dernière fenêtre très au-dessus de l'historique (moins de
     // clics pour le même spend), CVR stable.
     const rows = [
-      ...[12, 13, 14, 15, 16].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.05), { clicks: 400, purchases: 8 })),
-      row(d(17), "c1", "POLO A", 100, roasForMargin(0.626, 0.05), { clicks: 100, purchases: 2 }),
-      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05), { clicks: 100, purchases: 2 }),
+      ...[12, 13, 14, 15, 16].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1), { clicks: 400, purchases: 8 })),
+      row(d(17), "c1", "POLO A", 100, roasForMargin(0.626, -0.1), { clicks: 100, purchases: 2 }),
+      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1), { clicks: 100, purchases: 2 }),
     ];
     const r = computeScaling({
       today: TODAY,
@@ -511,8 +571,8 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
     // 3 NON consécutifs : DESCALE cran 3, mais on veut déjà le diagnostic.
     const rows = [
       ...[12, 13, 14].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
-      ...[15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.05))),
-      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05)),
+      ...[15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
+      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1)),
     ];
     const r = computeScaling({
       today: TODAY,
@@ -620,7 +680,7 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
   it("DESCALE déjà exécuté après la clôture → applied, prescription depuis le budget d'AVANT", () => {
     // Pilotage démarré le 14 (ancre), 2 NON purs (16+17, 17+18) → DESCALE.
     // Badr applique 300→255 à 00h30 (le 19).
-    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, -0.1, -0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY, rows, thresholds: TH,
       live: new Map([["c1", { active: true, dailyBudgetCents: 25500, updatedTime: null }]]),
@@ -635,7 +695,7 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
   });
 
   it("mouvement AVANT la clôture de la fenêtre jugée → pas « appliqué »", () => {
-    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.05, 0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+    const rows = [...mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, -0.1, -0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY, rows, thresholds: TH, live: null,
       activities: [mv("2026-08-16T23:50:00+0200", 350, 300)],
@@ -649,8 +709,8 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
     // plafonné à DESCALE.
     const rows = [
       ...[12, 13].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
-      ...[14, 15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.05))),
-      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05)),
+      ...[14, 15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
+      row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1)),
     ];
     const r = computeScaling({
       today: TODAY, rows, thresholds: TH, live: null,
@@ -677,7 +737,7 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
 });
 
 describe("T37 : signal précoce et anti-redispatch", () => {
-  const rescueRows2 = [...mkSeries([0.05]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.05))];
+  const rescueRows2 = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
   const descales = [
     { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
     { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget" as const, oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },

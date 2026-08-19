@@ -51,7 +51,17 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
   // Badge = le verbe (anglais) + le % ; en dessous, LE budget d'arrivée en
   // gros — l'onglet dit exactement à combien passer (demande Badr 18/08).
   const pct =
-    c.action === "DESCALE" ? "−15 %" : c.action === "SCALE" ? "palier" : c.action === "HOLD" ? "24 h" : "diagnostic";
+    c.action === "DESCALE"
+      ? "−15 %"
+      : c.action === "SCALE"
+        ? c.scaleKind === "LIGHT"
+          ? "+10 %"
+          : c.scaleKind === "DOUBLE"
+            ? "×2"
+            : "palier"
+        : c.action === "HOLD"
+          ? "24 h"
+          : "diagnostic";
   return (
     <div className="flex flex-col items-end gap-1 text-right">
       <span className={`rounded-md border px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide ${meta.badge}`}>
@@ -483,12 +493,13 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
             minuit ; exécution entre 00 h et 7 h sur les chiffres figés.
           </>
         )}{" "}
-        Budgets et mouvements <b className="text-ink">lus sur Meta</b>. Marge ≥ 15 % → <b className="text-phosphor">SCALE</b>{" "}
-        (×2 plafonné à 500 €/j en dessous de 500, puis palier par palier :{" "}
-        <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>) ; sinon un cran par nuit :{" "}
-        <b className="text-amber">HOLD</b> · <b className="text-red">DESCALE −15 %</b> ·{" "}
-        <b className="text-red">DESCALE −15 %</b> · <b className="text-red">RESCUE</b> (seulement après des réductions
-        réellement exécutées). Plancher 100 €/j.
+        Budgets et mouvements <b className="text-ink">lus sur Meta</b>. Barème (T24) sur la marge de la fenêtre :{" "}
+        <b className="text-red">perte</b> → HOLD puis <b className="text-red">DESCALE −15 %</b> (jamais sur un seul rouge —
+        « c&apos;est la meilleure manière de faire du yo-yo »), 4 fenêtres en perte → <b className="text-red">RESCUE</b>{" "}
+        (seulement après des réductions réellement exécutées) · <b className="text-amber">0-10 %</b> → stabiliser ·{" "}
+        <b className="text-phosphor">10-15 %</b> → SCALE +10 % · <b className="text-phosphor">15-30 %</b> → SCALE palier
+        (×2 plafonné à 500 sous 500 €/j, puis <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>) ·{" "}
+        <b className="text-phosphor">&gt; 30 %</b> → DOUBLE ×2 « tant que c&apos;est bien ». Plancher 100 €/j.
       </p>
 
       {report.warnings.length > 0 && (
@@ -504,9 +515,9 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
       ))}
 
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> marge ≥ 15 % — SCALE</span>
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et cible — un cran (HOLD/DESCALE)</span>
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — la campagne perd de l&apos;argent</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> ≥ 15 % — SCALE (palier, ×2 si &gt; 30 %)</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et 15 % — stabiliser (0-10 %) ou +10 % (10-15 %)</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — perte : 2 fenêtres de suite → DESCALE −15 %</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-line bg-panel opacity-60" /> ⏳ fenêtre en cours (provisoire)</span>
       </div>
 
