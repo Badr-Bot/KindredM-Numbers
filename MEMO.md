@@ -111,7 +111,10 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - Budget/j : override `app_state.campaign_daily_budgets` > `daily_budget` Meta > estimation par le spend max (flag « estimé »).
 - Écarts connus vs formation (vérif agent 18/08) : paliers 1850/2250 du schéma Whimsical NON archivé → alignés sur l'audio (1800/2000) en attendant ; fenêtre 3 j « si instable » (T24) signalée par un flag, pas appliquée ; régime SCALING ≥ 3 000 €/j (barème à la marge T35 [15:03]) non codé, warning explicite.
 
-## 🏦 Banque (19/08) — rapprochement prévu vs réel (`/banque`, lien depuis Dépenses)
+## 🛃 Onglet Contrôle (19/08, retour en nav — demande Badr « il faudra un onglet à part de contrôle »)
+- `/controle` revient dans la barre (il en avait été retiré le 08/08 quand il ne portait que l'affectation de campagnes). Il regroupe désormais : **🏦 Banque** (rapprochement prévu vs réel, section ci-dessous) + **📡 Spend non affecté** (campagnes Meta neuves → marché). `/banque` redirige vers `/controle` (une seule source de vérité). Le lien de Dépenses pointe vers Contrôle.
+
+## 🏦 Banque (19/08) — rapprochement prévu vs réel (section de l'onglet 🛃 Contrôle)
 - Demande Badr : « vérifier l'argent qui rentre et sort et voir si ça colle avec ce qui est prévu ». Page HORS nav (règle « minimum d'onglets »), lecture seule de bout en bout (aucun ordre de paiement possible).
 - **Wise branché** (`bank.ts`) : profils → soldes → relevés 30 j (cache 15 min, tag `bank`, invalidé par Actualiser). ⚠️ Les relevés Wise exigent la **SCA** même en read-only : 403 + header `x-2fa-approval` à SIGNER en RSA-SHA256 avec une clé privée dont la clé publique est uploadée sur le compte Wise. Env : `WISE_API_TOKEN` + `WISE_PRIVATE_KEY` (PEM). Sans la clé : message d'installation explicite, pas de crash.
 - Rapprochement : débits META vs spend `daily_aggregates` (Meta facture par PALIERS → seul le total de fenêtre doit coller, dit dans l'UI) · crédits Shopify (payouts, différé 2-4 j) vs CA − frais · abonnements reconnus par mots-clés depuis la liste officielle (`subscriptions.ts`) payé vs attendu · tout le reste en AUTRE, jamais avalé. USD au taux figé. Devise inconnue = affichée, hors totaux, signalée.
