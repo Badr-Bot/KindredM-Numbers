@@ -810,15 +810,19 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
   return { txs, balances, expected };
 }
 
+// ⚠️ Clés VERSIONNÉES : le cache survit aux déploiements — un nouveau code
+// qui lit une entrée écrite par l'ancien (autre forme de retour) plantait la
+// page en prod (crash « reading 'bank' », Badr 19/08 21h33). À CHAQUE
+// changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data"],
+  ["wise-data-v2"],
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data"],
+  ["slash-data-v2"],
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -870,11 +874,13 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   } else {
     try {
       const slash = await fetchSlashCached(sinceDay, untilDay);
-      txs = txs.concat(slash.txs);
+      // « ?? [] » : ceinture-bretelles contre une entrée de cache d'une
+      // version antérieure (le crash prod du 19/08).
+      txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
-      balances = balances.concat(slash.balances);
+      balances = balances.concat(slash.balances ?? []);
       slashConnected = true;
-      if (slash.balances.length === 0) {
+      if ((slash.balances ?? []).length === 0) {
         warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
       }
     } catch (err) {

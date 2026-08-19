@@ -231,6 +231,13 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const entrees = entreesShopify + entreesAutres;
   const sorties = meta + fournisseur + abos + frais + societeAutre;
   const marge = entrees - sorties;
+  // Frais bancaires RÉELS (FX, virements — y compris ceux fondus dans les
+  // postes Meta/Fournisseur via leur transaction d'origine) : absents du net
+  // théorique du dashboard → on les déduit du théorique pour comparer à âmes
+  // égales (Badr 19/08 : « pour Panda inclut les fees, je veux que tout soit
+  // carré »).
+  const fraisReels = -sum((t) => eurOf(t) < 0 && !isPerso(t) && (t.category === "FRAIS" || (t.labelNote?.startsWith("frais lié") ?? false))) || 0;
+  const theoAjuste = netTheoriqueCents !== null ? netTheoriqueCents - fraisReels : null;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="rounded-lg border border-line bg-panel p-3">
@@ -257,12 +264,18 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
           <div>
             <div className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">✅ Marge réelle encaissée</div>
             <div className={`tnum text-[22px] font-extrabold ${marge >= 0 ? "text-phosphor" : "text-red"}`}>{formatEur0(marge)}</div>
-            {netTheoriqueCents !== null && (
+            {netTheoriqueCents !== null && theoAjuste !== null && (
               <p className="mt-1 text-[10px] leading-snug text-ink-dim">
-                Dashboard (théorique) sur la même période : <b className="tnum text-ink">{formatEur0(netTheoriqueCents)}</b> — écart{" "}
-                <b className={`tnum ${marge - netTheoriqueCents >= 0 ? "text-phosphor" : "text-amber"}`}>{formatEur0(marge - netTheoriqueCents)}</b>.
-                Normal en partie : payouts en différé 2-4 j, Meta facture par paliers, COGS fournisseur payé par vagues —
-                mais les frais bancaires/FX, eux, ne sont QUE dans la marge réelle.
+                Dashboard (théorique) sur la même période : <b className="tnum text-ink">{formatEur0(netTheoriqueCents)}</b>
+                {fraisReels > 0 && (
+                  <>
+                    {" "}− frais bancaires réels (FX, virements Panda…) <b className="tnum text-ink">{formatEur0(fraisReels)}</b> ={" "}
+                    <b className="tnum text-ink">{formatEur0(theoAjuste)}</b>
+                  </>
+                )}{" "}
+                — écart vs encaissé{" "}
+                <b className={`tnum ${marge - theoAjuste >= 0 ? "text-phosphor" : "text-amber"}`}>{formatEur0(marge - theoAjuste)}</b>.
+                Reste d&apos;écart normal : payouts en différé 2-4 j, Meta facture par paliers, COGS fournisseur payé par vagues.
               </p>
             )}
           </div>
@@ -282,10 +295,12 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
 // dort), TOUT LE RESTE = Adnane. Sa part doit dépasser son net Année : la
 // différence = l'apport perso qu'il a injecté dans la LLC et qui y est encore.
 function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCents: number; adnaneCents: number } }) {
-  const known = report.balances.filter((b) => b.amountEurCents !== null);
+  // typeof === "number" : blindé contre une entrée de cache d'une version
+  // antérieure sans contre-valeur EUR (crash prod 19/08).
+  const known = report.balances.filter((b) => b && typeof b.amountEurCents === "number");
   if (known.length === 0) return null;
   const totalCents = known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0);
-  const horsTotal = report.balances.filter((b) => b.amountEurCents === null).map((b) => b.currency);
+  const horsTotal = report.balances.filter((b) => b && typeof b.amountEurCents !== "number").map((b) => b.currency);
   const persoBadr = report.control?.parts.persoBadrCents ?? 0;
   const partBadr = annee.badrCents - persoBadr;
   const partAdnane = totalCents - partBadr;
@@ -431,7 +446,7 @@ export function BankBoard({
 
       {report.balances.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {report.balances.map((b) => (
+          {report.balances.filter(Boolean).map((b) => (
             <span key={`${b.bank}-${b.currency}`} className="tnum rounded-lg border border-line bg-panel px-2.5 py-1.5 text-[12px] font-bold text-ink">
               {b.bank} · {money(b.amountCents, b.currency)}
             </span>
