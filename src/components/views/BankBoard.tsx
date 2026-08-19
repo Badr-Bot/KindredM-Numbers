@@ -121,6 +121,21 @@ export function BankBoard({ report }: { report: BankReport }) {
         </div>
       )}
 
+      {control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
+        <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
+          👥 <b className="text-ink">Entre associés (via banque, 30 j)</b> — le perso payé par la LLC est une avance,
+          moitié due à l&apos;autre (50/50) :{" "}
+          {control.parts.soldeBadrDoitAFahdCents === 0 ? (
+            <b className="text-phosphor">équilibré</b>
+          ) : control.parts.soldeBadrDoitAFahdCents > 0 ? (
+            <b className="tnum text-amber">Badr doit {formatEur0(control.parts.soldeBadrDoitAFahdCents)} à Fahd</b>
+          ) : (
+            <b className="tnum text-amber">Fahd doit {formatEur0(-control.parts.soldeBadrDoitAFahdCents)} à Badr</b>
+          )}
+          . S&apos;ajoute au solde historique « Entre associés » de l&apos;onglet Année (avances perso → société).
+        </p>
+      )}
+
       {control && control.toAssign.length > 0 && (
         <div className="rounded-lg border border-red/40 bg-panel p-3">
           <div className="text-[9.5px] font-bold uppercase tracking-wider text-red">📥 À affecter — chaque euro doit avoir une case</div>

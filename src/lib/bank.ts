@@ -31,9 +31,9 @@ const WISE_API = "https://api.wise.com";
 export type BankName = "WISE" | "SLASH";
 export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "AUTRE";
 /** Affectation manuelle d'une transaction (table bank_tx_labels).
- * ⚠️ FAHD : nom donné par Badr le 19/08 pour l'associé — le ledger historique
- * du dashboard (associateLedger) parle d'« Adnane » ; à fusionner quand Badr
- * confirme si c'est la même personne. */
+ * FAHD = ADNANE (confirmé Badr 19/08) : même personne que l'associé du
+ * ledger « Entre associés ». Une dépense perso payée par la carte LLC est
+ * une avance de la société : la moitié est due à l'AUTRE associé (50/50). */
 export type TxLabel = "SOCIETE" | "PERSO_BADR" | "PERSO_FAHD" | "IGNORER";
 
 export interface BankTx {
@@ -286,6 +286,11 @@ export interface OwnerParts {
   /** débits pas encore affectés — la case interdite */
   aAffecterCents: number;
   aAffecterCount: number;
+  /** Solde entre associés induit par les dépenses PERSO payées par la LLC
+   * (50/50) : positif = Badr doit à Fahd, négatif = Fahd doit à Badr.
+   * = (persoBadr − persoFahd) / 2. S'AJOUTE au ledger historique de l'onglet
+   * Année (avances perso → société), il ne le remplace pas. */
+  soldeBadrDoitAFahdCents: number;
 }
 
 export interface ControlReport {
@@ -416,6 +421,7 @@ export function computeControl(input: {
       persoFahdCents: sumAbs(fahd),
       aAffecterCents: sumAbs(toAssign),
       aAffecterCount: toAssign.length,
+      soldeBadrDoitAFahdCents: Math.round((sumAbs(badr) - sumAbs(fahd)) / 2),
     },
     toAssign: [...toAssign].sort((a, b) => b.day.localeCompare(a.day)),
   };

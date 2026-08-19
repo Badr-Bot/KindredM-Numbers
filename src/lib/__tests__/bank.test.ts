@@ -113,3 +113,16 @@ describe("computeControl — anomalies et parts", () => {
     expect(c.parts.aAffecterCents).toBe(0);
   });
 });
+
+
+describe("entre associés via banque (Fahd = Adnane, 50/50)", () => {
+  it("le perso payé par la LLC crée une dette de la moitié vers l'autre", () => {
+    const txs = [
+      tx("2026-08-18", "Resto", -100, { label: "PERSO_BADR" }),
+      tx("2026-08-17", "Uber", -40, { label: "PERSO_FAHD" }),
+    ];
+    const c = computeControl({ txs, reconciliation: null, sinceDay: "2026-07-21", untilDay: "2026-08-19" });
+    // (100 − 40) / 2 = 30 € : Badr doit 30 € à Fahd
+    expect(c.parts.soldeBadrDoitAFahdCents).toBe(3000);
+  });
+});
