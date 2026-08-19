@@ -98,7 +98,10 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // « Entre associés » (associateLedger.ts), le reste est une charge société
   // directe. Mois de départ exact non donné → juillet assumé (cohérent avec
   // « depuis 2 mois » dit le 08/08 et « 3e mois = septembre »), signalé.
-  { label: "Hushed (Adnane)", category: "OUTIL", amount: 7.99, currency: "EUR", startDay: "2026-07-01", endDay: null, note: "Payé perso par Adnane en juillet + août (2 mois), carte LLC à partir de septembre (Badr 08/08). Mois de départ approximatif." },
+  // 19/08 (Badr) : « Hushed ça continue, c'est Adnane qui le paye toujours
+  // depuis son compte perso » — ANNULE le passage carte LLC prévu en
+  // septembre (08/08). paidBy posé → exclu du contrôle bancaire LLC.
+  { label: "Hushed (Adnane)", category: "OUTIL", amount: 7.99, currency: "EUR", startDay: "2026-07-01", endDay: null, paidBy: "ADNANE", note: "Payé perso par Adnane en continu (Badr 19/08 — annule le passage carte LLC de septembre). Mois de départ approximatif." },
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
