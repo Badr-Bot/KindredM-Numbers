@@ -46,7 +46,14 @@ function buildTiles(report: BankReport, unmappedCount: number): DomainTile[] {
       : { title: "Banques", health: "amber", value: "À brancher", note: "Ajouter les jetons dans Vercel — voir en dessous." }
     : report.slashConnected
       ? { title: "Banques", health: "green", value: "Wise ✓ · Slash ✓", note: "Les deux comptes remontent." }
-      : { title: "Banques", health: "amber", value: "Wise ✓ · Slash à brancher", note: "Doc API Slash en attente." };
+      : {
+          title: "Banques",
+          health: "amber",
+          value: "Wise ✓ · Slash ✗",
+          note: report.warnings.some((w) => w.startsWith("Slash"))
+            ? "Erreur Slash — voir le message en dessous."
+            : "Clé Slash manquante dans Vercel (SLASH_API_TOKEN).",
+        };
 
   const nAffecter = control?.parts.aAffecterCount ?? 0;
   const affectations: DomainTile =
