@@ -242,8 +242,17 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
-      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-        🧾 Encaissé / décaissé depuis le {dd}
+      <div className="flex items-center justify-between gap-2">
+        <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+          🧾 Encaissé / décaissé depuis le {dd}
+        </div>
+        {report.cashbackTotalEurCents !== null && report.cashbackTotalEurCents > 0 && (
+          // 🎁 Macaron cashback (Badr 19/08 : « le total depuis le tout début
+          // pour se rendre compte de ce que ça représente »)
+          <span className="shrink-0 rounded-full border border-phosphor/50 bg-phosphor/10 px-2.5 py-1 text-[10.5px] font-extrabold text-phosphor shadow-[0_0_10px_rgba(0,200,120,0.15)]">
+            🎁 Cashback total : +{formatEur0(report.cashbackTotalEurCents)}
+          </span>
+        )}
       </div>
       <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="flex flex-col gap-1">
