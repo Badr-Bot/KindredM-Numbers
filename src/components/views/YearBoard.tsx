@@ -17,14 +17,12 @@ import { MarketTabs } from "../shell/MarketTabs";
 import {
   applyAssociateLedger,
   applyFixedCharges,
-  badrShareFor,
+  associateTotalsSinceStart,
   fillYearMonths,
   monthlySharesFrom,
   type DailyNetByMarket,
 } from "@/lib/associates";
-import { badrNetLedgerCentsForDay } from "@/lib/associateLedger";
 import { listParisDays } from "@/lib/time";
-import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "@/lib/subscriptions";
 
 const EMPTY: Totals = {
   orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0, cogsUpsellsCents: 0,
@@ -75,58 +73,14 @@ export function YearBoard({
     return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
   }, [dayData]);
 
-  // 👥 Net par associé (règle par boutique)
+  // 👥 Net par associé — arithmétique UNIQUE dans lib/associates.ts
+  // (associateTotalsSinceStart), partagée avec le contrôle bancaire.
   const partners = useMemo(() => {
-    let adnane = 0;
-    let badr = 0;
-    let soloNet = 0;
-    let sharedNet = 0;
-    for (const m of MARKETS) {
-      for (const r of dayData[m]) {
-        const share = badrShareFor(m, r.day);
-        if (share === 0) {
-          adnane += r.netCents;
-          soloNet += r.netCents;
-        } else {
-          const badrPart = r.netCents * share;
-          badr += badrPart;
-          adnane += r.netCents - badrPart;
-          sharedNet += r.netCents;
-        }
-      }
-    }
-    // Charges fixes (08/08) : transverses — 100 % Adnane avant le 14/07,
-    // 50/50 ensuite, sur TOUS les jours calendaires (un abonnement se paie
-    // aussi les jours sans vente). Même règle que les cartes mensuelles.
+    const flat: { market: (typeof MARKETS)[number]; day: string; netCents: number }[] = [];
+    for (const m of MARKETS) for (const r of dayData[m]) flat.push({ market: m, day: r.day, netCents: r.netCents });
     const lastDay = dayData.GLOBAL.reduce((max, r) => (r.day > max ? r.day : max), "");
-    if (lastDay) {
-      for (const day of listParisDays(historyStart, lastDay)) {
-        const fixed = fixedCostsCentsForDay(day);
-        if (fixed) {
-          // Règle par date pour les abonnements, règle propre pour les frais
-          // ponctuels (LLC 50/50) — même calcul que les cartes mensuelles.
-          const bp = badrFixedCostsCentsForDay(day);
-          badr -= bp;
-          adnane -= fixed - bp;
-        }
-        // Solde entre associés (08/08) : ce qu'Adnane doit à Badr (ou
-        // l'inverse) sur les avances — ne touche pas le net société, juste
-        // le partage entre les deux. Calculé hors du `if (fixed)` : une
-        // avance (ex. le transfert de 1 000 €) peut tomber un jour sans
-        // charge active.
-        const owed = badrNetLedgerCentsForDay(day);
-        if (owed) {
-          badr += owed;
-          adnane -= owed;
-        }
-      }
-    }
-    return {
-      adnane: Math.round(adnane),
-      badr: Math.round(badr),
-      soloNet,
-      sharedNet,
-    };
+    const t = associateTotalsSinceStart(flat, historyStart, lastDay || historyStart);
+    return { adnane: t.adnaneCents, badr: t.badrCents, soloNet: t.soloNetCents, sharedNet: t.sharedNetCents };
   }, [dayData, historyStart]);
 
   // 👥 Part de chacun MOIS PAR MOIS (demande Badr 06/08 : « des cartes par
