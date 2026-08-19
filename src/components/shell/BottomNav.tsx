@@ -39,17 +39,19 @@ export function BottomNav() {
           nombre d'onglets (le layout à largeurs égales écrasait les libellés
           dès 7 entrées, signalé par Badr le 19/08). Le nom s'ouvre par
           transition max-width/opacity, l'icône marque le tap (scale). */}
-      <ul className="card-shadow mx-auto flex max-w-3xl items-center justify-between gap-0.5 rounded-2xl bg-ink/95 px-2 py-1.5 backdrop-blur supports-[backdrop-filter]:bg-ink/90 lg:max-w-2xl">
+      <ul className="card-shadow mx-auto flex max-w-3xl items-center rounded-2xl bg-ink/95 px-1.5 py-1.5 backdrop-blur supports-[backdrop-filter]:bg-ink/90 lg:max-w-2xl">
         {ITEMS.map((item) => {
           const active = pathname === item.href;
           return (
-            <li key={item.href} className="flex-none">
+            <li key={item.href} className={active ? "flex-none" : "min-w-0 flex-1"}>
               <Link
                 href={item.href}
                 onClick={() => play("tab")}
                 aria-current={active ? "page" : undefined}
                 aria-label={item.label}
-                className={`group flex items-center rounded-full px-2.5 py-2.5 transition-colors duration-300 ease-out ${
+                className={`group flex items-center justify-center rounded-full py-2.5 transition-colors duration-300 ease-out ${
+                  active ? "px-3" : "px-1"
+                } ${
                   active
                     ? "bg-white/10 text-phosphor-brand shadow-[inset_0_0_0_1px_rgba(255,255,255,0.10)]"
                     : "text-white/45 hover:bg-white/5 hover:text-white/85"
