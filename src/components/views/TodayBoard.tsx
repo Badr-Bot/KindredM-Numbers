@@ -263,42 +263,49 @@ export function TodayBoard({
   );
 }
 
-/** Cartes par produit PRINCIPAL (Gilet vs Polo) — demandé 02-03/08. Les
- * upsells (Caleçon, Chemise, Débardeur...) n'ont pas de carte à eux : leur
- * CA/COGS/taxe sont comptés dans le produit principal de leur commande. Le
- * spend du Polo = tout ce qui n'est pas une campagne Gilet (voir
- * getProductSplitForDay). */
+/** Cartes par produit PRINCIPAL (Gilet vs Polo) — demandé 02-03/08, refonte
+ * 19/08 (Badr : « il faut séparer les cartes des produits, chaque produit a
+ * sa carte avec effet ») : chaque produit est une VRAIE carte autonome —
+ * même standing que les autres cartes du Live (ombre, hover, reveal décalé),
+ * emoji en filigrane, net en très grand. Les upsells (Caleçon, Chemise,
+ * Débardeur...) restent comptés dans le produit principal de leur commande ;
+ * le spend du Polo = tout ce qui n'est pas une campagne Gilet
+ * (getProductSplitForDay). */
 function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
   const hoverSound = useHoverSound();
   return (
-    <Reveal>
-    <section onMouseEnter={hoverSound} className="card-shadow card-interactive rounded-xl border border-line bg-panel p-3.5 lg:p-5">
-      <div className="mb-2.5 flex items-baseline justify-between">
-        <span className="text-sm font-semibold lg:text-base">🏷️ Par produit</span>
-        <span className="text-[9.5px] text-ink-faint">upsells inclus dans leur produit principal</span>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {cards.map((c) => {
-          // MER = CA TOTAL ÷ spend (inclut organique/direct/e-mail) — mesure
-          // l'efficacité globale. ROAS Meta = CA que META s'attribue ÷ spend —
-          // mesure la pub seule et sous-estime le jour même (attribution, se
-          // corrige en 24-72 h). Les deux affichés côte à côte depuis le 12/08
-          // (Badr) : l'un sans l'autre pousse à des décisions fausses.
-          const merValue = c.spendCents > 0 ? c.caCents / c.spendCents : null;
-          const roasMeta = c.spendCents > 0 ? c.metaPurchaseValueCents / c.spendCents : null;
-          const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
-          return (
-            <div key={c.key} className="rounded-lg border border-line-soft bg-terminal-2 p-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[12.5px] font-semibold">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {cards.map((c, i) => {
+        // MER = CA TOTAL ÷ spend (inclut organique/direct/e-mail) — mesure
+        // l'efficacité globale. ROAS Meta = CA que META s'attribue ÷ spend —
+        // mesure la pub seule et sous-estime le jour même (attribution, se
+        // corrige en 24-72 h). Les deux côte à côte depuis le 12/08 (Badr).
+        const merValue = c.spendCents > 0 ? c.caCents / c.spendCents : null;
+        const roasMeta = c.spendCents > 0 ? c.metaPurchaseValueCents / c.spendCents : null;
+        const margePct = c.caCents > 0 ? c.netCents / c.caCents : null;
+        return (
+          <Reveal key={c.key} delayMs={i * 90}>
+            <section
+              onMouseEnter={hoverSound}
+              className="card-shadow card-interactive group relative overflow-hidden rounded-xl border border-line bg-panel p-3.5 lg:p-5"
+            >
+              {/* emoji en filigrane — l'« effet » discret qui signe la carte */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -right-3 -top-4 select-none text-[72px] opacity-[0.07] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+              >
+                {c.emoji}
+              </span>
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm font-semibold lg:text-base">
                   <span aria-hidden>{c.emoji}</span> {c.label}
                 </span>
-                <span className="text-[10px] text-ink-faint tnum">{formatInt(c.orders)} cmd</span>
+                <span className="tnum text-[10px] text-ink-faint">{formatInt(c.orders)} cmd</span>
               </div>
-              <div className={`mt-1.5 text-xl font-black tracking-tight leading-none tnum lg:text-2xl ${netTierClass(c.netCents)}`}>
+              <div className={`mt-2 text-2xl font-black leading-none tracking-tight tnum lg:text-3xl ${netTierClass(c.netCents)}`}>
                 {formatEurSigned0(c.netCents)}
               </div>
-              <dl className="mt-2 grid grid-cols-2 gap-1 text-center text-[10.5px]">
+              <dl className="mt-3 grid grid-cols-2 gap-1.5 text-center text-[10.5px] sm:grid-cols-2">
                 <MiniMetric label="CA" value={formatEur0(c.caCents)} />
                 <MiniMetric label="Spend" value={formatEur0(c.spendCents)} />
                 <MiniMetric label="MER" value={merValue !== null ? formatRoas(merValue) : "—"} />
@@ -307,12 +314,12 @@ function ProductCards({ cards }: { cards: ProductSplitCard[] }) {
                   <MiniMetric label="Marge" value={margePct !== null ? formatPct(margePct) : "—"} />
                 </div>
               </dl>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-    </Reveal>
+              <p className="mt-2 text-center text-[9px] text-ink-faint">upsells inclus dans leur produit principal</p>
+            </section>
+          </Reveal>
+        );
+      })}
+    </div>
   );
 }
 
