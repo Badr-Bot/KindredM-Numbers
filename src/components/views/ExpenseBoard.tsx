@@ -277,6 +277,11 @@ export function ExpenseBoard({
             </thead>
             <tbody>
               {[...SUBSCRIPTIONS]
+                // Abonnements résiliés (SmartSize, Jeremy fin août…) : sortis
+                // de la liste des dépenses COURANTES (Badr 19/08 : « SmartSize
+                // on l'a arrêté, elle doit sortir ») — l'historique continue
+                // de les compter jusqu'à leur endDay, seul l'affichage change.
+                .filter((sub) => sub.endDay === null || sub.endDay >= new Date().toISOString().slice(0, 10))
                 .sort((a, b) => monthlyEurCents(b) - monthlyEurCents(a))
                 .map((sub) => {
                   const m = monthlyEurCents(sub);

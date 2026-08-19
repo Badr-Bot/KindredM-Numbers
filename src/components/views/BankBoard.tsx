@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnomalyKind, BankReport, BankTx, TxLabel } from "@/lib/bank";
 import { formatEur0 } from "@/lib/format";
+import { Reveal } from "../fx/Reveal";
 
 // 🏦 Contrôle bancaire — chaque euro sorti doit finir dans exactement une
 // case (Société / Perso Badr / Perso Fahd), tout le reste est une anomalie
@@ -240,9 +241,9 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const theoAjuste = netTheoriqueCents !== null ? netTheoriqueCents - fraisReels : null;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
-    <div className="rounded-lg border border-line bg-panel p-3">
+    <div className="card-shadow rounded-lg border border-line bg-panel p-3">
       <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-        🧾 Le comptable — encaissé / décaissé depuis le {dd}
+        🧾 Encaissé / décaissé depuis le {dd}
       </div>
       <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="flex flex-col gap-1">
@@ -281,6 +282,11 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
           </div>
           <div className="text-[10px] text-ink-faint">
             <div>Perso (hors marge) : <b className="tnum">{formatEur0(perso)}</b></div>
+            {report.slashCashbackEurCents !== null && report.slashCashbackEurCents > 0 && (
+              <div className="text-phosphor">
+                Cashback Slash gagné (à récupérer) : <b className="tnum">+{formatEur0(report.slashCashbackEurCents)}</b>
+              </div>
+            )}
             {aAffecter > 0 && <div className="text-red">À affecter (hors marge) : <b className="tnum">{formatEur0(aAffecter)}</b></div>}
           </div>
         </div>
@@ -303,20 +309,37 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
   const horsTotal = report.balances.filter((b) => b && typeof b.amountEurCents !== "number").map((b) => b.currency);
   const persoBadr = report.control?.parts.persoBadrCents ?? 0;
   const partBadr = annee.badrCents - persoBadr;
-  const partAdnane = totalCents - partBadr;
+  // Argent EN ROUTE (Badr 19/08 : « il y a de l'argent qu'on n'a pas
+  // encaissé, Shopify met du temps à payer ») : solde Shopify Payments RÉEL
+  // quand les scopes sont là ; sinon estimation (CA − frais − payouts reçus
+  // depuis le 01/08), toujours étiquetée comme telle.
+  const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
+  const enRouteEstime =
+    enRouteExact === null && report.reconciliation
+      ? Math.max(0, report.reconciliation.shopify.expectedCents - report.reconciliation.shopify.bankCents)
+      : null;
+  const enRouteCents = enRouteExact ?? enRouteEstime ?? 0;
+  const patrimoine = totalCents + enRouteCents;
+  const partAdnane = patrimoine - partBadr;
   const apportAdnane = partAdnane - annee.adnaneCents;
   return (
-    <div className="rounded-lg border border-line bg-panel p-3">
+    <div className="card-shadow rounded-lg border border-line bg-panel p-3">
       <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-        🏛️ À qui appartient l&apos;argent des comptes
+        🏛️ À qui appartient l&apos;argent (comptes + en route)
       </div>
-      <div className="mt-1.5 grid grid-cols-1 gap-1.5 text-[12px] sm:grid-cols-3">
+      <div className="mt-1.5 grid grid-cols-2 gap-1.5 text-[12px] sm:grid-cols-4">
         <div>
-          Solde total connu <b className="tnum text-ink">{formatEur0(totalCents)}</b>
+          Sur les comptes <b className="tnum text-ink">{formatEur0(totalCents)}</b>
           {horsTotal.length > 0 && <span className="block text-[9.5px] text-ink-faint">hors {horsTotal.join(", ")} (sans taux)</span>}
           {!report.balances.some((b) => b.bank === "SLASH") && (
             <span className="block text-[9.5px] text-amber">⚠️ solde Slash non compté</span>
           )}
+        </div>
+        <div>
+          En route (Shopify) <b className="tnum text-cyan">{formatEur0(enRouteCents)}</b>
+          <span className="block text-[9.5px] text-ink-faint">
+            {enRouteExact !== null ? "solde Shopify Payments réel" : enRouteEstime !== null ? "estimation — scopes Shopify à ajouter pour l'exact" : "indisponible"}
+          </span>
         </div>
         <div>
           Part Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
@@ -324,7 +347,7 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
         </div>
         <div>
           Part Adnane <b className="tnum text-amber">{formatEur0(partAdnane)}</b>
-          <span className="block text-[9.5px] text-ink-faint">= le reste du solde</span>
+          <span className="block text-[9.5px] text-ink-faint">= le reste (comptes + en route)</span>
         </div>
       </div>
       <p className="mt-2 border-t border-line-soft pt-2 text-[10.5px] leading-snug text-ink-dim">
@@ -357,7 +380,9 @@ export function BankBoard({
   const control = report.control;
   return (
     <div className="flex flex-col gap-4">
-      <HealthHeader tiles={buildTiles(report, unmappedCount)} />
+      <Reveal>
+        <HealthHeader tiles={buildTiles(report, unmappedCount)} />
+      </Reveal>
 
       {control && control.anomalies.length > 0 && (
         <div className="flex flex-col gap-1.5">
@@ -390,9 +415,15 @@ export function BankBoard({
         </div>
       )}
 
-      <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
+      <Reveal delayMs={90}>
+        <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
+      </Reveal>
 
-      {annee && <OwnershipBlock report={report} annee={annee} />}
+      {annee && (
+        <Reveal delayMs={180}>
+          <OwnershipBlock report={report} annee={annee} />
+        </Reveal>
+      )}
 
       {control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
         <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">

@@ -81,8 +81,15 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // USD et affichait donc ~1 300 € après conversion, d'où l'écart repéré par
   // Badr. Arrêté FIN AOÛT : endDay 31/08 inclus, plus compté dès le 01/09
   // (la ligne reste : l'historique doit porter ce qui a été réellement payé).
-  { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "EUR", startDay: "2026-07-16", endDay: "2026-08-31", note: "1 500 €/mois (corrigé 13/08, était saisi en USD ≈ 1 300 €). Commencé le 16/07, arrêté fin août (Badr 13/08). % de commission oublié pour le moment." },
-  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, note: "Commencé le 15/07 (Badr 08/08). % de commission oublié pour le moment." },
+  // 19/08 (Badr) : les 2 747 $ payés à « Emailing : Altura » (sa LLC) le
+  // 13/08 = prorata de juillet + août complet, collaboration TERMINÉE fin
+  // août — paiement conforme, pas une anomalie.
+  { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "EUR", startDay: "2026-07-16", endDay: "2026-08-31", note: "1 500 €/mois. Payé en une fois le 13/08 (2 747 $ = prorata juillet + août complet, Badr 19/08) — collaboration terminée fin août." },
+  // 19/08 (Badr) : « Seif, je le trouve pas [en banque], Adnane l'a payé
+  // avec son perso je pense » → paidBy posé (exclu du contrôle bancaire
+  // LLC), À CONFIRMER — si c'est une avance société, elle devra entrer dans
+  // le tracé « Entre associés ».
+  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, paidBy: "ADNANE", note: "Commencé le 15/07 (Badr 08/08). Payé perso par Adnane (Badr 19/08, à confirmer). % de commission oublié pour le moment." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Apps Shopify (boutique FR)
@@ -115,7 +122,8 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
   // Floxy (proxy résidentiel) : payé DIRECTEMENT par la carte LLC dès le
   // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
-  { label: "Floxy (proxy)", category: "OUTIL", amount: 7, currency: "USD", startDay: "2026-08-01", endDay: null, note: "Démarré en août, payé par la carte LLC dès le départ (Badr 08/08)." },
+  // 19/08 (Badr) : « Floxy c'est le nouveau prix, c'est 8 € » — était 7 $.
+  { label: "Floxy (proxy)", category: "OUTIL", amount: 8, currency: "EUR", startDay: "2026-08-01", endDay: null, note: "8 €/mois — nouveau prix (Badr 19/08, était 7 $). Payé par la carte LLC dès le départ." },
   { label: "VMake", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Pris le 14/08 (Badr : « on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
