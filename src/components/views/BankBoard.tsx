@@ -460,6 +460,10 @@ export function BankBoard({
                   <td className="py-1.5 pr-2 tnum text-ink-dim">{t.day.slice(8, 10)}/{t.day.slice(5, 7)}</td>
                   <td className="py-1.5 pr-2">
                     <span className="text-ink">{t.description}</span>
+                    <span className="block text-[9.5px] text-ink-faint">
+                      {t.bank}
+                      {t.detail ? ` · ${t.detail}` : ""}
+                    </span>
                     <AssignButtons tx={t} />
                   </td>
                   <td className="py-1.5 text-right tnum font-bold text-red">{money(t.amountCents, t.currency)}</td>

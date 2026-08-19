@@ -53,6 +53,10 @@ export interface BankTx {
   /** affectation manuelle (bank_tx_labels) — null = pas encore affectée */
   label: TxLabel | null;
   labelNote: string | null;
+  /** Contexte lisible pour identifier une ligne mystère : carte utilisée,
+   * lieu du marchand, mémo, heure (demande Badr 19/08 : « tu expliques
+   * pas ») — affiché sous la description dans « À affecter ». */
+  detail?: string | null;
 }
 
 export interface BankBalance {
@@ -221,9 +225,11 @@ export interface SlashTx {
   status: "pending" | "posted" | "failed";
   detailedStatus: string;
   memo?: string;
-  merchantData?: { description?: string };
+  merchantData?: { description?: string; categoryCode?: string; location?: { city?: string; state?: string; country?: string } };
   /** Carte associée (absente hors transactions carte). */
   cardId?: string;
+  /** Horodatage d'autorisation (transactions carte). */
+  authorizedAt?: string;
   /** Présent quand la transaction est un FRAIS Slash (FX, virement…) —
    * relatedTransaction pointe la transaction d'origine du frais. */
   feeInfo?: { relatedTransaction?: { id?: string; amount?: number } };
@@ -245,7 +251,22 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
   if (t.status === "failed" || SLASH_STATUTS_SANS_ARGENT.has(t.detailedStatus)) return null;
   const description = t.merchantData?.description || t.description || t.memo || "(sans libellé)";
   const { category, subscriptionLabel } = categorizeTx(description, t.amountCents);
+  // Contexte pour identifier la ligne (Badr 19/08 : « ça correspond à
+  // quoi ? ») : type, lieu du marchand, mémo, heure Paris.
+  const loc = t.merchantData?.location;
+  const bits: string[] = [t.cardId ? "carte" : "virement/ACH"];
+  const place = [loc?.city, loc?.country].filter(Boolean).join(", ");
+  if (place) bits.push(place);
+  if (t.memo && t.memo !== description) bits.push(`mémo : ${t.memo}`);
+  try {
+    bits.push(
+      `à ${new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" }).format(new Date(t.authorizedAt ?? t.date))}`
+    );
+  } catch {
+    // date illisible : le reste du contexte suffit
+  }
   return {
+    detail: bits.join(" · "),
     bank: "SLASH",
     txId: t.id,
     day: toParisDay(t.date),
@@ -307,6 +328,7 @@ export async function fetchSlashData(
   // AUTRE sont auto-affectés (Meta/abos restent des charges société) ; une
   // affectation MANUELLE (bank_tx_labels) écrase toujours l'auto.
   const owners = new Map<string, { label: TxLabel; note: string }>();
+  const cardNames = new Map<string, string>(); // TOUTES les cartes — pour le contexte des lignes
   try {
     const headers: Record<string, string> = { "X-API-Key": token };
     if (legalEntity) headers["x-legal-entity"] = legalEntity;
@@ -320,6 +342,7 @@ export async function fetchSlashData(
           [c.name, c.nickname, c.displayName, c.cardholderName]
             .concat(typeof c.cardholder === "object" && c.cardholder !== null ? [(c.cardholder as Record<string, unknown>).name, (c.cardholder as Record<string, unknown>).fullName] : [])
             .find((v): v is string => typeof v === "string" && v.length > 0) ?? "";
+        if (name) cardNames.set(id, name);
         if (/adnane|fahd/i.test(name)) owners.set(id, { label: "PERSO_FAHD", note: `auto : carte « ${name} »` });
         else if (/badr/i.test(name)) owners.set(id, { label: "PERSO_BADR", note: `auto : carte « ${name} »` });
       }
@@ -363,6 +386,10 @@ export async function fetchSlashData(
   for (const t of raw) {
     const mapped = mapSlashTx(t);
     if (!mapped) continue;
+    // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
+    // les perso) — c'est souvent ce qui identifie une ligne mystère.
+    const cardName = t.cardId ? cardNames.get(t.cardId) : undefined;
+    if (cardName && mapped.detail) mapped.detail = mapped.detail.replace(/^carte\b/, `carte « ${cardName} »`);
     // Agrégat quotidien de frais FX → redécoupé au prorata du jour référencé.
     const agg = /^slash fee: foreign transaction fee for (\d{2})\.(\d{2})\.(\d{2})/i.exec(t.description);
     if (agg) {
