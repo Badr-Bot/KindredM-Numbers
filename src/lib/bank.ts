@@ -29,7 +29,7 @@ import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 const WISE_API = "https://api.wise.com";
 
 export type BankName = "WISE" | "SLASH";
-export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "AUTRE";
+export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "INTERNE" | "AUTRE";
 /** Affectation manuelle d'une transaction (table bank_tx_labels).
  * FAHD = ADNANE (confirmé Badr 19/08) : même personne que l'associé du
  * ledger « Entre associés ». Une dépense perso payée par la carte LLC est
@@ -83,6 +83,11 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
 
 export function categorizeTx(description: string, amountCents: number): { category: TxCategory; subscriptionLabel: string | null } {
   const d = description.toLowerCase();
+  // INTERNE : l'argent ne quitte pas le périmètre (conversion de devise dans
+  // le compte, virement entre nos propres comptes Slash ↔ Wise). Jamais dans
+  // « À affecter », jamais dans les parts — remarque Badr 19/08 : « juste
+  // j'ai pris USD et je l'ai converti en euros, c'est resté dans le compte ».
+  if (/^converted\b/.test(d) || /kindredm/.test(d)) return { category: "INTERNE", subscriptionLabel: null };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };

@@ -31,6 +31,21 @@ describe("categorizeTx", () => {
     expect(categorizeTx("ANTHROPIC PBC", -2706).subscriptionLabel).toBe("Claude (Badr)");
     expect(categorizeTx("Fournisseur Panda", -80000).category).toBe("AUTRE");
   });
+
+  it("conversion de devise et virement entre nos comptes = INTERNE, jamais à affecter", () => {
+    // « juste j'ai pris USD et je l'ai converti en euros, c'est resté dans le compte » (Badr 19/08)
+    expect(categorizeTx("Converted 600.00 USD to 519.41 EUR", -60000).category).toBe("INTERNE");
+    expect(categorizeTx("Converted 600.00 USD to 519.41 EUR", 51941).category).toBe("INTERNE");
+    expect(categorizeTx("Received money from SLASH - KINDREDM with reference 1211", 200000).category).toBe("INTERNE");
+    const c = computeControl({
+      txs: [tx("2026-08-13", "Converted 600.00 USD to 519.41 EUR", -600, { currency: "USD" })],
+      reconciliation: null,
+      sinceDay: "2026-08-01",
+      untilDay: "2026-08-19",
+    });
+    expect(c.toAssign).toHaveLength(0);
+    expect(c.parts.aAffecterCents).toBe(0);
+  });
 });
 
 describe("reconcile", () => {
