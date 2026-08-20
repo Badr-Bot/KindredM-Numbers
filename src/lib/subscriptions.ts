@@ -180,6 +180,27 @@ export function fixedCostsCentsForDay(day: string): number {
 }
 
 /**
+ * Charges du jour qui NE SORTIRONT JAMAIS de la banque LLC (centimes) :
+ *   • paidBy posé = avancé de la poche d'un associé (Hushed) — se règle
+ *     entre associés, jamais un débit LLC ;
+ *   • noBankClaim = pas de décaissement attendu (Marwa différée, Seif « ne
+ *     sera pas payé », Badr 20/08).
+ * Ce sont de VRAIES charges (elles pèsent sur la marge du dashboard), mais
+ * la marge RÉELLE ENCAISSÉE du Contrôle ne peut pas les voir. Sans ce
+ * chiffre, l'écart « théorique vs encaissé » s'élargit sans explication
+ * (886 € sur 01/08 → 20/08, dont 683 € pour le seul Seif).
+ */
+export function nonCashChargesCentsForDay(day: string): number {
+  let total = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (!isActiveOn(s, day)) continue;
+    if (!s.paidBy && !s.noBankClaim) continue;
+    total += dailyEurCents(s);
+  }
+  return total;
+}
+
+/**
  * Part de BADR sur les charges fixes d'un jour : abonnements selon la règle
  * par date (badrFixedShareFor), frais ponctuels selon LEUR règle propre (ex.
  * LLC 50/50 le 21/06, décision Badr). Adnane = fixedCostsCentsForDay − ceci,
