@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { aggregateByCode, parseAdCode, type PatternBucket } from "@/lib/creaCode";
 import {
   CartesianGrid,
   Line,
@@ -476,6 +477,28 @@ export function CreasBoard({
     [allRows, statusFilter]
   );
 
+  // 🏷️ Patterns par code (CODIFICATION.md) : dès que des ads portent le
+  // nommage AD<seq>v<var> - PROD-ANGLE-FMT-HOOK-LANG, on agrège leur perf par
+  // angle / hook / format sur la période filtrée — le rapport « quels patterns
+  // produisent des winners » (demande Badr 21/08). Les anciennes ads (PUB n,
+  // IMAGE n) ne parsent pas et restent hors agrégats.
+  const patterns = useMemo(() => {
+    const coded = allRows.filter((r) => parseAdCode(r.adName) !== null);
+    if (coded.length === 0) return null;
+    const input = coded.map((r) => ({
+      adName: r.adName,
+      spendCents: r.spendCents,
+      purchases: r.purchases,
+      purchaseValueCents: r.caCents,
+    }));
+    return {
+      coded: coded.length,
+      angle: aggregateByCode(input, "angle"),
+      hook: aggregateByCode(input, "hook"),
+      format: aggregateByCode(input, "format"),
+    };
+  }, [allRows]);
+
   // Changer de filtre/tri/période repart du haut de liste.
   const resetView = () => {
     setVisibleCount(PAGE_SIZE);
@@ -484,6 +507,38 @@ export function CreasBoard({
 
   return (
     <div className="flex min-w-0 flex-col gap-4">
+      {patterns && (
+        <div className="rounded-lg border border-line bg-panel/40 p-3">
+          <h3 className="mb-2 text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+            🏷️ Patterns ({patterns.coded} ad{patterns.coded > 1 ? "s" : ""} codifiée{patterns.coded > 1 ? "s" : ""} sur la période — nommage CODIFICATION.md)
+          </h3>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {([
+              ["Angle", patterns.angle],
+              ["Hook", patterns.hook],
+              ["Format", patterns.format],
+            ] as [string, PatternBucket[]][]).map(([label, buckets]) => (
+              <div key={label}>
+                <p className="mb-1 text-[10px] font-semibold text-ink-dim">{label}</p>
+                <table className="w-full text-[10.5px]">
+                  <tbody>
+                    {buckets.map((b) => (
+                      <tr key={b.key} className="border-t border-line/50">
+                        <td className="py-0.5 font-semibold text-ink">{b.key}</td>
+                        <td className="tnum py-0.5 text-right text-ink-dim">{Math.round(b.spendCents / 100)} €</td>
+                        <td className="tnum py-0.5 text-right text-ink-dim">{b.purchases} v</td>
+                        <td className={`tnum py-0.5 text-right ${b.roas !== null && b.roas >= 2 ? "text-phosphor" : "text-ink"}`}>
+                          {b.roas === null ? "—" : `${b.roas.toFixed(2).replace(".", ",")}×`}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {/* Filtres : période + campagne + tri */}
       <div className="flex flex-wrap items-center gap-2">
         {(["7", "14", "30", "all", "custom"] as Preset[]).map((p) => (
