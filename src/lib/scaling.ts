@@ -11,36 +11,53 @@ import { formatInTimeZone } from "date-fns-tz";
 // Arbitrage Badr 18/08 : CE protocole fait foi (celui du MEMO 03/08 est
 // obsolète). Onglet 100 % Meta.
 //
-// Phase de PRÉ-SCALING (budgets < 3 000 €/j — le cas de toutes les campagnes
-// actuelles). Une seule question, posée chaque nuit entre minuit et une heure
-// (T35 [18:48]), par campagne :
-//   « est-on rentable AU BACKEND sur les 2 derniers jours, ≥ 15 % de marge ? »
-//   (T35 [02:39-03:00] : « rentable dans votre poche : ads − shipping − frais
-//    de processeur », donc marge de contribution APRÈS pub, hors OPEX)
+// LE RÉGIME DÉCIDE DU PROTOCOLE. Le board pose trois phases et prévient :
+// « trois phases distinctes, trois protocoles différents, ne jamais les
+// mélanger ». Ici deux nous concernent, séparées par les 3 000 €/j (T35
+// [05:39] : « dès que les 3K par jour sont atteints, là on passe en phase de
+// scaling ; AVANT ÇA, ON N'EST PAS EN PHASE DE SCALING »).
 //
-//  • OUI → on monte le budget (T35 [05:18] « fois 2 si petit », lecture Badr
-//    18/08) : sous 500 €/j → ×2 PLAFONNÉ à 500 ; à partir de 500 → palier
-//    par palier sur 500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000 (+30 % au
-//    delà). Compteur de NON remis à zéro. Créas neuves à chaque montée.
-//  • NON n°1 → on attend 24 h sans toucher au budget (T35 [03:44-04:08]).
-//  • NON n°2 et n°3 → on réduit de 15 % (défaut T24 [16:54] ; bande 10-15 %
-//    T35 [19:09]) + créas neuves à chaque fois.
-//  • NON n°4 → phase de SAUVETAGE (T35 [04:29]) — RESCUE seulement si les
-//    crans ont été RÉELLEMENT déroulés : la série de NON ne compte qu'à
-//    partir du premier mouvement de budget vu sur Meta (Badr n'a commencé à
-//    piloter les budgets que le 17/08), et il faut au moins une réduction
-//    exécutée ; sinon le verdict est plafonné à DESCALE. On ne rabote plus, on
-//    diagnostique où ça fuit (cadran T35 [06:47-09:36] / T34 [03:47]) :
+// ── PRÉ-SCALING (< 3 000 €/j — toutes les campagnes actuelles) ────────────
+// Une seule question, binaire, posée chaque nuit par campagne :
+//   « rentable AU BACKEND sur les 2 derniers jours, marge ≥ 15 % ? »
+//   (« rentable dans votre poche » : ads − COGS − shipping − frais de
+//    processeur, hors OPEX — T35 [02:39-03:00])
+// Il n'y a PAS de bande intermédiaire : une fenêtre au-dessus du break-even
+// mais sous les 15 % est un NON, et elle consomme un cran.
+//
+//  • OUI → on monte le budget sur l'échelle : sous 500 €/j → ×2 plafonné à
+//    500 (« ×2 si le budget est petit ») ; à partir de 500 → palier par
+//    palier 500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000, puis +30 % au-delà
+//    (« +20-30 % quand on approche de 3K »). Créas neuves à chaque montée —
+//    obligatoire, pas optionnel. Compteur de NON remis à zéro.
+//    Pourquoi ×2 et pas +20-30 % à bas budget — T34 [09:59] : « ça sert à
+//    rien de mourir entre 300 et 500 à monter à hauteur de 20-30 % » ; à bas
+//    spend Meta n'élargit pas le pool d'audience, c'est à partir de 3 000
+//    qu'une grosse marche change l'audience et menace la rentabilité.
+//  • NON n°1 → on attend 24 h SANS toucher au budget, puis on repose la
+//    question.
+//  • NON n°2 et n°3 → on réduit de 10-15 % (−15 % ici, haut de la bande) +
+//    nouvelles créas à chaque cran.
+//  • NON n°4 → phase de SAUVETAGE — RESCUE seulement si les crans ont été
+//    RÉELLEMENT déroulés : la série ne compte qu'à partir du premier
+//    mouvement de budget vu sur Meta, et il faut au moins une réduction
+//    exécutée ; sinon le verdict est plafonné à DESCALE. On ne rabote plus,
+//    on diagnostique où ça fuit (cadran T35 [06:47-09:36] / T34 [03:47]) :
 //      - CVR ok mais CPC mauvais  → problème CRÉAS (hooks, angles, mécanismes)
 //      - CPC ok mais CVR mauvais  → problème FUNNEL (above the fold, Clarity)
 //      - CPC et CVR corrects mais marge faible → problème AOV (upsell, bundle)
-//      - tout mauvais → big swing (nouvelle LP / offre) voire couper
+//      - tout mauvais → big swing (nouvelle LP / offre)
 //  • Plancher absolu : 100 €/j (T35 [04:57]).
 //
-// Au-delà de 3 000 €/j on change de régime (phase de SCALING : barème
-// quotidien à la marge T35 [15:03], condition « 3 derniers jours + hier
-// rentables » [12:50], attribution click ≥ 70 % [13:11]). Aucune campagne n'y
-// est : l'onglet le SIGNALE au lieu d'appliquer le mauvais régime en silence.
+// ── SCALING (≥ 3 000 €/j) ────────────────────────────────────────────────
+// Entrée : KPI cible atteint (3 derniers jours + hier). Puis la table de
+// marge du board §3 : 0-10 % ne rien faire · 10-15 % hold · 15-30 % scale
+// 20-30 % · 30 %+ scale 40-100 %, doubler. Si le KPI n'est pas atteint :
+// au-dessus du break-even → stabiliser ; sous le break-even → attendre 72 h,
+// puis −10-15 %, et si on est DÉJÀ au spend minimum → sauvetage sans baisser.
+// ⚠️ La condition « plus de 70 % de la perf en attribution click-based »
+// n'est pas calculable depuis les données du dashboard : l'onglet la SIGNALE
+// en warning au lieu de la passer sous silence.
 //
 // LA fenêtre de décision = LE JOUR MÊME + LA VEILLE, avec la règle horaire de
 // Badr (18/08 soir) :
@@ -93,14 +110,11 @@ export const SEUIL_OUI = 0.15;
  * sous l'ancien barème ne pénalisent personne. */
 export const PROTOCOLE_T24_START_DAY = "2026-08-19";
 
-/** Bandes du barème T24 [17:15] : 0-10 stabiliser · 10-15 petit scale ·
- * 15-30 bonne marge · > 30 « bien au-dessus » → doubler. */
+/** Bandes de la table de marge du board §3 (RÉGIME SCALING, ≥ 3 000 €/j) :
+ * 0-10 ne rien faire · 10-15 hold · 15-30 scale 20-30 % · 30+ scale 40-100 %. */
 export const BANDE_STABLE_MAX = 0.10;
 export const BANDE_LIGHT_MAX = 0.15;
 export const BANDE_TOP_MIN = 0.30;
-/** « On augmente un petit peu » (10-15 %) : +10 %, bas de la bande « 10 à
- * 20 % » de T35 [15:03] — la formation ne chiffre pas le « petit peu ». */
-export const SCALE_LIGHT_PCT = 0.10;
 
 export type MarginBand = "PERTE" | "STABLE" | "LIGHT" | "GOOD" | "TOP";
 
@@ -788,12 +802,12 @@ function actionFromStreak(nonStreak: number): ScalingAction {
   return nonStreak === 0 ? "SCALE" : nonStreak === 1 ? "HOLD" : nonStreak <= 3 ? "DESCALE" : "RESCUE";
 }
 
-/** Barème T24 [17:15] pour une fenêtre RENTABLE. */
+/** Table de marge du board §3 — RÉGIME SCALING UNIQUEMENT (≥ 3 000 €/j). */
 function actionFromBand(band: MarginBand): { action: ScalingAction; scaleKind: ScaleKind | null } {
-  if (band === "STABLE") return { action: "HOLD", scaleKind: null }; // 0-10 % : stabiliser
-  if (band === "LIGHT") return { action: "SCALE", scaleKind: "LIGHT" }; // 10-15 % : un petit peu
-  if (band === "TOP") return { action: "SCALE", scaleKind: "DOUBLE" }; // > 30 % : doubler
-  return { action: "SCALE", scaleKind: "LADDER" }; // 15-30 % : la bonne marge
+  if (band === "STABLE") return { action: "HOLD", scaleKind: null }; // 0-10 % : « ne rien faire, on stabilise »
+  if (band === "LIGHT") return { action: "HOLD", scaleKind: null }; // 10-15 % : « Hold (scale 10-20 % max) »
+  if (band === "TOP") return { action: "SCALE", scaleKind: "DOUBLE" }; // 30 %+ : « scale 40-100 %, doubler »
+  return { action: "SCALE", scaleKind: "LADDER" }; // 15-30 % : « scale 20-30 % »
 }
 
 /** Compte les NON consécutifs en fin de série (fenêtres jugées seulement).
@@ -927,9 +941,14 @@ export function computeScaling(input: {
       const margin = roas !== null && roas > 0 && cm !== null ? cm - 1 / roas : null;
       const zone = zoneFor(margin, roas, th?.breakEven ?? null);
       const band = marginBand(margin, roas, th?.breakEven ?? null);
-      // Verdict : NON = fenêtre EN PERTE (T24 [16:54] — seul déclencheur du
-      // descale). ROAS 0 = perte même sans cm ; cm null (hors ROAS 0) = null.
-      const verdict: "OUI" | "NON" | null = band === null ? null : band === "PERTE" ? "NON" : "OUI";
+      // Verdict : LA question pivot du board (§2) — « rentable au backend sur
+      // les 2 derniers jours, marge ≥ 15 % ? ». OUI ou NON, rien entre les
+      // deux : une fenêtre au-dessus du break-even mais sous les 15 % est un
+      // NON et consomme un cran d'escalier. `zoneFor` porte déjà ce seuil
+      // (SEUIL_OUI) — une seule définition du « rentable » pour la couleur de
+      // la fenêtre et pour le verdict. nodata (cm incalculable, ROAS absent)
+      // ne tranche rien : surtout pas un faux NON qui fabriquerait un RESCUE.
+      const verdict: "OUI" | "NON" | null = zone === "nodata" ? null : zone === "over" ? "OUI" : "NON";
       const cpmVal = impressions > 0 ? (spend / impressions) * 1000 : null;
       const freq = reach > 0 ? impressions / reach : null;
       return {
@@ -981,16 +1000,46 @@ export function computeScaling(input: {
       moveAnchor !== null && startFloor !== null
         ? (moveAnchor > startFloor ? moveAnchor : startFloor)
         : (moveAnchor ?? startFloor);
+    // Budget : override > live Meta > dernier changement connu > estimation.
+    const budgetOverride = overrides?.[campaignId];
+    const budgetLive = liveInfo?.dailyBudgetCents ?? null;
+    // Le dernier changement de budget lu sur Meta fait foi quand le live
+    // manque — jamais un « ? » alors qu'on connaît le dernier mouvement.
+    const lastMoveBudget = [...rawMovesForAnchor].reverse().find((m) => m.newBudgetCents !== null)?.newBudgetCents ?? null;
+    const maxDailySpend = Math.max(0, ...[...entry.days.values()].map((d) => d.spendCents));
+    const budgetCents = budgetOverride ?? budgetLive ?? lastMoveBudget ?? (maxDailySpend > 0 ? maxDailySpend : null);
+    const budgetEstimated = budgetOverride === undefined && budgetLive === null && lastMoveBudget === null;
+    const scalingRegime = budgetCents !== null && budgetCents >= SEUIL_SCALING_CENTS;
+
     const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
     const last = winData[lastIdx];
-    // Perte en cours → crans (T24 [16:54] + escalier T35). Sinon → barème
-    // T24 [17:15] sur la bande de la fenêtre jugée.
+    // LE RÉGIME DÉCIDE DU PROTOCOLE (board §« identifier la phase » : trois
+    // phases, trois protocoles, ne jamais les mélanger).
+    //  • PRÉ-SCALING (< 3 000 €/j) : la question est binaire (« rentable au
+    //    backend sur les 2 derniers jours, marge ≥ 15 % ? »). OUI → on monte
+    //    par l'échelle ; NON → l'escalier (attendre · −15 % · −15 % ·
+    //    sauvetage). Aucune bande de marge n'intervient.
+    //  • SCALING (≥ 3 000 €/j) : là seulement s'applique la table de marge du
+    //    board §3 (0-10 rien · 10-15 hold · 15-30 +20-30 % · 30+ doubler).
     let action = actionFromStreak(nonStreak);
-    let scaleKind: ScaleKind | null = null;
-    if (nonStreak === 0 && last.band !== null) {
-      const fromBand = actionFromBand(last.band);
-      action = fromBand.action;
-      scaleKind = fromBand.scaleKind;
+    let scaleKind: ScaleKind | null = action === "SCALE" ? "LADDER" : null;
+    const atFloor = budgetCents !== null && budgetCents <= PLANCHER_BUDGET_CENTS;
+    if (scalingRegime && last.band !== null) {
+      if (nonStreak === 0) {
+        // KPI cible atteint → table de marge du board §3.
+        const fromBand = actionFromBand(last.band);
+        action = fromBand.action;
+        scaleKind = fromBand.scaleKind;
+      } else if (last.band !== "PERTE") {
+        // « Est-on SOUS le KPI breakeven ? NON → ne rien faire, stabiliser. »
+        action = "HOLD";
+        scaleKind = null;
+      } else {
+        // Sous le break-even : 72 h d'abord (3 fenêtres), puis −15 % ; et si on
+        // est DÉJÀ au spend minimum, sauvetage — « ne PAS baisser le spend ».
+        action = nonStreak < 3 ? "HOLD" : atFloor ? "RESCUE" : "DESCALE";
+        scaleKind = null;
+      }
     }
     // RESCUE exige au moins une réduction RÉELLEMENT exécutée sur Meta ;
     // sinon on plafonne à DESCALE (les crans n'ont pas été déroulés).
@@ -1014,17 +1063,6 @@ export function computeScaling(input: {
         rescueCapped = true;
       }
     }
-
-    // Budget : override > live Meta > dernier changement connu > estimation.
-    const budgetOverride = overrides?.[campaignId];
-    const budgetLive = liveInfo?.dailyBudgetCents ?? null;
-    // Le dernier changement de budget lu sur Meta fait foi quand le live
-    // manque — jamais un « ? » alors qu'on connaît le dernier mouvement.
-    const lastMoveBudget = [...rawMovesForAnchor].reverse().find((m) => m.newBudgetCents !== null)?.newBudgetCents ?? null;
-    const maxDailySpend = Math.max(0, ...[...entry.days.values()].map((d) => d.spendCents));
-    const budgetCents = budgetOverride ?? budgetLive ?? lastMoveBudget ?? (maxDailySpend > 0 ? maxDailySpend : null);
-    const budgetEstimated = budgetOverride === undefined && budgetLive === null && lastMoveBudget === null;
-    const scalingRegime = budgetCents !== null && budgetCents >= SEUIL_SCALING_CENTS;
 
     // Mouvements de budget lus sur Meta (les plus récents d'abord pour l'UI).
     const rawMoves = rawMovesForAnchor;
@@ -1097,14 +1135,10 @@ export function computeScaling(input: {
     const basisCents = executedMove?.oldBudgetCents ?? budgetCents;
     let suggestedCents: number | null = null;
     if (action === "SCALE" && basisCents !== null) {
-      if (scaleKind === "LIGHT") {
-        // 10-15 % : « on augmente un petit peu » — +10 % (T24 [17:15],
-        // chiffre = bas de la bande T35 [15:03], arrondi à l'euro)
-        suggestedCents = Math.round((basisCents * (1 + SCALE_LIGHT_PCT)) / 100) * 100;
-      } else if (scaleKind === "DOUBLE") {
-        // > 30 % : « je double le budget » (T24 [17:36]) — plafonné à 500
-        // sous 500 (lecture Badr) et au seuil de scaling (changement de
-        // régime à 3 000 €/j, T35 [06:02])
+      if (scaleKind === "DOUBLE") {
+        // Régime SCALING, bande 30 %+ : « scale 40-100 %, on peut doubler le
+        // budget » (board §3) — plafonné à 500 sous 500 (« ×2 si petit ») et
+        // au seuil de changement de régime.
         const doubled = Math.round((basisCents * 2) / 100) * 100;
         suggestedCents =
           basisCents < MONTEE_PALIERS_CENTS[0]
@@ -1137,26 +1171,33 @@ export function computeScaling(input: {
     const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1).replace(".", ",")} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
     const why =
       action === "SCALE"
-        ? scaleKind === "LIGHT"
-          ? `Marge entre 10 et 15 % sur ${last.label} (${marginTxt}) → « on augmente un petit peu » : +10 % + créas neuves (T24 [17:15]).`
-          : scaleKind === "DOUBLE"
-            ? `« Bien au-dessus » sur ${last.label} (${marginTxt} > 30 %) → « je double le budget, et tant que c'est bien, je double » + créas neuves (T24 [17:36]).`
-            : `Bonne marge sur ${last.label} (${marginTxt}) → SCALE au palier suivant + créas neuves (T24 [17:15] / T35 [05:18]).`
+        ? scaleKind === "DOUBLE"
+          ? `Régime SCALING, marge > 30 % sur ${last.label} (${marginTxt}) → « scale 40-100 %, on peut doubler le budget » + créas neuves (board §3).`
+          : scalingRegime
+            ? `Régime SCALING, marge entre 15 et 30 % sur ${last.label} (${marginTxt}) → « scale 20-30 % » + créas neuves (board §3).`
+            : `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : rentable au backend sur les 2 derniers jours → on monte le budget sur l'échelle (×2 si petit) + créas neuves (board §2).`
         : action === "HOLD"
-          ? nonStreak === 1
-            ? `1re fenêtre EN PERTE (${last.label} : ${marginTxt}) → on ne descend JAMAIS sur un seul rouge, « c'est la meilleure manière de faire du yo-yo » (T24 [16:54]) : HOLD 24 h. Encore en perte demain → DESCALE −15 %. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
-            : `Marge entre 0 et 10 % sur ${last.label} (${marginTxt}) → « on ne fait rien, stabiliser » (T24 [17:15]) : HOLD, on rejuge demain.`
+          ? scalingRegime
+            ? last.band !== "PERTE"
+              ? `Régime SCALING : au-dessus du break-even mais sous la cible sur ${last.label} (${marginTxt}) → « ne rien faire, on stabilise » (board §3).`
+              : `Régime SCALING, sous le break-even sur ${last.label} (${marginTxt}) → on attend d'abord 72 h avant de toucher au budget (board §3). ${nonStreak} fenêtre(s) sur 3.`
+            : `1er NON sur ${last.label} (${marginTxt}, sous les 15 %) → cran 1 de l'escalier : on attend 24 h SANS toucher au budget, puis on repose la question (board §2). Encore NON demain → −15 % + créas. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
           : action === "DESCALE"
-            ? `${nonStreak}ᵉ fenêtre EN PERTE consécutive (${last.label} : ${marginTxt}) → DESCALE −15 %, « on vient dire à Meta : là je ne suis pas content » + créas neuves (T24 [16:54]).`
-            : `${nonStreak} fenêtres EN PERTE consécutives (dernière : ${last.label}, ${marginTxt}) : escalier épuisé → RESCUE, on ne rabote plus, on diagnostique (T35 [04:29]).`;
+            ? scalingRegime
+              ? `Régime SCALING : sous le break-even depuis plus de 72 h (${last.label} : ${marginTxt}) et le spend minimum n'est pas atteint → −15 % (board §3).`
+              : `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) → cran ${nonStreak} de l'escalier : −15 % + nouvelles créas (board §2).`
+            : scalingRegime
+              ? `Régime SCALING : sous le break-even depuis plus de 72 h ET déjà au spend minimum (${last.label} : ${marginTxt}) → on ne baisse PLUS le spend, phase de SAUVETAGE (board §3).`
+              : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : l'escalier est épuisé → phase de SAUVETAGE, on ne rabote plus, on diagnostique où ça fuit (board §2 → §1).`;
     const whyFinal = rescueCapped
       ? `${nonStreak} NON consécutifs (${marginTxt}) MAIS aucune réduction encore exécutée sur Meta : les crans n'ont pas été déroulés → DESCALE −15 % d'abord (RESCUE seulement après avoir réellement bougé le budget).`
       : why;
 
     if (scalingRegime) {
       warnings.push(
-        `${entry.name} : budget ≥ 3 000 €/j → régime SCALING (barème quotidien à la marge, T35 [15:03]) — ` +
-          "l'onglet applique le pré-scaling, verdict à confirmer à la main tant que ce régime n'est pas codé."
+        `${entry.name} : budget ≥ 3 000 €/j → régime SCALING, la table de marge du board §3 s'applique. ` +
+          "Une condition n'est PAS vérifiable ici : « plus de 70 % de la perf vient de l'attribution click-based ? » " +
+          "(board §3) — à contrôler à la main dans Meta (colonnes → Vue et attribution) avant d'exécuter la montée."
       );
     }
 

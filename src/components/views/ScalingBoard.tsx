@@ -498,13 +498,16 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
             minuit ; exécution entre 00 h et 7 h sur les chiffres figés.
           </>
         )}{" "}
-        Budgets et mouvements <b className="text-ink">lus sur Meta</b>. Barème (T24) sur la marge de la fenêtre :{" "}
-        <b className="text-red">perte</b> → HOLD puis <b className="text-red">DESCALE −15 %</b> (jamais sur un seul rouge —
-        « c&apos;est la meilleure manière de faire du yo-yo »), 4 fenêtres en perte → <b className="text-red">RESCUE</b>{" "}
-        (seulement après des réductions réellement exécutées) · <b className="text-amber">0-10 %</b> → stabiliser ·{" "}
-        <b className="text-phosphor">10-15 %</b> → SCALE +10 % · <b className="text-phosphor">15-30 %</b> → SCALE palier
-        (×2 plafonné à 500 sous 500 €/j, puis <span className="tnum">500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000</span>) ·{" "}
-        <b className="text-phosphor">&gt; 30 %</b> → DOUBLE ×2 « tant que c&apos;est bien ». Plancher 100 €/j.
+        Budgets et mouvements <b className="text-ink">lus sur Meta</b>.{" "}
+        <b className="text-ink">Régime PRÉ-SCALING</b> (sous 3 000 €/j — toutes les campagnes actuelles) : la question est{" "}
+        <b className="text-ink">binaire</b>, « rentable au backend sur les 2 derniers jours, marge ≥ 15 % ? ».{" "}
+        <b className="text-phosphor">OUI</b> → on monte sur l&apos;échelle (×2 plafonné à 500 sous 500 €/j, puis{" "}
+        <span className="tnum">500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000</span>, +30 % au-delà) + créas neuves ·{" "}
+        <b className="text-amber">NON</b> → l&apos;escalier : cran 1 <b className="text-amber">on attend 24 h</b>,
+        crans 2 et 3 <b className="text-red">−15 % + créas</b>, cran 4 <b className="text-red">SAUVETAGE</b>{" "}
+        (seulement après des réductions réellement exécutées). Plancher 100 €/j. La table de marge
+        (0-10 rien · 10-15 hold · 15-30 → +20-30 % · 30 %+ → doubler) appartient au{" "}
+        <b className="text-ink">régime SCALING</b> et ne s&apos;applique qu&apos;à partir de 3 000 €/j.
       </p>
 
       {report.warnings.length > 0 && (
@@ -520,9 +523,9 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
       ))}
 
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> ≥ 15 % — SCALE (palier, ×2 si &gt; 30 %)</span>
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et 15 % — stabiliser (0-10 %) ou +10 % (10-15 %)</span>
-        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — perte : 2 fenêtres de suite → DESCALE −15 %</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-phosphor bg-phosphor/25" /> ≥ 15 % — OUI : on monte sur l&apos;échelle</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-amber bg-amber/20" /> entre BE et 15 % — NON : ça consomme un cran d&apos;escalier</span>
+        <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-red bg-red/15" /> sous le BE — NON aussi (perte)</span>
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-line bg-panel opacity-60" /> ⏳ fenêtre en cours (provisoire)</span>
       </div>
 

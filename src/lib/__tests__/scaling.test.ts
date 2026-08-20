@@ -185,7 +185,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
   });
 });
 
-describe("barème T24 [17:15] : bandes de marge (arbitrage Badr 19/08 : la formation prime)", () => {
+describe("protocole du board : pré-scaling binaire (§2) vs table de marge (§3)", () => {
   const withBudget = (rows: ScalingDailyRow[], budgetCents: number) =>
     computeScaling({
       today: TODAY,
@@ -195,45 +195,54 @@ describe("barème T24 [17:15] : bandes de marge (arbitrage Badr 19/08 : la forma
       activities: [],
     });
 
-  it("marge 0-10 % → HOLD « on ne fait rien, stabiliser »", () => {
-    const r = withBudget(mkSeries([0.07]), 30000);
-    expect(r.campaigns[0].action).toBe("HOLD");
-    expect(r.campaigns[0].why).toContain("stabiliser");
-    expect(r.campaigns[0].nonStreak).toBe(0); // pas une perte : aucun cran consommé
+
+
+  it("pré-scaling : marge 0-10 % = NON → cran 1 de l'escalier (on attend 24 h)", () => {
+    // rentable jusqu'au bout, puis UNE fenêtre à 7 % : sous 15 % = NON
+    const c = withBudget(mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.08]), 30000).campaigns[0];
+    expect(c.action).toBe("HOLD");
+    expect(c.why).toContain("cran 1");
+    expect(c.nonStreak).toBe(1); // sous 15 % = NON, le cran est consommé
+    expect(c.suggestedCents).toBeNull(); // on ne touche pas au budget au cran 1
   });
 
-  it("marge 10-15 % → SCALE LIGHT +10 % « on augmente un petit peu »", () => {
-    const r = withBudget(mkSeries([0.12]), 30000);
-    const c = r.campaigns[0];
+  it("pré-scaling : marge 10-15 % est un NON aussi — aucune bande intermédiaire", () => {
+    const c = withBudget(mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.12]), 30000).campaigns[0];
+    expect(c.action).toBe("HOLD");
+    expect(c.nonStreak).toBe(1);
+  });
+
+  it("pré-scaling : marge ≥ 15 % = OUI → échelle, ×2 si petit", () => {
+    const c = withBudget(mkSeries([0.2]), 30000).campaigns[0];
     expect(c.action).toBe("SCALE");
-    expect(c.scaleKind).toBe("LIGHT");
-    expect(c.suggestedCents).toBe(33000); // 300 € +10 % = 330 €
-  });
-
-  it("marge 15-30 % → SCALE palier (×2 plafonné à 500 sous 500)", () => {
-    const r = withBudget(mkSeries([0.2]), 30000);
-    const c = r.campaigns[0];
     expect(c.scaleKind).toBe("LADDER");
-    expect(c.suggestedCents).toBe(50000);
+    expect(c.suggestedCents).toBe(50000); // 300 ×2 = 600 → plafonné au 1er palier
   });
 
-  it("marge > 30 % → DOUBLE « tant que c'est bien, je double »", () => {
-    const r = withBudget(mkSeries([0.35]), 80000); // 800 €/j, marge 35 %
-    const c = r.campaigns[0];
+  it("pré-scaling : 35 % de marge monte d'UN palier, jamais en doublant (§3 ne s'applique pas)", () => {
+    const c = withBudget(mkSeries([0.35]), 80000).campaigns[0]; // 800 €/j
+    expect(c.scaleKind).toBe("LADDER");
+    expect(c.suggestedCents).toBe(100000); // 800 → palier 1000
+  });
+
+  it("pré-scaling : le palier 1850 puis 2250 (board), pas 1800/2000 (audio)", () => {
+    expect(withBudget(mkSeries([0.2]), 150000).campaigns[0].suggestedCents).toBe(185000);
+    expect(withBudget(mkSeries([0.2]), 185000).campaigns[0].suggestedCents).toBe(225000);
+  });
+
+  it("scaling (≥ 3 000 €/j) : marge > 30 % → doubler (table §3)", () => {
+    const c = withBudget(mkSeries([0.35]), 300000).campaigns[0];
     expect(c.action).toBe("SCALE");
     expect(c.scaleKind).toBe("DOUBLE");
-    expect(c.suggestedCents).toBe(160000); // 800 → 1600, pas le palier 1000
   });
 
-  it("DOUBLE respecte le plafond 500 sous 500 (lecture Badr) et le seuil 3000", () => {
-    const under = withBudget(mkSeries([0.35]), 30000);
-    expect(under.campaigns[0].suggestedCents).toBe(50000); // 300 ×2 = 600 → 500
-    const near = withBudget(mkSeries([0.35]), 200000);
-    expect(near.campaigns[0].suggestedCents).toBe(300000); // 2000 ×2 = 4000 → 3000
+  it("scaling : marge 10-15 % → Hold (table §3)", () => {
+    const c = withBudget(mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.12]), 400000).campaigns[0];
+    expect(c.action).toBe("HOLD");
+    expect(c.why).toContain("stabilise");
   });
 
-  it("une fenêtre STABLE (0-10 %) casse une série de pertes", () => {
-    // pertes puis un jour à ~7 % : le compteur repart de zéro (pas un NON)
+  it("une fenêtre sous 15 % ne casse PLUS la série de NON (la question du board est binaire)", () => {
     const rows = [
       ...[12, 13, 14].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
       ...[15, 16].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.07))),
@@ -241,7 +250,7 @@ describe("barème T24 [17:15] : bandes de marge (arbitrage Badr 19/08 : la forma
       row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1)),
     ];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
-    expect(r.campaigns[0].action).not.toBe("RESCUE");
+    expect(r.campaigns[0].nonStreak).toBeGreaterThanOrEqual(4);
   });
 });
 
