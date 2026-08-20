@@ -292,6 +292,26 @@ describe("bugs bloquants trouvés à l'audit du 20/08", () => {
   });
 });
 
+describe("plancher 100 €/j (audit 20/08)", () => {
+  const liveAt = (cents: number) => new Map([["c1", { active: true, dailyBudgetCents: cents, updatedTime: null }]]);
+
+  it("au plancher, l'escalier épuisé passe en RESCUE même sans réduction exécutée", () => {
+    // À 100 €/j aucune réduction n'est plus possible : exiger une baisse
+    // exécutée avant RESCUE bloquerait le sauvetage pour toujours.
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: liveAt(10000), activities: [] });
+    expect(r.campaigns[0].action).toBe("RESCUE");
+    expect(r.campaigns[0].rescueCapped).toBe(false);
+  });
+
+  it("hors plancher, la même série reste plafonnée à DESCALE sans réduction exécutée", () => {
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
+    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: liveAt(30000), activities: [] });
+    expect(r.campaigns[0].action).toBe("DESCALE");
+    expect(r.campaigns[0].rescueCapped).toBe(true);
+  });
+});
+
 describe("garde-fous", () => {
   it("dépense sans vente : la campagne APPARAÎT, zone below", () => {
     const rows = [row(d(17), "c9", "POLO MORT", 150, 0), row(TODAY, "c9", "POLO MORT", 150, 0)];

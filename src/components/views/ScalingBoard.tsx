@@ -475,10 +475,47 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
 
 export function ScalingBoard({ report }: { report: ScalingReport }) {
   if (report.campaigns.length === 0) {
+    // Liste vide = le moment où l'on a le PLUS besoin de savoir pourquoi. Les
+    // avertissements ne s'affichaient que dans la branche « il y a des
+    // campagnes » : la raison existait côté serveur et n'atteignait jamais
+    // l'écran (20/08, une soirée perdue à chercher à l'aveugle).
     return (
-      <p className="rounded-lg border border-line bg-panel/40 p-3 text-[11.5px] text-ink-dim">
-        Aucune campagne Meta avec du spend sur la période — rien à décider.
-      </p>
+      <div className="flex flex-col gap-3">
+        <p className="rounded-lg border border-line bg-panel/40 p-3 text-[11.5px] text-ink-dim">
+          Aucune campagne Meta avec du spend sur la période — rien à décider.
+        </p>
+        {report.warnings.length > 0 && (
+          <div className="rounded-lg border border-amber/40 bg-amber/[0.05] p-2.5 text-[10.5px] text-amber">
+            {report.warnings.map((w) => (
+              <p key={w}>⚠️ {w}</p>
+            ))}
+          </div>
+        )}
+        <div className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] leading-relaxed text-ink-dim">
+          <h3 className="mb-1 text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">Diagnostic</h3>
+          <p>
+            Jour de décision : <b className="tnum text-ink">{report.today}</b> · mode{" "}
+            <b className="text-ink">{report.mode === "night" ? "nuit (données figées)" : "jour (live Meta)"}</b> ·{" "}
+            fenêtres construites : <b className="tnum text-ink">{report.windowLabels.length}</b>
+            {report.windowLabels.length > 0 && (
+              <> (<span className="tnum">{report.windowLabels.join(" · ")}</span>)</>
+            )}
+          </p>
+          <p className="mt-1">
+            Seuils produit lus :{" "}
+            {(["GILET", "POLO"] as const).map((p) => (
+              <span key={p} className="mr-2">
+                {p} = <b className="tnum text-ink">{report.thresholds?.[p] ? "OK" : "absents"}</b>
+              </span>
+            ))}
+          </p>
+          <p className="mt-1 text-ink-faint">
+            Liste vide alors que des campagnes tournent ? Les causes possibles, dans l&apos;ordre : aucune ligne dans{" "}
+            <span className="text-ink">meta_insights</span> sur la fenêtre (le sync de 01h05 n&apos;a pas tourné), toutes
+            les campagnes exclues ou classées produit en test, ou seuils produit incalculables.
+          </p>
+        </div>
+      </div>
     );
   }
 
