@@ -143,7 +143,7 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // au-dessus. Suivi analytique via l'API Google à brancher (Badr : « je te
   // donnerai l'API plus tard ») — en attendant, le comptable le compte
   // côté banque comme un poste pub à part.
-  if (/google[\s*]*ads?\b|adwords/.test(d)) return { category: "GOOGLE_ADS", subscriptionLabel: null };
+  if (/google[\s*]*ads?(\d|\b)|adwords/.test(d)) return { category: "GOOGLE_ADS", subscriptionLabel: null };
   return { category: "AUTRE", subscriptionLabel: null };
 }
 
