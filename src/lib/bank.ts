@@ -903,14 +903,16 @@ export function computeControl(input: {
       });
     }
   }
+  // Un virement Panda sans facture dans le suivi = le règlement d'une
+  // facture ANTÉRIEURE au point de départ du ledger (réputée soldée,
+  // décision Badr 14/08) — information, PAS une anomalie (Badr 19/08 :
+  // « c'est forcément une facture d'avant début août, tu ne me remontes
+  // pas l'anomalie »).
   for (const t of pandaTxs) {
     if (pointes.has(t.txId)) continue;
-    anomalies.push({
-      kind: "FOURNISSEUR_ECART",
-      severity: "amber",
-      label: `Virement fournisseur SANS facture correspondante : ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)}`,
-      detail: "Aucune facture Panda de ce montant dans le suivi — facture manquante à ajouter ?",
-    });
+    fournisseurPointage.push(
+      `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : facture antérieure au suivi (réputée soldée)`
+    );
   }
 
   // Parts : Société = catégories société + affectés SOCIETE ; perso = affectés.
