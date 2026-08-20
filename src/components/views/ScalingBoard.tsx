@@ -572,13 +572,17 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
         </h3>
         <ul className="flex flex-col gap-1">
           <li>
-            ▸ <b className="text-ink">Batch</b> : 3-6 ads par NOUVEL adset · 2-3 adcopies + 2-3 titres + 1 description par
-            ad · une adcopy par ANGLE · miniature choisie à la main · 50 % page marque / 50 % page tierce.
+            ▸ <b className="text-ink">Batch</b> : 3-6 ads · 2-3 adcopies + 2-3 titres + 1 description par
+            ad · une adcopy par ANGLE · miniature choisie à la main · 50 % page marque / 50 % page tierce · chaque
+            variante change ≥ 3 éléments sur 5 (hook, visuel, texte, durée/format, message — T42) · jamais un gros
+            volume d&apos;un coup (200 créas le même jour = chute de ROAS mesurée, T39).
           </li>
           <li>
-            ▸ <b className="text-ink">Où</b> (compte &lt; 3 000 €/j) : nouvel adset dans la CBO — jamais plus de 15 ads par
-            adset — avec minimum spend 10-15 €/j pendant 2 jours. L&apos;ABO testing dédiée (~20 % du budget) n&apos;arrive
-            qu&apos;à 3K+/j.
+            ▸ <b className="text-ink">Où</b> (compte &lt; 3 000 €/j) : l&apos;adset de testing COURANT de la CBO, blindé
+            jusqu&apos;à ~50 ads — nouvel adset seulement une fois plein (T42/T21 ; remplace l&apos;ancienne règle des
+            15 ads de T36/T37) — minimum spend 10-15 €/j par nouvelle ad pendant 2 jours, retiré ensuite si l&apos;ad ne
+            performe pas. L&apos;ABO testing dédiée (~20 % du budget) n&apos;arrive qu&apos;à 3K+/j. Ménage (SOP Meta
+            Process) : ad sous le BE sur 7 j → OFF · adset sous le BE sur 3 j + aujourd&apos;hui → OFF.
           </li>
           <li>
             ▸ <b className="text-ink">Lancement</b> : mardi → vendredi (jamais lundi), adset live entre minuit et 7 h ·

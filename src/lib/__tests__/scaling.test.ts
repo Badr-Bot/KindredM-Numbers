@@ -517,13 +517,15 @@ describe("budgets depuis le journal d'activités Meta", () => {
 });
 
 describe("plan créas (T36/T37)", () => {
-  it("SCALE : batch 3-6 dans un nouvel adset de la CBO + dispatch des winners", () => {
+  it("SCALE : batch 3-6 blindé dans l'adset courant (T42) + dispatch des winners + ménage SOP", () => {
     const rows = [...mkSeries([0.2]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.2))];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const plan = r.campaigns[0].creaPlan.join(" ");
     expect(plan).toContain("3 à 6 ads");
-    expect(plan).toContain("Nouvel adset DANS la CBO");
+    expect(plan).toContain("blinde-le jusqu'à ~50 ads"); // T42 [01:04] — plus de « nouvel adset par batch »
+    expect(plan).toContain("3 éléments sur 5"); // T42 [08:48]
     expect(plan).toContain("MÊME POST ID");
+    expect(plan).toContain("kill loser"); // SOP Meta Process §3
   });
 
   it("HOLD sans saturation : pas de plan imposé (assertions dures)", () => {

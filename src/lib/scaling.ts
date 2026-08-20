@@ -742,13 +742,21 @@ function buildCreaPlan(input: {
   leak: RescueLeak | null;
 }): string[] {
   const { action, scalingRegime, cpmrRising } = input;
+  // Où injecter — arbitrage du corpus (ARBITRAGES.md : post-Andromeda > processus
+  // de testing > fondations) : T42 [01:04] « le minimum d'adsets possible et
+  // blinder les créas dedans, nous on garde UN adset et on blinde jusqu'à
+  // 50 ads » (T21 [03:59] pareil : nouvel adset seulement une fois FULL à 50).
+  // Conflit signalé, pas mélangé : T36 [04:43]/T37 [12:21] (plus anciennes)
+  // disaient nouvel adset dès 15 ads.
   const where = scalingRegime
     ? "Campagne ABO testing dédiée (~20 % du budget) : nouvel adset par batch, budget ≈ 2-2,5 × CPA, décision à 2-3 j (T36 [02:28-02:48])."
-    : "Nouvel adset DANS la CBO (ou complète un adset existant s'il a < 15 ads), minimum spend 10-15 €/j pendant 2 jours pour forcer Meta à tester (T36 [04:23-05:05]).";
+    : "Injecte le batch dans l'adset de testing COURANT de la CBO et blinde-le jusqu'à ~50 ads — nouvel adset seulement une fois plein (T42 [01:04] / T21 [03:59] ; l'ancienne règle des 15 ads de T36/T37 est remplacée). Minimum spend 10-15 €/j par nouvelle ad pendant 2 jours pour forcer Meta à tester (T36 [04:43-05:05]), à retirer ensuite si l'ad ne performe pas (T37 [15:19]).";
   const batch =
-    "Batch de 3 à 6 ads : 2-3 adcopies + 2-3 titres + 1 description par ad, angles VARIÉS (une adcopy par angle), miniature choisie à la main, 50 % page marque / 50 % page tierce (T36).";
+    "Batch de 3 à 6 ads : 2-3 adcopies + 2-3 titres + 1 description par ad, angles VARIÉS (une adcopy par angle), miniature choisie à la main, 50 % page marque / 50 % page tierce (T36). Chaque variante change AU MOINS 3 éléments sur 5 (hook, visuel, texte, durée/format, message) — un micro-changement passe pour du spam (T42 [08:48]). Jamais tout un gros volume d'un coup : 200 créas injectées le même jour = chute de ROAS mesurée (T39 [05:32]).";
   const setup =
-    "Réglages : Advantage+ créative OFF sauf relevant comments, placements originaux, exclure les acheteurs. Lancement mardi→vendredi (jamais lundi), adset live entre minuit et 7 h (T36 [00:20-01:03]).";
+    "Réglages : Advantage+ créative OFF sauf relevant comments, placements originaux, exclure les acheteurs. Lancement mardi→vendredi (jamais lundi), adset live entre minuit et 7 h (T36 [00:20-01:03]). Nommage : creative-testing-<mois>-<semaine> pour l'adset, le nom du batch sur chaque ad (T36 [03:59]).";
+  const menage =
+    "Ménage (SOP Meta Process, ressources-google/15 §3) : une AD sous le BE ROAS sur les 7 derniers jours → OFF (kill loser) ; un ADSET sous le BE sur 3 jours + aujourd'hui → OFF. Les winners se marquent, jamais ne se coupent (T37).";
 
   if (action === "HOLD") {
     return cpmrRising
@@ -761,6 +769,7 @@ function buildCreaPlan(input: {
       batch,
       "Et dispatch tes winners : une ad à ≥ 6 ventes et ≥ 10 % de marge (14 j) → duplique-la AVEC LE MÊME POST ID (garde les commentaires) dans un NOUVEL adset « <mois> winners » de la CBO, minimum spend 10-15 €/j (T37).",
       setup,
+      menage,
     ];
   }
   if (action === "DESCALE") {
@@ -769,6 +778,7 @@ function buildCreaPlan(input: {
       "Batch de 3 à 6 ads « valeurs sûres » (T35 [04:08] : des trucs dont on est sûrs) + 1-2 hooks neufs" +
         (cpmrRising ? " — priorité aux HOOKS : le CPMr monte, l'audience sature (T24 [10:16])." : " (T36)."),
       setup,
+      menage,
     ];
   }
   // RESCUE : le focus dépend du cadran (T35 [06:47-09:36])
