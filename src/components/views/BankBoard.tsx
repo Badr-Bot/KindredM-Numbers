@@ -122,6 +122,7 @@ function HealthHeader({ tiles }: { tiles: DomainTile[] }) {
 
 const CAT_CHIP: Record<BankTx["category"], { txt: string; cls: string }> = {
   META: { txt: "META", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
+  GOOGLE_ADS: { txt: "GOOGLE ADS", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
   SHOPIFY: { txt: "SHOPIFY", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" },
   ABONNEMENT: { txt: "ABO", cls: "border-amber/50 bg-amber/10 text-amber" },
   FOURNISSEUR: { txt: "FOURNISSEUR", cls: "border-net-5/50 bg-net-5/10 text-net-5" },
@@ -223,6 +224,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   // « || 0 » : évite le « -0 € » d'affichage quand un poste est vide
   const out = (f: (t: BankTx) => boolean) => -sum((t) => eurOf(t) < 0 && !isPerso(t) && f(t)) || 0;
   const meta = out((t) => t.category === "META");
+  const googleAds = out((t) => t.category === "GOOGLE_ADS");
   const fournisseur = out((t) => t.category === "FOURNISSEUR");
   const abos = out((t) => t.category === "ABONNEMENT");
   const frais = out((t) => t.category === "FRAIS");
@@ -230,7 +232,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const aAffecter = out((t) => t.category === "AUTRE" && t.label === null);
   const perso = -sum((t) => isPerso(t) && eurOf(t) < 0) || 0;
   const entrees = entreesShopify + entreesAutres;
-  const sorties = meta + fournisseur + abos + frais + societeAutre;
+  const sorties = meta + googleAds + fournisseur + abos + frais + societeAutre;
   const marge = entrees - sorties;
   // Frais bancaires RÉELS (FX, virements — y compris ceux fondus dans les
   // postes Meta/Fournisseur via leur transaction d'origine) : absents du net
@@ -264,6 +266,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
         <div className="flex flex-col gap-1">
           <div className="text-[9px] font-bold uppercase tracking-wider text-red">💸 Sorties société</div>
           <Row l="Meta Ads (frais FX inclus)" v={meta} />
+          {googleAds > 0 && <Row l="Google Ads (suivi API à brancher)" v={googleAds} />}
           <Row l="Fournisseur (frais de virement inclus)" v={fournisseur} />
           {(report.control?.fournisseurPointage ?? []).map((l) => (
             <div key={l} className="pl-2 text-[9px] leading-snug text-ink-faint">{l}</div>
