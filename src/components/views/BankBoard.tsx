@@ -265,6 +265,9 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
           <div className="text-[9px] font-bold uppercase tracking-wider text-red">💸 Sorties société</div>
           <Row l="Meta Ads (frais FX inclus)" v={meta} />
           <Row l="Fournisseur (frais de virement inclus)" v={fournisseur} />
+          {(report.control?.fournisseurPointage ?? []).map((l) => (
+            <div key={l} className="pl-2 text-[9px] leading-snug text-ink-faint">{l}</div>
+          ))}
           <Row l="Abonnements & équipe" v={abos} />
           {frais > 0 && <Row l="Frais bancaires" v={frais} />}
           {societeAutre > 0 && <Row l="Autres (affectées Société)" v={societeAutre} />}
@@ -464,6 +467,9 @@ export function BankBoard({
                       {t.bank}
                       {t.detail ? ` · ${t.detail}` : ""}
                     </span>
+                    {t.suggestion && (
+                      <span className="block text-[9.5px] font-semibold text-cyan">🤖 {t.suggestion}</span>
+                    )}
                     <AssignButtons tx={t} />
                   </td>
                   <td className="py-1.5 text-right tnum font-bold text-red">{money(t.amountCents, t.currency)}</td>
