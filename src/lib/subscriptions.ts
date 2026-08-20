@@ -67,6 +67,9 @@ export interface Subscription {
    * associés » : ce que l'un avance pour la société lui est dû au règlement.
    */
   paidBy?: "BADR" | "ADNANE";
+  /** true = charge comptée mais PAS encore prélevée en banque (paiement
+   * différé annoncé) : le contrôle bancaire ne la réclame pas. */
+  noBankClaim?: boolean;
   note?: string;
 }
 
@@ -91,7 +94,9 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // le tracé « Entre associés ».
   { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, paidBy: "ADNANE", note: "Commencé le 15/07 (Badr 08/08). Payé perso par Adnane (Badr 19/08, à confirmer). % de commission oublié pour le moment." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
+  // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },

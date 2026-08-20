@@ -3,6 +3,8 @@ import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, toParisDay, todayParisDay } from "./time";
 import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { ONE_OFF_COSTS } from "./associateLedger";
+import { SUPPLIER_BILLS } from "./supplierBills";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -57,6 +59,10 @@ export interface BankTx {
    * lieu du marchand, mémo, heure (demande Badr 19/08 : « tu expliques
    * pas ») — affiché sous la description dans « À affecter ». */
   detail?: string | null;
+  /** « 🤖 Ressemble à : … » — rapprochement automatique d'une ligne
+   * inconnue avec tout ce que le dashboard connaît (abonnements, frais
+   * ponctuels, factures fournisseur) par similarité de montant. */
+  suggestion?: string | null;
 }
 
 export interface BankBalance {
@@ -664,7 +670,8 @@ export type AnomalyKind =
   | "ABO_MONTANT"
   | "META_ECART"
   | "PAYOUT_MANQUANT"
-  | "DOUBLE_DEBIT";
+  | "DOUBLE_DEBIT"
+  | "FOURNISSEUR_ECART";
 
 export interface Anomaly {
   kind: AnomalyKind;
@@ -693,6 +700,9 @@ export interface ControlReport {
   parts: OwnerParts;
   /** les transactions à affecter (inbox), plus récentes d'abord */
   toAssign: BankTx[];
+  /** Pointage factures fournisseur ↔ virements bancaires (« relie toutes
+   * les données entre elles », Badr 19/08) — une ligne par facture. */
+  fournisseurPointage: string[];
 }
 
 /** Le cœur du contrôle : chaque euro sorti doit finir dans exactement une
@@ -725,6 +735,27 @@ export function computeControl(input: {
     });
   }
 
+  // 1bis) CANDIDATS automatiques (« relie toutes les données, sois
+  // intelligent » — Badr 19/08) : une ligne inconnue est comparée par
+  // MONTANT (±5 %, mini 1 €) à tout ce que le dashboard connaît déjà —
+  // abonnements officiels, frais ponctuels du ledger, factures fournisseur.
+  const candidats: { label: string; cents: number }[] = [
+    ...SUBSCRIPTIONS.filter((s) => s.amount > 0).map((s) => ({
+      label: `${s.label} (~${eur(monthlyEurCents(s))}/mois)`,
+      cents: monthlyEurCents(s),
+    })),
+    ...ONE_OFF_COSTS.map((c) => ({ label: `${c.label} (frais ponctuel, ${eur(c.eurCents)})`, cents: c.eurCents })),
+    ...SUPPLIER_BILLS.map((b) => ({ label: `facture fournisseur ${b.ref} (${eur(b.totalCents)})`, cents: b.totalCents })),
+  ];
+  for (const t of toAssign) {
+    const a = Math.abs(t.amountEurCents ?? 0);
+    if (a === 0) continue;
+    const proches = candidats.filter((c) => c.cents > 0 && Math.abs(a - c.cents) <= Math.max(100, c.cents * 0.05));
+    if (proches.length > 0) {
+      t.suggestion = `Ressemble à : ${proches.slice(0, 2).map((c) => c.label).join(" ou ")}`;
+    }
+  }
+
   // 2) Abonnement LLC attendu mais JAMAIS débité depuis le début de la
   //    fenêtre de contrôle. Précision Badr 19/08 : « Klaviyo etc. tout ça
   //    c'est la LLC qui paye — tu les trouveras » → on les CHERCHE. Exclus :
@@ -742,7 +773,7 @@ export function computeControl(input: {
   for (const p of SUBSCRIPTION_PATTERNS) {
     // Seuls les abonnements payés par la LLC et non couverts par la facture
     // Shopify sont réclamés (avances perso : paidBy posé → jamais réclamé).
-    const actifs = subsForPattern(p.label, untilDay).filter((s) => !s.paidBy);
+    const actifs = subsForPattern(p.label, untilDay).filter((s) => !s.paidBy && !s.noBankClaim);
     if (actifs.length === 0) continue;
     if (actifs.every((s) => s.category === "APP_SHOPIFY") && factureShopifyVue) continue;
     const paid = inWindow.some((t) => t.subscriptionLabel === p.label && t.amountCents < 0);
@@ -834,6 +865,54 @@ export function computeControl(input: {
     });
   }
 
+  // 7) POINTAGE FOURNISSEUR : chaque facture Panda (supplierBills.ts, avec
+  //    ses montants payés annoncés) doit avoir SON virement en banque, et
+  //    chaque virement Panda SA facture — matching par montant (±2 %, les
+  //    taux de change du jour varient). C'est le « relie toutes les
+  //    données » de Badr 19/08 : les factures couvrent le stock DÉJÀ vendu.
+  const pandaTxs = debits.filter((t) => t.category === "FOURNISSEUR" && !(t.labelNote?.startsWith("frais lié") ?? false));
+  const fournisseurPointage: string[] = [];
+  const pointes = new Set<string>();
+  for (const bill of SUPPLIER_BILLS) {
+    const target = bill.paidCents > 0 ? bill.paidCents : bill.totalCents;
+    const match = pandaTxs.find(
+      (t) => !pointes.has(t.txId) && t.amountEurCents !== null && Math.abs(Math.abs(t.amountEurCents) - target) <= target * 0.02
+    );
+    if (match) {
+      pointes.add(match.txId);
+      fournisseurPointage.push(
+        `✓ ${bill.ref} (${eur(bill.totalCents)}) pointée en banque le ${match.day.slice(8, 10)}/${match.day.slice(5, 7)} (${match.bank})`
+      );
+    } else if (bill.status === "payee") {
+      if (bill.issuedDay >= sinceDay) {
+        anomalies.push({
+          kind: "FOURNISSEUR_ECART",
+          severity: "amber",
+          label: `${bill.ref} : annoncée payée mais aucun virement bancaire de ~${eur(target)} trouvé`,
+          detail: "Payée depuis un compte non branché ? Vérifier le montant du virement.",
+        });
+      } else {
+        fournisseurPointage.push(`• ${bill.ref} : payée avant la fenêtre de contrôle (01/08)`);
+      }
+    } else {
+      anomalies.push({
+        kind: "FOURNISSEUR_ECART",
+        severity: "amber",
+        label: `${bill.ref} : ${eur(bill.totalCents - bill.paidCents)} restant à payer au fournisseur`,
+        detail: "Facture non soldée dans le suivi fournisseur (onglet Dépenses).",
+      });
+    }
+  }
+  for (const t of pandaTxs) {
+    if (pointes.has(t.txId)) continue;
+    anomalies.push({
+      kind: "FOURNISSEUR_ECART",
+      severity: "amber",
+      label: `Virement fournisseur SANS facture correspondante : ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)}`,
+      detail: "Aucune facture Panda de ce montant dans le suivi — facture manquante à ajouter ?",
+    });
+  }
+
   // Parts : Société = catégories société + affectés SOCIETE ; perso = affectés.
   // Un FRAIS hérité d'une dépense perso (label PERSO_*) reste dans la part
   // perso — jamais compté deux fois.
@@ -862,6 +941,7 @@ export function computeControl(input: {
       soldeBadrDoitAFahdCents: Math.round((sumAbs(badr) - sumAbs(fahd)) / 2),
     },
     toAssign: [...toAssign].sort((a, b) => b.day.localeCompare(a.day)),
+    fournisseurPointage,
   };
 }
 
