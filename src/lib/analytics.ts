@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { createSupabaseServerClient } from "./supabase";
-import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
+import { contributionMargin, fallbackShopifyFeeCents, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
 import type { Totals } from "./data";
@@ -594,18 +594,28 @@ async function getProductRoasThresholdsUncached(
   if (mapError) return null;
   const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
 
-  const gilet = emptyBucket();
-  const polo = emptyBucket();
+  // Frais Shopify RÉELS par commande quand la colonne existe (migration 0013),
+  // repli 3 % PAR COMMANDE sinon — même filet que computeDailyAggregate
+  // (aggregate.ts). Le forfait feesCentsForCa faussait le cm qui décide du
+  // pivot « marge ≥ 15 % » de l'onglet Scaling (audit 21/08).
+  const { error: feeProbeError } = await supabase.from("orders").select("fee_total_cents").limit(1);
+  const hasRealFees = !feeProbeError;
+  const orderCols =
+    "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items" +
+    (hasRealFees ? ", fee_total_cents" : "");
+
+  const gilet = { ...emptyBucket(), feesCents: 0 };
+  const polo = { ...emptyBucket(), feesCents: 0 };
   const PAGE = 1000;
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
+      .select(orderCols)
       .gte("day", startDay)
       .lte("day", endDay)
       .order("id", { ascending: true })
       .range(from, from + PAGE - 1)) as unknown as {
-      data: RawOrderForSplit[] | null;
+      data: (RawOrderForSplit & { fee_total_cents?: number | null })[] | null;
       error: { message: string } | null;
     };
     if (error) return null;
@@ -613,15 +623,17 @@ async function getProductRoasThresholdsUncached(
     for (const o of rows) {
       const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
       const b = isGilet ? gilet : polo;
-      b.caCents += o.total_cents - o.refunded_cents;
+      const orderCa = o.total_cents - o.refunded_cents;
+      b.caCents += orderCa;
       b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
       b.taxCents += o.tax_eu_cents;
+      b.feesCents += typeof o.fee_total_cents === "number" ? o.fee_total_cents : fallbackShopifyFeeCents(orderCa);
     }
     if (rows.length < PAGE) break;
   }
 
-  const toThresholds = (b: ReturnType<typeof emptyBucket>): ProductRoasThresholds => {
-    const cm = contributionMargin(b.caCents, b.cogsCents, b.taxCents, feesCentsForCa(b.caCents));
+  const toThresholds = (b: typeof gilet): ProductRoasThresholds => {
+    const cm = contributionMargin(b.caCents, b.cogsCents, b.taxCents, b.feesCents);
     if (cm === null || cm <= 0) return { cm, breakEven: null, target: null };
     return {
       cm,
