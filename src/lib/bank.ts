@@ -31,7 +31,7 @@ import { SUPPLIER_BILLS } from "./supplierBills";
 const WISE_API = "https://api.wise.com";
 
 export type BankName = "WISE" | "SLASH";
-export type TxCategory = "META" | "SHOPIFY" | "ABONNEMENT" | "FOURNISSEUR" | "FRAIS" | "INTERNE" | "AUTRE";
+export type TxCategory = "META" | "GOOGLE_ADS" | "SHOPIFY" | "ABONNEMENT" | "FOURNISSEUR" | "FRAIS" | "INTERNE" | "AUTRE";
 /** Affectation manuelle d'une transaction (table bank_tx_labels).
  * FAHD = ADNANE (confirmé Badr 19/08) : même personne que l'associé du
  * ledger « Entre associés ». Une dépense perso payée par la carte LLC est
@@ -138,6 +138,12 @@ export function categorizeTx(description: string, amountCents: number): { catego
   for (const p of SUBSCRIPTION_PATTERNS) {
     if (p.re.test(description)) return { category: "ABONNEMENT", subscriptionLabel: p.label };
   }
+  // Google Ads (identifié par Badr 19/08 : la ligne de 100 € = Google Ads).
+  // APRÈS les motifs d'abonnement : « Google Workspace » est déjà capté
+  // au-dessus. Suivi analytique via l'API Google à brancher (Badr : « je te
+  // donnerai l'API plus tard ») — en attendant, le comptable le compte
+  // côté banque comme un poste pub à part.
+  if (/google[\s*]*ads?(\d|\b)|adwords/.test(d)) return { category: "GOOGLE_ADS", subscriptionLabel: null };
   return { category: "AUTRE", subscriptionLabel: null };
 }
 
@@ -903,21 +909,23 @@ export function computeControl(input: {
       });
     }
   }
+  // Un virement Panda sans facture dans le suivi = le règlement d'une
+  // facture ANTÉRIEURE au point de départ du ledger (réputée soldée,
+  // décision Badr 14/08) — information, PAS une anomalie (Badr 19/08 :
+  // « c'est forcément une facture d'avant début août, tu ne me remontes
+  // pas l'anomalie »).
   for (const t of pandaTxs) {
     if (pointes.has(t.txId)) continue;
-    anomalies.push({
-      kind: "FOURNISSEUR_ECART",
-      severity: "amber",
-      label: `Virement fournisseur SANS facture correspondante : ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)}`,
-      detail: "Aucune facture Panda de ce montant dans le suivi — facture manquante à ajouter ?",
-    });
+    fournisseurPointage.push(
+      `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : facture antérieure au suivi (réputée soldée)`
+    );
   }
 
   // Parts : Société = catégories société + affectés SOCIETE ; perso = affectés.
   // Un FRAIS hérité d'une dépense perso (label PERSO_*) reste dans la part
   // perso — jamais compté deux fois.
   const sumAbs = (list: BankTx[]) => list.reduce((a, t) => a + Math.abs(t.amountEurCents ?? 0), 0);
-  const CATS_SOCIETE: TxCategory[] = ["META", "ABONNEMENT", "FOURNISSEUR", "FRAIS"];
+  const CATS_SOCIETE: TxCategory[] = ["META", "GOOGLE_ADS", "ABONNEMENT", "FOURNISSEUR", "FRAIS"];
   const societe = debits.filter(
     (t) =>
       ((CATS_SOCIETE.includes(t.category) || (t.category === "SHOPIFY" && t.amountCents < 0)) &&

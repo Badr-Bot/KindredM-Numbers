@@ -122,6 +122,7 @@ function HealthHeader({ tiles }: { tiles: DomainTile[] }) {
 
 const CAT_CHIP: Record<BankTx["category"], { txt: string; cls: string }> = {
   META: { txt: "META", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
+  GOOGLE_ADS: { txt: "GOOGLE ADS", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
   SHOPIFY: { txt: "SHOPIFY", cls: "border-phosphor/50 bg-phosphor/10 text-phosphor" },
   ABONNEMENT: { txt: "ABO", cls: "border-amber/50 bg-amber/10 text-amber" },
   FOURNISSEUR: { txt: "FOURNISSEUR", cls: "border-net-5/50 bg-net-5/10 text-net-5" },
@@ -161,7 +162,7 @@ function GapTile({ title, bank, expected, note, pending = false }: { title: stri
 const LABEL_META: Record<TxLabel, { txt: string; cls: string }> = {
   SOCIETE: { txt: "SOCIÉTÉ", cls: "border-cyan/50 bg-cyan/10 text-cyan" },
   PERSO_BADR: { txt: "BADR", cls: "border-net-5/50 bg-net-5/10 text-net-5" },
-  PERSO_FAHD: { txt: "FAHD", cls: "border-amber/50 bg-amber/10 text-amber" },
+  PERSO_FAHD: { txt: "ADNANE", cls: "border-amber/50 bg-amber/10 text-amber" },
   IGNORER: { txt: "IGNORÉE", cls: "border-line text-ink-faint" },
 };
 
@@ -187,7 +188,7 @@ function AssignButtons({ tx, compact = false }: { tx: BankTx; compact?: boolean 
     <span className={`flex flex-wrap gap-1 ${compact ? "" : "mt-1"}`}>
       <button disabled={busy} onClick={() => assign("SOCIETE")} className={`${btn} border-cyan/50 text-cyan hover:bg-cyan/10`}>Société</button>
       <button disabled={busy} onClick={() => assign("PERSO_BADR")} className={`${btn} border-net-5/50 text-net-5 hover:bg-net-5/10`}>Badr</button>
-      <button disabled={busy} onClick={() => assign("PERSO_FAHD")} className={`${btn} border-amber/50 text-amber hover:bg-amber/10`}>Fahd</button>
+      <button disabled={busy} onClick={() => assign("PERSO_FAHD")} className={`${btn} border-amber/50 text-amber hover:bg-amber/10`}>Adnane</button>
       <button disabled={busy} onClick={() => assign("IGNORER")} className={`${btn} border-line text-ink-faint hover:bg-terminal-2`}>Ignorer</button>
     </span>
   );
@@ -223,6 +224,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   // « || 0 » : évite le « -0 € » d'affichage quand un poste est vide
   const out = (f: (t: BankTx) => boolean) => -sum((t) => eurOf(t) < 0 && !isPerso(t) && f(t)) || 0;
   const meta = out((t) => t.category === "META");
+  const googleAds = out((t) => t.category === "GOOGLE_ADS");
   const fournisseur = out((t) => t.category === "FOURNISSEUR");
   const abos = out((t) => t.category === "ABONNEMENT");
   const frais = out((t) => t.category === "FRAIS");
@@ -230,7 +232,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const aAffecter = out((t) => t.category === "AUTRE" && t.label === null);
   const perso = -sum((t) => isPerso(t) && eurOf(t) < 0) || 0;
   const entrees = entreesShopify + entreesAutres;
-  const sorties = meta + fournisseur + abos + frais + societeAutre;
+  const sorties = meta + googleAds + fournisseur + abos + frais + societeAutre;
   const marge = entrees - sorties;
   // Frais bancaires RÉELS (FX, virements — y compris ceux fondus dans les
   // postes Meta/Fournisseur via leur transaction d'origine) : absents du net
@@ -264,6 +266,7 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
         <div className="flex flex-col gap-1">
           <div className="text-[9px] font-bold uppercase tracking-wider text-red">💸 Sorties société</div>
           <Row l="Meta Ads (frais FX inclus)" v={meta} />
+          {googleAds > 0 && <Row l="Google Ads (suivi API à brancher)" v={googleAds} />}
           <Row l="Fournisseur (frais de virement inclus)" v={fournisseur} />
           {(report.control?.fournisseurPointage ?? []).map((l) => (
             <div key={l} className="pl-2 text-[9px] leading-snug text-ink-faint">{l}</div>
@@ -416,7 +419,7 @@ export function BankBoard({
           {[
             { t: "Société (dep. 01/08)", v: control.parts.societeCents, cls: "text-cyan" },
             { t: "Perso Badr", v: control.parts.persoBadrCents, cls: "text-net-5" },
-            { t: "Perso Fahd", v: control.parts.persoFahdCents, cls: "text-amber" },
+            { t: "Perso Adnane", v: control.parts.persoFahdCents, cls: "text-amber" },
             { t: `À affecter (${control.parts.aAffecterCount})`, v: control.parts.aAffecterCents, cls: control.parts.aAffecterCount > 0 ? "text-red" : "text-phosphor" },
           ].map((x) => (
             <div key={x.t} className="rounded-lg border border-line bg-panel p-2.5">
@@ -445,9 +448,9 @@ export function BankBoard({
           {control.parts.soldeBadrDoitAFahdCents === 0 ? (
             <b className="text-phosphor">équilibré</b>
           ) : control.parts.soldeBadrDoitAFahdCents > 0 ? (
-            <b className="tnum text-amber">Badr doit {formatEur0(control.parts.soldeBadrDoitAFahdCents)} à Fahd</b>
+            <b className="tnum text-amber">Badr doit {formatEur0(control.parts.soldeBadrDoitAFahdCents)} à Adnane</b>
           ) : (
-            <b className="tnum text-amber">Fahd doit {formatEur0(-control.parts.soldeBadrDoitAFahdCents)} à Badr</b>
+            <b className="tnum text-amber">Adnane doit {formatEur0(-control.parts.soldeBadrDoitAFahdCents)} à Badr</b>
           )}
           . S&apos;ajoute au solde historique « Entre associés » de l&apos;onglet Année (avances perso → société).
         </p>

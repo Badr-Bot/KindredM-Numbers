@@ -44,6 +44,11 @@ describe("categorizeTx", () => {
     expect(categorizeTx("VMAKE.AI", -999).category).toBe("ABONNEMENT");
     expect(categorizeTx("TRENDTRACK", -2500).category).toBe("ABONNEMENT");
     expect(categorizeTx("SKOOL.COM", -21600).category).toBe("ABONNEMENT");
+    // Google Ads (Badr 19/08 : la ligne de 100 € = Google Ads) — mais
+    // Google Workspace reste un abonnement, jamais confondu.
+    expect(categorizeTx("GOOGLE *ADS7364918", -10000).category).toBe("GOOGLE_ADS");
+    expect(categorizeTx("GOOGLE ADWORDS", -10000).category).toBe("GOOGLE_ADS");
+    expect(categorizeTx("GOOGLE *Workspace", -810).category).toBe("ABONNEMENT");
   });
 
   it("un FRAIS hérité d'une dépense perso reste dans la part perso, jamais société", () => {
