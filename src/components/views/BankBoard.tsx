@@ -211,7 +211,7 @@ function Row({ l, v, strong = false }: { l: string; v: number; strong?: boolean 
   );
 }
 
-function CashflowBlock({ report, netTheoriqueCents, nonCashChargesCents = 0 }: { report: BankReport; netTheoriqueCents: number | null; nonCashChargesCents?: number }) {
+function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netTheoriqueCents: number | null }) {
   const since = report.reconciliation?.sinceDay;
   if (!since || report.txs.length === 0) return null;
   const inWin = report.txs.filter((t) => t.day >= since && t.label !== "IGNORER" && t.category !== "INTERNE");
@@ -240,13 +240,7 @@ function CashflowBlock({ report, netTheoriqueCents, nonCashChargesCents = 0 }: {
   // égales (Badr 19/08 : « pour Panda inclut les fees, je veux que tout soit
   // carré »).
   const fraisReels = -sum((t) => eurOf(t) < 0 && !isPerso(t) && (t.category === "FRAIS" || (t.labelNote?.startsWith("frais lié") ?? false))) || 0;
-  // Charges portées par le net théorique qui ne sortiront JAMAIS de la banque
-  // LLC (Seif « ne sera pas payé » Badr 20/08, Marwa différée, abos avancés
-  // perso par Adnane) : la caisse ne peut pas les voir, donc on les REMET au
-  // théorique pour comparer à armes égales. Sans ça, l'écart affiché gonflait
-  // de ~886 € sur 01/08 → 20/08 sans que rien ne l'explique.
-  const theoAjuste =
-    netTheoriqueCents !== null ? netTheoriqueCents - fraisReels + nonCashChargesCents : null;
+  const theoAjuste = netTheoriqueCents !== null ? netTheoriqueCents - fraisReels : null;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
@@ -291,27 +285,12 @@ function CashflowBlock({ report, netTheoriqueCents, nonCashChargesCents = 0 }: {
                 Dashboard (théorique) sur la même période : <b className="tnum text-ink">{formatEur0(netTheoriqueCents)}</b>
                 {fraisReels > 0 && (
                   <>
-                    {" "}− frais bancaires réels (FX, virements Panda…) <b className="tnum text-ink">{formatEur0(fraisReels)}</b>
+                    {" "}− frais bancaires réels (FX, virements Panda…) <b className="tnum text-ink">{formatEur0(fraisReels)}</b> ={" "}
+                    <b className="tnum text-ink">{formatEur0(theoAjuste)}</b>
                   </>
-                )}
-                {nonCashChargesCents > 0 && (
-                  <>
-                    {" "}+ charges jamais décaissées{" "}
-                    <b className="tnum text-ink">{formatEur0(nonCashChargesCents)}</b>
-                  </>
-                )}
-                {(fraisReels > 0 || nonCashChargesCents > 0) && (
-                  <> = <b className="tnum text-ink">{formatEur0(theoAjuste)}</b></>
                 )}{" "}
                 — écart vs encaissé{" "}
                 <b className={`tnum ${marge - theoAjuste >= 0 ? "text-phosphor" : "text-amber"}`}>{formatEur0(marge - theoAjuste)}</b>.
-                {nonCashChargesCents > 0 && (
-                  <>
-                    {" "}« Jamais décaissées » = charges bien comptées dans la marge du dashboard mais qui ne
-                    sortiront pas de la banque LLC : Seif (non payé, Badr 20/08), Marwa (paiement différé),
-                    abonnements avancés de la poche d&apos;Adnane.
-                  </>
-                )}{" "}
                 Reste d&apos;écart normal : payouts en différé 2-4 j, Meta facture par paliers, COGS fournisseur payé par vagues.
               </p>
             )}
@@ -411,7 +390,7 @@ export function BankBoard({
 }: {
   report: BankReport;
   unmappedCount: number;
-  annee?: { badrCents: number; adnaneCents: number; netDepuisCents: number | null; nonCashChargesCents?: number } | null;
+  annee?: { badrCents: number; adnaneCents: number; netDepuisCents: number | null } | null;
 }) {
   const control = report.control;
   return (
@@ -452,11 +431,7 @@ export function BankBoard({
       )}
 
       <Reveal delayMs={90}>
-        <CashflowBlock
-          report={report}
-          netTheoriqueCents={annee?.netDepuisCents ?? null}
-          nonCashChargesCents={annee?.nonCashChargesCents ?? 0}
-        />
+        <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
       </Reveal>
 
       {annee && (
