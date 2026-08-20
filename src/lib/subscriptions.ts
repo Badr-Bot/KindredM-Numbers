@@ -21,7 +21,8 @@
 // Réponses de Badr (08/08 au soir) :
 //   • Jeremy / Seif : « oublie la commission pour le moment » → fixe seul,
 //     décision actée (plus une question ouverte).
-//   • Google Ads : « non, pas pour le moment » → rien à brancher.
+//   • Google Ads : « non, pas pour le moment » → rien à brancher (le SPEND
+//     Google Ads reste non compté ; seul le prestataire Seif l'était).
 //   • « Prorata » = Jeremy, Seif (et Google) ont commencé récemment → dates
 //     réelles données par Badr : Seif 15/07, Jeremy (emailing) 16/07.
 //   • « Tu la mets à 25 € » : compris comme KLAVIYO (emailing) à 25 €/mois —
@@ -35,6 +36,11 @@
 //     START_DEFAULT passe de 04/06 à 21/05 (aligné sur HISTORY_START/le
 //     vrai début d'activité). WeTracked reste sur l'ancien 04/06 en
 //     attendant sa vraie date — SIGNALÉ, pas une vraie date confirmée.
+// Réponse de Badr (20/08) :
+//   • Seif (le prestataire Google Ads) « ne sera pas payé » → sa charge est
+//     bornée au 16/07 → 16/08 (plus rien dès le 17/08) et n'est plus
+//     réclamée en banque ; l'hypothèse « payé perso par Adnane » du 19/08
+//     tombe avec elle.
 // Encore en attente de Badr (jamais inventé) :
 //   • WeTracked : date de départ réelle (démarré APRÈS les autres, mais
 //     04/06 reste une approximation, pas une date donnée).
@@ -88,11 +94,16 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // 13/08 = prorata de juillet + août complet, collaboration TERMINÉE fin
   // août — paiement conforme, pas une anomalie.
   { label: "Jeremy — emailing (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "EUR", startDay: "2026-07-16", endDay: "2026-08-31", note: "1 500 €/mois. Payé en une fois le 13/08 (2 747 $ = prorata juillet + août complet, Badr 19/08) — collaboration terminée fin août." },
-  // 19/08 (Badr) : « Seif, je le trouve pas [en banque], Adnane l'a payé
-  // avec son perso je pense » → paidBy posé (exclu du contrôle bancaire
-  // LLC), À CONFIRMER — si c'est une avance société, elle devra entrer dans
-  // le tracé « Entre associés ».
-  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-15", endDay: null, paidBy: "ADNANE", note: "Commencé le 15/07 (Badr 08/08). Payé perso par Adnane (Badr 19/08, à confirmer). % de commission oublié pour le moment." },
+  // 20/08 (Badr) : « Seif de Google Ads ne sera pas payé, la dépense est du
+  // 16/07 au 16/08 et plus rien après » → fenêtre fermée (16/07 → 16/08
+  // inclus, plus aucune charge dès le 17/08) et dates corrigées (le 15/07
+  // donné le 08/08 devient 16/07). « Ne sera pas payé » ANNULE l'hypothèse
+  // du 19/08 (« Adnane l'a payé avec son perso je pense », déjà signalée à
+  // confirmer) : plus de paidBy, donc rien à réclamer dans « Entre
+  // associés ». La charge reste comptée sur sa fenêtre — c'est une dépense
+  // engagée — mais noBankClaim la sort du contrôle bancaire : aucun débit
+  // n'est attendu puisque le paiement n'aura pas lieu.
+  { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-16", endDay: "2026-08-16", noBankClaim: true, note: "Google Ads. Compté du 16/07 au 16/08 inclus, plus rien après (Badr 20/08). NE SERA PAS PAYÉ — aucun débit attendu en banque, aucune avance perso à rembourser. % de commission oublié pour le moment." },
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
   // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
@@ -129,9 +140,16 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
   // 19/08 (Badr) : « Floxy c'est le nouveau prix, c'est 8 € » — était 7 $.
   { label: "Floxy (proxy)", category: "OUTIL", amount: 8, currency: "EUR", startDay: "2026-08-01", endDay: null, note: "8 €/mois — nouveau prix (Badr 19/08, était 7 $). Payé par la carte LLC dès le départ." },
-  { label: "VMake", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Pris le 14/08 (Badr : « on le prend à partir d'aujourd'hui »)." },
+  // 20/08 (Badr) : « c'est le même outil » — « VMake » (ajouté le 14/08) et
+  // « Vmake » (repris du PDF d'Adnane, 8,80 € depuis le début) étaient DEUX
+  // lignes pour UN seul abonnement : compté deux fois du 14/08 au 20/08.
+  // Lecture retenue : l'outil tourne depuis le début à 8,80 €, et le 14/08
+  // le tarif passe à 9,99 € (même schéma que Floxy). L'ancienne ligne est
+  // donc fermée au 13/08 au lieu d'être supprimée — l'historique doit
+  // continuer de porter ce qui a réellement été payé avant.
+  { label: "Vmake (nouveau tarif)", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Même outil que la ligne 8,80 € ci-dessous, fermée au 13/08 (Badr 20/08 : « c'est le même outil »). Tarif passé à 9,99 € le 14/08 (« on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
-  { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
   // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify

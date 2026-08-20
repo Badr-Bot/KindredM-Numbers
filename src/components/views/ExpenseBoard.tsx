@@ -310,7 +310,10 @@ export function ExpenseBoard({
           avant le 14/07, 50/50 ensuite. SmartSize : résilié le 08/08 (Badr) — compté
           jusqu&apos;au 08/08 inclus, plus de charge à partir du 09/08. Jeremy/Seif : fixe seul,
           commission oubliée pour le moment (Badr 08/08) — comptés depuis leurs vraies
-          dates (Seif 15/07, Jeremy 16/07). Google Ads : non compté (« pas pour le moment »).
+          dates (16/07 tous les deux) et tous deux ARRÊTÉS : Seif au 16/08 (« ne sera pas
+          payé », Badr 20/08 — charge comptée sur la fenêtre 16/07 → 16/08, aucun débit
+          attendu en banque), Jeremy au 31/08. Google Ads : spend non compté (« pas pour le
+          moment »).
         </p>
       </section>
 
@@ -414,9 +417,11 @@ export function ExpenseBoard({
             confirmé actif ; à retirer si Shopify l&apos;a épuisé.
           </li>
           <li>
-            <b>Jeremy / Seif (2 600 €/mois à eux deux)</b> — le poste le plus lourd (58 % des charges).
-            Une fois un mois complet de recul (fin août), comparer le CA qu&apos;ils rapportent
-            (campagnes Klaviyo ci-dessus pour Jeremy) à leur coût pour juger s&apos;ils se paient.
+            <b className="text-phosphor">Jeremy / Seif (2 600 €/mois à eux deux)</b> — c&apos;était le poste
+            le plus lourd (58 % des charges) : les deux collaborations s&apos;arrêtent (Seif au 16/08,
+            Jeremy au 31/08). Économie pleine à partir du 01/09 ; d&apos;ici là, comparer le CA
+            qu&apos;ils ont rapporté (campagnes Klaviyo ci-dessus pour Jeremy) à leur coût
+            pour savoir ce que ça a donné.
           </li>
         </ul>
       </section>

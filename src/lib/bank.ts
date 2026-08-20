@@ -93,7 +93,10 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // officielle de subscriptions.ts, reconnue en banque par mots-clés.
   { label: "Higgsfield ×2 (Adnane + Ismael)", re: /higgs\s*field|higgsfield/i },
   { label: "Eleven Labs ×2 (Adnane + monteur)", re: /eleven\s*labs/i },
-  { label: "VMake", re: /v\s*make|vmake/i },
+  // « Vmake » (et non « VMake ») : subsForPattern retrouve les lignes par
+  // préfixe SENSIBLE À LA CASSE — le libellé doit coller à celui de
+  // subscriptions.ts, sinon le montant attendu retombe à zéro en silence.
+  { label: "Vmake", re: /v\s*make|vmake/i },
   { label: "TrendTrack", re: /trend\s*track/i },
   { label: "Floxy (proxy)", re: /floxy/i },
   { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
