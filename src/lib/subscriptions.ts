@@ -140,9 +140,16 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
   // 19/08 (Badr) : « Floxy c'est le nouveau prix, c'est 8 € » — était 7 $.
   { label: "Floxy (proxy)", category: "OUTIL", amount: 8, currency: "EUR", startDay: "2026-08-01", endDay: null, note: "8 €/mois — nouveau prix (Badr 19/08, était 7 $). Payé par la carte LLC dès le départ." },
-  { label: "VMake", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Pris le 14/08 (Badr : « on le prend à partir d'aujourd'hui »)." },
+  // 20/08 (Badr) : « c'est le même outil » — « VMake » (ajouté le 14/08) et
+  // « Vmake » (repris du PDF d'Adnane, 8,80 € depuis le début) étaient DEUX
+  // lignes pour UN seul abonnement : compté deux fois du 14/08 au 20/08.
+  // Lecture retenue : l'outil tourne depuis le début à 8,80 €, et le 14/08
+  // le tarif passe à 9,99 € (même schéma que Floxy). L'ancienne ligne est
+  // donc fermée au 13/08 au lieu d'être supprimée — l'historique doit
+  // continuer de porter ce qui a réellement été payé avant.
+  { label: "Vmake (nouveau tarif)", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Même outil que la ligne 8,80 € ci-dessous, fermée au 13/08 (Badr 20/08 : « c'est le même outil »). Tarif passé à 9,99 € le 14/08 (« on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
-  { label: "Vmake", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
   // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
   // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify
