@@ -201,7 +201,8 @@ export interface ScalingWindow {
 export type ScalingAction = "SCALE" | "HOLD" | "DESCALE" | "RESCUE";
 /** Déclinaison de la montée (T24 [17:15-17:36]) : LIGHT = +10 % (10-15 %),
  * LADDER = palier/×2 plafonné (15-30 %), DOUBLE = ×2 (> 30 %). */
-export type ScaleKind = "LIGHT" | "LADDER" | "DOUBLE";
+/** LADDER = montée sur l'échelle (§2) · DOUBLE = bande 30 %+ du §3. */
+export type ScaleKind = "LADDER" | "DOUBLE";
 
 /** Une annonce de la campagne, sur la fenêtre de diagnostic (14 j). */
 export interface AdDiagnostic {
@@ -1009,10 +1010,21 @@ export function computeScaling(input: {
     const maxDailySpend = Math.max(0, ...[...entry.days.values()].map((d) => d.spendCents));
     const budgetCents = budgetOverride ?? budgetLive ?? lastMoveBudget ?? (maxDailySpend > 0 ? maxDailySpend : null);
     const budgetEstimated = budgetOverride === undefined && budgetLive === null && lastMoveBudget === null;
-    const scalingRegime = budgetCents !== null && budgetCents >= SEUIL_SCALING_CENTS;
+    // Le régime décide du protocole appliqué : on ne le fait JAMAIS basculer sur
+    // un budget deviné à partir du spend max. Sans budget lu sur Meta, on reste
+    // en pré-scaling (le régime prudent) et on le signale (audit 20/08).
+    const scalingRegime = budgetCents !== null && !budgetEstimated && budgetCents >= SEUIL_SCALING_CENTS;
+    const regimeIncertain = budgetCents !== null && budgetEstimated && budgetCents >= SEUIL_SCALING_CENTS;
 
-    const { nonStreak, lastIdx } = streakOf(winData, anchorDay);
+    const streak = streakOf(winData, anchorDay);
+    const lastIdx = streak.lastIdx;
     const last = winData[lastIdx];
+    // La fenêtre jugée EST le cran courant : si elle est un NON, on est au
+    // minimum au cran 1, même quand l'ancre tronque tout ce qui précède.
+    // Sans ça, une série entièrement antérieure au départ du protocole rendait
+    // nonStreak = 0 → SCALE, c'est-à-dire une HAUSSE de budget prescrite sur
+    // une campagne en perte (audit 20/08).
+    const nonStreak = last?.verdict === "NON" ? Math.max(1, streak.nonStreak) : streak.nonStreak;
     // LE RÉGIME DÉCIDE DU PROTOCOLE (board §« identifier la phase » : trois
     // phases, trois protocoles, ne jamais les mélanger).
     //  • PRÉ-SCALING (< 3 000 €/j) : la question est binaire (« rentable au
@@ -1023,7 +1035,10 @@ export function computeScaling(input: {
     //    board §3 (0-10 rien · 10-15 hold · 15-30 +20-30 % · 30+ doubler).
     let action = actionFromStreak(nonStreak);
     let scaleKind: ScaleKind | null = action === "SCALE" ? "LADDER" : null;
-    const atFloor = budgetCents !== null && budgetCents <= PLANCHER_BUDGET_CENTS;
+    // « Au plancher » n'est affirmé que sur un budget RÉELLEMENT lu sur Meta :
+    // un budget estimé depuis le spend vaut souvent le spend d'une journée
+    // faible et ferait croire à tort qu'on ne peut plus descendre.
+    const atFloor = budgetCents !== null && !budgetEstimated && budgetCents <= PLANCHER_BUDGET_CENTS;
     if (scalingRegime && last.band !== null) {
       if (nonStreak === 0) {
         // KPI cible atteint → table de marge du board §3.
@@ -1037,6 +1052,10 @@ export function computeScaling(input: {
       } else {
         // Sous le break-even : 72 h d'abord (3 fenêtres), puis −15 % ; et si on
         // est DÉJÀ au spend minimum, sauvetage — « ne PAS baisser le spend ».
+        // Le board ne chiffre pas le « spend quotidien minimum » du §3 : on
+        // n'invente pas de seuil. Le sauvetage reste atteignable sans ça — les
+        // −15 % successifs font repasser sous 3 000 €/j, et l'escalier du §2
+        // (qui, lui, finit en sauvetage au cran 4) reprend la main.
         action = nonStreak < 3 ? "HOLD" : atFloor ? "RESCUE" : "DESCALE";
         scaleKind = null;
       }
@@ -1058,7 +1077,11 @@ export function computeScaling(input: {
             m.newBudgetCents < m.oldBudgetCents &&
             moveAnchorDay(m) >= streakStartDay
         );
-      if (activities !== null && !hasExecutedDecrease) {
+      // Exception : au plancher, le budget ne PEUT plus baisser (reductionCents
+      // rend 100 €). Exiger une réduction exécutée y bloquerait le sauvetage
+      // pour toujours — les crans ont bien été déroulés, ils n'ont juste plus
+      // de marge de manœuvre (audit 20/08).
+      if (activities !== null && !hasExecutedDecrease && !atFloor) {
         action = "DESCALE";
         rescueCapped = true;
       }
@@ -1137,13 +1160,12 @@ export function computeScaling(input: {
     if (action === "SCALE" && basisCents !== null) {
       if (scaleKind === "DOUBLE") {
         // Régime SCALING, bande 30 %+ : « scale 40-100 %, on peut doubler le
-        // budget » (board §3) — plafonné à 500 sous 500 (« ×2 si petit ») et
-        // au seuil de changement de régime.
-        const doubled = Math.round((basisCents * 2) / 100) * 100;
-        suggestedCents =
-          basisCents < MONTEE_PALIERS_CENTS[0]
-            ? Math.min(doubled, MONTEE_PALIERS_CENTS[0])
-            : Math.min(doubled, SEUIL_SCALING_CENTS);
+        // budget » (board §3). AUCUN plafond : cette bande n'existe qu'à
+        // partir de 3 000 €/j, et la source double justement à partir de là
+        // (T35 [15:23] : « la Hero, 3K, je passe à 5K »). Le plafond au seuil
+        // de régime qui traînait ici faisait prescrire une BAISSE — un budget
+        // de 4 000 €/j « doublé » retombait à 3 000 (audit 20/08).
+        suggestedCents = Math.round((basisCents * 2) / 100) * 100;
       } else {
         suggestedCents = scaleTargetCents(basisCents);
       }
@@ -1198,6 +1220,13 @@ export function computeScaling(input: {
         `${entry.name} : budget ≥ 3 000 €/j → régime SCALING, la table de marge du board §3 s'applique. ` +
           "Une condition n'est PAS vérifiable ici : « plus de 70 % de la perf vient de l'attribution click-based ? » " +
           "(board §3) — à contrôler à la main dans Meta (colonnes → Vue et attribution) avant d'exécuter la montée."
+      );
+    }
+    if (regimeIncertain) {
+      warnings.push(
+        `${entry.name} : le budget (${Math.round((budgetCents ?? 0) / 100)} €/j) est ESTIMÉ depuis le spend, pas lu sur Meta — ` +
+          "il dépasse les 3 000 €/j mais on reste volontairement au protocole de pré-scaling. " +
+          "Renseigne le budget réel pour que le régime bascule."
       );
     }
 

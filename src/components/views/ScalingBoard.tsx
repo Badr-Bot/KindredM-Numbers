@@ -54,13 +54,13 @@ function VerdictZone({ c }: { c: ScalingCampaign }) {
     c.action === "DESCALE"
       ? "−15 %"
       : c.action === "SCALE"
-        ? c.scaleKind === "LIGHT"
-          ? "+10 %"
-          : c.scaleKind === "DOUBLE"
-            ? "×2"
-            : "palier"
+        ? c.scaleKind === "DOUBLE"
+          ? "×2"
+          : "palier"
         : c.action === "HOLD"
-          ? "24 h"
+          ? c.scalingRegime
+            ? "72 h" // board §3 : sous le BE, on attend 72 h avant de toucher au budget
+            : "24 h" // board §2 : cran 1 de l'escalier
           : "diagnostic";
   return (
     <div className="flex flex-col items-end gap-1 text-right">

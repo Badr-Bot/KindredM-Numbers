@@ -254,6 +254,44 @@ describe("protocole du board : pré-scaling binaire (§2) vs table de marge (§3
   });
 });
 
+describe("bugs bloquants trouvés à l'audit du 20/08", () => {
+  const withBudget = (rows: ScalingDailyRow[], budgetCents: number) =>
+    computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: budgetCents, updatedTime: null }]]),
+      activities: [],
+    });
+
+  it("le « doubler » du §3 ne prescrit JAMAIS une baisse (plus de plafond au seuil de régime)", () => {
+    // 4 000 €/j, marge 35 % → bande 30 %+ → doubler. Le plafond à 3 000 qui
+    // traînait faisait prescrire 3 000, soit une RÉDUCTION de 25 %.
+    const c = withBudget(mkSeries([0.35]), 400000).campaigns[0];
+    expect(c.scaleKind).toBe("DOUBLE");
+    expect(c.suggestedCents).toBe(800000);
+    expect(c.suggestedCents!).toBeGreaterThan(400000); // une montée, jamais une baisse
+  });
+
+  it("une fenêtre NON tronquée par l'ancre ne devient pas un SCALE", () => {
+    // Toutes les fenêtres sont en perte, mais le départ du protocole est
+    // POSTÉRIEUR à la dernière : la série est tronquée à zéro. Le verdict ne
+    // doit surtout pas être « monter le budget » sur une campagne en perte.
+    const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: null,
+      activities: null,
+      protocolStartDay: TODAY,
+    });
+    const c = r.campaigns[0];
+    expect(c.action).not.toBe("SCALE");
+    expect(c.nonStreak).toBeGreaterThanOrEqual(1); // la fenêtre jugée EST le cran courant
+  });
+});
+
 describe("garde-fous", () => {
   it("dépense sans vente : la campagne APPARAÎT, zone below", () => {
     const rows = [row(d(17), "c9", "POLO MORT", 150, 0), row(TODAY, "c9", "POLO MORT", 150, 0)];
