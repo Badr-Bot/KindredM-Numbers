@@ -20,7 +20,7 @@ import { formatInTimeZone } from "date-fns-tz";
 //
 //  • OUI → on monte le budget (T35 [05:18] « fois 2 si petit », lecture Badr
 //    18/08) : sous 500 €/j → ×2 PLAFONNÉ à 500 ; à partir de 500 → palier
-//    par palier sur 500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000 (+30 % au
+//    par palier sur 500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000 (+30 % au
 //    delà). Compteur de NON remis à zéro. Créas neuves à chaque montée.
 //  • NON n°1 → on attend 24 h sans toucher au budget (T35 [03:44-04:08]).
 //  • NON n°2 et n°3 → on réduit de 15 % (défaut T24 [16:54] ; bande 10-15 %
@@ -72,11 +72,13 @@ export function classifyCampaignProduct(name: string): ScalingProduct | "TESTING
   return "POLO";
 }
 
-// Échelle de montée du pré-scaling (€/j, en cents) — T35 [05:18] : « monter le
-// budget de 500. 750, 1000 à 1500, 1800, 2000, 3000 ». Seule source vérifiable
-// du corpus (Badr vérifie le schéma Whimsical — réaligner s'il dit 1850/2250).
+// Échelle de montée du pré-scaling (€/j, en cents) — source d'autorité : le board
+// Whimsical de la leçon 35, transcrit dans docs/formation/PROTOCOLE-DECISION.md §2
+// (« 500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000 »). L'audio de T35 [05:18] dit
+// « 1800, 2000 » : c'est la transcription Whisper qui déforme, le schéma fait foi
+// (consigne MEMO du 18/08 : réaligner si le board dit autre chose que l'audio).
 // Au-delà du dernier palier : +30 % (« plus 30 % si vous êtes près des 3000 »).
-export const MONTEE_PALIERS_CENTS = [50000, 75000, 100000, 150000, 180000, 200000, 300000];
+export const MONTEE_PALIERS_CENTS = [50000, 75000, 100000, 150000, 185000, 225000, 300000];
 export const PLANCHER_BUDGET_CENTS = 10000;
 /** Seuil du régime SCALING (T35 [06:02] « dès que les 3K/jour sont atteints »). */
 export const SEUIL_SCALING_CENTS = 300000;

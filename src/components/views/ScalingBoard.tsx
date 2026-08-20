@@ -503,7 +503,7 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
         « c&apos;est la meilleure manière de faire du yo-yo »), 4 fenêtres en perte → <b className="text-red">RESCUE</b>{" "}
         (seulement après des réductions réellement exécutées) · <b className="text-amber">0-10 %</b> → stabiliser ·{" "}
         <b className="text-phosphor">10-15 %</b> → SCALE +10 % · <b className="text-phosphor">15-30 %</b> → SCALE palier
-        (×2 plafonné à 500 sous 500 €/j, puis <span className="tnum">500 → 750 → 1000 → 1500 → 1800 → 2000 → 3000</span>) ·{" "}
+        (×2 plafonné à 500 sous 500 €/j, puis <span className="tnum">500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000</span>) ·{" "}
         <b className="text-phosphor">&gt; 30 %</b> → DOUBLE ×2 « tant que c&apos;est bien ». Plancher 100 €/j.
       </p>
 

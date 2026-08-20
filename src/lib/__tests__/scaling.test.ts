@@ -79,10 +79,10 @@ describe("classifyCampaignProduct", () => {
 
 describe("échelle de montée et réduction (T35/T24)", () => {
   it("paliers de l'audio de la leçon 35", () => {
-    expect(MONTEE_PALIERS_CENTS).toEqual([50000, 75000, 100000, 150000, 180000, 200000, 300000]);
+    expect(MONTEE_PALIERS_CENTS).toEqual([50000, 75000, 100000, 150000, 185000, 225000, 300000]);
     expect(nextPalierCents(30000)).toBe(50000);
     expect(nextPalierCents(50000)).toBe(75000);
-    expect(nextPalierCents(200000)).toBe(300000);
+    expect(nextPalierCents(225000)).toBe(300000);
     expect(nextPalierCents(300000)).toBe(390000); // +30 % au-delà
   });
   it("réduction par défaut −15 %, arrondie à l'euro, plancher 100 €", () => {
