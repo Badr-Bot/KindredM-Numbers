@@ -1017,6 +1017,16 @@ export function computeScaling(input: {
     const regimeIncertain = budgetCents !== null && budgetEstimated && budgetCents >= SEUIL_SCALING_CENTS;
 
     const streak = streakOf(winData, anchorDay);
+    // Aucune fenêtre jugeable (seuils produit incalculables, campagne sans
+    // ROAS exploitable) : il n'y a pas de verdict à rendre. On la SIGNALE et
+    // on passe — sans ce garde, `winData[-1]` est undefined et tout l'onglet
+    // tombe en erreur à cause d'une seule campagne (audit 20/08).
+    if (streak.lastIdx < 0) {
+      warnings.push(
+        `${entry.name} : aucune fenêtre jugeable (seuils produit incalculables ou pas de ROAS) — aucun verdict rendu.`
+      );
+      continue;
+    }
     const lastIdx = streak.lastIdx;
     const last = winData[lastIdx];
     // La fenêtre jugée EST le cran courant : si elle est un NON, on est au
