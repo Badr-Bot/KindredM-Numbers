@@ -1,7 +1,7 @@
 [
  {
   "code": "AD107v1 - POLO-VEN-UGC-PRB-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34a",
   "produit": "POLO",
   "angle": "VEN",
   "conscience": "problem",
@@ -21,11 +21,12 @@
   "decline_de": "PUB 46 TOFU VENTRE (426 ventes)",
   "elements_changes": "hook (nouveau) · format (vidéo→UGC) · texte/script (nouveau) — 3-sur-5 OK",
   "statut": "brief",
-  "adset": "Creative Testing 2026-08 S4"
+  "adset": "Creative Testing 2026-08 S4",
+  "notes": "B2026-34a : 4 ads · 3 adcopies (VEN-1, VEN-2, VAC-1) · 3 titres · 1 description · 2 marque / 2 tierce — conforme T36 [02:48]. Les 2 batchs de la même semaine vivent dans le MÊME adset (CODIFICATION §4)."
  },
  {
   "code": "AD107v2 - POLO-VEN-UGC-QST-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34a",
   "produit": "POLO",
   "angle": "VEN",
   "conscience": "problem",
@@ -49,7 +50,7 @@
  },
  {
   "code": "AD108v1 - POLO-VEN-IMG-CHC-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34a",
   "produit": "POLO",
   "angle": "VEN",
   "conscience": "problem",
@@ -73,7 +74,7 @@
  },
  {
   "code": "AD109v1 - POLO-FEM-VID-TMG-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34b",
   "produit": "POLO",
   "angle": "FEM",
   "conscience": "solution",
@@ -93,11 +94,12 @@
   "decline_de": "PUB 37 ANGLE FEMME (v2 : 19,3 % de marge)",
   "elements_changes": "hook (réaction) · script (Framework 1) · miniature — 3-sur-5 OK",
   "statut": "brief",
-  "adset": "Creative Testing 2026-08 S4"
+  "adset": "Creative Testing 2026-08 S4",
+  "notes": "B2026-34b : 3 ads · 2 adcopies (FEM-1, STY-1) · 2 titres · 1 description — conforme T36. (T01 [03:11] dit « 4 variations minimum » par batch : leçon fondations, T36 prime — ARBITRAGES §2.)"
  },
  {
   "code": "AD110v1 - POLO-VAC-VID-CUR-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34a",
   "produit": "POLO",
   "angle": "VAC",
   "conscience": "solution",
@@ -121,7 +123,7 @@
  },
  {
   "code": "AD111v1 - POLO-STY-IMG-DEM-FR",
-  "batch": "B2026-34",
+  "batch": "B2026-34b",
   "produit": "POLO",
   "angle": "STY",
   "conscience": "unaware",
@@ -142,5 +144,30 @@
   "elements_changes": "angle NEUF (STY) — pas une itération, une exploration",
   "statut": "brief",
   "adset": "Creative Testing 2026-08 S4"
+ },
+ {
+  "code": "AD112v1 - POLO-FEM-IMG-TMG-FR",
+  "batch": "B2026-34b",
+  "produit": "POLO",
+  "angle": "FEM",
+  "conscience": "solution",
+  "format": "IMG",
+  "style": "statique témoignage — verbatim d'avis client sur carte, photo produit porté en fond (pattern statique = 6 winners sur 10)",
+  "ratio": "4:5",
+  "hook_type": "TMG",
+  "hook_texte": "Statique : citation client réelle en gros — « Mon mari ne veut plus porter autre chose. » ★★★★★ [À VALIDER : prendre un avis RÉEL de la boutique, jamais un avis inventé] — structure 2 (fond blanc, texte noir + rouge).",
+  "framework": "Statique (pas de script)",
+  "script": "—",
+  "montage": "— ; version B : la citation en texte centré, mot-clé jaune (structure 3).",
+  "miniature": "—",
+  "adcopy": "AC-FEM-1 (nouvelle — angle cadeau/regard de la compagne) : « Il ne voulait pas changer de polo. Elle lui en a offert un. Depuis, il ne porte plus que ça. Le Polo Niva : la coupe qui lui va enfin. -57% + 1 acheté 1 offert. »",
+  "titre": "TI-FEM-1 : « Le polo qu'elle lui aurait choisi. »",
+  "description": "Livraison rapide — satisfait ou remboursé.",
+  "page": "marque",
+  "decline_de": "pattern statiques winners (IMAGE 40/31/16) + angle PUB 37",
+  "elements_changes": "angle FEM porté en statique — nouveau visuel, nouveau hook, nouveau format",
+  "statut": "brief",
+  "adset": "Creative Testing 2026-08 S4",
+  "notes": "Ajoutée pour porter B2026-34b à 3 ads (plancher batch T36 [02:07]). L'avis affiché doit être un avis client réel."
  }
 ]
