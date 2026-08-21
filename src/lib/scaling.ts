@@ -385,7 +385,13 @@ export function scaleTargetCents(budgetCents: number): number {
 
 /** Réduction par défaut (−15 %), arrondie à l'euro, plancher 100 €. */
 export function reductionCents(budgetCents: number): number {
-  return Math.max(PLANCHER_BUDGET_CENTS, Math.round((budgetCents * (1 - REDUCTION_DEFAUT)) / 100) * 100);
+  // Le plancher est une limite BASSE, jamais une cible : sous 100 €/j, `max`
+  // renverrait 100 € et la carte prescrirait une HAUSSE sous un badge DESCALE
+  // (ex. 40 € → 100 €/j sur une campagne en perte). On ne remonte jamais.
+  return Math.min(
+    budgetCents,
+    Math.max(PLANCHER_BUDGET_CENTS, Math.round((budgetCents * (1 - REDUCTION_DEFAUT)) / 100) * 100)
+  );
 }
 
 function median(values: number[]): number | null {
@@ -750,13 +756,13 @@ function buildCreaPlan(input: {
   // disaient nouvel adset dès 15 ads.
   const where = scalingRegime
     ? "Campagne ABO testing dédiée (~20 % du budget) : nouvel adset par batch, budget ≈ 2-2,5 × CPA, décision à 2-3 j (T36 [02:28-02:48])."
-    : "Injecte le batch dans l'adset de testing COURANT de la CBO et blinde-le jusqu'à ~50 ads — nouvel adset seulement une fois plein (T42 [01:04] / T21 [03:59] ; l'ancienne règle des 15 ads de T36/T37 est remplacée). Minimum spend 10-15 €/j par nouvelle ad pendant 2 jours pour forcer Meta à tester (T36 [04:43-05:05]), à retirer ensuite si l'ad ne performe pas (T37 [15:19]).";
+    : "Injecte le batch dans l'adset de testing COURANT de la CBO et blinde-le — ⚠️ CONFLIT NON TRANCHÉ PAR LA FORMATION : T42 [01:04]/T21 [03:59] disent « un adset, jusqu'à 50 ads » (régime scaling), T36 [04:43]/T37 [12:21] disent « au-delà de 15 ads, Meta ne dépense plus sur les nouvelles » (adset de testing). Lecture prudente pour un adset de TESTING : nouvel adset au-delà de 15. Minimum spend 10-15 €/j SUR L'ADSET qui reçoit le batch, pendant 2 jours, pour forcer Meta à tester (T36 [04:43-05:05]) — à retirer ensuite (T37 [15:19]).";
   const batch =
-    "Batch de 3 à 6 ads : 2-3 adcopies + 2-3 titres + 1 description par ad, angles VARIÉS (une adcopy par angle), miniature choisie à la main, 50 % page marque / 50 % page tierce (T36). Chaque variante change AU MOINS 3 éléments sur 5 (hook, visuel, texte, durée/format, message) — un micro-changement passe pour du spam (T42 [08:48]). Jamais tout un gros volume d'un coup : 200 créas injectées le même jour = chute de ROAS mesurée (T39 [05:32]).";
+    "Batch de 4 à 6 ads (T36 [02:07] dit 3-6, T01 [03:11] pose 4 variations minimum) : 2-3 adcopies + 2-3 titres + 1 description POUR L'ADSET, pas par ad (T36 [02:48]), adcopy rangée par angle, miniature choisie à la main, 50 % page marque / 50 % page tierce (T36 [05:48]). Chaque variante change AU MOINS 3 éléments sur 5 (hook, visuel, texte, AUDIO, format/message) — un micro-changement passe pour du spam (T42 [08:48]). Jamais tout un gros volume d'un coup : 200 créas injectées le même jour = chute de ROAS mesurée (T39 [05:32]).";
   const setup =
-    "Réglages : Advantage+ créative OFF sauf relevant comments, placements originaux, exclure les acheteurs. Lancement mardi→vendredi (jamais lundi), adset live entre minuit et 7 h (T36 [00:20-01:03]). Nommage : creative-testing-<mois>-<semaine> pour l'adset, le nom du batch sur chaque ad (T36 [03:59]).";
+    "Réglages : Advantage+ créative OFF sauf relevant comments, placements originaux, exclure les acheteurs. Lancement mardi→vendredi (jamais lundi), adset live entre minuit et 7 h (T36 [00:20-01:03]). Multi-advertiser ads ON (sinon tu perds de l'exposition, T36 [11:08]). Vérifie CHAQUE ad avant publication : URL du bon produit, image non cropée, bonne page Facebook, pixel (T36 [01:47], [10:00]). Attribution : 7-day click en CBO, 7-day click + 1-day engagement en ABO testing (T36 [03:38]). Audience identique au premier lancement, même pays même langue (T36 [03:59]). Nommage de l'ADSET : « Creative Testing <mois> <semaine> — <batch> » (T36 [03:59]).";
   const menage =
-    "Ménage (SOP Meta Process, ressources-google/15 §3) : une AD sous le BE ROAS sur les 7 derniers jours → OFF (kill loser) ; un ADSET sous le BE sur 3 jours + aujourd'hui → OFF. Les winners se marquent, jamais ne se coupent (T37).";
+    "Ménage — ON NE COUPE JAMAIS UNE ANNONCE QUI TOURNE [arbitrage Badr 19/08]. Une AD à ≥ 6 ventes sous le BE → campagne ZOMBIE avec son POST ID (on déplace, on ne supprime pas : le social proof est irremplaçable, T37 [05:33]). Une AD sous la CIBLE avec du spend continu sur 3 jours → vérifier d'abord le ROAS global avant de toucher (T41 [09:23], post-Andromeda). Seule extinction admise : un ADSET sous le BE sur 3 jours + aujourd'hui → OFF (SOP ressources-google/15 §3, règle 10).";
 
   if (action === "HOLD") {
     return cpmrRising
@@ -767,7 +773,9 @@ function buildCreaPlan(input: {
     return [
       where,
       batch,
-      "Et dispatch tes winners : une ad à ≥ 6 ventes et ≥ 10 % de marge (14 j) → duplique-la AVEC LE MÊME POST ID (garde les commentaires) dans un NOUVEL adset « <mois> winners » de la CBO, minimum spend 10-15 €/j (T37).",
+      scalingRegime
+        ? "Et dispatch tes winners : une ad à ≥ 6 ventes et ≥ 10 % de marge (14 j) → duplique-la AVEC LE MÊME POST ID (garde les commentaires et le social proof) dans un NOUVEL adset « <mois> winners » de la CBO scaling, minimum spend 10-15 €/j (T37 [10:55-11:39])."
+        : "Tes winners sont DÉJÀ dans la CBO : en compte 100 % CBO « il n'y a rien à faire, vos ads sont déjà là » (T37 [01:32]). On les ÉTIQUETTE (WIN / POT + mois + semaine) pour le suivi, on ne duplique pas — seule l'injection ZOMBIE reste un vrai déplacement.",
       setup,
       menage,
     ];
@@ -1023,7 +1031,24 @@ export function computeScaling(input: {
     // Le régime décide du protocole appliqué : on ne le fait JAMAIS basculer sur
     // un budget deviné à partir du spend max. Sans budget lu sur Meta, on reste
     // en pré-scaling (le régime prudent) et on le signale (audit 20/08).
-    const scalingRegime = budgetCents !== null && !budgetEstimated && budgetCents >= SEUIL_SCALING_CENTS;
+    // Le régime se définit sur le SPEND (board : « ~3k/jour DE SPEND et plus » ;
+    // T35 [12:04] « vous êtes à 3K par jour de spend »), pas sur le budget : une
+    // campagne au budget 3 200 €/j qui ne dépense que 2 200 €/j n'est pas en
+    // phase de scaling. Le budget reste un garde-fou (il doit être connu).
+    // winData est déjà construit ici ; on prend la dernière fenêtre JUGÉE
+    // (verdict non nul) et on ramène son spend à un spend/jour.
+    const derniereJugee = [...winData].reverse().find((w) => w.verdict !== null) ?? null;
+    // Spend PAR JOUR : on divise par les jours qui ont réellement dépensé, pas
+    // par 2 — la dernière fenêtre est souvent à cheval sur un jour sans données,
+    // ce qui diviserait le spend réel par deux et raterait la bascule de régime.
+    const joursAvecSpend =
+      derniereJugee === null
+        ? 0
+        : [derniereJugee.startDay, derniereJugee.endDay].filter((day) => (entry.days.get(day)?.spendCents ?? 0) > 0).length;
+    const spendJourFenetre =
+      derniereJugee !== null && joursAvecSpend > 0 ? derniereJugee.spendCents / joursAvecSpend : 0;
+    const scalingRegime =
+      budgetCents !== null && !budgetEstimated && spendJourFenetre >= SEUIL_SCALING_CENTS;
     const regimeIncertain = budgetCents !== null && budgetEstimated && budgetCents >= SEUIL_SCALING_CENTS;
 
     const streak = streakOf(winData, anchorDay);
@@ -1045,6 +1070,22 @@ export function computeScaling(input: {
     // nonStreak = 0 → SCALE, c'est-à-dire une HAUSSE de budget prescrite sur
     // une campagne en perte (audit 20/08).
     const nonStreak = last?.verdict === "NON" ? Math.max(1, streak.nonStreak) : streak.nonStreak;
+    const troisDerniersOk = (() => {
+      if (!scalingRegime) return true;
+      if (cm === null) return false;
+      // Les 3 derniers JOURS (pas les 3 dernières fenêtres : elles se recouvrent
+      // et compteraient deux fois le bon jour, ce qui annulerait le garde-fou).
+      let sp = 0;
+      let va = 0;
+      for (let k = 0; k < 3; k++) {
+        const row = entry.days.get(addDaysToDay(last.endDay, -k));
+        if (!row) continue;
+        sp += row.spendCents;
+        va += row.purchaseValueCents;
+      }
+      if (sp === 0 || va === 0) return false;
+      return cm - sp / va >= SEUIL_OUI;
+    })();
     // LE RÉGIME DÉCIDE DU PROTOCOLE (board §« identifier la phase » : trois
     // phases, trois protocoles, ne jamais les mélanger).
     //  • PRÉ-SCALING (< 3 000 €/j) : la question est binaire (« rentable au
@@ -1059,9 +1100,35 @@ export function computeScaling(input: {
     // un budget estimé depuis le spend vaut souvent le spend d'une journée
     // faible et ferait croire à tort qu'on ne peut plus descendre.
     const atFloor = budgetCents !== null && !budgetEstimated && budgetCents <= PLANCHER_BUDGET_CENTS;
+    // Régime SCALING : la fenêtre de décision du board §3 n'est PAS celle du §2.
+    // « On atteint les KPI cible ? (3 derniers jours + hier) », et T35 [13:11] :
+    // « les 3 derniers jours dans l'ensemble c'était rentable, on est en PHASE
+    // ASCENDANTE. Très important. Des fois on a un bon jour hier mais ça ne va
+    // pas — ça ne sert à rien d'augmenter, sinon on perturbe. » Sans ce garde-fou,
+    // un seul bon jour d'hier suffisait à déclencher +30 % voire ×2 sur une
+    // campagne qui perdait de la marge 4 jours sur 5 (audit 21/08).
+    // Les 72 h du §3 se comptent sur les fenêtres SOUS le break-even, pas sur
+    // toutes les fenêtres NON : au-dessus du BE le board dit « stabiliser », et
+    // ces tours-là ne doivent pas remplir le compteur — sinon un seul jour rouge
+    // après 4 jours à 12 % de marge déclenche un −15 %, soit le yo-yo que
+    // T24 [16:54] interdit explicitement.
+    const perteStreak = (() => {
+      let n = 0;
+      for (let i = lastIdx; i >= 0; i--) {
+        if (winData[i].band !== "PERTE") break;
+        if (anchorDay !== null && winData[i].endDay < anchorDay) break;
+        n++;
+      }
+      return n;
+    })();
     if (scalingRegime && last.band !== null) {
-      if (nonStreak === 0) {
-        // KPI cible atteint → table de marge du board §3.
+      if (nonStreak === 0 && !troisDerniersOk) {
+        // KPI cible atteint sur la fenêtre 2 j, mais les 3 derniers jours ne
+        // suivent pas : phase descendante → on attend, on n'augmente pas.
+        action = "HOLD";
+        scaleKind = null;
+      } else if (nonStreak === 0) {
+        // KPI cible atteint ET phase ascendante → table de marge du board §3.
         const fromBand = actionFromBand(last.band);
         action = fromBand.action;
         scaleKind = fromBand.scaleKind;
@@ -1076,7 +1143,7 @@ export function computeScaling(input: {
         // n'invente pas de seuil. Le sauvetage reste atteignable sans ça — les
         // −15 % successifs font repasser sous 3 000 €/j, et l'escalier du §2
         // (qui, lui, finit en sauvetage au cran 4) reprend la main.
-        action = nonStreak < 3 ? "HOLD" : atFloor ? "RESCUE" : "DESCALE";
+        action = perteStreak < 3 ? "HOLD" : atFloor ? "RESCUE" : "DESCALE";
         scaleKind = null;
       }
     }
@@ -1155,7 +1222,12 @@ export function computeScaling(input: {
     // exécutions réelles vont de 23 h à 7 h). Sans ça, un rechargement après
     // exécution re-prescrivait un 2ᵉ −15 % depuis le budget déjà réduit
     // (bug relevé à l'audit 19/08).
-    const executedSince = `${last.endDay} 21:00`;
+    // ⚠️ Quand la fenêtre jugée est EN COURS (mode jour, après 7 h), `last.endDay`
+    // est aujourd'hui : `${last.endDay} 21:00` serait un horodatage FUTUR, aucun
+    // mouvement ne pourrait le satisfaire entre 7 h et 21 h, et l'on re-prescrirait
+    // un 2e −15 % depuis le budget DÉJÀ réduit le matin même (audit 21/08).
+    // On cherche donc depuis la clôture de la fenêtre PRÉCÉDENTE.
+    const executedSince = `${last.inProgress ? addDaysToDay(last.endDay, -1) : last.endDay} 21:00`;
     const executedMove =
       action === "SCALE" || action === "DESCALE"
         ? rawMovesForAnchor.find(
@@ -1176,8 +1248,12 @@ export function computeScaling(input: {
     // Prescription : UN chiffre — calculée sur le budget d'AVANT exécution
     // quand le mouvement a déjà été fait (sinon on cascade les -15 %).
     const basisCents = executedMove?.oldBudgetCents ?? budgetCents;
+    // Un budget ESTIMÉ depuis le spend n'autorise aucun chiffre d'arrivée : un
+    // −15 % appliqué à une estimation basse peut valoir −49 % du budget réel.
+    // On garde le verdict et le pourcentage, on retire le chiffre (audit 21/08).
+    const basisFiable = budgetEstimated ? null : basisCents;
     let suggestedCents: number | null = null;
-    if (action === "SCALE" && basisCents !== null) {
+    if (action === "SCALE" && basisFiable !== null) {
       if (scaleKind === "DOUBLE") {
         // Régime SCALING, bande 30 %+ : « scale 40-100 %, on peut doubler le
         // budget » (board §3). AUCUN plafond : cette bande n'existe qu'à
@@ -1185,12 +1261,12 @@ export function computeScaling(input: {
         // (T35 [15:23] : « la Hero, 3K, je passe à 5K »). Le plafond au seuil
         // de régime qui traînait ici faisait prescrire une BAISSE — un budget
         // de 4 000 €/j « doublé » retombait à 3 000 (audit 20/08).
-        suggestedCents = Math.round((basisCents * 2) / 100) * 100;
+        suggestedCents = Math.round((basisFiable * 2) / 100) * 100;
       } else {
-        suggestedCents = scaleTargetCents(basisCents);
+        suggestedCents = scaleTargetCents(basisFiable);
       }
-    } else if (action === "DESCALE" && basisCents !== null) {
-      suggestedCents = reductionCents(basisCents);
+    } else if (action === "DESCALE" && basisFiable !== null) {
+      suggestedCents = reductionCents(basisFiable);
     }
 
     // Saturation créative : CPMr de la dernière fenêtre jugée vs médiane des
@@ -1202,13 +1278,20 @@ export function computeScaling(input: {
     const cran: ScalingCampaign["cran"] =
       nonStreak === 0 ? null : rescueCapped ? 3 : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
     const lowSample = last.purchases < MIN_CONVERSIONS_FIABLES;
-    const creasRequired = action === "SCALE" || action === "DESCALE" || action === "RESCUE";
     const recentVerdicts = winData.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
     let flips = 0;
     for (let i = 1; i < recentVerdicts.length; i++) if (recentVerdicts[i] !== recentVerdicts[i - 1]) flips++;
     const unstable = flips >= 2;
     const cadran = action === "RESCUE" ? computeCadran(winData, lastIdx, cm) : null;
     const sauvetageDiagnostic = cadran?.verdict ?? null;
+
+    // En sauvetage, les créas ne sont obligatoires que si le cadran pointe les
+    // CRÉAS ou le big swing : sur un chantier FUNNEL ou AOV, le board §1 range
+    // les créas en « bonus », pas en obligation (audit 21/08).
+    const creasRequired =
+      action === "SCALE" ||
+      action === "DESCALE" ||
+      (action === "RESCUE" && (cadran?.leak === "CREAS" || cadran?.leak === "BIG_SWING"));
 
     const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1).replace(".", ",")} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
     const why =

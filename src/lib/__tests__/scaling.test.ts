@@ -57,16 +57,20 @@ function row(day: string, id: string, name: string, spendEur: number, roas: numb
 const roasForMargin = (cm: number, margin: number) => 1 / (cm - margin);
 
 /** Série jours 11→17 (clos) avec marges données ; le 18 (today) est vide sauf mention. */
-function mkSeries(margins: (number | null)[], id = "c1", name = "POLO A") {
+function mkSeries(margins: (number | null)[], id = "c1", name = "POLO A", spendEur = 100) {
   const days = [11, 12, 13, 14, 15, 16, 17];
   const rows: ScalingDailyRow[] = [];
   days.forEach((n, i) => {
     const m = margins[Math.min(i, margins.length - 1)];
     if (m === null) return;
-    rows.push(row(d(n), id, name, 100, roasForMargin(0.626, m)));
+    rows.push(row(d(n), id, name, spendEur, roasForMargin(0.626, m)));
   });
   return rows;
 }
+/** Série dont le SPEND/jour dépasse les 3 000 € — c'est le spend, pas le budget,
+ *  qui fait basculer en régime scaling (board : « ~3k/jour DE SPEND »). */
+const mkSeriesScaling = (margins: (number | null)[], id = "c1", name = "POLO A") =>
+  mkSeries(margins, id, name, 3500);
 
 describe("classifyCampaignProduct", () => {
   it("suit les conventions de nom du dashboard", () => {
@@ -231,13 +235,13 @@ describe("protocole du board : pré-scaling binaire (§2) vs table de marge (§3
   });
 
   it("scaling (≥ 3 000 €/j) : marge > 30 % → doubler (table §3)", () => {
-    const c = withBudget(mkSeries([0.35]), 300000).campaigns[0];
+    const c = withBudget(mkSeriesScaling([0.35]), 300000).campaigns[0];
     expect(c.action).toBe("SCALE");
     expect(c.scaleKind).toBe("DOUBLE");
   });
 
   it("scaling : marge 10-15 % → Hold (table §3)", () => {
-    const c = withBudget(mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.12]), 400000).campaigns[0];
+    const c = withBudget(mkSeriesScaling([0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.12]), 400000).campaigns[0];
     expect(c.action).toBe("HOLD");
     expect(c.why).toContain("stabilise");
   });
@@ -267,7 +271,7 @@ describe("bugs bloquants trouvés à l'audit du 20/08", () => {
   it("le « doubler » du §3 ne prescrit JAMAIS une baisse (plus de plafond au seuil de régime)", () => {
     // 4 000 €/j, marge 35 % → bande 30 %+ → doubler. Le plafond à 3 000 qui
     // traînait faisait prescrire 3 000, soit une RÉDUCTION de 25 %.
-    const c = withBudget(mkSeries([0.35]), 400000).campaigns[0];
+    const c = withBudget(mkSeriesScaling([0.35]), 400000).campaigns[0];
     expect(c.scaleKind).toBe("DOUBLE");
     expect(c.suggestedCents).toBe(800000);
     expect(c.suggestedCents!).toBeGreaterThan(400000); // une montée, jamais une baisse
@@ -312,6 +316,58 @@ describe("plancher 100 €/j (audit 20/08)", () => {
   });
 });
 
+describe("bugs trouvés à l'audit du 21/08", () => {
+  const withBudget = (rows: ScalingDailyRow[], budgetCents: number, activities: CampaignActivity[] | null = []) =>
+    computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: budgetCents, updatedTime: null }]]),
+      activities,
+    });
+
+  it("B-1 : en scaling, un seul bon jour hier ne déclenche PAS de montée (phase ascendante, T35 [13:11])", () => {
+    // 4 fenêtres médiocres puis une excellente : la fenêtre 2 j passe, mais les
+    // 3 derniers jours ne suivent pas → le board dit d'attendre, pas d'augmenter.
+    const c = withBudget(mkSeriesScaling([0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.20]), 350000).campaigns[0];
+    expect(c.scalingRegime).toBe(true);
+    expect(c.action).not.toBe("SCALE");
+    expect(c.suggestedCents).toBeNull();
+  });
+
+  it("B-2 : le régime suit le SPEND, pas le budget", () => {
+    expect(withBudget(mkSeries([0.2]), 350000).campaigns[0].scalingRegime).toBe(false);
+    expect(withBudget(mkSeriesScaling([0.2]), 350000).campaigns[0].scalingRegime).toBe(true);
+  });
+
+  it("A-2 : un DESCALE ne remonte JAMAIS le budget, même sous le plancher", () => {
+    const c = withBudget(mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, -0.2, -0.2]), 4000).campaigns[0];
+    if (c.action === "DESCALE" && c.suggestedCents !== null) {
+      expect(c.suggestedCents).toBeLessThanOrEqual(4000);
+    }
+  });
+
+  it("A-3 : sur un budget ESTIMÉ, aucun chiffre d'arrivée n'est prescrit", () => {
+    const r = computeScaling({
+      today: TODAY,
+      rows: mkSeries([0.25, 0.25, 0.25, 0.25, 0.25, -0.2, -0.2]),
+      thresholds: TH,
+      live: null, // pas de budget lu sur Meta
+      activities: null,
+    });
+    const c = r.campaigns[0];
+    expect(c.budgetEstimated).toBe(true);
+    expect(c.suggestedCents).toBeNull();
+  });
+
+  it("C-1 : le plan ne prescrit jamais de couper une annonce qui tourne", () => {
+    const plan = withBudget(mkSeries([0.2]), 30000).campaigns[0].creaPlan.join(" ");
+    expect(plan).not.toContain("kill loser");
+    expect(plan).not.toMatch(/AD.{0,40}→ OFF/);
+    expect(plan).toContain("ZOMBIE");
+  });
+});
+
 describe("garde-fous", () => {
   it("dépense sans vente : la campagne APPARAÎT, zone below", () => {
     const rows = [row(d(17), "c9", "POLO MORT", 150, 0), row(TODAY, "c9", "POLO MORT", 150, 0)];
@@ -346,11 +402,22 @@ describe("garde-fous", () => {
     expect(testing.campaigns).toHaveLength(0);
     expect(testing.warnings.some((w) => w.includes("NIRA"))).toBe(true);
 
-    const big = computeScaling({
+    // Le régime bascule sur le SPEND, pas sur le budget : un gros budget qui ne
+    // dépense pas reste en pré-scaling (board : « ~3k/jour DE SPEND »).
+    const grosBudgetPetitSpend = computeScaling({
       today: TODAY,
       rows: mkSeries([0.2]),
       thresholds: TH,
       live: new Map([["c1", { active: true, dailyBudgetCents: 300000, updatedTime: null }]]),
+      activities: [],
+    });
+    expect(grosBudgetPetitSpend.campaigns[0].scalingRegime).toBe(false);
+
+    const big = computeScaling({
+      today: TODAY,
+      rows: mkSeriesScaling([0.2]),
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 350000, updatedTime: null }]]),
       activities: [],
     });
     expect(big.campaigns[0].scalingRegime).toBe(true);
@@ -517,15 +584,34 @@ describe("budgets depuis le journal d'activités Meta", () => {
 });
 
 describe("plan créas (T36/T37)", () => {
-  it("SCALE : batch 3-6 blindé dans l'adset courant (T42) + dispatch des winners + ménage SOP", () => {
+  it("SCALE en pré-scaling : batch, étiquetage des winners (pas de duplication), ménage sans kill", () => {
     const rows = [...mkSeries([0.2]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, 0.2))];
     const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: null });
     const plan = r.campaigns[0].creaPlan.join(" ");
-    expect(plan).toContain("3 à 6 ads");
-    expect(plan).toContain("blinde-le jusqu'à ~50 ads"); // T42 [01:04] — plus de « nouvel adset par batch »
-    expect(plan).toContain("3 éléments sur 5"); // T42 [08:48]
+    expect(plan).toContain("4 à 6 ads"); // T36 [02:07] 3-6 borné par T01 [03:11] : 4 minimum
+    expect(plan).toContain("AUDIO"); // T42 [08:48] : les 5 éléments incluent l'audio
+    expect(plan).toContain("3 éléments sur 5");
+    // Compte 100 % CBO : on ÉTIQUETTE, on ne duplique pas (T37 [01:32])
+    expect(plan).toContain("DÉJÀ dans la CBO");
+    expect(plan).not.toContain("MÊME POST ID");
+    // On ne coupe JAMAIS une annonce qui tourne [arbitrage Badr 19/08]
+    expect(plan).not.toContain("kill loser");
+    expect(plan).toContain("ZOMBIE");
+    // Le minimum spend est sur l'ADSET, pas par ad (T36 [04:43])
+    expect(plan).toContain("SUR L'ADSET");
+  });
+
+  it("SCALE en régime scaling : là, le dispatch avec le même post ID reprend son sens", () => {
+    const r = computeScaling({
+      today: TODAY,
+      rows: [...mkSeriesScaling([0.2]), row(TODAY, "c1", "POLO A", 3500, roasForMargin(0.626, 0.2))],
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 350000, updatedTime: null }]]),
+      activities: [],
+    });
+    const plan = r.campaigns[0].creaPlan.join(" ");
     expect(plan).toContain("MÊME POST ID");
-    expect(plan).toContain("kill loser"); // SOP Meta Process §3
+    expect(plan).toContain("ABO testing");
   });
 
   it("HOLD sans saturation : pas de plan imposé (assertions dures)", () => {

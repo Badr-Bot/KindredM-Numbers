@@ -34,8 +34,11 @@ Exemples : `CBO - POLO - FR - TESTING` · `CBO - LANCASTER - WORLDWIDE - TESTING
   T21 [03:59] — remplace la règle des 15 de T36/T37, conflit arbitré par
   ARBITRAGES.md : post-Andromeda gagne).
 - **[Formation]** Adset winners : **`<Mois> winners`** (T37 [10:55]).
-- **[Extension]** En français et daté année incluse pour l'Excel :
-  `Creative Testing 2026-08 S4` · `2026-08 winners`.
+- **[Formation]** Le nom de l'adset porte AUSSI **le nom du batch injecté** —
+  T36 [03:59] : « creative testing, le mois et le numéro de la semaine […] **et
+  ensuite le nom du batch qu'on vient injecter, par exemple AD 428v3** ».
+- **[Extension]** En français, année incluse, batch en suffixe :
+  `Creative Testing 2026-08 S4 — B2026-34a` · `2026-08 winners`.
 
 ## 3 · Ads — le cœur de la codification
 
@@ -66,7 +69,7 @@ Exemples : `CBO - POLO - FR - TESTING` · `CBO - LANCASTER - WORLDWIDE - TESTING
   **`<FMT>`** : `VID` (montage classique) · `UGC` (face caméra) · `IMG`
   (statique) · `CAR` (carrousel).
 
-  **`<HOOK>`** (type, typologie de la formation — creative-insight 24,
+  **`<HOOK>`** (type, registre MAISON, inspiré de T17 [26:57-28:48] et de l'effet Zeigarnik (T17 [18:06]) — TMG est une extension. Anciennement attribué à creative-insight 24 par erreur (cette leçon décrit 4 types de DÉMO, pas ces codes) ;
   T17) : `QST` (question) · `CHC` (choc/pattern interrupt) · `PRB` (problème
   montré) · `CUR` (curiosité) · `TMG` (témoignage) · `DEM` (démo produit).
 
@@ -82,9 +85,16 @@ de hook du même concept — ≥ 3 éléments sur 5 changés, T42 [08:48]) ·
 - **[Extension]** `B<AAAA-SS>` (année-semaine ISO) : `B2026-34`. Le batch de
   la semaine vit dans l'adset de la semaine. 2 batchs la même semaine =
   `B2026-34a`, `B2026-34b`, même adset.
-- **[Formation]** Composition : 3-6 ads · 2-3 adcopies · 2-3 titres · 1
-  description · une adcopy par ANGLE · miniature manuelle · 50 % page marque /
-  50 % page tierce (T36 [04:43-06:09]).
+- **[Formation]** Composition, **par ADSET et non par batch** (c'est ainsi que
+  T36 les énonce) : **3-6 ads** (T36 [02:07]) · **2-3 adcopies, 2-3 titres, 1
+  description** (T36 [02:48]) · adcopy **rangée par angle**, chaque créa portant
+  une adcopy de SON angle — ce n'est pas un quota de 1 par angle, deux adcopies
+  du même angle sont un A/B légitime (T36 [03:15], [10:22]) · miniature choisie
+  à la main (T36 [07:44]) · **50 % page marque / 50 % page tierce** (T36 [05:48]).
+- ⚠️ **Conséquence : deux batchs dans le MÊME adset la même semaine font sauter
+  les plafonds** (7 ads > 6, 5 adcopies > 3). Si tu lances deux batchs dans la
+  semaine, ils vont dans **deux adsets distincts** (`… S4a` / `… S4b`) — la
+  règle « même adset » ci-dessus est une extension maison qui contredit T36.
 
 ## 5 · Adcopies et titres
 
