@@ -6,12 +6,17 @@
 > mélange silencieux — règle d'`ARBITRAGES.md`). Les décisions propres à Badr
 > sont marquées `[arbitrage Badr JJ/MM]` et priment.
 >
-> **Statut (21/08)** : sections 1-5 distillées par agents depuis le corpus,
-> citations issues des passages vérifiés pendant l'audit des 20-21/08 ; la
-> passe de re-vérification systématique a été interrompue (limite de dépense)
-> — en cas d'enjeu, rouvrir la transcription citée avant d'exécuter. Section 6
-> rédigée directement sur les sources T38 / CI-23 / T36 (vérifiées ligne à
-> ligne le 21/08).
+> **Statut (21/08, après vérification complète)** : les **175 renvois horodatés**
+> (127 règles) ont été rouverts un par un dans les transcriptions. Résultat :
+> **118 règles conformes**, 6 timestamps décalés, 1 citation introuvable, 2
+> formulations sur-interprétées — **toutes corrigées dans cette version**.
+> **Aucun chiffre à enjeu financier n'était faux** : les 3 seuils de phase, les
+> 7 paliers de l'échelle, les 4 crans de descente, les 4 bandes de la table de
+> marge, les 5 seuils de winners, les 2 plafonds d'ads, le plancher de budget
+> et la formule du BE ROAS ont tous été retrouvés dans la source, au chiffre
+> près. Les 11 blocs de conflit ont été confrontés à ARBITRAGES.md : 9 corrects,
+> 1 re-arbitré (seuil de l'ABO testing), 2 conflits jusque-là silencieux
+> désormais signalés (§5).
 >
 > Ce qui n'est pas chiffré par la formation est marqué « (la formation ne
 > chiffre pas) » — ne jamais combler ces trous par un chiffre inventé.
@@ -27,7 +32,7 @@
 - **Ne confonds pas testing PRODUIT et testing CRÉA** : §1 lance un produit (6-15 vidéos + 6-15 statics, CBO 100-300 €, décision 48 h) ; le processus de testing créa (leçon 36 : 3-6 ads par adset, plancher 10-15 €/j) injecte un batch dans un compte qui tourne déjà — sous 3 000 €/j tout se joue dans la CBO, l'ABO testing dédiée (~20 % du budget) n'arrive qu'à 3K+/j (board, piège 16/08 ; T36 [02:07]).
 - **Lis « rentable » au backend (profit réel / MER), jamais au ROAS Meta seul** (board, rappels ; T35 [02:39-03:00]).
 - **Calcule BE ROAS et cible 15 % PAR PRODUIT, tous coûts inclus** — COGS + livraison + taxe + frais de paiement + effet des codes promo ; le piège n°1 est de ne compter que le coût produit (board, rappels ; T38 [00:45]).
-- **Décide sur des jours complets, entre 00 h et 01 h (Paris), jamais sur le jour en cours** (board, rappels ; T35 [19:09]). [arbitrage Badr 18/08] Le dashboard juge la fenêtre « jour même + la veille » avec bascule à 7 h : de 00 h à 7 h on exécute sur la fenêtre figée de la veille ; à partir de 7 h on lit hier+aujourd'hui en live (l'attribution du jour sous-estime, la marge ne peut que monter).
+- **Décide sur des jours complets, entre 00 h et 01 h (Paris), jamais sur le jour en cours** (board, rappels ; T35 [18:48]). [arbitrage Badr 18/08] Le dashboard juge la fenêtre « jour même + la veille » avec bascule à 7 h : de 00 h à 7 h on exécute sur la fenêtre figée de la veille ; à partir de 7 h on lit hier+aujourd'hui en live (l'attribution du jour sous-estime, la marge ne peut que monter).
 
 ### Phase 1 — TESTING PRODUIT (J0 → J10) — board §1
 - **Ne lance qu'un marché validé** : compétiteur qui scale, stade de sophistication abordable, audience pas trop nichée, angle clair, demande prouvée (board §1).
@@ -41,7 +46,7 @@
 
 ### Phase 2 — PRÉ-SCALING (< 3 000 €/j) — board §2
 - **Pose chaque jour LA question binaire** : « rentable au backend sur les 2 derniers jours, marge ≥ 15 % ? » (board §2 ; T35 [03:22-03:44]).
-- **⚠️ Conflit** : T24 [17:15] (« on ne réduit qu'en perte ; 0-10 % stabiliser ; 10-15 % petit scale ») NE s'applique PAS sous 3 000 €/j — son barème appartient au régime scaling, et le board interdit de mélanger les phases (T35 [05:39]). Conséquence : une fenêtre au-dessus du BE mais sous 15 % de marge est un NON et consomme un cran. [arbitrage Badr 19/08 : « T24 fait foi » — rescopé au seul régime ≥ 3 000 €/j le 20/08 après l'import du board]
+- **⚠️ Conflit** : T24 [16:32-16:54] (« si on en perte, on va venir descaler de 15 % après 2 jours consécutifs ») + [17:15] (« 0-10 % stabiliser ; entre 10 et 15 %, on augmente un petit peu ») NE s'applique PAS sous 3 000 €/j — son barème appartient au régime scaling, et le board interdit de mélanger les phases (T35 [05:39]). Conséquence : une fenêtre au-dessus du BE mais sous 15 % de marge est un NON et consomme un cran. [arbitrage Badr 19/08 : « T24 fait foi » — rescopé au seul régime ≥ 3 000 €/j le 20/08 après l'import du board]
 - **Si OUI → monte sur l'échelle 500 → 750 → 1000 → 1500 → 1850 → 2250 → 3000** et ajoute de nouvelles créatives à CHAQUE montée, obligatoire (board §2). ⚠️ Conflit : l'audio T35 [05:18] dit « 1800, 2000 » — déformation Whisper ; le board (schéma exporté le 16/08) gagne.
 - **×2 si le budget est petit, +20-30 % en approchant de 3 000** (board §2). [arbitrage Badr 18/08] < 500 €/j → ×2 plafonné à 500 ; ≥ 500 → palier par palier. Le ×2 à bas budget est voulu : « ça sert à rien de mourir entre 300 et 500 à monter à hauteur de 20-30 % » (T34 [09:59]).
 - **Si NON → escalier de descente, jamais brutal, 4 crans** : cran 1 = attendre 24 h et reposer la question · crans 2 et 3 = réduire le budget de 10-15 % (board §2 ; [arbitrage Badr 18/08] un seul chiffre : −15 %) + ajouter de nouvelles créatives, attendre 24 h · cran 4 = repartir en sauvetage, cadran CPC/CVR du §1 (board §2). Un OUI à n'importe quel cran → on remonte, compteur à zéro.
@@ -66,7 +71,7 @@
 
 ### Mouvements de budget — la lecture avant tout mouvement
 
-- Lis la rentabilité **au backend** (MER / profit réel dans la poche, tous coûts variables inclus), jamais au ROAS Meta seul (board, Rappels transverses ; T35 [02:39] « c'est pas rentable avec votre ROAS, c'est vous êtes rentable dans votre poche » ; T34 [10:39] ; T24 [01:29]).
+- Lis la rentabilité **au backend** (MER / profit réel dans la poche, tous coûts variables inclus), jamais au ROAS Meta seul (board, Rappels transverses ; T35 [02:39] « c'est pas rentable avec votre ROAS, c'est vous êtes rentable dans votre poche » ; T34 [10:39] ; T24 [09:32] « on prend le MER au profit, pas au ROAS Meta »).
 - Juge sur la fenêtre des **2 derniers jours complets** — **3 jours si c'est vraiment instable** (T24 [16:32] ; board §2) ; jamais sur un seul jour (T32 [00:22]) et jamais sur le jour en cours (board, Rappels transverses).
 - En régime scaling (≥ 3 000 €/j de spend), la fenêtre devient « **les 3 derniers jours + hier** », en phase ascendante (board §3 ; T35 [12:50-13:11]).
 - Juge les dernières fenêtres, jamais le cumul dépensé depuis le lancement (T34 [09:17]).
@@ -82,7 +87,7 @@
 - Si le ROAS chute un peu, prends un palier intermédiaire et monte petit à petit ; si tout est parfait, monte rapidement — le but est d'atteindre 3 000 €/j de spend le plus vite possible (T35 [05:39]).
 - [arbitrage Badr 18/08] Au-delà du dernier palier : **+30 %** (à 3 000 €/j la formation bascule de toute façon en régime scaling, T35 [05:39]).
 - **Ajoute de nouvelles créatives à chaque montée** — obligatoire (board §2 ; T35 [05:39]).
-- Monte le budget de **la** campagne unique ; ne duplique jamais la campagne pour « monter » (T34 [11:00-11:20] ; plafond 2-3 campagnes par SKU, T41 [10:50-11:11]).
+- Monte le budget de **la** campagne unique (T34 [11:00-11:20] : « vous avez une seule campagne, vous augmentez juste le budget »). L'interdiction de dupliquer une campagne qui tourne vient d'ailleurs — T42 [01:28] la réserve au lancement d'une scaling DE ZÉRO ; plafond 2-3 campagnes par SKU, T41 [10:50-11:11].
 
 ### Descendre le budget (pré-scaling) — l'escalier, jamais brutal
 
@@ -97,7 +102,7 @@
 
 ### Régime scaling (≥ 3 000 €/j de spend)
 
-- KPI cible atteints ET **> 70 % de la perf en attribution click-based** → monte de **+20 %** (ou **+100 %** si tu es à 100 % au-dessus du KPI) ; attribution pas assez click-based → attends encore 24 h (board §3 ; T35 [13:33], [16:08]).
+- KPI cible atteints ET **> 70 % de la perf en attribution click-based** → monte de **+20 %** (ou **+100 %** si tu es à 100 % au-dessus du KPI) ; attribution pas assez click-based → attends encore 24 h (board §3 ; T35 [13:33], [15:45]).
 - Table de marge : **0-10 %** ne rien faire (ou désescale ~10 % léger) · **10-15 %** hold (scale max 10-20 %) · **15-30 %** scale +20-30 % · **30 %+** scale +40-100 %, doubler si ROAS fantastique — « et tant que c'est bien, je double » (board §3 ; T35 [15:03-15:45] ; T24 [17:15-17:36]).
 - Au-dessus du break-even mais sous la cible : **ne rien faire, stabiliser** (board §3).
 - Sous le break-even : attends **72 h** avant la première baisse, puis **−10-15 %** par jour (board §3 ; T35 [16:08-16:51]).
@@ -107,7 +112,7 @@
 
 ### Cadence, timing et hygiène d'exécution
 
-- Décide et exécute **chaque jour entre minuit et 1 h** (heure de Paris), sur jours complets — c'est là que la data est stabilisée et que Meta apprend de ton signal (content/pas content) (board, Rappels transverses ; T24 [16:11] ; T35 [19:09]) ; à défaut, règles automatiques (T24 [16:11]).
+- Décide et exécute **chaque jour entre minuit et 1 h** (heure de Paris), sur jours complets — c'est là que la data est stabilisée et que Meta apprend de ton signal (content/pas content) (board, Rappels transverses ; T24 [16:11] ; T35 [18:48]) ; à défaut, règles automatiques (T24 [16:11]).
   - [arbitrage Badr 18/08] Plage d'exécution élargie **00 h-7 h**, jugée sur la fenêtre avant-hier + hier (le dashboard reste figé dessus jusqu'à 7 h) ; un adset se met live dans la même fenêtre 00 h-7 h (T36 [03:59]).
 - **Une seule variable corrective à la fois, jamais deux le même jour** (budget OU bid OU refonte créa/LP) (Quadrants MASTER Marketing — ressources-google 03, étape 05 ; T32 [04:01] « on ne modifie pas les deux d'un coup »).
 - Laisse **48-72 h pour mesurer l'impact** d'une action corrective avant la suivante (Quadrants MASTER Marketing, étape 05) — la boucle budget du protocole, elle, est quotidienne (board §2).
@@ -132,7 +137,7 @@
 #### Où injecter selon le palier de spend
 - **< 3K €/jour : tout se joue DANS la CBO principale** — crée un nouvel adset dans la CBO pour le batch (T36 [02:07] « le process au départ, tout dans une CBO », [04:23] ; T25 [01:05] « à 0, 100 % de votre budget en testing », [03:18]).
 - **À partir de ~3K €/jour de spend : lance une campagne ABO testing ≈ 20 % du budget** et crée un nouvel adset dedans par batch (T36 [02:07]).
-  - ⚠️ Conflit : T25 [04:40] place la bascule « à environ 2 à 5K de spend » avec **20 à 30 %** du budget en testing. T36 gagne (processus de testing 34-38 > protocoles par palier 25-29 dans ARBITRAGES.md §2, et leçon 🆕) ; T25 dit lui-même « c'est pas un chiffre définitif, ça dépend de vos capacités de créa ».
+  - ⚠️ Conflit : T25 [04:40] place la bascule « à environ 2 à 5K de spend » avec **20 à 30 %** du budget en testing. les DEUX positions sont défendables et la formation ne tranche pas : le « 2-5 K / 20-30 % » est porté par T25 [04:40] MAIS aussi mot pour mot par T24 [01:26-01:47], leçon 2026 donc de rang SUPÉRIEUR à T36 dans ARBITRAGES.md §2. L'argument « leçon 🆕 » ne départage rien (T25, T28, T32, T34-T38 portent tous le 🆕). On retient 3 K comme seuil opérationnel parce que c'est celui du board, en signalant que la position 2026 est une fourchette 2-5 K ; T25 dit lui-même « c'est pas un chiffre définitif, ça dépend de vos capacités de créa ».
 - Budget de l'adset de test en ABO : **2 à 2,5 × ton CPA** (ex. CPA 30 € → 75 €), puis laisse **2 à 3 jours** avant décision (T36 [02:28-02:48]).
 
 #### Combien d'ads par adset — l'arbitrage 50 vs 15
@@ -179,7 +184,7 @@
 - **POTENTIAL WINNER** : ≥ 6 ventes, ROAS **entre le BE et 10 % de marge** (ex. BE 1,2 → ads à 1,2-1,4) → marque « POT » et injecte aussi en CBO (T37 [04:28-04:49]).
 - **SIGNAL précoce** : **< 6 ventes mais marge ≥ 15 %** (voire 20 %) → injecte quand même, « il ne faut pas manquer une ad » (T37 [05:12]).
 - **ZOMBIE** : **≥ 6 ventes mais ROAS sous le BE** → injecte directement dans la campagne zombie (T37 [05:33-05:57]) — la CBO zombie (cost cap) collecte les ads « qui ont spend et qui ne sont plus vraiment winner » pour garder un ROAS propre dans la campagne principale (T24 [08:03-08:26]). Le détail de ce dispatch zombie est annoncé « autre process » et n'est publié nulle part (T37 [13:07] — la formation ne le décrit pas).
-- **BANGER** : chaque semaine, renomme « BANGER » (à la place de « win ») toute ad dispatchée dépassant **50 ventes** (T37 [13:37-13:51]).
+- **BANGER** : chaque semaine, renomme « BANGER » (à la place de « win ») toute ad dispatchée dépassant **50 ventes** (T37 [13:27-13:51]).
 - Nomme chaque ad marquée : nom d'origine + WIN/POT + mois + numéro de semaine (ex. « August 1 ») + **post ID**, et reporte tout dans le sheet de suivi (T37 [06:44-08:39]).
 - Cadence : dispatche les nouvelles winners **mardi et vendredi** (+ lancement du Facebook comment process) (SOP Meta Process, ressources-google/15, planning hebdo).
 
@@ -198,13 +203,26 @@
 #### Ménage — SOP Meta Process §3 « Evaluation » (le seul ménage écrit du corpus)
 - **Ad — la règle qui gagne** : coupe une ad si son ROAS est sous la cible avec un spend continu sur les 3 derniers jours ; si son ROAS 7 jours est mauvais, vérifie d'abord le ROAS global — global mauvais → couper, global bon → couper en observant l'impact (T41 [09:23], post-Andromeda).
   ⚠️ Conflit : le SOP dit « last 7 days < BE ROAS → turn off » sec (ressources-google/15 §3, « Ads Optimization rules » — fondations, référencé leçon 20) — perdant car T41 est post-Andromeda (ARBITRAGES §2 : 4 > 1) ; et T37 (🆕 2026) impose qu'une ad ≥ 6 ventes sous le BE parte en ZOMBIE au lieu d'être supprimée ; jamais de OFF sur une ad rentable qui tourne [arbitrage Badr 19/08].
-- **Adset** : **3 derniers jours + aujourd'hui < BE ROAS → OFF** (règle 10) — SOP ressources-google/15 §3 ; c'est la SEULE règle d'extinction d'adset de toute la formation (vérifié : aucune leçon ne coupe un adset ailleurs). En amont : hier ≥ BE ROAS + 20 % de marge → budget +20 % · hier ≈ BE → ne rien faire · hier < BE → −20 % · 3 j + aujourd'hui ≈/< BE → −20 % (stabiliser) (règles 6-9).
+- **Adset** : **3 derniers jours + aujourd'hui < BE ROAS → OFF** (règle 10) — SOP ressources-google/15 §3 ; c'est, avec la règle 5 du même SOP (bloc Campaign, fenêtre 7 j), la seule règle d'extinction d'adset du corpus — aucune LEÇON vidéo ne coupe un adset. En amont : hier ≥ BE ROAS + 20 % de marge → budget +20 % · hier ≈ BE → ne rien faire · hier < BE → −20 % · 3 j + aujourd'hui ≈/< BE → −20 % (stabiliser) (règles 6-9).
 - **Campagne — la règle qui gagne** : le budget campagne se pilote au board PROTOCOLE-DECISION.md (§2 pré-scaling : « rentable au backend 2 derniers jours, marge ≥ 15 % ? » + escalier ; §3 scaling : table de marge ; jamais de kill de campagne hors testing produit §1 — en bas de l'escalier on repart en sauvetage, on ne coupe pas) — le board est la synthèse validée par Badr et prime toute leçon isolée.
   ⚠️ Conflit : le SOP §3 a ses propres règles campagne 1-5 (hier ≥ BE ROAS + 20 % de marge → scale +20 % · hier ≈ BE → do nothing · hier < BE → réduire 20 % · 3 j + aujourd'hui ≈/< BE → réduire 20 %, stabiliser · 7 j + aujourd'hui < BE → OFF, « kill losers ») — perdantes : fondations face au board canonique et aux leçons 2026 ; ne jamais appliquer le kill de la règle 5 à une campagne suivie au board.
 
 ---
 
 ## 5 · Structure de compte — campagnes, géo, duplication
+
+> ⚠️ **Deux conflits à connaître sur cette section** (règle 4 d'ARBITRAGES : jamais de
+> mélange silencieux) :
+> - `ressources-google/03` (Quadrants, rang fondations) conseille « +20 % max par tranche de
+>   24-48 h » et « dupliquer la campagne sur d'autres ad accounts ». Les deux perdent : la
+>   boucle du board est quotidienne, et T42 [01:28] réserve la duplication au lancement
+>   d'une scaling de zéro. Mais le doc est cité ailleurs dans ce fichier — sache qu'il dit
+>   aussi cela.
+> - T22 [15:19] (fondations) dit « en général, on fait des campagnes par country et par
+>   SKU » — soit exactement la segmentation géographique que la règle des 3 slots par RÔLE
+>   interdit. T42 (post-Andromeda) gagne, mais T22 est cité plus bas dans la sous-section
+>   Géographie : ne pas lire cette leçon comme un tout cohérent avec le reste.
+
 
 ### Structure de compte — campagnes, rôles, géo, duplication
 
@@ -255,7 +273,7 @@
 ### CPMR — le signal avancé de saturation (post-Andromeda)
 - **CPMR = CPM × fréquence** : « le vrai coût pour atteindre des personnes uniques » ; il monte **avant** que le ROAS, le CPA et le revenu se dégradent — c'est le premier signal que le compte a un problème (CI-23 [00:00-01:34]).
 - **Cause racine nommée** : pas assez de nouvelles créatives qui tournent → « l'algorithme recycle, et c'est mauvais quand il recycle, parce que ça va tuer le scale » (CI-23 [01:54]).
-- **Remèdes, dans l'ordre** (CI-23 [02:17-03:26]) : ① vérifier les exclusions d'acheteurs (liste Klaviyo synchronisée sur Meta — le pixel ne voit pas toutes les ventes) ; ② consolider les campagnes (« trop trop d'adsets qui se battent entre eux » fait monter les CPM — viser ceux qui dupliquent leurs campagnes avec les mêmes ads) ; ③ surtout : **augmenter la diversité créative**.
+- **Remèdes, dans l'ordre** (CI-23 [02:17-03:26]) : ① vérifier les exclusions d'acheteurs (liste Klaviyo synchronisée sur Meta — le pixel ne voit pas toutes les ventes) ; ② consolider les campagnes (« trop trop d'adsets qui se battent entre eux » fait monter les CPM — viser ceux qui dupliquent leurs campagnes avec les mêmes ads) ; ③ **augmenter la diversité créative** ; ④ **élargir le mix media** — partnership ads + whitelisting, « j'ai fait des calls avec des fondateurs de 100 M et tous m'ont dit whitelisting c'est game changer » (CI-23 [04:09-04:53]).
 - [dashboard] La carte Scaling affiche « CPMr en hausse vs l'historique » (±20 % vs médiane de campagne — **paramètre hors formation**, la leçon lit le signal sans chiffre).
 
 ### Miniature et thumbstop
