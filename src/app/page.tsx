@@ -47,8 +47,8 @@ async function loadData(): Promise<LoadResult> {
       // Démo : deux cartes produit synthétiques — la mise en page (cartes
       // séparées avec effet, Badr 19/08) se vérifie sans données réelles.
       productSplit = [
-        { key: "GILET", label: "Gilet", emoji: "🧥", orders: 18, caCents: 120000, spendCents: 52000, cogsCents: 30000, taxCents: 8000, feesCents: 4600, netCents: 25400, metaPurchaseValueCents: 98000 },
-        { key: "POLO", label: "Polo", emoji: "👕", orders: 12, caCents: 80000, spendCents: 39200, cogsCents: 21000, taxCents: 5000, feesCents: 3000, netCents: 11800, metaPurchaseValueCents: 64000 },
+        { key: "GILET", label: "Gilet", emoji: "🧥", orders: 18, caCents: 120000, spendCents: 52000, cogsCents: 30000, taxCents: 8000, feesCents: 4600, netCents: 25400, metaPurchaseValueCents: 98000, utmCaCents: 106000, utmOrders: 15 },
+        { key: "POLO", label: "Polo", emoji: "👕", orders: 12, caCents: 80000, spendCents: 39200, cogsCents: 21000, taxCents: 5000, feesCents: 3000, netCents: 11800, metaPurchaseValueCents: 64000, utmCaCents: 71000, utmOrders: 10 },
       ];
     }
     return { view, needsInit, brief, unmappedSpendCents, productSplit };

@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { createSupabaseServerClient } from "./supabase";
 import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET_NET_MARGIN } from "./engine";
+import { parseUtmCampaign } from "./roasReport";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
 import type { Totals } from "./data";
@@ -374,6 +375,22 @@ export interface ProductSplitCard {
    * Les deux sont utiles, mais ne se comparent pas aux mêmes seuils.
    */
   metaPurchaseValueCents: number;
+  /**
+   * CA Shopify dont l'`utm_campaign` pointe VRAIMENT vers une campagne de ce
+   * produit (24/08). C'est le numérateur du ROAS UTM — la mesure la plus
+   * honnête d'une campagne le jour même, parce qu'elle lit de l'argent
+   * réellement encaissé au lieu de ce que Meta revendique.
+   *
+   * Les trois chiffres ne disent PAS la même chose :
+   *  • MER        = tout le CA du bloc ÷ spend (inclut organique/direct/e-mail) ;
+   *  • ROAS UTM   = CA tagué par la campagne ÷ spend ;
+   *  • ROAS Meta  = ce que Meta s'attribue ÷ spend — SOUS-ESTIME le jour même
+   *    (rattrapage sous 24-72 h), puis dépasse l'UTM sur les jours clos
+   *    (il voit des conversions que l'UTM perd : CAPI, cross-device).
+   * Mesuré le 24/08 à 16h sur Lancaster : MER 2,87x · UTM 2,35x · Meta 1,86x.
+   */
+  utmCaCents: number;
+  utmOrders: number;
 }
 
 /** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
@@ -399,7 +416,144 @@ interface RawOrderForSplit {
   cogs_product_cents: number;
   cogs_upsells_cents: number;
   tax_eu_cents: number;
-  line_items: { title: string }[];
+  line_items: { title: string; quantity?: number | null; price_cents?: number | null }[];
+  /** URL d'atterrissage tronquée : porte l'`utm_campaign` (migration 0008). */
+  landing_site?: string | null;
+}
+
+// ---------------------------------------------------------------------------
+// PRODUIT PRINCIPAL D'UNE COMMANDE (règle Badr, 24/08)
+//
+// « Il faudra envoyer la commande selon le produit principal : s'il est venu
+// acheter le polo, même si ça contient un gilet, la commande revient au polo. »
+//
+// L'ancienne règle (« contient un gilet → Gilet ») versait au Gilet des
+// paniers de clients venus pour le Polo, et gonflait son MER sans une ligne
+// de spend Lancaster en face. Mesuré sur le 18→24/08 : 752 € sur 3 889 €
+// (19 % du bucket) ne venaient pas de Lancaster.
+//
+// On tranche par l'INTENTION, dans cet ordre :
+//   1. La campagne d'arrivée (utm_campaign de `landing_site`) : c'est
+//      littéralement ce qu'il est venu acheter. LANCASTER → Gilet, toute
+//      autre campagne connue → Polo.
+//   2. Campagne inconnue ou absente (Google, direct, e-mail, UTM perdue —
+//      ~15 % des commandes) : on retombe sur le panier et on garde le
+//      produit PRINCIPAL qui pèse le plus en euros. Gilet et Polo sont les
+//      seuls principaux ; Chemise/Short/Caleçon/E-Book sont des upsells et
+//      ne décident jamais.
+//   3. Aucun principal identifiable (commande 100 % upsell) : Polo, comme
+//      avant — c'est lui qui absorbe le reste.
+// ---------------------------------------------------------------------------
+
+export type PrincipalProduct = "GILET" | "POLO";
+
+export interface PrincipalProductContext {
+  /** Titres (minuscules) des produits rattachés au Gilet. */
+  giletTitles: Set<string>;
+  /** Titres (minuscules) des produits rattachés au Polo. */
+  poloTitles: Set<string>;
+  /** campaign_id → produit visé par la campagne (lu dans meta_spend). */
+  productByCampaignId: Map<string, PrincipalProduct>;
+}
+
+function lineRevenueCents(li: { quantity?: number | null; price_cents?: number | null }): number {
+  const q = li.quantity ?? 1;
+  const p = li.price_cents ?? 0;
+  return q * p;
+}
+
+/** Produit principal d'une commande — voir le bloc ci-dessus. Pur et testé. */
+export function principalProductForOrder(
+  order: Pick<RawOrderForSplit, "line_items" | "landing_site">,
+  ctx: PrincipalProductContext
+): PrincipalProduct {
+  // 1. L'intention, telle que la campagne d'arrivée la donne.
+  const campaignId = parseUtmCampaign(order.landing_site);
+  if (campaignId) {
+    const viaCampaign = ctx.productByCampaignId.get(campaignId);
+    // Campagne inconnue (clic sur une campagne coupée depuis, ou test
+    // produit) : on ne devine pas, on passe au panier.
+    if (viaCampaign) return viaCampaign;
+  }
+
+  // 2. À défaut, le principal qui pèse le plus dans le panier.
+  let giletCents = 0;
+  let poloCents = 0;
+  let giletQty = 0;
+  let poloQty = 0;
+  let giletLines = 0;
+  let poloLines = 0;
+  for (const li of order.line_items ?? []) {
+    const t = (li.title ?? "").trim().toLowerCase();
+    if (ctx.giletTitles.has(t)) {
+      giletCents += lineRevenueCents(li);
+      giletQty += li.quantity ?? 1;
+      giletLines += 1;
+    } else if (ctx.poloTitles.has(t)) {
+      poloCents += lineRevenueCents(li);
+      poloQty += li.quantity ?? 1;
+      poloLines += 1;
+    }
+  }
+
+  // Un seul principal au panier : aucune ambiguïté, et surtout aucune
+  // dépendance aux prix de ligne (ils peuvent être absents en base — c'est
+  // ce cas qui décidait POLO à tort).
+  if (giletLines > 0 && poloLines === 0) return "GILET";
+  if (poloLines > 0 && giletLines === 0) return "POLO";
+
+  // 3. Commande 100 % upsell : le Polo absorbe, comme avant.
+  if (giletLines === 0 && poloLines === 0) return "POLO";
+
+  // Les deux principaux au panier : les euros tranchent, puis les unités.
+  // Vrai ex æquo (rare) → POLO : la règle de Badr vise justement à ne plus
+  // sur-créditer le Gilet, on ne lui donne pas les cas douteux.
+  if (giletCents !== poloCents) return giletCents > poloCents ? "GILET" : "POLO";
+  if (giletQty !== poloQty) return giletQty > poloQty ? "GILET" : "POLO";
+  return "POLO";
+}
+
+/** Lit products_map + meta_spend et construit le contexte de décision. */
+async function loadPrincipalProductContext(
+  supabase: ReturnType<typeof createSupabaseServerClient>,
+  endDay: string
+): Promise<PrincipalProductContext | null> {
+  // Les campagnes sont lues sur 30 jours, pas seulement le jour même : un
+  // clic d'hier sur une campagne coupée depuis doit rester attribuable.
+  const from = new Date(`${endDay}T00:00:00Z`);
+  from.setUTCDate(from.getUTCDate() - 30);
+  const [{ data: mapRows, error: mapError }, { data: campRows, error: campError }] = await Promise.all([
+    supabase.from("products_map").select("title_pattern, product_key"),
+    supabase
+      .from("meta_spend")
+      .select("campaign_id, campaign_name")
+      .gte("day", from.toISOString().slice(0, 10))
+      .lte("day", endDay),
+  ]);
+  if (mapError) return null;
+
+  const giletTitles = new Set<string>();
+  const poloTitles = new Set<string>();
+  for (const r of mapRows ?? []) {
+    const t = ((r.title_pattern as string) ?? "").trim().toLowerCase();
+    if (!t) continue;
+    if ((r.product_key as string) === "GILET") giletTitles.add(t);
+    else if ((r.product_key as string) === "POLO") poloTitles.add(t);
+  }
+
+  const productByCampaignId = new Map<string, PrincipalProduct>();
+  for (const r of campError ? [] : (campRows ?? [])) {
+    const name = ((r.campaign_name as string) ?? "").toUpperCase();
+    // Les campagnes de TEST PRODUIT ne décident de rien : leurs commandes
+    // repassent par le panier (le bloc Testing a sa propre carte).
+    if (TESTING_CAMPAIGN_KEYWORDS.some((k) => name.includes(k))) continue;
+    productByCampaignId.set(
+      r.campaign_id as string,
+      name.includes(GILET_CAMPAIGN_KEYWORD) ? "GILET" : "POLO"
+    );
+  }
+
+  return { giletTitles, poloTitles, productByCampaignId };
 }
 
 function emptyBucket() {
@@ -413,10 +567,15 @@ function toCard(
   bucket: ReturnType<typeof emptyBucket>,
   spendCents: number,
   feesCents: number,
-  metaPurchaseValueCents: number
+  metaPurchaseValueCents: number,
+  utm: { caCents: number; orders: number } = { caCents: 0, orders: 0 }
 ): ProductSplitCard {
   const netCents = bucket.caCents - spendCents - bucket.cogsCents - bucket.taxCents - feesCents;
-  return { key, label, emoji, spendCents, feesCents, netCents, metaPurchaseValueCents, ...bucket };
+  return {
+    key, label, emoji, spendCents, feesCents, netCents, metaPurchaseValueCents,
+    utmCaCents: utm.caCents, utmOrders: utm.orders,
+    ...bucket,
+  };
 }
 
 /**
@@ -436,30 +595,50 @@ export async function getProductSplitForDay(
   day: string,
   global: Totals
 ): Promise<ProductSplitCard[]> {
+  return getProductSplitForRange(day, day, global);
+}
+
+/**
+ * Même découpage, sur une PLAGE de jours — c'est ce que sert l'onglet
+ * Produits (demande Badr 24/08 : « un truc comme pour les pays mais pour les
+ * produits, pour voir ce que le Lancaster seul a rapporté »).
+ */
+export async function getProductSplitForRange(
+  startDay: string,
+  endDay: string,
+  global: Totals
+): Promise<ProductSplitCard[]> {
+  const day = endDay;
   const supabase = createSupabaseServerClient();
 
   const [
-    { data: mapRows, error: mapError },
+    principalCtx,
     { data: spendRows, error: spendError },
     { data: insightRows, error: insightError },
   ] = await Promise.all([
-    supabase.from("products_map").select("title_pattern").eq("product_key", "GILET"),
-    supabase.from("meta_spend").select("campaign_name, spend_cents").eq("day", day),
+    loadPrincipalProductContext(supabase, day),
+    supabase.from("meta_spend").select("campaign_name, spend_cents").gte("day", startDay).lte("day", endDay),
     // Valeur d'achat attribuée par Meta, pour le ROAS Meta par produit (12/08).
     // Table issue d'une migration ultérieure : son absence ne casse rien, elle
     // laisse juste le ROAS Meta à 0 (le MER, lui, reste calculé).
-    supabase.from("meta_insights").select("campaign_name, purchase_value_cents").eq("day", day),
+    supabase
+      .from("meta_insights")
+      .select("campaign_name, purchase_value_cents")
+      .gte("day", startDay)
+      .lte("day", endDay),
   ]);
-  if (mapError) return [];
-  const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
+  if (!principalCtx) return [];
 
   const orders: RawOrderForSplit[] = [];
   const PAGE = 1000;
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
-      .eq("day", day)
+      .select(
+        "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
+      )
+      .gte("day", startDay)
+      .lte("day", endDay)
       .order("id", { ascending: true })
       .range(from, from + PAGE - 1)) as unknown as {
       data: RawOrderForSplit[] | null;
@@ -473,11 +652,21 @@ export async function getProductSplitForDay(
   if (orders.length === 0) return [];
 
   const gilet = emptyBucket();
+  // CA réellement TAGUÉ par une campagne du produit (≠ bucket : ici on ne
+  // compte QUE les commandes dont l'UTM pointe vers la campagne).
+  const utm = { GILET: { caCents: 0, orders: 0 }, POLO: { caCents: 0, orders: 0 } };
   for (const o of orders) {
-    const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
-    if (!isGilet) continue;
+    const net = o.total_cents - o.refunded_cents;
+    const viaCampaign = principalCtx.productByCampaignId.get(parseUtmCampaign(o.landing_site) ?? "");
+    if (viaCampaign) {
+      utm[viaCampaign].caCents += net;
+      utm[viaCampaign].orders += 1;
+    }
+    // Règle Badr 24/08 : la commande suit le produit qu'il est venu acheter,
+    // pas le simple fait qu'un gilet traîne dans le panier.
+    if (principalProductForOrder(o, principalCtx) !== "GILET") continue;
     gilet.orders += 1;
-    gilet.caCents += o.total_cents - o.refunded_cents;
+    gilet.caCents += net;
     gilet.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
     gilet.taxCents += o.tax_eu_cents;
   }
@@ -487,7 +676,7 @@ export async function getProductSplitForDay(
   // campagnes dont le nom contient NIRA. Mesuré comme le Gilet, puis retiré du
   // Polo pour que les 3 cartes somment exactement au Global.
   const niraEntries = (await readManualRevenue(supabase)).filter(
-    (e) => e.day === day && TESTING_PRODUCT_KEYS.has(e.productKey)
+    (e) => e.day >= startDay && e.day <= endDay && TESTING_PRODUCT_KEYS.has(e.productKey)
   );
   const nira = emptyBucket();
   for (const e of niraEntries) {
@@ -545,8 +734,8 @@ export async function getProductSplitForDay(
   );
 
   const cards = [
-    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g),
-    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo, mv.polo),
+    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g, utm.GILET),
+    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo, mv.polo, utm.POLO),
   ];
   // Carte NIRA affichée seulement si elle a une réalité ce jour-là (spend ou
   // vente) — inutile d'afficher une carte vide sur tous les jours d'avant son
@@ -577,6 +766,212 @@ export interface ProductRoasThresholds {
   target: number | null;
 }
 
+// ---------------------------------------------------------------------------
+// 🎽 Matrice PRODUIT × MARCHÉ × JOUR — demandée par Badr (24/08) : « je vois
+// toujours pas un truc dans l'onglet Mois pour activer juste Polo ou juste
+// Lancaster par pays, ou tous les produits ».
+//
+// Rend, pour chaque produit, la MÊME forme que `getTabDayData` (une série
+// DayAgg par onglet marché) : l'onglet Mois n'a qu'à choisir la série et tout
+// le reste de son code (tableau, graphe, totaux) fonctionne sans y toucher.
+//
+// Le marché d'une commande est son `store` — c'est exactement la clé que
+// `aggregate.ts` utilise pour daily_aggregates, donc les blocs produit
+// somment au global de LEUR onglet, marché par marché.
+//
+// « Tous les produits » n'est PAS recalculé ici : c'est la série existante,
+// inchangée. Elle seule porte les charges fixes (transverses, jamais
+// ventilées par produit ni par pays — doctrine du dashboard).
+// ---------------------------------------------------------------------------
+
+export type ProductSeriesKey = "GILET" | "POLO" | "TESTING";
+
+type DayAggLike = Totals & { day: string };
+
+const emptyTotals = (): Totals => ({
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0,
+  cogsUpsellsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
+});
+
+interface OrderForMatrix extends RawOrderForSplit {
+  day: string;
+  store: string;
+}
+
+/** Ingrédients bruts du découpage, par `jour|onglet`. Sérialisable : c'est
+ * CE morceau qui est caché, jamais les séries assemblées (passer tout
+ * l'historique en argument d'unstable_cache en ferait la clé de cache). */
+export interface ProductRawBuckets {
+  gilet: Record<string, { orders: number; caCents: number; cogsCents: number; taxCents: number }>;
+  nira: Record<string, { orders: number; caCents: number; cogsCents: number; taxCents: number }>;
+  spend: Record<string, { gilet: number; testing: number }>;
+}
+
+interface OrderForMatrix extends RawOrderForSplit {
+  day: string;
+  store: string;
+}
+
+async function getProductRawBucketsUncached(
+  startDay: string,
+  endDay: string
+): Promise<ProductRawBuckets | null> {
+  const supabase = createSupabaseServerClient();
+  const principalCtx = await loadPrincipalProductContext(supabase, endDay);
+  if (!principalCtx) return null;
+
+  const gilet: ProductRawBuckets["gilet"] = {};
+  const bump = (
+    box: ProductRawBuckets["gilet"],
+    k: string,
+    o: { orders: number; caCents: number; cogsCents: number; taxCents: number }
+  ) => {
+    const b = (box[k] ??= { orders: 0, caCents: 0, cogsCents: 0, taxCents: 0 });
+    b.orders += o.orders;
+    b.caCents += o.caCents;
+    b.cogsCents += o.cogsCents;
+    b.taxCents += o.taxCents;
+  };
+
+  // 1. Bloc Gilet par (jour, marché), avec la règle du produit principal.
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = (await supabase
+      .from("orders")
+      .select(
+        "day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
+      )
+      .gte("day", startDay)
+      .lte("day", endDay)
+      .order("id", { ascending: true })
+      .range(from, from + PAGE - 1)) as unknown as {
+      data: OrderForMatrix[] | null;
+      error: { message: string } | null;
+    };
+    if (error) return null;
+    const rows = data ?? [];
+    for (const o of rows) {
+      if (principalProductForOrder(o, principalCtx) !== "GILET") continue;
+      const inc = {
+        orders: 1,
+        caCents: o.total_cents - o.refunded_cents,
+        cogsCents: o.cogs_product_cents + o.cogs_upsells_cents,
+        taxCents: o.tax_eu_cents,
+      };
+      bump(gilet, `${o.day}|${o.store}`, inc);
+      bump(gilet, `${o.day}|GLOBAL`, inc);
+    }
+    if (rows.length < PAGE) break;
+  }
+
+  // 2. Spend des campagnes Gilet et Testing par (jour, marché). Le spend
+  // UNMAPPED n'appartient à aucun pays mais compte dans le GLOBAL, comme
+  // partout ailleurs dans le dashboard.
+  const { data: spendRows } = await supabase
+    .from("meta_spend")
+    .select("day, market, campaign_name, spend_cents")
+    .gte("day", startDay)
+    .lte("day", endDay);
+  const spend: ProductRawBuckets["spend"] = {};
+  for (const r of spendRows ?? []) {
+    const name = ((r.campaign_name as string) ?? "").toUpperCase();
+    const isGilet = name.includes(GILET_CAMPAIGN_KEYWORD);
+    const isTesting = TESTING_CAMPAIGN_KEYWORDS.some((k) => name.includes(k));
+    if (!isGilet && !isTesting) continue;
+    for (const k of [`${r.day}|${r.market}`, `${r.day}|GLOBAL`]) {
+      const b = (spend[k] ??= { gilet: 0, testing: 0 });
+      if (isGilet) b.gilet += r.spend_cents as number;
+      else b.testing += r.spend_cents as number;
+    }
+  }
+
+  // 3. NIRA : aucune commande Shopify, CA saisi à la main sur le marché CA.
+  const nira: ProductRawBuckets["nira"] = {};
+  for (const e of await readManualRevenue(supabase)) {
+    if (e.day < startDay || e.day > endDay) continue;
+    if (!TESTING_PRODUCT_KEYS.has(e.productKey)) continue;
+    const inc = { orders: e.orders, caCents: e.caEurCents, cogsCents: e.cogsEurCents, taxCents: 0 };
+    bump(nira, `${e.day}|CA`, inc);
+    bump(nira, `${e.day}|GLOBAL`, inc);
+  }
+
+  return { gilet, nira, spend };
+}
+
+/** Lecture cachée 5 min — le calcul pagine toute la table orders (line_items
+ * compris) et ne sert qu'à de l'affichage agrégé sur des jours clos.
+ * Invalidable par le bouton Actualiser. */
+export const getProductRawBuckets = unstable_cache(
+  getProductRawBucketsUncached,
+  ["product-day-matrix"],
+  { revalidate: 300, tags: ["product-day-matrix"] }
+);
+
+/**
+ * Assemble les séries par produit à partir des ingrédients bruts et des
+ * séries globales de chaque onglet. PUR : c'est ici que vit l'invariant
+ * « Gilet + Polo + Testing = le global de CET onglet », et il est testé.
+ */
+export function buildProductSeries(
+  raw: ProductRawBuckets,
+  globalByTab: Record<string, DayAggLike[]>
+): Record<ProductSeriesKey, Record<string, DayAggLike[]>> {
+  const out = {
+    GILET: {} as Record<string, DayAggLike[]>,
+    POLO: {} as Record<string, DayAggLike[]>,
+    TESTING: {} as Record<string, DayAggLike[]>,
+  };
+  const clamp = (v: number, g: number) => Math.min(v, Math.max(g, 0));
+  const zero = { orders: 0, caCents: 0, cogsCents: 0, taxCents: 0 };
+
+  for (const [tab, rows] of Object.entries(globalByTab)) {
+    const gSeries: DayAggLike[] = [];
+    const pSeries: DayAggLike[] = [];
+    const tSeries: DayAggLike[] = [];
+    for (const r of rows) {
+      const k = `${r.day}|${tab}`;
+      const gRaw = raw.gilet[k] ?? zero;
+      const nRaw = raw.nira[k] ?? zero;
+      const sp = raw.spend[k] ?? { gilet: 0, testing: 0 };
+
+      // Chaque composant est clampé au global de l'onglet, le Polo absorbe le
+      // reste : la somme des trois séries redonne ce global, au centime.
+      const part = (giletRaw: number, niraRaw: number, g: number) => {
+        const gg = clamp(giletRaw, g);
+        const nn = clamp(niraRaw, Math.max(g - gg, 0));
+        return { g: gg, n: nn, polo: Math.max(g - gg - nn, 0) };
+      };
+      const o = part(gRaw.orders, nRaw.orders, r.orders);
+      const ca = part(gRaw.caCents, nRaw.caCents, r.caCents);
+      const cogs = part(gRaw.cogsCents, nRaw.cogsCents, r.cogsCents);
+      const tax = part(gRaw.taxCents, 0, r.taxCents);
+      const spl = part(sp.gilet, sp.testing, r.spendCents);
+      // Frais dérivés du CA de chaque bloc, solde au Polo — jamais deux
+      // arrondis indépendants qui ne sommeraient pas au frais du global.
+      const fees = part(feesCentsForCa(ca.g), feesCentsForCa(ca.n), r.feesCents);
+
+      const mk = (
+        orders: number, caCents: number, cogsCents: number, taxCents: number,
+        spendCents: number, feesCents: number
+      ): DayAggLike => ({
+        ...emptyTotals(),
+        day: r.day,
+        orders, caCents, cogsCents, taxCents, spendCents, feesCents,
+        netCents: caCents - spendCents - cogsCents - taxCents - feesCents,
+      });
+
+      gSeries.push(mk(o.g, ca.g, cogs.g, tax.g, spl.g, fees.g));
+      pSeries.push(mk(o.polo, ca.polo, cogs.polo, tax.polo, spl.polo, fees.polo));
+      tSeries.push(mk(o.n, ca.n, cogs.n, tax.n, spl.n, fees.n));
+    }
+    out.GILET[tab] = gSeries;
+    out.POLO[tab] = pSeries;
+    out.TESTING[tab] = tSeries;
+  }
+  return out;
+}
+
+
 /** endDay inclus, 14 jours glissants. null si les commandes sont illisibles
  * (le composant retombe alors sur les seuils GLOBAL). */
 async function getProductRoasThresholdsUncached(
@@ -587,12 +982,8 @@ async function getProductRoasThresholdsUncached(
   start.setUTCDate(start.getUTCDate() - 13);
   const startDay = start.toISOString().slice(0, 10);
 
-  const { data: mapRows, error: mapError } = await supabase
-    .from("products_map")
-    .select("title_pattern")
-    .eq("product_key", "GILET");
-  if (mapError) return null;
-  const giletTitles = new Set((mapRows ?? []).map((r) => (r.title_pattern as string).trim().toLowerCase()));
+  const principalCtx = await loadPrincipalProductContext(supabase, endDay);
+  if (!principalCtx) return null;
 
   const gilet = emptyBucket();
   const polo = emptyBucket();
@@ -600,7 +991,9 @@ async function getProductRoasThresholdsUncached(
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select("total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items")
+      .select(
+        "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
+      )
       .gte("day", startDay)
       .lte("day", endDay)
       .order("id", { ascending: true })
@@ -611,8 +1004,9 @@ async function getProductRoasThresholdsUncached(
     if (error) return null;
     const rows = data ?? [];
     for (const o of rows) {
-      const isGilet = (o.line_items ?? []).some((li) => giletTitles.has((li.title ?? "").trim().toLowerCase()));
-      const b = isGilet ? gilet : polo;
+      // Même règle que getProductSplitForDay (produit principal, pas
+      // « contient un gilet ») : les deux vues doivent bucketer pareil.
+      const b = principalProductForOrder(o, principalCtx) === "GILET" ? gilet : polo;
       b.caCents += o.total_cents - o.refunded_cents;
       b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
       b.taxCents += o.tax_eu_cents;

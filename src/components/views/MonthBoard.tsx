@@ -50,23 +50,60 @@ function prevMonth(ym: string): string {
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 
+// Filtre PRODUIT de l'onglet Mois (Badr 24/08 : « activer juste Polo ou
+// juste Lancaster par pays, ou tous les produits »). Il se croise avec les
+// onglets marché : Lancaster × ES, Polo × FR, etc.
+//
+// « Tous » sert la série d'origine, seule à porter les charges fixes — elles
+// sont transverses et ne se ventilent ni par produit ni par pays. La colonne
+// Charges disparaît donc dès qu'un produit est sélectionné, au lieu
+// d'afficher un chiffre qui n'entre pas dans le net de la ligne.
+const PRODUCT_FILTERS = [
+  { key: "ALL", label: "Tous", emoji: "🧺" },
+  { key: "GILET", label: "Gilet", emoji: "🎽", note: "Lancaster" },
+  { key: "POLO", label: "Polo", emoji: "👕" },
+  { key: "TESTING", label: "Testing", emoji: "🧪" },
+] as const;
+
+export type ProductFilterKey = (typeof PRODUCT_FILTERS)[number]["key"];
+
 export function MonthBoard({
   dayLines,
+  byProduct,
   chargebacks = [],
   months,
   today,
 }: {
   dayLines: Record<MarketTab, DayLine[]>;
+  /** Séries par produit (hors « Tous ») — absentes = filtre masqué. */
+  byProduct?: Partial<Record<Exclude<ProductFilterKey, "ALL">, Record<MarketTab, DayLine[]>>>;
   chargebacks?: Chargeback[];
   months: string[];
   today: string;
 }) {
   const { play } = useSound();
   const [tab, setTab] = useState<MarketTab>("GLOBAL");
+  const [product, setProduct] = useState<ProductFilterKey>("ALL");
   const [month, setMonth] = useState<string>(months[months.length - 1] ?? "");
 
   const idx = months.indexOf(month);
-  const rows = dayLines[tab];
+  const isAll = product === "ALL";
+  const rows = useMemo(
+    () => (isAll ? dayLines[tab] : byProduct?.[product as Exclude<ProductFilterKey, "ALL">]?.[tab] ?? []),
+    [isAll, product, tab, dayLines, byProduct]
+  );
+
+  // Un produit n'est proposé que s'il a une réalité sur l'historique (le bloc
+  // Testing est vide la plupart du temps : inutile d'offrir un onglet mort).
+  const available = useMemo(
+    () =>
+      PRODUCT_FILTERS.filter((f) => {
+        if (f.key === "ALL") return true;
+        const series = byProduct?.[f.key as Exclude<ProductFilterKey, "ALL">]?.GLOBAL;
+        return (series ?? []).some((r) => r.caCents > 0 || r.spendCents > 0);
+      }),
+    [byProduct]
+  );
 
   const monthDays = useMemo(() => rows.filter((r) => r.day.startsWith(month)), [rows, month]);
   const totals = useMemo(() => sum(monthDays), [monthDays]);
@@ -123,6 +160,44 @@ export function MonthBoard({
       </div>
 
       <MarketTabs active={tab} onChange={setTab} />
+
+      {available.length > 1 && (
+        <div className="flex gap-1 overflow-x-auto pb-1" role="tablist" aria-label="Produit">
+          {available.map((f) => {
+            const isActive = f.key === product;
+            return (
+              <button
+                key={f.key}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => {
+                  if (!isActive) {
+                    play("tab");
+                    setProduct(f.key);
+                  }
+                }}
+                className={`flex-none rounded-md border px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                  isActive
+                    ? "border-amber/60 bg-amber/10 text-amber"
+                    : "border-line text-ink-dim hover:text-ink"
+                }`}
+              >
+                <span aria-hidden>{f.emoji}</span> {f.label}
+                {"note" in f && f.note && <span className="ml-1 text-[9px] opacity-70">{f.note}</span>}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {!isAll && (
+        <p className="text-[10px] leading-snug text-ink-faint">
+          Filtré sur <b className="text-ink-dim">{available.find((f) => f.key === product)?.label}</b> —
+          une commande suit le produit que le client est VENU acheter (campagne d&apos;arrivée, sinon
+          le principal qui pèse le plus au panier). Charges fixes exclues : elles sont transverses,
+          elles restent sur « Tous ».
+        </p>
+      )}
 
       <div className="grid grid-cols-3 gap-2 lg:grid-cols-6 lg:gap-3">
         <Tile label="CA" value={formatEur0(totals.caCents)} delta={delta(totals.caCents, prevTotals.caCents)} />
@@ -186,7 +261,7 @@ export function MonthBoard({
               <Th className="text-right">COGS</Th>
               <Th className="text-right">Taxe</Th>
               <Th className="text-right">Frais</Th>
-              {tab === "GLOBAL" && <Th className="text-right">Charges</Th>}
+              {tab === "GLOBAL" && isAll && <Th className="text-right">Charges</Th>}
               <Th className="text-right">Net</Th>
               <Th className="text-right">Marge</Th>
               <Th className="text-right">MER</Th>
@@ -220,7 +295,7 @@ export function MonthBoard({
                   <Td className="text-right text-ink-dim">
                     {l.caCents ? `${(l.feesEstimatedCents ?? 0) > 0 ? "~" : ""}${formatEur0(l.feesCents)}` : "—"}
                   </Td>
-                  {tab === "GLOBAL" && (
+                  {tab === "GLOBAL" && isAll && (
                     <Td className="text-right text-amber/80">
                       {fixedCostsCentsForDay(l.day) ? formatEur0(fixedCostsCentsForDay(l.day)) : "—"}
                     </Td>
@@ -250,7 +325,7 @@ export function MonthBoard({
               <Td className="text-right text-ink-dim">
                 {`${(totals.feesEstimatedCents ?? 0) > 0 ? "~" : ""}${formatEur0(totals.feesCents)}`}
               </Td>
-              {tab === "GLOBAL" && (
+              {tab === "GLOBAL" && isAll && (
                 <Td className="text-right text-amber/80">
                   {formatEur0(monthDays.reduce((a, l) => a + fixedCostsCentsForDay(l.day), 0))}
                 </Td>

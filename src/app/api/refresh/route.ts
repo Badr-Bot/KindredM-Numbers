@@ -6,6 +6,7 @@ import { revalidateTag } from "next/cache";
 export async function POST() {
   revalidateTag("today-snapshot", { expire: 0 });
   revalidateTag("product-roas-thresholds", { expire: 0 });
+  revalidateTag("product-day-matrix", { expire: 0 });
   revalidateTag("meta-live", { expire: 0 });
   revalidateTag("bank", { expire: 0 });
   return NextResponse.json({ ok: true });

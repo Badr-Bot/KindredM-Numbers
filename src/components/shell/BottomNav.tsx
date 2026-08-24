@@ -11,6 +11,8 @@ const ITEMS = [
   { href: "/mois", label: "Mois", emoji: "🗓️" },
   { href: "/annee", label: "Année", emoji: "📈" },
   { href: "/depenses", label: "Dépenses", emoji: "🍩" },
+  // 24/08 (Badr) : « un truc comme pour les pays mais pour les produits ».
+  { href: "/produits", label: "Produits", emoji: "🎽" },
   { href: "/analyse", label: "Analyse", emoji: "📊" },
   { href: "/creas", label: "Créas", emoji: "🎬" },
   { href: "/scaling", label: "Scaling", emoji: "🪜" },
