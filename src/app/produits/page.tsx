@@ -21,7 +21,9 @@ function ranges(today: string): Record<PeriodKey, { start: string; end: string }
     "7j": { start: addDaysToDay(today, -6), end: today },
     "30j": { start: addDaysToDay(today, -29), end: today },
     mois: { start: `${today.slice(0, 7)}-01`, end: today },
-    tout: { start: HISTORY_START, end: today },
+    // Plafonné à 90 j : un scan de tout l'historique (orders + line_items)
+    // dépasse le budget temps de la fonction et rend la page vide.
+    "90j": { start: addDaysToDay(today, -89), end: today },
   };
 }
 
@@ -64,7 +66,7 @@ async function loadData(): Promise<LoadResult> {
           { ...EMPTY }
         );
 
-    const keys: PeriodKey[] = ["7j", "30j", "mois", "tout"];
+    const keys: PeriodKey[] = ["7j", "30j", "mois", "90j"];
     const splits = await Promise.all(
       keys.map((k) =>
         getProductSplitForRange(rangeByPeriod[k].start, rangeByPeriod[k].end, sumRange(rangeByPeriod[k].start, rangeByPeriod[k].end)).catch(

@@ -23,16 +23,19 @@ import { useSound } from "../sound/SoundProvider";
 //                clos (il voit des conversions que l'UTM perd).
 // ---------------------------------------------------------------------------
 
-export type PeriodKey = "7j" | "30j" | "mois" | "tout";
+export type PeriodKey = "7j" | "30j" | "mois" | "90j";
 
 export const PERIOD_LABELS: Record<PeriodKey, string> = {
   "7j": "7 jours",
   "30j": "30 jours",
   mois: "Ce mois",
-  tout: "Tout",
+  "90j": "90 jours",
 };
 
-const PERIOD_ORDER: PeriodKey[] = ["7j", "30j", "mois", "tout"];
+// Fenêtre plafonnée à 90 jours (et non « tout l'historique ») : le découpage
+// pagine la table orders avec ses line_items, et un scan illimité dépassait
+// le budget temps de la fonction — il rendait la page vide au lieu de lente.
+const PERIOD_ORDER: PeriodKey[] = ["7j", "30j", "mois", "90j"];
 
 const ratio = (num: number, den: number): number | null => (den > 0 ? num / den : null);
 

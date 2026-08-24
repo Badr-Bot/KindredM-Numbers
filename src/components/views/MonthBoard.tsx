@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Chargeback, DayLine, Totals } from "@/lib/data";
 import { marginPct, mer } from "@/lib/engine";
 import type { MarketTab } from "@/lib/markets";
@@ -62,21 +62,17 @@ const PRODUCT_FILTERS = [
   { key: "ALL", label: "Tous", emoji: "🧺" },
   { key: "GILET", label: "Gilet", emoji: "🎽", note: "Lancaster" },
   { key: "POLO", label: "Polo", emoji: "👕" },
-  { key: "TESTING", label: "Testing", emoji: "🧪" },
 ] as const;
 
 export type ProductFilterKey = (typeof PRODUCT_FILTERS)[number]["key"];
 
 export function MonthBoard({
   dayLines,
-  byProduct,
   chargebacks = [],
   months,
   today,
 }: {
   dayLines: Record<MarketTab, DayLine[]>;
-  /** Séries par produit (hors « Tous ») — absentes = filtre masqué. */
-  byProduct?: Partial<Record<Exclude<ProductFilterKey, "ALL">, Record<MarketTab, DayLine[]>>>;
   chargebacks?: Chargeback[];
   months: string[];
   today: string;
@@ -88,21 +84,50 @@ export function MonthBoard({
 
   const idx = months.indexOf(month);
   const isAll = product === "ALL";
-  const rows = useMemo(
-    () => (isAll ? dayLines[tab] : byProduct?.[product as Exclude<ProductFilterKey, "ALL">]?.[tab] ?? []),
-    [isAll, product, tab, dayLines, byProduct]
-  );
 
-  // Un produit n'est proposé que s'il a une réalité sur l'historique (le bloc
-  // Testing est vide la plupart du temps : inutile d'offrir un onglet mort).
-  const available = useMemo(
-    () =>
-      PRODUCT_FILTERS.filter((f) => {
-        if (f.key === "ALL") return true;
-        const series = byProduct?.[f.key as Exclude<ProductFilterKey, "ALL">]?.GLOBAL;
-        return (series ?? []).some((r) => r.caCents > 0 || r.spendCents > 0);
-      }),
-    [byProduct]
+  // Séries produit du MOIS affiché, chargées à la demande (voir
+  // /api/product-series) : « Tous » ne déclenche aucun appel, et le mois
+  // borne le travail au lieu de scanner tout l'historique.
+  //
+  // Un SEUL état, posé uniquement depuis les callbacks du fetch : « en
+  // chargement » se DÉDUIT (le mois chargé ne correspond pas au mois affiché)
+  // au lieu d'être un setState synchrone dans l'effet, qui déclenche des
+  // rendus en cascade. Une réponse porte les trois produits : changer de
+  // produit dans le même mois ne rappelle rien.
+  const [loaded, setLoaded] = useState<{
+    key: string;
+    series?: Partial<Record<string, Record<MarketTab, DayLine[]>>>;
+    error?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (isAll || !month || loaded?.key === month) return;
+    let cancelled = false;
+    const [y, m] = month.split("-").map(Number);
+    const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const start = `${month}-01`;
+    const end = month === today.slice(0, 7) ? today : `${month}-${String(last).padStart(2, "0")}`;
+    fetch(`/api/product-series?start=${start}&end=${end}`)
+      .then(async (r) => {
+        const body = await r.json();
+        if (!r.ok || body.error) throw new Error(body.error ?? `HTTP ${r.status}`);
+        if (!cancelled) setLoaded({ key: month, series: body.series ?? {} });
+      })
+      .catch((e: Error) => {
+        if (!cancelled) setLoaded({ key: month, error: e.message });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isAll, month, today, loaded?.key]);
+
+  const ready = !isAll && loaded?.key === month;
+  const loading = !isAll && !ready;
+  const loadError = ready ? loaded?.error ?? null : null;
+
+  const rows = useMemo(
+    () => (isAll ? dayLines[tab] : (ready && loaded?.series ? loaded.series[product]?.[tab] : undefined) ?? []),
+    [isAll, product, tab, dayLines, ready, loaded]
   );
 
   const monthDays = useMemo(() => rows.filter((r) => r.day.startsWith(month)), [rows, month]);
@@ -161,38 +186,48 @@ export function MonthBoard({
 
       <MarketTabs active={tab} onChange={setTab} />
 
-      {available.length > 1 && (
-        <div className="flex gap-1 overflow-x-auto pb-1" role="tablist" aria-label="Produit">
-          {available.map((f) => {
-            const isActive = f.key === product;
-            return (
-              <button
-                key={f.key}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => {
-                  if (!isActive) {
-                    play("tab");
-                    setProduct(f.key);
-                  }
-                }}
-                className={`flex-none rounded-md border px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-                  isActive
-                    ? "border-amber/60 bg-amber/10 text-amber"
-                    : "border-line text-ink-dim hover:text-ink"
-                }`}
-              >
-                <span aria-hidden>{f.emoji}</span> {f.label}
-                {"note" in f && f.note && <span className="ml-1 text-[9px] opacity-70">{f.note}</span>}
-              </button>
-            );
-          })}
-        </div>
+      <div className="flex gap-1 overflow-x-auto pb-1" role="tablist" aria-label="Produit">
+        {PRODUCT_FILTERS.map((f) => {
+          const isActive = f.key === product;
+          return (
+            <button
+              key={f.key}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => {
+                if (!isActive) {
+                  play("tab");
+                  setProduct(f.key);
+                }
+              }}
+              className={`flex-none rounded-md border px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                isActive
+                  ? "border-amber/60 bg-amber/10 text-amber"
+                  : "border-line text-ink-dim hover:text-ink"
+              }`}
+            >
+              <span aria-hidden>{f.emoji}</span> {f.label}
+              {"note" in f && f.note && <span className="ml-1 text-[9px] opacity-70">{f.note}</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {!isAll && loading && (
+        <p className="text-[10px] text-ink-faint">Découpage du mois par produit en cours…</p>
       )}
 
-      {!isAll && (
+      {!isAll && loadError && (
+        // Un filtre qui rend un tableau vide sans rien dire, c'est pire que
+        // pas de filtre : on affiche la raison.
+        <p className="rounded-lg border border-red/40 bg-red/10 p-2 text-[10.5px] leading-snug text-red">
+          Filtre produit indisponible : {loadError}
+        </p>
+      )}
+
+      {!isAll && !loading && !loadError && (
         <p className="text-[10px] leading-snug text-ink-faint">
-          Filtré sur <b className="text-ink-dim">{available.find((f) => f.key === product)?.label}</b> —
+          Filtré sur <b className="text-ink-dim">{PRODUCT_FILTERS.find((f) => f.key === product)?.label}</b> —
           une commande suit le produit que le client est VENU acheter (campagne d&apos;arrivée, sinon
           le principal qui pèse le plus au panier). Charges fixes exclues : elles sont transverses,
           elles restent sur « Tous ».
