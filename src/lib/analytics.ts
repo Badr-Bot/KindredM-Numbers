@@ -375,6 +375,22 @@ export interface ProductSplitCard {
    * Les deux sont utiles, mais ne se comparent pas aux mêmes seuils.
    */
   metaPurchaseValueCents: number;
+  /**
+   * CA Shopify dont l'`utm_campaign` pointe VRAIMENT vers une campagne de ce
+   * produit (24/08). C'est le numérateur du ROAS UTM — la mesure la plus
+   * honnête d'une campagne le jour même, parce qu'elle lit de l'argent
+   * réellement encaissé au lieu de ce que Meta revendique.
+   *
+   * Les trois chiffres ne disent PAS la même chose :
+   *  • MER        = tout le CA du bloc ÷ spend (inclut organique/direct/e-mail) ;
+   *  • ROAS UTM   = CA tagué par la campagne ÷ spend ;
+   *  • ROAS Meta  = ce que Meta s'attribue ÷ spend — SOUS-ESTIME le jour même
+   *    (rattrapage sous 24-72 h), puis dépasse l'UTM sur les jours clos
+   *    (il voit des conversions que l'UTM perd : CAPI, cross-device).
+   * Mesuré le 24/08 à 16h sur Lancaster : MER 2,87x · UTM 2,35x · Meta 1,86x.
+   */
+  utmCaCents: number;
+  utmOrders: number;
 }
 
 /** Mot-clé (dans le nom de campagne, en majuscules) identifiant le Gilet. */
@@ -551,10 +567,15 @@ function toCard(
   bucket: ReturnType<typeof emptyBucket>,
   spendCents: number,
   feesCents: number,
-  metaPurchaseValueCents: number
+  metaPurchaseValueCents: number,
+  utm: { caCents: number; orders: number } = { caCents: 0, orders: 0 }
 ): ProductSplitCard {
   const netCents = bucket.caCents - spendCents - bucket.cogsCents - bucket.taxCents - feesCents;
-  return { key, label, emoji, spendCents, feesCents, netCents, metaPurchaseValueCents, ...bucket };
+  return {
+    key, label, emoji, spendCents, feesCents, netCents, metaPurchaseValueCents,
+    utmCaCents: utm.caCents, utmOrders: utm.orders,
+    ...bucket,
+  };
 }
 
 /**
@@ -574,6 +595,20 @@ export async function getProductSplitForDay(
   day: string,
   global: Totals
 ): Promise<ProductSplitCard[]> {
+  return getProductSplitForRange(day, day, global);
+}
+
+/**
+ * Même découpage, sur une PLAGE de jours — c'est ce que sert l'onglet
+ * Produits (demande Badr 24/08 : « un truc comme pour les pays mais pour les
+ * produits, pour voir ce que le Lancaster seul a rapporté »).
+ */
+export async function getProductSplitForRange(
+  startDay: string,
+  endDay: string,
+  global: Totals
+): Promise<ProductSplitCard[]> {
+  const day = endDay;
   const supabase = createSupabaseServerClient();
 
   const [
@@ -582,11 +617,15 @@ export async function getProductSplitForDay(
     { data: insightRows, error: insightError },
   ] = await Promise.all([
     loadPrincipalProductContext(supabase, day),
-    supabase.from("meta_spend").select("campaign_name, spend_cents").eq("day", day),
+    supabase.from("meta_spend").select("campaign_name, spend_cents").gte("day", startDay).lte("day", endDay),
     // Valeur d'achat attribuée par Meta, pour le ROAS Meta par produit (12/08).
     // Table issue d'une migration ultérieure : son absence ne casse rien, elle
     // laisse juste le ROAS Meta à 0 (le MER, lui, reste calculé).
-    supabase.from("meta_insights").select("campaign_name, purchase_value_cents").eq("day", day),
+    supabase
+      .from("meta_insights")
+      .select("campaign_name, purchase_value_cents")
+      .gte("day", startDay)
+      .lte("day", endDay),
   ]);
   if (!principalCtx) return [];
 
@@ -598,7 +637,8 @@ export async function getProductSplitForDay(
       .select(
         "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
       )
-      .eq("day", day)
+      .gte("day", startDay)
+      .lte("day", endDay)
       .order("id", { ascending: true })
       .range(from, from + PAGE - 1)) as unknown as {
       data: RawOrderForSplit[] | null;
@@ -612,12 +652,21 @@ export async function getProductSplitForDay(
   if (orders.length === 0) return [];
 
   const gilet = emptyBucket();
+  // CA réellement TAGUÉ par une campagne du produit (≠ bucket : ici on ne
+  // compte QUE les commandes dont l'UTM pointe vers la campagne).
+  const utm = { GILET: { caCents: 0, orders: 0 }, POLO: { caCents: 0, orders: 0 } };
   for (const o of orders) {
+    const net = o.total_cents - o.refunded_cents;
+    const viaCampaign = principalCtx.productByCampaignId.get(parseUtmCampaign(o.landing_site) ?? "");
+    if (viaCampaign) {
+      utm[viaCampaign].caCents += net;
+      utm[viaCampaign].orders += 1;
+    }
     // Règle Badr 24/08 : la commande suit le produit qu'il est venu acheter,
     // pas le simple fait qu'un gilet traîne dans le panier.
     if (principalProductForOrder(o, principalCtx) !== "GILET") continue;
     gilet.orders += 1;
-    gilet.caCents += o.total_cents - o.refunded_cents;
+    gilet.caCents += net;
     gilet.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
     gilet.taxCents += o.tax_eu_cents;
   }
@@ -627,7 +676,7 @@ export async function getProductSplitForDay(
   // campagnes dont le nom contient NIRA. Mesuré comme le Gilet, puis retiré du
   // Polo pour que les 3 cartes somment exactement au Global.
   const niraEntries = (await readManualRevenue(supabase)).filter(
-    (e) => e.day === day && TESTING_PRODUCT_KEYS.has(e.productKey)
+    (e) => e.day >= startDay && e.day <= endDay && TESTING_PRODUCT_KEYS.has(e.productKey)
   );
   const nira = emptyBucket();
   for (const e of niraEntries) {
@@ -685,8 +734,8 @@ export async function getProductSplitForDay(
   );
 
   const cards = [
-    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g),
-    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo, mv.polo),
+    toCard("GILET", "Gilet", "🎽", { orders: o.g, caCents: ca.g, cogsCents: cogs.g, taxCents: tax.g }, sp.g, fees.g, mv.g, utm.GILET),
+    toCard("POLO", "Polo", "👕", { orders: o.polo, caCents: ca.polo, cogsCents: cogs.polo, taxCents: tax.polo }, sp.polo, fees.polo, mv.polo, utm.POLO),
   ];
   // Carte NIRA affichée seulement si elle a une réalité ce jour-là (spend ou
   // vente) — inutile d'afficher une carte vide sur tous les jours d'avant son
