@@ -447,6 +447,27 @@ interface RawOrderForSplit {
 
 export type PrincipalProduct = "GILET" | "POLO";
 
+/**
+ * `landing_site` vient de la migration 0008, qui peut ne PAS être appliquée
+ * (tout le reste du dépôt le suppose déjà — cf. `acquisitionColumnsReady`).
+ * Sans elle, on ne perd que l'étape « campagne d'arrivée » : la règle du
+ * panier prend le relais, au lieu de faire échouer tout le découpage.
+ */
+async function ordersHaveLandingSite(
+  supabase: ReturnType<typeof createSupabaseServerClient>
+): Promise<boolean> {
+  const { error } = await supabase.from("orders").select("landing_site").limit(1);
+  return !error;
+}
+
+/** Colonnes à lire sur `orders`, selon que la migration 0008 est là ou non. */
+function orderColumns(hasLandingSite: boolean, extra = ""): string {
+  return (
+    `${extra}total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items` +
+    (hasLandingSite ? ", landing_site" : "")
+  );
+}
+
 export interface PrincipalProductContext {
   /** Titres (minuscules) des produits rattachés au Gilet. */
   giletTitles: Set<string>;
@@ -517,7 +538,7 @@ export function principalProductForOrder(
 async function loadPrincipalProductContext(
   supabase: ReturnType<typeof createSupabaseServerClient>,
   endDay: string
-): Promise<PrincipalProductContext | null> {
+): Promise<PrincipalProductContext> {
   // Les campagnes sont lues sur 30 jours, pas seulement le jour même : un
   // clic d'hier sur une campagne coupée depuis doit rester attribuable.
   const from = new Date(`${endDay}T00:00:00Z`);
@@ -530,7 +551,12 @@ async function loadPrincipalProductContext(
       .gte("day", from.toISOString().slice(0, 10))
       .lte("day", endDay),
   ]);
-  if (mapError) return null;
+  if (mapError) {
+    // Message EXACT : la 1re version renvoyait « products_map illisible »
+    // pour n'importe quel échec de lecture, y compris celui des commandes —
+    // un diagnostic faux fait chercher au mauvais endroit.
+    throw new Error(`products_map illisible : ${mapError.message}`);
+  }
 
   const giletTitles = new Set<string>();
   const poloTitles = new Set<string>();
@@ -627,16 +653,14 @@ export async function getProductSplitForRange(
       .gte("day", startDay)
       .lte("day", endDay),
   ]);
-  if (!principalCtx) return [];
+  const hasLandingSite = await ordersHaveLandingSite(supabase);
 
   const orders: RawOrderForSplit[] = [];
   const PAGE = 1000;
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select(
-        "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
-      )
+      .select(orderColumns(hasLandingSite))
       .gte("day", startDay)
       .lte("day", endDay)
       .order("id", { ascending: true })
@@ -815,10 +839,12 @@ interface OrderForMatrix extends RawOrderForSplit {
 async function getProductRawBucketsUncached(
   startDay: string,
   endDay: string
-): Promise<ProductRawBuckets | null> {
+): Promise<ProductRawBuckets> {
   const supabase = createSupabaseServerClient();
-  const principalCtx = await loadPrincipalProductContext(supabase, endDay);
-  if (!principalCtx) return null;
+  const [principalCtx, hasLandingSite] = await Promise.all([
+    loadPrincipalProductContext(supabase, endDay),
+    ordersHaveLandingSite(supabase),
+  ]);
 
   const gilet: ProductRawBuckets["gilet"] = {};
   const bump = (
@@ -838,9 +864,7 @@ async function getProductRawBucketsUncached(
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select(
-        "day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
-      )
+      .select(orderColumns(hasLandingSite, "day, store, "))
       .gte("day", startDay)
       .lte("day", endDay)
       .order("id", { ascending: true })
@@ -848,7 +872,7 @@ async function getProductRawBucketsUncached(
       data: OrderForMatrix[] | null;
       error: { message: string } | null;
     };
-    if (error) return null;
+    if (error) throw new Error(`lecture des commandes : ${error.message}`);
     const rows = data ?? [];
     for (const o of rows) {
       if (principalProductForOrder(o, principalCtx) !== "GILET") continue;
@@ -982,8 +1006,10 @@ async function getProductRoasThresholdsUncached(
   start.setUTCDate(start.getUTCDate() - 13);
   const startDay = start.toISOString().slice(0, 10);
 
-  const principalCtx = await loadPrincipalProductContext(supabase, endDay);
-  if (!principalCtx) return null;
+  const [principalCtx, hasLandingSite] = await Promise.all([
+    loadPrincipalProductContext(supabase, endDay),
+    ordersHaveLandingSite(supabase),
+  ]);
 
   const gilet = emptyBucket();
   const polo = emptyBucket();
@@ -991,9 +1017,7 @@ async function getProductRoasThresholdsUncached(
   for (let from = 0; ; from += PAGE) {
     const { data, error } = (await supabase
       .from("orders")
-      .select(
-        "total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
-      )
+      .select(orderColumns(hasLandingSite))
       .gte("day", startDay)
       .lte("day", endDay)
       .order("id", { ascending: true })
