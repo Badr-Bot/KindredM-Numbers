@@ -70,15 +70,6 @@ export async function GET(request: Request) {
       computeThresholds(end),
       getProductRoasThresholds(end).catch(() => null),
     ]);
-    if (!raw) {
-      // Cause la plus probable : products_map illisible. On le DIT au lieu de
-      // rendre un filtre vide qui laisse croire qu'il n'y a pas de données.
-      return NextResponse.json(
-        { error: "Découpage par produit indisponible : products_map illisible." },
-        { status: 503 }
-      );
-    }
-
     const dayLines = {} as Record<MarketTab, DayLine[]>;
     for (const tab of MARKET_TABS) {
       dayLines[tab] = await getDayLines(tab, start, end, thresholds[tab], end);
