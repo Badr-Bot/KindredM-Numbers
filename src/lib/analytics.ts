@@ -766,6 +766,212 @@ export interface ProductRoasThresholds {
   target: number | null;
 }
 
+// ---------------------------------------------------------------------------
+// 🎽 Matrice PRODUIT × MARCHÉ × JOUR — demandée par Badr (24/08) : « je vois
+// toujours pas un truc dans l'onglet Mois pour activer juste Polo ou juste
+// Lancaster par pays, ou tous les produits ».
+//
+// Rend, pour chaque produit, la MÊME forme que `getTabDayData` (une série
+// DayAgg par onglet marché) : l'onglet Mois n'a qu'à choisir la série et tout
+// le reste de son code (tableau, graphe, totaux) fonctionne sans y toucher.
+//
+// Le marché d'une commande est son `store` — c'est exactement la clé que
+// `aggregate.ts` utilise pour daily_aggregates, donc les blocs produit
+// somment au global de LEUR onglet, marché par marché.
+//
+// « Tous les produits » n'est PAS recalculé ici : c'est la série existante,
+// inchangée. Elle seule porte les charges fixes (transverses, jamais
+// ventilées par produit ni par pays — doctrine du dashboard).
+// ---------------------------------------------------------------------------
+
+export type ProductSeriesKey = "GILET" | "POLO" | "TESTING";
+
+type DayAggLike = Totals & { day: string };
+
+const emptyTotals = (): Totals => ({
+  orders: 0, caCents: 0, spendCents: 0, cogsCents: 0, cogsProductCents: 0,
+  cogsUpsellsCents: 0, taxCents: 0, feesCents: 0, netCents: 0, refundedCents: 0,
+});
+
+interface OrderForMatrix extends RawOrderForSplit {
+  day: string;
+  store: string;
+}
+
+/** Ingrédients bruts du découpage, par `jour|onglet`. Sérialisable : c'est
+ * CE morceau qui est caché, jamais les séries assemblées (passer tout
+ * l'historique en argument d'unstable_cache en ferait la clé de cache). */
+export interface ProductRawBuckets {
+  gilet: Record<string, { orders: number; caCents: number; cogsCents: number; taxCents: number }>;
+  nira: Record<string, { orders: number; caCents: number; cogsCents: number; taxCents: number }>;
+  spend: Record<string, { gilet: number; testing: number }>;
+}
+
+interface OrderForMatrix extends RawOrderForSplit {
+  day: string;
+  store: string;
+}
+
+async function getProductRawBucketsUncached(
+  startDay: string,
+  endDay: string
+): Promise<ProductRawBuckets | null> {
+  const supabase = createSupabaseServerClient();
+  const principalCtx = await loadPrincipalProductContext(supabase, endDay);
+  if (!principalCtx) return null;
+
+  const gilet: ProductRawBuckets["gilet"] = {};
+  const bump = (
+    box: ProductRawBuckets["gilet"],
+    k: string,
+    o: { orders: number; caCents: number; cogsCents: number; taxCents: number }
+  ) => {
+    const b = (box[k] ??= { orders: 0, caCents: 0, cogsCents: 0, taxCents: 0 });
+    b.orders += o.orders;
+    b.caCents += o.caCents;
+    b.cogsCents += o.cogsCents;
+    b.taxCents += o.taxCents;
+  };
+
+  // 1. Bloc Gilet par (jour, marché), avec la règle du produit principal.
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = (await supabase
+      .from("orders")
+      .select(
+        "day, store, total_cents, refunded_cents, cogs_product_cents, cogs_upsells_cents, tax_eu_cents, line_items, landing_site"
+      )
+      .gte("day", startDay)
+      .lte("day", endDay)
+      .order("id", { ascending: true })
+      .range(from, from + PAGE - 1)) as unknown as {
+      data: OrderForMatrix[] | null;
+      error: { message: string } | null;
+    };
+    if (error) return null;
+    const rows = data ?? [];
+    for (const o of rows) {
+      if (principalProductForOrder(o, principalCtx) !== "GILET") continue;
+      const inc = {
+        orders: 1,
+        caCents: o.total_cents - o.refunded_cents,
+        cogsCents: o.cogs_product_cents + o.cogs_upsells_cents,
+        taxCents: o.tax_eu_cents,
+      };
+      bump(gilet, `${o.day}|${o.store}`, inc);
+      bump(gilet, `${o.day}|GLOBAL`, inc);
+    }
+    if (rows.length < PAGE) break;
+  }
+
+  // 2. Spend des campagnes Gilet et Testing par (jour, marché). Le spend
+  // UNMAPPED n'appartient à aucun pays mais compte dans le GLOBAL, comme
+  // partout ailleurs dans le dashboard.
+  const { data: spendRows } = await supabase
+    .from("meta_spend")
+    .select("day, market, campaign_name, spend_cents")
+    .gte("day", startDay)
+    .lte("day", endDay);
+  const spend: ProductRawBuckets["spend"] = {};
+  for (const r of spendRows ?? []) {
+    const name = ((r.campaign_name as string) ?? "").toUpperCase();
+    const isGilet = name.includes(GILET_CAMPAIGN_KEYWORD);
+    const isTesting = TESTING_CAMPAIGN_KEYWORDS.some((k) => name.includes(k));
+    if (!isGilet && !isTesting) continue;
+    for (const k of [`${r.day}|${r.market}`, `${r.day}|GLOBAL`]) {
+      const b = (spend[k] ??= { gilet: 0, testing: 0 });
+      if (isGilet) b.gilet += r.spend_cents as number;
+      else b.testing += r.spend_cents as number;
+    }
+  }
+
+  // 3. NIRA : aucune commande Shopify, CA saisi à la main sur le marché CA.
+  const nira: ProductRawBuckets["nira"] = {};
+  for (const e of await readManualRevenue(supabase)) {
+    if (e.day < startDay || e.day > endDay) continue;
+    if (!TESTING_PRODUCT_KEYS.has(e.productKey)) continue;
+    const inc = { orders: e.orders, caCents: e.caEurCents, cogsCents: e.cogsEurCents, taxCents: 0 };
+    bump(nira, `${e.day}|CA`, inc);
+    bump(nira, `${e.day}|GLOBAL`, inc);
+  }
+
+  return { gilet, nira, spend };
+}
+
+/** Lecture cachée 5 min — le calcul pagine toute la table orders (line_items
+ * compris) et ne sert qu'à de l'affichage agrégé sur des jours clos.
+ * Invalidable par le bouton Actualiser. */
+export const getProductRawBuckets = unstable_cache(
+  getProductRawBucketsUncached,
+  ["product-day-matrix"],
+  { revalidate: 300, tags: ["product-day-matrix"] }
+);
+
+/**
+ * Assemble les séries par produit à partir des ingrédients bruts et des
+ * séries globales de chaque onglet. PUR : c'est ici que vit l'invariant
+ * « Gilet + Polo + Testing = le global de CET onglet », et il est testé.
+ */
+export function buildProductSeries(
+  raw: ProductRawBuckets,
+  globalByTab: Record<string, DayAggLike[]>
+): Record<ProductSeriesKey, Record<string, DayAggLike[]>> {
+  const out = {
+    GILET: {} as Record<string, DayAggLike[]>,
+    POLO: {} as Record<string, DayAggLike[]>,
+    TESTING: {} as Record<string, DayAggLike[]>,
+  };
+  const clamp = (v: number, g: number) => Math.min(v, Math.max(g, 0));
+  const zero = { orders: 0, caCents: 0, cogsCents: 0, taxCents: 0 };
+
+  for (const [tab, rows] of Object.entries(globalByTab)) {
+    const gSeries: DayAggLike[] = [];
+    const pSeries: DayAggLike[] = [];
+    const tSeries: DayAggLike[] = [];
+    for (const r of rows) {
+      const k = `${r.day}|${tab}`;
+      const gRaw = raw.gilet[k] ?? zero;
+      const nRaw = raw.nira[k] ?? zero;
+      const sp = raw.spend[k] ?? { gilet: 0, testing: 0 };
+
+      // Chaque composant est clampé au global de l'onglet, le Polo absorbe le
+      // reste : la somme des trois séries redonne ce global, au centime.
+      const part = (giletRaw: number, niraRaw: number, g: number) => {
+        const gg = clamp(giletRaw, g);
+        const nn = clamp(niraRaw, Math.max(g - gg, 0));
+        return { g: gg, n: nn, polo: Math.max(g - gg - nn, 0) };
+      };
+      const o = part(gRaw.orders, nRaw.orders, r.orders);
+      const ca = part(gRaw.caCents, nRaw.caCents, r.caCents);
+      const cogs = part(gRaw.cogsCents, nRaw.cogsCents, r.cogsCents);
+      const tax = part(gRaw.taxCents, 0, r.taxCents);
+      const spl = part(sp.gilet, sp.testing, r.spendCents);
+      // Frais dérivés du CA de chaque bloc, solde au Polo — jamais deux
+      // arrondis indépendants qui ne sommeraient pas au frais du global.
+      const fees = part(feesCentsForCa(ca.g), feesCentsForCa(ca.n), r.feesCents);
+
+      const mk = (
+        orders: number, caCents: number, cogsCents: number, taxCents: number,
+        spendCents: number, feesCents: number
+      ): DayAggLike => ({
+        ...emptyTotals(),
+        day: r.day,
+        orders, caCents, cogsCents, taxCents, spendCents, feesCents,
+        netCents: caCents - spendCents - cogsCents - taxCents - feesCents,
+      });
+
+      gSeries.push(mk(o.g, ca.g, cogs.g, tax.g, spl.g, fees.g));
+      pSeries.push(mk(o.polo, ca.polo, cogs.polo, tax.polo, spl.polo, fees.polo));
+      tSeries.push(mk(o.n, ca.n, cogs.n, tax.n, spl.n, fees.n));
+    }
+    out.GILET[tab] = gSeries;
+    out.POLO[tab] = pSeries;
+    out.TESTING[tab] = tSeries;
+  }
+  return out;
+}
+
+
 /** endDay inclus, 14 jours glissants. null si les commandes sont illisibles
  * (le composant retombe alors sur les seuils GLOBAL). */
 async function getProductRoasThresholdsUncached(
