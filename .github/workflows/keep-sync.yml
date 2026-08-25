@@ -5,17 +5,120 @@ name: Keep sync alive
 # LiveSync.tsx, poll toutes les 5 min) — si personne ne regardait la page
 # pendant un moment (écran verrouillé, onglet fermé), les chiffres restaient
 # figés jusqu'à la prochaine visite. Le seul filet côté serveur était le cron
-# Vercel une fois par jour (23h05 UTC). Ce workflow appelle /api/sync toutes
-# les 5 min, indépendamment de qui regarde le dashboard, sans clic ni action
-# de personne.
+# Vercel une fois par jour (23h05 UTC). Ce workflow appelle /api/sync
+# régulièrement, indépendamment de qui regarde le dashboard.
+#
+# CORRECTIF 25/08 — pourquoi ce job envoyait des mails d'échec alarmants
+# alors que rien n'était cassé :
+#
+#   ancien : curl -sS -X POST --max-time 280   sur une route maxDuration=300
+#
+# 280 < 300, donc curl raccrochait TOUJOURS avant que Vercel ait rendu sa
+# réponse, avec « curl: (28) Operation timed out after 280002 ms with 0 bytes
+# received » → exit 28 → job en échec → mail. Mesuré sur le run #882 du
+# 25/08 21:27, côté Vercel : « POST /api/sync 504 — Vercel Runtime Timeout
+# Error: Task timed out after 300 seconds ». Curl a manqué la réponse de 20 s.
+#
+# Deux changements :
+#  1. --max-time 330 > maxDuration 300 : on laisse Vercel conclure lui-même.
+#     Soit la synchro finit et répond 200, soit Vercel la coupe et renvoie un
+#     504 — dans les deux cas curl REÇOIT une réponse et sort proprement.
+#  2. Un timeout n'est plus un échec de job. Une passe qui traîne n'est pas
+#     une panne : la passe suivante, ou le run suivant, rattrape. Le job ne
+#     échoue plus que si le site est réellement injoignable (DNS / connexion
+#     refusée sur toutes les tentatives), ce qui mérite vraiment un mail.
+#
+# À noter, non réglé ici (correctif applicatif, hors périmètre de ce job) :
+# quand une passe atteint les 300 s, Vercel tue la fonction en plein vol et
+# le verrou de resync (RESYNC_LOCK_TTL_MS, 10 min dans incrementalSync.ts)
+# reste posé sans être libéré — les passes suivantes repartent en moreWork
+# sans rien faire pendant 10 min. La vraie correction est de faire tenir une
+# passe sous les 300 s.
 on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch: {}
 
+# Deux runs qui synchronisent en même temps ne servent à rien (la route est
+# throttlée et verrouillée côté serveur) : le plus récent prend le relais.
+# Un run annulé n'envoie pas de mail d'échec, contrairement à un run raté.
+concurrency:
+  group: keep-sync
+  cancel-in-progress: true
+
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: POST /api/sync
-        run: curl -sS -X POST --max-time 280 https://kindred-m-numbers.vercel.app/api/sync
+      - name: Enchaîner les passes de /api/sync jusqu'à épuisement du travail
+        run: |
+          # Pas de `set -e` : les codes de sortie de curl sont interprétés
+          # explicitement ci-dessous, tous ne valent pas un échec de job.
+          set +e
+
+          ENDPOINT="https://kindred-m-numbers.vercel.app/api/sync"
+          # 330 s > les 300 s de maxDuration : c'est Vercel qui conclut, pas
+          # curl. Ne jamais redescendre sous 300 (c'était le bug d'origine),
+          # et surtout pas à 60 : une passe de travail normal prend 1 à 3 min
+          # (runs #877 = 3 min 09, #881 = 1 min 41).
+          MAX_TIME=330
+          # 3 passes suffisent : moreWork n'est vrai que pendant un rattrapage
+          # historique, et le run suivant reprend là où celui-ci s'arrête.
+          MAX_PASSES=3
+          unreachable=0
+          passes=0
+
+          for i in $(seq 1 "$MAX_PASSES"); do
+            passes=$((passes + 1))
+            out=$(curl -sS --max-time "$MAX_TIME" -X POST -w '\n%{http_code}' "$ENDPOINT")
+            rc=$?
+            code=$(printf '%s' "$out" | tail -n1)
+            json=$(printf '%s' "$out" | sed '$d')
+
+            case "$rc" in
+              0)
+                echo "passe $i : HTTP $code — $json"
+                if [ "$code" = "504" ]; then
+                  # Vercel a coupé la fonction à 300 s. Pas un échec de job :
+                  # une partie du travail est écrite, le run suivant reprend.
+                  echo "::warning::/api/sync a dépassé maxDuration (504) — la synchro reprendra au prochain passage"
+                  break
+                fi
+                case "$code" in
+                  2*) ;;
+                  *) echo "::warning::/api/sync a répondu HTTP $code" ;;
+                esac
+                # Le serveur annonce qu'il reste des étapes : on enchaîne tout
+                # de suite, exactement comme LiveSync côté navigateur.
+                if printf '%s' "$json" | grep -q '"moreWork":true'; then
+                  sleep 5
+                  continue
+                fi
+                break
+                ;;
+              28)
+                # Ne devrait plus arriver (MAX_TIME > maxDuration), mais si le
+                # réseau traîne : la fonction tourne peut-être encore côté
+                # Vercel, inutile de la bousculer.
+                echo "::warning::passe $i : délai dépassé côté client — le prochain run rattrapera"
+                break
+                ;;
+              6|7)
+                # DNS ou connexion refusée : là, le site est vraiment down.
+                echo "passe $i : site injoignable (curl rc=$rc)"
+                unreachable=$((unreachable + 1))
+                sleep 10
+                continue
+                ;;
+              *)
+                echo "::warning::passe $i : curl rc=$rc"
+                break
+                ;;
+            esac
+          done
+
+          if [ "$unreachable" -gt 0 ] && [ "$unreachable" -eq "$passes" ]; then
+            echo "::error::$ENDPOINT injoignable sur les $passes tentatives"
+            exit 1
+          fi
