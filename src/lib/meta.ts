@@ -474,6 +474,49 @@ interface MetaActivityRow {
   extra_data?: string;
 }
 
+/**
+ * Lit une valeur d'`extra_data` du journal d'activité Meta.
+ *
+ * ⚠️ BUG TROUVÉ LE 29/08 (Badr : « le budget est figé »). Meta renvoie DEUX
+ * formes pour ce champ, et le code n'en lisait qu'une :
+ *
+ *   • plate      : {"old_value": "50000", "new_value": "75000"}
+ *   • composite  : {"type": "composite_data",
+ *                   "old_value": {"type":"payment_amount","currency":"EUR","old_value":75000,…},
+ *                   "new_value": {"type":"payment_amount","currency":"EUR","new_value":63800,…}}
+ *
+ * Les changements de budget de CE compte arrivent tous en composite (vérifié
+ * sur le journal réel du compte Niva, 23-29/08). `Number({...})` valant NaN,
+ * chaque montant repartait à `null` : les repères scale/descale de l'onglet
+ * Analyse ne s'affichaient JAMAIS, et l'onglet Scaling devait deviner ses
+ * budgets de proche en proche (`repairMoves`). Le montant est bien là, il
+ * est juste imbriqué sous une clé du même nom.
+ *
+ * Exporté pour être testé sur la charge utile réelle.
+ */
+export function readActivityValue(
+  extra: Record<string, unknown>,
+  side: "old_value" | "new_value"
+): unknown {
+  const raw = extra[side];
+  if (raw !== null && typeof raw === "object" && !Array.isArray(raw)) {
+    // Forme composite : la vraie valeur est imbriquée sous la MÊME clé.
+    return (raw as Record<string, unknown>)[side];
+  }
+  return raw;
+}
+
+/** Montant en centimes d'un côté d'un changement de budget, quelle que soit
+ * la forme d'`extra_data`. null = absent ou illisible — jamais 0, qui se
+ * lirait comme un budget coupé. */
+export function activityBudgetCents(
+  extra: Record<string, unknown>,
+  side: "old_value" | "new_value"
+): number | null {
+  const n = Number(readActivityValue(extra, side));
+  return Number.isFinite(n) && n > 0 ? Math.round(n) : null;
+}
+
 /** Les activités budget/statut du compte depuis `sinceDay` (YYYY-MM-DD),
  * triées par date croissante. extra_data des changements de budget porte
  * new_value/old_value en sous-unité de la devise du compte (cents). */
@@ -508,18 +551,17 @@ export async function fetchCampaignActivities(sinceDay: string): Promise<Campaig
         /* extra_data illisible : on garde l'événement sans détail */
       }
       if (row.event_type === "update_campaign_budget") {
-        const nv = Number(extra["new_value"]);
-        const ov = Number(extra["old_value"]);
         out.push({
           campaignId: row.object_id,
           campaignName: row.object_name ?? null,
           eventTime: row.event_time,
           kind: "budget",
-          newBudgetCents: Number.isFinite(nv) && nv > 0 ? Math.round(nv) : null,
-          oldBudgetCents: Number.isFinite(ov) && ov > 0 ? Math.round(ov) : null,
+          newBudgetCents: activityBudgetCents(extra, "new_value"),
+          oldBudgetCents: activityBudgetCents(extra, "old_value"),
           statusTo: null,
         });
       } else if (row.event_type === "update_campaign_run_status") {
+        const statusValue = readActivityValue(extra, "new_value");
         out.push({
           campaignId: row.object_id,
           campaignName: row.object_name ?? null,
@@ -527,7 +569,7 @@ export async function fetchCampaignActivities(sinceDay: string): Promise<Campaig
           kind: "status",
           newBudgetCents: null,
           oldBudgetCents: null,
-          statusTo: typeof extra["new_value"] === "string" ? (extra["new_value"] as string) : null,
+          statusTo: typeof statusValue === "string" ? statusValue : null,
         });
       }
     }
