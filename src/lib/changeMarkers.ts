@@ -87,106 +87,70 @@ export function detectScaleMarkers(
 
 export interface BudgetChangeInput {
   day: string;
+  /** Heure Paris (HH:mm), optionnelle — affichée telle quelle. */
+  at?: string;
+  /** Requis dès que plusieurs campagnes sont mélangées (vue « toutes
+   * campagnes ») : les montants d'une campagne ne doivent JAMAIS se chaîner
+   * avec ceux d'une autre. */
+  campaignId?: string;
   oldBudgetCents: number | null;
   newBudgetCents: number | null;
 }
 
 /**
- * Repères EXACTS depuis le journal d'activité Meta : un événement par
- * changement de budget, avec l'ancien et le nouveau montant.
+ * Repères EXACTS depuis le journal d'activité Meta : le geste lui-même,
+ * ancien → nouveau budget.
  *
- * Plusieurs changements le même jour (Badr affine en deux fois) sont
- * FUSIONNÉS en un seul repère de l'ancien du premier au nouveau du dernier :
- * la courbe est journalière, deux traits sur le même jour se superposeraient
- * en un seul de toute façon — autant que l'infobulle raconte le vrai trajet.
- * Un aller-retour qui revient au point de départ ne laisse aucun repère.
+ * Regroupement en DEUX temps, et l'ordre compte :
+ *   1. par (jour, CAMPAGNE) : plusieurs retouches d'une même campagne dans la
+ *      même journée sont fusionnées en un seul trajet (ancien du premier →
+ *      nouveau du dernier). Un aller-retour qui revient à son point de départ
+ *      ne laisse aucun repère.
+ *   2. puis par JOUR : en vue « toutes campagnes », on somme les campagnes
+ *      MODIFIÉES ce jour-là. ⚠️ Sans l'étape 1, le chaînage mélangeait les
+ *      montants de campagnes différentes et affichait des trajets qui
+ *      n'existent pas (« 750 € → 145 € »).
+ *
+ * Le total affiché en vue multi-campagnes ne prétend donc PAS être le budget
+ * du compte : c'est la somme des campagnes touchées ce jour-là, et le texte
+ * le dit.
  */
 export function detectBudgetMarkers(changes: BudgetChangeInput[]): ChangeMarker[] {
-  const byDay = new Map<string, { first: number; last: number }>();
+  // 1) par (jour, campagne)
+  type Leg = { first: number; last: number; at?: string };
+  const byDayCampaign = new Map<string, Map<string, Leg>>();
   for (const c of changes) {
     if (c.oldBudgetCents === null || c.newBudgetCents === null) continue;
-    const cur = byDay.get(c.day);
+    const perCampaign = byDayCampaign.get(c.day) ?? new Map<string, Leg>();
+    const key = c.campaignId ?? "";
+    const cur = perCampaign.get(key);
     // L'ordre d'arrivée est chronologique (fetchCampaignActivities trie) :
     // le 1er vu porte l'ancien montant, le dernier le montant final.
-    if (!cur) byDay.set(c.day, { first: c.oldBudgetCents, last: c.newBudgetCents });
+    if (!cur) perCampaign.set(key, { first: c.oldBudgetCents, last: c.newBudgetCents, at: c.at });
     else cur.last = c.newBudgetCents;
+    byDayCampaign.set(c.day, perCampaign);
   }
 
+  // 2) par jour
   const out: ChangeMarker[] = [];
-  for (const [day, { first, last }] of [...byDay.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+  for (const [day, perCampaign] of [...byDayCampaign.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    const legs = [...perCampaign.values()].filter((l) => l.last !== l.first);
+    if (legs.length === 0) continue;
+    const first = legs.reduce((sum, l) => sum + l.first, 0);
+    const last = legs.reduce((sum, l) => sum + l.last, 0);
     if (last === first) continue;
     const up = last > first;
     const ratio = first > 0 ? Math.round((Math.abs(last - first) / first) * 100) : null;
+    const at = legs.find((l) => l.at)?.at;
     out.push({
       day,
       kind: up ? "scale_up" : "scale_down",
-      text: `Budget ${up ? "↑" : "↓"} ${euros(first)} → ${euros(last)}${ratio !== null ? ` (${up ? "+" : "−"}${ratio} %)` : ""}`,
+      text:
+        `Budget ${up ? "↑" : "↓"} ${euros(first)} → ${euros(last)}` +
+        `${ratio !== null ? ` (${up ? "+" : "−"}${ratio} %)` : ""}` +
+        `${legs.length > 1 ? ` sur ${legs.length} campagnes` : ""}` +
+        `${at ? ` · ${at}` : ""}`,
     });
-  }
-  return out;
-}
-
-/**
- * Reconstitue le BUDGET QUOTIDIEN d'une campagne, jour par jour, à partir du
- * journal d'activité Meta + le budget live actuel.
- *
- * Badr, 29/08 : « pour le budget Meta, prendre en compte le budget et pas le
- * montant spent ». La dépense n'est PAS le budget : une campagne à 500 €/j
- * qui n'en dépense que 380 reste une campagne à 500 — lire la dépense fait
- * croire à un budget plus bas, et fausse le palier suivant du protocole.
- *
- * Règle de reconstitution :
- *   • chaque changement fixe le budget À PARTIR de son jour (plusieurs le
- *     même jour : c'est le DERNIER qui reste en vigueur le soir) ;
- *   • avant le tout premier changement connu, le budget vaut son
- *     `oldBudgetCents` — le journal porte l'avant ET l'après, autant s'en
- *     servir pour remonter le temps ;
- *   • aucun changement connu du tout → le budget live (plat sur la période),
- *     ce qui est exactement la réalité d'une campagne qu'on n'a pas touchée.
- *
- * Renvoie une Map jour → budget en centimes. Un jour absent = budget inconnu
- * (à afficher comme un trou, JAMAIS comme un zéro : un zéro se lirait comme
- * une campagne coupée).
- */
-export function buildBudgetTimeline({
-  changes,
-  days,
-  currentBudgetCents,
-}: {
-  changes: BudgetChangeInput[];
-  days: string[];
-  currentBudgetCents: number | null;
-}): Map<string, number> {
-  // Budget en vigueur À LA FIN de chaque jour où il a bougé + valeur d'avant.
-  const endOfDay = new Map<string, number>();
-  let firstOld: number | null = null;
-  let firstDay: string | null = null;
-  for (const c of [...changes].sort((a, b) => a.day.localeCompare(b.day))) {
-    if (c.newBudgetCents === null) continue;
-    endOfDay.set(c.day, c.newBudgetCents);
-    if (firstDay === null || c.day < firstDay) {
-      firstDay = c.day;
-      firstOld = c.oldBudgetCents;
-    }
-  }
-  const changeDays = [...endOfDay.keys()].sort();
-
-  const out = new Map<string, number>();
-  for (const day of days) {
-    // Dernier changement à cette date ou avant.
-    let applicable: string | null = null;
-    for (const cd of changeDays) {
-      if (cd <= day) applicable = cd;
-      else break;
-    }
-    if (applicable !== null) {
-      out.set(day, endOfDay.get(applicable)!);
-    } else if (firstOld !== null) {
-      out.set(day, firstOld);
-    } else if (changeDays.length === 0 && currentBudgetCents !== null) {
-      out.set(day, currentBudgetCents);
-    }
-    // sinon : inconnu, on ne met rien (trou assumé).
   }
   return out;
 }
