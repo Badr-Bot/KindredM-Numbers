@@ -493,6 +493,47 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   UTM Shopify). Mise à jour appliquée dans MEMO.md (§ Faits vérifiés) et dans
   le prompt de la routine Slack 23h05 (`trig_01VoaeW4pHFecyw3fHwTMxUn`).
 
+## Mise à jour 29/08 — le dash mettait du temps à afficher le CA et le spend
+
+Question de Badr : « pk le dash met bcp de temps pour afficher les bonnes
+valeurs de CA Shopify et spend Meta ads ?? normalement ça doit être rapide
+non ? ». Diagnostic : la page rend en direct, c'est la **synchro** qui était
+longue, et surtout qui publiait mal.
+
+- La page lit seulement `daily_aggregates` — les chiffres ont l'âge de la
+  dernière synchro, pas de la page. La synchro ne tourne que si un navigateur
+  a le dash ouvert (throttle 5 min) ; le seul déclencheur serveur est le cron
+  de 23h05, une fois par jour.
+- Le cycle était 100 % séquentiel : 4 stores Shopify → recalcul (le CA
+  apparaît) → PUIS Meta (campagnes, annonces, pays) → recalcul (le spend
+  apparaît). D'où « le CA bouge, le spend traîne » — et à 300 s de limite, la
+  phase Meta se faisait tuer après que le CA était déjà publié.
+- L'écran n'était rafraîchi qu'à la FIN du POST : le CA publié à mi-cycle
+  restait invisible jusque-là.
+- Le cycle coûtait le même prix à chaque passage (7 jours × 4 stores + 3
+  lectures Meta sur 7 jours) pour rattraper 5 minutes.
+
+Livré :
+
+1. **Lectures Meta lancées en parallèle de la phase Shopify** — l'ordre
+   d'écriture ne change pas (le CA est toujours publié en premier, loi du
+   26/07), seul le temps réseau est mutualisé.
+2. **Deux régimes de synchro** : rapide (J-1→J, campagnes seulement) toutes
+   les 5 min, complet (7 j + annonces + pays + journal + sentinelle frais)
+   1×/h et au cron de nuit.
+3. **L'écran se rafraîchit toutes les 15 s pendant la synchro** (LiveSync et
+   bouton Actualiser) : le CA s'affiche dès sa publication, sans attendre
+   Meta.
+
+Aucune migration, aucune règle de calcul touchée. 191 tests verts, `next
+build` OK. Non mesuré en conditions réelles depuis la session (le proxy ne
+joint ni Vercel ni les API) — à confirmer sur le vrai dash.
+
+Reste proposé, non fait : afficher le **vrai** âge des données (aujourd'hui
+`fetchedAt` = heure de rendu, donc toujours « MAJ à l'instant » même sur des
+chiffres de 40 min) · cron toutes les 5 min (demande un plan Vercel Pro) ·
+TTFB de la page (~15 allers-retours Supabase séquentiels par rendu).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

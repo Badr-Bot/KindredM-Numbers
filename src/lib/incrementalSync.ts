@@ -30,8 +30,29 @@ export interface IncrementalSyncResult {
   ran: boolean;
   /** true = une étape de resync reste à faire — le client doit rappeler /api/sync tout de suite. */
   moreWork?: boolean;
+  /** true = ce cycle était COMPLET (rescan 7 j + annonces + pays + journal). */
+  deep?: boolean;
   touchedDays?: string[];
   warnings?: string[];
+}
+
+export interface IncrementalSyncOptions {
+  /**
+   * true  = cycle COMPLET : rescan des commandes sur 7 jours (remboursements
+   *         tardifs), insights Meta niveau annonce + breakdown pays, journal.
+   * false = cycle RAPIDE : commandes modifiées depuis J-1 et spend Meta par
+   *         campagne sur J-1→J, rien d'autre.
+   *
+   * Pourquoi les deux (29/08) : le cycle complet coûte le même prix à chaque
+   * passage (4 stores × 7 jours de commandes paginées à 550 ms + 3 lectures
+   * Meta paginées sur 7 jours) qu'il y ait eu 2 ventes ou 200 depuis la
+   * dernière synchro. Le payer toutes les 5 min pour rattraper les quelques
+   * minutes écoulées, c'est ce qui rendait le CA et le spend longs à
+   * apparaître. Le cycle rapide fait le travail du jour en cours ; le
+   * complet tourne une fois par heure (et au cron de nuit) pour les
+   * corrections tardives, qui n'ont aucune raison d'être vues à la seconde.
+   */
+  deep?: boolean;
 }
 
 /**
@@ -55,20 +76,59 @@ export function splitRowsByFeeKeys(rows: Record<string, unknown>[]): {
 }
 
 /**
- * Rescan incrémental : commandes modifiées sur les 7 derniers jours (§4.7,
- * remboursements tardifs) + spend Meta J-7→J-1, puis recalcule les jours
- * touchés + toujours J-2/J-1/J en filet de sécurité (voir cron/route.ts).
- * Partagé entre le cron de minuit et la synchro auto déclenchée par les
- * visites du site (throttlée, voir /api/sync).
+ * Rescan incrémental : commandes modifiées depuis `rescanFromDay` (§4.7,
+ * remboursements tardifs) + spend Meta sur la même fenêtre, puis recalcule
+ * les jours touchés + toujours J-2/J-1/J en filet de sécurité (voir
+ * cron/route.ts). Partagé entre le cron de minuit et la synchro auto
+ * déclenchée par les visites du site (throttlée, voir /api/sync).
+ *
+ * Deux régimes, voir IncrementalSyncOptions : RAPIDE (défaut de la synchro
+ * auto, J-1→J, campagnes seulement) et COMPLET (cron + 1×/h).
  */
 export async function runIncrementalSync(
   supabase: SupabaseClient,
-  productsMap: ProductMapEntry[]
+  productsMap: ProductMapEntry[],
+  options: IncrementalSyncOptions = {}
 ): Promise<IncrementalSyncResult> {
+  // Par défaut COMPLET : un appelant qui ne dit rien (cron, scripts) garde
+  // exactement le comportement d'avant. Seule la synchro auto demande le
+  // régime rapide, en connaissance de cause.
+  const deep = options.deep ?? true;
   const today = todayParisDay();
-  const rescanFromDay = addDaysToDay(today, -7);
+  const rescanFromDay = addDaysToDay(today, deep ? -7 : -1);
   const yesterday = addDaysToDay(today, -1);
   const updatedAtMinIso = `${rescanFromDay}T00:00:00+02:00`;
+
+  // ⏱️ META LANCÉ ICI, AVANT Shopify — les deux sources sont totalement
+  // indépendantes, mais la version séquentielle attendait la fin des 4 stores
+  // Shopify pour seulement COMMENCER à lire Meta : le spend arrivait donc à
+  // la toute fin d'une chaîne de plusieurs minutes, et disparaissait
+  // entièrement quand la fonction atteignait sa limite de temps (le CA, lui,
+  // était déjà publié — d'où « le CA bouge, le spend traîne »). Le temps
+  // réseau des deux est désormais mutualisé. L'ORDRE D'ÉCRITURE ne change
+  // pas : rien n'est écrit avant la fin de la phase commandes, le CA reste
+  // publié en premier (voir le 1er recalcul plus bas).
+  // .then(ok, ko) tout de suite : la promesse ne rejette JAMAIS, sinon Node
+  // tuerait le process pour rejet non géré pendant la boucle Shopify.
+  type Settled<T> = { ok: true; value: T } | { ok: false; error: Error };
+  const settle = <T,>(p: Promise<T>): Promise<Settled<T>> =>
+    p.then(
+      (value) => ({ ok: true as const, value }),
+      (error: unknown) => ({ ok: false as const, error: error as Error })
+    );
+
+  const metaCampaignsPromise = settle(
+    Promise.all([fetchMetaInsights(rescanFromDay, today), loadCampaignOverrides(supabase)])
+  );
+  // Niveau annonce et breakdown pays : cycle COMPLET uniquement. Ces deux
+  // lectures ne servent qu'aux onglets Créas/Analyse, qui n'ont aucun besoin
+  // d'être à la minute — les payer toutes les 5 min doublait la phase Meta.
+  const metaAdsPromise = deep ? settle(fetchMetaAdInsights(rescanFromDay, today)) : null;
+  const metaCountryPromise = deep
+    ? settle(
+        import("./meta").then((m) => m.fetchMetaCountryInsights(rescanFromDay, today))
+      )
+    : null;
 
   // FR d'abord : c'est ~90 % des ventes — s'il doit se passer quelque chose
   // (limite de temps, erreur), que les petits stores en pâtissent, pas FR.
@@ -231,7 +291,9 @@ export async function runIncrementalSync(
   // regonfle en silence sur le repli 3 %, exactement le bug qui a vidé le
   // rattrapage du 12/08 sans qu'aucun signal ne le dise. Le warning remonte
   // sur /debug et le marqueur « ~ » de l'onglet Mois le rend visible à Badr.
-  if (hasFeeColumns) {
+  // Cycle COMPLET uniquement : c'est une sonde de surveillance sur J-30→J-3,
+  // rien qui puisse changer entre deux cycles rapides de 5 min.
+  if (deep && hasFeeColumns) {
     try {
       const sentinelFrom = addDaysToDay(today, -30);
       const sentinelTo = addDaysToDay(today, -3);
@@ -272,10 +334,12 @@ export async function runIncrementalSync(
     // Jusqu'à AUJOURD'HUI inclus : borné à hier, le spend du jour n'était
     // jamais rafraîchi entre deux backfills → ROAS du jour incohérent entre
     // Live (spend direct) et Mois (agrégats). Constaté le 19/07.
-    const [metaRows, overrides] = await Promise.all([
-      fetchMetaInsights(rescanFromDay, today),
-      loadCampaignOverrides(supabase),
-    ]);
+    // La lecture a démarré tout en haut de la fonction, en parallèle de la
+    // phase Shopify : ici on ne fait qu'en récupérer le résultat, il est en
+    // général DÉJÀ arrivé (le spend n'attend plus les 4 stores).
+    const metaSettled = await metaCampaignsPromise;
+    if (!metaSettled.ok) throw metaSettled.error;
+    const [metaRows, overrides] = metaSettled.value;
     // Écritures PAR LOTS : la version commande-par-commande (~800 upserts
     // séquentiels avec les annonces + pays) faisait dépasser la limite de
     // temps de la fonction → « synchro en cours » sans fin.
@@ -326,45 +390,53 @@ export async function runIncrementalSync(
       await supabase.from("meta_insights").upsert(insightUpserts.slice(i, i + CHUNK));
     }
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
+    // CYCLE COMPLET UNIQUEMENT (metaAdsPromise === null en rapide) : les
+    // onglets Créas/Analyse qu'il alimente n'ont pas besoin d'être à la
+    // minute, alors que cette lecture est aussi chère que celle des
+    // campagnes — la payer toutes les 5 min doublait la phase Meta.
     try {
-      const adRows = await fetchMetaAdInsights(rescanFromDay, today);
-      // video_p50/p75/p100 ajoutés par la migration 0011 — probe avant
-      // d'inclure, même filet que UNMAPPED/cogs_split (colonne absente ferait
-      // échouer tout le lot sinon).
-      const { error: videoPctProbeError } = await supabase
-        .from("meta_ad_insights")
-        .select("video_p50")
-        .limit(1);
-      const hasVideoPct = !videoPctProbeError;
-      const adUpserts = adRows.map((row) => ({
-        day: row.day,
-        ad_id: row.adId,
-        ad_name: row.adName,
-        campaign_id: row.campaignId,
-        campaign_name: row.campaignName,
-        market: resolveCampaignMarket(row.campaignName, row.campaignId, overrides),
-        spend_cents: row.spendCents,
-        impressions: row.impressions,
-        clicks: row.clicks,
-        purchases: row.purchases,
-        purchase_value_cents: row.purchaseValueCents,
-        reach: row.reach,
-        frequency: row.frequency,
-        link_clicks: row.linkClicks,
-        landing_page_views: row.landingPageViews,
-        add_to_cart: row.addToCart,
-        initiate_checkout: row.initiateCheckout,
-        video_3s: row.video3s,
-        thruplays: row.thruplays,
-        quality_ranking: row.qualityRanking,
-        engagement_ranking: row.engagementRanking,
-        conversion_ranking: row.conversionRanking,
-        ...(hasVideoPct
-          ? { video_p50: row.video50, video_p75: row.video75, video_p100: row.video100 }
-          : {}),
-      }));
-      for (let i = 0; i < adUpserts.length; i += CHUNK) {
-        await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
+      const adsSettled = metaAdsPromise ? await metaAdsPromise : null;
+      if (adsSettled) {
+        if (!adsSettled.ok) throw adsSettled.error;
+        const adRows = adsSettled.value;
+        // video_p50/p75/p100 ajoutés par la migration 0011 — probe avant
+        // d'inclure, même filet que UNMAPPED/cogs_split (colonne absente ferait
+        // échouer tout le lot sinon).
+        const { error: videoPctProbeError } = await supabase
+          .from("meta_ad_insights")
+          .select("video_p50")
+          .limit(1);
+        const hasVideoPct = !videoPctProbeError;
+        const adUpserts = adRows.map((row) => ({
+          day: row.day,
+          ad_id: row.adId,
+          ad_name: row.adName,
+          campaign_id: row.campaignId,
+          campaign_name: row.campaignName,
+          market: resolveCampaignMarket(row.campaignName, row.campaignId, overrides),
+          spend_cents: row.spendCents,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          purchases: row.purchases,
+          purchase_value_cents: row.purchaseValueCents,
+          reach: row.reach,
+          frequency: row.frequency,
+          link_clicks: row.linkClicks,
+          landing_page_views: row.landingPageViews,
+          add_to_cart: row.addToCart,
+          initiate_checkout: row.initiateCheckout,
+          video_3s: row.video3s,
+          thruplays: row.thruplays,
+          quality_ranking: row.qualityRanking,
+          engagement_ranking: row.engagementRanking,
+          conversion_ranking: row.conversionRanking,
+          ...(hasVideoPct
+            ? { video_p50: row.video50, video_p75: row.video75, video_p100: row.video100 }
+            : {}),
+        }));
+        for (let i = 0; i < adUpserts.length; i += CHUNK) {
+          await supabase.from("meta_ad_insights").upsert(adUpserts.slice(i, i + CHUNK));
+        }
       }
     } catch (err) {
       warnings.push(`Créas Meta (niveau annonce) indisponibles : ${(err as Error).message}`);
@@ -374,21 +446,24 @@ export async function runIncrementalSync(
     // Le faire toutes les 5 min allongeait le cycle au point de le faire
     // dépasser sa limite de temps. Il est rafraîchi lors du rattrapage Meta.)
     // Breakdown pays : le vrai ROAS BE/CA/CH dans les campagnes « FR ».
+    // Cycle COMPLET uniquement, même raison que le niveau annonce.
     try {
-      const { fetchMetaCountryInsights } = await import("./meta");
-      const countryRows = await fetchMetaCountryInsights(rescanFromDay, today);
-      const countryUpserts = countryRows.map((row) => ({
-        day: row.day,
-        campaign_id: row.campaignId,
-        country: row.country,
-        spend_cents: row.spendCents,
-        impressions: row.impressions,
-        clicks: row.clicks,
-        purchases: row.purchases,
-        purchase_value_cents: row.purchaseValueCents,
-      }));
-      for (let i = 0; i < countryUpserts.length; i += CHUNK) {
-        await supabase.from("meta_country_insights").upsert(countryUpserts.slice(i, i + CHUNK));
+      const countrySettled = metaCountryPromise ? await metaCountryPromise : null;
+      if (countrySettled) {
+        if (!countrySettled.ok) throw countrySettled.error;
+        const countryUpserts = countrySettled.value.map((row) => ({
+          day: row.day,
+          campaign_id: row.campaignId,
+          country: row.country,
+          spend_cents: row.spendCents,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          purchases: row.purchases,
+          purchase_value_cents: row.purchaseValueCents,
+        }));
+        for (let i = 0; i < countryUpserts.length; i += CHUNK) {
+          await supabase.from("meta_country_insights").upsert(countryUpserts.slice(i, i + CHUNK));
+        }
       }
     } catch (err) {
       warnings.push(`Répartition pays Meta indisponible : ${(err as Error).message}`);
@@ -400,11 +475,15 @@ export async function runIncrementalSync(
   // 📓 Journal : détection auto (campagne coupée/lancée, saut de budget)
   // depuis meta_spend — marche même quand le token Meta est HS (seed SQL).
   // Isolé : une erreur ici ne doit pas empêcher le recalcul final ci-dessous.
-  try {
-    const { detectCampaignEvents } = await import("./journal");
-    await detectCampaignEvents(supabase);
-  } catch (err) {
-    warnings.push(`Journal auto indisponible : ${(err as Error).message}`);
+  // Cycle COMPLET uniquement : il relit tout l'historique de meta_spend pour
+  // en déduire des événements de la veille — aucun besoin d'être à la minute.
+  if (deep) {
+    try {
+      const { detectCampaignEvents } = await import("./journal");
+      await detectCampaignEvents(supabase);
+    } catch (err) {
+      warnings.push(`Journal auto indisponible : ${(err as Error).message}`);
+    }
   }
 
   // 2e recalcul : intègre le spend Meta arrivé ci-dessus. Le CA, lui, a déjà
@@ -423,11 +502,18 @@ export async function runIncrementalSync(
     );
   }
 
-  return { ran: true, touchedDays: [...touchedDays].sort(), warnings };
+  return { ran: true, deep, touchedDays: [...touchedDays].sort(), warnings };
 }
 
 const THROTTLE_KEY = "last_incremental_sync_at";
 const THROTTLE_MS = 5 * 60 * 1000;
+// Cadence du cycle COMPLET (rescan 7 j + annonces + pays + journal). Entre
+// deux, la synchro auto tourne en cycle RAPIDE — voir IncrementalSyncOptions.
+// 1 h : un remboursement ou une correction de commande vieille de plusieurs
+// jours n'a aucune raison d'apparaître à la minute, alors qu'il faisait payer
+// à CHAQUE cycle de 5 min le prix fort (4 stores × 7 jours + 3 lectures Meta).
+const DEEP_KEY = "last_deep_sync_at";
+const DEEP_INTERVAL_MS = 60 * 60 * 1000;
 // Clic manuel sur « Actualiser » (07/08, Badr : « ça ne s'actualise pas assez
 // vite ») : fenêtre réduite à 60 s. Un humain qui clique attend du frais
 // MAINTENANT ; 60 s suffisent à protéger Shopify/Meta d'un double-clic, et
@@ -587,12 +673,14 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
 
   const [
     { data: marker },
+    { data: deepMarker },
     { data: ordersMarker },
     { data: metaMarker },
     { data: recomputeMarker },
     { data: feesMarker },
   ] = await Promise.all([
     supabase.from("app_state").select("updated_at, value").eq("key", THROTTLE_KEY).maybeSingle(),
+    supabase.from("app_state").select("updated_at").eq("key", DEEP_KEY).maybeSingle(),
     supabase.from("app_state").select("value").eq("key", RESYNC_VERSION_KEY).maybeSingle(),
     supabase.from("app_state").select("value").eq("key", META_RESYNC_VERSION_KEY).maybeSingle(),
     supabase.from("app_state").select("value").eq("key", RECOMPUTE_VERSION_KEY).maybeSingle(),
@@ -615,12 +703,18 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
   const { data: productsMap } = await supabase.from("products_map").select("*");
   if (!productsMap || productsMap.length === 0) return { ran: false };
 
-  // 1) TOUJOURS la synchro rapide (7 jours) EN PREMIER, quel que soit l'état
-  //    des rattrapages historiques. C'est elle qui fait vivre le jour en
+  // Cycle COMPLET si le dernier date de plus d'une heure (ou n'a jamais eu
+  // lieu) ; sinon cycle RAPIDE. Le cron de nuit, lui, est toujours complet.
+  const deep =
+    !deepMarker?.updated_at ||
+    Date.now() - new Date(deepMarker.updated_at as string).getTime() >= DEEP_INTERVAL_MS;
+
+  // 1) TOUJOURS la synchro du jour EN PREMIER, quel que soit l'état des
+  //    rattrapages historiques. C'est elle qui fait vivre le jour en
   //    cours ; la faire attendre la fin d'un backfill de deux mois gelait le
   //    dashboard pendant des heures (26/07). Ses écritures sont validées
   //    avant qu'un éventuel rattrapage ne risque de dépasser le temps limite.
-  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[], { deep });
 
   // Le marqueur n'est posé ("done") qu'APRÈS un cycle réussi — sinon un
   // échec en cours de route bloquerait toute nouvelle tentative pendant
@@ -629,6 +723,13 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
   await supabase
     .from("app_state")
     .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });
+  // Même règle pour le marqueur du cycle complet : posé seulement si un
+  // cycle complet a effectivement tourné jusqu'au bout, jamais d'avance.
+  if (deep && result.ran) {
+    await supabase
+      .from("app_state")
+      .upsert({ key: DEEP_KEY, value: "done", updated_at: new Date().toISOString() });
+  }
 
   if (!needsMaintenance) return result;
 

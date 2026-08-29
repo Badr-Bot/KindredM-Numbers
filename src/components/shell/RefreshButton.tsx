@@ -15,6 +15,10 @@ export function RefreshButton({ fetchedAt }: { fetchedAt: string }) {
     setBusy(true);
     play("beep");
     let ok = true;
+    // Même logique que LiveSync : le CA est publié en base au milieu du
+    // cycle, on rafraîchit l'écran toutes les 15 s au lieu d'attendre la fin
+    // de la phase Meta pour montrer quoi que ce soit.
+    const midRefresh = setInterval(() => router.refresh(), 15_000);
     try {
       // force=1 : clic humain → passage réel si les données ont plus de 60 s
       // (l'automatique reste throttlé à 5 min, voir incrementalSync.ts).
@@ -22,6 +26,8 @@ export function RefreshButton({ fetchedAt }: { fetchedAt: string }) {
     } catch {
       // en démo / non configuré, reste inoffensif
       ok = false;
+    } finally {
+      clearInterval(midRefresh);
     }
     startTransition(() => router.refresh());
     setBusy(false);
