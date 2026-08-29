@@ -62,3 +62,27 @@ describe("Seif — « ne sera pas payé, du 16/07 au 16/08 » (Badr 20/08)", () 
     expect(seif().noBankClaim).toBe(true);
   });
 });
+
+describe("Monteur — arrêté le 29/08 (Badr : « plus de monteur depuis aujourd'hui »)", () => {
+  const monteur = () => SUBSCRIPTIONS.find((s) => s.label === "Monteur")!;
+
+  it("est compté jusqu'au 28/08 inclus, et plus rien à partir du 29/08", () => {
+    const s = monteur();
+    expect(s.endDay).toBe("2026-08-28");
+    const jour = dailyEurCents(s);
+    expect(fixedCostsCentsForDay("2026-08-28") - fixedCostsCentsForDay("2026-08-29")).toBe(jour);
+  });
+
+  it("garde tout son historique depuis le 21/05 (pause, pas suppression)", () => {
+    // La ligne doit rester : les jours déjà payés ne doivent JAMAIS perdre
+    // leur charge parce qu'un contrat s'arrête plus tard.
+    expect(monteur().startDay).toBe("2026-05-21");
+    expect(fixedCostsCentsForDay("2026-08-27")).toBeGreaterThan(fixedCostsCentsForDay("2026-08-29"));
+  });
+
+  it("sort des totaux mensuels courants (~563 € de moins)", () => {
+    const avant = subscriptionTotals("2026-08-28").monthlyCents;
+    const apres = subscriptionTotals("2026-08-29").monthlyCents;
+    expect(avant - apres).toBe(monthlyEurCents(monteur()));
+  });
+});

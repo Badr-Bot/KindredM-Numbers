@@ -547,6 +547,41 @@ synchro persistent malgré le pinger continu : cron Vercel toutes les 5 min
 (plan Pro requis) ou pinger externe gratuit (cron-job.org, UptimeRobot) —
 les deux demandent une action de Badr.
 
+## Mise à jour 29/08 (suite) — monteur coupé + onglet Analyse par campagne
+
+**Monteur.** Badr : « plus de monteur depuis aujourd'hui, tu peux arrêter la
+dépense journalière jusqu'à ce que je te le dise ». Dernier jour compté :
+28/08. Dès le 29/08 : **−18,51 €/jour, −563,31 €/mois** sur les charges
+fixes. La ligne reste dans le code — l'historique du 21/05 au 28/08 doit
+garder ce qui a été réellement payé. Pour reprendre : remettre `endDay` à
+`null`. Deux points à confirmer : s'il a été payé pour août ENTIER, mettre
+31/08 ; et l'abonnement « Eleven Labs ×2 (Adnane + monteur) » n'a pas été
+touché (44 €/mois — à réduire si son siège saute aussi).
+
+**Onglet Analyse — les graphes ne s'affichaient pas par campagne.** Deux
+causes :
+
+1. CPA, CVR et panier moyen étaient volontairement vides dès qu'une campagne
+   était isolée (Shopify ne relie pas une commande à une campagne) — soit 3
+   graphes sur 6 systématiquement blancs. Ils basculent maintenant sur
+   l'attribution **Meta** de la campagne, étiquetés « · Meta » pour qu'on ne
+   les confonde jamais avec le CA réel.
+2. La liste de campagnes sortait de tout l'historique par ordre alphabétique,
+   alors que la fenêtre par défaut est de 14 jours : choisir une campagne
+   arrêtée en juin donnait six cadres vides. Elle ne montre plus que les
+   campagnes actives sur la période, **triées par dépense**, et un bandeau
+   explique le cas « hors période » au lieu de laisser des cadres vides.
+
+**Repères de changement sur les courbes** (demande Badr) : pointillé **vert**
+= scale ↑, **rouge** = descale ↓, **violet** = nouvelles créas, avec légende
+et détail dans l'infobulle. Le budget n'étant historisé nulle part, un scale
+est déduit d'un saut de dépense ≥ 20 % d'un jour à l'autre (base ≥ 50 €/j) —
+inférence assumée et affichée comme telle ; les créas, elles, sont mesurées
+(1er jour d'apparition d'une annonce). Moteur pur dans `changeMarkers.ts`,
+10 tests dédiés.
+
+204 tests verts, `next build` OK.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

@@ -104,7 +104,19 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // engagée — mais noBankClaim la sort du contrôle bancaire : aucun débit
   // n'est attendu puisque le paiement n'aura pas lieu.
   { label: "Seif (fixe, hors %)", category: "EQUIPE", amount: 1500, currency: "USD", startDay: "2026-07-16", endDay: "2026-08-16", noBankClaim: true, note: "Google Ads. Compté du 16/07 au 16/08 inclus, plus rien après (Badr 20/08). NE SERA PAS PAYÉ — aucun débit attendu en banque, aucune avance perso à rembourser. % de commission oublié pour le moment." },
-  { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  // 29/08 (Badr) : « pour les dépenses plus de monteur depuis aujourd'hui,
+  // donc tu peux arrêter la dépense journalière du monteur jusqu'à ce que je
+  // te le dise ». « DEPUIS aujourd'hui » = le 29/08 est déjà sans monteur →
+  // dernier jour compté 28/08, plus aucune charge dès le 29/08 (−18,51 €/j,
+  // soit 563,31 €/mois). La ligne RESTE : l'historique doit continuer de
+  // porter ce qui a réellement été payé du 21/05 au 28/08 (même traitement
+  // que SmartSize et Jeremy). Reprise = remettre endDay à null, ou ouvrir une
+  // 2e ligne si le tarif change — surtout ne pas rouvrir celle-ci en écrasant
+  // ses dates.
+  // ⚠️ À VÉRIFIER auprès de Badr : si le monteur a été payé pour AOÛT ENTIER
+  // (comme Jeremy, arrêté mais payé jusqu'au 31/08), l'endDay doit passer à
+  // 2026-08-31. En attendant, on s'en tient à ce qui a été dit.
+  { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté sur demande de Badr le 29/08 (« plus de monteur depuis aujourd'hui ») — dernier jour compté 28/08. Pause, pas suppression : à rouvrir quand il le dit." },
   // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
   // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },

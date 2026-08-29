@@ -20,6 +20,8 @@ export interface InsightDaily {
   impressions: number;
   clicks: number;
   purchases: number;
+  /** Valeur d'achat attribuée par META (≠ CA Shopify) — 0 si non renseigné. */
+  purchaseValueCents: number;
   reach: number;
 }
 
@@ -64,6 +66,12 @@ interface RawInsight {
   impressions: number;
   clicks: number;
   purchases: number;
+  /** Valeur d'achat ATTRIBUÉE PAR META (≠ CA Shopify) — sert au CPA/CVR/
+   * panier moyen quand une campagne est isolée dans l'onglet Analyse :
+   * Shopify ne relie pas une commande à une campagne, Meta si (à son
+   * attribution près). Toujours affiché comme « Meta », jamais confondu
+   * avec le CA réel. */
+  purchase_value_cents: number | null;
   reach: number | null;
 }
 
@@ -96,7 +104,9 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
       .from("meta_insights")
-      .select("day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, reach")
+      .select(
+        "day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents, reach"
+      )
       .gte("day", start)
       .lte("day", end)
       .order("day", { ascending: true })
@@ -120,6 +130,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         impressions: r.impressions,
         clicks: r.clicks,
         purchases: r.purchases,
+        purchaseValueCents: r.purchase_value_cents ?? 0,
         reach: r.reach ?? 0,
       });
     }
