@@ -551,7 +551,8 @@ les deux demandent une action de Badr.
 
 **Monteur.** Badr : « plus de monteur depuis aujourd'hui, tu peux arrêter la
 dépense journalière jusqu'à ce que je te le dise ». Dernier jour compté :
-28/08. Dès le 29/08 : **−18,51 €/jour, −563,31 €/mois** sur les charges
+28/08 — **confirmé par Badr : « il a été payé au prorata »** (donc pas le mois
+entier comme Jeremy). Dès le 29/08 : **−18,51 €/jour, −563,31 €/mois** sur les charges
 fixes. La ligne reste dans le code — l'historique du 21/05 au 28/08 doit
 garder ce qui a été réellement payé. Pour reprendre : remettre `endDay` à
 `null`. Deux points à confirmer : s'il a été payé pour août ENTIER, mettre
@@ -587,7 +588,16 @@ indisponible, et la légende dit alors que c'est une approximation. Jamais les
 deux à la fois : un vrai changement de budget produit aussi un saut de
 dépense le lendemain. Moteur pur `changeMarkers.ts`, 15 tests.
 
-204 tests verts, `next build` OK.
+**Courbe « Budget / jour »** (Badr : « pour le budget Meta, prendre en compte
+le budget et pas le montant spent »). Le budget n'est pas la dépense : une
+campagne à 500 €/j qui n'en dépense que 380 reste à 500, et c'est le budget
+qui décide du palier suivant du protocole. La courbe est reconstituée depuis
+le journal d'activité Meta (les changements) + le budget live (le point
+d'arrivée), tracée en escalier. Budget inconnu = trou, jamais 0 € — et jamais
+remplacé par la dépense. L'onglet Scaling, lui, lisait déjà le budget réel en
+priorité.
+
+215 tests verts, `next build` OK.
 
 ## Notes techniques utiles
 

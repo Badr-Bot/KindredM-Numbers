@@ -10,6 +10,7 @@ import {
 import {
   getAnalyticsData,
   getBudgetChanges,
+  getCampaignBudgets,
   getProductRoasThresholds,
   type AnalyticsData,
   type BudgetChange,
@@ -44,6 +45,8 @@ type LoadResult =
        * repères scale/descale des courbes. null = journal indisponible : le
        * tableau de bord retombe sur la déduction par la dépense, et le DIT. */
       budgetChanges: BudgetChange[] | null;
+      /** Budget/jour actuel par campagne (Meta). null = lecture indisponible. */
+      liveBudgets: [string, number | null][] | null;
     };
 
 async function loadData(): Promise<LoadResult> {
@@ -57,6 +60,7 @@ async function loadData(): Promise<LoadResult> {
       activeCampaignIds,
       productThresholds,
       budgetChanges,
+      liveBudgets,
     ] = await Promise.all([
       getTabDayData(HISTORY_START, today),
       getAnalyticsData(HISTORY_START, today),
@@ -67,6 +71,7 @@ async function loadData(): Promise<LoadResult> {
       // Best effort, comme les autres lectures Meta live : son échec ne doit
       // pas priver Badr de tout l'onglet, juste des repères exacts.
       getBudgetChanges(HISTORY_START).catch(() => null),
+      getCampaignBudgets().catch(() => null),
     ]);
     return {
       dayData,
@@ -78,6 +83,7 @@ async function loadData(): Promise<LoadResult> {
       activeCampaignIds,
       productThresholds,
       budgetChanges,
+      liveBudgets,
     };
   } catch (err) {
     return { error: (err as Error).message };
@@ -123,6 +129,7 @@ export default async function AnalysePage() {
         activeCampaignIds={result.activeCampaignIds}
         productThresholds={result.productThresholds}
         budgetChanges={result.budgetChanges}
+        liveBudgets={result.liveBudgets}
       />
     </div>
   );

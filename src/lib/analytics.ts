@@ -144,6 +144,29 @@ export const getBudgetChanges = unstable_cache(fetchBudgetChangesUncached, ["met
   tags: ["meta-live"],
 });
 
+/**
+ * Budget quotidien ACTUEL de chaque campagne, lu sur Meta. Sert d'ancrage à
+ * la reconstitution du budget jour par jour (`buildBudgetTimeline`) : le
+ * journal d'activité donne les CHANGEMENTS, celui-ci donne le point d'arrivée
+ * — et couvre le cas d'une campagne jamais retouchée, qui n'a aucun
+ * changement mais bien un budget.
+ *
+ * ⚠️ `daily_budget` est vide pour une campagne dont le budget est géré au
+ * niveau des ad sets (ABO) : on renvoie null, jamais 0 — un 0 se lirait
+ * comme « campagne coupée ». ⚠️ unstable_cache sérialise en JSON : on renvoie
+ * un tableau d'entrées, pas une Map (même précaution que scaling.ts).
+ */
+const fetchCampaignBudgetsUncached = async (): Promise<[string, number | null][]> => {
+  const { fetchCampaignLiveInfos } = await import("./meta");
+  const infos = await fetchCampaignLiveInfos();
+  return [...infos].map(([id, info]) => [id, info.dailyBudgetCents]);
+};
+
+export const getCampaignBudgets = unstable_cache(fetchCampaignBudgetsUncached, ["meta-campaign-budgets"], {
+  revalidate: 300,
+  tags: ["meta-live"],
+});
+
 export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
   const supabase = createSupabaseServerClient();
 

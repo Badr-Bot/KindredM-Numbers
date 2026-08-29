@@ -16,6 +16,7 @@ import type { DayAgg, Thresholds } from "@/lib/data";
 import type { AnalyticsData, BudgetChange, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import {
+  buildBudgetTimeline,
   detectBudgetMarkers,
   detectCreaMarkers,
   detectScaleMarkers,
@@ -34,6 +35,9 @@ import { useSound } from "../sound/SoundProvider";
 interface DayMetrics {
   day: string;
   label: string;
+  /** Budget/jour de la campagne (ou somme des campagnes de l'onglet) — le
+   * BUDGET, jamais la dépense (Badr 29/08). null = inconnu, pas zéro. */
+  budgetCents: number | null;
   caCents: number;
   orders: number;
   spendCents: number;
@@ -80,9 +84,15 @@ interface MetricDef {
   upIsBad: boolean;
   needsMeta: boolean;
   format: (v: number) => string;
+  /** true = escalier (valeur qui tient jusqu'au prochain changement). */
+  step?: boolean;
+  /** true = jamais dans les « dérapages » : un changement de budget est une
+   * DÉCISION de Badr, pas une dérive à lui signaler. */
+  noAlert?: boolean;
 }
 
 const METRICS: MetricDef[] = [
+  { key: "budgetCents", label: "Budget / jour", emoji: "🎚️", color: "#22c55e", upIsBad: false, needsMeta: true, format: formatEur0, step: true, noAlert: true },
   { key: "cpaCents", label: "CPA (spend / cmd)", emoji: "🎯", color: "#ff7a29", upIsBad: true, needsMeta: false, format: eur2 },
   { key: "cpmCents", label: "CPM", emoji: "📢", color: "#2fd8ff", upIsBad: true, needsMeta: true, format: eur2 },
   { key: "cpcCents", label: "CPC", emoji: "🖱️", color: "#2fd8ff", upIsBad: true, needsMeta: true, format: eur2 },
@@ -156,6 +166,7 @@ export function AnalyseBoard({
   activeCampaignIds,
   productThresholds,
   budgetChanges,
+  liveBudgets,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -169,6 +180,8 @@ export function AnalyseBoard({
   /** null = journal d'activité Meta indisponible → repli sur la déduction
    * par la dépense (dit explicitement dans la légende). */
   budgetChanges: BudgetChange[] | null;
+  /** Budget/jour actuel par campagne, lu sur Meta. null = indisponible. */
+  liveBudgets: [string, number | null][] | null;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -285,6 +298,8 @@ export function AnalyseBoard({
         return {
           day: d.day,
           label: formatDayShort(d.day),
+          // Rempli par seriesWithBudget (a besoin des budgets Meta).
+          budgetCents: null,
           caCents: byCampaign ? ins.purchaseValueCents : d.caCents,
           orders: byCampaign ? metaOrders : d.orders,
           spendCents,
@@ -332,6 +347,7 @@ export function AnalyseBoard({
     if (full.length < 6) return [];
     const out: { def: MetricDef; deltaPct: number; bad: boolean; recent: number }[] = [];
     for (const def of METRICS) {
+      if (def.noAlert) continue;
       const vals = full.map((d) => d[def.key] as number | null);
       const recent = vals.slice(-3).filter((v): v is number => v !== null);
       const before = vals.slice(-10, -3).filter((v): v is number => v !== null);
@@ -699,6 +715,43 @@ export function AnalyseBoard({
     today,
   ]);
 
+  // 🎚️ Budget/jour reconstitué — Badr 29/08 : « pour le budget Meta, prendre
+  // en compte le BUDGET et pas le montant spent ». Une campagne à 500 €/j qui
+  // n'en dépense que 380 reste une campagne à 500 : lire la dépense ferait
+  // croire à un budget plus bas et fausserait le palier suivant du protocole.
+  // Le journal d'activité donne les changements, le budget live donne le
+  // point d'arrivée (et couvre les campagnes jamais retouchées).
+  const budgetInfo = useMemo(() => {
+    if (!budgetChanges && !liveBudgets) return null;
+    const liveMap = new Map(liveBudgets ?? []);
+    const ids =
+      effectiveCampaignFilter !== "ALL"
+        ? [effectiveCampaignFilter]
+        : campaignsInWindow.map(([id]) => id);
+    const days = series.map((d) => d.day);
+    const byDay = new Map<string, number>();
+    let unknown = 0;
+    for (const id of ids) {
+      const changes = (budgetChanges ?? []).filter((c) => c.campaignId === id);
+      const live = liveMap.get(id) ?? null;
+      // Ni changement connu ni budget live (campagne archivée, ou budget géré
+      // au niveau des ad sets) : on la compte comme INCONNUE et on le dit,
+      // plutôt que d'ajouter 0 € et de sous-estimer le total.
+      if (changes.length === 0 && live === null) {
+        unknown++;
+        continue;
+      }
+      const timeline = buildBudgetTimeline({ changes, days, currentBudgetCents: live });
+      for (const [day, cents] of timeline) byDay.set(day, (byDay.get(day) ?? 0) + cents);
+    }
+    return { byDay, unknown, known: ids.length - unknown };
+  }, [budgetChanges, liveBudgets, campaignsInWindow, effectiveCampaignFilter, series]);
+
+  const seriesWithBudget: DayMetrics[] = useMemo(
+    () => series.map((d) => ({ ...d, budgetCents: budgetInfo?.byDay.get(d.day) ?? null })),
+    [series, budgetInfo]
+  );
+
   // ⚖️ Verdict avant/après (3 j de chaque côté) par événement, sur le CA et
   // le CPA du marché affiché — calculé sur tout l'historique, pas la fenêtre.
   const eventVerdicts = useMemo(() => {
@@ -960,7 +1013,7 @@ export function AnalyseBoard({
           <MetricChart
             key={def.key}
             def={def}
-            series={series}
+            series={seriesWithBudget}
             locked={def.needsMeta && !hasMetaData}
             metaAttributed={
               effectiveCampaignFilter !== "ALL" &&
@@ -971,6 +1024,20 @@ export function AnalyseBoard({
           />
         ))}
       </div>
+      {budgetInfo && budgetInfo.unknown > 0 && (
+        <p className="px-1 text-[10.5px] text-ink-faint">
+          🎚️ Budget : {budgetInfo.unknown} campagne{budgetInfo.unknown > 1 ? "s" : ""} sur{" "}
+          {budgetInfo.known + budgetInfo.unknown} sans budget lisible sur Meta (budget géré au
+          niveau des ad sets, ou campagne archivée) — <b>non comptée</b> dans la courbe, plutôt que
+          comptée 0 € et faire croire à un budget plus bas.
+        </p>
+      )}
+      {!budgetInfo && (
+        <p className="px-1 text-[10.5px] text-ink-faint">
+          🎚️ Budget indisponible (lecture Meta en échec) — la courbe « Budget / jour » reste vide.
+          Jamais remplacée par la dépense : ce sont deux choses différentes.
+        </p>
+      )}
 
       {/* 📅 Heatmap jour-de-semaine */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
@@ -1431,6 +1498,10 @@ function MetricChart({
               ))}
               <Line
                 dataKey="value"
+                // Le budget est un ESCALIER : il tient jusqu'au prochain
+                // changement. Une ligne droite entre deux paliers laisserait
+                // croire à une montée progressive qui n'a jamais eu lieu.
+                type={def.step ? "stepAfter" : undefined}
                 stroke={def.color}
                 strokeWidth={2}
                 dot={false}

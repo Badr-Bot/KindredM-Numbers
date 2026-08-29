@@ -126,6 +126,71 @@ export function detectBudgetMarkers(changes: BudgetChangeInput[]): ChangeMarker[
   return out;
 }
 
+/**
+ * Reconstitue le BUDGET QUOTIDIEN d'une campagne, jour par jour, à partir du
+ * journal d'activité Meta + le budget live actuel.
+ *
+ * Badr, 29/08 : « pour le budget Meta, prendre en compte le budget et pas le
+ * montant spent ». La dépense n'est PAS le budget : une campagne à 500 €/j
+ * qui n'en dépense que 380 reste une campagne à 500 — lire la dépense fait
+ * croire à un budget plus bas, et fausse le palier suivant du protocole.
+ *
+ * Règle de reconstitution :
+ *   • chaque changement fixe le budget À PARTIR de son jour (plusieurs le
+ *     même jour : c'est le DERNIER qui reste en vigueur le soir) ;
+ *   • avant le tout premier changement connu, le budget vaut son
+ *     `oldBudgetCents` — le journal porte l'avant ET l'après, autant s'en
+ *     servir pour remonter le temps ;
+ *   • aucun changement connu du tout → le budget live (plat sur la période),
+ *     ce qui est exactement la réalité d'une campagne qu'on n'a pas touchée.
+ *
+ * Renvoie une Map jour → budget en centimes. Un jour absent = budget inconnu
+ * (à afficher comme un trou, JAMAIS comme un zéro : un zéro se lirait comme
+ * une campagne coupée).
+ */
+export function buildBudgetTimeline({
+  changes,
+  days,
+  currentBudgetCents,
+}: {
+  changes: BudgetChangeInput[];
+  days: string[];
+  currentBudgetCents: number | null;
+}): Map<string, number> {
+  // Budget en vigueur À LA FIN de chaque jour où il a bougé + valeur d'avant.
+  const endOfDay = new Map<string, number>();
+  let firstOld: number | null = null;
+  let firstDay: string | null = null;
+  for (const c of [...changes].sort((a, b) => a.day.localeCompare(b.day))) {
+    if (c.newBudgetCents === null) continue;
+    endOfDay.set(c.day, c.newBudgetCents);
+    if (firstDay === null || c.day < firstDay) {
+      firstDay = c.day;
+      firstOld = c.oldBudgetCents;
+    }
+  }
+  const changeDays = [...endOfDay.keys()].sort();
+
+  const out = new Map<string, number>();
+  for (const day of days) {
+    // Dernier changement à cette date ou avant.
+    let applicable: string | null = null;
+    for (const cd of changeDays) {
+      if (cd <= day) applicable = cd;
+      else break;
+    }
+    if (applicable !== null) {
+      out.set(day, endOfDay.get(applicable)!);
+    } else if (firstOld !== null) {
+      out.set(day, firstOld);
+    } else if (changeDays.length === 0 && currentBudgetCents !== null) {
+      out.set(day, currentBudgetCents);
+    }
+    // sinon : inconnu, on ne met rien (trou assumé).
+  }
+  return out;
+}
+
 export interface AdFirstDayInput {
   day: string;
   adId: string;
