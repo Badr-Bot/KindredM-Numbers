@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildBudgetTimeline,
   detectBudgetMarkers,
   detectCreaMarkers,
   detectScaleMarkers,
@@ -112,20 +111,51 @@ describe("scale / descale EXACTS (journal d'activité Meta)", () => {
     expect(m[0].kind).toBe("scale_down");
   });
 
-  it("fusionne plusieurs changements du même jour en un seul trajet", () => {
+  it("fusionne plusieurs retouches d'UNE campagne en un seul trajet", () => {
     const m = detectBudgetMarkers([
-      { day: day(12), oldBudgetCents: 20000, newBudgetCents: 30000 },
-      { day: day(12), oldBudgetCents: 30000, newBudgetCents: 50000 },
+      { day: day(12), campaignId: "c1", oldBudgetCents: 20000, newBudgetCents: 30000 },
+      { day: day(12), campaignId: "c1", oldBudgetCents: 30000, newBudgetCents: 50000 },
     ]);
     expect(m).toHaveLength(1);
     expect(m[0].text).toContain("200 €");
     expect(m[0].text).toContain("500 €");
   });
 
-  it("ne marque rien quand la journée revient à son point de départ", () => {
+  it("ne CHAÎNE JAMAIS les montants de deux campagnes différentes", () => {
+    // Le vrai cas Badr : il retouche ses 4 CBO le même soir. Sans séparation
+    // par campagne, on affichait un trajet inventé (750 € → 145 €).
     const m = detectBudgetMarkers([
-      { day: day(12), oldBudgetCents: 20000, newBudgetCents: 30000 },
-      { day: day(12), oldBudgetCents: 30000, newBudgetCents: 20000 },
+      { day: day(12), campaignId: "c1", oldBudgetCents: 75000, newBudgetCents: 63800 },
+      { day: day(12), campaignId: "c2", oldBudgetCents: 17000, newBudgetCents: 14500 },
+    ]);
+    expect(m).toHaveLength(1);
+    // Somme des campagnes MODIFIÉES : 920 € → 783 €.
+    expect(m[0].text).toContain("920 €");
+    expect(m[0].text).toContain("783 €");
+    expect(m[0].text).toContain("2 campagnes");
+    expect(m[0].kind).toBe("scale_down");
+  });
+
+  it("compense correctement une hausse et une baisse le même jour", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), campaignId: "c1", oldBudgetCents: 10000, newBudgetCents: 30000 },
+      { day: day(12), campaignId: "c2", oldBudgetCents: 20000, newBudgetCents: 15000 },
+    ]);
+    expect(m).toHaveLength(1);
+    expect(m[0].kind).toBe("scale_up"); // +200 − 50 = +150 €
+  });
+
+  it("affiche l'heure du changement quand elle est connue", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), at: "23:27", campaignId: "c1", oldBudgetCents: 25000, newBudgetCents: 40000 },
+    ]);
+    expect(m[0].text).toContain("23:27");
+  });
+
+  it("ne marque rien quand la campagne revient à son point de départ", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), campaignId: "c1", oldBudgetCents: 20000, newBudgetCents: 30000 },
+      { day: day(12), campaignId: "c1", oldBudgetCents: 30000, newBudgetCents: 20000 },
     ]);
     expect(m).toEqual([]);
   });
@@ -134,58 +164,5 @@ describe("scale / descale EXACTS (journal d'activité Meta)", () => {
     expect(
       detectBudgetMarkers([{ day: day(12), oldBudgetCents: null, newBudgetCents: 30000 }])
     ).toEqual([]);
-  });
-});
-
-describe("budget quotidien reconstitué (Badr : « le budget, pas le spent »)", () => {
-  const days = [day(10), day(11), day(12), day(13)];
-
-  it("applique le nouveau budget À PARTIR du jour du changement", () => {
-    const tl = buildBudgetTimeline({
-      changes: [{ day: day(12), oldBudgetCents: 25000, newBudgetCents: 40000 }],
-      days,
-      currentBudgetCents: 40000,
-    });
-    expect(tl.get(day(11))).toBe(25000);
-    expect(tl.get(day(12))).toBe(40000);
-    expect(tl.get(day(13))).toBe(40000);
-  });
-
-  it("remonte le temps avec l'ancien montant du 1er changement connu", () => {
-    const tl = buildBudgetTimeline({
-      changes: [{ day: day(12), oldBudgetCents: 25000, newBudgetCents: 40000 }],
-      days,
-      currentBudgetCents: 40000,
-    });
-    expect(tl.get(day(10))).toBe(25000);
-  });
-
-  it("garde le DERNIER changement du jour quand il y en a plusieurs", () => {
-    const tl = buildBudgetTimeline({
-      changes: [
-        { day: day(12), oldBudgetCents: 20000, newBudgetCents: 30000 },
-        { day: day(12), oldBudgetCents: 30000, newBudgetCents: 50000 },
-      ],
-      days,
-      currentBudgetCents: 50000,
-    });
-    expect(tl.get(day(12))).toBe(50000);
-  });
-
-  it("campagne jamais touchée : le budget live, à plat", () => {
-    const tl = buildBudgetTimeline({ changes: [], days, currentBudgetCents: 60000 });
-    expect([...tl.values()]).toEqual([60000, 60000, 60000, 60000]);
-  });
-
-  it("budget inconnu = TROU, jamais un zéro (qui se lirait « campagne coupée »)", () => {
-    const tl = buildBudgetTimeline({ changes: [], days, currentBudgetCents: null });
-    expect(tl.size).toBe(0);
-  });
-
-  it("ne confond jamais budget et dépense : un budget non dépensé reste entier", () => {
-    // 500 €/j de budget, la campagne n'en dépense que 380 : le budget affiché
-    // doit rester 500 — c'est tout l'objet de la correction.
-    const tl = buildBudgetTimeline({ changes: [], days, currentBudgetCents: 50000 });
-    expect(tl.get(day(11))).toBe(50000);
   });
 });

@@ -588,16 +588,28 @@ indisponible, et la légende dit alors que c'est une approximation. Jamais les
 deux à la fois : un vrai changement de budget produit aussi un saut de
 dépense le lendemain. Moteur pur `changeMarkers.ts`, 15 tests.
 
-**Courbe « Budget / jour »** (Badr : « pour le budget Meta, prendre en compte
-le budget et pas le montant spent »). Le budget n'est pas la dépense : une
-campagne à 500 €/j qui n'en dépense que 380 reste à 500, et c'est le budget
-qui décide du palier suivant du protocole. La courbe est reconstituée depuis
-le journal d'activité Meta (les changements) + le budget live (le point
-d'arrivée), tracée en escalier. Budget inconnu = trou, jamais 0 € — et jamais
-remplacé par la dépense. L'onglet Scaling, lui, lisait déjà le budget réel en
-priorité.
+**Le budget, pas la dépense** (Badr : « pour le budget Meta, prendre en compte
+le budget et pas le montant spent »). Première tentative : une courbe
+« Budget / jour ». **Retirée le jour même** — « je voulais que le jour où le
+budget change ça mette une ligne dans les autres charts, pas avoir un chart
+budget, je m'en fous ». Le budget est un repère sur les autres courbes, pas
+une métrique à contempler.
 
-215 tests verts, `next build` OK.
+**Et surtout : le bug que ce retour a révélé.** Badr : « il est figé ». Les
+repères de budget ne s'affichaient JAMAIS. Vérification faite sur le journal
+d'activité réel du compte (MCP Meta) : les changements y sont bien, tous les
+soirs vers 23 h. Mais Meta renvoie `extra_data` sous deux formes, et le code
+n'en lisait qu'une — sur ce compte le montant est imbriqué sous une clé du
+même nom, donc `Number(...)` valait NaN et chaque montant repartait à zéro
+pointé. **L'onglet Scaling était touché aussi** : son `repairMoves`, écrit le
+19/08 pour faire disparaître des « ? », masquait ce bug depuis. Corrigé à la
+source, avec des tests écrits sur la charge utile réelle du 28/08.
+
+Corrigé au passage : en vue « toutes campagnes », les montants de campagnes
+différentes se chaînaient et affichaient des trajets inventés. Le
+regroupement se fait maintenant par campagne PUIS par jour.
+
+217 tests verts, `next build` OK.
 
 ## Notes techniques utiles
 
