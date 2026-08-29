@@ -501,9 +501,13 @@ non ? ». Diagnostic : la page rend en direct, c'est la **synchro** qui était
 longue, et surtout qui publiait mal.
 
 - La page lit seulement `daily_aggregates` — les chiffres ont l'âge de la
-  dernière synchro, pas de la page. La synchro ne tourne que si un navigateur
-  a le dash ouvert (throttle 5 min) ; le seul déclencheur serveur est le cron
-  de 23h05, une fois par jour.
+  dernière synchro, pas de la page.
+- **Cause n°1, mesurée** : le pinger `keep-sync.yml`, censé appeler
+  `/api/sync` toutes les 5 min sans que personne n'ouvre le dash, n'était
+  lancé par GitHub que quelques fois par jour — écart médian **2 h** sur les
+  19 dernières exécutions, trou de **12 h** le 28/08. GitHub abandonne les
+  workflows planifiés trop fréquents. Restaient donc le cron Vercel (1×/jour)
+  et le navigateur de Badr.
 - Le cycle était 100 % séquentiel : 4 stores Shopify → recalcul (le CA
   apparaît) → PUIS Meta (campagnes, annonces, pays) → recalcul (le spend
   apparaît). D'où « le CA bouge, le spend traîne » — et à 300 s de limite, la
@@ -524,15 +528,24 @@ Livré :
 3. **L'écran se rafraîchit toutes les 15 s pendant la synchro** (LiveSync et
    bouton Actualiser) : le CA s'affiche dès sa publication, sans attendre
    Meta.
+4. **`keep-sync.yml` rendu continu** : une planification par heure (bien mieux
+   honorée par GitHub) + boucle interne qui ping toutes les 5 min pendant
+   ~50 min. Gratuit (dépôt public).
+5. **Âge réel des chiffres affiché** : le bandeau lisait l'heure du rendu,
+   donc disait toujours « MAJ à l'instant ». Il lit maintenant l'horodatage de
+   la dernière synchro réussie, passe en ambre avec un ⚠ au-delà de 15 min, et
+   vieillit tout seul. Corrigé au passage : le cron de nuit synchronisait sans
+   jamais mettre à jour cet horodatage.
 
 Aucune migration, aucune règle de calcul touchée. 191 tests verts, `next
 build` OK. Non mesuré en conditions réelles depuis la session (le proxy ne
 joint ni Vercel ni les API) — à confirmer sur le vrai dash.
 
-Reste proposé, non fait : afficher le **vrai** âge des données (aujourd'hui
-`fetchedAt` = heure de rendu, donc toujours « MAJ à l'instant » même sur des
-chiffres de 40 min) · cron toutes les 5 min (demande un plan Vercel Pro) ·
-TTFB de la page (~15 allers-retours Supabase séquentiels par rendu).
+Reste proposé, non fait : TTFB de la page (~15 allers-retours Supabase
+séquentiels par rendu, dont 2 requêtes-sonde inutiles). Et si les trous de
+synchro persistent malgré le pinger continu : cron Vercel toutes les 5 min
+(plan Pro requis) ou pinger externe gratuit (cron-job.org, UptimeRobot) —
+les deux demandent une action de Badr.
 
 ## Notes techniques utiles
 

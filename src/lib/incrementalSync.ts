@@ -502,6 +502,22 @@ export async function runIncrementalSync(
     );
   }
 
+  // Horodatage du cycle — écrit ICI et non chez l'appelant (29/08) pour deux
+  // raisons : (1) il n'est posé qu'APRÈS un cycle allé au bout, sinon un
+  // échec en cours de route bloquerait toute nouvelle tentative pendant 5 min
+  // alors que rien n'a été écrit (constaté le 16/07 : CA figé malgré 97
+  // nouvelles commandes) ; (2) le cron de nuit appelle cette fonction
+  // DIRECTEMENT — tant que l'écriture vivait chez l'appelant throttlé, il
+  // synchronisait sans jamais horodater, et le dashboard annonçait des
+  // données « vieilles de 6 h » juste après la clôture. C'est ce marqueur que
+  // l'écran affiche désormais comme âge réel des chiffres (voir lastSyncAt,
+  // data.ts) : il doit donc refléter TOUS les chemins de synchro.
+  const stampedAt = new Date().toISOString();
+  await supabase.from("app_state").upsert({ key: THROTTLE_KEY, value: "done", updated_at: stampedAt });
+  if (deep) {
+    await supabase.from("app_state").upsert({ key: DEEP_KEY, value: "done", updated_at: stampedAt });
+  }
+
   return { ran: true, deep, touchedDays: [...touchedDays].sort(), warnings };
 }
 
@@ -714,22 +730,9 @@ export async function runThrottledIncrementalSync(force = false): Promise<Increm
   //    cours ; la faire attendre la fin d'un backfill de deux mois gelait le
   //    dashboard pendant des heures (26/07). Ses écritures sont validées
   //    avant qu'un éventuel rattrapage ne risque de dépasser le temps limite.
+  // (Les marqueurs THROTTLE_KEY / DEEP_KEY sont posés par runIncrementalSync
+  // lui-même, en fin de cycle réussi — voir le commentaire là-bas.)
   const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[], { deep });
-
-  // Le marqueur n'est posé ("done") qu'APRÈS un cycle réussi — sinon un
-  // échec en cours de route bloquerait toute nouvelle tentative pendant
-  // 5 min alors que rien n'a été écrit (constaté le 16/07 : CA resté figé
-  // malgré 97 nouvelles commandes).
-  await supabase
-    .from("app_state")
-    .upsert({ key: THROTTLE_KEY, value: "done", updated_at: new Date().toISOString() });
-  // Même règle pour le marqueur du cycle complet : posé seulement si un
-  // cycle complet a effectivement tourné jusqu'au bout, jamais d'avance.
-  if (deep && result.ran) {
-    await supabase
-      .from("app_state")
-      .upsert({ key: DEEP_KEY, value: "done", updated_at: new Date().toISOString() });
-  }
 
   if (!needsMaintenance) return result;
 

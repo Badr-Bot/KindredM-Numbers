@@ -123,6 +123,37 @@ export async function referenceToday(): Promise<string> {
  */
 export const fetchDailyRows = reactCache(fetchDailyRowsUncached);
 
+/**
+ * Âge RÉEL des chiffres = horodatage de la dernière synchro allée au bout
+ * (écrit par runIncrementalSync, incrementalSync.ts).
+ *
+ * Corrige un affichage faux (29/08) : la page mettait `fetchedAt` à
+ * `new Date()` au moment du RENDU, donc le bandeau annonçait « MAJ à
+ * l'instant » même sur des chiffres vieux de 40 min — Badr n'avait aucun
+ * moyen de voir qu'il regardait des données périmées. Une valeur estimée ou
+ * inconnue doit se VOIR (même leçon que le marqueur « ~ » des frais, 16/08).
+ *
+ * Best effort : si la lecture échoue, on renvoie null (« MAJ inconnue »),
+ * jamais une heure inventée, et jamais une exception — l'âge du chiffre ne
+ * doit pas pouvoir faire tomber la page qui l'affiche.
+ */
+export const lastSyncAt = reactCache(async (): Promise<string | null> => {
+  if (getDataMode() !== "live") return null;
+  try {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("app_state")
+      .select("updated_at")
+      .eq("key", "last_incremental_sync_at")
+      .maybeSingle();
+    if (error || !data?.updated_at) return null;
+    return new Date(data.updated_at as string).toISOString();
+  } catch {
+    return null;
+  }
+});
+
 async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise<DailyRow[]> {
   const mode = getDataMode();
 
@@ -337,7 +368,13 @@ export interface PaceReference {
 export interface TodayView {
   mode: DataMode;
   day: string;
-  fetchedAt: string;
+  /**
+   * Heure de la dernière SYNCHRO réussie (app_state.last_incremental_sync_at),
+   * pas l'heure du rendu de la page — c'est l'âge réel des chiffres affichés.
+   * null = aucune synchro connue (base neuve, ou marqueur jamais écrit) :
+   * l'écran doit alors dire qu'il ne sait pas, jamais inventer « à l'instant ».
+   */
+  fetchedAt: string | null;
   /** true si les chiffres du jour viennent des agrégats en base (fallback) et non du live. */
   fromAggregates: boolean;
   cards: TodayMarketCard[]; // GLOBAL en tête puis ES/UK/DE/FR
@@ -607,13 +644,14 @@ export async function getTodayView(): Promise<TodayView> {
   // cours et spend Meta inclus. `rows` peut contenir une ligne UNMAPPED (spend
   // Meta pas encore classé) : sumRows(rows) l'inclut dans le GLOBAL, perMarket
   // ne la garde pas (jamais assignée à un marché au hasard, voir cardsFromTotals).
-  const rows = await fetchDailyRows(day, day);
+  const [rows, syncedAt] = await Promise.all([fetchDailyRows(day, day), lastSyncAt()]);
   const perMarket = emptyPerMarket();
   for (const r of rows) if (r.market in perMarket) perMarket[r.market] = { ...r };
   return {
     mode,
     day,
-    fetchedAt: new Date().toISOString(),
+    // L'âge de la SYNCHRO, pas celui du rendu — voir lastSyncAt().
+    fetchedAt: syncedAt,
     fromAggregates: false,
     cards: cardsFromTotals(perMarket, thresholds, minusFixedCosts(sumRows(rows), day)),
     pace,

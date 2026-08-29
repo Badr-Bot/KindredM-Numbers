@@ -1,21 +1,67 @@
 name: Keep sync alive
 
-# La synchro (commandes Shopify + spend Meta) ne se déclenchait auparavant
-# QUE quand quelqu'un avait le dashboard ouvert dans un onglet (voir
-# LiveSync.tsx, poll toutes les 5 min) — si personne ne regardait la page
-# pendant un moment (écran verrouillé, onglet fermé), les chiffres restaient
-# figés jusqu'à la prochaine visite. Le seul filet côté serveur était le cron
-# Vercel une fois par jour (23h05 UTC). Ce workflow appelle /api/sync toutes
-# les 5 min, indépendamment de qui regarde le dashboard, sans clic ni action
-# de personne.
+# Garde la synchro vivante SANS que personne n'ait le dashboard ouvert.
+# (commandes Shopify + spend Meta ; côté navigateur, LiveSync.tsx fait le même
+# appel toutes les 5 min, mais seulement tant qu'un onglet est ouvert.)
+#
+# ⚠️ POURQUOI UNE BOUCLE ET PAS UN CRON « */5 » (29/08).
+# La version précédente était planifiée toutes les 5 min... et GitHub ne la
+# lançait presque jamais : sur les 19 dernières exécutions réelles, l'écart
+# MÉDIAN entre deux passages était de 2 h, avec un trou de 12 h le 28/08
+# (05:17 → 17:28). C'est documenté côté GitHub : les workflows planifiés sont
+# retardés en période de charge et « peuvent être abandonnés », d'autant plus
+# que l'intervalle est court. Résultat concret : Badr ouvrait le dashboard le
+# matin et voyait les chiffres de la nuit, le temps qu'une synchro se relance.
+#
+# Donc : une seule planification par heure (bien mieux honorée), et le job
+# PING LUI-MÊME toutes les 5 min pendant ~50 min (marge sous timeout-minutes:
+# 60, un ping pouvant lui-même durer jusqu'à 5 min). Une heure perdue reste
+# possible si GitHub abandonne le déclenchement, mais on ne perd plus 12 h.
+# Minutes Actions gratuites (dépôt public), aucun coût.
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch: {}
+
+# Un seul exemplaire à la fois. cancel-in-progress: false = le déclenchement
+# suivant ATTEND la fin du courant puis prend le relais (GitHub ne garde qu'un
+# seul run en attente, donc aucune pile ne se forme) : la couverture
+# s'enchaîne au lieu de se dédoubler.
+concurrency:
+  group: keep-sync
+  cancel-in-progress: false
 
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
-      - name: POST /api/sync
-        run: curl -sS -X POST --max-time 280 https://kindred-m-numbers.vercel.app/api/sync
+      - name: POST /api/sync toutes les 5 min pendant ~50 min
+        run: |
+          set -u
+          ok=0
+          ko=0
+          for i in $(seq 1 11); do
+            # --max-time 300 = la limite de la fonction Vercel (maxDuration).
+            # Un échec isolé (cycle long, cold start, 502 passager) ne doit PAS
+            # arrêter la boucle : c'est le passage SUIVANT qui rattrape.
+            if curl -sS -X POST --max-time 300 https://kindred-m-numbers.vercel.app/api/sync; then
+              ok=$((ok + 1))
+              echo ""
+            else
+              code=$?
+              ko=$((ko + 1))
+              echo "ping $i en échec (curl $code) — on continue"
+            fi
+            # Pas d'attente après le dernier passage : le job se termine et
+            # laisse la place au déclenchement de l'heure suivante.
+            if [ "$i" -lt 11 ]; then sleep 300; fi
+          done
+          echo "pings réussis : $ok — en échec : $ko"
+          # Le job n'échoue que si RIEN n'est passé : c'est le seul cas qui
+          # mérite une alerte (site HS, endpoint cassé). Quelques timeouts
+          # isolés sont normaux quand un cycle complet tourne.
+          if [ "$ok" -eq 0 ]; then
+            echo "::error::aucun ping /api/sync n'a abouti pendant l'heure"
+            exit 1
+          fi
