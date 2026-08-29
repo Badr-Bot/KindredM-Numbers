@@ -9,8 +9,10 @@ import {
 } from "@/lib/data";
 import {
   getAnalyticsData,
+  getBudgetChanges,
   getProductRoasThresholds,
   type AnalyticsData,
+  type BudgetChange,
   type CreaProduct,
   type ProductRoasThresholds,
 } from "@/lib/analytics";
@@ -38,20 +40,34 @@ type LoadResult =
       activeCampaignIds: Set<string> | null;
       /** Seuils BE/cible par produit (Gilet vs Polo) — null : retombe sur GLOBAL. */
       productThresholds: Record<CreaProduct, ProductRoasThresholds> | null;
+      /** Changements de budget RÉELS (journal d'activité Meta) pour les
+       * repères scale/descale des courbes. null = journal indisponible : le
+       * tableau de bord retombe sur la déduction par la dépense, et le DIT. */
+      budgetChanges: BudgetChange[] | null;
     };
 
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
-    const [dayData, analytics, journal, allThresholds, activeCampaignIds, productThresholds] =
-      await Promise.all([
-        getTabDayData(HISTORY_START, today),
-        getAnalyticsData(HISTORY_START, today),
-        getJournalEvents(),
-        computeThresholds(today),
-        fetchActiveCampaignIds().catch(() => null),
-        getProductRoasThresholds(today).catch(() => null),
-      ]);
+    const [
+      dayData,
+      analytics,
+      journal,
+      allThresholds,
+      activeCampaignIds,
+      productThresholds,
+      budgetChanges,
+    ] = await Promise.all([
+      getTabDayData(HISTORY_START, today),
+      getAnalyticsData(HISTORY_START, today),
+      getJournalEvents(),
+      computeThresholds(today),
+      fetchActiveCampaignIds().catch(() => null),
+      getProductRoasThresholds(today).catch(() => null),
+      // Best effort, comme les autres lectures Meta live : son échec ne doit
+      // pas priver Badr de tout l'onglet, juste des repères exacts.
+      getBudgetChanges(HISTORY_START).catch(() => null),
+    ]);
     return {
       dayData,
       analytics,
@@ -61,6 +77,7 @@ async function loadData(): Promise<LoadResult> {
       thresholds: allThresholds.GLOBAL,
       activeCampaignIds,
       productThresholds,
+      budgetChanges,
     };
   } catch (err) {
     return { error: (err as Error).message };
@@ -105,6 +122,7 @@ export default async function AnalysePage() {
         thresholds={result.thresholds}
         activeCampaignIds={result.activeCampaignIds}
         productThresholds={result.productThresholds}
+        budgetChanges={result.budgetChanges}
       />
     </div>
   );

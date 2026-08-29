@@ -13,9 +13,10 @@ import {
   YAxis,
 } from "recharts";
 import type { DayAgg, Thresholds } from "@/lib/data";
-import type { AnalyticsData, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
+import type { AnalyticsData, BudgetChange, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
 import {
+  detectBudgetMarkers,
   detectCreaMarkers,
   detectScaleMarkers,
   type ChangeKind,
@@ -154,6 +155,7 @@ export function AnalyseBoard({
   thresholds,
   activeCampaignIds,
   productThresholds,
+  budgetChanges,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -164,6 +166,9 @@ export function AnalyseBoard({
   thresholds: Thresholds;
   activeCampaignIds: Set<string> | null;
   productThresholds: Record<CreaProduct, ProductRoasThresholds> | null;
+  /** null = journal d'activité Meta indisponible → repli sur la déduction
+   * par la dépense (dit explicitement dans la légende). */
+  budgetChanges: BudgetChange[] | null;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -651,26 +656,48 @@ export function AnalyseBoard({
   // toutes les créas déjà en route sembleraient ajoutées ce jour-là.
   const changeMarkers = useMemo(() => {
     const tabCampaignIds = new Set(campaignsForTab.map(([id]) => id));
-    const spendByDay = new Map<string, number>();
-    for (const r of analytics.insights) {
-      if (tab !== "GLOBAL" && r.market !== tab) continue;
-      if (effectiveCampaignFilter !== "ALL" && r.campaignId !== effectiveCampaignFilter) continue;
-      spendByDay.set(r.day, (spendByDay.get(r.day) ?? 0) + r.spendCents);
+    const inScope = (campaignId: string) =>
+      effectiveCampaignFilter !== "ALL"
+        ? campaignId === effectiveCampaignFilter
+        : tab === "GLOBAL" || tabCampaignIds.has(campaignId);
+
+    // Scale / descale : le journal d'activité Meta d'abord (le geste exact,
+    // ancien → nouveau budget), la dépense seulement s'il est indisponible.
+    // JAMAIS les deux : un vrai changement de budget produit aussi un saut de
+    // dépense le lendemain, on dessinerait deux traits pour un seul geste.
+    let scale: ChangeMarker[];
+    if (budgetChanges) {
+      scale = detectBudgetMarkers(budgetChanges.filter((c) => inScope(c.campaignId)));
+    } else {
+      const spendByDay = new Map<string, number>();
+      for (const r of analytics.insights) {
+        if (tab !== "GLOBAL" && r.market !== tab) continue;
+        if (effectiveCampaignFilter !== "ALL" && r.campaignId !== effectiveCampaignFilter) continue;
+        spendByDay.set(r.day, (spendByDay.get(r.day) ?? 0) + r.spendCents);
+      }
+      scale = detectScaleMarkers(spendByDay, today);
     }
+
     // meta_ad_insights ne porte pas de marché : on passe par les campagnes de
     // l'onglet (déduites des insights, qui ont le marché).
     const adRows = analytics.adsDaily
-      .filter((a) =>
-        effectiveCampaignFilter !== "ALL"
-          ? a.campaignId === effectiveCampaignFilter
-          : tab === "GLOBAL" || tabCampaignIds.has(a.campaignId)
-      )
+      .filter((a) => inScope(a.campaignId))
       .map((a) => ({ day: a.day, adId: a.adId, adName: a.adName }));
 
-    return [...detectScaleMarkers(spendByDay, today), ...detectCreaMarkers(adRows)]
+    return [...scale, ...detectCreaMarkers(adRows)]
       .filter((m) => m.day >= from && m.day <= to)
       .map((m) => ({ ...m, label: formatDayShort(m.day) }));
-  }, [analytics.insights, analytics.adsDaily, campaignsForTab, tab, effectiveCampaignFilter, from, to, today]);
+  }, [
+    analytics.insights,
+    analytics.adsDaily,
+    budgetChanges,
+    campaignsForTab,
+    tab,
+    effectiveCampaignFilter,
+    from,
+    to,
+    today,
+  ]);
 
   // ⚖️ Verdict avant/après (3 j de chaque côté) par événement, sur le CA et
   // le CPA du marché affiché — calculé sur tout l'historique, pas la fenêtre.
@@ -923,8 +950,9 @@ export function AnalyseBoard({
           </span>
         )}
         <span className="text-ink-faint">
-          — scale déduit d&apos;un saut de dépense ≥ 20 % d&apos;un jour à l&apos;autre (le budget
-          lui-même n&apos;est pas historisé). Survole un point pour lire le détail.
+          {budgetChanges
+            ? "— scale/descale = les vrais changements de budget (journal d'activité Meta). Survole un point pour lire l'ancien et le nouveau montant."
+            : "— journal d'activité Meta indisponible : le scale est ici DÉDUIT d'un saut de dépense ≥ 20 % d'un jour à l'autre, à prendre comme une approximation."}
         </span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

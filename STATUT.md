@@ -574,11 +574,18 @@ causes :
 
 **Repères de changement sur les courbes** (demande Badr) : pointillé **vert**
 = scale ↑, **rouge** = descale ↓, **violet** = nouvelles créas, avec légende
-et détail dans l'infobulle. Le budget n'étant historisé nulle part, un scale
-est déduit d'un saut de dépense ≥ 20 % d'un jour à l'autre (base ≥ 50 €/j) —
-inférence assumée et affichée comme telle ; les créas, elles, sont mesurées
-(1er jour d'apparition d'une annonce). Moteur pur dans `changeMarkers.ts`,
-10 tests dédiés.
+et détail dans l'infobulle.
+
+Première version : le scale était DÉDUIT d'un saut de dépense ≥ 20 %, faute
+de budget historisé. **Corrigé dans la foulée (« corrige le stp ») : la vraie
+donnée existait déjà dans le code** — le journal d'activité du compte Meta,
+que l'onglet Scaling lit depuis le 18/08 pour savoir ce qui a été appliqué.
+Les repères affichent donc maintenant le geste exact (« Budget ↑ 250 € →
+400 € (+60 %) »), y compris un −15 % du protocole que la déduction ratait.
+La déduction par la dépense reste en repli si le journal Meta est
+indisponible, et la légende dit alors que c'est une approximation. Jamais les
+deux à la fois : un vrai changement de budget produit aussi un saut de
+dépense le lendemain. Moteur pur `changeMarkers.ts`, 15 tests.
 
 204 tests verts, `next build` OK.
 

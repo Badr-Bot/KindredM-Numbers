@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  detectBudgetMarkers,
   detectCreaMarkers,
   detectScaleMarkers,
   SCALE_MIN_BASE_CENTS,
@@ -85,5 +86,52 @@ describe("nouvelles créas", () => {
 
   it("ne renvoie rien sans données", () => {
     expect(detectCreaMarkers([])).toEqual([]);
+  });
+});
+
+describe("scale / descale EXACTS (journal d'activité Meta)", () => {
+  it("lit le vrai changement de budget, ancien → nouveau", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), oldBudgetCents: 25000, newBudgetCents: 40000 },
+    ]);
+    expect(m).toHaveLength(1);
+    expect(m[0].kind).toBe("scale_up");
+    expect(m[0].text).toContain("250 €");
+    expect(m[0].text).toContain("400 €");
+    expect(m[0].text).toContain("+60 %");
+  });
+
+  it("marque une baisse de budget en descale, même petite", () => {
+    // −15 % = un cran d'escalier du protocole : la déduction par la dépense
+    // le raterait (seuil 20 %), le journal d'activité non.
+    const m = detectBudgetMarkers([
+      { day: day(12), oldBudgetCents: 100000, newBudgetCents: 85000 },
+    ]);
+    expect(m).toHaveLength(1);
+    expect(m[0].kind).toBe("scale_down");
+  });
+
+  it("fusionne plusieurs changements du même jour en un seul trajet", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), oldBudgetCents: 20000, newBudgetCents: 30000 },
+      { day: day(12), oldBudgetCents: 30000, newBudgetCents: 50000 },
+    ]);
+    expect(m).toHaveLength(1);
+    expect(m[0].text).toContain("200 €");
+    expect(m[0].text).toContain("500 €");
+  });
+
+  it("ne marque rien quand la journée revient à son point de départ", () => {
+    const m = detectBudgetMarkers([
+      { day: day(12), oldBudgetCents: 20000, newBudgetCents: 30000 },
+      { day: day(12), oldBudgetCents: 30000, newBudgetCents: 20000 },
+    ]);
+    expect(m).toEqual([]);
+  });
+
+  it("ignore un événement dont un des deux montants manque", () => {
+    expect(
+      detectBudgetMarkers([{ day: day(12), oldBudgetCents: null, newBudgetCents: 30000 }])
+    ).toEqual([]);
   });
 });

@@ -4,20 +4,27 @@
  * descale en rouge […] ça permettra de voir ce que engendre le scale et
  * descale » + « pointillé violet quand on rajoute des créatives »).
  *
- * ⚠️ CE QUI EST MESURÉ, ET CE QUI NE L'EST PAS.
- * Le BUDGET d'une campagne n'existe nulle part dans la base : meta_spend et
- * meta_insights ne stockent que la DÉPENSE réalisée. Un « scale » est donc
- * déduit d'un saut de dépense d'un jour sur l'autre, pas lu sur le budget —
- * c'est une inférence, et l'UI le dit. Conséquences assumées :
- *   • une hausse de budget qui ne se dépense pas (apprentissage, plafond
- *     d'enchère) ne fera pas de repère ;
- *   • Meta peut faire varier la dépense de ±10 % à budget CONSTANT, d'où le
- *     seuil à ±20 % : en dessous, on marquerait du bruit et les courbes
- *     deviendraient illisibles (le but est de repérer le geste de Badr, pas
- *     la respiration de l'algo).
- * Le jour EN COURS n'est jamais comparé : sa dépense est partielle par
- * construction, il produirait un « descale » tous les jours (même piège que
- * la détection auto du journal, journal.ts).
+ * DEUX SOURCES, DANS CET ORDRE DE PRÉFÉRENCE :
+ *
+ * 1. **Le journal d'activité du compte Meta** (`detectBudgetMarkers`) — le
+ *    geste lui-même : « budget passé de 250 € à 400 € », horodaté, par
+ *    campagne. C'est ce que l'onglet Scaling utilise déjà pour savoir ce qui
+ *    a été appliqué. EXACT : à utiliser dès qu'il répond.
+ *
+ * 2. **La dépense, à défaut** (`detectScaleMarkers`) — un saut de dépense
+ *    ≥ 20 % d'un jour à l'autre. Repli quand le journal Meta est
+ *    indisponible (token HS, historique hors de portée). C'est une
+ *    INFÉRENCE, et l'UI doit le dire : une hausse de budget qui ne se
+ *    dépense pas (apprentissage, plafond d'enchère) passe inaperçue, et
+ *    Meta peut faire varier la dépense de ±10 % à budget CONSTANT — d'où le
+ *    seuil à 20 %, en dessous on marquerait du bruit.
+ *    Le jour EN COURS n'y est jamais comparé : sa dépense est partielle par
+ *    construction, il produirait un « descale » tous les jours (même piège
+ *    que la détection auto du journal, journal.ts).
+ *
+ * ⚠️ Ne JAMAIS mélanger les deux : un vrai changement de budget produit
+ * AUSSI un saut de dépense le lendemain — cumuler les deux sources
+ * dessinerait deux traits pour un seul geste.
  *
  * Les créas, elles, sont MESURÉES : meta_ad_insights porte une ligne par
  * (jour, annonce), donc le 1er jour où un ad_id apparaît est factuel.
@@ -74,6 +81,47 @@ export function detectScaleMarkers(
         text: `Descale ↓ ${Math.round(Math.abs(ratio) * 100)} % (${euros(prev)} → ${euros(cur)})`,
       });
     }
+  }
+  return out;
+}
+
+export interface BudgetChangeInput {
+  day: string;
+  oldBudgetCents: number | null;
+  newBudgetCents: number | null;
+}
+
+/**
+ * Repères EXACTS depuis le journal d'activité Meta : un événement par
+ * changement de budget, avec l'ancien et le nouveau montant.
+ *
+ * Plusieurs changements le même jour (Badr affine en deux fois) sont
+ * FUSIONNÉS en un seul repère de l'ancien du premier au nouveau du dernier :
+ * la courbe est journalière, deux traits sur le même jour se superposeraient
+ * en un seul de toute façon — autant que l'infobulle raconte le vrai trajet.
+ * Un aller-retour qui revient au point de départ ne laisse aucun repère.
+ */
+export function detectBudgetMarkers(changes: BudgetChangeInput[]): ChangeMarker[] {
+  const byDay = new Map<string, { first: number; last: number }>();
+  for (const c of changes) {
+    if (c.oldBudgetCents === null || c.newBudgetCents === null) continue;
+    const cur = byDay.get(c.day);
+    // L'ordre d'arrivée est chronologique (fetchCampaignActivities trie) :
+    // le 1er vu porte l'ancien montant, le dernier le montant final.
+    if (!cur) byDay.set(c.day, { first: c.oldBudgetCents, last: c.newBudgetCents });
+    else cur.last = c.newBudgetCents;
+  }
+
+  const out: ChangeMarker[] = [];
+  for (const [day, { first, last }] of [...byDay.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (last === first) continue;
+    const up = last > first;
+    const ratio = first > 0 ? Math.round((Math.abs(last - first) / first) * 100) : null;
+    out.push({
+      day,
+      kind: up ? "scale_up" : "scale_down",
+      text: `Budget ${up ? "↑" : "↓"} ${euros(first)} → ${euros(last)}${ratio !== null ? ` (${up ? "+" : "−"}${ratio} %)` : ""}`,
+    });
   }
   return out;
 }

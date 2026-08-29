@@ -95,6 +95,55 @@ interface RawAdInsight {
   initiate_checkout: number | null;
 }
 
+/**
+ * 📍 Changements de BUDGET réels, lus dans le journal d'activité du compte
+ * Meta (`act_.../activities`) — la même source que l'onglet Scaling utilise
+ * déjà pour savoir « ce qui a été appliqué ».
+ *
+ * Sert aux pointillés vert/rouge de l'onglet Analyse (Badr 29/08). La 1re
+ * version les DÉDUISAIT d'un saut de dépense ≥ 20 % faute de budget
+ * historisé — approximation assumée mais qui rate un scale absorbé
+ * progressivement et invente un scale quand Meta accélère toute seule. Ici
+ * c'est le geste lui-même, horodaté, avec l'ancien et le nouveau montant.
+ *
+ * Le jour est calculé en heure de PARIS côté serveur (l'événement arrive avec
+ * son propre décalage : +0200 l'été, +0000 ailleurs) — jamais côté client,
+ * dont le fuseau est inconnu.
+ */
+export interface BudgetChange {
+  day: string;
+  campaignId: string;
+  campaignName: string | null;
+  oldBudgetCents: number | null;
+  newBudgetCents: number | null;
+}
+
+const fetchBudgetChangesUncached = async (sinceDay: string): Promise<BudgetChange[]> => {
+  const [{ fetchCampaignActivities }, { toParisDay }] = await Promise.all([
+    import("./meta"),
+    import("./time"),
+  ]);
+  const activities = await fetchCampaignActivities(sinceDay);
+  return activities
+    .filter((a) => a.kind === "budget" && a.newBudgetCents !== null && a.oldBudgetCents !== null)
+    .filter((a) => !isExcludedCampaign(a.campaignName))
+    .map((a) => ({
+      day: toParisDay(a.eventTime),
+      campaignId: a.campaignId,
+      campaignName: a.campaignName,
+      oldBudgetCents: a.oldBudgetCents,
+      newBudgetCents: a.newBudgetCents,
+    }));
+};
+
+/** Cache 5 min, tag « meta-live » (invalidé par le bouton Actualiser) : un
+ * budget ne bouge que quand Badr le bouge, et l'onglet ne doit pas refaire un
+ * appel Meta à chaque rendu. */
+export const getBudgetChanges = unstable_cache(fetchBudgetChangesUncached, ["meta-budget-changes"], {
+  revalidate: 300,
+  tags: ["meta-live"],
+});
+
 export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
   const supabase = createSupabaseServerClient();
 
