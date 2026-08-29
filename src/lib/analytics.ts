@@ -20,6 +20,8 @@ export interface InsightDaily {
   impressions: number;
   clicks: number;
   purchases: number;
+  /** Valeur d'achat attribuée par META (≠ CA Shopify) — 0 si non renseigné. */
+  purchaseValueCents: number;
   reach: number;
 }
 
@@ -64,6 +66,12 @@ interface RawInsight {
   impressions: number;
   clicks: number;
   purchases: number;
+  /** Valeur d'achat ATTRIBUÉE PAR META (≠ CA Shopify) — sert au CPA/CVR/
+   * panier moyen quand une campagne est isolée dans l'onglet Analyse :
+   * Shopify ne relie pas une commande à une campagne, Meta si (à son
+   * attribution près). Toujours affiché comme « Meta », jamais confondu
+   * avec le CA réel. */
+  purchase_value_cents: number | null;
   reach: number | null;
 }
 
@@ -87,6 +95,78 @@ interface RawAdInsight {
   initiate_checkout: number | null;
 }
 
+/**
+ * 📍 Changements de BUDGET réels, lus dans le journal d'activité du compte
+ * Meta (`act_.../activities`) — la même source que l'onglet Scaling utilise
+ * déjà pour savoir « ce qui a été appliqué ».
+ *
+ * Sert aux pointillés vert/rouge de l'onglet Analyse (Badr 29/08). La 1re
+ * version les DÉDUISAIT d'un saut de dépense ≥ 20 % faute de budget
+ * historisé — approximation assumée mais qui rate un scale absorbé
+ * progressivement et invente un scale quand Meta accélère toute seule. Ici
+ * c'est le geste lui-même, horodaté, avec l'ancien et le nouveau montant.
+ *
+ * Le jour est calculé en heure de PARIS côté serveur (l'événement arrive avec
+ * son propre décalage : +0200 l'été, +0000 ailleurs) — jamais côté client,
+ * dont le fuseau est inconnu.
+ */
+export interface BudgetChange {
+  day: string;
+  campaignId: string;
+  campaignName: string | null;
+  oldBudgetCents: number | null;
+  newBudgetCents: number | null;
+}
+
+const fetchBudgetChangesUncached = async (sinceDay: string): Promise<BudgetChange[]> => {
+  const [{ fetchCampaignActivities }, { toParisDay }] = await Promise.all([
+    import("./meta"),
+    import("./time"),
+  ]);
+  const activities = await fetchCampaignActivities(sinceDay);
+  return activities
+    .filter((a) => a.kind === "budget" && a.newBudgetCents !== null && a.oldBudgetCents !== null)
+    .filter((a) => !isExcludedCampaign(a.campaignName))
+    .map((a) => ({
+      day: toParisDay(a.eventTime),
+      campaignId: a.campaignId,
+      campaignName: a.campaignName,
+      oldBudgetCents: a.oldBudgetCents,
+      newBudgetCents: a.newBudgetCents,
+    }));
+};
+
+/** Cache 5 min, tag « meta-live » (invalidé par le bouton Actualiser) : un
+ * budget ne bouge que quand Badr le bouge, et l'onglet ne doit pas refaire un
+ * appel Meta à chaque rendu. */
+export const getBudgetChanges = unstable_cache(fetchBudgetChangesUncached, ["meta-budget-changes"], {
+  revalidate: 300,
+  tags: ["meta-live"],
+});
+
+/**
+ * Budget quotidien ACTUEL de chaque campagne, lu sur Meta. Sert d'ancrage à
+ * la reconstitution du budget jour par jour (`buildBudgetTimeline`) : le
+ * journal d'activité donne les CHANGEMENTS, celui-ci donne le point d'arrivée
+ * — et couvre le cas d'une campagne jamais retouchée, qui n'a aucun
+ * changement mais bien un budget.
+ *
+ * ⚠️ `daily_budget` est vide pour une campagne dont le budget est géré au
+ * niveau des ad sets (ABO) : on renvoie null, jamais 0 — un 0 se lirait
+ * comme « campagne coupée ». ⚠️ unstable_cache sérialise en JSON : on renvoie
+ * un tableau d'entrées, pas une Map (même précaution que scaling.ts).
+ */
+const fetchCampaignBudgetsUncached = async (): Promise<[string, number | null][]> => {
+  const { fetchCampaignLiveInfos } = await import("./meta");
+  const infos = await fetchCampaignLiveInfos();
+  return [...infos].map(([id, info]) => [id, info.dailyBudgetCents]);
+};
+
+export const getCampaignBudgets = unstable_cache(fetchCampaignBudgetsUncached, ["meta-campaign-budgets"], {
+  revalidate: 300,
+  tags: ["meta-live"],
+});
+
 export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
   const supabase = createSupabaseServerClient();
 
@@ -96,7 +176,9 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
       .from("meta_insights")
-      .select("day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, reach")
+      .select(
+        "day, market, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, purchase_value_cents, reach"
+      )
       .gte("day", start)
       .lte("day", end)
       .order("day", { ascending: true })
@@ -120,6 +202,7 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         impressions: r.impressions,
         clicks: r.clicks,
         purchases: r.purchases,
+        purchaseValueCents: r.purchase_value_cents ?? 0,
         reach: r.reach ?? 0,
       });
     }

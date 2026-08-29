@@ -13,8 +13,16 @@ import {
   YAxis,
 } from "recharts";
 import type { DayAgg, Thresholds } from "@/lib/data";
-import type { AnalyticsData, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
+import type { AnalyticsData, BudgetChange, CreaProduct, ProductRoasThresholds } from "@/lib/analytics";
 import { EVENT_TYPE_META, type EventType, type JournalEvent } from "@/lib/journal";
+import {
+  buildBudgetTimeline,
+  detectBudgetMarkers,
+  detectCreaMarkers,
+  detectScaleMarkers,
+  type ChangeKind,
+  type ChangeMarker,
+} from "@/lib/changeMarkers";
 import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatPct, formatRoas, formatRoasBare } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
@@ -27,6 +35,9 @@ import { useSound } from "../sound/SoundProvider";
 interface DayMetrics {
   day: string;
   label: string;
+  /** Budget/jour de la campagne (ou somme des campagnes de l'onglet) — le
+   * BUDGET, jamais la dépense (Badr 29/08). null = inconnu, pas zéro. */
+  budgetCents: number | null;
   caCents: number;
   orders: number;
   spendCents: number;
@@ -73,9 +84,15 @@ interface MetricDef {
   upIsBad: boolean;
   needsMeta: boolean;
   format: (v: number) => string;
+  /** true = escalier (valeur qui tient jusqu'au prochain changement). */
+  step?: boolean;
+  /** true = jamais dans les « dérapages » : un changement de budget est une
+   * DÉCISION de Badr, pas une dérive à lui signaler. */
+  noAlert?: boolean;
 }
 
 const METRICS: MetricDef[] = [
+  { key: "budgetCents", label: "Budget / jour", emoji: "🎚️", color: "#22c55e", upIsBad: false, needsMeta: true, format: formatEur0, step: true, noAlert: true },
   { key: "cpaCents", label: "CPA (spend / cmd)", emoji: "🎯", color: "#ff7a29", upIsBad: true, needsMeta: false, format: eur2 },
   { key: "cpmCents", label: "CPM", emoji: "📢", color: "#2fd8ff", upIsBad: true, needsMeta: true, format: eur2 },
   { key: "cpcCents", label: "CPC", emoji: "🖱️", color: "#2fd8ff", upIsBad: true, needsMeta: true, format: eur2 },
@@ -148,6 +165,8 @@ export function AnalyseBoard({
   thresholds,
   activeCampaignIds,
   productThresholds,
+  budgetChanges,
+  liveBudgets,
 }: {
   dayData: Record<MarketTab, DayAgg[]>;
   analytics: AnalyticsData;
@@ -158,6 +177,11 @@ export function AnalyseBoard({
   thresholds: Thresholds;
   activeCampaignIds: Set<string> | null;
   productThresholds: Record<CreaProduct, ProductRoasThresholds> | null;
+  /** null = journal d'activité Meta indisponible → repli sur la déduction
+   * par la dépense (dit explicitement dans la légende). */
+  budgetChanges: BudgetChange[] | null;
+  /** Budget/jour actuel par campagne, lu sur Meta. null = indisponible. */
+  liveBudgets: [string, number | null][] | null;
 }) {
   const { play } = useSound();
   const router = useRouter();
@@ -191,8 +215,32 @@ export function AnalyseBoard({
     return [...seen.entries()].sort((a, b) => a[1].localeCompare(b[1]));
   }, [analytics.insights, tab]);
 
+  // Campagnes qui ont RÉELLEMENT tourné sur la période affichée, la plus
+  // grosse dépense d'abord (29/08). Avant, la liste sortait de tout
+  // l'historique et par ordre alphabétique : choisir une campagne arrêtée en
+  // juin avec une fenêtre de 14 jours donnait six graphes vides sans un mot
+  // d'explication — une bonne part du « ça ne donne pas les graphes » de Badr.
+  const campaignsInWindow = useMemo(() => {
+    const spend = new Map<string, { name: string; spendCents: number }>();
+    for (const r of analytics.insights) {
+      if (r.day < from || r.day > to) continue;
+      if (tab !== "GLOBAL" && r.market !== tab) continue;
+      if (!r.campaignId) continue;
+      const cur = spend.get(r.campaignId) ?? { name: r.campaignName || r.campaignId, spendCents: 0 };
+      cur.spendCents += r.spendCents;
+      spend.set(r.campaignId, cur);
+    }
+    return [...spend.entries()].sort((a, b) => b[1].spendCents - a[1].spendCents);
+  }, [analytics.insights, tab, from, to]);
+
   // Le filtre campagne doit rester valide quand on change d'onglet marché.
   const effectiveCampaignFilter = campaignsForTab.some(([id]) => id === campaignFilter) ? campaignFilter : "ALL";
+  // Sélection valide pour ce marché mais muette sur la fenêtre choisie : on
+  // le DIT (et on garde la sélection), au lieu de laisser six cadres vides.
+  const selectedOutOfWindow =
+    effectiveCampaignFilter !== "ALL" && !campaignsInWindow.some(([id]) => id === effectiveCampaignFilter);
+  const selectedCampaignName =
+    campaignsForTab.find(([id]) => id === effectiveCampaignFilter)?.[1] ?? "";
 
   // Série journalière fusionnée (agrégats Shopify + insights Meta) sur la fenêtre.
   // Spend/CPM/CPC/CTR/fréquence restent fiables par campagne (données Meta
@@ -201,40 +249,93 @@ export function AnalyseBoard({
   // de quelle campagne, seulement du marché entier — ils passent à null
   // plutôt que d'afficher un chiffre trompeur (voir bandeau sous les filtres).
   const series: DayMetrics[] = useMemo(() => {
-    const insightsByDay = new Map<string, { spendCents: number; impressions: number; clicks: number; reach: number }>();
+    type InsAcc = {
+      spendCents: number;
+      impressions: number;
+      clicks: number;
+      reach: number;
+      purchases: number;
+      purchaseValueCents: number;
+    };
+    const empty = (): InsAcc => ({
+      spendCents: 0,
+      impressions: 0,
+      clicks: 0,
+      reach: 0,
+      purchases: 0,
+      purchaseValueCents: 0,
+    });
+    const insightsByDay = new Map<string, InsAcc>();
     for (const r of analytics.insights) {
       if (r.day < from || r.day > to) continue;
       if (tab !== "GLOBAL" && r.market !== tab) continue;
       if (effectiveCampaignFilter !== "ALL" && r.campaignId !== effectiveCampaignFilter) continue;
-      const cur = insightsByDay.get(r.day) ?? { spendCents: 0, impressions: 0, clicks: 0, reach: 0 };
+      const cur = insightsByDay.get(r.day) ?? empty();
       cur.spendCents += r.spendCents;
       cur.impressions += r.impressions;
       cur.clicks += r.clicks;
       cur.reach += r.reach;
+      cur.purchases += r.purchases;
+      cur.purchaseValueCents += r.purchaseValueCents;
       insightsByDay.set(r.day, cur);
     }
     const byCampaign = effectiveCampaignFilter !== "ALL";
     return dayData[tab]
       .filter((d) => d.day >= from && d.day <= to)
       .map((d) => {
-        const ins = insightsByDay.get(d.day) ?? { spendCents: 0, impressions: 0, clicks: 0, reach: 0 };
+        const ins = insightsByDay.get(d.day) ?? empty();
         // Spend de la campagne isolée si filtré, sinon spend Shopify/marché.
         const spendCents = byCampaign ? ins.spendCents : d.spendCents;
+        // Campagne isolée : CPA / CVR / panier passent sur l'attribution
+        // META (achats et valeur d'achat de la campagne). Avant le 29/08 ils
+        // étaient simplement VIDES ici — Shopify ne relie pas une commande à
+        // une campagne — ce qui laissait 3 graphes sur 6 blancs et rendait la
+        // vue par campagne inutilisable (Badr : « ne donne pas les graphes
+        // quand je sélectionne campagne par campagne »). Meta, lui, attribue :
+        // c'est une mesure, pas une invention, mais ce n'est PAS le CA réel —
+        // d'où l'étiquette « Meta » sur ces trois cartes et le bandeau.
+        const metaOrders = ins.purchases;
         return {
           day: d.day,
           label: formatDayShort(d.day),
-          caCents: d.caCents,
-          orders: d.orders,
+          // Rempli par seriesWithBudget (a besoin des budgets Meta).
+          budgetCents: null,
+          caCents: byCampaign ? ins.purchaseValueCents : d.caCents,
+          orders: byCampaign ? metaOrders : d.orders,
           spendCents,
           impressions: ins.impressions,
           clicks: ins.clicks,
-          cpaCents: !byCampaign && d.orders > 0 && d.spendCents > 0 ? Math.round(d.spendCents / d.orders) : null,
+          cpaCents: byCampaign
+            ? metaOrders > 0 && spendCents > 0
+              ? Math.round(spendCents / metaOrders)
+              : null
+            : d.orders > 0 && d.spendCents > 0
+              ? Math.round(d.spendCents / d.orders)
+              : null,
           cpmCents: ins.impressions > 0 ? Math.round((spendCents / ins.impressions) * 1000) : null,
           cpcCents: ins.clicks > 0 ? Math.round(spendCents / ins.clicks) : null,
           ctrPct: ins.impressions > 0 ? (ins.clicks / ins.impressions) * 100 : null,
-          cvrPct: !byCampaign && ins.clicks > 0 ? (d.orders / ins.clicks) * 100 : null,
-          aovCents: !byCampaign && d.orders > 0 ? Math.round(d.caCents / d.orders) : null,
-          roas: !byCampaign && d.spendCents > 0 ? d.caCents / d.spendCents : null,
+          cvrPct: byCampaign
+            ? ins.clicks > 0 && metaOrders > 0
+              ? (metaOrders / ins.clicks) * 100
+              : null
+            : ins.clicks > 0
+              ? (d.orders / ins.clicks) * 100
+              : null,
+          aovCents: byCampaign
+            ? metaOrders > 0 && ins.purchaseValueCents > 0
+              ? Math.round(ins.purchaseValueCents / metaOrders)
+              : null
+            : d.orders > 0
+              ? Math.round(d.caCents / d.orders)
+              : null,
+          roas: byCampaign
+            ? spendCents > 0 && ins.purchaseValueCents > 0
+              ? ins.purchaseValueCents / spendCents
+              : null
+            : d.spendCents > 0
+              ? d.caCents / d.spendCents
+              : null,
           freq: ins.reach > 0 ? ins.impressions / ins.reach : null,
         };
       });
@@ -246,6 +347,7 @@ export function AnalyseBoard({
     if (full.length < 6) return [];
     const out: { def: MetricDef; deltaPct: number; bad: boolean; recent: number }[] = [];
     for (const def of METRICS) {
+      if (def.noAlert) continue;
       const vals = full.map((d) => d[def.key] as number | null);
       const recent = vals.slice(-3).filter((v): v is number => v !== null);
       const before = vals.slice(-10, -3).filter((v): v is number => v !== null);
@@ -546,13 +648,108 @@ export function AnalyseBoard({
     }
   };
 
-  // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée)
+  // 📓 Marqueurs d'événements sur les courbes (fenêtre affichée).
+  // UNIQUEMENT en vue « toutes campagnes » : un événement du journal ne porte
+  // pas d'identifiant de campagne, le tracer sur la courbe d'UNE campagne
+  // isolée ferait croire qu'il la concerne (ex. « Budget X poussé » affiché
+  // sur la campagne Y).
   const eventMarkers = useMemo(
     () =>
-      events
-        .filter((e) => e.day >= from && e.day <= to)
-        .map((e) => ({ label: formatDayShort(e.day), emoji: EVENT_TYPE_META[e.type].emoji })),
-    [events, from, to]
+      effectiveCampaignFilter !== "ALL"
+        ? []
+        : events
+            .filter((e) => e.day >= from && e.day <= to)
+            .map((e) => ({ label: formatDayShort(e.day), emoji: EVENT_TYPE_META[e.type].emoji })),
+    [events, from, to, effectiveCampaignFilter]
+  );
+
+  // 📍 Repères de changement (Badr 29/08) : scale ↑ vert, descale ↓ rouge,
+  // nouvelles créas violet — pour lire d'un coup d'œil ce qu'un geste a
+  // provoqué sur chaque métrique.
+  //
+  // Calculés sur TOUT l'historique chargé puis filtrés sur la fenêtre : sinon
+  // le 1er jour affiché produirait un faux « scale » (comparé à rien) et
+  // toutes les créas déjà en route sembleraient ajoutées ce jour-là.
+  const changeMarkers = useMemo(() => {
+    const tabCampaignIds = new Set(campaignsForTab.map(([id]) => id));
+    const inScope = (campaignId: string) =>
+      effectiveCampaignFilter !== "ALL"
+        ? campaignId === effectiveCampaignFilter
+        : tab === "GLOBAL" || tabCampaignIds.has(campaignId);
+
+    // Scale / descale : le journal d'activité Meta d'abord (le geste exact,
+    // ancien → nouveau budget), la dépense seulement s'il est indisponible.
+    // JAMAIS les deux : un vrai changement de budget produit aussi un saut de
+    // dépense le lendemain, on dessinerait deux traits pour un seul geste.
+    let scale: ChangeMarker[];
+    if (budgetChanges) {
+      scale = detectBudgetMarkers(budgetChanges.filter((c) => inScope(c.campaignId)));
+    } else {
+      const spendByDay = new Map<string, number>();
+      for (const r of analytics.insights) {
+        if (tab !== "GLOBAL" && r.market !== tab) continue;
+        if (effectiveCampaignFilter !== "ALL" && r.campaignId !== effectiveCampaignFilter) continue;
+        spendByDay.set(r.day, (spendByDay.get(r.day) ?? 0) + r.spendCents);
+      }
+      scale = detectScaleMarkers(spendByDay, today);
+    }
+
+    // meta_ad_insights ne porte pas de marché : on passe par les campagnes de
+    // l'onglet (déduites des insights, qui ont le marché).
+    const adRows = analytics.adsDaily
+      .filter((a) => inScope(a.campaignId))
+      .map((a) => ({ day: a.day, adId: a.adId, adName: a.adName }));
+
+    return [...scale, ...detectCreaMarkers(adRows)]
+      .filter((m) => m.day >= from && m.day <= to)
+      .map((m) => ({ ...m, label: formatDayShort(m.day) }));
+  }, [
+    analytics.insights,
+    analytics.adsDaily,
+    budgetChanges,
+    campaignsForTab,
+    tab,
+    effectiveCampaignFilter,
+    from,
+    to,
+    today,
+  ]);
+
+  // 🎚️ Budget/jour reconstitué — Badr 29/08 : « pour le budget Meta, prendre
+  // en compte le BUDGET et pas le montant spent ». Une campagne à 500 €/j qui
+  // n'en dépense que 380 reste une campagne à 500 : lire la dépense ferait
+  // croire à un budget plus bas et fausserait le palier suivant du protocole.
+  // Le journal d'activité donne les changements, le budget live donne le
+  // point d'arrivée (et couvre les campagnes jamais retouchées).
+  const budgetInfo = useMemo(() => {
+    if (!budgetChanges && !liveBudgets) return null;
+    const liveMap = new Map(liveBudgets ?? []);
+    const ids =
+      effectiveCampaignFilter !== "ALL"
+        ? [effectiveCampaignFilter]
+        : campaignsInWindow.map(([id]) => id);
+    const days = series.map((d) => d.day);
+    const byDay = new Map<string, number>();
+    let unknown = 0;
+    for (const id of ids) {
+      const changes = (budgetChanges ?? []).filter((c) => c.campaignId === id);
+      const live = liveMap.get(id) ?? null;
+      // Ni changement connu ni budget live (campagne archivée, ou budget géré
+      // au niveau des ad sets) : on la compte comme INCONNUE et on le dit,
+      // plutôt que d'ajouter 0 € et de sous-estimer le total.
+      if (changes.length === 0 && live === null) {
+        unknown++;
+        continue;
+      }
+      const timeline = buildBudgetTimeline({ changes, days, currentBudgetCents: live });
+      for (const [day, cents] of timeline) byDay.set(day, (byDay.get(day) ?? 0) + cents);
+    }
+    return { byDay, unknown, known: ids.length - unknown };
+  }, [budgetChanges, liveBudgets, campaignsInWindow, effectiveCampaignFilter, series]);
+
+  const seriesWithBudget: DayMetrics[] = useMemo(
+    () => series.map((d) => ({ ...d, budgetCents: budgetInfo?.byDay.get(d.day) ?? null })),
+    [series, budgetInfo]
   );
 
   // ⚖️ Verdict avant/après (3 j de chaque côté) par événement, sur le CA et
@@ -698,19 +895,34 @@ export function AnalyseBoard({
             className="rounded border border-line bg-terminal px-2 py-1 text-[11px] text-ink"
           >
             <option value="ALL">Toutes les campagnes (moyenne)</option>
-            {campaignsForTab.map(([id, name]) => (
+            {campaignsInWindow.map(([id, c]) => (
               <option key={id} value={id}>
-                {name}
+                {c.name} · {formatEur0(c.spendCents)}
               </option>
             ))}
+            {/* La sélection courante reste listée même sans dépense sur la
+                fenêtre, sinon le menu afficherait autre chose que ce qui est
+                réellement filtré. */}
+            {selectedOutOfWindow && (
+              <option value={effectiveCampaignFilter}>{selectedCampaignName} · hors période</option>
+            )}
           </select>
         )}
       </div>
+      {selectedOutOfWindow && (
+        <p className="rounded-lg border border-amber/40 bg-amber/[0.05] p-2.5 text-[10.5px] text-amber">
+          ⚠️ « {selectedCampaignName} » n&apos;a dépensé <b>aucun euro</b> entre le{" "}
+          {formatDayShort(from)} et le {formatDayShort(to)} — les courbes sont donc vides.
+          Élargis la période (30 j ou « tout ») pour la voir tourner.
+        </p>
+      )}
       {effectiveCampaignFilter !== "ALL" && (
         <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
-          🎯 Vue isolée sur une campagne : CPM/CPC/CTR/fréquence sont fiables (données Meta pures).
-          CPA, CVR, ROAS et panier moyen sont grisés — Shopify ne sait pas quelle commande vient de
-          quelle campagne, seulement du marché entier, donc pas de chiffre inventé ici.
+          🎯 Vue isolée sur une campagne. CPM/CPC/CTR viennent des données Meta pures.{" "}
+          <b>CPA, CVR et panier moyen sont marqués « Meta »</b> : ils sont calculés sur les achats
+          que <b>Meta attribue</b> à cette campagne, pas sur le CA Shopify — Shopify ne sait pas de
+          quelle campagne vient une commande. À lire comme une tendance de campagne, jamais comme
+          le chiffre d&apos;affaires réel (qui reste celui des onglets Aujourd&apos;hui et Mois).
         </p>
       )}
 
@@ -768,22 +980,64 @@ export function AnalyseBoard({
       )}
 
       {/* Courbes : petits multiples, une métrique par graphe (jamais 2 axes).
-          Les traits verticaux = événements du journal (avant/après visible). */}
+          Traits verticaux = ce qui a été CHANGÉ ce jour-là, pour lire l'effet
+          juste après (demande Badr 29/08). */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-1 text-[10.5px] text-ink-dim">
+        <span className="font-semibold uppercase tracking-wide">Repères</span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-0 w-5 border-t-2 border-dashed" style={{ borderColor: CHANGE_COLOR.scale_up }} />
+          scale ↑
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-0 w-5 border-t-2 border-dashed" style={{ borderColor: CHANGE_COLOR.scale_down }} />
+          descale ↓
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-0 w-5 border-t-2 border-dashed" style={{ borderColor: CHANGE_COLOR.crea }} />
+          nouvelles créas
+        </span>
+        {eventMarkers.length > 0 && (
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block h-0 w-5 border-t-2 border-dashed border-ink-faint" />
+            journal
+          </span>
+        )}
+        <span className="text-ink-faint">
+          {budgetChanges
+            ? "— scale/descale = les vrais changements de budget (journal d'activité Meta). Survole un point pour lire l'ancien et le nouveau montant."
+            : "— journal d'activité Meta indisponible : le scale est ici DÉDUIT d'un saut de dépense ≥ 20 % d'un jour à l'autre, à prendre comme une approximation."}
+        </span>
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {METRICS.map((def) => (
           <MetricChart
             key={def.key}
             def={def}
-            series={series}
+            series={seriesWithBudget}
             locked={def.needsMeta && !hasMetaData}
-            notPerCampaign={
+            metaAttributed={
               effectiveCampaignFilter !== "ALL" &&
               (def.key === "cpaCents" || def.key === "cvrPct" || def.key === "aovCents")
             }
             markers={eventMarkers}
+            changes={changeMarkers}
           />
         ))}
       </div>
+      {budgetInfo && budgetInfo.unknown > 0 && (
+        <p className="px-1 text-[10.5px] text-ink-faint">
+          🎚️ Budget : {budgetInfo.unknown} campagne{budgetInfo.unknown > 1 ? "s" : ""} sur{" "}
+          {budgetInfo.known + budgetInfo.unknown} sans budget lisible sur Meta (budget géré au
+          niveau des ad sets, ou campagne archivée) — <b>non comptée</b> dans la courbe, plutôt que
+          comptée 0 € et faire croire à un budget plus bas.
+        </p>
+      )}
+      {!budgetInfo && (
+        <p className="px-1 text-[10.5px] text-ink-faint">
+          🎚️ Budget indisponible (lecture Meta en échec) — la courbe « Budget / jour » reste vide.
+          Jamais remplacée par la dépense : ce sont deux choses différentes.
+        </p>
+      )}
 
       {/* 📅 Heatmap jour-de-semaine */}
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
@@ -1124,38 +1378,63 @@ function JournalSection({
   );
 }
 
+/** Couleur des pointillés par type de changement (Badr 29/08). */
+const CHANGE_COLOR: Record<ChangeKind, string> = {
+  scale_up: "#22c55e",
+  scale_down: "#ef4444",
+  crea: "#a855f7",
+};
+
 function MetricChart({
   def,
   series,
   locked,
-  notPerCampaign,
+  metaAttributed,
   markers,
+  changes,
 }: {
   def: MetricDef;
   series: DayMetrics[];
   locked: boolean;
-  notPerCampaign?: boolean;
+  /** true = valeur calculée sur l'attribution META et non sur Shopify. */
+  metaAttributed?: boolean;
   markers: { label: string; emoji: string }[];
+  changes: (ChangeMarker & { label: string })[];
 }) {
   const data = series.map((d) => ({
     label: d.label,
     value: d[def.key] === null ? null : def.key.endsWith("Cents") ? (d[def.key] as number) / 100 : (d[def.key] as number),
   }));
   const hasData = data.some((d) => d.value !== null);
+  // Ce qui s'est passé ce jour-là, prêt pour l'infobulle.
+  const changesByLabel = new Map<string, ChangeMarker[]>();
+  for (const c of changes) {
+    const list = changesByLabel.get(c.label) ?? [];
+    list.push(c);
+    changesByLabel.set(c.label, list);
+  }
 
   return (
     <div className="rounded-lg border border-line bg-panel/40 p-2.5">
       <div className="mb-1 flex items-center justify-between px-1">
         <span className="text-[10.5px] font-semibold text-ink-dim">
           <span aria-hidden>{def.emoji}</span> {def.label}
+          {metaAttributed && (
+            <span
+              className="ml-1 text-ink-faint"
+              title="Calculé sur les achats attribués par Meta à cette campagne — pas sur le CA Shopify, qui ne se rattache pas à une campagne."
+            >
+              · Meta
+            </span>
+          )}
         </span>
       </div>
       {locked || !hasData ? (
         <div className="flex h-32 items-center justify-center text-center text-[10.5px] text-ink-faint">
           {locked
             ? "🔒 En attente du token Meta"
-            : notPerCampaign
-              ? "🎯 Pas isolable par campagne (Shopify ne relie pas la vente à la campagne)"
+            : metaAttributed
+              ? "Aucun achat attribué par Meta sur la période"
               : "Pas de données sur la période"}
         </div>
       ) : (
@@ -1182,26 +1461,47 @@ function MetricChart({
                 content={({ active, payload, label }) => {
                   if (!active || !payload?.length || payload[0].value == null) return null;
                   const v = payload[0].value as number;
+                  const dayChanges = changesByLabel.get(String(label)) ?? [];
                   return (
                     <div className="rounded border border-line bg-terminal/95 px-2 py-1 text-[10.5px] tnum shadow-lg">
                       <span className="text-ink-dim">{label} · </span>
                       <span className="font-bold text-ink">
                         {def.format(def.key.endsWith("Cents") ? v * 100 : v)}
                       </span>
+                      {/* Le pointillé ne sert à rien s'il faut deviner ce
+                          qu'il marque : l'infobulle le dit en toutes lettres. */}
+                      {dayChanges.map((c, i) => (
+                        <div key={i} style={{ color: CHANGE_COLOR[c.kind] }}>
+                          {c.text}
+                        </div>
+                      ))}
                     </div>
                   );
                 }}
               />
               {markers.map((m, i) => (
                 <ReferenceLine
-                  key={`${m.label}-${i}`}
+                  key={`ev-${m.label}-${i}`}
                   x={m.label}
                   stroke="#6c6482"
                   strokeDasharray="3 3"
                 />
               ))}
+              {changes.map((c, i) => (
+                <ReferenceLine
+                  key={`ch-${c.day}-${c.kind}-${i}`}
+                  x={c.label}
+                  stroke={CHANGE_COLOR[c.kind]}
+                  strokeDasharray="4 3"
+                  strokeWidth={1.5}
+                />
+              ))}
               <Line
                 dataKey="value"
+                // Le budget est un ESCALIER : il tient jusqu'au prochain
+                // changement. Une ligne droite entre deux paliers laisserait
+                // croire à une montée progressive qui n'a jamais eu lieu.
+                type={def.step ? "stepAfter" : undefined}
                 stroke={def.color}
                 strokeWidth={2}
                 dot={false}

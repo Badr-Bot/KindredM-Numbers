@@ -4,6 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const INTERVAL_MS = 5 * 60 * 1000;
+// Rafraîchissement de l'écran PENDANT la synchro (29/08). Le CA est publié en
+// base au milieu du cycle, avant toute la phase Meta (voir le 1er recalcul
+// dans incrementalSync.ts) : n'appeler router.refresh() qu'à la fin du POST
+// faisait regarder les chiffres de la synchro PRÉCÉDENTE pendant tout le
+// cycle — le CA était en base depuis longtemps mais restait invisible.
+const MID_REFRESH_MS = 15 * 1000;
 
 /**
  * Zéro clic, en continu : déclenche la synchro incrémentale (commandes +
@@ -31,6 +37,13 @@ export function LiveSync() {
       runningRef.current = true;
       setSyncing(true);
       let moreWork = false;
+      // Tant que le POST est en vol, on redemande la page toutes les 15 s :
+      // dès que la phase commandes a publié le CA, il s'affiche, sans
+      // attendre la fin de la phase Meta. Un cycle throttlé (< 15 s) ne
+      // déclenche aucun de ces rafraîchissements.
+      const midRefresh = setInterval(() => {
+        if (!cancelled) router.refresh();
+      }, MID_REFRESH_MS);
       try {
         const res = await fetch("/api/sync", { method: "POST" });
         const json: { ran?: boolean; moreWork?: boolean } = await res.json().catch(() => ({}));
@@ -39,6 +52,7 @@ export function LiveSync() {
       } catch {
         // Silencieux : la prochaine visite ou le cron de minuit rattraperont.
       } finally {
+        clearInterval(midRefresh);
         runningRef.current = false;
         if (!cancelled) setSyncing(false);
       }

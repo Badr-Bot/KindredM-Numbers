@@ -493,6 +493,112 @@ Badr ne doit plus jamais appuyer sur « Backfill » ou « Actualiser ». Ajouté
   UTM Shopify). Mise à jour appliquée dans MEMO.md (§ Faits vérifiés) et dans
   le prompt de la routine Slack 23h05 (`trig_01VoaeW4pHFecyw3fHwTMxUn`).
 
+## Mise à jour 29/08 — le dash mettait du temps à afficher le CA et le spend
+
+Question de Badr : « pk le dash met bcp de temps pour afficher les bonnes
+valeurs de CA Shopify et spend Meta ads ?? normalement ça doit être rapide
+non ? ». Diagnostic : la page rend en direct, c'est la **synchro** qui était
+longue, et surtout qui publiait mal.
+
+- La page lit seulement `daily_aggregates` — les chiffres ont l'âge de la
+  dernière synchro, pas de la page.
+- **Cause n°1, mesurée** : le pinger `keep-sync.yml`, censé appeler
+  `/api/sync` toutes les 5 min sans que personne n'ouvre le dash, n'était
+  lancé par GitHub que quelques fois par jour — écart médian **2 h** sur les
+  19 dernières exécutions, trou de **12 h** le 28/08. GitHub abandonne les
+  workflows planifiés trop fréquents. Restaient donc le cron Vercel (1×/jour)
+  et le navigateur de Badr.
+- Le cycle était 100 % séquentiel : 4 stores Shopify → recalcul (le CA
+  apparaît) → PUIS Meta (campagnes, annonces, pays) → recalcul (le spend
+  apparaît). D'où « le CA bouge, le spend traîne » — et à 300 s de limite, la
+  phase Meta se faisait tuer après que le CA était déjà publié.
+- L'écran n'était rafraîchi qu'à la FIN du POST : le CA publié à mi-cycle
+  restait invisible jusque-là.
+- Le cycle coûtait le même prix à chaque passage (7 jours × 4 stores + 3
+  lectures Meta sur 7 jours) pour rattraper 5 minutes.
+
+Livré :
+
+1. **Lectures Meta lancées en parallèle de la phase Shopify** — l'ordre
+   d'écriture ne change pas (le CA est toujours publié en premier, loi du
+   26/07), seul le temps réseau est mutualisé.
+2. **Deux régimes de synchro** : rapide (J-1→J, campagnes seulement) toutes
+   les 5 min, complet (7 j + annonces + pays + journal + sentinelle frais)
+   1×/h et au cron de nuit.
+3. **L'écran se rafraîchit toutes les 15 s pendant la synchro** (LiveSync et
+   bouton Actualiser) : le CA s'affiche dès sa publication, sans attendre
+   Meta.
+4. **`keep-sync.yml` rendu continu** : une planification par heure (bien mieux
+   honorée par GitHub) + boucle interne qui ping toutes les 5 min pendant
+   ~50 min. Gratuit (dépôt public).
+5. **Âge réel des chiffres affiché** : le bandeau lisait l'heure du rendu,
+   donc disait toujours « MAJ à l'instant ». Il lit maintenant l'horodatage de
+   la dernière synchro réussie, passe en ambre avec un ⚠ au-delà de 15 min, et
+   vieillit tout seul. Corrigé au passage : le cron de nuit synchronisait sans
+   jamais mettre à jour cet horodatage.
+
+Aucune migration, aucune règle de calcul touchée. 191 tests verts, `next
+build` OK. Non mesuré en conditions réelles depuis la session (le proxy ne
+joint ni Vercel ni les API) — à confirmer sur le vrai dash.
+
+Reste proposé, non fait : TTFB de la page (~15 allers-retours Supabase
+séquentiels par rendu, dont 2 requêtes-sonde inutiles). Et si les trous de
+synchro persistent malgré le pinger continu : cron Vercel toutes les 5 min
+(plan Pro requis) ou pinger externe gratuit (cron-job.org, UptimeRobot) —
+les deux demandent une action de Badr.
+
+## Mise à jour 29/08 (suite) — monteur coupé + onglet Analyse par campagne
+
+**Monteur.** Badr : « plus de monteur depuis aujourd'hui, tu peux arrêter la
+dépense journalière jusqu'à ce que je te le dise ». Dernier jour compté :
+28/08 — **confirmé par Badr : « il a été payé au prorata »** (donc pas le mois
+entier comme Jeremy). Dès le 29/08 : **−18,51 €/jour, −563,31 €/mois** sur les charges
+fixes. La ligne reste dans le code — l'historique du 21/05 au 28/08 doit
+garder ce qui a été réellement payé. Pour reprendre : remettre `endDay` à
+`null`. Deux points à confirmer : s'il a été payé pour août ENTIER, mettre
+31/08 ; et l'abonnement « Eleven Labs ×2 (Adnane + monteur) » n'a pas été
+touché (44 €/mois — à réduire si son siège saute aussi).
+
+**Onglet Analyse — les graphes ne s'affichaient pas par campagne.** Deux
+causes :
+
+1. CPA, CVR et panier moyen étaient volontairement vides dès qu'une campagne
+   était isolée (Shopify ne relie pas une commande à une campagne) — soit 3
+   graphes sur 6 systématiquement blancs. Ils basculent maintenant sur
+   l'attribution **Meta** de la campagne, étiquetés « · Meta » pour qu'on ne
+   les confonde jamais avec le CA réel.
+2. La liste de campagnes sortait de tout l'historique par ordre alphabétique,
+   alors que la fenêtre par défaut est de 14 jours : choisir une campagne
+   arrêtée en juin donnait six cadres vides. Elle ne montre plus que les
+   campagnes actives sur la période, **triées par dépense**, et un bandeau
+   explique le cas « hors période » au lieu de laisser des cadres vides.
+
+**Repères de changement sur les courbes** (demande Badr) : pointillé **vert**
+= scale ↑, **rouge** = descale ↓, **violet** = nouvelles créas, avec légende
+et détail dans l'infobulle.
+
+Première version : le scale était DÉDUIT d'un saut de dépense ≥ 20 %, faute
+de budget historisé. **Corrigé dans la foulée (« corrige le stp ») : la vraie
+donnée existait déjà dans le code** — le journal d'activité du compte Meta,
+que l'onglet Scaling lit depuis le 18/08 pour savoir ce qui a été appliqué.
+Les repères affichent donc maintenant le geste exact (« Budget ↑ 250 € →
+400 € (+60 %) »), y compris un −15 % du protocole que la déduction ratait.
+La déduction par la dépense reste en repli si le journal Meta est
+indisponible, et la légende dit alors que c'est une approximation. Jamais les
+deux à la fois : un vrai changement de budget produit aussi un saut de
+dépense le lendemain. Moteur pur `changeMarkers.ts`, 15 tests.
+
+**Courbe « Budget / jour »** (Badr : « pour le budget Meta, prendre en compte
+le budget et pas le montant spent »). Le budget n'est pas la dépense : une
+campagne à 500 €/j qui n'en dépense que 380 reste à 500, et c'est le budget
+qui décide du palier suivant du protocole. La courbe est reconstituée depuis
+le journal d'activité Meta (les changements) + le budget live (le point
+d'arrivée), tracée en escalier. Budget inconnu = trou, jamais 0 € — et jamais
+remplacé par la dépense. L'onglet Scaling, lui, lisait déjà le budget réel en
+priorité.
+
+215 tests verts, `next build` OK.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

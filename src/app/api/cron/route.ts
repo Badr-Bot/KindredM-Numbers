@@ -38,6 +38,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ autoSetup: setup }, { status: setup.ok ? 200 : 500 });
   }
 
-  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[]);
+  // Toujours COMPLET (rescan 7 j, annonces, pays, journal) : c'est la clôture
+  // de la journée, elle n'a aucune contrainte de temps d'affichage. La synchro
+  // auto de la journée, elle, alterne rapide/complet (voir incrementalSync.ts).
+  const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[], { deep: true });
   return NextResponse.json({ ok: true, ...result });
 }
