@@ -98,6 +98,7 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // subscriptions.ts, sinon le montant attendu retombe à zéro en silence.
   { label: "Vmake", re: /v\s*make|vmake/i },
   { label: "TrendTrack", re: /trend\s*track/i },
+  { label: "Artlist", re: /art\s*list/i },
   { label: "Floxy (proxy)", re: /floxy/i },
   { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
   { label: "Google Workspace", re: /google\s*[*.]?\s*workspace|gsuite/i },
@@ -154,11 +155,23 @@ export function categorizeTx(description: string, amountCents: number): { catego
  * PLUSIEURS : « Claude (Badr + Adnane) » additionne les deux comptes Claude
  * (100 € + 20 € = 120 €/mois plafond, Badr 19/08). Match par label exact ou
  * premier mot ; un abonnement résilié reste couvert jusqu'à son endDay
- * (ex. Jeremy jusqu'au 31/08). */
-function subsForPattern(patternLabel: string, untilDay: string) {
+ * (ex. Jeremy jusqu'au 31/08).
+ *
+ * ⚠️ La borne `startDay` est aussi vérifiée (29/08) : un même outil peut
+ * porter DEUX lignes qui se succèdent (changement de tarif ou de devise —
+ * Vmake, puis Claude qui passe en dollar au 18/09). Sans ce filtre, la ligne
+ * FUTURE était déjà comptée : le mensuel attendu pour « Claude » affichait
+ * 224 € au lieu de 120 €, et le contrôle bancaire criait à l'abonnement
+ * débité au mauvais montant. Exporté pour test.
+ */
+export function subsForPattern(patternLabel: string, untilDay: string) {
   const first = patternLabel.split(" ")[0];
   return SUBSCRIPTIONS.filter(
-    (s) => (s.endDay === null || s.endDay >= untilDay) && s.amount > 0 && (s.label === patternLabel || s.label.startsWith(first))
+    (s) =>
+      s.startDay <= untilDay &&
+      (s.endDay === null || s.endDay >= untilDay) &&
+      s.amount > 0 &&
+      (s.label === patternLabel || s.label.startsWith(first))
   );
 }
 
