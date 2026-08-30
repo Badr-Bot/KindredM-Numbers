@@ -616,10 +616,12 @@ regroupement se fait maintenant par campagne PUIS par jour.
 Annoncés par Badr en une phrase, tous appliqués dans `subscriptions.ts` :
 
 - **Higgsfield arrêté** — dernier jour compté 28/08 (−3,61 €/j).
-- **Klaviyo à 150 €/mois** au lieu des 25 € supposés depuis le 08/08. Traité
-  comme une correction d'hypothèse et donc appliqué à **tout l'historique**
-  depuis le 21/05 (+4,93 €/j). Si Badr payait réellement 25 € avant, il faut
-  couper en deux lignes — question posée.
+- **Klaviyo passe à 150 €/mois le 10/08** (25 € avant). Première version :
+  appliqué à tout l'historique, en lisant ça comme la correction de
+  l'hypothèse à 25 € du 08/08. Badr a tranché : « non pour Klaviyo à partir
+  du 10 août ». C'est donc un changement de tarif daté — deux lignes qui se
+  succèdent, et mai à début août gardent leurs charges d'origine.
+  Charges : 147,12 €/j au 09/08 → 151,23 €/j au 10/08.
 - **Artlist ajouté** : 40 $/mois à partir du 29/08 (+1,14 €/j).
 - **Claude Badr 100 € → 100 $** et **Claude Adnane 20 € → 20 $**, au 18/09.
   Date dans le futur : la bascule est programmée et s'appliquera seule. Deux

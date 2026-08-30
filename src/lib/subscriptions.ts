@@ -126,16 +126,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
-  // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois ». CORRECTION
-  // d'une hypothèse, pas un changement de tarif : le 25 € du 08/08 était une
-  // lecture du « tu la mets à 25 € » comprise comme un prorata emailing, et
-  // signalée depuis comme « à corriger si ce n'était pas ça ». Le montant est
-  // donc repris sur TOUT l'historique (21/05 →), pas coupé en deux lignes :
-  // +125 €/mois, soit ~4,11 €/j de charges en plus depuis le début.
-  // ⚠️ Si Badr payait RÉELLEMENT 25 € avant et que 150 € est un nouveau tarif,
-  // il faut fermer cette ligne à la veille du changement et en ouvrir une 2e
-  // (modèle Vmake) — lui reposer la question avant de supposer.
-  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 150, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "150 €/mois (Badr 29/08). Corrige l'hypothèse à 25 € du 08/08, appliquée à tout l'historique." },
+  // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois »… puis, à ma
+  // question « rétroactif ou pas ? » : « non pour Klaviyo à partir du
+  // 10 août ». Donc PAS une correction de tout l'historique mais un
+  // CHANGEMENT DE TARIF daté — deux lignes qui se succèdent (modèle Vmake) :
+  // 25 € du 21/05 au 09/08, 150 € à partir du 10/08. Les mois de mai à début
+  // août gardent leurs charges d'origine, seul août+ prend les +125 €/mois.
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-09", note: "25 €/mois jusqu'au 09/08 (Badr 08/08 : « tu la mets à 25 € »)." },
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 150, currency: "EUR", startDay: "2026-08-10", endDay: null, note: "150 €/mois à partir du 10/08 (Badr 29/08)." },
   // Hushed : payé PERSONNELLEMENT par Adnane depuis ~2 mois (juillet + août),
   // puis par la CARTE LLC à partir du 3e mois (septembre) — même schéma que
   // le Claude de Badr. Les 2 premiers mois sont tracés en avance dans

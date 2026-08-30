@@ -112,15 +112,23 @@ describe("Changements du 29/08 annoncés par Badr", () => {
     expect(actifLe("Higgsfield ×2 (Adnane + Ismael)", "2026-07-01")).toBe(true);
   });
 
-  it("Klaviyo : 150 €/mois sur TOUT l'historique (correction, pas nouveau tarif)", () => {
-    const k = ligne("Klaviyo (emailing)");
-    expect(k.amount).toBe(150);
-    expect(k.currency).toBe("EUR");
-    expect(k.startDay).toBe("2026-05-21");
-    expect(k.endDay).toBeNull();
-    // Une seule ligne : si un jour c'était un VRAI changement de tarif, il
-    // faudrait deux lignes (modèle Vmake) et ce test tomberait — voulu.
-    expect(SUBSCRIPTIONS.filter((s) => s.label === "Klaviyo (emailing)")).toHaveLength(1);
+  it("Klaviyo : 25 € jusqu'au 09/08, 150 € à partir du 10/08", () => {
+    // Badr 29/08 : « non pour Klaviyo à partir du 10 août » — changement de
+    // tarif DATÉ, pas une correction rétroactive : mai → début août gardent
+    // leurs 25 €, l'historique d'avant le 10/08 ne bouge pas.
+    const lignes = SUBSCRIPTIONS.filter((s) => s.label === "Klaviyo (emailing)");
+    expect(lignes).toHaveLength(2);
+    const actif = (jour: string) =>
+      lignes.find((s) => jour >= s.startDay && (s.endDay === null || jour <= s.endDay))!;
+    expect(actif("2026-08-09").amount).toBe(25);
+    expect(actif("2026-08-10").amount).toBe(150);
+    expect(actif("2026-05-21").amount).toBe(25);
+    // Jamais les deux le même jour.
+    for (const jour of ["2026-06-01", "2026-08-09", "2026-08-10", "2026-09-01"]) {
+      expect(
+        lignes.filter((s) => jour >= s.startDay && (s.endDay === null || jour <= s.endDay))
+      ).toHaveLength(1);
+    }
   });
 
   it("Artlist : 40 $/mois, rien avant le 29/08", () => {
