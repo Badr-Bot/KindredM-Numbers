@@ -160,3 +160,34 @@ describe("Changements du 29/08 annoncés par Badr", () => {
     expect(fixedCostsCentsForDay("2026-09-18")).toBeLessThan(fixedCostsCentsForDay("2026-09-17"));
   });
 });
+
+describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 29/08)", () => {
+  const jeremy = () => SUBSCRIPTIONS.find((s) => s.label.startsWith("Jeremy"))!;
+
+  it("est facturé jusqu'au 31/08 inclus, plus rien ensuite", () => {
+    expect(jeremy().endDay).toBe("2026-08-31");
+    expect(actifLe("Jeremy — emailing (fixe, hors %)", "2026-08-31")).toBe(true);
+    expect(actifLe("Jeremy — emailing (fixe, hors %)", "2026-09-01")).toBe(false);
+  });
+
+  it("fait tomber les charges du jour de ~88 € à ~38 €", () => {
+    // Seul mouvement de ce jour-là : le pas doit valoir EXACTEMENT son
+    // quotidien (49,28 €). Si un autre changement atterrit au 01/09, ce test
+    // tombe et oblige à le documenter au lieu de le noyer.
+    expect(fixedCostsCentsForDay("2026-08-31") - fixedCostsCentsForDay("2026-09-01")).toBe(
+      dailyEurCents(jeremy())
+    );
+    expect(Math.round(fixedCostsCentsForDay("2026-09-01") / 100)).toBe(38);
+  });
+
+  it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
+    // Le monteur est arrêté au 28/08 et Seif au 16/08 : plus que Marwa.
+    const equipeActive = SUBSCRIPTIONS.filter(
+      (s) =>
+        s.category === "EQUIPE" &&
+        "2026-09-01" >= s.startDay &&
+        (s.endDay === null || "2026-09-01" <= s.endDay)
+    ).map((s) => s.label);
+    expect(equipeActive).toEqual(["Marwa"]);
+  });
+});
