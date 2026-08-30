@@ -319,9 +319,6 @@ export interface ScalingCampaign {
   /** Plan créas concret selon le verdict — combien, quelles variantes, dans
    * quel adset (T36 « Processus de testing », T37 « Dispatcher les winners »). */
   creaPlan: string[];
-  /** true = série de NON complète MAIS aucune réduction exécutée : RESCUE
-   * plafonné à DESCALE (les crans n'ont pas été déroulés). */
-  rescueCapped: boolean;
   /** Diagnostic annonce par annonce — rempli en RESCUE et au cran 3 (juste
    * avant de basculer), calculé côté serveur depuis meta_ad_insights. */
   rescue: RescueDiagnostic | null;
@@ -798,9 +795,41 @@ function buildCreaPlan(input: {
 
 /** Crans sur les fenêtres EN PERTE (T24 [16:54] : « après 2 jours
  * consécutifs », jamais au 1er rouge → 1re perte = HOLD ; escalier T35
- * ensuite). Hors perte, l'action vient de la bande (voir actionFromBand). */
-function actionFromStreak(nonStreak: number): ScalingAction {
-  return nonStreak === 0 ? "SCALE" : nonStreak === 1 ? "HOLD" : nonStreak <= 3 ? "DESCALE" : "RESCUE";
+ * ensuite). Hors perte, l'action vient de la bande (voir actionFromBand).
+ *
+ * ⚠️ LE SAUVETAGE EXIGE D'ÊTRE AU PLANCHER (correction 29/08, Badr : « le
+ * rescue c'est quand t'arrives à 100 € par jour je crois, moi mes campagnes
+ * restent rentables, je vais pas faire rescue non ? » — il a raison, T35 le
+ * dit deux fois) :
+ *   [04:29] « On attend 24 h, on est rentable ? Toujours pas. On repart en
+ *           phase de sauvetage. Il y a une condition ici : garder minimum
+ *           100 euros de budget. » puis [04:57] « en dessous de ça, ça va
+ *           être compliqué… 75, vraiment, max des max ».
+ *   [17:33] (régime scaling) « vous arrivez à un moment à 300 ou 100 dollars.
+ *           Donc là, on ne baisse plus. On repasse en phase de sauvetage. »
+ * Le sauvetage n'est donc PAS « le 4ᵉ NON », c'est « on ne peut plus
+ * baisser ». Avant ce correctif, une campagne encore à 600 €/j basculait en
+ * SAUVETAGE au 4ᵉ cran alors qu'il lui restait toute la place du monde pour
+ * descendre — et le régime SCALING, lui, appliquait déjà la bonne règle
+ * (`atFloor ? RESCUE : DESCALE`) : les deux moitiés du même protocole se
+ * contredisaient.
+ *
+ * Tant qu'on peut encore réduire, on réduit (−15 % + créas). Les réductions
+ * successives sont plafonnées au plancher (voir reductionCents), donc la
+ * série FINIT toujours par y arriver : l'escalier se termine bien en
+ * sauvetage, juste au bon moment.
+ */
+function actionFromStreak(nonStreak: number, atFloor: boolean, inLoss: boolean): ScalingAction {
+  if (nonStreak === 0) return "SCALE";
+  if (nonStreak === 1) return "HOLD";
+  // Au plancher ET encore rentable : on ne peut plus baisser (reductionCents
+  // rendrait le budget actuel) et rien ne justifie un sauvetage — on tient et
+  // on ajoute des créas. ⚠️ Ce cas précis n'est PAS tranché par la formation
+  // (elle parle du plancher pour une campagne en perte) : HOLD est le choix
+  // conservateur — ne rien toucher au budget — pas une règle du board.
+  if (atFloor && !inLoss) return "HOLD";
+  if (nonStreak <= 3) return "DESCALE";
+  return atFloor && inLoss ? "RESCUE" : "DESCALE";
 }
 
 /** Table de marge du board §3 — RÉGIME SCALING UNIQUEMENT (≥ 3 000 €/j). */
@@ -1033,12 +1062,24 @@ export function computeScaling(input: {
     //    sauvetage). Aucune bande de marge n'intervient.
     //  • SCALING (≥ 3 000 €/j) : là seulement s'applique la table de marge du
     //    board §3 (0-10 rien · 10-15 hold · 15-30 +20-30 % · 30+ doubler).
-    let action = actionFromStreak(nonStreak);
-    let scaleKind: ScaleKind | null = action === "SCALE" ? "LADDER" : null;
     // « Au plancher » n'est affirmé que sur un budget RÉELLEMENT lu sur Meta :
     // un budget estimé depuis le spend vaut souvent le spend d'une journée
     // faible et ferait croire à tort qu'on ne peut plus descendre.
+    // (Calculé AVANT le verdict : le sauvetage en dépend dans les DEUX
+    // régimes depuis le 29/08.)
     const atFloor = budgetCents !== null && !budgetEstimated && budgetCents <= PLANCHER_BUDGET_CENTS;
+    // « En perte » = sous le break-even. C'est LA condition du sauvetage
+    // selon T35 [03:00] (« vous êtes rentable… SINON on passe en phase de
+    // sauvetage ») et [06:47] (« vous êtes pas rentable → phase de
+    // sauvetage »). Une campagne au-dessus du break-even mais sous les 15 %
+    // reste un NON — elle descend l'escalier — mais elle n'est JAMAIS
+    // envoyée en sauvetage (Badr 29/08 : « mes campagnes sont rentables vu
+    // qu'elles sont au-dessus du BE, donc pas rescue »).
+    // band === null (seuils produit incalculables) ⇒ on n'affirme pas la
+    // perte, donc pas de sauvetage : même doctrine que le budget estimé.
+    const inLoss = last?.band === "PERTE";
+    let action = actionFromStreak(nonStreak, atFloor, inLoss);
+    let scaleKind: ScaleKind | null = action === "SCALE" ? "LADDER" : null;
     if (scalingRegime && last.band !== null) {
       if (nonStreak === 0) {
         // KPI cible atteint → table de marge du board §3.
@@ -1060,32 +1101,10 @@ export function computeScaling(input: {
         scaleKind = null;
       }
     }
-    // RESCUE exige au moins une réduction RÉELLEMENT exécutée sur Meta ;
-    // sinon on plafonne à DESCALE (les crans n'ont pas été déroulés).
-    let rescueCapped = false;
-    if (action === "RESCUE") {
-      // La réduction exécutée doit dater du streak COURANT (depuis la 1re
-      // fenêtre NON de la série) — une descale d'un streak passé, déjà
-      // remise à zéro par un OUI, ne compte pas (audit 19/08).
-      const streakStartDay = winData[Math.max(0, lastIdx - nonStreak + 1)].startDay;
-      const hasExecutedDecrease =
-        activities !== null &&
-        rawMovesForAnchor.some(
-          (m) =>
-            m.oldBudgetCents !== null &&
-            m.newBudgetCents !== null &&
-            m.newBudgetCents < m.oldBudgetCents &&
-            moveAnchorDay(m) >= streakStartDay
-        );
-      // Exception : au plancher, le budget ne PEUT plus baisser (reductionCents
-      // rend 100 €). Exiger une réduction exécutée y bloquerait le sauvetage
-      // pour toujours — les crans ont bien été déroulés, ils n'ont juste plus
-      // de marge de manœuvre (audit 20/08).
-      if (activities !== null && !hasExecutedDecrease && !atFloor) {
-        action = "DESCALE";
-        rescueCapped = true;
-      }
-    }
+    // (Le garde-fou « RESCUE exige une réduction exécutée » a été retiré le
+    // 29/08 : depuis que le sauvetage exige d'être AU PLANCHER, il ne pouvait
+    // plus se déclencher — être au plancher PROUVE qu'on ne peut plus baisser,
+    // et l'exception « au plancher » l'exemptait déjà explicitement.)
 
     // Mouvements de budget lus sur Meta (les plus récents d'abord pour l'UI).
     const rawMoves = rawMovesForAnchor;
@@ -1180,7 +1199,7 @@ export function computeScaling(input: {
     const cpmrRising = cpmrMed !== null && last.cpmr !== null && last.cpmr > cpmrMed * 1.2;
 
     const cran: ScalingCampaign["cran"] =
-      nonStreak === 0 ? null : rescueCapped ? 3 : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
+      nonStreak === 0 ? null : (Math.min(nonStreak, 4) as 1 | 2 | 3 | 4);
     const lowSample = last.purchases < MIN_CONVERSIONS_FIABLES;
     const creasRequired = action === "SCALE" || action === "DESCALE" || action === "RESCUE";
     const recentVerdicts = winData.map((w) => w.verdict).filter((v): v is "OUI" | "NON" => v !== null).slice(-4);
@@ -1203,17 +1222,19 @@ export function computeScaling(input: {
             ? last.band !== "PERTE"
               ? `Régime SCALING : au-dessus du break-even mais sous la cible sur ${last.label} (${marginTxt}) → « ne rien faire, on stabilise » (board §3).`
               : `Régime SCALING, sous le break-even sur ${last.label} (${marginTxt}) → on attend d'abord 72 h avant de toucher au budget (board §3). ${nonStreak} fenêtre(s) sur 3.`
-            : `1er NON sur ${last.label} (${marginTxt}, sous les 15 %) → cran 1 de l'escalier : on attend 24 h SANS toucher au budget, puis on repose la question (board §2). Encore NON demain → −15 % + créas. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
+            : nonStreak >= 2
+              ? `${nonStreak} NON consécutifs (${last.label} : ${marginTxt}) MAIS budget déjà au plancher (${PLANCHER_BUDGET_CENTS / 100} €/j) et campagne encore au-dessus du break-even : on ne baisse plus et on ne part pas en sauvetage (réservé aux campagnes en perte) → on tient et on ajoute des créas.`
+              : `1er NON sur ${last.label} (${marginTxt}, sous les 15 %) → cran 1 de l'escalier : on attend 24 h SANS toucher au budget, puis on repose la question (board §2). Encore NON demain → −15 % + créas. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
           : action === "DESCALE"
             ? scalingRegime
               ? `Régime SCALING : sous le break-even depuis plus de 72 h (${last.label} : ${marginTxt}) et le spend minimum n'est pas atteint → −15 % (board §3).`
-              : `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) → cran ${nonStreak} de l'escalier : −15 % + nouvelles créas (board §2).`
+              : nonStreak >= 4
+                ? `${nonStreak} NON consécutifs (${last.label} : ${marginTxt}) → on continue à réduire de 15 % + créas. Pas de SAUVETAGE ici : ${!inLoss ? "la campagne reste AU-DESSUS du break-even (elle est rentable, juste sous les 15 %)" : `le budget n'est pas au plancher (${Math.round((budgetCents ?? 0) / 100)} €/j > ${PLANCHER_BUDGET_CENTS / 100} €)`} — le sauvetage, c'est « pas rentable ET on ne peut plus baisser » (T35 [03:00] + [04:29]).`
+                : `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) → cran ${nonStreak} de l'escalier : −15 % + nouvelles créas (board §2).`
             : scalingRegime
               ? `Régime SCALING : sous le break-even depuis plus de 72 h ET déjà au spend minimum (${last.label} : ${marginTxt}) → on ne baisse PLUS le spend, phase de SAUVETAGE (board §3).`
-              : `${nonStreak} NON consécutifs (dernier : ${last.label}, ${marginTxt}) : l'escalier est épuisé → phase de SAUVETAGE, on ne rabote plus, on diagnostique où ça fuit (board §2 → §1).`;
-    const whyFinal = rescueCapped
-      ? `${nonStreak} NON consécutifs (${marginTxt}) MAIS aucune réduction encore exécutée sur Meta : les crans n'ont pas été déroulés → DESCALE −15 % d'abord (RESCUE seulement après avoir réellement bougé le budget).`
-      : why;
+              : `${nonStreak} NON consécutifs EN PERTE (dernier : ${last.label}, ${marginTxt}) ET budget au plancher (${PLANCHER_BUDGET_CENTS / 100} €/j) : pas rentable et on ne peut plus baisser → phase de SAUVETAGE, on ne rabote plus, on diagnostique où ça fuit (T35 [03:00] + [04:29]).`;
+    const whyFinal = why;
 
     if (scalingRegime) {
       warnings.push(
@@ -1277,11 +1298,15 @@ export function computeScaling(input: {
       cpmrRising,
       creasRequired,
       creaPlan: buildCreaPlan({ action, scalingRegime, cpmrRising, leak: cadran?.leak ?? null }),
-      rescueCapped,
       // Diagnostic annonce par annonce : en RESCUE, et dès le cran 3 pour
       // anticiper (un NON de plus et la campagne bascule).
       rescue:
-        (action === "RESCUE" || cran === 3) && adRowsByCampaign.has(campaignId)
+        // Dès le cran 3 ET sur toute la suite de l'escalier : une série qui
+        // s'allonge sans atteindre le plancher reste en DESCALE (voir
+        // actionFromStreak) — c'est justement là qu'on a le plus besoin de
+        // savoir OÙ ça fuit. Le borner à « cran === 3 » aurait fait
+        // disparaître le diagnostic au 4ᵉ NON, quand il devient le plus utile.
+        (action === "RESCUE" || (cran !== null && cran >= 3)) && adRowsByCampaign.has(campaignId)
           ? diagnoseRescue({
               windows: winData,
               lastIdx,

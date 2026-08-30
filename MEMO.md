@@ -91,6 +91,25 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - COUPER : 2 fenêtres consécutives < BE sans reprise, OU <70 % du BE avec spend ≫ CPA.
 - Cas particuliers prioritaires : campagne <3 j → pas de ROAS (CTR/CPM/CVR) · budget <50 €/j → volume insuffisant · post-scale → 48-72 h sans décision lourde.
 
+## 🚑 SAUVETAGE recadré (29/08, Badr : « moi mes campagnes restent rentables, je vais pas faire rescue non ??? »)
+
+**Il avait raison, et la formation le dit deux fois.** Le sauvetage n'est PAS « le 4ᵉ NON » :
+- T35 **[03:00]** : « vous avez vos ads, moins les coûts shipping, moins les frais… **vous êtes rentable. Sinon**, là on va passer en phase de sauvetage. » · **[06:47]** : « vous êtes **pas rentable**. Phase de sauvetage. »
+- T35 **[04:29]** : « on est rentable ? Toujours pas. On repart en phase de sauvetage. **Il y a une condition ici : garder minimum 100 euros de budget** » · **[04:57]** « en dessous, compliqué… 75, max des max ».
+- T35 **[17:33]** (régime scaling) : « vous arrivez à 300 ou 100 dollars. **Donc là, on ne baisse plus. On repasse en phase de sauvetage.** »
+
+**Règle appliquée depuis le 29/08 — SAUVETAGE ⟺ EN PERTE *et* AU PLANCHER.** Les deux conditions, jamais une seule :
+- **en perte** = sous le break-even (`band === "PERTE"`). Une campagne **au-dessus du BE mais sous les 15 %** reste un NON — elle descend l'escalier, −15 % + créas — mais elle n'est JAMAIS envoyée en sauvetage. C'est exactement ce que Badr refusait.
+- **au plancher** = budget ≤ 100 €/j, et seulement sur un budget **lu sur Meta** (un budget estimé depuis le spend ne peut pas affirmer le plancher).
+- Cas non tranché par la formation, choix conservateur assumé : **au plancher ET encore rentable** → HOLD (on ne touche plus au budget, on ajoute des créas), plutôt qu'un DESCALE qui ne pourrait rien descendre.
+
+**Ce qui était faux avant** : en pré-scaling, `nonStreak >= 4 → RESCUE` sans aucune condition de budget ni de perte — une campagne rentable à 600 €/j basculait en SAUVETAGE au 4ᵉ cran alors qu'il lui restait 11 crans avant le plancher. Le régime SCALING, lui, appliquait DÉJÀ la bonne règle (`atFloor ? RESCUE : DESCALE`) : **les deux moitiés du même protocole se contredisaient depuis le début.**
+
+**Effets de bord traités :**
+- Le garde-fou `rescueCapped` (« RESCUE exige une réduction exécutée ») est **supprimé** : depuis que RESCUE exige le plancher, il ne pouvait plus se déclencher (l'exception « au plancher » l'exemptait déjà). Champ retiré du type et de l'UI — pas de code mort.
+- Le **diagnostic annonce par annonce** s'affiche désormais dès le cran 3 **et sur toute la suite de l'escalier** (avant : `cran === 3` uniquement). Sans ça, il disparaissait au 4ᵉ NON — exactement quand il devient le plus utile, puisque la série peut maintenant s'allonger en DESCALE.
+- **Leçon : quand deux branches du même protocole divergent, c'est qu'une des deux est un bug.** Le régime SCALING avait raison depuis le début, le pré-scaling non.
+
 ## 🪜 Onglet Meta Scaling (18/08, v2 après retours Badr) — protocole leçon 35 (arbitrage Badr 18/08 : FAIT FOI)
 - Onglet `/scaling` (« Meta Scaling », 100 % Meta) + `GET /api/scaling` — remplace `/escalier` (v1, même journée). Protocole FORMATION (leçon 35) : fenêtre 2 jours glissants, « rentable au backend ≥ 15 % ? » → OUI = monter (paliers 500→750→1000→1500→1800→2000→3000, ×2 si parfait) + compteur à zéro · NON 1 = attendre 24 h · NON 2-3 = réduire −15 % (un seul chiffre, plus de fourchette — retour Badr) + créas · NON 4 = SAUVETAGE (cadran CPC×CVR). Plancher 100 €/j.
 - **Fenêtre de décision = LE JOUR MÊME + LA VEILLE, avec bascule à 7 h** (v4, Badr 18/08 soir) : de 00h à 7h l'onglet reste FIGÉ sur les données de la veille 23h59 (fenêtre avant-hier+hier — c'est la plage d'exécution SCALE/DESCALE) ; à partir de 7h il bascule sur le jour J (hier+aujourd'hui, live, se fige à minuit). L'attribution J sous-estime → la marge du jour ne peut que monter, noté sur la carte. Verdicts en ANGLAIS : SCALE / HOLD / DESCALE / RESCUE, avec LE budget d'arrivée en gros. BE et Cible affichés en chiffres sur chaque carte.

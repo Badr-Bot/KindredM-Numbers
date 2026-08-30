@@ -271,21 +271,22 @@ function AdRow({ a, breakEven }: { a: AdDiagnostic; breakEven: number | null }) 
 function RescueBlock({ c }: { c: ScalingCampaign }) {
   const r = c.rescue;
   if (!r) return null;
-  // « anticipé » = on montre le diagnostic avant la bascule (cran 3 réel).
-  // Quand RESCUE est plafonné faute de réduction exécutée, la campagne ne
-  // bascule PAS mécaniquement : on ne promet pas le contraire.
-  const anticipated = c.action !== "RESCUE" && !c.rescueCapped;
-  const capped = c.rescueCapped;
+  // Le diagnostic s'affiche AVANT le sauvetage (dès le cran 3, et sur toute
+  // la suite de l'escalier) : depuis le 29/08 le sauvetage attend le plancher
+  // de 100 €/j, donc une série peut s'allonger en DESCALE — on ne promet
+  // jamais une bascule qui ne viendra pas mécaniquement.
+  const anticipated = c.action !== "RESCUE";
+  const long = anticipated && (c.cran ?? 0) >= 4;
   return (
-    <details className="group border-t border-line-soft" open={!anticipated || capped}>
+    <details className="group border-t border-line-soft" open={!anticipated || long}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-2.5 text-[11px] [&::-webkit-details-marker]:hidden">
         <span className="font-semibold text-ink">
           🩺 Diagnostic{" "}
-          {capped
-            ? "(escalier épuisé, mais les crans n'ont pas été déroulés)"
-            : anticipated
-              ? "(anticipé — un NON de plus et elle bascule)"
-              : "de sauvetage"}
+          {!anticipated
+            ? "de sauvetage"
+            : long
+              ? "(escalier qui s'allonge — le sauvetage attend le plancher de 100 €/j)"
+              : "(anticipé — avant même le 4ᵉ NON)"}
         </span>
         <span className="text-[10px] text-ink-faint transition-transform group-open:rotate-180">▾</span>
       </summary>
