@@ -131,7 +131,9 @@ describe("fenêtres : hier + aujourd'hui en dernier", () => {
     const lastW = c.windows[c.windows.length - 1];
     expect(lastW.inProgress).toBe(true);
     expect(lastW.verdict).toBe("OUI");
-    expect(c.why).toContain("fenêtre en cours");
+    // Le verdict signale la fenêtre non close par ⏳ (texte raccourci le
+    // 29/08 : la carte affiche déjà le libellé de la fenêtre juste au-dessus).
+    expect(c.why).toContain("⏳");
   });
 
   it("label lisible quand la fenêtre chevauche deux mois", () => {

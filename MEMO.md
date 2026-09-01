@@ -91,6 +91,13 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - COUPER : 2 fenêtres consécutives < BE sans reprise, OU <70 % du BE avec spend ≫ CPA.
 - Cas particuliers prioritaires : campagne <3 j → pas de ROAS (CTR/CPM/CVR) · budget <50 €/j → volume insuffisant · post-scale → 48-72 h sans décision lourde.
 
+## ✂️ Onglet Scaling — textes raccourcis (29/08, Badr : « il faudra que ce soit succinct et aller à l'essentiel »)
+
+- **Verdicts (`why`) télégraphiques** : « 3ᵉ NON (−4 %) → cran 3 : −15 % + créas. » La carte affiche DÉJÀ juste au-dessus le budget, le BE, la cible, la marge, le ROAS, les conversions et le dernier mouvement Meta — les répéter en prose était du bruit. Ne reste que le POURQUOI et l'unique fait qui distingue le cas. Les références de leçon (T35 [04:29]…) sortent de l'UI : leur place est dans le code, elles y sont.
+- **Une ligne par signal** (fenêtre en cours, échantillon faible, verdicts instables, CPMr, créas) au lieu d'un paragraphe. Le détail passe en **infobulle `title`** : rangé, pas supprimé.
+- **Les deux pavés du bas sont REPLIÉS** (`<details>`) : « SOP créas » (T36/T37) et « Réserves, sources et seuils hors formation ». Ils restaient dépliés en permanence et poussaient les décisions — la seule chose qu'on vient lire — hors de l'écran. Le rappel complet est à un clic.
+- **Règle pour la suite** : dans cet onglet, un chiffre déjà affiché ne se re-raconte pas en phrase ; tout ce qui n'est pas la décision du jour est repliable.
+
 ## 🚑 SAUVETAGE recadré (29/08, Badr : « moi mes campagnes restent rentables, je vais pas faire rescue non ??? »)
 
 **Il avait raison, et la formation le dit deux fois.** Le sauvetage n'est PAS « le 4ᵉ NON » :

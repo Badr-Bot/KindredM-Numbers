@@ -1209,31 +1209,39 @@ export function computeScaling(input: {
     const cadran = action === "RESCUE" ? computeCadran(winData, lastIdx, cm) : null;
     const sauvetageDiagnostic = cadran?.verdict ?? null;
 
-    const marginTxt = `${last.margin === null ? "marge non calculable" : `marge ${(last.margin * 100).toFixed(1).replace(".", ",")} %`}${last.inProgress ? ", fenêtre en cours ⏳" : ""}`;
+    // ✂️ Verdicts COURTS (Badr 29/08 : « il faudra que ce soit succinct et
+    // aller à l'essentiel »). La carte affiche DÉJÀ, juste au-dessus : le
+    // budget, le BE, la cible, la marge de la fenêtre, le ROAS, les
+    // conversions et le dernier mouvement Meta. Les répéter en prose était du
+    // bruit. Ne reste ici que ce qu'aucun chiffre ne dit : POURQUOI ce
+    // verdict, et l'unique fait qui le distingue. Les références de leçon
+    // partent aussi — elles sont dans le code, à leur place.
+    const margeTxt = last.margin === null ? "marge ?" : `${(last.margin * 100).toFixed(0)} %`;
+    const encours = last.inProgress ? " ⏳" : "";
     const why =
       action === "SCALE"
         ? scaleKind === "DOUBLE"
-          ? `Régime SCALING, marge > 30 % sur ${last.label} (${marginTxt}) → « scale 40-100 %, on peut doubler le budget » + créas neuves (board §3).`
+          ? `Marge ${margeTxt}${encours} > 30 % → doubler le budget + créas.`
           : scalingRegime
-            ? `Régime SCALING, marge entre 15 et 30 % sur ${last.label} (${marginTxt}) → « scale 20-30 % » + créas neuves (board §3).`
-            : `OUI sur ${last.label} (${marginTxt} ≥ 15 %) : rentable au backend sur les 2 derniers jours → on monte le budget sur l'échelle (×2 si petit) + créas neuves (board §2).`
+            ? `Marge ${margeTxt}${encours} → monter de 20-30 % + créas.`
+            : `OUI (${margeTxt}${encours} ≥ 15 %) → on monte l'échelle + créas.`
         : action === "HOLD"
           ? scalingRegime
             ? last.band !== "PERTE"
-              ? `Régime SCALING : au-dessus du break-even mais sous la cible sur ${last.label} (${marginTxt}) → « ne rien faire, on stabilise » (board §3).`
-              : `Régime SCALING, sous le break-even sur ${last.label} (${marginTxt}) → on attend d'abord 72 h avant de toucher au budget (board §3). ${nonStreak} fenêtre(s) sur 3.`
+              ? `Au-dessus du BE mais sous la cible (${margeTxt}${encours}) → on stabilise.`
+              : `Sous le BE (${margeTxt}${encours}) → 72 h d'attente avant de toucher au budget (${nonStreak}/3).`
             : nonStreak >= 2
-              ? `${nonStreak} NON consécutifs (${last.label} : ${marginTxt}) MAIS budget déjà au plancher (${PLANCHER_BUDGET_CENTS / 100} €/j) et campagne encore au-dessus du break-even : on ne baisse plus et on ne part pas en sauvetage (réservé aux campagnes en perte) → on tient et on ajoute des créas.`
-              : `1er NON sur ${last.label} (${marginTxt}, sous les 15 %) → cran 1 de l'escalier : on attend 24 h SANS toucher au budget, puis on repose la question (board §2). Encore NON demain → −15 % + créas. (L'attribution de la fenêtre se remplit encore en 24-72 h.)`
+              ? `${nonStreak} NON (${margeTxt}${encours}) mais déjà au plancher ${PLANCHER_BUDGET_CENTS / 100} € et encore au-dessus du break-even → on ne baisse plus, créas seules.`
+              : `1er NON (${margeTxt}${encours}) → cran 1 : on attend 24 h, budget inchangé.`
           : action === "DESCALE"
             ? scalingRegime
-              ? `Régime SCALING : sous le break-even depuis plus de 72 h (${last.label} : ${marginTxt}) et le spend minimum n'est pas atteint → −15 % (board §3).`
+              ? `Sous le BE depuis plus de 72 h (${margeTxt}${encours}) → −15 %.`
               : nonStreak >= 4
-                ? `${nonStreak} NON consécutifs (${last.label} : ${marginTxt}) → on continue à réduire de 15 % + créas. Pas de SAUVETAGE ici : ${!inLoss ? "la campagne reste AU-DESSUS du break-even (elle est rentable, juste sous les 15 %)" : `le budget n'est pas au plancher (${Math.round((budgetCents ?? 0) / 100)} €/j > ${PLANCHER_BUDGET_CENTS / 100} €)`} — le sauvetage, c'est « pas rentable ET on ne peut plus baisser » (T35 [03:00] + [04:29]).`
-                : `${nonStreak}ᵉ NON consécutif (${last.label} : ${marginTxt}) → cran ${nonStreak} de l'escalier : −15 % + nouvelles créas (board §2).`
+                ? `${nonStreak} NON (${margeTxt}${encours}) → −15 % + créas. Pas de sauvetage : ${!inLoss ? "encore au-dessus du break-even" : `budget pas au plancher (${Math.round((budgetCents ?? 0) / 100)} € > ${PLANCHER_BUDGET_CENTS / 100} €)`}.`
+                : `${nonStreak}ᵉ NON (${margeTxt}${encours}) → cran ${nonStreak} : −15 % + créas.`
             : scalingRegime
-              ? `Régime SCALING : sous le break-even depuis plus de 72 h ET déjà au spend minimum (${last.label} : ${marginTxt}) → on ne baisse PLUS le spend, phase de SAUVETAGE (board §3).`
-              : `${nonStreak} NON consécutifs EN PERTE (dernier : ${last.label}, ${marginTxt}) ET budget au plancher (${PLANCHER_BUDGET_CENTS / 100} €/j) : pas rentable et on ne peut plus baisser → phase de SAUVETAGE, on ne rabote plus, on diagnostique où ça fuit (T35 [03:00] + [04:29]).`;
+              ? `Sous le BE depuis plus de 72 h et déjà au spend minimum → sauvetage, on ne baisse plus.`
+              : `${nonStreak} NON EN PERTE (${margeTxt}${encours}) et au plancher ${PLANCHER_BUDGET_CENTS / 100} € → sauvetage : on ne rabote plus, on diagnostique.`;
     const whyFinal = why;
 
     if (scalingRegime) {

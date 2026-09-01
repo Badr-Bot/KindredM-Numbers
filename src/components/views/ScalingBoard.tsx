@@ -434,29 +434,33 @@ function CampaignPanel({ c }: { c: ScalingCampaign }) {
         <p>
           <b className="text-ink">{c.why}</b>
         </p>
+        {/* ✂️ Une ligne par signal, jamais un paragraphe (Badr 29/08 :
+            « succinct, va à l'essentiel »). Le détail est dans les infobulles
+            (title) : rien n'est perdu, c'est juste rangé. */}
         {judged.inProgress && (
-          <p className="mt-1">
-            ⏳ <b className="text-ink">Fenêtre en cours</b> : la journée n&apos;est pas finie et l&apos;attribution Meta se
-            remplit en 24-72 h — cette marge ne peut que <b className="text-ink">monter</b> d&apos;ici minuit. Exécute le
-            mouvement sur le chiffre figé, entre minuit et 7 h (idéalement 00h-1h, T35).
+          <p className="mt-1" title="La journée n'est pas finie et l'attribution Meta se remplit en 24-72 h : cette marge ne peut que monter d'ici minuit. Exécute le mouvement sur le chiffre figé, idéalement entre 00 h et 1 h.">
+            ⏳ Journée en cours — la marge ne peut que monter. Exécute entre 00 h et 7 h.
           </p>
         )}
         {c.sauvetageDiagnostic && <p className="mt-1 text-red">🩺 {c.sauvetageDiagnostic}</p>}
         {c.lowSample && (
-          <p className="mt-1 text-amber">
-            ⚠️ {judged.purchases} conversions sur la fenêtre (&lt; 15) : traite ce verdict comme un ajustement,
-            pas comme un jugement sur le produit. <span className="text-ink-faint">(seuil hors formation)</span>
+          <p className="mt-1 text-amber" title="Seuil hors formation : en dessous de 15 conversions, la marge d'une fenêtre bouge trop pour juger un produit.">
+            ⚠️ {judged.purchases} conversions (&lt; 15) : ajustement, pas un jugement produit.
           </p>
         )}
         {c.unstable && (
-          <p className="mt-1 text-amber">🌊 Verdicts instables (OUI/NON en alternance) : juger sur 3 jours avant d&apos;agir (T24).</p>
+          <p className="mt-1 text-amber" title="OUI/NON en alternance sur les dernières fenêtres (T24) : juger sur 3 jours avant d'agir.">
+            🌊 Verdicts en dents de scie — juger sur 3 jours.
+          </p>
         )}
         {c.cpmrRising && (
-          <p className="mt-1 text-amber">📈 CPMr en hausse vs l&apos;historique : l&apos;audience sature — créas neuves, jamais du budget.</p>
+          <p className="mt-1 text-amber" title="CPMr au-dessus de la médiane des fenêtres précédentes : l'audience sature. La réponse est créative, pas budgétaire.">
+            📈 CPMr en hausse — audience qui sature : créas, pas de budget.
+          </p>
         )}
         {c.creasRequired && (
-          <p className="mt-1">
-            🎬 <b className="text-ink">Créas neuves obligatoires</b> avec ce mouvement (règle du protocole, montée comprise).
+          <p className="mt-1" title="Règle du protocole : chaque mouvement de budget s'accompagne de créas neuves, montée comprise.">
+            🎬 <b className="text-ink">Créas neuves obligatoires</b> avec ce mouvement.
           </p>
         )}
         {c.creaPlan.length > 0 && c.rescue === null && (
@@ -530,11 +534,18 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
         <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-line bg-panel opacity-60" /> ⏳ fenêtre en cours (provisoire)</span>
       </div>
 
-      <div className="rounded-lg border border-line bg-panel/40 p-3 text-[10.5px] leading-relaxed text-ink-dim">
-        <h3 className="mb-1 text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-          🎬 SOP créas (formation T36/T37) — le rappel complet
-        </h3>
-        <ul className="flex flex-col gap-1">
+      {/* ✂️ 29/08 (Badr : « succinct, va à l'essentiel ») : ces deux pavés
+          restaient dépliés en permanence et poussaient les décisions — la
+          seule chose qu'on vient lire ici — hors de l'écran. Ils sont REPLIÉS,
+          pas supprimés : le rappel complet est à un clic, il ne s'impose plus. */}
+      <details className="group rounded-lg border border-line bg-panel/40 text-[10.5px] leading-relaxed text-ink-dim">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3 [&::-webkit-details-marker]:hidden">
+          <span className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+            🎬 SOP créas — batch · lancement · winners
+          </span>
+          <span className="text-[10px] text-ink-faint transition-transform group-open:rotate-180">▾</span>
+        </summary>
+        <ul className="flex flex-col gap-1 px-3 pb-3">
           <li>
             ▸ <b className="text-ink">Batch</b> : 3-6 ads par NOUVEL adset · 2-3 adcopies + 2-3 titres + 1 description par
             ad · une adcopy par ANGLE · miniature choisie à la main · 50 % page marque / 50 % page tierce.
@@ -561,10 +572,16 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
             Un adset qui performe peut recevoir 1-2 créas max à la fois.
           </li>
         </ul>
-      </div>
+      </details>
 
-      <div className="rounded-lg border border-line bg-panel/40 p-3 text-[10px] leading-relaxed text-ink-faint">
-        <p>
+      <details className="group rounded-lg border border-line bg-panel/40 text-[10px] leading-relaxed text-ink-faint">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3 [&::-webkit-details-marker]:hidden">
+          <span className="text-[9.5px] font-bold uppercase tracking-wider">
+            ℹ️ Réserves, sources et seuils hors formation
+          </span>
+          <span className="text-[10px] transition-transform group-open:rotate-180">▾</span>
+        </summary>
+        <p className="px-3 pb-3">
           <b className="text-ink-dim">Réserves.</b> Paramètres chiffrés <b>hors formation</b> (elle lit ces signaux à
           l&apos;œil, sans seuil) : ±20 % vs la médiane de la campagne pour le cadran CPC/CVR et la saturation (4 j et
           1 000 impressions minimum par moitié), 15 conversions pour la réserve d&apos;échantillon, série de NON cassée
@@ -574,7 +591,7 @@ export function ScalingBoard({ report }: { report: ScalingReport }) {
           compte). Seuils BE/Cible : CM 14 j glissants par produit. Protocole : formation Master, leçon 35 (arbitrage
           18/08). L&apos;onglet recommande, <b>il n&apos;exécute jamais</b>.
         </p>
-      </div>
+      </details>
     </div>
   );
 }
