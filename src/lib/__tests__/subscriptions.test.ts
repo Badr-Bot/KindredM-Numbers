@@ -16,6 +16,16 @@ import {
 
 const seif = () => SUBSCRIPTIONS.find((s) => s.label.startsWith("Seif"))!;
 
+/** La ligne d'un abonnement (une devise précise si l'outil en a deux). */
+const ligne = (label: string, currency?: "EUR" | "USD") =>
+  SUBSCRIPTIONS.find((s) => s.label === label && (currency ? s.currency === currency : true))!;
+
+/** Un abonnement est-il facturé ce jour-là ? (mêmes bornes que le moteur) */
+const actifLe = (label: string, day: string) =>
+  SUBSCRIPTIONS.some(
+    (s) => s.label === label && day >= s.startDay && (s.endDay === null || day <= s.endDay)
+  );
+
 describe("Vmake — un seul outil, deux tarifs (Badr 20/08 : « c'est le même outil »)", () => {
   it("ne compte jamais les deux lignes le même jour", () => {
     const lignes = SUBSCRIPTIONS.filter((s) => s.label.startsWith("Vmake"));
@@ -46,9 +56,12 @@ describe("Seif — « ne sera pas payé, du 16/07 au 16/08 » (Badr 20/08)", () 
     expect(fixedCostsCentsForDay("2026-08-16") - fixedCostsCentsForDay("2026-08-17")).toBe(jour);
   });
 
-  it("fait tomber les charges du jour de ~147 € à ~104 €", () => {
-    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(147);
-    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(104);
+  it("fait tomber les charges du jour de ~151 € à ~109 €", () => {
+    // Repères relevés le 29/08 : les deux jours ont pris +4,93 €/j quand
+    // Klaviyo est passé de 25 € (hypothèse) à 150 € (réel) sur TOUT
+    // l'historique — le pas de Seif entre les deux jours, lui, n'a pas bougé.
+    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(151);
+    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(109);
   });
 
   it("sort des totaux courants une fois la fenêtre passée", () => {
@@ -67,10 +80,9 @@ describe("Monteur — arrêté le 29/08 (Badr : « plus de monteur depuis aujour
   const monteur = () => SUBSCRIPTIONS.find((s) => s.label === "Monteur")!;
 
   it("est compté jusqu'au 28/08 inclus, et plus rien à partir du 29/08", () => {
-    const s = monteur();
-    expect(s.endDay).toBe("2026-08-28");
-    const jour = dailyEurCents(s);
-    expect(fixedCostsCentsForDay("2026-08-28") - fixedCostsCentsForDay("2026-08-29")).toBe(jour);
+    expect(monteur().endDay).toBe("2026-08-28");
+    expect(actifLe("Monteur", "2026-08-28")).toBe(true);
+    expect(actifLe("Monteur", "2026-08-29")).toBe(false);
   });
 
   it("garde tout son historique depuis le 21/05 (pause, pas suppression)", () => {
@@ -81,8 +93,109 @@ describe("Monteur — arrêté le 29/08 (Badr : « plus de monteur depuis aujour
   });
 
   it("sort des totaux mensuels courants (~563 € de moins)", () => {
+    // Le 29/08 porte TROIS mouvements à la fois (monteur et Higgsfield
+    // arrêtés, Artlist démarré) : on vérifie la composition exacte du pas,
+    // sinon un futur changement du même jour passerait inaperçu.
     const avant = subscriptionTotals("2026-08-28").monthlyCents;
     const apres = subscriptionTotals("2026-08-29").monthlyCents;
-    expect(avant - apres).toBe(monthlyEurCents(monteur()));
+    expect(avant - apres).toBe(
+      monthlyEurCents(monteur()) + monthlyEurCents(ligne("Higgsfield ×2 (Adnane + Ismael)")) - monthlyEurCents(ligne("Artlist"))
+    );
+  });
+});
+
+describe("Changements du 29/08 annoncés par Badr", () => {
+  it("Higgsfield : arrêté, dernier jour compté le 28/08", () => {
+    expect(actifLe("Higgsfield ×2 (Adnane + Ismael)", "2026-08-28")).toBe(true);
+    expect(actifLe("Higgsfield ×2 (Adnane + Ismael)", "2026-08-29")).toBe(false);
+    // L'historique garde sa charge : un arrêt n'efface pas ce qui a été payé.
+    expect(actifLe("Higgsfield ×2 (Adnane + Ismael)", "2026-07-01")).toBe(true);
+  });
+
+  it("Klaviyo : 25 € jusqu'au 09/08, 150 € à partir du 10/08", () => {
+    // Badr 29/08 : « non pour Klaviyo à partir du 10 août » — changement de
+    // tarif DATÉ, pas une correction rétroactive : mai → début août gardent
+    // leurs 25 €, l'historique d'avant le 10/08 ne bouge pas.
+    const lignes = SUBSCRIPTIONS.filter((s) => s.label === "Klaviyo (emailing)");
+    expect(lignes).toHaveLength(2);
+    const actif = (jour: string) =>
+      lignes.find((s) => jour >= s.startDay && (s.endDay === null || jour <= s.endDay))!;
+    expect(actif("2026-08-09").amount).toBe(25);
+    expect(actif("2026-08-10").amount).toBe(150);
+    expect(actif("2026-05-21").amount).toBe(25);
+    // Jamais les deux le même jour.
+    for (const jour of ["2026-06-01", "2026-08-09", "2026-08-10", "2026-09-01"]) {
+      expect(
+        lignes.filter((s) => jour >= s.startDay && (s.endDay === null || jour <= s.endDay))
+      ).toHaveLength(1);
+    }
+  });
+
+  it("Artlist : 40 $/mois, rien avant le 29/08", () => {
+    const a = ligne("Artlist");
+    expect(a.amount).toBe(40);
+    expect(a.currency).toBe("USD");
+    expect(actifLe("Artlist", "2026-08-28")).toBe(false);
+    expect(actifLe("Artlist", "2026-08-29")).toBe(true);
+  });
+
+  it("Claude Badr : 100 € jusqu'au 17/09, puis 100 $ — jamais les deux le même jour", () => {
+    expect(ligne("Claude (Badr)", "EUR").endDay).toBe("2026-09-17");
+    expect(ligne("Claude (Badr)", "USD").startDay).toBe("2026-09-18");
+    for (const jour of ["2026-08-29", "2026-09-17", "2026-09-18", "2026-10-01"]) {
+      const actives = SUBSCRIPTIONS.filter(
+        (s) => s.label === "Claude (Badr)" && jour >= s.startDay && (s.endDay === null || jour <= s.endDay)
+      );
+      expect(actives).toHaveLength(1);
+    }
+    expect(ligne("Claude (Badr)", "USD").amount).toBe(100);
+  });
+
+  it("Claude Adnane : bascule 20 € → 20 $ à la même date", () => {
+    expect(ligne("Claude (Adnane)", "EUR").endDay).toBe("2026-09-17");
+    expect(ligne("Claude (Adnane)", "USD").startDay).toBe("2026-09-18");
+    for (const jour of ["2026-08-29", "2026-09-17", "2026-09-18"]) {
+      const actives = SUBSCRIPTIONS.filter(
+        (s) => s.label === "Claude (Adnane)" && jour >= s.startDay && (s.endDay === null || jour <= s.endDay)
+      );
+      expect(actives).toHaveLength(1);
+    }
+  });
+
+  it("le passage en dollar ALLÈGE les charges (taux figé 1,1539)", () => {
+    // 100 $ + 20 $ coûtent moins que 100 € + 20 € : le pas du 18/09 doit être
+    // une BAISSE, jamais une hausse.
+    expect(fixedCostsCentsForDay("2026-09-18")).toBeLessThan(fixedCostsCentsForDay("2026-09-17"));
+  });
+});
+
+describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 29/08)", () => {
+  const jeremy = () => SUBSCRIPTIONS.find((s) => s.label.startsWith("Jeremy"))!;
+
+  it("est facturé jusqu'au 31/08 inclus, plus rien ensuite", () => {
+    expect(jeremy().endDay).toBe("2026-08-31");
+    expect(actifLe("Jeremy — emailing (fixe, hors %)", "2026-08-31")).toBe(true);
+    expect(actifLe("Jeremy — emailing (fixe, hors %)", "2026-09-01")).toBe(false);
+  });
+
+  it("fait tomber les charges du jour de ~88 € à ~38 €", () => {
+    // Seul mouvement de ce jour-là : le pas doit valoir EXACTEMENT son
+    // quotidien (49,28 €). Si un autre changement atterrit au 01/09, ce test
+    // tombe et oblige à le documenter au lieu de le noyer.
+    expect(fixedCostsCentsForDay("2026-08-31") - fixedCostsCentsForDay("2026-09-01")).toBe(
+      dailyEurCents(jeremy())
+    );
+    expect(Math.round(fixedCostsCentsForDay("2026-09-01") / 100)).toBe(38);
+  });
+
+  it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
+    // Le monteur est arrêté au 28/08 et Seif au 16/08 : plus que Marwa.
+    const equipeActive = SUBSCRIPTIONS.filter(
+      (s) =>
+        s.category === "EQUIPE" &&
+        "2026-09-01" >= s.startDay &&
+        (s.endDay === null || "2026-09-01" <= s.endDay)
+    ).map((s) => s.label);
+    expect(equipeActive).toEqual(["Marwa"]);
   });
 });

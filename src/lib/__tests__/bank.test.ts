@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { categorizeTx, computeControl, mapSlashTx, reconcile, type BankTx, type SlashTx } from "../bank";
+import {
+  categorizeTx,
+  computeControl,
+  mapSlashTx,
+  reconcile,
+  subsForPattern,
+  type BankTx,
+  type SlashTx,
+} from "../bank";
+import { monthlyEurCents } from "../subscriptions";
 
 /** 🏦 Rapprochement bancaire — catégorisation et écarts (pur, sans réseau). */
 
@@ -238,5 +247,36 @@ describe("entre associés via banque (Fahd = Adnane, 50/50)", () => {
     const c = computeControl({ txs, reconciliation: null, sinceDay: "2026-07-21", untilDay: "2026-08-19" });
     // (100 − 40) / 2 = 30 € : Badr doit 30 € à Fahd
     expect(c.parts.soldeBadrDoitAFahdCents).toBe(3000);
+  });
+});
+
+describe("subsForPattern — un abonnement n'est couvert que sur SA fenêtre", () => {
+  it("ne compte pas une ligne qui ne commence que plus tard", () => {
+    // Claude passe en dollar le 18/09 : la ligne USD existe déjà dans le
+    // code, mais tant qu'on n'y est pas, seul l'EUR doit compter. Sans borne
+    // startDay, le mensuel attendu affichait 224 € au lieu de 120 € et le
+    // contrôle criait à l'abonnement débité au mauvais montant.
+    const avant = subsForPattern("Claude", "2026-08-29");
+    expect(avant).toHaveLength(2); // Badr EUR + Adnane EUR
+    expect(avant.every((s) => s.currency === "EUR")).toBe(true);
+    expect(avant.reduce((a, s) => a + monthlyEurCents(s), 0)).toBe(12000);
+  });
+
+  it("bascule sur la ligne USD une fois la date passée", () => {
+    const apres = subsForPattern("Claude", "2026-09-18");
+    expect(apres).toHaveLength(2);
+    expect(apres.every((s) => s.currency === "USD")).toBe(true);
+    // 120 $ au taux figé = moins de 120 €.
+    expect(apres.reduce((a, s) => a + monthlyEurCents(s), 0)).toBeLessThan(12000);
+  });
+
+  it("laisse tomber un abonnement résilié une fois son endDay passé", () => {
+    expect(subsForPattern("Higgsfield ×2 (Adnane + Ismael)", "2026-08-28")).toHaveLength(1);
+    expect(subsForPattern("Higgsfield ×2 (Adnane + Ismael)", "2026-08-29")).toHaveLength(0);
+  });
+
+  it("couvre Artlist à partir du 29/08 seulement", () => {
+    expect(subsForPattern("Artlist", "2026-08-28")).toHaveLength(0);
+    expect(subsForPattern("Artlist", "2026-08-29")).toHaveLength(1);
   });
 });

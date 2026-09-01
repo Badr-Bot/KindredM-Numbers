@@ -611,6 +611,33 @@ regroupement se fait maintenant par campagne PUIS par jour.
 
 217 tests verts, `next build` OK.
 
+## Mise à jour 29/08 (soir) — lot de changements sur les dépenses
+
+Annoncés par Badr en une phrase, tous appliqués dans `subscriptions.ts` :
+
+- **Higgsfield arrêté** — dernier jour compté 28/08 (−3,61 €/j).
+- **Klaviyo passe à 150 €/mois le 10/08** (25 € avant). Première version :
+  appliqué à tout l'historique, en lisant ça comme la correction de
+  l'hypothèse à 25 € du 08/08. Badr a tranché : « non pour Klaviyo à partir
+  du 10 août ». C'est donc un changement de tarif daté — deux lignes qui se
+  succèdent, et mai à début août gardent leurs charges d'origine.
+  Charges : 147,12 €/j au 09/08 → 151,23 €/j au 10/08.
+- **Artlist ajouté** : 40 $/mois à partir du 29/08 (+1,14 €/j).
+- **Claude Badr 100 € → 100 $** et **Claude Adnane 20 € → 20 $**, au 18/09.
+  Date dans le futur : la bascule est programmée et s'appliquera seule. Deux
+  lignes par personne (EUR puis USD), l'historique en euros reste intact. La
+  date d'Adnane est déduite du « aussi » de Badr — à confirmer.
+
+Charges du jour : **108,57 €/j au 28/08 → 87,59 €/j au 29/08**. Total mensuel
+3 303,96 € → 2 665,32 €.
+
+**Bug corrigé au passage** : le contrôle bancaire ne bornait pas les
+abonnements sur leur date de DÉBUT. Une ligne future était déjà comptée —
+« Claude » aurait affiché 224 €/mois attendus au lieu de 120 € dès
+aujourd'hui, avec une fausse alerte « débité au mauvais montant ».
+
+227 tests verts, `next build` OK.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

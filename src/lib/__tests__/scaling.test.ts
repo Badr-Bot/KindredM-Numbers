@@ -56,6 +56,17 @@ function row(day: string, id: string, name: string, spendEur: number, roas: numb
 
 const roasForMargin = (cm: number, margin: number) => 1 / (cm - margin);
 
+/**
+ * Budget AU PLANCHER (100 €/j) — condition du SAUVETAGE depuis le 29/08
+ * (T35 [04:29] : « garder minimum 100 euros de budget », [17:33] : « on ne
+ * baisse plus, on repasse en phase de sauvetage »). Un budget non lu sur Meta
+ * (`live: null`) est « estimé » et ne peut JAMAIS affirmer le plancher : les
+ * scénarios de sauvetage doivent donc fournir un budget live.
+ */
+const AU_PLANCHER = new Map([
+  ["c1", { active: true, dailyBudgetCents: PLANCHER_BUDGET_CENTS, updatedTime: null }],
+]);
+
 /** Série jours 11→17 (clos) avec marges données ; le 18 (today) est vide sauf mention. */
 function mkSeries(margins: (number | null)[], id = "c1", name = "POLO A") {
   const days = [11, 12, 13, 14, 15, 16, 17];
@@ -150,7 +161,7 @@ describe("verdicts et crans (décision de la nuit)", () => {
     expect(one.campaigns[0].cran).toBe(1);
     expect(one.campaigns[0].action).toBe("HOLD");
 
-    const all = computeScaling({ today: TODAY, rows: mkSeries([-0.1]), thresholds: TH, live: null, activities: null });
+    const all = computeScaling({ today: TODAY, rows: mkSeries([-0.1]), thresholds: TH, live: AU_PLANCHER, activities: null });
     expect(all.campaigns[0].action).toBe("RESCUE");
     expect(all.campaigns[0].cran).toBe(4);
     expect(all.campaigns[0].sauvetageDiagnostic).toBeTruthy();
@@ -358,11 +369,19 @@ describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)
     statusTo: null,
   });
 
-  it("série de NON mais AUCUNE réduction exécutée → plafonné à DESCALE, jamais RESCUE", () => {
+  it("série de NON mais budget PAS au plancher → on continue à réduire, jamais RESCUE", () => {
+    // Règle du 29/08 (Badr : « mes campagnes restent rentables, je vais pas
+    // faire rescue ») : tant qu'on peut baisser, on baisse.
     const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
-    const r = computeScaling({ today: TODAY, rows, thresholds: TH, live: null, activities: [] });
+    const r = computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 60000, updatedTime: null }]]),
+      activities: [],
+    });
     expect(r.campaigns[0].action).toBe("DESCALE");
-    expect(r.campaigns[0].why).toContain("aucune réduction encore exécutée");
+    expect(r.campaigns[0].why).toContain("pas au plancher");
   });
 
   it("le streak ne compte qu'à partir du premier mouvement de budget réel", () => {
@@ -380,13 +399,13 @@ describe("ancrage RESCUE (règle Badr : tout démarre au premier vrai mouvement)
     expect(r.campaigns[0].action).toBe("DESCALE");
   });
 
-  it("RESCUE possible une fois les réductions réellement déroulées", () => {
+  it("RESCUE une fois l'escalier descendu jusqu'au plancher", () => {
     const rows = [...mkSeries([-0.1]), row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1))];
     const r = computeScaling({
       today: TODAY,
       rows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: [
         move("2026-08-12T00:30:00+0200", 300, 255),
         move("2026-08-13T00:30:00+0200", 255, 216),
@@ -524,7 +543,7 @@ describe("plan créas (T36/T37)", () => {
       today: TODAY,
       rows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: [
         { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-12T00:30:00+0200", kind: "budget", oldBudgetCents: 30000, newBudgetCents: 25500, statusTo: null },
         { campaignId: "c1", campaignName: "POLO A", eventTime: "2026-08-13T00:30:00+0200", kind: "budget", oldBudgetCents: 25500, newBudgetCents: 21600, statusTo: null },
@@ -572,7 +591,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: rescueRows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows,
     });
@@ -607,7 +626,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows: [ad(d(17), "a1", "Vidéo A", 50, 1.2)],
     });
@@ -616,17 +635,19 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
   });
 
   it("le diagnostic est aussi calculé au cran 3 (anticipation)", () => {
-    // 3 NON consécutifs : DESCALE cran 3, mais on veut déjà le diagnostic.
+    // Exactement 3 fenêtres NON — (15+16) l'est déjà : une fenêtre mélangeant
+    // un OUI à 25 % et un NON à −10 % fait 7,5 %, donc sous les 15 %.
+    // DESCALE cran 3, et on veut déjà le diagnostic.
     const rows = [
-      ...[12, 13, 14].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
-      ...[15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
+      ...[12, 13, 14, 15].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
+      ...[16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
       row(TODAY, "c1", "POLO A", 100, roasForMargin(0.626, -0.1)),
     ];
     const r = computeScaling({
       today: TODAY,
       rows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows: [ad(d(17), "a1", "Vidéo A", 50, 1.2)],
     });
@@ -643,7 +664,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: rescueRows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows,
     });
@@ -657,7 +678,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: rescueRows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows,
     });
@@ -673,7 +694,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: rescueRows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows,
       adWindowStartDay: start,
@@ -692,7 +713,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: zeroRows,
       thresholds: NO_TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
       adRows: [ad(d(17), "a1", "Vidéo A", 60, 0, { purchases: 0 })],
     });
@@ -711,7 +732,7 @@ describe("🩺 diagnostic de sauvetage (côté serveur, annonce par annonce)", (
       today: TODAY,
       rows: rescueRows,
       thresholds: TH,
-      live: null,
+      live: AU_PLANCHER,
       activities: executedDescales,
     });
     expect(r.campaigns[0].action).toBe("RESCUE");
@@ -751,10 +772,10 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
     expect(r.campaigns[0].applied).toBe(false);
   });
 
-  it("I2 : une réduction d'un streak PASSÉ ne débloque pas RESCUE", () => {
+  it("I2 : 4 NON mais budget encore au-dessus du plancher → DESCALE", () => {
     // OUI sur 12+13 (compteur remis à zéro), puis 4 fenêtres NON (14+15 →
-    // 17+18) ; la seule réduction date du 12 (streak précédent) → RESCUE
-    // plafonné à DESCALE.
+    // 17+18). Budget estimé (pas de live) : « au plancher » ne peut pas être
+    // affirmé, donc jamais de sauvetage — on continue l'escalier.
     const rows = [
       ...[12, 13].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, 0.25))),
       ...[14, 15, 16, 17].map((n) => row(d(n), "c1", "POLO A", 100, roasForMargin(0.626, -0.1))),
@@ -766,7 +787,6 @@ describe("application détectée (audit 19/08 : pas de double mouvement la même
     });
     const c = r.campaigns[0];
     expect(c.action).toBe("DESCALE");
-    expect(c.rescueCapped).toBe(true);
   });
 
   it("I3 : en mode nuit, le jour jugé garde le budget auquel il a TOURNÉ", () => {
@@ -876,5 +896,63 @@ describe("repairMoves — plus de « ? » quand la valeur se déduit de la chaî
   it("n'invente jamais : premier old inconnu sans précédent reste null", () => {
     const moves = [{ eventTime: "2026-08-17T23:30:00+0200", oldBudgetCents: null, newBudgetCents: 50000 }];
     expect(repairMoves(moves, null)[0].oldBudgetCents).toBeNull();
+  });
+});
+
+describe("SAUVETAGE = pas rentable ET on ne peut plus baisser (Badr 29/08)", () => {
+  // « le rescue c'est quand t'arrive à 100 € par jour je crois, moi mes
+  // campagnes reste rentable je vais pas faire rescue non ??? » — T35 lui
+  // donne raison deux fois : [03:00] « vous êtes rentable… SINON on passe en
+  // phase de sauvetage » et [04:29] « garder minimum 100 euros de budget ».
+  const auPlancher = (rows: ScalingDailyRow[]) =>
+    computeScaling({ today: TODAY, rows, thresholds: TH, live: AU_PLANCHER, activities: [] });
+  const gros = (rows: ScalingDailyRow[]) =>
+    computeScaling({
+      today: TODAY,
+      rows,
+      thresholds: TH,
+      live: new Map([["c1", { active: true, dailyBudgetCents: 60000, updatedTime: null }]]),
+      activities: [],
+    });
+
+  it("rentable mais sous les 15 %, série longue, AU PLANCHER → jamais de sauvetage", () => {
+    // LE cas de Badr : marge 5 %, donc au-dessus du break-even.
+    const r = auPlancher(mkSeries([0.05]));
+    const c = r.campaigns[0];
+    expect(c.nonStreak).toBeGreaterThanOrEqual(4);
+    expect(c.action).not.toBe("RESCUE");
+    expect(c.rescue).toBeNull();
+    expect(c.why).toContain("au-dessus du break-even");
+  });
+
+  it("rentable sous les 15 %, série longue, budget HAUT → on continue à réduire", () => {
+    const c = gros(mkSeries([0.05])).campaigns[0];
+    expect(c.action).toBe("DESCALE");
+    expect(c.suggestedCents).toBe(reductionCents(60000));
+  });
+
+  it("EN PERTE mais budget encore haut → on réduit, pas encore de sauvetage", () => {
+    const c = gros(mkSeries([-0.1])).campaigns[0];
+    expect(c.action).toBe("DESCALE");
+    expect(c.why).toContain("pas au plancher");
+  });
+
+  it("EN PERTE ET au plancher → SAUVETAGE (les deux conditions réunies)", () => {
+    const c = auPlancher(mkSeries([-0.1])).campaigns[0];
+    expect(c.action).toBe("RESCUE");
+    expect(c.why).toContain("EN PERTE");
+  });
+
+  it("le budget ESTIMÉ ne peut jamais déclencher le sauvetage", () => {
+    // Sans budget lu sur Meta, « au plancher » n'est pas affirmable : on ne
+    // fabrique pas un sauvetage sur une supposition.
+    const c = computeScaling({
+      today: TODAY,
+      rows: mkSeries([-0.1]),
+      thresholds: TH,
+      live: null,
+      activities: [],
+    }).campaigns[0];
+    expect(c.action).toBe("DESCALE");
   });
 });

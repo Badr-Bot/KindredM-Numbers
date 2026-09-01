@@ -126,7 +126,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
-  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "25 €/mois fixé par Badr le 08/08 (« tu la mets à 25 € » — compris comme le prorata emailing, au lieu du plein tarif 150 $). À corriger si ce n'était pas ça." },
+  // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois »… puis, à ma
+  // question « rétroactif ou pas ? » : « non pour Klaviyo à partir du
+  // 10 août ». Donc PAS une correction de tout l'historique mais un
+  // CHANGEMENT DE TARIF daté — deux lignes qui se succèdent (modèle Vmake) :
+  // 25 € du 21/05 au 09/08, 150 € à partir du 10/08. Les mois de mai à début
+  // août gardent leurs charges d'origine, seul août+ prend les +125 €/mois.
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-09", note: "25 €/mois jusqu'au 09/08 (Badr 08/08 : « tu la mets à 25 € »)." },
+  { label: "Klaviyo (emailing)", category: "OUTIL", amount: 150, currency: "EUR", startDay: "2026-08-10", endDay: null, note: "150 €/mois à partir du 10/08 (Badr 29/08)." },
   // Hushed : payé PERSONNELLEMENT par Adnane depuis ~2 mois (juillet + août),
   // puis par la CARTE LLC à partir du 3e mois (septembre) — même schéma que
   // le Claude de Badr. Les 2 premiers mois sont tracés en avance dans
@@ -137,17 +144,35 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // depuis son compte perso » — ANNULE le passage carte LLC prévu en
   // septembre (08/08). paidBy posé → exclu du contrôle bancaire LLC.
   { label: "Hushed (Adnane)", category: "OUTIL", amount: 7.99, currency: "EUR", startDay: "2026-07-01", endDay: null, paidBy: "ADNANE", note: "Payé perso par Adnane en continu (Badr 19/08 — annule le passage carte LLC de septembre). Mois de départ approximatif." },
-  { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // 29/08 (Badr) : « à partir d'aujourd'hui, on a arrêté Higgsfield » —
+  // dernier jour compté 28/08, plus rien dès le 29/08 (−3,61 €/j). La ligne
+  // RESTE : l'historique doit continuer de porter ce qui a été payé.
+  { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté par Badr le 29/08 — dernier jour compté 28/08." },
   { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: null },
-  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // 29/08 (Badr) : « Claude Adnane aussi passera à 20 $ ». Le « aussi » le
+  // rattache au passage en dollar de Claude Badr, daté du 18/09 — SEULE date
+  // donnée. ⚠️ Hypothèse SIGNALÉE : si Adnane bascule à une autre date, seul
+  // ce couple de lignes est à décaler.
+  // Deux lignes plutôt qu'un montant modifié : l'historique EUR doit rester
+  // intact (modèle Vmake, 20/08).
+  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-09-17" },
+  { label: "Claude (Adnane)", category: "OUTIL", amount: 20, currency: "USD", startDay: "2026-09-18", endDay: null, note: "Passage en dollar au 18/09 (Badr 29/08, « aussi » = même date que Claude Badr — à confirmer)." },
   // Claude Badr : UN SEUL abonnement à 100 €/mois depuis le 15/07. « Le 1er /
   // le 2e » dans les messages de Badr = les FACTURES mensuelles successives,
   // pas deux abonnements — compté deux fois par erreur le 08/08, corrigé sur
   // sa remarque le jour même. 1re facture (15/07) payée perso (tracée en
   // avance dans associateLedger), les suivantes sur la CARTE LLC. Démarré
   // après le 14/07 → partagé 50/50 naturellement par la règle par date.
-  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: null, note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC." },
+  // 29/08 (Badr) : « Claude Badr est passé en dollar à partir du 18/09, donc
+  // 100 $ ». ⚠️ Le 18/09 est DANS LE FUTUR (dit le 29/08) : la bascule est
+  // donc programmée, elle s'appliquera toute seule le jour venu. Si Badr
+  // voulait dire 18/08, il n'y a que ces deux dates à changer.
+  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: "2026-09-17", note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC. Facturé en EUR jusqu'au 17/09." },
+  { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "USD", startDay: "2026-09-18", endDay: null, note: "Passage en dollar au 18/09 (Badr 29/08). Carte LLC." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
+  // 29/08 (Badr) : « Artlist à partir d'aujourd'hui à 40 $ par mois » —
+  // démarre le 29/08, rien avant (+1,14 €/j).
+  { label: "Artlist", category: "OUTIL", amount: 40, currency: "USD", startDay: "2026-08-29", endDay: null, note: "Ajouté par Badr le 29/08, à partir de ce jour." },
   // Floxy (proxy résidentiel) : payé DIRECTEMENT par la carte LLC dès le
   // départ (pas d'avance perso à tracer, contrairement à Hushed/Claude).
   // 19/08 (Badr) : « Floxy c'est le nouveau prix, c'est 8 € » — était 7 $.
