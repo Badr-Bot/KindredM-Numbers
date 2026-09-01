@@ -7,7 +7,7 @@ import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
-import { SUBSCRIPTIONS, fixedCostsCentsForDay, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import { SUBSCRIPTIONS, fixedCostsCentsForDay, isActiveOn, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
 import {
   SUPPLIER_BILLS,
   SUPPLIER_NAME,
@@ -277,17 +277,25 @@ export function ExpenseBoard({
             </thead>
             <tbody>
               {[...SUBSCRIPTIONS]
-                // Abonnements résiliés (SmartSize, Jeremy fin août…) : sortis
-                // de la liste des dépenses COURANTES (Badr 19/08 : « SmartSize
-                // on l'a arrêté, elle doit sortir ») — l'historique continue
-                // de les compter jusqu'à leur endDay, seul l'affichage change.
-                .filter((sub) => sub.endDay === null || sub.endDay >= new Date().toISOString().slice(0, 10))
+                // Ce qui est facturé AUJOURD'HUI, ni plus ni moins.
+                //  • déjà fini (SmartSize, Jeremy, Higgsfield…) → sorti de la
+                //    liste courante (Badr 19/08 : « SmartSize on l'a arrêté,
+                //    elle doit sortir ») ; l'historique continue de le compter
+                //    jusqu'à son endDay, seul l'affichage change.
+                //  • pas encore commencé → sorti aussi. Le filtre ne regardait
+                //    QUE endDay : les lignes de Claude en dollars (18/09)
+                //    s'affichaient déjà à côté des lignes en euros, et Badr a
+                //    vu des doublons (01/09). Même défaut que subsForPattern
+                //    dans bank.ts — une seule fonction borne les deux côtés.
+                .filter((sub) => isActiveOn(sub, historyEnd))
                 .sort((a, b) => monthlyEurCents(b) - monthlyEurCents(a))
                 .map((sub) => {
                   const m = monthlyEurCents(sub);
                   const alerte = sub.note?.includes("URGENT");
                   return (
-                    <tr key={sub.label} className="border-b border-hair/50">
+                    // Clé = label + devise : deux lignes peuvent porter le même
+                    // libellé (un tarif ou une devise qui change).
+                    <tr key={`${sub.label}-${sub.currency}-${sub.startDay}`} className="border-b border-hair/50">
                       <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
                         {sub.label}
                         {alerte && " ⚠️"}
