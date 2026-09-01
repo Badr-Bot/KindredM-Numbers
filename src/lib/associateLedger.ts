@@ -80,6 +80,26 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
     badrShare: 0.5,
     note: "Conversion au taux figé du dashboard (1 € = 1,1539 $). Dépense variable : à rajouter chaque fois qu'un débit tombe.",
   },
+  // Google One, payé de sa poche par Badr (01/09 : « j'ai payé moi de mon
+  // côté google one 17.53 € ce mois +1.99 +1.99 +1.99 »), puis CORRIGÉ dans la
+  // foulée : « enlève 17.53 € ». Ne restent que les TROIS débits de 1,99 € —
+  // total 5,97 €. Gardés ligne à ligne pour coller au relevé, comme la LLC.
+  //
+  // Pourquoi ici et pas dans subscriptions.ts : Google One n'a AUCUNE ligne
+  // d'abonnement (seul « Google Workspace » existe, c'est un autre produit).
+  // Un SUB_PAYMENT ne compterait donc que la dette envers Badr sans jamais
+  // toucher le net — la charge disparaîtrait du P&L. En frais ponctuel, elle
+  // baisse le net du jour ET ouvre le dû entre associés.
+  //
+  // ⚠️ DEUX POINTS À CONFIRMER (rien inventé en attendant) :
+  //  • DATE : « ce mois », dit le 01/09 → daté du 01/09. Si les débits sont
+  //    tombés en août, ils changent de mois (23,50 € de charges qui glissent).
+  //  • RÉCURRENCE : si Google One revient tous les mois, ces lignes ponctuelles
+  //    doivent devenir un abonnement (subscriptions.ts, paidBy BADR) — sinon
+  //    il faudra les ressaisir à la main chaque mois.
+  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
 ];
 
 export interface AssociateTransfer {

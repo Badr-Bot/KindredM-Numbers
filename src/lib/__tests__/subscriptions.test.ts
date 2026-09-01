@@ -6,6 +6,7 @@ import {
   monthlyEurCents,
   subscriptionTotals,
 } from "../subscriptions";
+import { oneOffCostsCentsForDay } from "../associateLedger";
 
 /**
  * 💳 Charges fixes — fenêtres de facturation.
@@ -181,11 +182,16 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
   it("fait tomber les charges du jour de ~88 € à ~37 €", () => {
     // Le 01/09 porte DEUX sorties : Jeremy et Eleven Labs (arrêté le 01/09 à
     // la demande de Badr). On vérifie la composition exacte du pas — ce test
-    // avait déjà attrapé cet ajout, c'est exactement son rôle.
-    expect(fixedCostsCentsForDay("2026-08-31") - fixedCostsCentsForDay("2026-09-01")).toBe(
+    // a déjà attrapé ces deux ajouts, c'est exactement son rôle.
+    //
+    // ⚠️ On compare les ABONNEMENTS ÉTALÉS seuls : les frais PONCTUELS (Google
+    // One payé par Badr le 01/09) tombent en une fois sur leur jour et
+    // fausseraient le pas, alors qu'ils ne changent rien au régime quotidien.
+    const abosSeuls = (jour: string) => fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour);
+    expect(abosSeuls("2026-08-31") - abosSeuls("2026-09-01")).toBe(
       dailyEurCents(jeremy()) + dailyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)"))
     );
-    expect(Math.round(fixedCostsCentsForDay("2026-09-01") / 100)).toBe(37);
+    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(37);
   });
 
   it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {

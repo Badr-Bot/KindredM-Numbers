@@ -149,12 +149,11 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // RESTE : l'historique doit continuer de porter ce qui a été payé.
   { label: "Higgsfield ×2 (Adnane + Ismael)", category: "OUTIL", amount: 110, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté par Badr le 29/08 — dernier jour compté 28/08." },
   // 01/09 (Badr) : « t'as pas enlevé Eleven Labs des dépenses » → arrêté,
-  // dernier jour compté 31/08 (−1,45 €/j). Le siège du monteur est parti avec
-  // lui le 28/08 ; Badr demande de sortir la ligne ENTIÈRE.
-  // ⚠️ Si Adnane garde son siège, ce n'est pas un arrêt mais un passage de 2 à
-  // 1 siège : il faudrait alors fermer cette ligne et en ouvrir une à ~22 €
-  // (modèle Vmake) au lieu de tout retirer. Question posée, réponse en attente.
-  { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-31", note: "Arrêté sur demande de Badr le 01/09 — dernier jour compté 31/08." },
+  // dernier jour compté 31/08 (−1,45 €/j). ✅ « c'était bien les deux »
+  // (Badr, 01/09) : les DEUX sièges sautent, Adnane compris — ce n'est donc
+  // pas un passage de 2 à 1 siège, il n'y a pas de ligne à ~22 € à rouvrir.
+  // Question CLOSE, ne pas la réinstruire.
+  { label: "Eleven Labs ×2 (Adnane + monteur)", category: "OUTIL", amount: 44, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-31", note: "Arrêté le 01/09 (Badr) — les deux sièges, Adnane compris. Dernier jour compté 31/08." },
   // 29/08 (Badr) : « Claude Adnane aussi passera à 20 $ ». Le « aussi » le
   // rattache au passage en dollar de Claude Badr, daté du 18/09 — SEULE date
   // donnée. ⚠️ Hypothèse SIGNALÉE : si Adnane bascule à une autre date, seul
