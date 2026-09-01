@@ -404,6 +404,14 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 
 **❌ PAS de graphe « Budget / jour »** — construit le 29/08, **retiré le jour même sur retour de Badr** : « je voulais que le jour où le budget change ça mette une ligne dans les autres charts, pas avoir un chart budget, je m'en fous ». Le budget sert de REPÈRE sur les autres courbes, il n'est pas une métrique à contempler. `buildBudgetTimeline` et `getCampaignBudgets` supprimés avec lui (pas de code mort).
 
+## 🤝 Google One payé par Badr (01/09)
+
+- Badr : « j'ai payé moi de mon côté Google One 17.53 € ce mois +1.99 +1.99 +1.99 donc rajoute-le dans le payé par Badr », puis **correction immédiate : « enlève 17.53 € »**. Ne restent que **3 × 1,99 € = 5,97 €**, gardés ligne à ligne (convention du fichier : coller au relevé).
+- **Pourquoi dans `ONE_OFF_COSTS` et pas dans `SUB_PAYMENTS`** : Google One n'a AUCUNE ligne d'abonnement (« Google Workspace » est un autre produit). Un `SUB_PAYMENT` ne compte que la dette envers le payeur, **sans jamais toucher le net** — il suppose que `subscriptions.ts` porte déjà la charge. Ici il ne la porte pas : en frais ponctuel, la charge baisse le net du 01/09 **et** ouvre le dû. Règle : `SUB_PAYMENTS` = une facture d'un abonnement **déjà listé** ; `ONE_OFF_COSTS` = tout le reste.
+- Badr est dû **3,00 €** (la moitié d'Adnane, arrondie ligne à ligne — jamais le brut). Charges du 01/09 : 42,83 € (36,86 € d'abonnements + 5,97 € de ponctuel).
+- ⚠️ **DEUX POINTS OUVERTS** : la **date** (« ce mois », dit le 01/09 → daté du 01/09 ; si les débits sont tombés en août, 5,97 € changent de mois) et la **récurrence** (si Google One revient chaque mois, en faire un abonnement `paidBy:"BADR"` plutôt que de ressaisir des ponctuels à la main).
+- Leçon d'implémentation : le test « le pas de charges du 01/09 » a cassé en ajoutant ce frais — il comparait `fixedCostsCentsForDay` brut. Il compare désormais **les abonnements étalés SEULS** (`fixedCosts − oneOffCosts`) : un frais ponctuel ne doit pas fausser un test de régime quotidien.
+
 ## Entre associés — tracé (08/08)
 - Source unique : `associateLedger.ts` + champ `paidBy` de subscriptions.ts. Affiché dans Année, section 🤝. Règle : ce que l'un paie de sa poche pour la société lui est dû au règlement ; les transferts entre eux sont HORS P&L.
 - **Frais LLC (Corporate Filings, 21/06) : 518,34 € payés par Badr** (325+142+125 $ — EUR figés du relevé bancaire, capture 08/08). Déduits du net global LE 21/06 (frais ponctuel, pas étalé). **Partage 50/50** (décision Badr : « ça nous a servi pour lancer le 14/07 ») — chaque frais ponctuel porte SA règle (`badrShare`), indépendante de la règle par date. Badr a tout payé → 259,17 € lui sont dus au règlement.
