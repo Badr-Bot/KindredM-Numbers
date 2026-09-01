@@ -178,14 +178,14 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     expect(actifLe("Jeremy — emailing (fixe, hors %)", "2026-09-01")).toBe(false);
   });
 
-  it("fait tomber les charges du jour de ~88 € à ~38 €", () => {
-    // Seul mouvement de ce jour-là : le pas doit valoir EXACTEMENT son
-    // quotidien (49,28 €). Si un autre changement atterrit au 01/09, ce test
-    // tombe et oblige à le documenter au lieu de le noyer.
+  it("fait tomber les charges du jour de ~88 € à ~37 €", () => {
+    // Le 01/09 porte DEUX sorties : Jeremy et Eleven Labs (arrêté le 01/09 à
+    // la demande de Badr). On vérifie la composition exacte du pas — ce test
+    // avait déjà attrapé cet ajout, c'est exactement son rôle.
     expect(fixedCostsCentsForDay("2026-08-31") - fixedCostsCentsForDay("2026-09-01")).toBe(
-      dailyEurCents(jeremy())
+      dailyEurCents(jeremy()) + dailyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)"))
     );
-    expect(Math.round(fixedCostsCentsForDay("2026-09-01") / 100)).toBe(38);
+    expect(Math.round(fixedCostsCentsForDay("2026-09-01") / 100)).toBe(37);
   });
 
   it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
@@ -197,5 +197,48 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
         (s.endDay === null || "2026-09-01" <= s.endDay)
     ).map((s) => s.label);
     expect(equipeActive).toEqual(["Marwa"]);
+  });
+});
+
+describe("Aucun doublon : deux lignes d'un même poste ne se chevauchent JAMAIS", () => {
+  // Badr, 01/09 : « le Claude Adnane 20 € il faut l'enlever, ça fait doublon
+  // non ?? pareil pour le Claude Badr à 100 € ». C'était l'affichage (l'onglet
+  // Dépenses ne filtrait pas sur la date de DÉBUT), pas les données — mais
+  // rien ne l'interdisait. Ce test verrouille l'invariant pour de bon : un
+  // chevauchement compterait DEUX FOIS la même charge dans le net.
+  const jours = [
+    "2026-05-21", "2026-06-15", "2026-07-15", "2026-08-09", "2026-08-10",
+    "2026-08-28", "2026-08-31", "2026-09-01", "2026-09-17", "2026-09-18",
+    "2026-10-01", "2026-12-31",
+  ];
+
+  it("un seul tarif actif par libellé, quel que soit le jour", () => {
+    for (const jour of jours) {
+      const parLabel = new Map<string, number>();
+      for (const s of SUBSCRIPTIONS) {
+        if (jour < s.startDay || (s.endDay !== null && jour > s.endDay)) continue;
+        parLabel.set(s.label, (parLabel.get(s.label) ?? 0) + 1);
+      }
+      const doublons = [...parLabel.entries()].filter(([, n]) => n > 1);
+      expect({ jour, doublons }).toEqual({ jour, doublons: [] });
+    }
+  });
+});
+
+describe("Eleven Labs — arrêté (Badr 01/09 : « t'as pas enlevé eleven labs »)", () => {
+  it("est compté jusqu'au 31/08 inclus, plus rien dès le 01/09", () => {
+    expect(actifLe("Eleven Labs ×2 (Adnane + monteur)", "2026-08-31")).toBe(true);
+    expect(actifLe("Eleven Labs ×2 (Adnane + monteur)", "2026-09-01")).toBe(false);
+    // L'historique garde sa charge.
+    expect(actifLe("Eleven Labs ×2 (Adnane + monteur)", "2026-07-01")).toBe(true);
+  });
+
+  it("sort du total mensuel courant (−44 €, en même temps que Jeremy)", () => {
+    const avant = subscriptionTotals("2026-08-31").monthlyCents;
+    const apres = subscriptionTotals("2026-09-01").monthlyCents;
+    const jeremy = SUBSCRIPTIONS.find((s) => s.label.startsWith("Jeremy"))!;
+    expect(avant - apres).toBe(
+      monthlyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)")) + monthlyEurCents(jeremy)
+    );
   });
 });
