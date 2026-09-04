@@ -1,10 +1,21 @@
 import { createSign } from "node:crypto";
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { addDaysToDay, toParisDay, todayParisDay } from "./time";
-import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
+import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { SUPPLIER_BILLS } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
+import { badrFixedShareFor } from "./associateLedger";
+import {
+  buildTreasuryBridge,
+  NET_BOOKED_BANK_FEES_UNTIL,
+  supplierUnbilledDetail,
+  UNEXPLAINED_ALERT_CENTS,
+  type OrderCostRow,
+  type SupplierUnbilled,
+  type TreasuryBridge,
+} from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -63,6 +74,24 @@ export interface BankTx {
    * inconnue avec tout ce que le dashboard connaît (abonnements, frais
    * ponctuels, factures fournisseur) par similarité de montant. */
   suggestion?: string | null;
+  /** Pour un FRAIS de change : la catégorie de la dépense qui l'a causé
+   * (META = pub payée en EUR avec la carte USD, ABONNEMENT, AUTRE…). Badr
+   * 04/09 : « les frais de change c'est lié aux dépenses courantes ou à
+   * Meta ? » — la réponse se lit ici, ligne à ligne. */
+  feeOf?: TxCategory | "PERSO" | null;
+}
+
+/** Paiement carte REFUSÉ (declined) — aucun argent sorti, mais un signal :
+ * plafond, carte expirée, blocage marchand. Le 01/09, Google Workspace a été
+ * refusé 6 fois d'affilée avant de passer le 02/09 (relevé Badr 04/09) —
+ * exactement le genre d'« anomalie dépenses » qu'il veut voir remonter. */
+export interface DeclinedPayment {
+  bank: BankName;
+  day: string;
+  description: string;
+  /** Montant tenté, en cents de la devise d'origine (positif). */
+  amountCents: number;
+  currency: string;
 }
 
 export interface BankBalance {
@@ -107,6 +136,10 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // « Emailing : Altura » = la LLC de Jeremy (Badr 19/08 : « emailing c'est
   // pour Jeremy ») — ses virements ACH/wire sont sa presta emailing.
   { label: "Jeremy — emailing (fixe, hors %)", re: /emailing|altura/i },
+  // Monteur = ARINLOYE ISMAEL KOREDELE (Badr 04/09 : « Ismael c'est le
+  // monteur ») — virement Wise du 28/08 (660 $, prorata, dernier jour compté
+  // 28/08). Sans ce motif la ligne restait « à affecter » à chaque visite.
+  { label: "Monteur", re: /arinloye|ismael|koredele/i },
   // Apps Shopify — parfois débitées en direct, parfois via la facture
   // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
   // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
@@ -139,6 +172,13 @@ export function categorizeTx(description: string, amountCents: number): { catego
   if (/panda/.test(d)) return { category: "FOURNISSEUR", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };
+  // « Disbursement Reversal » (Slash, ACH) = un versement reçu qui est REPRIS
+  // — Shopify reprend sur un payout les remboursements clients. Ce n'est pas
+  // une dépense : les remboursements sont déjà déduits du CA (refunded_cents,
+  // onglets Mois/Année). Compté comme versement négatif, jamais « à affecter »
+  // (Badr 04/09). Hypothèse Shopify : le libellé bancaire ne nomme pas
+  // l'émetteur — si un autre ACH reçu était repris, il tomberait ici aussi.
+  if (/disbursement\s*reversal/.test(d) && amountCents < 0) return { category: "SHOPIFY", subscriptionLabel: null };
   for (const p of SUBSCRIPTION_PATTERNS) {
     if (p.re.test(description)) return { category: "ABONNEMENT", subscriptionLabel: p.label };
   }
@@ -175,9 +215,21 @@ export function subsForPattern(patternLabel: string, untilDay: string) {
   );
 }
 
-function toEurCents(amountCents: number, currency: string, liveRates?: Map<string, number>): number | null {
+/** Conversion EUR. USD : règle Badr 04/09 — `usd.day` posé = c'est un débit
+ * PAYÉ, converti au taux de son jour ; sans jour = de l'argent qui DORT
+ * (solde, en route, cashback), converti au dernier taux de la série. Sans
+ * série Wise : taux figé 1,1539 (décision 08/08, devenue le repli). */
+function toEurCents(
+  amountCents: number,
+  currency: string,
+  liveRates?: Map<string, number>,
+  usd?: { rates: DailyRates | null; day?: string }
+): number | null {
   if (currency === "EUR") return amountCents;
-  if (currency === "USD") return Math.round(amountCents * USD_TO_EUR); // taux FIGÉ du dashboard (décision Badr 08/08)
+  if (currency === "USD") {
+    const rate = usd ? (usd.day ? usdToEurForDay(usd.rates, usd.day) : usdToEurLatest(usd.rates)) : USD_TO_EUR;
+    return Math.round(amountCents * rate);
+  }
   const rate = liveRates?.get(currency);
   if (rate !== undefined) return Math.round(amountCents * rate); // taux Wise du jour (CAD, CHF, MAD…)
   return null; // devise inconnue : on l'affiche telle quelle, jamais convertie au pif
@@ -233,6 +285,43 @@ async function fetchWiseRates(currencies: string[], token: string): Promise<Map<
   return rates;
 }
 
+/** Série QUOTIDIENNE USD→EUR depuis le lancement (Wise /v1/rates, group=day)
+ * — une seule requête pour tout l'historique. null sans jeton ou en erreur :
+ * les conversions retombent sur le taux figé, jamais sur un taux inventé. */
+async function fetchWiseUsdEurHistory(fromDay: string, toDay: string): Promise<DailyRates | null> {
+  const token = process.env.WISE_API_TOKEN;
+  if (!token) return null;
+  try {
+    const qs = new URLSearchParams({
+      source: "USD",
+      target: "EUR",
+      from: `${fromDay}T00:00:00`,
+      to: `${toDay}T23:59:59`,
+      group: "day",
+    });
+    const res = await fetch(`${WISE_API}/v1/rates?${qs}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+    const arr = (await res.json()) as { rate?: number; time?: string }[];
+    const points = (arr ?? [])
+      .filter((p) => typeof p.rate === "number" && typeof p.time === "string")
+      .map((p) => ({ day: toParisDay(p.time as string), rate: p.rate as number }));
+    const built = buildDailyRates(points);
+    return built.days.length > 0 ? built : null;
+  } catch {
+    return null;
+  }
+}
+
+const fetchWiseUsdEurHistoryCached = unstable_cache(
+  async (fromDay: string, toDay: string) => fetchWiseUsdEurHistory(fromDay, toDay),
+  ["wise-usd-eur-history-v1"],
+  { revalidate: 3600, tags: ["bank"] } // le « dernier taux de la journée » se rafraîchit à l'heure
+);
+
+/** Point de départ des taux : le lancement de l'activité (même valeur que
+ * TREASURY_START_DAY, déclarée plus bas — les deux sont verrouillées par test). */
+export const RATES_START_DAY = "2026-05-21";
+
 // --- Client Slash --------------------------------------------------------------
 // Doc collée par Badr le 19/08 (docs.slash.com, OpenAPI) :
 //   GET https://api.slash.com/transaction — header X-API-Key ; clé user-scoped
@@ -268,6 +357,50 @@ export interface SlashTx {
   cashbackInfo?: { amountCents?: number; rate?: number };
 }
 
+/** Frais FX d'un jour, par origine : perso (carte Fahd/Badr), Meta, autre
+ * société — cents USD, valeurs positives. */
+export interface FxSlot {
+  fahd: number;
+  badr: number;
+  meta: number;
+  societe: number;
+}
+
+export interface FxSharePart {
+  suffix: string;
+  amountCents: number;
+  label: TxLabel | null;
+  feeOf: BankTx["feeOf"];
+  qui: string;
+}
+
+/**
+ * Redécoupe l'agrégat quotidien « Slash fee: Foreign transaction fee » au
+ * prorata des frais portés par chaque transaction du jour (fxFeeInfo). Le
+ * dernier morceau prend le reste : la somme des parts vaut EXACTEMENT
+ * l'agrégat, jamais un centime d'arrondi perdu. Exporté pour test.
+ */
+export function fxShares(slot: FxSlot, aggregateCents: number): FxSharePart[] {
+  const total = slot.fahd + slot.badr + slot.meta + slot.societe;
+  if (total <= 0) return [];
+  const defs = (
+    [
+      { suffix: "fahd", w: slot.fahd, label: "PERSO_FAHD", feeOf: "PERSO", qui: "dépenses carte Adnane/Fahd" },
+      { suffix: "badr", w: slot.badr, label: "PERSO_BADR", feeOf: "PERSO", qui: "dépenses carte Badr" },
+      { suffix: "meta", w: slot.meta, label: null, feeOf: "META", qui: "Meta (pub facturée en EUR, payée en USD)" },
+      { suffix: "ste", w: slot.societe, label: null, feeOf: "AUTRE", qui: "autres dépenses société (abonnements…)" },
+    ] as { suffix: string; w: number; label: TxLabel | null; feeOf: BankTx["feeOf"]; qui: string }[]
+  ).filter((d) => d.w > 0);
+  let rest = aggregateCents;
+  return defs
+    .map((d, idx) => {
+      const amountCents = idx === defs.length - 1 ? rest : Math.round((aggregateCents * d.w) / total);
+      rest -= amountCents;
+      return { suffix: d.suffix, amountCents, label: d.label, feeOf: d.feeOf, qui: d.qui };
+    })
+    .filter((p) => p.amountCents !== 0);
+}
+
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
  * `settled` (et refund/returned/dispute) restent — l'argent est engagé. */
 const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "reversed", "pending_approval", "in_review"]);
@@ -275,7 +408,7 @@ const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "re
 /** Mapping pur (testé) : une transaction Slash → BankTx, ou null si le
  * statut n'a pas bougé d'argent. Compte Slash en USD ⇒ conversion au taux
  * figé du dashboard, comme partout. */
-export function mapSlashTx(t: SlashTx): BankTx | null {
+export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx | null {
   if (t.status === "failed" || SLASH_STATUTS_SANS_ARGENT.has(t.detailedStatus)) return null;
   const description = t.merchantData?.description || t.description || t.memo || "(sans libellé)";
   const { category, subscriptionLabel } = categorizeTx(description, t.amountCents);
@@ -293,6 +426,7 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
   } catch {
     // date illisible : le reste du contexte suffit
   }
+  const reversal = /disbursement\s*reversal/i.test(description);
   return {
     detail: bits.join(" · "),
     bank: "SLASH",
@@ -300,19 +434,22 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
     day: toParisDay(t.date),
     amountCents: t.amountCents,
     currency: "USD",
-    amountEurCents: toEurCents(t.amountCents, "USD"),
+    // PAYÉ → taux du jour de la transaction (règle Badr 04/09).
+    amountEurCents: toEurCents(t.amountCents, "USD", undefined, { rates, day: toParisDay(t.date) }),
     description,
     category,
     subscriptionLabel,
     label: null,
-    labelNote: null,
+    labelNote: reversal
+      ? "retour de versement (remboursements clients repris sur un payout) — déjà déduit du CA, rien à affecter"
+      : null,
   };
 }
 
 export async function fetchSlashData(
   sinceDay: string,
   untilDay: string
-): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number }> {
+): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number; declines: DeclinedPayment[] }> {
   const token = process.env.SLASH_API_TOKEN;
   if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
 
@@ -340,8 +477,13 @@ export async function fetchSlashData(
     res = await call(null);
   }
 
+  // Série de taux (règle 04/09) — en parallèle de la première page, non bloquante.
+  const ratesPromise = fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay);
+
   const raw: SlashTx[] = [];
-  for (let page = 0; page < 20; page++) {
+  // 60 pages (et non 20) : la même lecture sert au balayage DEPUIS LE DÉBUT du
+  // rapprochement trésorerie — 20 pages ne couvraient pas l'historique.
+  for (let page = 0; page < 60; page++) {
     if (!res.ok) throw new Error(`Slash /transaction : HTTP ${res.status} — ${(await res.text()).slice(0, 200)}`);
     const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
     raw.push(...(json.items ?? []));
@@ -394,7 +536,7 @@ export async function fetchSlashData(
   // (« ça part chez eux » pour le perso, le reste en frais société — le gros
   // vient de Meta facturé en EUR sur un compte USD). Cashback : sommé à part
   // (gagné, à récupérer — pas encore de l'argent entré).
-  const fxByDay = new Map<string, { fahd: number; badr: number; societe: number }>();
+  const fxByDay = new Map<string, FxSlot>();
   let cashbackCents = 0;
   for (const t of raw) {
     const cb = t.cashbackInfo?.amountCents;
@@ -403,16 +545,34 @@ export async function fetchSlashData(
     if (typeof fee !== "number" || fee <= 0) continue;
     const day = toParisDay(t.date);
     const owner = t.cardId ? owners.get(t.cardId) : undefined;
-    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, societe: 0 };
-    if (owner?.label === "PERSO_FAHD") slot.fahd += fee;
-    else if (owner?.label === "PERSO_BADR") slot.badr += fee;
+    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, meta: 0, societe: 0 };
+    const desc = t.merchantData?.description || t.description || t.memo || "";
+    const cat = categorizeTx(desc, t.amountCents).category;
+    if (owner?.label === "PERSO_FAHD" && cat === "AUTRE") slot.fahd += fee;
+    else if (owner?.label === "PERSO_BADR" && cat === "AUTRE") slot.badr += fee;
+    else if (cat === "META") slot.meta += fee; // « lié à Meta ou aux dépenses courantes ? » → ici
     else slot.societe += fee;
     fxByDay.set(day, slot);
   }
 
+  const rates = await ratesPromise;
   const txs: BankTx[] = [];
+  const declines: DeclinedPayment[] = [];
   for (const t of raw) {
-    const mapped = mapSlashTx(t);
+    // Refus de paiement : pas d'argent sorti (donc hors txs), mais gardé à
+    // part pour l'anomalie « carte refusée » (Badr 04/09 : « il faudra qu'il
+    // me dise les anomalies au niveau des dépenses »).
+    if (t.detailedStatus === "declined" && t.amountCents < 0) {
+      declines.push({
+        bank: "SLASH",
+        day: toParisDay(t.date),
+        description: t.merchantData?.description || t.description || t.memo || "(sans libellé)",
+        amountCents: Math.abs(t.amountCents),
+        currency: "USD",
+      });
+      continue;
+    }
+    const mapped = mapSlashTx(t, rates);
     if (!mapped) continue;
     // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
     // les perso) — c'est souvent ce qui identifie une ligne mystère.
@@ -423,30 +583,20 @@ export async function fetchSlashData(
     if (agg) {
       const refDay = `20${agg[3]}-${agg[1]}-${agg[2]}`; // MM.DD.YY → YYYY-MM-DD
       const slot = fxByDay.get(refDay) ?? fxByDay.get(mapped.day);
-      const total = slot ? slot.fahd + slot.badr + slot.societe : 0;
-      if (slot && total > 0) {
-        const parts = (
-          [
-            { suffix: "fahd", share: slot.fahd / total, label: "PERSO_FAHD", qui: "dépenses carte Adnane/Fahd" },
-            { suffix: "badr", share: slot.badr / total, label: "PERSO_BADR", qui: "dépenses carte Badr" },
-            { suffix: "ste", share: slot.societe / total, label: null, qui: "dépenses société (Meta en EUR surtout)" },
-          ] as { suffix: string; share: number; label: TxLabel | null; qui: string }[]
-        ).filter((p) => p.share > 0);
-        let restCents = mapped.amountCents;
-        parts.forEach((p, idx) => {
-          const amount = idx === parts.length - 1 ? restCents : Math.round(mapped.amountCents * p.share);
-          restCents -= amount;
-          if (amount === 0) return;
+      const parts = slot ? fxShares(slot, mapped.amountCents) : [];
+      if (parts.length > 0) {
+        for (const p of parts) {
           txs.push({
             ...mapped,
             txId: `${mapped.txId}-${p.suffix}`,
-            amountCents: amount,
-            amountEurCents: toEurCents(amount, "USD"),
+            amountCents: p.amountCents,
+            amountEurCents: toEurCents(p.amountCents, "USD", undefined, { rates, day: mapped.day }),
             category: "FRAIS",
             label: p.label,
+            feeOf: p.feeOf,
             labelNote: `frais FX du ${refDay.slice(8, 10)}/${refDay.slice(5, 7)} — part ${p.qui} (ventilé automatiquement)`,
           });
-        });
+        }
       } else {
         txs.push({ ...mapped, category: "FRAIS", labelNote: "frais FX du jour — non ventilable (détail indisponible), compté société" });
       }
@@ -462,9 +612,11 @@ export async function fetchSlashData(
       if (parentOwner && parentCat === "AUTRE") {
         mapped.category = "FRAIS";
         mapped.label = parentOwner.label;
+        mapped.feeOf = "PERSO";
         mapped.labelNote = `frais lié à « ${parentDesc} » (${parentOwner.note})`;
       } else {
         mapped.category = parentCat === "AUTRE" || parentCat === "INTERNE" ? "FRAIS" : parentCat;
+        mapped.feeOf = parent ? parentCat : null;
         mapped.labelNote = parent ? `frais lié à « ${parentDesc} »` : "frais Slash — transaction d'origine hors fenêtre";
       }
       txs.push(mapped);
@@ -504,13 +656,14 @@ export async function fetchSlashData(
         }
       }
       if (any) {
-        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD") }];
+        // Argent qui DORT → dernier taux de la journée (règle Badr 04/09).
+        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD", undefined, { rates }) }];
       }
     }
   } catch {
     // solde illisible : signalé dans le rapport, les transactions restent valables
   }
-  return { txs, balances, cashbackCents };
+  return { txs, balances, cashbackCents, declines };
 }
 
 interface WiseStatementTx {
@@ -538,7 +691,10 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
   const balances = (await balancesRes.json()) as { id: number; currency: string; amount: { value: number } }[];
 
   const extraCurrencies = [...new Set(balances.map((b) => b.currency))].filter((c) => c !== "EUR" && c !== "USD");
-  const liveRates = extraCurrencies.length > 0 ? await fetchWiseRates(extraCurrencies, token) : new Map<string, number>();
+  const [liveRates, usdRates] = await Promise.all([
+    extraCurrencies.length > 0 ? fetchWiseRates(extraCurrencies, token) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay),
+  ]);
 
   const txs: BankTx[] = [];
   for (const b of balances) {
@@ -565,7 +721,7 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
         day: toParisDay(t.date),
         amountCents,
         currency: t.amount.currency,
-        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates),
+        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates, { rates: usdRates, day: toParisDay(t.date) }),
         description,
         category,
         subscriptionLabel,
@@ -579,7 +735,12 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
     txs,
     balances: balances.map((b) => {
       const amountCents = Math.round(b.amount.value * 100);
-      return { bank: "WISE" as const, currency: b.currency, amountCents, amountEurCents: toEurCents(amountCents, b.currency, liveRates) };
+      return {
+        bank: "WISE" as const,
+        currency: b.currency,
+        amountCents,
+        amountEurCents: toEurCents(amountCents, b.currency, liveRates, { rates: usdRates }),
+      };
     }),
   };
 }
@@ -687,6 +848,8 @@ export function reconcile(
 // --- Anomalies + parts (pur, testé) ---------------------------------------------
 
 export type AnomalyKind =
+  | "PAIEMENT_REFUSE"
+  | "TRESORERIE_INEXPLIQUE"
   | "TX_NON_AFFECTEE"
   | "ABO_NON_DEBITE"
   | "ABO_MONTANT"
@@ -738,10 +901,56 @@ export function computeControl(input: {
    * l'est pas, les débits carte LLC (Meta, abonnements) passent sur Slash et
    * sont invisibles ici : on ne crie pas « impayé » sur ce qu'on ne voit pas. */
   slashConnected?: boolean;
+  /** Paiements carte refusés sur la fenêtre (Slash) — signal, pas argent. */
+  declines?: DeclinedPayment[];
+  /** Rapprochement depuis le début — l'inexpliqué DEPUIS le 04/09 alerte. */
+  treasury?: TreasuryBridge | null;
 }): ControlReport {
   const { txs, reconciliation, sinceDay, untilDay } = input;
   const slashConnected = input.slashConnected ?? false;
   const anomalies: Anomaly[] = [];
+
+  // 0) TRÉSORERIE : l'écart que ni la ventilation ni le reliquat Revolut
+  //    pré-LLC (plafond figé le 04/09) n'expliquent. Badr 04/09 : « à partir
+  //    de ce jour on part du principe qu'il n'y a pas de trou » — donc tout
+  //    reste au-delà du seuil est un trou NEUF, en rouge.
+  const inexplique = input.treasury?.unexplainedCents ?? null;
+  // Sur un « en route » ESTIMÉ (scope Shopify absent), pas d'alerte rouge :
+  // l'estimation vaut ±10 %, soit ±2 000 € — un faux trou ferait paniquer.
+  if (inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS && !input.treasury?.enRouteEstimated) {
+    anomalies.push({
+      kind: "TRESORERIE_INEXPLIQUE",
+      severity: "red",
+      label: `Trésorerie : ${Math.round(inexplique / 100)} € manquent sur les comptes sans explication (depuis le 04/09)`,
+      detail:
+        "Écart entre ce que l'activité a produit et ce qu'il y a réellement sur Wise + Slash, une fois retirés les frais connus, le perso et le reliquat Revolut pré-LLC. Voir le bloc « Rapprochement trésorerie ».",
+    });
+  }
+
+  // 0bis) PAIEMENTS REFUSÉS : même marchand refusé ≥ 2 fois sur la fenêtre =
+  //    carte qui coince (plafond, expiration, blocage) — un service peut être
+  //    coupé sans qu'aucun euro ne bouge, donc invisible de tout le reste.
+  const refus = (input.declines ?? []).filter((d) => d.day >= sinceDay && d.day <= untilDay);
+  const parMarchand = new Map<string, DeclinedPayment[]>();
+  for (const d of refus) {
+    const k = d.description.toLowerCase().replace(/\s+/g, " ").trim();
+    parMarchand.set(k, [...(parMarchand.get(k) ?? []), d]);
+  }
+  for (const list of parMarchand.values()) {
+    if (list.length < 2) continue;
+    const last = list.reduce((a, b) => (a.day > b.day ? a : b));
+    const paye = txs.some(
+      (t) => t.amountCents < 0 && t.day >= last.day && t.description.toLowerCase().includes(list[0].description.toLowerCase().slice(0, 6))
+    );
+    anomalies.push({
+      kind: "PAIEMENT_REFUSE",
+      severity: "amber",
+      label: `Carte refusée ×${list.length} : « ${list[0].description} » (dernier refus le ${last.day.slice(8, 10)}/${last.day.slice(5, 7)}, ${(last.amountCents / 100).toFixed(2)} $)`,
+      detail: paye
+        ? "Un débit est passé ensuite — le service tourne, mais la carte a coincé : plafond, expiration ou blocage marchand à vérifier."
+        : "Aucun débit passé depuis — le service peut être coupé. Vérifier la carte (plafond, expiration) et relancer le paiement.",
+    });
+  }
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay && t.label !== "IGNORER");
   const debits = inWindow.filter((t) => t.amountCents < 0);
   const eur = (c: number) => `${Math.round(Math.abs(c) / 100)} €`;
@@ -991,6 +1200,19 @@ export interface BankReport {
    * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
    * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Argent en route ESTIMÉ quand le scope Shopify Payments manque : CA −
+   * frais Shopify des 5 derniers jours (délai de versement observé le 04/09 :
+   * solde + versements programmés = CA net des 5 derniers jours à 0,6 % près).
+   * L'ancienne estimation (CA − payouts reçus depuis le 01/08) affichait
+   * 777 € pour ~15 000 € réels : les payouts reçus début août payaient des
+   * ventes de juillet. null si les agrégats manquent. */
+  enRouteEstimateCents: number | null;
+  /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
+   * d'aller tout retracer depuis le tout début »). null = pas calculable
+   * (aucune banque branchée, ou agrégats illisibles). */
+  treasury: TreasuryBridge | null;
+  /** Message quand le rapprochement n'a pas pu être fait. */
+  treasurySetup: string | null;
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1039,17 +1261,21 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
   // et signalée (jamais convertie au pif).
   const others = [...new Set(pending.map((p) => p.currency).filter((c) => c !== "EUR" && c !== "USD"))];
   const wiseToken = process.env.WISE_API_TOKEN;
-  const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken) : new Map<string, number>();
+  const [rates, usdRates] = await Promise.all([
+    others.length > 0 && wiseToken ? fetchWiseRates(others, wiseToken) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, todayParisDay()),
+  ]);
   for (const p of pending) {
     const cents = Math.round(p.amount * 100);
-    const eur = toEurCents(cents, p.currency, rates);
+    const eur = toEurCents(cents, p.currency, rates, { rates: usdRates }); // en route = argent qui dort
     if (eur === null) skipped.push(`${p.currency} sans taux`);
     else totalEurCents += eur;
   }
   return { totalEurCents, missingScopes, skipped };
 }
 
-const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v1"], {
+// v2 : USD au dernier taux de la journée (04/09).
+const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v2"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1159,15 +1385,210 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v2"],
+  ["wise-data-v3"], // v3 : USD au taux du jour / dernier (04/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v2"],
+  ["slash-data-v4"], // v4 : + declines, USD au taux du jour / dernier (04/09)
   { revalidate: 900, tags: ["bank"] }
 );
+
+// ---------------------------------------------------------------------------
+// 🧮 RAPPROCHEMENT TRÉSORERIE — balayage DEPUIS LE TOUT DÉBUT
+//
+// Badr, 04/09 : « dis-lui d'aller tout retracer depuis le tout début […] c'est
+// pas à moi d'aller voir ». Le contrôle bancaire regarde 30 jours ; ici on
+// relit TOUTE la vie des comptes pour répondre à une seule question : le net
+// gagné correspond-il à l'argent réellement présent, et sinon où est parti le
+// reste — et à qui l'imputer.
+//
+// Coûteux (pagination complète des deux banques) donc CACHÉ 1 h et lancé en
+// parallèle du reste : un rapprochement de fond n'a pas besoin d'être à la
+// minute, et il ne doit jamais retarder l'affichage du contrôle.
+// ---------------------------------------------------------------------------
+
+/** Jour de lancement de l'activité — même valeur que HISTORY_START de
+ * data.ts, redéclarée ici pour ne pas créer de dépendance croisée entre le
+ * module banque et le module données (bank.ts est importé par data-less
+ * routes). Un test verrouille l'égalité des deux. */
+export const TREASURY_START_DAY = "2026-05-21";
+
+async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[]; sinceDay: string }> {
+  const parts: BankTx[][] = [];
+  if (process.env.WISE_API_TOKEN) {
+    const wise = await fetchWiseData(sinceDay, untilDay);
+    parts.push(wise.txs);
+  }
+  if (process.env.SLASH_API_TOKEN) {
+    const slash = await fetchSlashData(sinceDay, untilDay);
+    parts.push(slash.txs ?? []);
+  }
+  return { txs: parts.flat(), sinceDay };
+}
+
+const fetchLifetimeTxsCached = unstable_cache(
+  async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
+  ["bank-lifetime-txs-v2"], // v2 : USD au taux du jour (04/09)
+  { revalidate: 3600, tags: ["bank"] }
+);
+
+/** Toutes les commandes depuis la coupe de la dernière facture fournisseur.
+ * Pagination explicite : Supabase plafonne à 1 000 lignes par requête et il y
+ * a plus de 1 200 commandes non facturées — sans ça le dû fournisseur serait
+ * silencieusement amputé. */
+async function fetchOrderCostsSince(supabase: SupabaseClient, fromDay: string): Promise<OrderCostRow[]> {
+  const rows: OrderCostRow[] = [];
+  const PAGE = 1000;
+  for (let page = 0; page < 40; page++) {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("store, order_name, day, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
+      .gte("day", fromDay)
+      .order("order_name", { ascending: true })
+      .range(page * PAGE, page * PAGE + PAGE - 1);
+    if (error) throw new Error(error.message);
+    for (const r of data ?? []) {
+      rows.push({
+        store: String(r.store),
+        orderName: String(r.order_name),
+        day: String(r.day),
+        costCents:
+          ((r.cogs_product_cents as number) ?? 0) +
+          ((r.cogs_upsells_cents as number) ?? 0) +
+          ((r.tax_eu_cents as number) ?? 0),
+      });
+    }
+    if ((data?.length ?? 0) < PAGE) break;
+  }
+  return rows;
+}
+
+/** Le rapprochement complet. Chaque brique manquante dégrade proprement :
+ * pas de banque → pas d'écart (jamais un écart calculé contre un solde vide,
+ * qui afficherait « il manque 80 000 € »). */
+async function buildTreasury(input: {
+  supabase: SupabaseClient;
+  untilDay: string;
+  balances: BankBalance[];
+  enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Estimation (5 derniers jours) utilisée quand le scope Shopify manque. */
+  enRouteEstimateCents: number | null;
+  labels: Map<string, TxLabel>;
+}): Promise<{ treasury: TreasuryBridge | null; setup: string | null; warning: string | null }> {
+  const { supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels } = input;
+  if (balances.length === 0) {
+    return { treasury: null, setup: "Rapprochement trésorerie : en attente des soldes bancaires (Wise/Slash).", warning: null };
+  }
+
+  // 1) Net cumulé depuis le début, charges fixes déduites (même arithmétique
+  //    que l'onglet Mois : le net société, pas le net avant charges).
+  const { data: aggRows, error: aggErr } = await supabase
+    .from("daily_aggregates")
+    .select("day, net_cents, spend_cents")
+    .gte("day", TREASURY_START_DAY)
+    .lte("day", untilDay);
+  if (aggErr) return { treasury: null, setup: null, warning: `Rapprochement trésorerie : agrégats illisibles (${aggErr.message}).` };
+  let netCumuleCents = 0;
+  let metaSpendCents = 0;
+  for (const r of aggRows ?? []) {
+    netCumuleCents += (r.net_cents as number) ?? 0;
+    metaSpendCents += (r.spend_cents as number) ?? 0;
+  }
+  for (const day of listParisDays(TREASURY_START_DAY, untilDay)) netCumuleCents -= fixedCostsCentsForDay(day);
+
+  // 2) Dette fournisseur : les commandes que Panda n'a pas encore facturées.
+  //    Leur coût est déjà déduit du net mais l'argent est TOUJOURS en banque.
+  const lastBill = lastSupplierBill();
+  let unbilled: SupplierUnbilled | null = null;
+  let supplierWarning: string | null = null;
+  try {
+    const fromDay = lastBill ? addDaysToDay(lastBill.issuedDay, -7) : TREASURY_START_DAY;
+    const orderRows = await fetchOrderCostsSince(supabase, fromDay);
+    unbilled = supplierUnbilledDetail(
+      orderRows,
+      lastBill ? { store: SUPPLIER_BILL_STORE, ordersTo: lastBill.ordersTo, issuedDay: lastBill.issuedDay } : null
+    );
+  } catch (err) {
+    supplierWarning = `Rapprochement : dû fournisseur illisible (${(err as Error).message}) — écart affiché sans lui.`;
+  }
+
+  // 3) Ventilation depuis le début : ce que la banque voit et que le net ne
+  //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
+  let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
+  let scanWarning: string | null = null;
+  try {
+    const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+    // Une affectation MANUELLE écrase l'automatique (titulaire de la carte) ;
+    // sans affectation manuelle, l'automatique reste — l'écraser par null
+    // vidait le perso d'Adnane du rapprochement (bug repéré le 04/09).
+    for (const t of life.txs) {
+      const manual = labels.get(`${t.bank}|${t.txId}`);
+      if (manual) t.label = manual;
+    }
+    const out = (t: BankTx) => Math.abs(t.amountEurCents ?? 0);
+    const debits = life.txs.filter((t) => t.amountCents < 0 && t.label !== "IGNORER" && t.category !== "INTERNE");
+    const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
+    // Frais et Google Ads : seulement APRÈS le 04/09 — ceux d'avant sont déjà
+    // inscrits dans le net (subscriptions.ts / associateLedger.ts) et
+    // ressortiraient deux fois. Tout ce qui repasse après = écart neuf.
+    const nouveau = (t: BankTx) => t.day > NET_BOOKED_BANK_FEES_UNTIL;
+    const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t) && nouveau(t));
+    const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t) && nouveau(t));
+    // Frais de change DEPUIS LE DÉBUT, par origine (Badr 04/09 : « c'est lié
+    // aux dépenses courantes ou à Meta ? ») — information, indépendante de ce
+    // qui est déjà inscrit au net.
+    const fx = debits.filter((t) => t.category === "FRAIS" && t.feeOf !== undefined && t.feeOf !== null);
+    const fxMeta = fx.filter((t) => t.feeOf === "META").reduce((a, t) => a + out(t), 0);
+    const fxPerso = fx.filter((t) => t.feeOf === "PERSO").reduce((a, t) => a + out(t), 0);
+    const fxAutre = fx.reduce((a, t) => a + out(t), 0) - fxMeta - fxPerso;
+    scan = {
+      sinceDay: life.sinceDay,
+      coversHistory: life.sinceDay <= TREASURY_START_DAY,
+      feesCents: fees.reduce((a, t) => a + out(t), 0),
+      googleAdsCents: google.reduce((a, t) => a + out(t), 0),
+      persoBadrCents: debits.filter((t) => t.label === "PERSO_BADR").reduce((a, t) => a + out(t), 0),
+      persoFahdCents: debits.filter((t) => t.label === "PERSO_FAHD").reduce((a, t) => a + out(t), 0),
+      // Part de Badr sur les frais et Google Ads : règle des associés
+      // appliquée AU JOUR de chaque débit (100 % Adnane avant le 14/07,
+      // 50/50 ensuite) — jamais un 50/50 plaqué sur toute l'histoire.
+      societeDatedBadrCents: [...fees, ...google].reduce(
+        (a, t) => a + Math.round(out(t) * badrFixedShareFor(t.day)),
+        0
+      ),
+      metaBankCents: debits.filter((t) => t.category === "META").reduce((a, t) => a + out(t), 0),
+      metaSpendCents,
+      fxSplit: { metaCents: fxMeta, persoCents: fxPerso, autreCents: fxAutre },
+    };
+  } catch (err) {
+    scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;
+  }
+
+  const treasury = buildTreasuryBridge({
+    netCumuleCents,
+    supplierUnbilledCents: unbilled?.cents ?? 0,
+    supplierOwedCents: supplierOwedCents(),
+    supplierPrepaidCents: supplierPrepaidCents(),
+    supplierNext: unbilled,
+    enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : enRouteEstimateCents,
+    enRouteEstimated: !(enRoute && !enRoute.missingScopes),
+    bankBalances: balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+    scan,
+  });
+  return { treasury, setup: null, warning: supplierWarning ?? scanWarning };
+}
+
+/** Délai moyen entre une vente et son versement Shopify (jours), observé le
+ * 04/09 : EUR 5 j, USD 4 j. */
+export const PAYOUT_LAG_DAYS = 5;
+
+/** Argent en route estimé = CA − frais Shopify des PAYOUT_LAG_DAYS derniers
+ * jours (untilDay inclus). Pur, exporté pour test. */
+export function estimateEnRoute(days: ExpectedDaily[], untilDay: string): number {
+  const from = addDaysToDay(untilDay, -(PAYOUT_LAG_DAYS - 1));
+  return days.filter((d) => d.day >= from && d.day <= untilDay).reduce((t, d) => t + d.caCents - d.feesCents, 0);
+}
 
 /** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
 export async function buildBankReport(supabase: SupabaseClient | null): Promise<BankReport> {
@@ -1186,7 +1607,49 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   if (!supabase) {
     const demo = demoBankData(untilDay);
     const reconciliation = reconcile(demo.txs, demo.expected, controlSince, untilDay, { slashConnected });
-    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected });
+    const demoTreasury = buildTreasuryBridge({
+      netCumuleCents: 5931571,
+      supplierUnbilledCents: 2698847,
+      supplierOwedCents: 0,
+      enRouteCents: 185000,
+      supplierPrepaidCents: 0,
+      supplierNext: {
+        cents: 2698847,
+        orders: 1219,
+        firstOrder: "#5996",
+        lastOrder: "#7214",
+        firstDay: "2026-08-12",
+        lastDay: untilDay,
+      },
+      bankBalances: demo.balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+      scan: {
+        sinceDay: TREASURY_START_DAY,
+        coversHistory: true,
+        feesCents: 0,
+        googleAdsCents: 0,
+        persoBadrCents: 53100,
+        persoFahdCents: 301800,
+        societeDatedBadrCents: 0,
+        metaBankCents: 21337236,
+        metaSpendCents: 21337236,
+      },
+    });
+    const demoDeclines: DeclinedPayment[] = [1, 2, 3].map(() => ({
+      bank: "SLASH",
+      day: addDaysToDay(untilDay, -3),
+      description: "Google Workspace",
+      amountCents: 1130,
+      currency: "USD",
+    }));
+    const control = computeControl({
+      txs: demo.txs,
+      reconciliation,
+      sinceDay: controlSince,
+      untilDay,
+      slashConnected,
+      declines: demoDeclines,
+      treasury: demoTreasury,
+    });
     return {
       ready: true,
       setup: ["Mode démo : données bancaires synthétiques (aucune API appelée)."],
@@ -1199,11 +1662,22 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       slashCashbackEurCents: 2150,
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
+      enRouteEstimateCents: 185000,
+      treasury: demoTreasury,
+      treasurySetup: null,
     };
   }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
+  let declines: DeclinedPayment[] = [];
+  // Série de taux pour l'argent qui dort (cashback) — même source que les
+  // banques, même cache.
+  const usdRatesForReport = await fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay).catch(() => null);
+  // Affectations manuelles, réutilisées par le rapprochement depuis le début
+  // (les mêmes labels doivent valoir sur TOUTES les transactions, pas
+  // seulement celles des 30 derniers jours).
+  const labelsByKey = new Map<string, TxLabel>();
   let slashCashbackEurCents: number | null = null;
   // Argent en route (solde Shopify Payments réel) + cashback total depuis le
   // début — lancés en parallèle des banques, jamais bloquants.
@@ -1232,7 +1706,9 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
-      slashCashbackEurCents = typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD") : null;
+      declines = slash.declines ?? [];
+      slashCashbackEurCents =
+        typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD", undefined, { rates: usdRatesForReport }) : null;
       slashConnected = true;
       if ((slash.balances ?? []).length === 0) {
         warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
@@ -1256,6 +1732,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       }
     } else {
       const byKey = new Map((labelRows ?? []).map((r) => [`${r.bank}|${r.tx_id}`, r]));
+      for (const [k, r] of byKey) labelsByKey.set(k, r.kind as TxLabel);
       for (const t of txs) {
         const l = byKey.get(`${t.bank}|${t.txId}`);
         if (l) {
@@ -1267,6 +1744,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   }
 
   let reconciliation: BankReconciliation | null = null;
+  let enRouteEstimateCents: number | null = null;
   if (txs.length > 0) {
     const { data, error } = await supabase
       .from("daily_aggregates")
@@ -1285,6 +1763,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
       }
+      enRouteEstimateCents = estimateEnRoute([...byDay.values()], untilDay);
       reconciliation = reconcile(txs, [...byDay.values()].filter((e) => e.day >= controlSince), controlSince, untilDay, {
         slashConnected,
       });
@@ -1292,17 +1771,34 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     }
   }
 
-  const control =
-    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
-
   const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
-  const cashbackTotalEurCents = typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD") : null;
+  const cashbackTotalEurCents =
+    typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD", undefined, { rates: usdRatesForReport }) : null;
   const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
   if (enRouteRes?.missingScopes) {
     setup.push(
       "Argent en route : ajouter les scopes read_shopify_payments_accounts + read_shopify_payments_payouts sur chaque app custom (dev.shopify.com → app → Scopes) pour lire le solde exact que Shopify vous doit."
     );
   }
+
+  // 🧮 Rapprochement depuis le tout début — AVANT le contrôle (il en tire
+  // l'anomalie « trésorerie inexpliquée »), et jamais bloquant : une erreur
+  // ici ne doit pas emporter le contrôle bancaire, qui marche déjà.
+  let treasury: TreasuryBridge | null = null;
+  let treasurySetup: string | null = null;
+  try {
+    const t = await buildTreasury({ supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
+    treasury = t.treasury;
+    treasurySetup = t.setup;
+    if (t.warning) warnings.push(t.warning);
+  } catch (err) {
+    warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
+  }
+
+  const control =
+    txs.length > 0
+      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, declines, treasury })
+      : null;
 
   return {
     ready: txs.length > 0,
@@ -1316,5 +1812,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     slashCashbackEurCents,
     cashbackTotalEurCents,
     enRoute,
+    enRouteEstimateCents,
+    treasury,
+    treasurySetup,
   };
 }

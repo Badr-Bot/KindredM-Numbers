@@ -70,7 +70,15 @@ export function YearBoard({
       return { market: m, ...t };
     });
     const global = dayData.GLOBAL.reduce<Totals>((acc, r) => addTo(acc, r), { ...EMPTY });
-    return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global };
+    // 💳 Les charges fixes (abonnements/équipe) sont TRANSVERSES : getTabDayData
+    // les déduit du net GLOBAL, jamais des marchés (les ventiler par pays serait
+    // arbitraire). Résultat : la somme des barres ci-dessous ne tombait pas sur
+    // le Total affiché — 10 102 € d'écart au 04/09 — sans qu'une seule ligne
+    // dise pourquoi. On l'affiche donc explicitement, DÉRIVÉE des deux chiffres
+    // rendus (jamais recalculée en parallèle) : l'addition tombe juste par
+    // construction, quoi qu'il arrive aux charges.
+    const chargesCents = perMarket.reduce((t, m) => t + m.netCents, 0) - global.netCents;
+    return { perMarket: [...perMarket].sort((a, b) => b.netCents - a.netCents), global, chargesCents };
   }, [dayData]);
 
   // 👥 Net par associé — arithmétique UNIQUE dans lib/associates.ts
@@ -174,9 +182,25 @@ export function YearBoard({
             );
           })}
         </ul>
-        <div className="mt-2 flex items-baseline justify-between border-t border-line-soft pt-2 text-[11.5px]">
+        {lifetime.chargesCents !== 0 && (
+          <div className="mt-1.5 flex items-baseline justify-between border-t border-line-soft pt-1.5 text-[11px]">
+            <span className="text-ink-dim">
+              💳 Charges fixes{" "}
+              <span className="text-[10px] text-ink-faint">
+                abonnements &amp; équipe — transverses, hors barres ci-dessus
+              </span>
+            </span>
+            <span className="w-20 flex-none text-right font-semibold text-red tnum">
+              −{formatEur0(lifetime.chargesCents)}
+            </span>
+          </div>
+        )}
+        <div className="mt-1.5 flex items-baseline justify-between border-t border-line-soft pt-2 text-[11.5px]">
           <span className="text-ink-dim">
             🌍 Total · {formatInt(lifetime.global.orders)} cmd · CA {formatEur0(lifetime.global.caCents)}
+            {lifetime.chargesCents !== 0 && (
+              <span className="text-[10px] text-ink-faint"> · net après charges</span>
+            )}
           </span>
           <span className={`text-base font-bold tnum ${lifetime.global.netCents >= 0 ? "text-phosphor" : "text-red"}`}>
             {formatEurSigned0(lifetime.global.netCents)}

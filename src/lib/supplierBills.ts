@@ -48,6 +48,19 @@ export interface SupplierBill {
 
 export const SUPPLIER_NAME = "Panda Dropshipping";
 
+/** Boutique dont les factures portent la numérotation (#4814, #5995…) : le
+ * fournisseur facture toute l'activité, mais ses plages de commandes suivent
+ * les numéros de la boutique FR. Les autres boutiques ont leur propre série,
+ * indépendante — les couper au même numéro mélangerait deux comptes. */
+export const SUPPLIER_BILL_STORE = "FR";
+
+/** Dernière facture reçue — la coupe à partir de laquelle les commandes ne
+ * sont PAS encore facturées (et donc pas encore payées, alors que leur coût
+ * est déjà déduit du net). null si le suivi est vide. */
+export function lastSupplierBill(): SupplierBill | null {
+  return SUPPLIER_BILLS.length === 0 ? null : SUPPLIER_BILLS[SUPPLIER_BILLS.length - 1];
+}
+
 export const SUPPLIER_BILLS: SupplierBill[] = [
   {
     ref: "Bill 20260801",
@@ -88,6 +101,22 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     paidCents: 1206441,
     note: "Payée le 14/08 (annonce Badr) : montant demandé réglé en entier (13 914,91 $, taux 1,1534). Contient 410 € de « custom packing ». Litige gilet levé (packing du gilet primaire, vérifié et accepté).",
   },
+  {
+    // 04/09 — Badr : « 25 448,36 € j'ai viré ça aujourd'hui, on a payé jusqu'à
+    // la commande #7148 ». Le PDF de la facture n'est pas encore reçu : le
+    // montant réclamé = le montant viré (Panda avait annoncé 25 000 €). À
+    // pointer contre le PDF à réception, ligne à ligne comme les deux d'août.
+    ref: "Bill 20260904 (PDF à recevoir)",
+    issuedDay: "2026-09-04",
+    ordersFrom: "#5996",
+    ordersTo: "#7148",
+    ordersCount: 1153,
+    totalCents: 2544836,
+    disputedCents: 0,
+    status: "payee",
+    paidCents: 2544836,
+    note: "Payée le 04/09 (virement annoncé par Badr, 25 448,36 €). Moteur COGS + taxe UE sur #5996→#7148 (1 153 cmd, 12/08→03/09) : 25 498,20 € — facturé 49,84 € EN DESSOUS (−0,2 %), cohérent avec l'avoir Long Sleeves promis le 14/08 (~28,55 €). PDF à pointer à réception.",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -109,6 +138,38 @@ export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
     note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. À pointer sur la prochaine facture.",
   },
 ];
+
+// ---------------------------------------------------------------------------
+// ACOMPTES — virements faits au fournisseur AVANT sa facture (Badr 04/09 :
+// « une fois que je t'envoie la facture tu la déduis de ce qui a été déjà
+// viré, c'est pour anticiper et savoir ce qu'il pourra me réclamer »).
+//
+// Un acompte vit ici tant qu'aucune facture ne l'absorbe. Quand la facture
+// arrive : on crée la SupplierBill, on reporte l'acompte dans son paidCents et
+// on pose `appliedTo` = sa ref. Jamais supprimé — l'historique des virements
+// doit rester lisible ligne à ligne, comme les factures.
+// ---------------------------------------------------------------------------
+export interface SupplierPrepayment {
+  /** Jour du virement (YYYY-MM-DD). */
+  day: string;
+  /** Montant en EUR (centimes) — contre-valeur au moment du virement. */
+  eurCents: number;
+  /** Montant d'origine tel que viré (le fournisseur encaisse en USD). */
+  original: string;
+  /** Ref de la facture qui l'a absorbé — null tant qu'elle n'est pas reçue. */
+  appliedTo: string | null;
+  note?: string;
+}
+
+export const SUPPLIER_PREPAYMENTS: SupplierPrepayment[] = [
+  // Aucun acompte enregistré : Badr annonce le virement (montant, jour) et on
+  // l'ajoute ici — jamais déduit d'une capture de solde, jamais deviné.
+];
+
+/** Acomptes pas encore absorbés par une facture — à déduire de la prochaine. */
+export function supplierPrepaidCents(): number {
+  return SUPPLIER_PREPAYMENTS.filter((p) => p.appliedTo === null).reduce((t, p) => t + p.eurCents, 0);
+}
 
 export function supplierPendingCreditsCents(): number {
   return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);

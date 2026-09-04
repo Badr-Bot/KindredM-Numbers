@@ -464,3 +464,64 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - Jamais de chiffre inventé ; en cas de doute, le dire. Toute erreur trouvée = la corriger partout (code + spec + STATUT.md + ce MEMO).
 - Montants en centimes (integers) dans le code. Tests fixtures §8 = validés au centime, ne jamais casser.
 - UI française, ton simple pour non-technique, emojis par section.
+
+
+## 04/09 — Rapprochement trésorerie : faits vérifiés et décisions
+
+- **Facture Panda = COGS moteur + taxe UE.** Sa ligne TOTAL tombe à +0,5 % /
+  +1,2 % (hors « custom packing ») du moteur sur les 2 factures d'août. La taxe
+  UE (3 €/produit) est DANS sa facture : comparer le COGS seul donnait −11,6 %
+  et faisait croire à une sous-estimation du moteur.
+- **Suivi fournisseur figé = dette invisible.** 3 semaines sans facture
+  = 1 219 commandes (~27 000 €) dont le coût était déduit du net mais toujours
+  en banque. Le dash le calcule maintenant seul (« prochaine facture estimée »).
+- **Shopify « Solde des versements » n'inclut PAS les versements programmés**
+  (preuve : solde USD 1 175 $ < 4 895 $ programmés). En route = solde + programmés.
+- **Les ACH Shopify « Pending » sur Slash ne sont pas dans le solde disponible**
+  (1 959 € en transit le 04/09) — ni banque ni en route si on n'y pense pas.
+- **Meta : conversion au taux du marché, zéro marge cachée** (802,90 € →
+  936,26 $ = 1,1661). Le coût est la « Foreign Transaction Fee » Slash (~1 % du
+  spend, 866 $ du 27/07 au 03/09). Wise EUR branché sur Meta le 04/09 → 0.
+- **Taux figé 1,1539 périmé** (réel 1,1661 le 29/08). Décision 08/08 maintenue,
+  signalé : −1 % sur la valeur des soldes USD, rien sur le P&L.
+- **Le filtre Slash « Google » affichait 192 $ dont 127 $ de REFUS** (Google
+  Workspace ×6 le 01/09) : un total de filtre inclut les declined. Ne jamais
+  lire un total Slash sans vérifier les statuts.
+- **Décision Badr : reliquat ~1 850 € = Revolut perso Adnane (pré-LLC)**, 100 %
+  Adnane, plafond figé (`PRE_LLC_RESIDUAL`) ; tout au-delà depuis le 04/09 =
+  trou neuf, anomalie rouge. Aucun virement vers un compte perso (Badr).
+- **Plan Shopify payé par les crédits Shopify** (Badr) ; 571 $ de débits carte
+  au total depuis mai, inscrits au net. Si les crédits s'épuisent, le contrôle
+  bancaire (motif « Shopify (abonnement) ») le verra.
+- **Frais relevés à la main inscrits au net le 04/09** → le balayage bancaire
+  ne les recompte qu'après cette date (`NET_BOOKED_BANK_FEES_UNTIL`). Règle :
+  un poste va SOIT dans le net (subscriptions/ledger), SOIT dans l'écart, jamais
+  les deux.
+- **À trancher (Badr) :** MacBook d'Adnane sur la carte LLC — société (50/50,
+  immobilisation) ou perso (100 % lui) ? Classé perso par défaut aujourd'hui.
+
+- **Paiement Panda du 04/09 : 25 448,36 € pour #5996→#7148** (1 153 cmd) vs
+  moteur 25 498,20 € → −0,2 %. Troisième facture d'affilée à ±1 % : le moteur
+  COGS + taxe UE EST la facture Panda, on peut anticiper la suivante avec.
+- **Règle des taux (04/09, Badr)** : montants bancaires en USD → « payé » au
+  taux du jour, « qui dort » au dernier taux (série Wise quotidienne,
+  `rates.ts`). Le taux figé 1,1539 (08/08) n'est plus qu'un repli et la règle
+  des estimations. Un débit ne se convertit JAMAIS à un taux postérieur.
+- **MacBook Adnane** : perso, absorbé par le reliquat Revolut pré-LLC (Badr).
+- **Frais de change Slash ≈ 1 % du spend Meta, jour par jour** (vérifié
+  04/09 : 145,53 $ de fees sur 5 jours vs 1 % de 14 335 $ de Meta = 143,35 $).
+  Les dépenses courantes n'y sont pour rien (~0,2 $/jour). Chaque morceau de
+  frais porte désormais son origine (`feeOf`) — ne plus répondre « surtout
+  Meta » de mémoire, lire la répartition dans le bloc trésorerie.
+- **Table `bank_tx_labels` : migration 0013 appliquée en prod le 04/09** (elle
+  manquait depuis le 19/08 → aucune affectation ne se sauvegardait).
+- **Ismael (ARINLOYE ISMAEL KOREDELE) = le monteur** ; **« Disbursement
+  Reversal » = versement Shopify repris** (remboursements, déjà dans le CA).
+- **CWILL / Moon Bundles / plan Shopify : payés via Shopify + crédits**, aucun
+  débit carte à attendre (`noBankClaim`).
+- **En route sans scope = CA − frais des 5 derniers jours** (délai de
+  versement). L'ancienne estimation « CA − payouts depuis le 01/08 » se trompait
+  d'un facteur 20 et faisait crier « argent sorti non tracé ».
+- **Synchro : CA + spend Meta publiés ensemble** (04/09). Ne jamais republier
+  le CA seul quand le spend est disponible : Badr lit un bénéfice puis une
+  perte. Le CA seul n'est publié que si Meta échoue.

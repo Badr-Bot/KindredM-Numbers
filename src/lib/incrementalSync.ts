@@ -105,9 +105,11 @@ export async function runIncrementalSync(
   // la toute fin d'une chaîne de plusieurs minutes, et disparaissait
   // entièrement quand la fonction atteignait sa limite de temps (le CA, lui,
   // était déjà publié — d'où « le CA bouge, le spend traîne »). Le temps
-  // réseau des deux est désormais mutualisé. L'ORDRE D'ÉCRITURE ne change
-  // pas : rien n'est écrit avant la fin de la phase commandes, le CA reste
-  // publié en premier (voir le 1er recalcul plus bas).
+  // réseau des deux est désormais mutualisé. Depuis le 04/09, CA et spend
+  // sont PUBLIÉS ENSEMBLE (un seul recalcul, après l'écriture du spend) :
+  // Badr voyait un bénéfice qui devenait une perte 15 s plus tard, quand le
+  // spend rattrapait le CA (« ça fait mal »). Si Meta échoue, le CA est
+  // quand même publié (recalcul dans le catch) — la loi du 26/07 tient.
   // .then(ok, ko) tout de suite : la promesse ne rejette JAMAIS, sinon Node
   // tuerait le process pour rejet non géré pendant la boucle Shopify.
   type Settled<T> = { ok: true; value: T } | { ok: false; error: Error };
@@ -315,20 +317,24 @@ export async function runIncrementalSync(
     }
   }
 
-  // ⚠️ RECALCUL IMMÉDIAT, AVANT TOUTE LA PARTIE META.
-  // daily_aggregates est la table que le dashboard LIT. Tant que ce recalcul
-  // n'a pas tourné, les commandes fraîchement écrites ci-dessus restent
-  // invisibles. En le laissant à la toute fin (après les insights Meta,
-  // annonces, pays, textes de créas), le moindre dépassement de temps sur
-  // Meta gelait le CA du jour alors que les ventes ÉTAIENT en base — cause du
-  // « toujours rien » du 26/07. Le CA passe donc avant tout le reste ; un
-  // second recalcul en fin de cycle intégrera le spend.
+  // ⚠️ PAS de recalcul ici (04/09). Il tournait avant la phase Meta pour
+  // publier le CA au plus vite (loi du 26/07 : un timeout Meta ne doit jamais
+  // geler le CA). Effet pervers depuis la synchro toutes les 5 min : pendant
+  // ~15 s le dash montrait le CA frais avec le spend d'avant — un bénéfice
+  // qui devenait une perte au rafraîchissement suivant. Le recalcul se fait
+  // maintenant juste APRÈS l'écriture du spend (lecture Meta déjà partie en
+  // parallèle, elle est en général arrivée), et dans le catch si Meta échoue :
+  // le CA est publié dans tous les cas, jamais seul quand le spend existe.
   for (const d of [addDaysToDay(today, -2), yesterday, today]) touchedDays.add(d);
-  try {
-    await recomputeDailyAggregatesForDays(supabase, touchedDays);
-  } catch (err) {
-    warnings.push(`Recalcul des agrégats (commandes) échoué : ${(err as Error).message}`);
-  }
+  let publie = false;
+  const publier = async (etape: string) => {
+    try {
+      await recomputeDailyAggregatesForDays(supabase, touchedDays);
+      publie = true;
+    } catch (err) {
+      warnings.push(`Recalcul des agrégats (${etape}) échoué : ${(err as Error).message}`);
+    }
+  };
 
   try {
     // Jusqu'à AUJOURD'HUI inclus : borné à hier, le spend du jour n'était
@@ -389,6 +395,10 @@ export async function runIncrementalSync(
     for (let i = 0; i < insightUpserts.length; i += CHUNK) {
       await supabase.from("meta_insights").upsert(insightUpserts.slice(i, i + CHUNK));
     }
+    // 📣 PUBLICATION : CA (écrit plus haut) + spend (écrit à l'instant),
+    // ensemble. Tout ce qui suit (annonces, pays, journal) ne touche pas le
+    // net du jour et peut prendre son temps.
+    await publier("commandes + spend");
     // Niveau annonce (créas + hit rate). Isolé : son échec ne bloque rien.
     // CYCLE COMPLET UNIQUEMENT (metaAdsPromise === null en rapide) : les
     // onglets Créas/Analyse qu'il alimente n'ont pas besoin d'être à la
@@ -470,6 +480,9 @@ export async function runIncrementalSync(
     }
   } catch (err) {
     warnings.push(`Spend Meta indisponible pour ce cycle : ${(err as Error).message}`);
+    // Meta en échec : le CA est publié quand même (loi du 26/07), avec le
+    // dernier spend connu.
+    if (!publie) await publier("commandes, spend Meta en échec");
   }
 
   // 📓 Journal : détection auto (campagne coupée/lancée, saut de budget)
@@ -486,13 +499,8 @@ export async function runIncrementalSync(
     }
   }
 
-  // 2e recalcul : intègre le spend Meta arrivé ci-dessus. Le CA, lui, a déjà
-  // été publié avant la phase Meta (voir plus haut).
-  try {
-    await recomputeDailyAggregatesForDays(supabase, touchedDays);
-  } catch (err) {
-    warnings.push(`Recalcul des agrégats (spend) échoué : ${(err as Error).message}`);
-  }
+  // Filet : si aucune publication n'a eu lieu (chemin imprévu), publier.
+  if (!publie) await publier("fin de cycle");
 
   if (unmappedProducts.size > 0) {
     warnings.push(

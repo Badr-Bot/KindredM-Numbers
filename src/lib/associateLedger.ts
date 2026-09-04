@@ -100,6 +100,15 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
   { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
   { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
   { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  // 04/09 — « mettre à jour le net » (Badr) : les frais que la banque voyait et
+  // que le net ne comptait pas, relevés sur les totaux Slash envoyés par Badr.
+  // Carte LLC → rien à solder entre associés ; 50/50 par la règle par date
+  // (tous postérieurs au 14/07). Convertis au taux figé maison (1,1539).
+  { day: "2026-08-06", label: "Virement SWIFT — paiement Panda (Bill 20260801)", eurCents: 2167, original: "25 $", paidBy: "LLC", badrShare: 0.5, note: "Frais de virement international, 25 $ par virement (Badr 04/09)." },
+  { day: "2026-08-14", label: "Virement SWIFT — paiement Panda (Bill 20260814)", eurCents: 2167, original: "25 $", paidBy: "LLC", badrShare: 0.5, note: "Frais de virement international, 25 $ par virement (Badr 04/09)." },
+  { day: "2026-08-06", label: "Plan Shopify — débit carte « Shopify Niva »", eurCents: 41677, original: "480,91 $", paidBy: "LLC", badrShare: 0.5, note: "Le plan Shopify est normalement couvert par les crédits Shopify cumulés (Badr 04/09) ; ce débit carte est le seul daté sur le relevé Slash." },
+  { day: "2026-09-04", label: "Plan Shopify — reste des débits carte (date inconnue)", eurCents: 7807, original: "90,09 $", paidBy: "LLC", badrShare: 0.5, note: "Total des débits Shopify sur Slash depuis le début = 571 $ (relevé Badr 04/09) ; 480,91 $ sont datés du 06/08, ce reliquat n'a pas de date lisible — posé au jour du relevé, PAS une vraie date." },
+  { day: "2026-09-02", label: "Google Ads", eurCents: 5640, original: "65,08 $", paidBy: "LLC", badrShare: 0.5, note: "Seul débit Google Ads réellement passé (le filtre Slash affichait 192 $ dont 6 refus de Google Workspace le 01/09, qui n'ont rien débité). Aucune API Google branchée : seule la banque le voit." },
 ];
 
 export interface AssociateTransfer {

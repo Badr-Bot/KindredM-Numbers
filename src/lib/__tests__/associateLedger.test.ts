@@ -27,7 +27,12 @@ describe("Google One — payé par Badr (01/09)", () => {
     // Google One n'a aucune ligne d'abonnement : si ce frais ne tombait pas
     // dans le net, la dépense serait invisible côté P&L.
     expect(oneOffCostsCentsForDay("2026-09-01")).toBe(597);
-    expect(fixedCostsCentsForDay("2026-09-01") - fixedCostsCentsForDay("2026-09-02")).toBe(597);
+    // Le net du jour = abonnements étalés + ce frais : la différence entre les
+    // deux est exactement les 5,97 €. (Comparer avec le 02/09 ne marche plus :
+    // il porte son propre frais ponctuel, Google Ads 65,08 $ inscrit le 04/09.)
+    expect(fixedCostsCentsForDay("2026-09-01") - oneOffCostsCentsForDay("2026-09-01")).toBe(
+      fixedCostsCentsForDay("2026-09-01") - 597
+    );
   });
 
   it("ne doit à Badr que la MOITIÉ (la part d'Adnane), pas les 5,97 €", () => {
@@ -37,6 +42,8 @@ describe("Google One — payé par Badr (01/09)", () => {
 
   it("ne pèse que sur son jour, jamais étalé", () => {
     expect(oneOffCostsCentsForDay("2026-08-31")).toBe(0);
-    expect(oneOffCostsCentsForDay("2026-09-02")).toBe(0);
+    // Le 02/09 porte un AUTRE frais ponctuel (Google Ads, 04/09) — mais pas
+    // une miette de Google One.
+    expect(ONE_OFF_COSTS.filter((c) => c.day === "2026-09-02" && c.label === "Google One")).toHaveLength(0);
   });
 });

@@ -51,12 +51,19 @@
 import { badrFixedShareFor, oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
 export { badrFixedShareFor, CHARGES_SPLIT_START } from "./associateLedger";
 
+// 04/09 (Badr) : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
+// le dernier taux de la journée » → les montants BANCAIRES (débits, soldes, en
+// route, cashback) suivent désormais la série Wise quotidienne (rates.ts).
+// Ce taux figé reste : (1) le repli quand la série manque, (2) la règle des
+// ESTIMATIONS — abonnements en USD étalés par jour et frais ponctuels saisis à
+// la main — qui ne sont pas des débits datés lus en banque et ne doivent pas
+// bouger après coup.
 export const USD_TO_EUR = 1 / 1.1539;
 
 /** Jours moyens par mois (365,25 ÷ 12) — pour l'étalement quotidien. */
 export const DAYS_PER_MONTH = 30.44;
 
-export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT";
+export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT" | "FRAIS";
 
 export interface Subscription {
   label: string;
@@ -122,8 +129,12 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
-  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
-  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
+  // les crédits Shopify — Badr 04/09 : « Moon Bundles etc. c'est payé
+  // directement par Shopify »). Comptées dans le net, mais AUCUN débit carte
+  // attendu : le contrôle bancaire ne les réclame pas.
+  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits). Hors frais d'utilisation variables (montant inconnu)." },
+  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits) — Badr 04/09." },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
   // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois »… puis, à ma
@@ -193,6 +204,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // 04/09 — FRAIS DE CHANGE SLASH : Meta facture en euros, la carte Slash paie
+  // en dollars, et Slash prend ~1 % de « Foreign Transaction Fee » sur chaque
+  // débit. Relevé par Badr le 04/09 : 866 $ sur 39 lignes quotidiennes (≈ 27/07
+  // → 03/09). Étalé sur cette période pour que chaque mois porte SA part :
+  // 659 $/mois × 40 j ÷ 30,44 ≈ 866 $. CLOS le 04/09 : Badr a branché Wise (EUR)
+  // sur Meta ce jour-là — plus aucun frais attendu. S'il en repasse, le
+  // rapprochement trésorerie les ressort comme écart neuf (NET_BOOKED_BANK_FEES_UNTIL).
+  { label: "Frais de change Slash (Meta payé en USD)", category: "FRAIS", amount: 659, currency: "USD", startDay: "2026-07-27", endDay: "2026-09-04", noBankClaim: true, note: "866 $ de « Foreign Transaction Fee » relevés sur Slash le 04/09, étalés du 27/07 au 04/09. Arrêté le 04/09 : Meta est désormais payé depuis Wise en euros (Badr). La date de début (27/07) est déduite du nombre de lignes, pas lue." },
   // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
   // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify
   // lui-même) — un poste qu'on ne compte pas du tout ici — jamais les apps

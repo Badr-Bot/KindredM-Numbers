@@ -3,6 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnomalyKind, BankReport, BankTx, TxLabel } from "@/lib/bank";
+import type { TreasuryBridge } from "@/lib/treasury";
+import { PRE_LLC_RESIDUAL, UNEXPLAINED_ALERT_CENTS } from "@/lib/treasury";
+import {
+  SUPPLIER_BILLS,
+  SUPPLIER_NAME,
+  SUPPLIER_PENDING_CREDITS,
+  SUPPLIER_PREPAYMENTS,
+  supplierPendingCreditsCents,
+} from "@/lib/supplierBills";
 import { formatEur0 } from "@/lib/format";
 import { Reveal } from "../fx/Reveal";
 
@@ -211,7 +220,7 @@ function Row({ l, v, strong = false }: { l: string; v: number; strong?: boolean 
   );
 }
 
-function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netTheoriqueCents: number | null }) {
+function CashflowBlock({ report }: { report: BankReport }) {
   const since = report.reconciliation?.sinceDay;
   if (!since || report.txs.length === 0) return null;
   const inWin = report.txs.filter((t) => t.day >= since && t.label !== "IGNORER" && t.category !== "INTERNE");
@@ -234,13 +243,6 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const entrees = entreesShopify + entreesAutres;
   const sorties = meta + googleAds + fournisseur + abos + frais + societeAutre;
   const marge = entrees - sorties;
-  // Frais bancaires RÉELS (FX, virements — y compris ceux fondus dans les
-  // postes Meta/Fournisseur via leur transaction d'origine) : absents du net
-  // théorique du dashboard → on les déduit du théorique pour comparer à âmes
-  // égales (Badr 19/08 : « pour Panda inclut les fees, je veux que tout soit
-  // carré »).
-  const fraisReels = -sum((t) => eurOf(t) < 0 && !isPerso(t) && (t.category === "FRAIS" || (t.labelNote?.startsWith("frais lié") ?? false))) || 0;
-  const theoAjuste = netTheoriqueCents !== null ? netTheoriqueCents - fraisReels : null;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
@@ -280,20 +282,10 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
           <div>
             <div className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">✅ Marge réelle encaissée</div>
             <div className={`tnum text-[22px] font-extrabold ${marge >= 0 ? "text-phosphor" : "text-red"}`}>{formatEur0(marge)}</div>
-            {netTheoriqueCents !== null && theoAjuste !== null && (
-              <p className="mt-1 text-[10px] leading-snug text-ink-dim">
-                Dashboard (théorique) sur la même période : <b className="tnum text-ink">{formatEur0(netTheoriqueCents)}</b>
-                {fraisReels > 0 && (
-                  <>
-                    {" "}− frais bancaires réels (FX, virements Panda…) <b className="tnum text-ink">{formatEur0(fraisReels)}</b> ={" "}
-                    <b className="tnum text-ink">{formatEur0(theoAjuste)}</b>
-                  </>
-                )}{" "}
-                — écart vs encaissé{" "}
-                <b className={`tnum ${marge - theoAjuste >= 0 ? "text-phosphor" : "text-amber"}`}>{formatEur0(marge - theoAjuste)}</b>.
-                Reste d&apos;écart normal : payouts en différé 2-4 j, Meta facture par paliers, COGS fournisseur payé par vagues.
-              </p>
-            )}
+            <p className="mt-1 text-[10px] leading-snug text-ink-faint">
+              Fenêtre 30 j, lecture bancaire. Le vrai contrôle « rien ne manque » est le bloc 🧮 Rapprochement
+              trésorerie, depuis le début.
+            </p>
           </div>
           <div className="text-[10px] text-ink-faint">
             <div>Perso (hors marge) : <b className="tnum">{formatEur0(perso)}</b></div>
@@ -310,12 +302,282 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   );
 }
 
+
+// 🧮 RAPPROCHEMENT DEPUIS LE TOUT DÉBUT (Badr 04/09 : « dis-lui d'aller tout
+// retracer depuis le tout début […] et pour savoir cet écart est imputé à
+// qui »). Le reste de cette page contrôle des DÉTAILS sur 30 jours ; ce bloc
+// répond à la seule question qui compte pour la trésorerie : le net gagné
+// est-il vraiment sur les comptes, et sinon où est parti le reste.
+function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; setup: string | null }) {
+  if (!treasury) {
+    return setup ? (
+      <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">🧮 {setup}</p>
+    ) : null;
+  }
+  const t = treasury;
+  const eur = (c: number) => formatEur0(c);
+  const ligne = (label: string, cents: number | null, opts: { fort?: boolean; signe?: "+" | "−"; note?: string } = {}) => (
+    <div
+      key={label}
+      className={`flex items-baseline justify-between gap-2 ${opts.fort ? "border-t border-line-soft pt-1.5 font-semibold text-ink" : "text-ink-dim"}`}
+    >
+      <span>
+        {opts.signe ? `${opts.signe} ` : ""}
+        {label}
+        {opts.note && <span className="block text-[9.5px] text-ink-faint">{opts.note}</span>}
+      </span>
+      <span className="tnum flex-none">{cents === null ? "—" : eur(cents)}</span>
+    </div>
+  );
+
+  return (
+    <div className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <div className="mb-2 flex items-baseline justify-between">
+        <span className="text-sm font-semibold">🧮 Rapprochement trésorerie</span>
+        <span className="text-[10px] text-ink-faint">
+          depuis le {t.scanSinceDay ? t.scanSinceDay.slice(8, 10) + "/" + t.scanSinceDay.slice(5, 7) : "début"}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-1 text-[11px]">
+        {ligne("Net cumulé (charges fixes déduites)", t.netCumuleCents)}
+        {ligne("Dû au fournisseur, pas encore facturé", t.supplierUnbilledCents, {
+          signe: "+",
+          note: "déjà déduit du net, mais toujours en banque tant que le virement n'est pas parti",
+        })}
+        {t.supplierOwedCents > 0 && ligne("Reste dû sur factures reçues", t.supplierOwedCents, { signe: "+" })}
+        {t.supplierPrepaidCents > 0 &&
+          ligne("Acomptes déjà virés au fournisseur", t.supplierPrepaidCents, {
+            signe: "−",
+            note: "sortis de la banque avant la facture — voir le bloc Fournisseur",
+          })}
+        {ligne("Cash que l'activité a produit", t.cashTheoriqueCents, { fort: true })}
+        {ligne("Argent en route chez Shopify", t.enRouteCents, {
+          signe: "−",
+          note: t.enRouteEstimated ? "≈ estimation (CA − frais des 5 derniers jours) — scope Shopify à ajouter pour l'exact" : undefined,
+        })}
+        {ligne("Devrait être sur les comptes", t.attenduEnBanqueCents, { fort: true })}
+        {ligne("Solde réel Wise + Slash", t.bankCents, {
+          note: t.bankSkipped.length > 0 ? `hors ${t.bankSkipped.join(", ")} (pas de taux)` : undefined,
+        })}
+      </div>
+
+      {t.fxSplit && t.fxSplit.totalCents > 0 && (
+        <p className="mt-2 text-[10px] leading-snug text-ink-dim">
+          💱 Frais de change depuis le début : <b className="tnum text-ink">{eur(t.fxSplit.totalCents)}</b> — dont{" "}
+          <b className="tnum text-ink">{eur(t.fxSplit.metaCents)}</b> causés par Meta (
+          {Math.round((t.fxSplit.metaCents / t.fxSplit.totalCents) * 100)} %), {eur(t.fxSplit.autreCents)} par les autres
+          dépenses société, {eur(t.fxSplit.persoCents)} par le perso. Meta payé depuis Wise en euros depuis le 04/09 :
+          cette ligne doit cesser de grossir.
+        </p>
+      )}
+
+      {t.gapCents !== null && (
+        <div
+          className={`mt-2.5 rounded-md border p-2.5 ${
+            Math.abs(t.unexplainedCents ?? t.gapCents) > 100000 ? "border-amber/50 bg-amber/[0.05]" : "border-phosphor/30"
+          }`}
+        >
+          <div className="flex items-baseline justify-between text-[11.5px] font-semibold">
+            <span>Écart total</span>
+            <span className="tnum">{eur(t.gapCents)}</span>
+          </div>
+          {t.bankSkipped.length > 0 && (
+            <p className="mt-1 text-[10px] leading-snug text-amber">
+              ⚠️ Solde{" "}
+              {t.bankSkipped.join(", ")}{" "}
+              non converti (pas de taux) : il n&apos;entre pas dans le solde réel,
+              donc l&apos;écart ci-dessus est surestimé d&apos;autant. À lire comme un plafond, pas comme un montant.
+            </p>
+          )}
+          {t.gapLines.length === 0 ? (
+            <p className="mt-1 text-[10px] text-ink-faint">
+              Balayage bancaire indisponible — l&apos;écart est affiché sans sa ventilation.
+            </p>
+          ) : (
+            <ul className="mt-1.5 flex flex-col gap-1 text-[10.5px]">
+              {t.gapLines.map((l) => (
+                <li key={l.label} className="flex items-baseline justify-between gap-2">
+                  <span className="text-ink-dim">
+                    {l.label}
+                    <span className="block text-[9.5px] text-ink-faint">{l.detail}</span>
+                  </span>
+                  <span className="tnum flex-none text-ink">{eur(l.cents)}</span>
+                </li>
+              ))}
+              {t.unexplainedCents !== null && (
+                <li className="flex items-baseline justify-between gap-2 border-t border-line-soft pt-1 font-semibold">
+                  <span className={t.unexplainedCents > UNEXPLAINED_ALERT_CENTS ? "text-red" : "text-phosphor"}>
+                    Inexpliqué depuis le {PRE_LLC_RESIDUAL.day.slice(8, 10)}/{PRE_LLC_RESIDUAL.day.slice(5, 7)}
+                    <span className="block text-[9.5px] font-normal text-ink-faint">
+                      {t.scanPartial
+                        ? "⚠️ le balayage ne couvre pas toute l'histoire — ce reste contient l'avant."
+                        : t.unexplainedCents > UNEXPLAINED_ALERT_CENTS
+                          ? "🚨 trou NEUF — l'avant-LLC est déjà absorbé par la ligne Revolut. À chercher."
+                          : "arrondis de change et décalages de facturation. Rien à chercher."}
+                    </span>
+                  </span>
+                  <span className="tnum flex-none">{eur(t.unexplainedCents)}</span>
+                </li>
+              )}
+            </ul>
+          )}
+
+          {t.attribution && (
+            <div className="mt-2 border-t border-line-soft pt-1.5 text-[10.5px]">
+              <div className="mb-1 font-semibold text-ink">Imputé à</div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-ink-dim">🟠 Badr</span>
+                <span className="tnum">{eur(t.attribution.badrCents)}</span>
+              </div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-ink-dim">🔵 Adnane</span>
+                <span className="tnum">{eur(t.attribution.adnaneCents)}</span>
+              </div>
+              <p className="mt-1 text-[9.5px] text-ink-faint">
+                Le perso est nominatif ({eur(t.attribution.persoBadrCents)} Badr ·{" "}
+                {eur(t.attribution.persoFahdCents)} Adnane).
+                {t.attribution.revolutAdnaneCents > 0 && (
+                  <>
+                    {" "}
+                    Le reliquat Revolut pré-LLC ({eur(t.attribution.revolutAdnaneCents)}) est 100 % Adnane (décision Badr 04/09).
+                  </>
+                )}{" "}
+                Les frais et Google Ads suivent la règle des associés au jour du débit.
+                {t.attribution.reparti5050Cents > 0 && (
+                  <>
+                    {" "}
+                    {eur(t.attribution.reparti5050Cents)} (supplément Meta + inexpliqué) n&apos;ont pas de date exploitable :
+                    répartis 50/50 — c&apos;est une répartition, pas une mesure.
+                  </>
+                )}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// 🏭 FOURNISSEUR (Badr 04/09 : « une ligne où il y a les factures payées, la
+// prochaine facture, et une fois que je t'envoie la facture tu la déduis de ce
+// qui a déjà été viré — pour anticiper ce qu'il pourra me réclamer »). Les
+// factures et acomptes sont saisis à la main (supplierBills.ts) ; la prochaine
+// facture est ESTIMÉE par le moteur sur les commandes pas encore facturées
+// (calibré ±1 % sur les deux factures d'août, taxe incluse).
+function SupplierBlock({ treasury }: { treasury: TreasuryBridge | null }) {
+  const next = treasury?.supplierNext ?? null;
+  const prepaid = treasury?.supplierPrepaidCents ?? 0;
+  const avoirs = supplierPendingCreditsCents();
+  const reclamable = next ? Math.max(next.cents - prepaid - avoirs, 0) : null;
+  const dm = (d: string | null) => (d ? `${d.slice(8, 10)}/${d.slice(5, 7)}` : "—");
+  return (
+    <div className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <div className="mb-2 flex items-baseline justify-between">
+        <span className="text-sm font-semibold">🏭 {SUPPLIER_NAME}</span>
+        <span className="text-[10px] text-ink-faint">factures reçues · acomptes · prochaine facture</span>
+      </div>
+
+      <ul className="flex flex-col gap-1 text-[11px]">
+        {SUPPLIER_BILLS.map((b) => {
+          const reste = b.totalCents - b.paidCents;
+          return (
+            <li key={b.ref} className="flex items-baseline justify-between gap-2">
+              <span className="text-ink-dim">
+                {b.status === "payee" ? "✓" : reste > 0 ? "⏳" : "•"} {b.ref}{" "}
+                <span className="text-[9.5px] text-ink-faint">
+                  {b.ordersFrom}→{b.ordersTo} · {b.ordersCount} cmd · émise le {dm(b.issuedDay)}
+                </span>
+              </span>
+              <span className={`tnum flex-none ${reste > 0 ? "text-amber" : "text-ink"}`}>
+                {formatEur0(b.totalCents)}
+                {reste > 0 && <span className="text-[9.5px]"> · reste {formatEur0(reste)}</span>}
+              </span>
+            </li>
+          );
+        })}
+        {SUPPLIER_PREPAYMENTS.filter((p) => p.appliedTo === null).map((p) => (
+          <li key={`${p.day}-${p.eurCents}`} className="flex items-baseline justify-between gap-2">
+            <span className="text-ink-dim">
+              💸 Acompte viré le {dm(p.day)}{" "}
+              <span className="text-[9.5px] text-ink-faint">({p.original}) — pas encore de facture en face</span>
+            </span>
+            <span className="tnum flex-none text-cyan">−{formatEur0(p.eurCents)}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-2 border-t border-line-soft pt-2 text-[11px]">
+        {next === null ? (
+          <p className="text-ink-faint">Prochaine facture : estimation indisponible (commandes illisibles).</p>
+        ) : (
+          <>
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="font-semibold text-ink">
+                Prochaine facture (estimée)
+                <span className="block text-[9.5px] font-normal text-ink-faint">
+                  {next.orders} commandes {next.firstOrder ?? ""}→{next.lastOrder ?? ""} · du {dm(next.firstDay)} au {dm(next.lastDay)} ·
+                  COGS + taxe, calibré ±1 % sur les 2 dernières factures
+                </span>
+              </span>
+              <span className="tnum flex-none font-semibold">{formatEur0(next.cents)}</span>
+            </div>
+            {(prepaid > 0 || avoirs > 0) && (
+              <div className="mt-1 flex flex-col gap-0.5 text-ink-dim">
+                {prepaid > 0 && (
+                  <div className="flex items-baseline justify-between">
+                    <span>− acomptes déjà virés</span>
+                    <span className="tnum">{formatEur0(prepaid)}</span>
+                  </div>
+                )}
+                {avoirs > 0 && (
+                  <div className="flex items-baseline justify-between">
+                    <span>
+                      − avoirs promis{" "}
+                      <span className="text-[9.5px] text-ink-faint">({SUPPLIER_PENDING_CREDITS.map((c) => c.label).join(" · ")})</span>
+                    </span>
+                    <span className="tnum">{formatEur0(avoirs)}</span>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="mt-1.5 flex items-baseline justify-between border-t border-line-soft pt-1.5 font-semibold">
+              <span className="text-ink">Ce qu&apos;il pourra encore réclamer</span>
+              <span className={`tnum flex-none ${reclamable && reclamable > 0 ? "text-amber" : "text-phosphor"}`}>
+                {reclamable === null ? "—" : formatEur0(reclamable)}
+              </span>
+            </div>
+            <p className="mt-1 text-[9.5px] text-ink-faint">
+              À réception de sa facture : on vérifie la plage de commandes et la ligne TOTAL contre cette estimation, on déduit
+              les acomptes, et l&apos;écart éventuel (packing, LS surfacturées) est pointé ligne à ligne avant de payer.
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // 🏛️ À qui appartient l'argent des comptes (règle Badr 19/08) : le net de
 // l'onglet Année ne bouge JAMAIS ; ici on répartit le SOLDE réel — la part
 // de Badr = son net Année (moins son perso banque, 0 tant que la carte Badr
 // dort), TOUT LE RESTE = Adnane. Sa part doit dépasser son net Année : la
 // différence = l'apport perso qu'il a injecté dans la LLC et qui y est encore.
-function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCents: number; adnaneCents: number } }) {
+function OwnershipBlock({
+  report,
+  annee,
+}: {
+  report: BankReport;
+  annee: { badrCents: number; adnaneCents: number };
+}) {
+  // 04/09 : l'argent dû au fournisseur (commandes pas encore facturées +
+  // reste des factures reçues − acomptes déjà virés) est SUR les comptes mais
+  // n'est à PERSONNE — le retirer avant de partager, sinon « le reste =
+  // Adnane » lui prêtait 27 000 € qui sont à Panda.
+  const t = report.treasury;
+  const detteFournisseur = t ? t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents : 0;
+  const revolutAdnane = t?.attribution?.revolutAdnaneCents ?? 0;
   // typeof === "number" : blindé contre une entrée de cache d'une version
   // antérieure sans contre-valeur EUR (crash prod 19/08).
   const known = report.balances.filter((b) => b && typeof b.amountEurCents === "number");
@@ -329,18 +591,20 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
   // quand les scopes sont là ; sinon estimation (CA − frais − payouts reçus
   // depuis le 01/08), toujours étiquetée comme telle.
   const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
-  const enRouteEstime =
-    enRouteExact === null && report.reconciliation
-      ? Math.max(0, report.reconciliation.shopify.expectedCents - report.reconciliation.shopify.bankCents)
-      : null;
+  // Estimation = CA − frais Shopify des 5 derniers jours (délai de versement
+  // observé). L'ancienne (CA − payouts reçus depuis le 01/08) donnait 777 €
+  // pour ~15 000 € réels et faisait crier « argent sorti non tracé ».
+  const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
   const enRouteCents = enRouteExact ?? enRouteEstime ?? 0;
-  const patrimoine = totalCents + enRouteCents;
+  const patrimoine = totalCents + enRouteCents - detteFournisseur;
   const partAdnane = patrimoine - partBadr;
-  const apportAdnane = partAdnane - annee.adnaneCents;
+  // Ce qu'Adnane a DÉJÀ hors LLC (reliquat Revolut pré-LLC) compte dans ce
+  // qu'il a reçu : son net Année se compare à part LLC + Revolut.
+  const apportAdnane = partAdnane + revolutAdnane - annee.adnaneCents;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
       <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-        🏛️ À qui appartient l&apos;argent (comptes + en route)
+        🏛️ Ce qu&apos;il reste à chacun (comptes + en route − dû au fournisseur)
       </div>
       <div className="mt-1.5 grid grid-cols-2 gap-1.5 text-[12px] sm:grid-cols-4">
         <div>
@@ -353,16 +617,23 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
         <div>
           En route (Shopify) <b className="tnum text-cyan">{formatEur0(enRouteCents)}</b>
           <span className="block text-[9.5px] text-ink-faint">
-            {enRouteExact !== null ? "solde Shopify Payments réel" : enRouteEstime !== null ? "estimation — scopes Shopify à ajouter pour l'exact" : "indisponible"}
+            {enRouteExact !== null
+              ? "solde Shopify Payments réel"
+              : enRouteEstime !== null
+                ? "≈ CA − frais des 5 derniers jours (délai de versement) — scope Shopify à ajouter pour l'exact"
+                : "indisponible"}
           </span>
         </div>
         <div>
-          Part Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
+          Reste à Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
           <span className="block text-[9.5px] text-ink-faint">= net Année{persoBadr > 0 ? ` − ${formatEur0(persoBadr)} perso banque` : " (zéro dépense perso)"}</span>
         </div>
         <div>
-          Part Adnane <b className="tnum text-amber">{formatEur0(partAdnane)}</b>
-          <span className="block text-[9.5px] text-ink-faint">= le reste (comptes + en route)</span>
+          Reste à Adnane <b className="tnum text-amber">{formatEur0(partAdnane)}</b>
+          <span className="block text-[9.5px] text-ink-faint">
+            = le reste, une fois Panda retiré{detteFournisseur > 0 ? ` (${formatEur0(detteFournisseur)})` : ""}
+            {revolutAdnane > 0 ? ` · + ${formatEur0(revolutAdnane)} déjà sur son Revolut (pré-LLC)` : ""}
+          </span>
         </div>
       </div>
       <p className="mt-2 border-t border-line-soft pt-2 text-[10.5px] leading-snug text-ink-dim">
@@ -373,9 +644,11 @@ function OwnershipBlock({ report, annee }: { report: BankReport; annee: { badrCe
             <b>son apport perso encore dans la LLC</b> (il avait transféré de son argent perso).
           </>
         ) : (
-          <b className="text-red">
-            ⚠️ sa part sur les comptes est INFÉRIEURE de {formatEur0(-apportAdnane)} à son net Année — solde Slash manquant ou
-            argent sorti non tracé : à creuser.
+          <b className={enRouteExact === null ? "text-amber" : "text-red"}>
+            ⚠️ sa part sur les comptes est INFÉRIEURE de {formatEur0(-apportAdnane)} à son net Année
+            {enRouteExact === null
+              ? " — l'en route est une ESTIMATION (±2 000 €) : ajouter le scope Shopify avant de creuser."
+              : " — solde Slash manquant ou argent sorti non tracé : à creuser."}
           </b>
         )}
       </p>
@@ -431,7 +704,15 @@ export function BankBoard({
       )}
 
       <Reveal delayMs={90}>
-        <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
+        <CashflowBlock report={report} />
+      </Reveal>
+
+      <Reveal delayMs={135}>
+        <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} />
+      </Reveal>
+
+      <Reveal delayMs={160}>
+        <SupplierBlock treasury={report.treasury} />
       </Reveal>
 
       {annee && (

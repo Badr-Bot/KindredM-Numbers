@@ -638,6 +638,171 @@ aujourd'hui, avec une fausse alerte « débité au mauvais montant ».
 
 227 tests verts, `next build` OK.
 
+## Mise à jour 04/09 — cashflow : rapprochement trésorerie depuis le tout début
+
+Question de Badr : « vérifie au niveau du compte bancaire la cashflow qui
+rentre, les paiements qui restent à payer au fournisseur, et dis-moi si on est
+en accord avec le net gagné affiché ». Reconstruit à la main (Supabase + captures
+Shopify/Wise/Slash), puis **codé pour que le dash le refasse seul**.
+
+**Ce qui a été vérifié (chiffres du 04/09, 09h50) :**
+- Payouts Shopify ✅ : solde + versements programmés (~19 500 €) = CA − frais
+  Shopify du 31/08→04/09 (19 388 €), écart 0,6 %. Les versements programmés ne
+  sont PAS dans le solde (solde USD 1 175 $ < 4 895 $ programmés).
+- Net cumulé après charges 59 316 € = CUMUL de l'onglet Mois, au centime. Les
+  barres par pays de l'onglet Année (net brut, 69 418 €) ne tombaient pas sur
+  le Total (charges déduites) sans le dire → ligne « 💳 Charges fixes » ajoutée.
+- **Dette fournisseur invisible : ~27 000 €** (1 219 commandes #5996→#7214 jamais
+  facturées depuis la Bill 20260814). Moteur COGS + taxe UE = ligne TOTAL de
+  Panda à ±1 % (vérifié sur les 2 factures d'août : +0,5 % et +1,2 % hors
+  packing). Panda a annoncé 25 000 € → sa facture s'arrête vers #7125 (02/09),
+  le reste tombe sur la suivante.
+- Écart théorique/réel : 12 435 € au départ → **1 850 € (0,43 % du CA)** une
+  fois retirés les payouts programmés (4 475 €), les ACH en transit (1 959 €),
+  le perso cartes (3 483 $ Adnane + 613 $ Badr), les frais de change Slash
+  (866 $), les débits Shopify (571 $ — le plan est couvert par les crédits),
+  Google Ads (65 $), SWIFT (2 × 25 $).
+- **Meta : ZÉRO marge cachée** — 802,90 € → 936,26 $ = 1,1661, le taux du
+  marché ; le coût est la « Foreign Transaction Fee » séparée (~1 % du spend,
+  ~570 €/mois). Badr a branché Wise (EUR) sur Meta le 04/09 → plus de frais.
+- Le taux figé 1,1539 (décision 08/08) est périmé (réel 1,1661) — signalé, pas
+  changé : ne touche pas le P&L (Meta facture en EUR), seulement la valeur des
+  soldes USD (−1 %).
+
+**Décisions Badr (04/09) :** le reliquat ~1 850 € vit sur le **Revolut perso
+d'Adnane** (l'activité tournait dessus avant Slash/Wise) — imputé 100 % Adnane,
+figé comme PLAFOND ; « à partir de ce jour on part du principe qu'il n'y a pas
+de trou » → tout écart au-delà est une anomalie rouge. Aucun virement vers un
+compte perso. Le plan Shopify est payé par les crédits Shopify (571 $ de débits
+carte au total). MacBook acheté par Adnane sur la carte LLC : classé perso par
+défaut (règle carte) — **société ou perso, à trancher par Badr**.
+
+**Livré (branche `claude/cashflow-paiements-verification-wwt8tw`) :**
+1. `treasury.ts` — moteur pur du pont net → cash théorique → attendu en banque
+   vs réel, ventilation de l'écart, reliquat Revolut plafonné, imputation
+   Badr/Adnane (perso nominatif, frais à la règle par date, flou 50/50 et dit).
+2. `bank.ts` — balayage des DEUX banques depuis le 21/05 (cache 1 h, non
+   bloquant), dû fournisseur lu sur les commandes (coupe au NUMÉRO sur FR, à la
+   DATE ailleurs, pagination > 1 000 lignes), anomalies **PAIEMENT_REFUSE**
+   (même marchand refusé ≥ 2 fois — Google Workspace ×6 le 01/09) et
+   **TRESORERIE_INEXPLIQUE** (> 1 000 € depuis le 04/09). Bug corrigé : le
+   balayage écrasait les affectations auto par carte (perso Adnane vidé).
+3. Onglet Banque — blocs « 🧮 Rapprochement trésorerie », « 🏭 Panda »
+   (factures reçues, acomptes, **prochaine facture estimée** avec plage et
+   nombre de commandes, « ce qu'il pourra encore réclamer »), et « Ce qu'il
+   reste à chacun » qui retire la dette Panda avant de partager.
+4. Net mis à jour : frais de change Slash (866 $, étalés 27/07→04/09, clos),
+   plan Shopify (571 $), Google Ads (65 $), SWIFT (2 × 25 $) — charges
+   10 102 € → 11 447 €. Le balayage bancaire ne recompte ces postes qu'APRÈS le
+   04/09 (`NET_BOOKED_BANK_FEES_UNTIL`), sinon double.
+5. `SUPPLIER_PREPAYMENTS` — acomptes virés avant facture, déduits de la
+   prochaine ; vide tant que Badr n'annonce pas montant + jour.
+
+271 tests verts, `next build` OK, lint clean. Rendu vérifié en local (mode
+démo, capture). **Non testé contre les vraies API** (ni jetons ni Vercel
+depuis la session). Reste bloquant côté Badr : scope Shopify
+`read_shopify_payments_accounts` — sans lui « en route » est vide et l'écart
+n'est pas calculé.
+
+## Mise à jour 04/09 (suite) — paiement Panda, règle des taux, MacBook
+
+Réponses de Badr aux trois questions du rapprochement :
+
+1. **Panda payé : 25 448,36 € virés le 04/09, « jusqu'à la commande #7148 ».**
+   Enregistré comme `Bill 20260904 (PDF à recevoir)`, #5996→#7148, 1 153
+   commandes, payée en entier. **Vérification moteur : 25 498,20 €** (COGS +
+   taxe UE sur cette plage) → facturé 49,84 € en dessous (−0,2 %), cohérent
+   avec l'avoir Long Sleeves promis (~28,55 €). PDF à pointer à réception.
+   La « prochaine facture estimée » repart de #7149 : 85 commandes, ~1 886 €.
+2. **MacBook d'Adnane** : « tu t'en fous, ça rentre dans l'argent qui reste
+   sur le Revolut d'Adnane » → reste classé perso (règle carte), absorbé par
+   le reliquat Revolut pré-LLC. Rien à changer.
+3. **Scope Shopify** : plus tard (Badr).
+
+**Règle des taux (Badr, remplace la décision du 08/08 pour les montants
+bancaires)** : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
+le dernier taux enregistré de la journée ». Livré :
+- `rates.ts` (pur, 10 tests) : série quotidienne USD→EUR ; un débit se
+  convertit au taux DE SON JOUR (sinon le dernier connu avant, jamais un taux
+  postérieur) ; un solde / l'en route / le cashback au DERNIER taux.
+- `bank.ts` : la série vient de Wise (`/v1/rates?group=day`, une requête
+  pour tout l'historique, cache 1 h). Branché sur les transactions Slash et
+  Wise, les soldes, l'argent en route, le cashback. Sans jeton Wise ou en
+  erreur : repli sur le taux figé 1,1539 — jamais un taux inventé. Clés de
+  cache bumpées (wise-data-v3, slash-data-v4, lifetime-v2, enroute-v2).
+- Le taux figé reste la règle des ESTIMATIONS (abonnements USD étalés, frais
+  ponctuels saisis à la main) : ce ne sont pas des débits datés, un taux
+  flottant les ferait bouger après coup.
+- Slash n'expose pas (dans la doc connue) le montant d'origine en EUR d'un
+  débit carte (« Currency conversion 116.61 % (EUR 802.90) » dans l'app) —
+  si un champ existe, il remplacera le taux du jour par le taux EXACT de la
+  transaction. À vérifier sur une réponse brute de l'API.
+
+280 tests verts, `next build` OK. Toujours non testé contre les vraies API.
+
+## Mise à jour 04/09 (suite 2) — les frais de change sont bien Meta
+
+Question de Badr : « les frais de change, c'est lié aux dépenses courantes ou à
+Meta ? ». **Vérifié à la main** sur ses captures : les 5 « Foreign Transaction
+Fee » visibles (30/08→03/09) font 145,53 $, soit 29,11 $/jour ; le spend Meta
+des 5 jours correspondants (29/08→02/09, avec le décalage d'un jour de
+facturation) fait 14 335 $ au taux réel 1,1661 → **1 % = 143,35 $**. Écart
+1,5 %. Les abonnements en EUR payés par la carte USD (~500 $/mois) ne peuvent
+produire que ~0,2 $/jour. **≈ 99 % des frais de change viennent de Meta.**
+Depuis le 04/09 Meta est payé depuis Wise en euros : la ligne doit cesser.
+
+Codé pour que le dash le dise lui-même : l'agrégat quotidien Slash est
+redécoupé au prorata des frais portés par chaque transaction (`fxFeeInfo`),
+et chaque morceau porte maintenant son origine (`feeOf` : META / PERSO /
+ABONNEMENT / AUTRE…) — helper pur `fxShares` (3 tests). Le bloc
+« Rapprochement trésorerie » affiche « frais de change depuis le début : X €,
+dont Y € causés par Meta (Z %) ». 285 tests verts, build OK.
+
+## Mise à jour 04/09 (suite 3) — onglet Comptable « clean », synchro, lenteurs
+
+Retour de Badr sur le dash déployé (capture) : « j'ai toujours beaucoup
+d'erreurs ». Traité point par point :
+
+- **Table `bank_tx_labels` absente en prod** (bandeau orange) → migration 0013
+  appliquée sur Supabase depuis la session. Les affectations Société / Badr /
+  Adnane / Ignorer se sauvegardent enfin.
+- **« Sent money to ARINLOYE ISMAEL KOREDELE » (−660 $, 28/08)** = le monteur
+  (Badr). Motif bancaire « Monteur » ajouté : catégorie ABONNEMENT, plus
+  jamais « à affecter ».
+- **« Disbursement Reversal » (−219,04 $, Slash, 21/08)** = un versement repris
+  (Shopify reprend les remboursements clients sur un payout). Catégorisé
+  SHOPIFY négatif avec note « déjà déduit du CA, rien à affecter » — les
+  remboursements sont dans refunded_cents. Hypothèse Shopify (le libellé ne
+  nomme pas l'émetteur), assumée et écrite dans le code.
+- **CWILL / Moon Bundles** : facturées via Shopify, couvertes par les crédits
+  (Badr) → `noBankClaim`, comptées dans le net mais plus jamais réclamées en
+  banque. Test adapté.
+- **« Part Adnane INFÉRIEURE de 23 788 € — à creuser »** : faux signal. L'en
+  route estimé sans le scope Shopify valait 777 € (CA − payouts reçus depuis
+  le 01/08 : les payouts de début août payaient juillet) pour ~15 000 € réels.
+  Nouvelle estimation = CA − frais Shopify des 5 derniers jours (délai de
+  versement observé, vérifié à 0,6 % le 04/09), affichée « ≈ », et le message
+  dit d'ajouter le scope avant de creuser. Le rapprochement trésorerie
+  l'utilise aussi (écart calculé mais marqué estimation, jamais d'alerte
+  rouge sur une estimation).
+- **Paragraphe « écart vs encaissé −15 770 € »** du bloc 30 j retiré : il
+  mélangeait le paiement Panda de 25 448 € (commandes d'août) avec la fenêtre
+  et faisait peur pour rien. Le contrôle « rien ne manque » est le bloc 🧮.
+- **Synchro : CA et spend Meta publiés ENSEMBLE.** Badr : « je souhaite que
+  Meta se rafraîchisse plus vite que le CA, pour que ça ne m'annonce pas un
+  bénéfice puis une perte ». Le 1er recalcul (juste après les commandes, avant
+  Meta) est supprimé ; le recalcul se fait après l'écriture du spend, et dans
+  le catch si Meta échoue (la loi du 26/07 « un timeout Meta ne gèle jamais le
+  CA » tient). La lecture Meta part toujours en parallèle des 4 stores.
+- **Onglet Analyse lent** : `fetchActiveCampaignIds` (appel Meta live) à
+  chaque rendu → version cachée 5 min (`getActiveCampaignIdsCached`).
+- **Onglet Produits lent** : 4 scans complets des commandes (line_items JSON)
+  à chaque rendu → `getProductSplitForRange` cachée 5 min, clé = bornes +
+  Global de la période (recalcul dès qu'une synchro bouge le jour).
+
+292 tests verts, `next build` OK, lint clean. Non testé en prod (session sans
+accès Vercel) — les lenteurs sont à re-mesurer par Badr après déploiement.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

@@ -5,7 +5,11 @@ import {
   mapSlashTx,
   reconcile,
   subsForPattern,
+  estimateEnRoute,
+  fxShares,
+  PAYOUT_LAG_DAYS,
   type BankTx,
+  type DeclinedPayment,
   type SlashTx,
 } from "../bank";
 import { monthlyEurCents } from "../subscriptions";
@@ -157,17 +161,16 @@ describe("computeControl — anomalies et parts", () => {
     expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Hushed"))).toBe(false);
   });
 
-  it("apps Shopify pas réclamées individuellement si une facture Shopify est débitée", () => {
-    const sans = computeControl({ txs: [tx("2026-08-18", "FACEBK", -100)], reconciliation: null, ...W });
-    expect(sans.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("CWILL"))).toBe(true);
-    const avec = computeControl({
-      txs: [tx("2026-08-18", "SHOPIFY INC monthly", -89)],
-      reconciliation: null,
-      ...W,
-    });
-    // La facture Shopify peut porter les apps (CWILL, Moon Bundles) → pas d'alerte.
-    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("CWILL"))).toBe(false);
-    expect(avec.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Moon"))).toBe(false);
+  it("apps Shopify jamais réclamées en banque : facturées via Shopify, couvertes par les crédits (Badr 04/09)", () => {
+    // Avant le 04/09 : réclamées sauf si une facture Shopify était débitée sur
+    // la fenêtre. Badr : « Moon Bundles etc. c'est payé directement par
+    // Shopify » (et le plan Shopify par les crédits) → noBankClaim, aucun débit
+    // attendu, avec ou sans facture Shopify visible.
+    for (const txs of [[tx("2026-08-18", "FACEBK", -100)], [tx("2026-08-18", "SHOPIFY INC monthly", -89)]]) {
+      const c = computeControl({ txs, reconciliation: null, ...W });
+      expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("CWILL"))).toBe(false);
+      expect(c.anomalies.some((a) => a.kind === "ABO_NON_DEBITE" && `${a.label} ${a.detail}`.includes("Moon"))).toBe(false);
+    }
   });
 
   it("zéro débit Meta + Slash absent = metaPending, ni warning ni anomalie", () => {
@@ -278,5 +281,145 @@ describe("subsForPattern — un abonnement n'est couvert que sur SA fenêtre", (
   it("couvre Artlist à partir du 29/08 seulement", () => {
     expect(subsForPattern("Artlist", "2026-08-28")).toHaveLength(0);
     expect(subsForPattern("Artlist", "2026-08-29")).toHaveLength(1);
+  });
+});
+
+
+// 04/09 — anomalies « dépenses » demandées par Badr : carte refusée et
+// trésorerie inexpliquée (au-delà du reliquat Revolut pré-LLC).
+describe("anomalies du 04/09", () => {
+  const W = { sinceDay: "2026-08-01", untilDay: "2026-09-04" };
+  const refus = (day: string, description: string): DeclinedPayment => ({
+    bank: "SLASH",
+    day,
+    description,
+    amountCents: 1130,
+    currency: "USD",
+  });
+
+  it("carte refusée ≥ 2 fois pour le même marchand = anomalie ambre, une seule", () => {
+    const c = computeControl({
+      txs: [],
+      reconciliation: null,
+      ...W,
+      declines: [refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google  workspace")],
+    });
+    const a = c.anomalies.filter((x) => x.kind === "PAIEMENT_REFUSE");
+    expect(a).toHaveLength(1);
+    expect(a[0].severity).toBe("amber");
+    expect(a[0].label).toContain("×3");
+    expect(a[0].detail).toContain("Aucun débit passé depuis");
+  });
+
+  it("un débit passé après les refus change le message (le service tourne)", () => {
+    const c = computeControl({
+      txs: [
+        {
+          bank: "SLASH",
+          txId: "ok",
+          day: "2026-09-02",
+          amountCents: -1130,
+          currency: "USD",
+          amountEurCents: -979,
+          description: "Google Workspace",
+          category: "ABONNEMENT",
+          subscriptionLabel: "Google Workspace",
+          label: null,
+          labelNote: null,
+        },
+      ],
+      reconciliation: null,
+      ...W,
+      declines: [refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google Workspace")],
+    });
+    const a = c.anomalies.find((x) => x.kind === "PAIEMENT_REFUSE")!;
+    expect(a.detail).toContain("Un débit est passé ensuite");
+  });
+
+  it("un seul refus n'alerte pas (ça arrive)", () => {
+    const c = computeControl({ txs: [], reconciliation: null, ...W, declines: [refus("2026-09-01", "Google Workspace")] });
+    expect(c.anomalies.some((x) => x.kind === "PAIEMENT_REFUSE")).toBe(false);
+  });
+
+  it("trésorerie inexpliquée au-delà du seuil = rouge ; en dessous, rien", () => {
+    const treasury = (unexplainedCents: number | null) =>
+      ({ unexplainedCents }) as unknown as Parameters<typeof computeControl>[0]["treasury"];
+    const rouge = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(250000) });
+    expect(rouge.anomalies.find((x) => x.kind === "TRESORERIE_INEXPLIQUE")?.severity).toBe("red");
+    const calme = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(60000) });
+    expect(calme.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
+    const inconnu = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(null) });
+    expect(inconnu.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
+  });
+});
+
+
+// 04/09 — « les frais de change, c'est lié aux dépenses courantes ou à Meta ? »
+// L'agrégat quotidien est redécoupé au prorata des frais portés par chaque
+// transaction, et chaque morceau dit à quoi il est rattaché.
+describe("fxShares — ventilation d'un agrégat de frais FX", () => {
+  it("rattache chaque part à son origine, Meta à part entière", () => {
+    const parts = fxShares({ fahd: 100, badr: 0, meta: 2800, societe: 100 }, -3000);
+    expect(parts.map((p) => [p.suffix, p.amountCents, p.feeOf, p.label])).toEqual([
+      ["fahd", -100, "PERSO", "PERSO_FAHD"],
+      ["meta", -2800, "META", null],
+      ["ste", -100, "AUTRE", null],
+    ]);
+  });
+
+  it("la somme des parts vaut EXACTEMENT l'agrégat, arrondis compris", () => {
+    const parts = fxShares({ fahd: 1, badr: 1, meta: 1, societe: 0 }, -1000);
+    expect(parts.reduce((a, p) => a + p.amountCents, 0)).toBe(-1000);
+  });
+
+  it("aucun frais porté ce jour-là : rien à ventiler", () => {
+    expect(fxShares({ fahd: 0, badr: 0, meta: 0, societe: 0 }, -500)).toEqual([]);
+  });
+});
+
+
+// 04/09 — lignes qui restaient « à affecter » sur le dash de Badr.
+describe("catégorisation du 04/09", () => {
+  it("le monteur (ARINLOYE ISMAEL KOREDELE) est un abonnement « Monteur », pas une ligne mystère", () => {
+    const c = categorizeTx("Sent money to ARINLOYE ISMAEL KOREDELE", -66000);
+    expect(c).toEqual({ category: "ABONNEMENT", subscriptionLabel: "Monteur" });
+  });
+
+  it("un « Disbursement Reversal » négatif est un versement Shopify repris, pas une dépense", () => {
+    expect(categorizeTx("Disbursement Reversal", -21904).category).toBe("SHOPIFY");
+    // et un débit AUTRE quelconque reste AUTRE
+    expect(categorizeTx("Some shop", -21904).category).toBe("AUTRE");
+  });
+
+  it("mapSlashTx explique le retour de versement dans la note", () => {
+    const t = mapSlashTx({
+      id: "rev1",
+      date: "2026-08-21T01:55:00.000Z",
+      description: "Disbursement Reversal",
+      amountCents: -21904,
+      status: "posted",
+      detailedStatus: "settled",
+    });
+    expect(t!.category).toBe("SHOPIFY");
+    expect(t!.labelNote).toContain("déjà déduit du CA");
+  });
+});
+
+describe("estimateEnRoute — argent en route sans le scope Shopify", () => {
+  const day = (d: string, ca: number, fees: number) => ({ day: d, caCents: ca, spendCents: 0, feesCents: fees });
+  it("= CA − frais des 5 derniers jours, untilDay inclus", () => {
+    expect(PAYOUT_LAG_DAYS).toBe(5);
+    const rows = [
+      day("2026-08-30", 100000, 5000), // hors fenêtre
+      day("2026-08-31", 100000, 5000),
+      day("2026-09-01", 100000, 5000),
+      day("2026-09-02", 100000, 5000),
+      day("2026-09-03", 100000, 5000),
+      day("2026-09-04", 50000, 2500),
+    ];
+    expect(estimateEnRoute(rows, "2026-09-04")).toBe(4 * 95000 + 47500);
+  });
+  it("zéro sans agrégats", () => {
+    expect(estimateEnRoute([], "2026-09-04")).toBe(0);
   });
 });

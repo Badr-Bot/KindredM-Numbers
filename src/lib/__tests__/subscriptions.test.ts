@@ -57,12 +57,14 @@ describe("Seif — « ne sera pas payé, du 16/07 au 16/08 » (Badr 20/08)", () 
     expect(fixedCostsCentsForDay("2026-08-16") - fixedCostsCentsForDay("2026-08-17")).toBe(jour);
   });
 
-  it("fait tomber les charges du jour de ~151 € à ~109 €", () => {
-    // Repères relevés le 29/08 : les deux jours ont pris +4,93 €/j quand
-    // Klaviyo est passé de 25 € (hypothèse) à 150 € (réel) sur TOUT
-    // l'historique — le pas de Seif entre les deux jours, lui, n'a pas bougé.
-    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(151);
-    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(109);
+  it("fait tomber les charges du jour de ~170 € à ~127 €", () => {
+    // Repères relevés le 29/08 (151 → 109) : les deux jours ont pris +4,93 €/j
+    // quand Klaviyo est passé de 25 € à 150 € sur tout l'historique.
+    // Puis +18,76 €/j le 04/09 : les frais de change Slash (Meta payé en USD,
+    // 866 $ relevés par Badr) sont inscrits dans le net, étalés du 27/07 au
+    // 04/09 — les deux jours sont dedans. Le pas de Seif, lui, n'a pas bougé.
+    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(170);
+    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(127);
   });
 
   it("sort des totaux courants une fois la fenêtre passée", () => {
@@ -191,7 +193,11 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     expect(abosSeuls("2026-08-31") - abosSeuls("2026-09-01")).toBe(
       dailyEurCents(jeremy()) + dailyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)"))
     );
-    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(37);
+    // 37 € le 29/08 ; +18,76 €/j de frais de change Slash inscrits le 04/09
+    // (ligne étalée 27/07→04/09, close ce jour-là : Meta est payé depuis Wise
+    // en euros). Dès le 05/09 la journée retombe à ~37 €.
+    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(56);
+    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(37);
   });
 
   it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
