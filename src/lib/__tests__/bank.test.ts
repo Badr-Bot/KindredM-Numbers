@@ -6,6 +6,7 @@ import {
   reconcile,
   subsForPattern,
   type BankTx,
+  type DeclinedPayment,
   type SlashTx,
 } from "../bank";
 import { monthlyEurCents } from "../subscriptions";
@@ -278,5 +279,74 @@ describe("subsForPattern — un abonnement n'est couvert que sur SA fenêtre", (
   it("couvre Artlist à partir du 29/08 seulement", () => {
     expect(subsForPattern("Artlist", "2026-08-28")).toHaveLength(0);
     expect(subsForPattern("Artlist", "2026-08-29")).toHaveLength(1);
+  });
+});
+
+
+// 04/09 — anomalies « dépenses » demandées par Badr : carte refusée et
+// trésorerie inexpliquée (au-delà du reliquat Revolut pré-LLC).
+describe("anomalies du 04/09", () => {
+  const W = { sinceDay: "2026-08-01", untilDay: "2026-09-04" };
+  const refus = (day: string, description: string): DeclinedPayment => ({
+    bank: "SLASH",
+    day,
+    description,
+    amountCents: 1130,
+    currency: "USD",
+  });
+
+  it("carte refusée ≥ 2 fois pour le même marchand = anomalie ambre, une seule", () => {
+    const c = computeControl({
+      txs: [],
+      reconciliation: null,
+      ...W,
+      declines: [refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google  workspace")],
+    });
+    const a = c.anomalies.filter((x) => x.kind === "PAIEMENT_REFUSE");
+    expect(a).toHaveLength(1);
+    expect(a[0].severity).toBe("amber");
+    expect(a[0].label).toContain("×3");
+    expect(a[0].detail).toContain("Aucun débit passé depuis");
+  });
+
+  it("un débit passé après les refus change le message (le service tourne)", () => {
+    const c = computeControl({
+      txs: [
+        {
+          bank: "SLASH",
+          txId: "ok",
+          day: "2026-09-02",
+          amountCents: -1130,
+          currency: "USD",
+          amountEurCents: -979,
+          description: "Google Workspace",
+          category: "ABONNEMENT",
+          subscriptionLabel: "Google Workspace",
+          label: null,
+          labelNote: null,
+        },
+      ],
+      reconciliation: null,
+      ...W,
+      declines: [refus("2026-09-01", "Google Workspace"), refus("2026-09-01", "Google Workspace")],
+    });
+    const a = c.anomalies.find((x) => x.kind === "PAIEMENT_REFUSE")!;
+    expect(a.detail).toContain("Un débit est passé ensuite");
+  });
+
+  it("un seul refus n'alerte pas (ça arrive)", () => {
+    const c = computeControl({ txs: [], reconciliation: null, ...W, declines: [refus("2026-09-01", "Google Workspace")] });
+    expect(c.anomalies.some((x) => x.kind === "PAIEMENT_REFUSE")).toBe(false);
+  });
+
+  it("trésorerie inexpliquée au-delà du seuil = rouge ; en dessous, rien", () => {
+    const treasury = (unexplainedCents: number | null) =>
+      ({ unexplainedCents }) as unknown as Parameters<typeof computeControl>[0]["treasury"];
+    const rouge = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(250000) });
+    expect(rouge.anomalies.find((x) => x.kind === "TRESORERIE_INEXPLIQUE")?.severity).toBe("red");
+    const calme = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(60000) });
+    expect(calme.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
+    const inconnu = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(null) });
+    expect(inconnu.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
   });
 });

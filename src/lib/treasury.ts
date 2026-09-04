@@ -28,6 +28,40 @@
 // comme tel — jamais comblé par une estimation silencieuse.
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// DÉCISIONS DU 04/09 (Badr) — ce qui borne le rapprochement.
+// ---------------------------------------------------------------------------
+
+/** Les frais bancaires relevés à la main sur Slash le 04/09 (change 866 $,
+ * plan Shopify 571 $, Google Ads 65 $, SWIFT 50 $) ont été INSCRITS dans le net
+ * ce jour-là (subscriptions.ts + associateLedger.ts). Le balayage bancaire ne
+ * doit donc les compter comme « écart » qu'APRÈS cette date, sinon ils
+ * expliqueraient deux fois. Tout frais postérieur ressort comme un écart neuf. */
+export const NET_BOOKED_BANK_FEES_UNTIL = "2026-09-04";
+
+/**
+ * Badr, 04/09 : « l'écart, c'est sur le compte Revolut perso d'Adnane, avant
+ * le transfert vers la nouvelle LLC (Slash + Wise) — à partir de ce jour on
+ * part du principe qu'il n'y a pas de trou ».
+ *
+ * Le rapprochement du 04/09 laissait ~1 850 € non tracés (±700 € : dû Panda
+ * estimé, taux CAD deviné, frais Shopify des vieilles commandes à 3 %).
+ * L'activité a tourné sur le Revolut perso d'Adnane avant l'ouverture des
+ * comptes LLC : ce reliquat est là-bas, pas perdu — et il est à LUI (100 %),
+ * pas réparti 50/50. Figé à la valeur du 04/09 : c'est un PLAFOND. Tout
+ * écart au-delà, à partir de ce jour, est une anomalie à chercher.
+ */
+export const PRE_LLC_RESIDUAL = {
+  day: "2026-09-04",
+  cents: 185000,
+  label: "Revolut perso Adnane — période avant la LLC (figé 04/09)",
+  note: "Reliquat du rapprochement du 04/09, resté sur le Revolut perso d'Adnane (l'activité tournait dessus avant Slash/Wise). Décision Badr : imputé 100 % Adnane. Plafond figé — un écart au-delà est un trou NEUF.",
+} as const;
+
+/** Seuil au-delà duquel l'inexpliqué depuis le 04/09 devient une anomalie
+ * rouge. En dessous : arrondis de change, décalages de facturation. */
+export const UNEXPLAINED_ALERT_CENTS = 100000;
+
 /** Une ligne de la ventilation de l'écart : un poste que le net ne connaît pas. */
 export interface TreasuryGapLine {
   label: string;
@@ -44,6 +78,11 @@ export interface TreasuryBridge {
   supplierUnbilledCents: number;
   /** Reste dû sur les factures DÉJÀ reçues (suivi fournisseur). */
   supplierOwedCents: number;
+  /** Acomptes virés au fournisseur AVANT sa facture (pas encore affectés) :
+   * déjà sortis de la banque, à déduire de ce qu'il pourra réclamer. */
+  supplierPrepaidCents: number;
+  /** Détail de la prochaine facture attendue (plage, nombre de commandes). */
+  supplierNext: SupplierUnbilled | null;
   /** Net + tout ce qui est dû au fournisseur = cash que l'activité a produit. */
   cashTheoriqueCents: number;
   /** Solde Shopify Payments (null si le scope manque). */
@@ -58,7 +97,12 @@ export interface TreasuryBridge {
   gapCents: number | null;
   /** Postes qui expliquent l'écart, du plus gros au plus petit. */
   gapLines: TreasuryGapLine[];
-  /** Écart restant une fois la ventilation retirée (null si non calculable). */
+  /** Reliquat imputé au Revolut perso d'Adnane (période pré-LLC), borné par
+   * PRE_LLC_RESIDUAL : jamais plus que ce qui reste à expliquer, jamais plus
+   * que le plafond figé le 04/09. */
+  preLlcRevolutCents: number | null;
+  /** Écart restant une fois la ventilation ET le reliquat Revolut retirés —
+   * c'est l'inexpliqué DEPUIS le 04/09, le seul qui doit alerter. */
   unexplainedCents: number | null;
   /** Premier jour réellement balayé en banque pour la ventilation. */
   scanSinceDay: string | null;
@@ -81,12 +125,17 @@ export interface TreasuryAttribution {
   /** Part de l'écart répartie faute de date (supplément Meta + inexpliqué),
    * 50/50 — signalée pour ne jamais la faire passer pour une mesure. */
   reparti5050Cents: number;
+  /** Reliquat Revolut pré-LLC, 100 % Adnane (décision Badr 04/09). */
+  revolutAdnaneCents: number;
 }
 
 export interface TreasuryInput {
   netCumuleCents: number;
   supplierUnbilledCents: number;
   supplierOwedCents: number;
+  /** Acomptes déjà virés au fournisseur, non encore affectés à une facture. */
+  supplierPrepaidCents?: number;
+  supplierNext?: SupplierUnbilled | null;
   enRouteCents: number | null;
   /** Soldes bancaires en EUR ; null = devise non convertible. */
   bankBalances: { currency: string; amountEurCents: number | null }[];
@@ -134,7 +183,12 @@ export function sumBankBalances(balances: { currency: string; amountEurCents: nu
 
 export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   const { totalCents: bankCents, skipped: bankSkipped } = sumBankBalances(input.bankBalances);
-  const cashTheoriqueCents = input.netCumuleCents + input.supplierUnbilledCents + input.supplierOwedCents;
+  // Un acompte déjà viré est SORTI de la banque : la part de la dette qu'il
+  // couvre n'y est plus. Sans cette soustraction, le cash théorique garderait
+  // 25 000 € de « dette encore en banque » le jour même où ils sont partis, et
+  // l'écart crierait au trou de 25 000 €.
+  const prepaid = input.supplierPrepaidCents ?? 0;
+  const cashTheoriqueCents = input.netCumuleCents + input.supplierUnbilledCents + input.supplierOwedCents - prepaid;
 
   const attenduEnBanqueCents = input.enRouteCents === null ? null : cashTheoriqueCents - input.enRouteCents;
   const gapCents = attenduEnBanqueCents === null || bankCents === null ? null : attenduEnBanqueCents - bankCents;
@@ -181,7 +235,18 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   }
 
   const explained = gapLines.reduce((t, l) => t + l.cents, 0);
-  const unexplainedCents = gapCents === null || s === null ? null : gapCents - explained;
+  const resteAvantRevolut = gapCents === null || s === null ? null : gapCents - explained;
+
+  // 🏦 Reliquat Revolut perso Adnane (pré-LLC) : absorbe ce qui reste, dans la
+  // limite du plafond figé le 04/09. Si le balayage explique déjà tout (ou si
+  // la banque dépasse l'attendu), la ligne tombe à zéro — jamais négative.
+  const preLlcRevolutCents =
+    resteAvantRevolut === null ? null : Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents);
+  if (preLlcRevolutCents !== null && preLlcRevolutCents > 0) {
+    gapLines.push({ label: PRE_LLC_RESIDUAL.label, cents: preLlcRevolutCents, detail: PRE_LLC_RESIDUAL.note });
+  }
+  const unexplainedCents =
+    resteAvantRevolut === null || preLlcRevolutCents === null ? null : resteAvantRevolut - preLlcRevolutCents;
 
   // 👥 À qui l'écart est imputable. Trois régimes, jamais mélangés :
   //   • les dépenses perso sont NOMINATIVES (exactes, aucune répartition) ;
@@ -190,14 +255,15 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   //   • le supplément Meta et l'inexpliqué n'ont pas de date exploitable →
   //     50/50, et c'est DIT (champ reparti5050Cents), jamais présenté comme
   //     une mesure.
+  //   • le reliquat Revolut pré-LLC est à Adnane, 100 % (décision Badr 04/09).
   let attribution: TreasuryAttribution | null = null;
-  if (s && unexplainedCents !== null) {
+  if (s && unexplainedCents !== null && preLlcRevolutCents !== null) {
     const metaExtra = Math.max(s.metaBankCents - s.metaSpendCents, 0);
     const dated = s.feesCents + s.googleAdsCents;
     const flou = metaExtra + unexplainedCents;
     const badrFlou = Math.round(flou / 2);
     const badr = s.persoBadrCents + s.societeDatedBadrCents + badrFlou;
-    const adnane = s.persoFahdCents + (dated - s.societeDatedBadrCents) + (flou - badrFlou);
+    const adnane = s.persoFahdCents + (dated - s.societeDatedBadrCents) + (flou - badrFlou) + preLlcRevolutCents;
     attribution = {
       badrCents: badr,
       adnaneCents: adnane,
@@ -205,6 +271,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
       persoFahdCents: s.persoFahdCents,
       societeCents: dated + flou,
       reparti5050Cents: flou,
+      revolutAdnaneCents: preLlcRevolutCents,
     };
   }
 
@@ -212,6 +279,8 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     netCumuleCents: input.netCumuleCents,
     supplierUnbilledCents: input.supplierUnbilledCents,
     supplierOwedCents: input.supplierOwedCents,
+    supplierPrepaidCents: prepaid,
+    supplierNext: input.supplierNext ?? null,
     cashTheoriqueCents,
     enRouteCents: input.enRouteCents,
     bankCents,
@@ -219,6 +288,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     attenduEnBanqueCents,
     gapCents,
     gapLines,
+    preLlcRevolutCents,
     unexplainedCents,
     scanSinceDay: s?.sinceDay ?? null,
     scanPartial: s ? !s.coversHistory : false,
@@ -263,20 +333,53 @@ export function orderNumber(orderName: string): number | null {
  * numérotation est indépendante ; les compter au numéro mélangerait deux
  * séries et pourrait doubler ou effacer une facture entière).
  */
+export interface SupplierUnbilled {
+  cents: number;
+  orders: number;
+  /** Bornes de la boutique facturée (numéros), null si aucune commande. */
+  firstOrder: string | null;
+  lastOrder: string | null;
+  firstDay: string | null;
+  lastDay: string | null;
+}
+
+export function supplierUnbilledDetail(
+  rows: OrderCostRow[],
+  lastBill: { store: string; ordersTo: string; issuedDay: string } | null
+): SupplierUnbilled {
+  const cut = lastBill ? orderNumber(lastBill.ordersTo) : null;
+  const kept: OrderCostRow[] = [];
+  for (const r of rows) {
+    if (!lastBill) {
+      kept.push(r);
+      continue;
+    }
+    if (r.store === lastBill.store && cut !== null) {
+      const n = orderNumber(r.orderName);
+      if (n !== null && n > cut) kept.push(r);
+      continue;
+    }
+    if (r.day > lastBill.issuedDay) kept.push(r);
+  }
+  const numbered = kept
+    .filter((r) => !lastBill || r.store === lastBill.store)
+    .map((r) => ({ r, n: orderNumber(r.orderName) }))
+    .filter((x): x is { r: OrderCostRow; n: number } => x.n !== null)
+    .sort((a, b) => a.n - b.n);
+  const days = kept.map((r) => r.day).sort();
+  return {
+    cents: kept.reduce((t, r) => t + r.costCents, 0),
+    orders: kept.length,
+    firstOrder: numbered[0]?.r.orderName ?? null,
+    lastOrder: numbered[numbered.length - 1]?.r.orderName ?? null,
+    firstDay: days[0] ?? null,
+    lastDay: days[days.length - 1] ?? null,
+  };
+}
+
 export function supplierUnbilledCents(
   rows: OrderCostRow[],
   lastBill: { store: string; ordersTo: string; issuedDay: string } | null
 ): number {
-  if (!lastBill) return rows.reduce((t, r) => t + r.costCents, 0);
-  const cut = orderNumber(lastBill.ordersTo);
-  let total = 0;
-  for (const r of rows) {
-    if (r.store === lastBill.store && cut !== null) {
-      const n = orderNumber(r.orderName);
-      if (n !== null && n > cut) total += r.costCents;
-      continue;
-    }
-    if (r.day > lastBill.issuedDay) total += r.costCents;
-  }
-  return total;
+  return supplierUnbilledDetail(rows, lastBill).cents;
 }

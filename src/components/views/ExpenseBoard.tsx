@@ -301,7 +301,7 @@ export function ExpenseBoard({
                         {alerte && " ⚠️"}
                       </td>
                       <td className="py-1 pr-2 text-ink-faint">
-                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit" }[sub.category]}
+                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit", FRAIS: "Frais bancaires" }[sub.category]}
                       </td>
                       <td className={`tnum py-1 pr-2 text-right ${m < 0 ? "text-phosphor" : ""}`}>{formatEurSigned0(m).replace("+", "")}</td>
                       <td className="tnum py-1 pr-2 text-right text-ink-faint">{(m / 3044).toFixed(2).replace(".", ",")}</td>

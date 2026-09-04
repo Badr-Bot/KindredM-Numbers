@@ -4,9 +4,17 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
 import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
-import { buildTreasuryBridge, supplierUnbilledCents, type OrderCostRow, type TreasuryBridge } from "./treasury";
+import {
+  buildTreasuryBridge,
+  NET_BOOKED_BANK_FEES_UNTIL,
+  supplierUnbilledDetail,
+  UNEXPLAINED_ALERT_CENTS,
+  type OrderCostRow,
+  type SupplierUnbilled,
+  type TreasuryBridge,
+} from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -65,6 +73,19 @@ export interface BankTx {
    * inconnue avec tout ce que le dashboard connaît (abonnements, frais
    * ponctuels, factures fournisseur) par similarité de montant. */
   suggestion?: string | null;
+}
+
+/** Paiement carte REFUSÉ (declined) — aucun argent sorti, mais un signal :
+ * plafond, carte expirée, blocage marchand. Le 01/09, Google Workspace a été
+ * refusé 6 fois d'affilée avant de passer le 02/09 (relevé Badr 04/09) —
+ * exactement le genre d'« anomalie dépenses » qu'il veut voir remonter. */
+export interface DeclinedPayment {
+  bank: BankName;
+  day: string;
+  description: string;
+  /** Montant tenté, en cents de la devise d'origine (positif). */
+  amountCents: number;
+  currency: string;
 }
 
 export interface BankBalance {
@@ -314,7 +335,7 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
 export async function fetchSlashData(
   sinceDay: string,
   untilDay: string
-): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number }> {
+): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number; declines: DeclinedPayment[] }> {
   const token = process.env.SLASH_API_TOKEN;
   if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
 
@@ -343,7 +364,9 @@ export async function fetchSlashData(
   }
 
   const raw: SlashTx[] = [];
-  for (let page = 0; page < 20; page++) {
+  // 60 pages (et non 20) : la même lecture sert au balayage DEPUIS LE DÉBUT du
+  // rapprochement trésorerie — 20 pages ne couvraient pas l'historique.
+  for (let page = 0; page < 60; page++) {
     if (!res.ok) throw new Error(`Slash /transaction : HTTP ${res.status} — ${(await res.text()).slice(0, 200)}`);
     const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
     raw.push(...(json.items ?? []));
@@ -413,7 +436,21 @@ export async function fetchSlashData(
   }
 
   const txs: BankTx[] = [];
+  const declines: DeclinedPayment[] = [];
   for (const t of raw) {
+    // Refus de paiement : pas d'argent sorti (donc hors txs), mais gardé à
+    // part pour l'anomalie « carte refusée » (Badr 04/09 : « il faudra qu'il
+    // me dise les anomalies au niveau des dépenses »).
+    if (t.detailedStatus === "declined" && t.amountCents < 0) {
+      declines.push({
+        bank: "SLASH",
+        day: toParisDay(t.date),
+        description: t.merchantData?.description || t.description || t.memo || "(sans libellé)",
+        amountCents: Math.abs(t.amountCents),
+        currency: "USD",
+      });
+      continue;
+    }
     const mapped = mapSlashTx(t);
     if (!mapped) continue;
     // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
@@ -512,7 +549,7 @@ export async function fetchSlashData(
   } catch {
     // solde illisible : signalé dans le rapport, les transactions restent valables
   }
-  return { txs, balances, cashbackCents };
+  return { txs, balances, cashbackCents, declines };
 }
 
 interface WiseStatementTx {
@@ -689,6 +726,8 @@ export function reconcile(
 // --- Anomalies + parts (pur, testé) ---------------------------------------------
 
 export type AnomalyKind =
+  | "PAIEMENT_REFUSE"
+  | "TRESORERIE_INEXPLIQUE"
   | "TX_NON_AFFECTEE"
   | "ABO_NON_DEBITE"
   | "ABO_MONTANT"
@@ -740,10 +779,54 @@ export function computeControl(input: {
    * l'est pas, les débits carte LLC (Meta, abonnements) passent sur Slash et
    * sont invisibles ici : on ne crie pas « impayé » sur ce qu'on ne voit pas. */
   slashConnected?: boolean;
+  /** Paiements carte refusés sur la fenêtre (Slash) — signal, pas argent. */
+  declines?: DeclinedPayment[];
+  /** Rapprochement depuis le début — l'inexpliqué DEPUIS le 04/09 alerte. */
+  treasury?: TreasuryBridge | null;
 }): ControlReport {
   const { txs, reconciliation, sinceDay, untilDay } = input;
   const slashConnected = input.slashConnected ?? false;
   const anomalies: Anomaly[] = [];
+
+  // 0) TRÉSORERIE : l'écart que ni la ventilation ni le reliquat Revolut
+  //    pré-LLC (plafond figé le 04/09) n'expliquent. Badr 04/09 : « à partir
+  //    de ce jour on part du principe qu'il n'y a pas de trou » — donc tout
+  //    reste au-delà du seuil est un trou NEUF, en rouge.
+  const inexplique = input.treasury?.unexplainedCents ?? null;
+  if (inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS) {
+    anomalies.push({
+      kind: "TRESORERIE_INEXPLIQUE",
+      severity: "red",
+      label: `Trésorerie : ${Math.round(inexplique / 100)} € manquent sur les comptes sans explication (depuis le 04/09)`,
+      detail:
+        "Écart entre ce que l'activité a produit et ce qu'il y a réellement sur Wise + Slash, une fois retirés les frais connus, le perso et le reliquat Revolut pré-LLC. Voir le bloc « Rapprochement trésorerie ».",
+    });
+  }
+
+  // 0bis) PAIEMENTS REFUSÉS : même marchand refusé ≥ 2 fois sur la fenêtre =
+  //    carte qui coince (plafond, expiration, blocage) — un service peut être
+  //    coupé sans qu'aucun euro ne bouge, donc invisible de tout le reste.
+  const refus = (input.declines ?? []).filter((d) => d.day >= sinceDay && d.day <= untilDay);
+  const parMarchand = new Map<string, DeclinedPayment[]>();
+  for (const d of refus) {
+    const k = d.description.toLowerCase().replace(/\s+/g, " ").trim();
+    parMarchand.set(k, [...(parMarchand.get(k) ?? []), d]);
+  }
+  for (const list of parMarchand.values()) {
+    if (list.length < 2) continue;
+    const last = list.reduce((a, b) => (a.day > b.day ? a : b));
+    const paye = txs.some(
+      (t) => t.amountCents < 0 && t.day >= last.day && t.description.toLowerCase().includes(list[0].description.toLowerCase().slice(0, 6))
+    );
+    anomalies.push({
+      kind: "PAIEMENT_REFUSE",
+      severity: "amber",
+      label: `Carte refusée ×${list.length} : « ${list[0].description} » (dernier refus le ${last.day.slice(8, 10)}/${last.day.slice(5, 7)}, ${(last.amountCents / 100).toFixed(2)} $)`,
+      detail: paye
+        ? "Un débit est passé ensuite — le service tourne, mais la carte a coincé : plafond, expiration ou blocage marchand à vérifier."
+        : "Aucun débit passé depuis — le service peut être coupé. Vérifier la carte (plafond, expiration) et relancer le paiement.",
+    });
+  }
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay && t.label !== "IGNORER");
   const debits = inWindow.filter((t) => t.amountCents < 0);
   const eur = (c: number) => `${Math.round(Math.abs(c) / 100)} €`;
@@ -1173,7 +1256,7 @@ const fetchWiseCached = unstable_cache(
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v2"],
+  ["slash-data-v3"], // v3 : + declines (04/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1281,12 +1364,12 @@ async function buildTreasury(input: {
   // 2) Dette fournisseur : les commandes que Panda n'a pas encore facturées.
   //    Leur coût est déjà déduit du net mais l'argent est TOUJOURS en banque.
   const lastBill = lastSupplierBill();
-  let unbilledCents = 0;
+  let unbilled: SupplierUnbilled | null = null;
   let supplierWarning: string | null = null;
   try {
     const fromDay = lastBill ? addDaysToDay(lastBill.issuedDay, -7) : TREASURY_START_DAY;
     const orderRows = await fetchOrderCostsSince(supabase, fromDay);
-    unbilledCents = supplierUnbilledCents(
+    unbilled = supplierUnbilledDetail(
       orderRows,
       lastBill ? { store: SUPPLIER_BILL_STORE, ordersTo: lastBill.ordersTo, issuedDay: lastBill.issuedDay } : null
     );
@@ -1300,12 +1383,22 @@ async function buildTreasury(input: {
   let scanWarning: string | null = null;
   try {
     const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
-    for (const t of life.txs) t.label = labels.get(`${t.bank}|${t.txId}`) ?? null;
+    // Une affectation MANUELLE écrase l'automatique (titulaire de la carte) ;
+    // sans affectation manuelle, l'automatique reste — l'écraser par null
+    // vidait le perso d'Adnane du rapprochement (bug repéré le 04/09).
+    for (const t of life.txs) {
+      const manual = labels.get(`${t.bank}|${t.txId}`);
+      if (manual) t.label = manual;
+    }
     const out = (t: BankTx) => Math.abs(t.amountEurCents ?? 0);
     const debits = life.txs.filter((t) => t.amountCents < 0 && t.label !== "IGNORER" && t.category !== "INTERNE");
     const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
-    const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t));
-    const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t));
+    // Frais et Google Ads : seulement APRÈS le 04/09 — ceux d'avant sont déjà
+    // inscrits dans le net (subscriptions.ts / associateLedger.ts) et
+    // ressortiraient deux fois. Tout ce qui repasse après = écart neuf.
+    const nouveau = (t: BankTx) => t.day > NET_BOOKED_BANK_FEES_UNTIL;
+    const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t) && nouveau(t));
+    const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t) && nouveau(t));
     scan = {
       sinceDay: life.sinceDay,
       coversHistory: life.sinceDay <= TREASURY_START_DAY,
@@ -1329,8 +1422,10 @@ async function buildTreasury(input: {
 
   const treasury = buildTreasuryBridge({
     netCumuleCents,
-    supplierUnbilledCents: unbilledCents,
+    supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
+    supplierPrepaidCents: supplierPrepaidCents(),
+    supplierNext: unbilled,
     enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : null,
     bankBalances: balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
     scan,
@@ -1355,7 +1450,49 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   if (!supabase) {
     const demo = demoBankData(untilDay);
     const reconciliation = reconcile(demo.txs, demo.expected, controlSince, untilDay, { slashConnected });
-    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected });
+    const demoTreasury = buildTreasuryBridge({
+      netCumuleCents: 5931571,
+      supplierUnbilledCents: 2698847,
+      supplierOwedCents: 0,
+      enRouteCents: 185000,
+      supplierPrepaidCents: 0,
+      supplierNext: {
+        cents: 2698847,
+        orders: 1219,
+        firstOrder: "#5996",
+        lastOrder: "#7214",
+        firstDay: "2026-08-12",
+        lastDay: untilDay,
+      },
+      bankBalances: demo.balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+      scan: {
+        sinceDay: TREASURY_START_DAY,
+        coversHistory: true,
+        feesCents: 0,
+        googleAdsCents: 0,
+        persoBadrCents: 53100,
+        persoFahdCents: 301800,
+        societeDatedBadrCents: 0,
+        metaBankCents: 21337236,
+        metaSpendCents: 21337236,
+      },
+    });
+    const demoDeclines: DeclinedPayment[] = [1, 2, 3].map(() => ({
+      bank: "SLASH",
+      day: addDaysToDay(untilDay, -3),
+      description: "Google Workspace",
+      amountCents: 1130,
+      currency: "USD",
+    }));
+    const control = computeControl({
+      txs: demo.txs,
+      reconciliation,
+      sinceDay: controlSince,
+      untilDay,
+      slashConnected,
+      declines: demoDeclines,
+      treasury: demoTreasury,
+    });
     return {
       ready: true,
       setup: ["Mode démo : données bancaires synthétiques (aucune API appelée)."],
@@ -1368,30 +1505,14 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       slashCashbackEurCents: 2150,
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
-      treasury: buildTreasuryBridge({
-        netCumuleCents: 5931571,
-        supplierUnbilledCents: 2698847,
-        supplierOwedCents: 0,
-        enRouteCents: 185000,
-        bankBalances: demo.balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
-        scan: {
-          sinceDay: TREASURY_START_DAY,
-          coversHistory: true,
-          feesCents: 120000,
-          googleAdsCents: 90000,
-          persoBadrCents: 53100,
-          persoFahdCents: 301800,
-          societeDatedBadrCents: 84000,
-          metaBankCents: 21550000,
-          metaSpendCents: 21337236,
-        },
-      }),
+      treasury: demoTreasury,
       treasurySetup: null,
     };
   }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
+  let declines: DeclinedPayment[] = [];
   // Affectations manuelles, réutilisées par le rapprochement depuis le début
   // (les mêmes labels doivent valoir sur TOUTES les transactions, pas
   // seulement celles des 30 derniers jours).
@@ -1424,6 +1545,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
+      declines = slash.declines ?? [];
       slashCashbackEurCents = typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD") : null;
       slashConnected = true;
       if ((slash.balances ?? []).length === 0) {
@@ -1485,9 +1607,6 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     }
   }
 
-  const control =
-    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
-
   const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
   const cashbackTotalEurCents = typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD") : null;
   const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
@@ -1497,8 +1616,9 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     );
   }
 
-  // 🧮 Rapprochement depuis le tout début — jamais bloquant : une erreur ici
-  // ne doit pas emporter le contrôle bancaire, qui marche déjà.
+  // 🧮 Rapprochement depuis le tout début — AVANT le contrôle (il en tire
+  // l'anomalie « trésorerie inexpliquée »), et jamais bloquant : une erreur
+  // ici ne doit pas emporter le contrôle bancaire, qui marche déjà.
   let treasury: TreasuryBridge | null = null;
   let treasurySetup: string | null = null;
   try {
@@ -1509,6 +1629,11 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   } catch (err) {
     warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
   }
+
+  const control =
+    txs.length > 0
+      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, declines, treasury })
+      : null;
 
   return {
     ready: txs.length > 0,

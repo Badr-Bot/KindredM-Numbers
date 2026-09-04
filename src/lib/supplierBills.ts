@@ -123,6 +123,38 @@ export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   },
 ];
 
+// ---------------------------------------------------------------------------
+// ACOMPTES — virements faits au fournisseur AVANT sa facture (Badr 04/09 :
+// « une fois que je t'envoie la facture tu la déduis de ce qui a été déjà
+// viré, c'est pour anticiper et savoir ce qu'il pourra me réclamer »).
+//
+// Un acompte vit ici tant qu'aucune facture ne l'absorbe. Quand la facture
+// arrive : on crée la SupplierBill, on reporte l'acompte dans son paidCents et
+// on pose `appliedTo` = sa ref. Jamais supprimé — l'historique des virements
+// doit rester lisible ligne à ligne, comme les factures.
+// ---------------------------------------------------------------------------
+export interface SupplierPrepayment {
+  /** Jour du virement (YYYY-MM-DD). */
+  day: string;
+  /** Montant en EUR (centimes) — contre-valeur au moment du virement. */
+  eurCents: number;
+  /** Montant d'origine tel que viré (le fournisseur encaisse en USD). */
+  original: string;
+  /** Ref de la facture qui l'a absorbé — null tant qu'elle n'est pas reçue. */
+  appliedTo: string | null;
+  note?: string;
+}
+
+export const SUPPLIER_PREPAYMENTS: SupplierPrepayment[] = [
+  // Aucun acompte enregistré : Badr annonce le virement (montant, jour) et on
+  // l'ajoute ici — jamais déduit d'une capture de solde, jamais deviné.
+];
+
+/** Acomptes pas encore absorbés par une facture — à déduire de la prochaine. */
+export function supplierPrepaidCents(): number {
+  return SUPPLIER_PREPAYMENTS.filter((p) => p.appliedTo === null).reduce((t, p) => t + p.eurCents, 0);
+}
+
 export function supplierPendingCreditsCents(): number {
   return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);
 }

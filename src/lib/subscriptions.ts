@@ -56,7 +56,7 @@ export const USD_TO_EUR = 1 / 1.1539;
 /** Jours moyens par mois (365,25 ÷ 12) — pour l'étalement quotidien. */
 export const DAYS_PER_MONTH = 30.44;
 
-export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT";
+export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT" | "FRAIS";
 
 export interface Subscription {
   label: string;
@@ -193,6 +193,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
   { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // 04/09 — FRAIS DE CHANGE SLASH : Meta facture en euros, la carte Slash paie
+  // en dollars, et Slash prend ~1 % de « Foreign Transaction Fee » sur chaque
+  // débit. Relevé par Badr le 04/09 : 866 $ sur 39 lignes quotidiennes (≈ 27/07
+  // → 03/09). Étalé sur cette période pour que chaque mois porte SA part :
+  // 659 $/mois × 40 j ÷ 30,44 ≈ 866 $. CLOS le 04/09 : Badr a branché Wise (EUR)
+  // sur Meta ce jour-là — plus aucun frais attendu. S'il en repasse, le
+  // rapprochement trésorerie les ressort comme écart neuf (NET_BOOKED_BANK_FEES_UNTIL).
+  { label: "Frais de change Slash (Meta payé en USD)", category: "FRAIS", amount: 659, currency: "USD", startDay: "2026-07-27", endDay: "2026-09-04", noBankClaim: true, note: "866 $ de « Foreign Transaction Fee » relevés sur Slash le 04/09, étalés du 27/07 au 04/09. Arrêté le 04/09 : Meta est désormais payé depuis Wise en euros (Badr). La date de début (27/07) est déduite du nombre de lignes, pas lue." },
   // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
   // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify
   // lui-même) — un poste qu'on ne compte pas du tout ici — jamais les apps

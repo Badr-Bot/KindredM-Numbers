@@ -638,6 +638,72 @@ aujourd'hui, avec une fausse alerte « débité au mauvais montant ».
 
 227 tests verts, `next build` OK.
 
+## Mise à jour 04/09 — cashflow : rapprochement trésorerie depuis le tout début
+
+Question de Badr : « vérifie au niveau du compte bancaire la cashflow qui
+rentre, les paiements qui restent à payer au fournisseur, et dis-moi si on est
+en accord avec le net gagné affiché ». Reconstruit à la main (Supabase + captures
+Shopify/Wise/Slash), puis **codé pour que le dash le refasse seul**.
+
+**Ce qui a été vérifié (chiffres du 04/09, 09h50) :**
+- Payouts Shopify ✅ : solde + versements programmés (~19 500 €) = CA − frais
+  Shopify du 31/08→04/09 (19 388 €), écart 0,6 %. Les versements programmés ne
+  sont PAS dans le solde (solde USD 1 175 $ < 4 895 $ programmés).
+- Net cumulé après charges 59 316 € = CUMUL de l'onglet Mois, au centime. Les
+  barres par pays de l'onglet Année (net brut, 69 418 €) ne tombaient pas sur
+  le Total (charges déduites) sans le dire → ligne « 💳 Charges fixes » ajoutée.
+- **Dette fournisseur invisible : ~27 000 €** (1 219 commandes #5996→#7214 jamais
+  facturées depuis la Bill 20260814). Moteur COGS + taxe UE = ligne TOTAL de
+  Panda à ±1 % (vérifié sur les 2 factures d'août : +0,5 % et +1,2 % hors
+  packing). Panda a annoncé 25 000 € → sa facture s'arrête vers #7125 (02/09),
+  le reste tombe sur la suivante.
+- Écart théorique/réel : 12 435 € au départ → **1 850 € (0,43 % du CA)** une
+  fois retirés les payouts programmés (4 475 €), les ACH en transit (1 959 €),
+  le perso cartes (3 483 $ Adnane + 613 $ Badr), les frais de change Slash
+  (866 $), les débits Shopify (571 $ — le plan est couvert par les crédits),
+  Google Ads (65 $), SWIFT (2 × 25 $).
+- **Meta : ZÉRO marge cachée** — 802,90 € → 936,26 $ = 1,1661, le taux du
+  marché ; le coût est la « Foreign Transaction Fee » séparée (~1 % du spend,
+  ~570 €/mois). Badr a branché Wise (EUR) sur Meta le 04/09 → plus de frais.
+- Le taux figé 1,1539 (décision 08/08) est périmé (réel 1,1661) — signalé, pas
+  changé : ne touche pas le P&L (Meta facture en EUR), seulement la valeur des
+  soldes USD (−1 %).
+
+**Décisions Badr (04/09) :** le reliquat ~1 850 € vit sur le **Revolut perso
+d'Adnane** (l'activité tournait dessus avant Slash/Wise) — imputé 100 % Adnane,
+figé comme PLAFOND ; « à partir de ce jour on part du principe qu'il n'y a pas
+de trou » → tout écart au-delà est une anomalie rouge. Aucun virement vers un
+compte perso. Le plan Shopify est payé par les crédits Shopify (571 $ de débits
+carte au total). MacBook acheté par Adnane sur la carte LLC : classé perso par
+défaut (règle carte) — **société ou perso, à trancher par Badr**.
+
+**Livré (branche `claude/cashflow-paiements-verification-wwt8tw`) :**
+1. `treasury.ts` — moteur pur du pont net → cash théorique → attendu en banque
+   vs réel, ventilation de l'écart, reliquat Revolut plafonné, imputation
+   Badr/Adnane (perso nominatif, frais à la règle par date, flou 50/50 et dit).
+2. `bank.ts` — balayage des DEUX banques depuis le 21/05 (cache 1 h, non
+   bloquant), dû fournisseur lu sur les commandes (coupe au NUMÉRO sur FR, à la
+   DATE ailleurs, pagination > 1 000 lignes), anomalies **PAIEMENT_REFUSE**
+   (même marchand refusé ≥ 2 fois — Google Workspace ×6 le 01/09) et
+   **TRESORERIE_INEXPLIQUE** (> 1 000 € depuis le 04/09). Bug corrigé : le
+   balayage écrasait les affectations auto par carte (perso Adnane vidé).
+3. Onglet Banque — blocs « 🧮 Rapprochement trésorerie », « 🏭 Panda »
+   (factures reçues, acomptes, **prochaine facture estimée** avec plage et
+   nombre de commandes, « ce qu'il pourra encore réclamer »), et « Ce qu'il
+   reste à chacun » qui retire la dette Panda avant de partager.
+4. Net mis à jour : frais de change Slash (866 $, étalés 27/07→04/09, clos),
+   plan Shopify (571 $), Google Ads (65 $), SWIFT (2 × 25 $) — charges
+   10 102 € → 11 447 €. Le balayage bancaire ne recompte ces postes qu'APRÈS le
+   04/09 (`NET_BOOKED_BANK_FEES_UNTIL`), sinon double.
+5. `SUPPLIER_PREPAYMENTS` — acomptes virés avant facture, déduits de la
+   prochaine ; vide tant que Badr n'annonce pas montant + jour.
+
+271 tests verts, `next build` OK, lint clean. Rendu vérifié en local (mode
+démo, capture). **Non testé contre les vraies API** (ni jetons ni Vercel
+depuis la session). Reste bloquant côté Badr : scope Shopify
+`read_shopify_payments_accounts` — sans lui « en route » est vide et l'écart
+n'est pas calculé.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

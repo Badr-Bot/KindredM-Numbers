@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   buildTreasuryBridge,
   orderNumber,
+  PRE_LLC_RESIDUAL,
   sumBankBalances,
   supplierUnbilledCents,
+  supplierUnbilledDetail,
+  UNEXPLAINED_ALERT_CENTS,
   type OrderCostRow,
   type TreasuryInput,
 } from "../treasury";
@@ -86,8 +89,13 @@ describe("buildTreasuryBridge", () => {
       "Supplément Meta (change + frais carte)",
       "Frais bancaires et de change",
       "Google Ads",
+      PRE_LLC_RESIDUAL.label,
     ]);
-    expect(b.unexplainedCents).toBe(b.gapCents! - (meta + 120000 + 90000 + 354900));
+    // Ce qui reste après la ventilation part d'abord dans le reliquat Revolut
+    // (plafonné), l'inexpliqué n'est que l'au-delà.
+    const resteAvantRevolut = b.gapCents! - (meta + 120000 + 90000 + 354900);
+    expect(b.preLlcRevolutCents).toBe(Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents));
+    expect(b.unexplainedCents).toBe(resteAvantRevolut - b.preLlcRevolutCents!);
     expect(b.scanPartial).toBe(false);
   });
 
@@ -106,8 +114,9 @@ describe("buildTreasuryBridge", () => {
         metaSpendCents: 21337236,
       },
     });
-    expect(b.gapLines).toEqual([]);
-    expect(b.unexplainedCents).toBe(b.gapCents);
+    // Aucun poste mesuré : seul le reliquat Revolut pré-LLC absorbe l'écart.
+    expect(b.gapLines.map((l) => l.label)).toEqual([PRE_LLC_RESIDUAL.label]);
+    expect(b.unexplainedCents).toBe(b.gapCents! - b.preLlcRevolutCents!);
   });
 
   it("signale un balayage partiel (l'inexpliqué contient alors le passé non lu)", () => {
@@ -173,6 +182,98 @@ describe("attribution de l'écart", () => {
 
   it("pas d'attribution sans balayage bancaire", () => {
     expect(buildTreasuryBridge(BASE).attribution).toBeNull();
+  });
+});
+
+describe("reliquat Revolut pré-LLC (décision Badr 04/09)", () => {
+  const scan = {
+    sinceDay: "2026-05-21",
+    coversHistory: true,
+    feesCents: 0,
+    googleAdsCents: 0,
+    persoBadrCents: 0,
+    persoFahdCents: 0,
+    societeDatedBadrCents: 0,
+    metaBankCents: 0,
+    metaSpendCents: 0,
+  };
+  const withGap = (gapCents: number) =>
+    buildTreasuryBridge({
+      ...BASE,
+      enRouteCents: 0,
+      bankBalances: [{ currency: "EUR", amountEurCents: BASE.netCumuleCents + BASE.supplierUnbilledCents - gapCents }],
+      scan,
+    });
+
+  it("absorbe l'écart jusqu'au plafond figé, imputé 100 % Adnane", () => {
+    const b = withGap(150000);
+    expect(b.gapCents).toBe(150000);
+    expect(b.preLlcRevolutCents).toBe(150000);
+    expect(b.unexplainedCents).toBe(0);
+    expect(b.attribution!.revolutAdnaneCents).toBe(150000);
+    expect(b.attribution!.adnaneCents).toBe(150000);
+    expect(b.attribution!.badrCents).toBe(0);
+    expect(b.gapLines.map((l) => l.label)).toEqual([PRE_LLC_RESIDUAL.label]);
+  });
+
+  it("au-delà du plafond, le reste est un trou NEUF (inexpliqué depuis le 04/09)", () => {
+    const b = withGap(PRE_LLC_RESIDUAL.cents + 250000);
+    expect(b.preLlcRevolutCents).toBe(PRE_LLC_RESIDUAL.cents);
+    expect(b.unexplainedCents).toBe(250000);
+    expect(b.unexplainedCents!).toBeGreaterThan(UNEXPLAINED_ALERT_CENTS);
+    // le trou neuf est réparti 50/50, le reliquat reste à Adnane
+    expect(b.attribution!.badrCents).toBe(125000);
+    expect(b.attribution!.adnaneCents).toBe(125000 + PRE_LLC_RESIDUAL.cents);
+  });
+
+  it("jamais négatif : une banque au-dessus de l'attendu ne crée pas de reliquat", () => {
+    const b = withGap(-50000);
+    expect(b.gapCents).toBe(-50000);
+    expect(b.preLlcRevolutCents).toBe(0);
+    expect(b.unexplainedCents).toBe(-50000);
+    expect(b.gapLines).toEqual([]);
+  });
+});
+
+describe("acomptes fournisseur", () => {
+  it("un acompte viré sort du cash théorique (l'argent n'est plus en banque)", () => {
+    const sans = buildTreasuryBridge(BASE);
+    const avec = buildTreasuryBridge({ ...BASE, supplierPrepaidCents: 2500000 });
+    expect(avec.cashTheoriqueCents).toBe(sans.cashTheoriqueCents - 2500000);
+    expect(avec.supplierPrepaidCents).toBe(2500000);
+  });
+});
+
+describe("supplierUnbilledDetail", () => {
+  it("donne la plage, le nombre et le montant de la prochaine facture", () => {
+    const d = supplierUnbilledDetail(
+      [
+        { store: "FR", orderName: "#5996", day: "2026-08-14", costCents: 2200 },
+        { store: "FR", orderName: "#7214", day: "2026-09-04", costCents: 1900 },
+        { store: "FR", orderName: "#5990", day: "2026-08-13", costCents: 9999 },
+        { store: "ES", orderName: "#1162", day: "2026-09-03", costCents: 1487 },
+      ],
+      { store: "FR", ordersTo: "#5995", issuedDay: "2026-08-14" }
+    );
+    expect(d).toEqual({
+      cents: 2200 + 1900 + 1487,
+      orders: 3,
+      firstOrder: "#5996",
+      lastOrder: "#7214",
+      firstDay: "2026-08-14",
+      lastDay: "2026-09-04",
+    });
+  });
+
+  it("sans commande : bornes nulles, zéro euro", () => {
+    expect(supplierUnbilledDetail([], null)).toEqual({
+      cents: 0,
+      orders: 0,
+      firstOrder: null,
+      lastOrder: null,
+      firstDay: null,
+      lastDay: null,
+    });
   });
 });
 
