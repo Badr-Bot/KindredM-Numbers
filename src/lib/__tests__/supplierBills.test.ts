@@ -49,10 +49,11 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("l'avoir promis le 14/08 est toujours en attente", () => {
-    const ls = SUPPLIER_PENDING_CREDITS.find((c) => c.label.startsWith("Refund Long Sleeves"));
-    expect(ls).toBeDefined();
-    expect(ls!.estimatedCents).toBe(2855);
-    expect(supplierPendingCreditsCents()).toBe(2855 + 600);
+  it("l'avoir Long Sleeves est abandonné (packing confirmé par Badr le 04/09)", () => {
+    // Ce n'était pas une surfacturation : toute commande sans polo paie un
+    // packing de colis primaire, la règle acceptée pour le gilet le 14/08.
+    expect(SUPPLIER_PENDING_CREDITS.find((c) => c.label.includes("Long Sleeves"))).toBeUndefined();
+    // Ne reste à réclamer que la taxe UE facturée deux fois.
+    expect(supplierPendingCreditsCents()).toBe(600);
   });
 });

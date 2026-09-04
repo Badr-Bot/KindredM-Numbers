@@ -106,6 +106,13 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // le 14/08 et 1,1476 le 06/08). À vérifier contre le taux du jour avant
     // de virer : +0,7 % vs le 14/08, soit ~195 $ d'écart sur cette facture.
     //
+    // Packing « colis primaire » (+4,00 € par commande sans polo, 3,50 € pour
+    // un gilet FR ×1) : CONFIRMÉ NORMAL par Badr le 04/09 — même règle que le
+    // gilet primaire acceptée le 14/08, vérifiée ici sur 15 commandes (LS, tank,
+    // short, chemise). L'avoir Long Sleeves promis le 14/08 est donc ABANDONNÉ,
+    // ce n'était pas une surfacturation. Reste à encoder la règle côté moteur
+    // (aujourd'hui appliquée au seul gilet) — cf. MEMO, en attente du feu vert.
+    //
     // CONTESTÉ = 6,00 € de taxe UE payée DEUX FOIS sur des colis groupés :
     // #6917 + #6919 (même client, MÊME tracking YT2624300711024105) et
     // #6864 + #6865 (Irlande, même tracking YT2624500708990669) sont taxés
@@ -117,7 +124,8 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     note:
       "Vérifiée ligne à ligne le 04/09 : 25 454,43 € recalculés par le moteur, écart +9,23 € (0,04 % — contre 1,4 % sur les factures d'août), 90,6 % des lignes identiques au centime, taxe 3 €/colis respectée sur 1 151/1 153. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
       "⚠️ AVANT DE PAYER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
-      "⚠️ Colis groupés facturés plusieurs fois en plein : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) + les 2 paires ci-dessus.",
+      "⚠️ Colis groupés facturés plusieurs fois en plein : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) + les 2 paires ci-dessus. " +
+      "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
 ];
 
@@ -135,19 +143,14 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Refund Long Sleeves (promis le 14/08) — NON honoré",
-    estimatedCents: 2855,
-    note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. ⚠️ POINTÉ SUR LA FACTURE DU 03/09 : AUCUNE ligne d'avoir, aucun crédit — et le même surcoût est refacturé (4 cmd FR LS seul : +16,74 €). À réclamer, cf. la question de packing ci-dessous.",
-  },
-  {
     label: "Taxe UE facturée 2× sur colis groupés (03/09)",
     estimatedCents: 600,
     note: "#6917+#6919 (même client FR, MÊME tracking) et #6864+#6865 (Irlande, même tracking) : 3 € de taxe sur CHAQUE commande alors qu'un seul colis part. Leur règle est 3 €/colis — confirmée par leurs propres factures depuis le 01/08. Porté en `disputedCents` sur la facture 20260903.",
   },
   {
-    label: "Packing « colis primaire » : règle à faire écrire (03/09)",
+    label: "Reshipments : où sont-ils facturés ? (à demander)",
     estimatedCents: 0,
-    note: "Vérifié sur 15 commandes du 03/09 : TOUTE commande sans polo paie +4,00 € (FR gilet ×1 : +3,50) — LS seul 10,80 = 6,80 + 4,00 · TANK seul 7,16 = 3,16 + 4,00 · SHORTS BE 23,51 = 19,46 + 4,05 · SS Irlande 12,83 = 8,90 + 3,93. C'est EXACTEMENT la règle du gilet primaire acceptée le 14/08, donc la « surfacturation LS » est probablement ce packing et non une erreur. Deux issues possibles, à leur faire trancher par écrit : soit ils émettent l'avoir promis le 14/08, soit ils écrivent la règle packing dans le devis et on l'encode pour TOUS les produits (aujourd'hui le moteur ne l'applique qu'au gilet).",
+    note: "Le tracker Drive (NIVA_Reshipment_Tracker) liste ~250 réexpéditions, dont plusieurs notées « payed by niva » — mais AUCUNE ligne de reshipment n'apparaît sur les 3 factures : les trois sont des plages de commandes contiguës (une ligne = une commande Shopify), et la seule ligne hors commande jamais vue est le « custom packing » de 410 € du 14/08. Vérifié le 04/09 : les cas du tracker vont de #1003 à #5838, tous ANTÉRIEURS à cette facture, et les quantités facturées collent à Shopify à l'unité — donc rien n'est facturé deux fois. Reste à leur faire dire où passent les réexpéditions à notre charge (dans le « custom packing » ? gratuites ? sur un autre document ?).",
   },
 ];
 

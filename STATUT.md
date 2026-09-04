@@ -685,6 +685,35 @@ Deux corrections de grille COGS sont proposées par cette facture (packing
 9,84 €) — **non appliquées** : elles rejouent l'historique (resync complet)
 pour ~22 € net sur 3 semaines. Détail et chiffres dans MEMO.md.
 
+## Mise à jour 04/09 (suite) — facture croisée avec Shopify : quantités justes à l'unité
+
+Badr : « un numéro de commande doit avoir le nombre d'unités affiché sur
+Shopify, pas compté deux fois — et les reshipments, ils figurent où ? »
+
+Vérifié dans la base sur les 1 153 commandes #5996 → #7148 :
+
+- **Une ligne de facture = une commande Shopify**, et chaque commande a
+  EXACTEMENT ses unités : polos 2 511 (Shopify) vs 2 505 (facturés) ·
+  caleçons 259/258 · gilets 203/203 · chemises 67/67 · shorts 26/26 ·
+  pantalons 21/21 · débardeurs 13/13.
+- **Les 3 écarts sont en notre faveur** : #6103 et #6327 (remboursés) et
+  #6794 (annulée) sont facturés **0,00 €**. Ils ne facturent pas ce qu'ils
+  n'expédient pas.
+- **Aucune commande payée deux fois** : numéros contigus, aucun doublon,
+  aucun recouvrement avec la facture du 14/08 (qui s'arrêtait au #5995).
+- **Reshipments : aucun sur cette facture.** Le tracker Drive va de #1003 à
+  #5838 (tous antérieurs) et rien n'apparaît en plus. Reste à demander où
+  sont facturés ceux notés « payed by niva ».
+- **Packing confirmé normal par Badr** → l'avoir Long Sleeves du 14/08 est
+  abandonné (ce n'était pas une surfacturation). **Il ne reste que 6,00 €**
+  de taxe UE facturée deux fois.
+
+**Bug trouvé chez nous** : « La Chemise Turenne » est la chemise MANCHES
+LONGUES (46 unités) mais le renommage du 29/08 l'a mappée sur la grille
+manches courtes. ~4 € d'impact, mais l'étiquette est fausse et l'écart
+grandit sur les gros paliers. Correctif = une ligne de `products_map` +
+resync, non appliqué (écriture en prod, en attente du feu vert).
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
