@@ -638,6 +638,53 @@ aujourd'hui, avec une fausse alerte « débité au mauvais montant ».
 
 227 tests verts, `next build` OK.
 
+## Mise à jour 04/09 — facture fournisseur du 03/09 vérifiée (25 463,66 €)
+
+Badr a envoyé la 3ᵉ facture Panda (`Bill_20260903`, commandes #5996 → #7148).
+Elle est **ajoutée au ledger `supplierBills.ts` en « à payer »** — le statut ne
+passe à « payée » que sur annonce de Badr, jamais déduit.
+
+**Où on en est côté paiements :**
+
+| Facture | Commandes | Montant | État |
+|---|---|---|---|
+| 20260801 | #4814 → #5462 (649) | 14 279,96 € | ✅ payée le 06/08 (16 388,40 $) |
+| 20260814 | #5463 → #5995 (531) | 12 064,41 € | ✅ payée le 14/08 (13 914,91 $) |
+| **20260903** | **#5996 → #7148 (1 152)** | **25 463,66 €** (29 577,19 $) | **⏳ à payer** |
+
+Les trois plages s'enchaînent sans trou ni recouvrement (test qui le vérifie).
+
+**Le chiffre rassurant** : recalculée dans le moteur, la facture donne
+25 454,43 € — **écart +9,23 €, soit 0,04 %** (les factures d'août étaient à
+1,4 %). 90,6 % des lignes identiques au centime, taxe 3 €/colis respectée sur
+1 151/1 153. **Aucun dérapage de prix** : polo FR 15,06/26,76, caleçon 2,46,
+gilet aux prix du 14/08, Canada aux prix du 02/08, Suisse constante. **Panier
+moyen 22,10 €** contre 22,00 (01/08) et 21,95 (14/08) — le coût par commande
+ne bouge pas alors que le volume double. Pas de ligne « custom packing » cette
+fois (il y avait 410 € le 14/08).
+
+**Le remboursement promis le 14/08 n'y est pas.** Aucune ligne d'avoir, aucun
+crédit — et le même surcoût est refacturé (4 commandes « LS seul » : +16,74 €).
+En cherchant, la cause est claire : **toute commande sans polo paie +4,00 € de
+packing** (LS, débardeur, short, chemise…), c'est-à-dire exactement la règle du
+gilet primaire acceptée le 14/08. Donc soit ils émettent l'avoir promis, soit
+ils écrivent cette règle dans le devis — à leur faire trancher par écrit.
+
+**Ce qu'il faut regarder avant de virer** (dans la note de la facture, carte 📦) :
+
+- **136 commandes facturées sans numéro de suivi (3 066,86 €)**, dont un bloc
+  contigu **#6619 → #6658 + #6945 (41 cmd, 894,76 €)** en milieu de période :
+  les récentes sans tracking sont normales, un bloc de 40 anciennes non.
+- **Taxe UE payée 2× sur des colis groupés** (6,00 €) : #6917+#6919 et
+  #6864+#6865 partagent leur tracking → porté en « contesté ».
+- **4 commandes suisses dans un seul colis facturées en plein** (203,15 €) :
+  4 prix livraison comprise pour un envoi.
+
+Deux corrections de grille COGS sont proposées par cette facture (packing
+« colis primaire » à généraliser ; pantalon FR en upsell à 6,90 € et non
+9,84 €) — **non appliquées** : elles rejouent l'historique (resync complet)
+pour ~22 € net sur 3 semaines. Détail et chiffres dans MEMO.md.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

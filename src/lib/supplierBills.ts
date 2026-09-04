@@ -88,6 +88,37 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     paidCents: 1206441,
     note: "Payée le 14/08 (annonce Badr) : montant demandé réglé en entier (13 914,91 $, taux 1,1534). Contient 410 € de « custom packing ». Litige gilet levé (packing du gilet primaire, vérifié et accepté).",
   },
+  {
+    ref: "Bill 20260903",
+    issuedDay: "2026-09-03",
+    ordersFrom: "#5996",
+    ordersTo: "#7148",
+    // 1 153 lignes dans le fichier : 1 152 facturées + 1 annulée (#6794,
+    // Islande) facturée 0,00 € — correct. ⚠️ L'en-tête du fichier annonce
+    // « 1157 Orders | 1156 orders billed » : 4 commandes de plus que ce que
+    // le fichier contient. Le TOTAL, lui, correspond EXACTEMENT à la somme
+    // des lignes présentes (recalculée au centime) — donc aucune
+    // surfacturation, mais l'en-tête est faux.
+    ordersCount: 1152,
+    totalCents: 2546366, // ligne CONFIRMED TOTAL : 25 463,66 €
+    // Le 2e nombre de la ligne TOTAL (29 577,19) = le même total EN DOLLARS,
+    // comme sur la facture du 14/08 : taux implicite 1,1615 (contre 1,1534
+    // le 14/08 et 1,1476 le 06/08). À vérifier contre le taux du jour avant
+    // de virer : +0,7 % vs le 14/08, soit ~195 $ d'écart sur cette facture.
+    //
+    // CONTESTÉ = 6,00 € de taxe UE payée DEUX FOIS sur des colis groupés :
+    // #6917 + #6919 (même client, MÊME tracking YT2624300711024105) et
+    // #6864 + #6865 (Irlande, même tracking YT2624500708990669) sont taxés
+    // 3 € chacun alors qu'un seul colis est parti. Leur propre règle est
+    // 3 €/COLIS, pas 3 €/commande.
+    disputedCents: 600,
+    status: "a_payer",
+    paidCents: 0,
+    note:
+      "Vérifiée ligne à ligne le 04/09 : 25 454,43 € recalculés par le moteur, écart +9,23 € (0,04 % — contre 1,4 % sur les factures d'août), 90,6 % des lignes identiques au centime, taxe 3 €/colis respectée sur 1 151/1 153. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
+      "⚠️ AVANT DE PAYER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
+      "⚠️ Colis groupés facturés plusieurs fois en plein : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) + les 2 paires ci-dessus.",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -104,9 +135,19 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Refund Long Sleeves (promis le 14/08)",
+    label: "Refund Long Sleeves (promis le 14/08) — NON honoré",
     estimatedCents: 2855,
-    note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. À pointer sur la prochaine facture.",
+    note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. ⚠️ POINTÉ SUR LA FACTURE DU 03/09 : AUCUNE ligne d'avoir, aucun crédit — et le même surcoût est refacturé (4 cmd FR LS seul : +16,74 €). À réclamer, cf. la question de packing ci-dessous.",
+  },
+  {
+    label: "Taxe UE facturée 2× sur colis groupés (03/09)",
+    estimatedCents: 600,
+    note: "#6917+#6919 (même client FR, MÊME tracking) et #6864+#6865 (Irlande, même tracking) : 3 € de taxe sur CHAQUE commande alors qu'un seul colis part. Leur règle est 3 €/colis — confirmée par leurs propres factures depuis le 01/08. Porté en `disputedCents` sur la facture 20260903.",
+  },
+  {
+    label: "Packing « colis primaire » : règle à faire écrire (03/09)",
+    estimatedCents: 0,
+    note: "Vérifié sur 15 commandes du 03/09 : TOUTE commande sans polo paie +4,00 € (FR gilet ×1 : +3,50) — LS seul 10,80 = 6,80 + 4,00 · TANK seul 7,16 = 3,16 + 4,00 · SHORTS BE 23,51 = 19,46 + 4,05 · SS Irlande 12,83 = 8,90 + 3,93. C'est EXACTEMENT la règle du gilet primaire acceptée le 14/08, donc la « surfacturation LS » est probablement ce packing et non une erreur. Deux issues possibles, à leur faire trancher par écrit : soit ils émettent l'avoir promis le 14/08, soit ils écrivent la règle packing dans le devis et on l'encode pour TOUS les produits (aujourd'hui le moteur ne l'applique qu'au gilet).",
   },
 ];
 
