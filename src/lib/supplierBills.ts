@@ -102,20 +102,58 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     note: "Payée le 14/08 (annonce Badr) : montant demandé réglé en entier (13 914,91 $, taux 1,1534). Contient 410 € de « custom packing ». Litige gilet levé (packing du gilet primaire, vérifié et accepté).",
   },
   {
-    // 04/09 — Badr : « 25 448,36 € j'ai viré ça aujourd'hui, on a payé jusqu'à
-    // la commande #7148 ». Le PDF de la facture n'est pas encore reçu : le
-    // montant réclamé = le montant viré (Panda avait annoncé 25 000 €). À
-    // pointer contre le PDF à réception, ligne à ligne comme les deux d'août.
-    ref: "Bill 20260904 (PDF à recevoir)",
-    issuedDay: "2026-09-04",
+    ref: "Bill 20260903",
+    issuedDay: "2026-09-03",
     ordersFrom: "#5996",
     ordersTo: "#7148",
-    ordersCount: 1153,
-    totalCents: 2544836,
+    // 1 153 lignes dans le fichier : 1 152 facturées + 1 annulée (#6794,
+    // Islande) facturée 0,00 € — correct. ⚠️ L'en-tête du fichier annonce
+    // « 1157 Orders | 1156 orders billed » : 4 commandes de plus que ce que
+    // le fichier contient. Le TOTAL, lui, correspond EXACTEMENT à la somme
+    // des lignes présentes (recalculée au centime) — donc aucune
+    // surfacturation, mais l'en-tête est faux.
+    ordersCount: 1152,
+    // (1 151 LIGNES : deux d'entre elles couvrent chacune 2 commandes parties
+    // dans le même colis — les 1 153 numéros #5996→#7148 sont tous couverts,
+    // exactement une fois.)
+    // Version CORRIGÉE du 04/09 (2e envoi du fichier) : 25 448,36 €.
+    // La 1re version réclamait 25 463,66 € — le fournisseur a fusionné les deux
+    // paires de commandes parties dans un seul colis (#6919+#6917 et
+    // #6864+#6865) et les a re-tarifées : −15,30 €, soit PLUS que les 6,00 €
+    // de taxe UE en double qu'on réclamait (il enlève aussi la 2e livraison).
+    totalCents: 2544836, // ligne CONFIRMED TOTAL : 25 448,36 € (= 29 563,27 $)
+    // Le 2e nombre de la ligne TOTAL (29 563,27) = le même total EN DOLLARS,
+    // comme sur la facture du 14/08 : taux implicite 1,1617 (contre 1,1534
+    // le 14/08 et 1,1476 le 06/08). À vérifier contre le taux du jour avant
+    // de virer : +0,7 % vs le 14/08, soit ~195 $ d'écart sur cette facture.
+    //
+    // Packing « colis primaire » (+4,00 € par commande sans polo, 3,50 € pour
+    // un gilet FR ×1) : CONFIRMÉ NORMAL par Badr le 04/09 — même règle que le
+    // gilet primaire acceptée le 14/08, vérifiée ici sur 15 commandes (LS, tank,
+    // short, chemise). L'avoir Long Sleeves promis le 14/08 est donc ABANDONNÉ,
+    // ce n'était pas une surfacturation. Reste à encoder la règle côté moteur
+    // (aujourd'hui appliquée au seul gilet) — cf. MEMO, en attente du feu vert.
+    //
+    // PLUS RIEN DE CONTESTÉ : les 6,00 € de taxe UE en double ont été corrigés
+    // dans la version du 04/09 (les deux paires sont fusionnées en une ligne,
+    // taxées 3 € une fois). Reste UNE question ouverte, pas chiffrée et pas
+    // bloquante : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking
+    // YT2624500709168612, 203,15 €) sont toujours 4 lignes livraison comprise
+    // pour un seul colis — même logique que les paires fusionnées, à demander
+    // en avoir sur la prochaine facture.
     disputedCents: 0,
+    // PAYÉE le 04/09 (Badr : « 25 448,36 € j'ai viré ça aujourd'hui, on a payé
+    // jusqu'à la commande #7148 ») — montant réglé en entier, avant même que la
+    // vérification ligne à ligne ci-dessus soit fusionnée (deux sessions le
+    // même jour : celle-ci a vérifié la facture, l'autre a enregistré le
+    // paiement ; réconciliées le 04/09, un seul enregistrement).
     status: "payee",
     paidCents: 2544836,
-    note: "Payée le 04/09 (virement annoncé par Badr, 25 448,36 €). Moteur COGS + taxe UE sur #5996→#7148 (1 153 cmd, 12/08→03/09) : 25 498,20 € — facturé 49,84 € EN DESSOUS (−0,2 %), cohérent avec l'avoir Long Sleeves promis le 14/08 (~28,55 €). PDF à pointer à réception.",
+    note:
+      "Payée le 04/09 : 25 448,36 € virés par Badr (montant demandé réglé en entier). Version corrigée du 04/09, VALIDÉE. Recalculée par le moteur : 25 445,07 €, écart +3,29 € (0,013 % — contre 1,4 % sur les factures d'août), 90,7 % des lignes identiques au centime, taxe 3 €/colis désormais respectée partout. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
+      "⚠️ PAYÉE, mais À DEMANDER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
+      "Reste ouvert, non bloquant : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) — à demander en avoir sur la prochaine facture, comme les 2 paires déjà corrigées. " +
+      "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
 ];
 
@@ -133,9 +171,14 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Refund Long Sleeves (promis le 14/08)",
-    estimatedCents: 2855,
-    note: "LS facturées au-dessus du devis quand expédiées SEULES (26 cmd auditées : +3,81×3 et +8,68 en LSx3, +4,38 en LSx5, petites diffs en combo gilet) — avec un polo, prix du devis au centime. Estimation surfacturations seules : 28,55 € ; si elle compense aussi ses 2 SOUS-facturations (−16,82 €), avoir net ≈ 11,64 €. À pointer sur la prochaine facture.",
+    label: "Colis groupé suisse à re-tarifer (à demander)",
+    estimatedCents: 0,
+    note: "#6953/6954/6955/6981 (même client, MÊME tracking YT2624500709168612, 203,15 €) : 4 lignes livraison comprise pour UN seul colis. Le fournisseur a accepté ce raisonnement le 04/09 pour deux autres paires (#6919+#6917 et #6864+#6865, fusionnées et re-tarifées, −15,30 €) mais pas pour celle-ci. À réclamer en avoir sur la prochaine facture. Montant non estimé : c'est leur grille qui fixe le prix d'un colis groupé.",
+  },
+  {
+    label: "Reshipments : où sont-ils facturés ? (à demander)",
+    estimatedCents: 0,
+    note: "Le tracker Drive (NIVA_Reshipment_Tracker) liste ~250 réexpéditions, dont plusieurs notées « payed by niva » — mais AUCUNE ligne de reshipment n'apparaît sur les 3 factures : les trois sont des plages de commandes contiguës (une ligne = une commande Shopify), et la seule ligne hors commande jamais vue est le « custom packing » de 410 € du 14/08. Vérifié le 04/09 : les cas du tracker vont de #1003 à #5838, tous ANTÉRIEURS à cette facture, et les quantités facturées collent à Shopify à l'unité — donc rien n'est facturé deux fois. Reste à leur faire dire où passent les réexpéditions à notre charge (dans le « custom packing » ? gratuites ? sur un autre document ?).",
   },
 ];
 
