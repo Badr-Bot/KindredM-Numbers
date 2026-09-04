@@ -48,6 +48,19 @@ export interface SupplierBill {
 
 export const SUPPLIER_NAME = "Panda Dropshipping";
 
+/** Boutique dont les factures portent la numérotation (#4814, #5995…) : le
+ * fournisseur facture toute l'activité, mais ses plages de commandes suivent
+ * les numéros de la boutique FR. Les autres boutiques ont leur propre série,
+ * indépendante — les couper au même numéro mélangerait deux comptes. */
+export const SUPPLIER_BILL_STORE = "FR";
+
+/** Dernière facture reçue — la coupe à partir de laquelle les commandes ne
+ * sont PAS encore facturées (et donc pas encore payées, alors que leur coût
+ * est déjà déduit du net). null si le suivi est vide. */
+export function lastSupplierBill(): SupplierBill | null {
+  return SUPPLIER_BILLS.length === 0 ? null : SUPPLIER_BILLS[SUPPLIER_BILLS.length - 1];
+}
+
 export const SUPPLIER_BILLS: SupplierBill[] = [
   {
     ref: "Bill 20260801",

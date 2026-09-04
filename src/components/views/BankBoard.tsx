@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AnomalyKind, BankReport, BankTx, TxLabel } from "@/lib/bank";
+import type { TreasuryBridge } from "@/lib/treasury";
 import { formatEur0 } from "@/lib/format";
 import { Reveal } from "../fx/Reveal";
 
@@ -310,6 +311,124 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   );
 }
 
+
+// 🧮 RAPPROCHEMENT DEPUIS LE TOUT DÉBUT (Badr 04/09 : « dis-lui d'aller tout
+// retracer depuis le tout début […] et pour savoir cet écart est imputé à
+// qui »). Le reste de cette page contrôle des DÉTAILS sur 30 jours ; ce bloc
+// répond à la seule question qui compte pour la trésorerie : le net gagné
+// est-il vraiment sur les comptes, et sinon où est parti le reste.
+function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; setup: string | null }) {
+  if (!treasury) {
+    return setup ? (
+      <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">🧮 {setup}</p>
+    ) : null;
+  }
+  const t = treasury;
+  const eur = (c: number) => formatEur0(c);
+  const ligne = (label: string, cents: number | null, opts: { fort?: boolean; signe?: "+" | "−"; note?: string } = {}) => (
+    <div
+      key={label}
+      className={`flex items-baseline justify-between gap-2 ${opts.fort ? "border-t border-line-soft pt-1.5 font-semibold text-ink" : "text-ink-dim"}`}
+    >
+      <span>
+        {opts.signe ? `${opts.signe} ` : ""}
+        {label}
+        {opts.note && <span className="block text-[9.5px] text-ink-faint">{opts.note}</span>}
+      </span>
+      <span className="tnum flex-none">{cents === null ? "—" : eur(cents)}</span>
+    </div>
+  );
+
+  return (
+    <div className="rounded-lg border border-line bg-panel/40 p-3.5">
+      <div className="mb-2 flex items-baseline justify-between">
+        <span className="text-sm font-semibold">🧮 Rapprochement trésorerie</span>
+        <span className="text-[10px] text-ink-faint">
+          depuis le {t.scanSinceDay ? t.scanSinceDay.slice(8, 10) + "/" + t.scanSinceDay.slice(5, 7) : "début"}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-1 text-[11px]">
+        {ligne("Net cumulé (charges fixes déduites)", t.netCumuleCents)}
+        {ligne("Dû au fournisseur, pas encore facturé", t.supplierUnbilledCents, {
+          signe: "+",
+          note: "déjà déduit du net, mais toujours en banque tant que le virement n'est pas parti",
+        })}
+        {t.supplierOwedCents > 0 && ligne("Reste dû sur factures reçues", t.supplierOwedCents, { signe: "+" })}
+        {ligne("Cash que l'activité a produit", t.cashTheoriqueCents, { fort: true })}
+        {ligne("Argent en route chez Shopify", t.enRouteCents, { signe: "−" })}
+        {ligne("Devrait être sur les comptes", t.attenduEnBanqueCents, { fort: true })}
+        {ligne("Solde réel Wise + Slash", t.bankCents, {
+          note: t.bankSkipped.length > 0 ? `hors ${t.bankSkipped.join(", ")} (pas de taux)` : undefined,
+        })}
+      </div>
+
+      {t.gapCents !== null && (
+        <div
+          className={`mt-2.5 rounded-md border p-2.5 ${
+            Math.abs(t.unexplainedCents ?? t.gapCents) > 100000 ? "border-amber/50 bg-amber/[0.05]" : "border-phosphor/30"
+          }`}
+        >
+          <div className="flex items-baseline justify-between text-[11.5px] font-semibold">
+            <span>Écart total</span>
+            <span className="tnum">{eur(t.gapCents)}</span>
+          </div>
+          {t.gapLines.length === 0 ? (
+            <p className="mt-1 text-[10px] text-ink-faint">
+              Balayage bancaire indisponible — l&apos;écart est affiché sans sa ventilation.
+            </p>
+          ) : (
+            <ul className="mt-1.5 flex flex-col gap-1 text-[10.5px]">
+              {t.gapLines.map((l) => (
+                <li key={l.label} className="flex items-baseline justify-between gap-2">
+                  <span className="text-ink-dim">
+                    {l.label}
+                    <span className="block text-[9.5px] text-ink-faint">{l.detail}</span>
+                  </span>
+                  <span className="tnum flex-none text-ink">{eur(l.cents)}</span>
+                </li>
+              ))}
+              {t.unexplainedCents !== null && (
+                <li className="flex items-baseline justify-between gap-2 border-t border-line-soft pt-1 font-semibold">
+                  <span className={Math.abs(t.unexplainedCents) > 100000 ? "text-amber" : "text-phosphor"}>
+                    Inexpliqué
+                    <span className="block text-[9.5px] font-normal text-ink-faint">
+                      {t.scanPartial
+                        ? "⚠️ le balayage ne couvre pas toute l'histoire — ce reste contient l'avant."
+                        : "arrondis de change et décalages de facturation ; au-delà de 1 000 €, chercher."}
+                    </span>
+                  </span>
+                  <span className="tnum flex-none">{eur(t.unexplainedCents)}</span>
+                </li>
+              )}
+            </ul>
+          )}
+
+          {t.attribution && (
+            <div className="mt-2 border-t border-line-soft pt-1.5 text-[10.5px]">
+              <div className="mb-1 font-semibold text-ink">Imputé à</div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-ink-dim">🟠 Badr</span>
+                <span className="tnum">{eur(t.attribution.badrCents)}</span>
+              </div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-ink-dim">🔵 Adnane</span>
+                <span className="tnum">{eur(t.attribution.adnaneCents)}</span>
+              </div>
+              <p className="mt-1 text-[9.5px] text-ink-faint">
+                Le perso est nominatif ({eur(t.attribution.persoBadrCents)} Badr ·{" "}
+                {eur(t.attribution.persoFahdCents)} Adnane). Les frais et Google Ads suivent la règle des associés au
+                jour du débit. {eur(t.attribution.reparti5050Cents)} (supplément Meta + inexpliqué) n&apos;ont pas de
+                date exploitable : répartis 50/50 — c&apos;est une répartition, pas une mesure.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // 🏛️ À qui appartient l'argent des comptes (règle Badr 19/08) : le net de
 // l'onglet Année ne bouge JAMAIS ; ici on répartit le SOLDE réel — la part
 // de Badr = son net Année (moins son perso banque, 0 tant que la carte Badr
@@ -432,6 +551,10 @@ export function BankBoard({
 
       <Reveal delayMs={90}>
         <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
+      </Reveal>
+
+      <Reveal delayMs={135}>
+        <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} />
       </Reveal>
 
       {annee && (

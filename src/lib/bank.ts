@@ -1,10 +1,12 @@
 import { createSign } from "node:crypto";
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { addDaysToDay, toParisDay, todayParisDay } from "./time";
-import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
+import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { SUPPLIER_BILLS } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents } from "./supplierBills";
+import { badrFixedShareFor } from "./associateLedger";
+import { buildTreasuryBridge, supplierUnbilledCents, type OrderCostRow, type TreasuryBridge } from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -991,6 +993,12 @@ export interface BankReport {
    * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
    * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
+   * d'aller tout retracer depuis le tout début »). null = pas calculable
+   * (aucune banque branchée, ou agrégats illisibles). */
+  treasury: TreasuryBridge | null;
+  /** Message quand le rapprochement n'a pas pu être fait. */
+  treasurySetup: string | null;
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1169,6 +1177,167 @@ const fetchSlashCached = unstable_cache(
   { revalidate: 900, tags: ["bank"] }
 );
 
+// ---------------------------------------------------------------------------
+// 🧮 RAPPROCHEMENT TRÉSORERIE — balayage DEPUIS LE TOUT DÉBUT
+//
+// Badr, 04/09 : « dis-lui d'aller tout retracer depuis le tout début […] c'est
+// pas à moi d'aller voir ». Le contrôle bancaire regarde 30 jours ; ici on
+// relit TOUTE la vie des comptes pour répondre à une seule question : le net
+// gagné correspond-il à l'argent réellement présent, et sinon où est parti le
+// reste — et à qui l'imputer.
+//
+// Coûteux (pagination complète des deux banques) donc CACHÉ 1 h et lancé en
+// parallèle du reste : un rapprochement de fond n'a pas besoin d'être à la
+// minute, et il ne doit jamais retarder l'affichage du contrôle.
+// ---------------------------------------------------------------------------
+
+/** Jour de lancement de l'activité — même valeur que HISTORY_START de
+ * data.ts, redéclarée ici pour ne pas créer de dépendance croisée entre le
+ * module banque et le module données (bank.ts est importé par data-less
+ * routes). Un test verrouille l'égalité des deux. */
+export const TREASURY_START_DAY = "2026-05-21";
+
+async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[]; sinceDay: string }> {
+  const parts: BankTx[][] = [];
+  if (process.env.WISE_API_TOKEN) {
+    const wise = await fetchWiseData(sinceDay, untilDay);
+    parts.push(wise.txs);
+  }
+  if (process.env.SLASH_API_TOKEN) {
+    const slash = await fetchSlashData(sinceDay, untilDay);
+    parts.push(slash.txs ?? []);
+  }
+  return { txs: parts.flat(), sinceDay };
+}
+
+const fetchLifetimeTxsCached = unstable_cache(
+  async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
+  ["bank-lifetime-txs-v1"],
+  { revalidate: 3600, tags: ["bank"] }
+);
+
+/** Toutes les commandes depuis la coupe de la dernière facture fournisseur.
+ * Pagination explicite : Supabase plafonne à 1 000 lignes par requête et il y
+ * a plus de 1 200 commandes non facturées — sans ça le dû fournisseur serait
+ * silencieusement amputé. */
+async function fetchOrderCostsSince(supabase: SupabaseClient, fromDay: string): Promise<OrderCostRow[]> {
+  const rows: OrderCostRow[] = [];
+  const PAGE = 1000;
+  for (let page = 0; page < 40; page++) {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("store, order_name, day, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
+      .gte("day", fromDay)
+      .order("order_name", { ascending: true })
+      .range(page * PAGE, page * PAGE + PAGE - 1);
+    if (error) throw new Error(error.message);
+    for (const r of data ?? []) {
+      rows.push({
+        store: String(r.store),
+        orderName: String(r.order_name),
+        day: String(r.day),
+        costCents:
+          ((r.cogs_product_cents as number) ?? 0) +
+          ((r.cogs_upsells_cents as number) ?? 0) +
+          ((r.tax_eu_cents as number) ?? 0),
+      });
+    }
+    if ((data?.length ?? 0) < PAGE) break;
+  }
+  return rows;
+}
+
+/** Le rapprochement complet. Chaque brique manquante dégrade proprement :
+ * pas de banque → pas d'écart (jamais un écart calculé contre un solde vide,
+ * qui afficherait « il manque 80 000 € »). */
+async function buildTreasury(input: {
+  supabase: SupabaseClient;
+  untilDay: string;
+  balances: BankBalance[];
+  enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  labels: Map<string, TxLabel>;
+}): Promise<{ treasury: TreasuryBridge | null; setup: string | null; warning: string | null }> {
+  const { supabase, untilDay, balances, enRoute, labels } = input;
+  if (balances.length === 0) {
+    return { treasury: null, setup: "Rapprochement trésorerie : en attente des soldes bancaires (Wise/Slash).", warning: null };
+  }
+
+  // 1) Net cumulé depuis le début, charges fixes déduites (même arithmétique
+  //    que l'onglet Mois : le net société, pas le net avant charges).
+  const { data: aggRows, error: aggErr } = await supabase
+    .from("daily_aggregates")
+    .select("day, net_cents, spend_cents")
+    .gte("day", TREASURY_START_DAY)
+    .lte("day", untilDay);
+  if (aggErr) return { treasury: null, setup: null, warning: `Rapprochement trésorerie : agrégats illisibles (${aggErr.message}).` };
+  let netCumuleCents = 0;
+  let metaSpendCents = 0;
+  for (const r of aggRows ?? []) {
+    netCumuleCents += (r.net_cents as number) ?? 0;
+    metaSpendCents += (r.spend_cents as number) ?? 0;
+  }
+  for (const day of listParisDays(TREASURY_START_DAY, untilDay)) netCumuleCents -= fixedCostsCentsForDay(day);
+
+  // 2) Dette fournisseur : les commandes que Panda n'a pas encore facturées.
+  //    Leur coût est déjà déduit du net mais l'argent est TOUJOURS en banque.
+  const lastBill = lastSupplierBill();
+  let unbilledCents = 0;
+  let supplierWarning: string | null = null;
+  try {
+    const fromDay = lastBill ? addDaysToDay(lastBill.issuedDay, -7) : TREASURY_START_DAY;
+    const orderRows = await fetchOrderCostsSince(supabase, fromDay);
+    unbilledCents = supplierUnbilledCents(
+      orderRows,
+      lastBill ? { store: SUPPLIER_BILL_STORE, ordersTo: lastBill.ordersTo, issuedDay: lastBill.issuedDay } : null
+    );
+  } catch (err) {
+    supplierWarning = `Rapprochement : dû fournisseur illisible (${(err as Error).message}) — écart affiché sans lui.`;
+  }
+
+  // 3) Ventilation depuis le début : ce que la banque voit et que le net ne
+  //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
+  let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
+  let scanWarning: string | null = null;
+  try {
+    const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+    for (const t of life.txs) t.label = labels.get(`${t.bank}|${t.txId}`) ?? null;
+    const out = (t: BankTx) => Math.abs(t.amountEurCents ?? 0);
+    const debits = life.txs.filter((t) => t.amountCents < 0 && t.label !== "IGNORER" && t.category !== "INTERNE");
+    const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
+    const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t));
+    const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t));
+    scan = {
+      sinceDay: life.sinceDay,
+      coversHistory: life.sinceDay <= TREASURY_START_DAY,
+      feesCents: fees.reduce((a, t) => a + out(t), 0),
+      googleAdsCents: google.reduce((a, t) => a + out(t), 0),
+      persoBadrCents: debits.filter((t) => t.label === "PERSO_BADR").reduce((a, t) => a + out(t), 0),
+      persoFahdCents: debits.filter((t) => t.label === "PERSO_FAHD").reduce((a, t) => a + out(t), 0),
+      // Part de Badr sur les frais et Google Ads : règle des associés
+      // appliquée AU JOUR de chaque débit (100 % Adnane avant le 14/07,
+      // 50/50 ensuite) — jamais un 50/50 plaqué sur toute l'histoire.
+      societeDatedBadrCents: [...fees, ...google].reduce(
+        (a, t) => a + Math.round(out(t) * badrFixedShareFor(t.day)),
+        0
+      ),
+      metaBankCents: debits.filter((t) => t.category === "META").reduce((a, t) => a + out(t), 0),
+      metaSpendCents,
+    };
+  } catch (err) {
+    scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;
+  }
+
+  const treasury = buildTreasuryBridge({
+    netCumuleCents,
+    supplierUnbilledCents: unbilledCents,
+    supplierOwedCents: supplierOwedCents(),
+    enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : null,
+    bankBalances: balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+    scan,
+  });
+  return { treasury, setup: null, warning: supplierWarning ?? scanWarning };
+}
+
 /** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
 export async function buildBankReport(supabase: SupabaseClient | null): Promise<BankReport> {
   const untilDay = todayParisDay();
@@ -1199,11 +1368,34 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       slashCashbackEurCents: 2150,
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
+      treasury: buildTreasuryBridge({
+        netCumuleCents: 5931571,
+        supplierUnbilledCents: 2698847,
+        supplierOwedCents: 0,
+        enRouteCents: 185000,
+        bankBalances: demo.balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+        scan: {
+          sinceDay: TREASURY_START_DAY,
+          coversHistory: true,
+          feesCents: 120000,
+          googleAdsCents: 90000,
+          persoBadrCents: 53100,
+          persoFahdCents: 301800,
+          societeDatedBadrCents: 84000,
+          metaBankCents: 21550000,
+          metaSpendCents: 21337236,
+        },
+      }),
+      treasurySetup: null,
     };
   }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
+  // Affectations manuelles, réutilisées par le rapprochement depuis le début
+  // (les mêmes labels doivent valoir sur TOUTES les transactions, pas
+  // seulement celles des 30 derniers jours).
+  const labelsByKey = new Map<string, TxLabel>();
   let slashCashbackEurCents: number | null = null;
   // Argent en route (solde Shopify Payments réel) + cashback total depuis le
   // début — lancés en parallèle des banques, jamais bloquants.
@@ -1256,6 +1448,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       }
     } else {
       const byKey = new Map((labelRows ?? []).map((r) => [`${r.bank}|${r.tx_id}`, r]));
+      for (const [k, r] of byKey) labelsByKey.set(k, r.kind as TxLabel);
       for (const t of txs) {
         const l = byKey.get(`${t.bank}|${t.txId}`);
         if (l) {
@@ -1304,6 +1497,19 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     );
   }
 
+  // 🧮 Rapprochement depuis le tout début — jamais bloquant : une erreur ici
+  // ne doit pas emporter le contrôle bancaire, qui marche déjà.
+  let treasury: TreasuryBridge | null = null;
+  let treasurySetup: string | null = null;
+  try {
+    const t = await buildTreasury({ supabase, untilDay, balances, enRoute, labels: labelsByKey });
+    treasury = t.treasury;
+    treasurySetup = t.setup;
+    if (t.warning) warnings.push(t.warning);
+  } catch (err) {
+    warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
+  }
+
   return {
     ready: txs.length > 0,
     setup,
@@ -1316,5 +1522,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     slashCashbackEurCents,
     cashbackTotalEurCents,
     enRoute,
+    treasury,
+    treasurySetup,
   };
 }
