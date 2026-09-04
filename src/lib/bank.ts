@@ -81,19 +81,6 @@ export interface BankTx {
   feeOf?: TxCategory | "PERSO" | null;
 }
 
-/** Paiement carte REFUSÉ (declined) — aucun argent sorti, mais un signal :
- * plafond, carte expirée, blocage marchand. Le 01/09, Google Workspace a été
- * refusé 6 fois d'affilée avant de passer le 02/09 (relevé Badr 04/09) —
- * exactement le genre d'« anomalie dépenses » qu'il veut voir remonter. */
-export interface DeclinedPayment {
-  bank: BankName;
-  day: string;
-  description: string;
-  /** Montant tenté, en cents de la devise d'origine (positif). */
-  amountCents: number;
-  currency: string;
-}
-
 export interface BankBalance {
   bank: BankName;
   currency: string;
@@ -449,7 +436,7 @@ export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx 
 export async function fetchSlashData(
   sinceDay: string,
   untilDay: string
-): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number; declines: DeclinedPayment[] }> {
+): Promise<{ txs: BankTx[]; balances: BankBalance[]; cashbackCents: number }> {
   const token = process.env.SLASH_API_TOKEN;
   if (!token) throw new Error("SLASH_API_TOKEN manquant (variables d'environnement Vercel).");
 
@@ -557,21 +544,7 @@ export async function fetchSlashData(
 
   const rates = await ratesPromise;
   const txs: BankTx[] = [];
-  const declines: DeclinedPayment[] = [];
   for (const t of raw) {
-    // Refus de paiement : pas d'argent sorti (donc hors txs), mais gardé à
-    // part pour l'anomalie « carte refusée » (Badr 04/09 : « il faudra qu'il
-    // me dise les anomalies au niveau des dépenses »).
-    if (t.detailedStatus === "declined" && t.amountCents < 0) {
-      declines.push({
-        bank: "SLASH",
-        day: toParisDay(t.date),
-        description: t.merchantData?.description || t.description || t.memo || "(sans libellé)",
-        amountCents: Math.abs(t.amountCents),
-        currency: "USD",
-      });
-      continue;
-    }
     const mapped = mapSlashTx(t, rates);
     if (!mapped) continue;
     // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
@@ -663,7 +636,7 @@ export async function fetchSlashData(
   } catch {
     // solde illisible : signalé dans le rapport, les transactions restent valables
   }
-  return { txs, balances, cashbackCents, declines };
+  return { txs, balances, cashbackCents };
 }
 
 interface WiseStatementTx {
@@ -848,7 +821,6 @@ export function reconcile(
 // --- Anomalies + parts (pur, testé) ---------------------------------------------
 
 export type AnomalyKind =
-  | "PAIEMENT_REFUSE"
   | "TRESORERIE_INEXPLIQUE"
   | "TX_NON_AFFECTEE"
   | "ABO_NON_DEBITE"
@@ -901,8 +873,6 @@ export function computeControl(input: {
    * l'est pas, les débits carte LLC (Meta, abonnements) passent sur Slash et
    * sont invisibles ici : on ne crie pas « impayé » sur ce qu'on ne voit pas. */
   slashConnected?: boolean;
-  /** Paiements carte refusés sur la fenêtre (Slash) — signal, pas argent. */
-  declines?: DeclinedPayment[];
   /** Rapprochement depuis le début — l'inexpliqué DEPUIS le 04/09 alerte. */
   treasury?: TreasuryBridge | null;
 }): ControlReport {
@@ -927,30 +897,6 @@ export function computeControl(input: {
     });
   }
 
-  // 0bis) PAIEMENTS REFUSÉS : même marchand refusé ≥ 2 fois sur la fenêtre =
-  //    carte qui coince (plafond, expiration, blocage) — un service peut être
-  //    coupé sans qu'aucun euro ne bouge, donc invisible de tout le reste.
-  const refus = (input.declines ?? []).filter((d) => d.day >= sinceDay && d.day <= untilDay);
-  const parMarchand = new Map<string, DeclinedPayment[]>();
-  for (const d of refus) {
-    const k = d.description.toLowerCase().replace(/\s+/g, " ").trim();
-    parMarchand.set(k, [...(parMarchand.get(k) ?? []), d]);
-  }
-  for (const list of parMarchand.values()) {
-    if (list.length < 2) continue;
-    const last = list.reduce((a, b) => (a.day > b.day ? a : b));
-    const paye = txs.some(
-      (t) => t.amountCents < 0 && t.day >= last.day && t.description.toLowerCase().includes(list[0].description.toLowerCase().slice(0, 6))
-    );
-    anomalies.push({
-      kind: "PAIEMENT_REFUSE",
-      severity: "amber",
-      label: `Carte refusée ×${list.length} : « ${list[0].description} » (dernier refus le ${last.day.slice(8, 10)}/${last.day.slice(5, 7)}, ${(last.amountCents / 100).toFixed(2)} $)`,
-      detail: paye
-        ? "Un débit est passé ensuite — le service tourne, mais la carte a coincé : plafond, expiration ou blocage marchand à vérifier."
-        : "Aucun débit passé depuis — le service peut être coupé. Vérifier la carte (plafond, expiration) et relancer le paiement.",
-    });
-  }
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay && t.label !== "IGNORER");
   const debits = inWindow.filter((t) => t.amountCents < 0);
   const eur = (c: number) => `${Math.round(Math.abs(c) / 100)} €`;
@@ -1391,7 +1337,7 @@ const fetchWiseCached = unstable_cache(
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v4"], // v4 : + declines, USD au taux du jour / dernier (04/09)
+  ["slash-data-v5"], // v5 : USD au taux du jour / dernier, plus de refus collectés (04/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1634,20 +1580,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         metaSpendCents: 21337236,
       },
     });
-    const demoDeclines: DeclinedPayment[] = [1, 2, 3].map(() => ({
-      bank: "SLASH",
-      day: addDaysToDay(untilDay, -3),
-      description: "Google Workspace",
-      amountCents: 1130,
-      currency: "USD",
-    }));
     const control = computeControl({
       txs: demo.txs,
       reconciliation,
       sinceDay: controlSince,
       untilDay,
       slashConnected,
-      declines: demoDeclines,
       treasury: demoTreasury,
     });
     return {
@@ -1670,7 +1608,6 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
-  let declines: DeclinedPayment[] = [];
   // Série de taux pour l'argent qui dort (cashback) — même source que les
   // banques, même cache.
   const usdRatesForReport = await fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay).catch(() => null);
@@ -1706,7 +1643,6 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
-      declines = slash.declines ?? [];
       slashCashbackEurCents =
         typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD", undefined, { rates: usdRatesForReport }) : null;
       slashConnected = true;
@@ -1797,7 +1733,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
 
   const control =
     txs.length > 0
-      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, declines, treasury })
+      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, treasury })
       : null;
 
   return {

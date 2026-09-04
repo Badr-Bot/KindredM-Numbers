@@ -238,11 +238,8 @@ function CashflowBlock({ report }: { report: BankReport }) {
   const abos = out((t) => t.category === "ABONNEMENT");
   const frais = out((t) => t.category === "FRAIS");
   const societeAutre = out((t) => t.category === "AUTRE" && t.label === "SOCIETE");
-  const aAffecter = out((t) => t.category === "AUTRE" && t.label === null);
-  const perso = -sum((t) => isPerso(t) && eurOf(t) < 0) || 0;
   const entrees = entreesShopify + entreesAutres;
   const sorties = meta + googleAds + fournisseur + abos + frais + societeAutre;
-  const marge = entrees - sorties;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
@@ -258,7 +255,7 @@ function CashflowBlock({ report }: { report: BankReport }) {
           </span>
         )}
       </div>
-      <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="flex flex-col gap-1">
           <div className="text-[9px] font-bold uppercase tracking-wider text-phosphor">💶 Entrées</div>
           <Row l="Versements Shopify" v={entreesShopify} />
@@ -277,25 +274,6 @@ function CashflowBlock({ report }: { report: BankReport }) {
           {frais > 0 && <Row l="Frais bancaires" v={frais} />}
           {societeAutre > 0 && <Row l="Autres (affectées Société)" v={societeAutre} />}
           <div className="border-t border-line-soft pt-1"><Row l="Total sorti" v={sorties} strong /></div>
-        </div>
-        <div className="flex flex-col justify-between gap-1">
-          <div>
-            <div className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">✅ Marge réelle encaissée</div>
-            <div className={`tnum text-[22px] font-extrabold ${marge >= 0 ? "text-phosphor" : "text-red"}`}>{formatEur0(marge)}</div>
-            <p className="mt-1 text-[10px] leading-snug text-ink-faint">
-              Fenêtre 30 j, lecture bancaire. Le vrai contrôle « rien ne manque » est le bloc 🧮 Rapprochement
-              trésorerie, depuis le début.
-            </p>
-          </div>
-          <div className="text-[10px] text-ink-faint">
-            <div>Perso (hors marge) : <b className="tnum">{formatEur0(perso)}</b></div>
-            {report.slashCashbackEurCents !== null && report.slashCashbackEurCents > 0 && (
-              <div className="text-phosphor">
-                Cashback Slash gagné (à récupérer) : <b className="tnum">+{formatEur0(report.slashCashbackEurCents)}</b>
-              </div>
-            )}
-            {aAffecter > 0 && <div className="text-red">À affecter (hors marge) : <b className="tnum">{formatEur0(aAffecter)}</b></div>}
-          </div>
         </div>
       </div>
     </div>

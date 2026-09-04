@@ -913,6 +913,32 @@ rapprochement aurait compté 25 448 € de dette fournisseur en double.
 Conséquences : l'avoir Long Sleeves est abandonné (packing confirmé normal),
 `supplierOwedCents()` = 0, le bloc 🏭 n'a plus d'avoir chiffré à déduire.
 
+## Mise à jour 04/09 (soir) — le rapprochement réel tombe à zéro ; moins de bruit
+
+Première lecture du dash déployé avec les vraies banques (capture Badr,
+17h36) : **inexpliqué depuis le 04/09 = 0 €**. Net cumulé 57 979 € + dû Panda
+2 039 € = 60 018 € ; − en route ≈ 21 010 € = 39 008 € attendus ; réel 34 147 € ;
+écart 4 861 € = perso 3 595 € + reliquat Revolut 1 265 €. Frais de change
+depuis le début 699 €, dont 619 € (89 %) causés par Meta.
+
+Retours de Badr, appliqués :
+- **Refus de carte retirés** (« je m'en fous des refus, cette info me sert à
+  rien ») : 10 cartes ambre (hungerstation, Kiwi, Booking, Higgsfield…) pour
+  zéro euro sorti. Anomalie `PAIEMENT_REFUSE` et collecte des declined
+  supprimées, clé de cache Slash → v5.
+- **« Marge réelle encaissée −10 779 € » retirée** (« ça sert à rien ») :
+  entrées − sorties bancaires sur 30 jours, faussée par le virement Panda de
+  25 452 € tombé dans la fenêtre pour des commandes d'août. Le bloc 30 j ne
+  garde que ses deux colonnes entrées / sorties ; le seul contrôle qui compte
+  est le rapprochement depuis le début.
+- **Tuile « Abonnements : 2 à vérifier »** = deux alertes : *Google Workspace
+  10 € débités vs 8 € attendus* → c'était notre montant qui était faux (8,10 €
+  saisi, 11,30 $ réels lus sur Slash) : corrigé, l'alerte tombe. *TrendTrack
+  25 €/mois sans débit vu depuis le 06/08* → vraie question : qui le paie ?
+  (perso, annuel, autre carte) — en attente de Badr.
+
+294 tests verts, `next build` OK.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
