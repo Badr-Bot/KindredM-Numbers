@@ -101,6 +101,22 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     paidCents: 1206441,
     note: "Payée le 14/08 (annonce Badr) : montant demandé réglé en entier (13 914,91 $, taux 1,1534). Contient 410 € de « custom packing ». Litige gilet levé (packing du gilet primaire, vérifié et accepté).",
   },
+  {
+    // 04/09 — Badr : « 25 448,36 € j'ai viré ça aujourd'hui, on a payé jusqu'à
+    // la commande #7148 ». Le PDF de la facture n'est pas encore reçu : le
+    // montant réclamé = le montant viré (Panda avait annoncé 25 000 €). À
+    // pointer contre le PDF à réception, ligne à ligne comme les deux d'août.
+    ref: "Bill 20260904 (PDF à recevoir)",
+    issuedDay: "2026-09-04",
+    ordersFrom: "#5996",
+    ordersTo: "#7148",
+    ordersCount: 1153,
+    totalCents: 2544836,
+    disputedCents: 0,
+    status: "payee",
+    paidCents: 2544836,
+    note: "Payée le 04/09 (virement annoncé par Badr, 25 448,36 €). Moteur COGS + taxe UE sur #5996→#7148 (1 153 cmd, 12/08→03/09) : 25 498,20 € — facturé 49,84 € EN DESSOUS (−0,2 %), cohérent avec l'avoir Long Sleeves promis le 14/08 (~28,55 €). PDF à pointer à réception.",
+  },
 ];
 
 // ---------------------------------------------------------------------------

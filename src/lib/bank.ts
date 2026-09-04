@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
 import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
 import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
@@ -198,9 +199,21 @@ export function subsForPattern(patternLabel: string, untilDay: string) {
   );
 }
 
-function toEurCents(amountCents: number, currency: string, liveRates?: Map<string, number>): number | null {
+/** Conversion EUR. USD : règle Badr 04/09 — `usd.day` posé = c'est un débit
+ * PAYÉ, converti au taux de son jour ; sans jour = de l'argent qui DORT
+ * (solde, en route, cashback), converti au dernier taux de la série. Sans
+ * série Wise : taux figé 1,1539 (décision 08/08, devenue le repli). */
+function toEurCents(
+  amountCents: number,
+  currency: string,
+  liveRates?: Map<string, number>,
+  usd?: { rates: DailyRates | null; day?: string }
+): number | null {
   if (currency === "EUR") return amountCents;
-  if (currency === "USD") return Math.round(amountCents * USD_TO_EUR); // taux FIGÉ du dashboard (décision Badr 08/08)
+  if (currency === "USD") {
+    const rate = usd ? (usd.day ? usdToEurForDay(usd.rates, usd.day) : usdToEurLatest(usd.rates)) : USD_TO_EUR;
+    return Math.round(amountCents * rate);
+  }
   const rate = liveRates?.get(currency);
   if (rate !== undefined) return Math.round(amountCents * rate); // taux Wise du jour (CAD, CHF, MAD…)
   return null; // devise inconnue : on l'affiche telle quelle, jamais convertie au pif
@@ -256,6 +269,43 @@ async function fetchWiseRates(currencies: string[], token: string): Promise<Map<
   return rates;
 }
 
+/** Série QUOTIDIENNE USD→EUR depuis le lancement (Wise /v1/rates, group=day)
+ * — une seule requête pour tout l'historique. null sans jeton ou en erreur :
+ * les conversions retombent sur le taux figé, jamais sur un taux inventé. */
+async function fetchWiseUsdEurHistory(fromDay: string, toDay: string): Promise<DailyRates | null> {
+  const token = process.env.WISE_API_TOKEN;
+  if (!token) return null;
+  try {
+    const qs = new URLSearchParams({
+      source: "USD",
+      target: "EUR",
+      from: `${fromDay}T00:00:00`,
+      to: `${toDay}T23:59:59`,
+      group: "day",
+    });
+    const res = await fetch(`${WISE_API}/v1/rates?${qs}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+    const arr = (await res.json()) as { rate?: number; time?: string }[];
+    const points = (arr ?? [])
+      .filter((p) => typeof p.rate === "number" && typeof p.time === "string")
+      .map((p) => ({ day: toParisDay(p.time as string), rate: p.rate as number }));
+    const built = buildDailyRates(points);
+    return built.days.length > 0 ? built : null;
+  } catch {
+    return null;
+  }
+}
+
+const fetchWiseUsdEurHistoryCached = unstable_cache(
+  async (fromDay: string, toDay: string) => fetchWiseUsdEurHistory(fromDay, toDay),
+  ["wise-usd-eur-history-v1"],
+  { revalidate: 3600, tags: ["bank"] } // le « dernier taux de la journée » se rafraîchit à l'heure
+);
+
+/** Point de départ des taux : le lancement de l'activité (même valeur que
+ * TREASURY_START_DAY, déclarée plus bas — les deux sont verrouillées par test). */
+export const RATES_START_DAY = "2026-05-21";
+
 // --- Client Slash --------------------------------------------------------------
 // Doc collée par Badr le 19/08 (docs.slash.com, OpenAPI) :
 //   GET https://api.slash.com/transaction — header X-API-Key ; clé user-scoped
@@ -298,7 +348,7 @@ const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "re
 /** Mapping pur (testé) : une transaction Slash → BankTx, ou null si le
  * statut n'a pas bougé d'argent. Compte Slash en USD ⇒ conversion au taux
  * figé du dashboard, comme partout. */
-export function mapSlashTx(t: SlashTx): BankTx | null {
+export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx | null {
   if (t.status === "failed" || SLASH_STATUTS_SANS_ARGENT.has(t.detailedStatus)) return null;
   const description = t.merchantData?.description || t.description || t.memo || "(sans libellé)";
   const { category, subscriptionLabel } = categorizeTx(description, t.amountCents);
@@ -323,7 +373,8 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
     day: toParisDay(t.date),
     amountCents: t.amountCents,
     currency: "USD",
-    amountEurCents: toEurCents(t.amountCents, "USD"),
+    // PAYÉ → taux du jour de la transaction (règle Badr 04/09).
+    amountEurCents: toEurCents(t.amountCents, "USD", undefined, { rates, day: toParisDay(t.date) }),
     description,
     category,
     subscriptionLabel,
@@ -362,6 +413,9 @@ export async function fetchSlashData(
     if (!legalEntity) throw new Error("Slash : aucune legal entity accessible avec cette clé.");
     res = await call(null);
   }
+
+  // Série de taux (règle 04/09) — en parallèle de la première page, non bloquante.
+  const ratesPromise = fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay);
 
   const raw: SlashTx[] = [];
   // 60 pages (et non 20) : la même lecture sert au balayage DEPUIS LE DÉBUT du
@@ -435,6 +489,7 @@ export async function fetchSlashData(
     fxByDay.set(day, slot);
   }
 
+  const rates = await ratesPromise;
   const txs: BankTx[] = [];
   const declines: DeclinedPayment[] = [];
   for (const t of raw) {
@@ -451,7 +506,7 @@ export async function fetchSlashData(
       });
       continue;
     }
-    const mapped = mapSlashTx(t);
+    const mapped = mapSlashTx(t, rates);
     if (!mapped) continue;
     // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
     // les perso) — c'est souvent ce qui identifie une ligne mystère.
@@ -480,7 +535,7 @@ export async function fetchSlashData(
             ...mapped,
             txId: `${mapped.txId}-${p.suffix}`,
             amountCents: amount,
-            amountEurCents: toEurCents(amount, "USD"),
+            amountEurCents: toEurCents(amount, "USD", undefined, { rates, day: mapped.day }),
             category: "FRAIS",
             label: p.label,
             labelNote: `frais FX du ${refDay.slice(8, 10)}/${refDay.slice(5, 7)} — part ${p.qui} (ventilé automatiquement)`,
@@ -543,7 +598,8 @@ export async function fetchSlashData(
         }
       }
       if (any) {
-        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD") }];
+        // Argent qui DORT → dernier taux de la journée (règle Badr 04/09).
+        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD", undefined, { rates }) }];
       }
     }
   } catch {
@@ -577,7 +633,10 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
   const balances = (await balancesRes.json()) as { id: number; currency: string; amount: { value: number } }[];
 
   const extraCurrencies = [...new Set(balances.map((b) => b.currency))].filter((c) => c !== "EUR" && c !== "USD");
-  const liveRates = extraCurrencies.length > 0 ? await fetchWiseRates(extraCurrencies, token) : new Map<string, number>();
+  const [liveRates, usdRates] = await Promise.all([
+    extraCurrencies.length > 0 ? fetchWiseRates(extraCurrencies, token) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay),
+  ]);
 
   const txs: BankTx[] = [];
   for (const b of balances) {
@@ -604,7 +663,7 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
         day: toParisDay(t.date),
         amountCents,
         currency: t.amount.currency,
-        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates),
+        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates, { rates: usdRates, day: toParisDay(t.date) }),
         description,
         category,
         subscriptionLabel,
@@ -618,7 +677,12 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
     txs,
     balances: balances.map((b) => {
       const amountCents = Math.round(b.amount.value * 100);
-      return { bank: "WISE" as const, currency: b.currency, amountCents, amountEurCents: toEurCents(amountCents, b.currency, liveRates) };
+      return {
+        bank: "WISE" as const,
+        currency: b.currency,
+        amountCents,
+        amountEurCents: toEurCents(amountCents, b.currency, liveRates, { rates: usdRates }),
+      };
     }),
   };
 }
@@ -1130,17 +1194,21 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
   // et signalée (jamais convertie au pif).
   const others = [...new Set(pending.map((p) => p.currency).filter((c) => c !== "EUR" && c !== "USD"))];
   const wiseToken = process.env.WISE_API_TOKEN;
-  const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken) : new Map<string, number>();
+  const [rates, usdRates] = await Promise.all([
+    others.length > 0 && wiseToken ? fetchWiseRates(others, wiseToken) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, todayParisDay()),
+  ]);
   for (const p of pending) {
     const cents = Math.round(p.amount * 100);
-    const eur = toEurCents(cents, p.currency, rates);
+    const eur = toEurCents(cents, p.currency, rates, { rates: usdRates }); // en route = argent qui dort
     if (eur === null) skipped.push(`${p.currency} sans taux`);
     else totalEurCents += eur;
   }
   return { totalEurCents, missingScopes, skipped };
 }
 
-const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v1"], {
+// v2 : USD au dernier taux de la journée (04/09).
+const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v2"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1250,13 +1318,13 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v2"],
+  ["wise-data-v3"], // v3 : USD au taux du jour / dernier (04/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v3"], // v3 : + declines (04/09)
+  ["slash-data-v4"], // v4 : + declines, USD au taux du jour / dernier (04/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1295,7 +1363,7 @@ async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ t
 
 const fetchLifetimeTxsCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
-  ["bank-lifetime-txs-v1"],
+  ["bank-lifetime-txs-v2"], // v2 : USD au taux du jour (04/09)
   { revalidate: 3600, tags: ["bank"] }
 );
 
@@ -1513,6 +1581,9 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
   let declines: DeclinedPayment[] = [];
+  // Série de taux pour l'argent qui dort (cashback) — même source que les
+  // banques, même cache.
+  const usdRatesForReport = await fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay).catch(() => null);
   // Affectations manuelles, réutilisées par le rapprochement depuis le début
   // (les mêmes labels doivent valoir sur TOUTES les transactions, pas
   // seulement celles des 30 derniers jours).
@@ -1546,7 +1617,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
       declines = slash.declines ?? [];
-      slashCashbackEurCents = typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD") : null;
+      slashCashbackEurCents =
+        typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD", undefined, { rates: usdRatesForReport }) : null;
       slashConnected = true;
       if ((slash.balances ?? []).length === 0) {
         warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
@@ -1608,7 +1680,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   }
 
   const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
-  const cashbackTotalEurCents = typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD") : null;
+  const cashbackTotalEurCents =
+    typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD", undefined, { rates: usdRatesForReport }) : null;
   const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
   if (enRouteRes?.missingScopes) {
     setup.push(

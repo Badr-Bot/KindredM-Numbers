@@ -499,3 +499,12 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   les deux.
 - **À trancher (Badr) :** MacBook d'Adnane sur la carte LLC — société (50/50,
   immobilisation) ou perso (100 % lui) ? Classé perso par défaut aujourd'hui.
+
+- **Paiement Panda du 04/09 : 25 448,36 € pour #5996→#7148** (1 153 cmd) vs
+  moteur 25 498,20 € → −0,2 %. Troisième facture d'affilée à ±1 % : le moteur
+  COGS + taxe UE EST la facture Panda, on peut anticiper la suivante avec.
+- **Règle des taux (04/09, Badr)** : montants bancaires en USD → « payé » au
+  taux du jour, « qui dort » au dernier taux (série Wise quotidienne,
+  `rates.ts`). Le taux figé 1,1539 (08/08) n'est plus qu'un repli et la règle
+  des estimations. Un débit ne se convertit JAMAIS à un taux postérieur.
+- **MacBook Adnane** : perso, absorbé par le reliquat Revolut pré-LLC (Badr).

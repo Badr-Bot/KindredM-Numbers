@@ -704,6 +704,42 @@ depuis la session). Reste bloquant côté Badr : scope Shopify
 `read_shopify_payments_accounts` — sans lui « en route » est vide et l'écart
 n'est pas calculé.
 
+## Mise à jour 04/09 (suite) — paiement Panda, règle des taux, MacBook
+
+Réponses de Badr aux trois questions du rapprochement :
+
+1. **Panda payé : 25 448,36 € virés le 04/09, « jusqu'à la commande #7148 ».**
+   Enregistré comme `Bill 20260904 (PDF à recevoir)`, #5996→#7148, 1 153
+   commandes, payée en entier. **Vérification moteur : 25 498,20 €** (COGS +
+   taxe UE sur cette plage) → facturé 49,84 € en dessous (−0,2 %), cohérent
+   avec l'avoir Long Sleeves promis (~28,55 €). PDF à pointer à réception.
+   La « prochaine facture estimée » repart de #7149 : 85 commandes, ~1 886 €.
+2. **MacBook d'Adnane** : « tu t'en fous, ça rentre dans l'argent qui reste
+   sur le Revolut d'Adnane » → reste classé perso (règle carte), absorbé par
+   le reliquat Revolut pré-LLC. Rien à changer.
+3. **Scope Shopify** : plus tard (Badr).
+
+**Règle des taux (Badr, remplace la décision du 08/08 pour les montants
+bancaires)** : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
+le dernier taux enregistré de la journée ». Livré :
+- `rates.ts` (pur, 10 tests) : série quotidienne USD→EUR ; un débit se
+  convertit au taux DE SON JOUR (sinon le dernier connu avant, jamais un taux
+  postérieur) ; un solde / l'en route / le cashback au DERNIER taux.
+- `bank.ts` : la série vient de Wise (`/v1/rates?group=day`, une requête
+  pour tout l'historique, cache 1 h). Branché sur les transactions Slash et
+  Wise, les soldes, l'argent en route, le cashback. Sans jeton Wise ou en
+  erreur : repli sur le taux figé 1,1539 — jamais un taux inventé. Clés de
+  cache bumpées (wise-data-v3, slash-data-v4, lifetime-v2, enroute-v2).
+- Le taux figé reste la règle des ESTIMATIONS (abonnements USD étalés, frais
+  ponctuels saisis à la main) : ce ne sont pas des débits datés, un taux
+  flottant les ferait bouger après coup.
+- Slash n'expose pas (dans la doc connue) le montant d'origine en EUR d'un
+  débit carte (« Currency conversion 116.61 % (EUR 802.90) » dans l'app) —
+  si un champ existe, il remplacera le taux du jour par le taux EXACT de la
+  transaction. À vérifier sur une réponse brute de l'API.
+
+280 tests verts, `next build` OK. Toujours non testé contre les vraies API.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

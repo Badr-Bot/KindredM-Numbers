@@ -51,6 +51,13 @@
 import { badrFixedShareFor, oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
 export { badrFixedShareFor, CHARGES_SPLIT_START } from "./associateLedger";
 
+// 04/09 (Badr) : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
+// le dernier taux de la journée » → les montants BANCAIRES (débits, soldes, en
+// route, cashback) suivent désormais la série Wise quotidienne (rates.ts).
+// Ce taux figé reste : (1) le repli quand la série manque, (2) la règle des
+// ESTIMATIONS — abonnements en USD étalés par jour et frais ponctuels saisis à
+// la main — qui ne sont pas des débits datés lus en banque et ne doivent pas
+// bouger après coup.
 export const USD_TO_EUR = 1 / 1.1539;
 
 /** Jours moyens par mois (365,25 ÷ 12) — pour l'étalement quotidien. */

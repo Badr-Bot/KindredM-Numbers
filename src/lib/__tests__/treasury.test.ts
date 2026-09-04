@@ -322,8 +322,9 @@ describe("supplierUnbilledCents", () => {
 
 describe("point de départ du rapprochement", () => {
   it("colle au lancement de l'activité (sinon l'écart démarre au mauvais jour)", async () => {
-    const { TREASURY_START_DAY } = await import("../bank");
+    const { TREASURY_START_DAY, RATES_START_DAY } = await import("../bank");
     const { HISTORY_START } = await import("../data");
     expect(TREASURY_START_DAY).toBe(HISTORY_START);
+    expect(RATES_START_DAY).toBe(HISTORY_START);
   });
 });
