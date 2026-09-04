@@ -513,3 +513,15 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   Les dépenses courantes n'y sont pour rien (~0,2 $/jour). Chaque morceau de
   frais porte désormais son origine (`feeOf`) — ne plus répondre « surtout
   Meta » de mémoire, lire la répartition dans le bloc trésorerie.
+- **Table `bank_tx_labels` : migration 0013 appliquée en prod le 04/09** (elle
+  manquait depuis le 19/08 → aucune affectation ne se sauvegardait).
+- **Ismael (ARINLOYE ISMAEL KOREDELE) = le monteur** ; **« Disbursement
+  Reversal » = versement Shopify repris** (remboursements, déjà dans le CA).
+- **CWILL / Moon Bundles / plan Shopify : payés via Shopify + crédits**, aucun
+  débit carte à attendre (`noBankClaim`).
+- **En route sans scope = CA − frais des 5 derniers jours** (délai de
+  versement). L'ancienne estimation « CA − payouts depuis le 01/08 » se trompait
+  d'un facteur 20 et faisait crier « argent sorti non tracé ».
+- **Synchro : CA + spend Meta publiés ensemble** (04/09). Ne jamais republier
+  le CA seul quand le spend est disponible : Badr lit un bénéfice puis une
+  perte. Le CA seul n'est publié que si Meta échoue.

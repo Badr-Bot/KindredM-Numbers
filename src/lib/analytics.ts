@@ -700,7 +700,22 @@ export async function getProductSplitForDay(
  * Produits (demande Badr 24/08 : « un truc comme pour les pays mais pour les
  * produits, pour voir ce que le Lancaster seul a rapporté »).
  */
-export async function getProductSplitForRange(
+/**
+ * Split produit sur une plage — version CACHÉE (5 min) pour les rendus de
+ * page. L'onglet Produits lançait 4 scans complets des commandes (7 j, 30 j,
+ * mois, 90 j — line_items JSON compris, ~5 000 lignes pour 90 j) à CHAQUE
+ * affichage (Badr 04/09 : « l'onglet produit est trop lent »). La clé de
+ * cache contient les bornes ET le Global de la période : dès qu'une synchro
+ * change le jour en cours, la clé change et le split est recalculé — jamais
+ * un split qui ne somme plus au Global affiché.
+ */
+export const getProductSplitForRange = unstable_cache(
+  async (startDay: string, endDay: string, global: Totals) => getProductSplitForRangeUncached(startDay, endDay, global),
+  ["product-split-range-v1"],
+  { revalidate: 300, tags: ["product-day-matrix"] }
+);
+
+export async function getProductSplitForRangeUncached(
   startDay: string,
   endDay: string,
   global: Totals

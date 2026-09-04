@@ -302,6 +302,17 @@ describe("frais de change par origine (information)", () => {
   });
 });
 
+describe("en route estimé (scope Shopify absent)", () => {
+  it("calcule quand même l'écart, mais le marque comme estimation", () => {
+    const b = buildTreasuryBridge({ ...BASE, enRouteEstimated: true });
+    expect(b.enRouteEstimated).toBe(true);
+    expect(b.gapCents).not.toBeNull();
+  });
+  it("exact par défaut", () => {
+    expect(buildTreasuryBridge(BASE).enRouteEstimated).toBe(false);
+  });
+});
+
 describe("orderNumber", () => {
   it("lit le numéro d'une commande Shopify", () => {
     expect(orderNumber("#5995")).toBe(5995);

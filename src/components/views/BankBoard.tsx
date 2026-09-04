@@ -220,7 +220,7 @@ function Row({ l, v, strong = false }: { l: string; v: number; strong?: boolean 
   );
 }
 
-function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netTheoriqueCents: number | null }) {
+function CashflowBlock({ report }: { report: BankReport }) {
   const since = report.reconciliation?.sinceDay;
   if (!since || report.txs.length === 0) return null;
   const inWin = report.txs.filter((t) => t.day >= since && t.label !== "IGNORER" && t.category !== "INTERNE");
@@ -243,13 +243,6 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
   const entrees = entreesShopify + entreesAutres;
   const sorties = meta + googleAds + fournisseur + abos + frais + societeAutre;
   const marge = entrees - sorties;
-  // Frais bancaires RÉELS (FX, virements — y compris ceux fondus dans les
-  // postes Meta/Fournisseur via leur transaction d'origine) : absents du net
-  // théorique du dashboard → on les déduit du théorique pour comparer à âmes
-  // égales (Badr 19/08 : « pour Panda inclut les fees, je veux que tout soit
-  // carré »).
-  const fraisReels = -sum((t) => eurOf(t) < 0 && !isPerso(t) && (t.category === "FRAIS" || (t.labelNote?.startsWith("frais lié") ?? false))) || 0;
-  const theoAjuste = netTheoriqueCents !== null ? netTheoriqueCents - fraisReels : null;
   const dd = `${since.slice(8, 10)}/${since.slice(5, 7)}`;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
@@ -289,20 +282,10 @@ function CashflowBlock({ report, netTheoriqueCents }: { report: BankReport; netT
           <div>
             <div className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">✅ Marge réelle encaissée</div>
             <div className={`tnum text-[22px] font-extrabold ${marge >= 0 ? "text-phosphor" : "text-red"}`}>{formatEur0(marge)}</div>
-            {netTheoriqueCents !== null && theoAjuste !== null && (
-              <p className="mt-1 text-[10px] leading-snug text-ink-dim">
-                Dashboard (théorique) sur la même période : <b className="tnum text-ink">{formatEur0(netTheoriqueCents)}</b>
-                {fraisReels > 0 && (
-                  <>
-                    {" "}− frais bancaires réels (FX, virements Panda…) <b className="tnum text-ink">{formatEur0(fraisReels)}</b> ={" "}
-                    <b className="tnum text-ink">{formatEur0(theoAjuste)}</b>
-                  </>
-                )}{" "}
-                — écart vs encaissé{" "}
-                <b className={`tnum ${marge - theoAjuste >= 0 ? "text-phosphor" : "text-amber"}`}>{formatEur0(marge - theoAjuste)}</b>.
-                Reste d&apos;écart normal : payouts en différé 2-4 j, Meta facture par paliers, COGS fournisseur payé par vagues.
-              </p>
-            )}
+            <p className="mt-1 text-[10px] leading-snug text-ink-faint">
+              Fenêtre 30 j, lecture bancaire. Le vrai contrôle « rien ne manque » est le bloc 🧮 Rapprochement
+              trésorerie, depuis le début.
+            </p>
           </div>
           <div className="text-[10px] text-ink-faint">
             <div>Perso (hors marge) : <b className="tnum">{formatEur0(perso)}</b></div>
@@ -369,7 +352,10 @@ function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; s
             note: "sortis de la banque avant la facture — voir le bloc Fournisseur",
           })}
         {ligne("Cash que l'activité a produit", t.cashTheoriqueCents, { fort: true })}
-        {ligne("Argent en route chez Shopify", t.enRouteCents, { signe: "−" })}
+        {ligne("Argent en route chez Shopify", t.enRouteCents, {
+          signe: "−",
+          note: t.enRouteEstimated ? "≈ estimation (CA − frais des 5 derniers jours) — scope Shopify à ajouter pour l'exact" : undefined,
+        })}
         {ligne("Devrait être sur les comptes", t.attenduEnBanqueCents, { fort: true })}
         {ligne("Solde réel Wise + Slash", t.bankCents, {
           note: t.bankSkipped.length > 0 ? `hors ${t.bankSkipped.join(", ")} (pas de taux)` : undefined,
@@ -605,10 +591,10 @@ function OwnershipBlock({
   // quand les scopes sont là ; sinon estimation (CA − frais − payouts reçus
   // depuis le 01/08), toujours étiquetée comme telle.
   const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
-  const enRouteEstime =
-    enRouteExact === null && report.reconciliation
-      ? Math.max(0, report.reconciliation.shopify.expectedCents - report.reconciliation.shopify.bankCents)
-      : null;
+  // Estimation = CA − frais Shopify des 5 derniers jours (délai de versement
+  // observé). L'ancienne (CA − payouts reçus depuis le 01/08) donnait 777 €
+  // pour ~15 000 € réels et faisait crier « argent sorti non tracé ».
+  const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
   const enRouteCents = enRouteExact ?? enRouteEstime ?? 0;
   const patrimoine = totalCents + enRouteCents - detteFournisseur;
   const partAdnane = patrimoine - partBadr;
@@ -631,7 +617,11 @@ function OwnershipBlock({
         <div>
           En route (Shopify) <b className="tnum text-cyan">{formatEur0(enRouteCents)}</b>
           <span className="block text-[9.5px] text-ink-faint">
-            {enRouteExact !== null ? "solde Shopify Payments réel" : enRouteEstime !== null ? "estimation — scopes Shopify à ajouter pour l'exact" : "indisponible"}
+            {enRouteExact !== null
+              ? "solde Shopify Payments réel"
+              : enRouteEstime !== null
+                ? "≈ CA − frais des 5 derniers jours (délai de versement) — scope Shopify à ajouter pour l'exact"
+                : "indisponible"}
           </span>
         </div>
         <div>
@@ -654,9 +644,11 @@ function OwnershipBlock({
             <b>son apport perso encore dans la LLC</b> (il avait transféré de son argent perso).
           </>
         ) : (
-          <b className="text-red">
-            ⚠️ sa part sur les comptes est INFÉRIEURE de {formatEur0(-apportAdnane)} à son net Année — solde Slash manquant ou
-            argent sorti non tracé : à creuser.
+          <b className={enRouteExact === null ? "text-amber" : "text-red"}>
+            ⚠️ sa part sur les comptes est INFÉRIEURE de {formatEur0(-apportAdnane)} à son net Année
+            {enRouteExact === null
+              ? " — l'en route est une ESTIMATION (±2 000 €) : ajouter le scope Shopify avant de creuser."
+              : " — solde Slash manquant ou argent sorti non tracé : à creuser."}
           </b>
         )}
       </p>
@@ -712,7 +704,7 @@ export function BankBoard({
       )}
 
       <Reveal delayMs={90}>
-        <CashflowBlock report={report} netTheoriqueCents={annee?.netDepuisCents ?? null} />
+        <CashflowBlock report={report} />
       </Reveal>
 
       <Reveal delayMs={135}>

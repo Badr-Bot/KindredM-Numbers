@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import type { Market } from "./engine";
 
 const API_VERSION = "v21.0";
@@ -580,3 +581,15 @@ export async function fetchCampaignActivities(sinceDay: string): Promise<Campaig
   out.sort((a, b) => new Date(a.eventTime).getTime() - new Date(b.eventTime).getTime());
   return out;
 }
+
+
+/** Version CACHÉE de fetchActiveCampaignIds pour les rendus de page (onglet
+ * Analyse) : l'appel live à Meta à chaque affichage faisait attendre 2-5 s
+ * (Badr 04/09 : « l'onglet analyse est trop lent »). Un snapshot de 5 min
+ * suffit — une campagne coupée apparaît au prochain rendu, pas à la seconde.
+ * Tableau (un Set ne se sérialise pas dans le cache). */
+export const getActiveCampaignIdsCached = unstable_cache(
+  async () => [...(await fetchActiveCampaignIds())],
+  ["meta-active-campaign-ids"],
+  { revalidate: 300, tags: ["meta-live"] }
+);

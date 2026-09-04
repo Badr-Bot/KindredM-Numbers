@@ -758,6 +758,51 @@ ABONNEMENT / AUTRE…) — helper pur `fxShares` (3 tests). Le bloc
 « Rapprochement trésorerie » affiche « frais de change depuis le début : X €,
 dont Y € causés par Meta (Z %) ». 285 tests verts, build OK.
 
+## Mise à jour 04/09 (suite 3) — onglet Comptable « clean », synchro, lenteurs
+
+Retour de Badr sur le dash déployé (capture) : « j'ai toujours beaucoup
+d'erreurs ». Traité point par point :
+
+- **Table `bank_tx_labels` absente en prod** (bandeau orange) → migration 0013
+  appliquée sur Supabase depuis la session. Les affectations Société / Badr /
+  Adnane / Ignorer se sauvegardent enfin.
+- **« Sent money to ARINLOYE ISMAEL KOREDELE » (−660 $, 28/08)** = le monteur
+  (Badr). Motif bancaire « Monteur » ajouté : catégorie ABONNEMENT, plus
+  jamais « à affecter ».
+- **« Disbursement Reversal » (−219,04 $, Slash, 21/08)** = un versement repris
+  (Shopify reprend les remboursements clients sur un payout). Catégorisé
+  SHOPIFY négatif avec note « déjà déduit du CA, rien à affecter » — les
+  remboursements sont dans refunded_cents. Hypothèse Shopify (le libellé ne
+  nomme pas l'émetteur), assumée et écrite dans le code.
+- **CWILL / Moon Bundles** : facturées via Shopify, couvertes par les crédits
+  (Badr) → `noBankClaim`, comptées dans le net mais plus jamais réclamées en
+  banque. Test adapté.
+- **« Part Adnane INFÉRIEURE de 23 788 € — à creuser »** : faux signal. L'en
+  route estimé sans le scope Shopify valait 777 € (CA − payouts reçus depuis
+  le 01/08 : les payouts de début août payaient juillet) pour ~15 000 € réels.
+  Nouvelle estimation = CA − frais Shopify des 5 derniers jours (délai de
+  versement observé, vérifié à 0,6 % le 04/09), affichée « ≈ », et le message
+  dit d'ajouter le scope avant de creuser. Le rapprochement trésorerie
+  l'utilise aussi (écart calculé mais marqué estimation, jamais d'alerte
+  rouge sur une estimation).
+- **Paragraphe « écart vs encaissé −15 770 € »** du bloc 30 j retiré : il
+  mélangeait le paiement Panda de 25 448 € (commandes d'août) avec la fenêtre
+  et faisait peur pour rien. Le contrôle « rien ne manque » est le bloc 🧮.
+- **Synchro : CA et spend Meta publiés ENSEMBLE.** Badr : « je souhaite que
+  Meta se rafraîchisse plus vite que le CA, pour que ça ne m'annonce pas un
+  bénéfice puis une perte ». Le 1er recalcul (juste après les commandes, avant
+  Meta) est supprimé ; le recalcul se fait après l'écriture du spend, et dans
+  le catch si Meta échoue (la loi du 26/07 « un timeout Meta ne gèle jamais le
+  CA » tient). La lecture Meta part toujours en parallèle des 4 stores.
+- **Onglet Analyse lent** : `fetchActiveCampaignIds` (appel Meta live) à
+  chaque rendu → version cachée 5 min (`getActiveCampaignIdsCached`).
+- **Onglet Produits lent** : 4 scans complets des commandes (line_items JSON)
+  à chaque rendu → `getProductSplitForRange` cachée 5 min, clé = bornes +
+  Global de la période (recalcul dès qu'une synchro bouge le jour).
+
+292 tests verts, `next build` OK, lint clean. Non testé en prod (session sans
+accès Vercel) — les lenteurs sont à re-mesurer par Badr après déploiement.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

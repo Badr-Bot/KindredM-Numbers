@@ -85,8 +85,12 @@ export interface TreasuryBridge {
   supplierNext: SupplierUnbilled | null;
   /** Net + tout ce qui est dû au fournisseur = cash que l'activité a produit. */
   cashTheoriqueCents: number;
-  /** Solde Shopify Payments (null si le scope manque). */
+  /** Solde Shopify Payments — exact avec le scope, sinon ESTIMÉ (CA − frais
+   * des 5 derniers jours) et signalé par enRouteEstimated. null si rien. */
   enRouteCents: number | null;
+  /** true = l'en route est une estimation (scope Shopify Payments absent) :
+   * l'écart se lit à ±2 000 € près et ne déclenche jamais d'alerte. */
+  enRouteEstimated: boolean;
   /** Somme des soldes bancaires convertis en EUR (null si aucun solde lu). */
   bankCents: number | null;
   /** Devises dont le solde n'a pas pu être converti — exclues du total. */
@@ -139,6 +143,7 @@ export interface TreasuryInput {
   supplierPrepaidCents?: number;
   supplierNext?: SupplierUnbilled | null;
   enRouteCents: number | null;
+  enRouteEstimated?: boolean;
   /** Soldes bancaires en EUR ; null = devise non convertible. */
   bankBalances: { currency: string; amountEurCents: number | null }[];
   /** Débits bancaires par catégorie sur la période balayée (valeurs
@@ -289,6 +294,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     supplierNext: input.supplierNext ?? null,
     cashTheoriqueCents,
     enRouteCents: input.enRouteCents,
+    enRouteEstimated: input.enRouteEstimated ?? false,
     bankCents,
     bankSkipped,
     attenduEnBanqueCents,

@@ -136,6 +136,10 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // « Emailing : Altura » = la LLC de Jeremy (Badr 19/08 : « emailing c'est
   // pour Jeremy ») — ses virements ACH/wire sont sa presta emailing.
   { label: "Jeremy — emailing (fixe, hors %)", re: /emailing|altura/i },
+  // Monteur = ARINLOYE ISMAEL KOREDELE (Badr 04/09 : « Ismael c'est le
+  // monteur ») — virement Wise du 28/08 (660 $, prorata, dernier jour compté
+  // 28/08). Sans ce motif la ligne restait « à affecter » à chaque visite.
+  { label: "Monteur", re: /arinloye|ismael|koredele/i },
   // Apps Shopify — parfois débitées en direct, parfois via la facture
   // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
   // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
@@ -168,6 +172,13 @@ export function categorizeTx(description: string, amountCents: number): { catego
   if (/panda/.test(d)) return { category: "FOURNISSEUR", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };
+  // « Disbursement Reversal » (Slash, ACH) = un versement reçu qui est REPRIS
+  // — Shopify reprend sur un payout les remboursements clients. Ce n'est pas
+  // une dépense : les remboursements sont déjà déduits du CA (refunded_cents,
+  // onglets Mois/Année). Compté comme versement négatif, jamais « à affecter »
+  // (Badr 04/09). Hypothèse Shopify : le libellé bancaire ne nomme pas
+  // l'émetteur — si un autre ACH reçu était repris, il tomberait ici aussi.
+  if (/disbursement\s*reversal/.test(d) && amountCents < 0) return { category: "SHOPIFY", subscriptionLabel: null };
   for (const p of SUBSCRIPTION_PATTERNS) {
     if (p.re.test(description)) return { category: "ABONNEMENT", subscriptionLabel: p.label };
   }
@@ -415,6 +426,7 @@ export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx 
   } catch {
     // date illisible : le reste du contexte suffit
   }
+  const reversal = /disbursement\s*reversal/i.test(description);
   return {
     detail: bits.join(" · "),
     bank: "SLASH",
@@ -428,7 +440,9 @@ export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx 
     category,
     subscriptionLabel,
     label: null,
-    labelNote: null,
+    labelNote: reversal
+      ? "retour de versement (remboursements clients repris sur un payout) — déjà déduit du CA, rien à affecter"
+      : null,
   };
 }
 
@@ -901,7 +915,9 @@ export function computeControl(input: {
   //    de ce jour on part du principe qu'il n'y a pas de trou » — donc tout
   //    reste au-delà du seuil est un trou NEUF, en rouge.
   const inexplique = input.treasury?.unexplainedCents ?? null;
-  if (inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS) {
+  // Sur un « en route » ESTIMÉ (scope Shopify absent), pas d'alerte rouge :
+  // l'estimation vaut ±10 %, soit ±2 000 € — un faux trou ferait paniquer.
+  if (inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS && !input.treasury?.enRouteEstimated) {
     anomalies.push({
       kind: "TRESORERIE_INEXPLIQUE",
       severity: "red",
@@ -1184,6 +1200,13 @@ export interface BankReport {
    * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
    * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Argent en route ESTIMÉ quand le scope Shopify Payments manque : CA −
+   * frais Shopify des 5 derniers jours (délai de versement observé le 04/09 :
+   * solde + versements programmés = CA net des 5 derniers jours à 0,6 % près).
+   * L'ancienne estimation (CA − payouts reçus depuis le 01/08) affichait
+   * 777 € pour ~15 000 € réels : les payouts reçus début août payaient des
+   * ventes de juillet. null si les agrégats manquent. */
+  enRouteEstimateCents: number | null;
   /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
    * d'aller tout retracer depuis le tout début »). null = pas calculable
    * (aucune banque branchée, ou agrégats illisibles). */
@@ -1450,9 +1473,11 @@ async function buildTreasury(input: {
   untilDay: string;
   balances: BankBalance[];
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Estimation (5 derniers jours) utilisée quand le scope Shopify manque. */
+  enRouteEstimateCents: number | null;
   labels: Map<string, TxLabel>;
 }): Promise<{ treasury: TreasuryBridge | null; setup: string | null; warning: string | null }> {
-  const { supabase, untilDay, balances, enRoute, labels } = input;
+  const { supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels } = input;
   if (balances.length === 0) {
     return { treasury: null, setup: "Rapprochement trésorerie : en attente des soldes bancaires (Wise/Slash).", warning: null };
   }
@@ -1546,11 +1571,23 @@ async function buildTreasury(input: {
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),
     supplierNext: unbilled,
-    enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : null,
+    enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : enRouteEstimateCents,
+    enRouteEstimated: !(enRoute && !enRoute.missingScopes),
     bankBalances: balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
     scan,
   });
   return { treasury, setup: null, warning: supplierWarning ?? scanWarning };
+}
+
+/** Délai moyen entre une vente et son versement Shopify (jours), observé le
+ * 04/09 : EUR 5 j, USD 4 j. */
+export const PAYOUT_LAG_DAYS = 5;
+
+/** Argent en route estimé = CA − frais Shopify des PAYOUT_LAG_DAYS derniers
+ * jours (untilDay inclus). Pur, exporté pour test. */
+export function estimateEnRoute(days: ExpectedDaily[], untilDay: string): number {
+  const from = addDaysToDay(untilDay, -(PAYOUT_LAG_DAYS - 1));
+  return days.filter((d) => d.day >= from && d.day <= untilDay).reduce((t, d) => t + d.caCents - d.feesCents, 0);
 }
 
 /** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
@@ -1625,6 +1662,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       slashCashbackEurCents: 2150,
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
+      enRouteEstimateCents: 185000,
       treasury: demoTreasury,
       treasurySetup: null,
     };
@@ -1706,6 +1744,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   }
 
   let reconciliation: BankReconciliation | null = null;
+  let enRouteEstimateCents: number | null = null;
   if (txs.length > 0) {
     const { data, error } = await supabase
       .from("daily_aggregates")
@@ -1724,6 +1763,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
       }
+      enRouteEstimateCents = estimateEnRoute([...byDay.values()], untilDay);
       reconciliation = reconcile(txs, [...byDay.values()].filter((e) => e.day >= controlSince), controlSince, untilDay, {
         slashConnected,
       });
@@ -1747,7 +1787,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let treasury: TreasuryBridge | null = null;
   let treasurySetup: string | null = null;
   try {
-    const t = await buildTreasury({ supabase, untilDay, balances, enRoute, labels: labelsByKey });
+    const t = await buildTreasury({ supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
     treasury = t.treasury;
     treasurySetup = t.setup;
     if (t.warning) warnings.push(t.warning);
@@ -1772,6 +1812,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     slashCashbackEurCents,
     cashbackTotalEurCents,
     enRoute,
+    enRouteEstimateCents,
     treasury,
     treasurySetup,
   };

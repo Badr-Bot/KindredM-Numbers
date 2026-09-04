@@ -129,8 +129,12 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
-  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
-  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
+  // les crédits Shopify — Badr 04/09 : « Moon Bundles etc. c'est payé
+  // directement par Shopify »). Comptées dans le net, mais AUCUN débit carte
+  // attendu : le contrôle bancaire ne les réclame pas.
+  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits). Hors frais d'utilisation variables (montant inconnu)." },
+  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits) — Badr 04/09." },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
   // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois »… puis, à ma
