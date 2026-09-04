@@ -373,6 +373,14 @@ function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; s
             <span>Écart total</span>
             <span className="tnum">{eur(t.gapCents)}</span>
           </div>
+          {t.bankSkipped.length > 0 && (
+            <p className="mt-1 text-[10px] leading-snug text-amber">
+              ⚠️ Solde{" "}
+              {t.bankSkipped.join(", ")}{" "}
+              non converti (pas de taux) : il n&apos;entre pas dans le solde réel,
+              donc l&apos;écart ci-dessus est surestimé d&apos;autant. À lire comme un plafond, pas comme un montant.
+            </p>
+          )}
           {t.gapLines.length === 0 ? (
             <p className="mt-1 text-[10px] text-ink-faint">
               Balayage bancaire indisponible — l&apos;écart est affiché sans sa ventilation.
@@ -418,8 +426,8 @@ function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; s
               <p className="mt-1 text-[9.5px] text-ink-faint">
                 Le perso est nominatif ({eur(t.attribution.persoBadrCents)} Badr ·{" "}
                 {eur(t.attribution.persoFahdCents)} Adnane). Les frais et Google Ads suivent la règle des associés au
-                jour du débit. {eur(t.attribution.reparti5050Cents)} (supplément Meta + inexpliqué) n&apos;ont pas de
-                date exploitable : répartis 50/50 — c&apos;est une répartition, pas une mesure.
+                jour du débit. {eur(t.attribution.reparti5050Cents)}{" "}
+                (supplément Meta + inexpliqué) n&apos;ont pas de date exploitable : répartis 50/50 — c&apos;est une répartition, pas une mesure.
               </p>
             </div>
           )}
