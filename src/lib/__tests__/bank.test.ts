@@ -5,6 +5,7 @@ import {
   mapSlashTx,
   reconcile,
   subsForPattern,
+  fxShares,
   type BankTx,
   type DeclinedPayment,
   type SlashTx,
@@ -348,5 +349,29 @@ describe("anomalies du 04/09", () => {
     expect(calme.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
     const inconnu = computeControl({ txs: [], reconciliation: null, ...W, treasury: treasury(null) });
     expect(inconnu.anomalies.some((x) => x.kind === "TRESORERIE_INEXPLIQUE")).toBe(false);
+  });
+});
+
+
+// 04/09 — « les frais de change, c'est lié aux dépenses courantes ou à Meta ? »
+// L'agrégat quotidien est redécoupé au prorata des frais portés par chaque
+// transaction, et chaque morceau dit à quoi il est rattaché.
+describe("fxShares — ventilation d'un agrégat de frais FX", () => {
+  it("rattache chaque part à son origine, Meta à part entière", () => {
+    const parts = fxShares({ fahd: 100, badr: 0, meta: 2800, societe: 100 }, -3000);
+    expect(parts.map((p) => [p.suffix, p.amountCents, p.feeOf, p.label])).toEqual([
+      ["fahd", -100, "PERSO", "PERSO_FAHD"],
+      ["meta", -2800, "META", null],
+      ["ste", -100, "AUTRE", null],
+    ]);
+  });
+
+  it("la somme des parts vaut EXACTEMENT l'agrégat, arrondis compris", () => {
+    const parts = fxShares({ fahd: 1, badr: 1, meta: 1, societe: 0 }, -1000);
+    expect(parts.reduce((a, p) => a + p.amountCents, 0)).toBe(-1000);
+  });
+
+  it("aucun frais porté ce jour-là : rien à ventiler", () => {
+    expect(fxShares({ fahd: 0, badr: 0, meta: 0, societe: 0 }, -500)).toEqual([]);
   });
 });

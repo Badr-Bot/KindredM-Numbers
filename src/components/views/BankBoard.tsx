@@ -376,6 +376,16 @@ function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; s
         })}
       </div>
 
+      {t.fxSplit && t.fxSplit.totalCents > 0 && (
+        <p className="mt-2 text-[10px] leading-snug text-ink-dim">
+          💱 Frais de change depuis le début : <b className="tnum text-ink">{eur(t.fxSplit.totalCents)}</b> — dont{" "}
+          <b className="tnum text-ink">{eur(t.fxSplit.metaCents)}</b> causés par Meta (
+          {Math.round((t.fxSplit.metaCents / t.fxSplit.totalCents) * 100)} %), {eur(t.fxSplit.autreCents)} par les autres
+          dépenses société, {eur(t.fxSplit.persoCents)} par le perso. Meta payé depuis Wise en euros depuis le 04/09 :
+          cette ligne doit cesser de grossir.
+        </p>
+      )}
+
       {t.gapCents !== null && (
         <div
           className={`mt-2.5 rounded-md border p-2.5 ${

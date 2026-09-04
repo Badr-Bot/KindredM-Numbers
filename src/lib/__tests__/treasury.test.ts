@@ -277,6 +277,31 @@ describe("supplierUnbilledDetail", () => {
   });
 });
 
+describe("frais de change par origine (information)", () => {
+  it("expose la répartition Meta / perso / autre et son total", () => {
+    const b = buildTreasuryBridge({
+      ...BASE,
+      scan: {
+        sinceDay: "2026-05-21",
+        coversHistory: true,
+        feesCents: 0,
+        googleAdsCents: 0,
+        persoBadrCents: 0,
+        persoFahdCents: 0,
+        societeDatedBadrCents: 0,
+        metaBankCents: 0,
+        metaSpendCents: 0,
+        fxSplit: { metaCents: 70000, persoCents: 3000, autreCents: 1300 },
+      },
+    });
+    expect(b.fxSplit).toEqual({ metaCents: 70000, persoCents: 3000, autreCents: 1300, totalCents: 74300 });
+  });
+
+  it("null sans balayage", () => {
+    expect(buildTreasuryBridge(BASE).fxSplit).toBeNull();
+  });
+});
+
 describe("orderNumber", () => {
   it("lit le numéro d'une commande Shopify", () => {
     expect(orderNumber("#5995")).toBe(5995);

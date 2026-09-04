@@ -508,3 +508,8 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   `rates.ts`). Le taux figé 1,1539 (08/08) n'est plus qu'un repli et la règle
   des estimations. Un débit ne se convertit JAMAIS à un taux postérieur.
 - **MacBook Adnane** : perso, absorbé par le reliquat Revolut pré-LLC (Badr).
+- **Frais de change Slash ≈ 1 % du spend Meta, jour par jour** (vérifié
+  04/09 : 145,53 $ de fees sur 5 jours vs 1 % de 14 335 $ de Meta = 143,35 $).
+  Les dépenses courantes n'y sont pour rien (~0,2 $/jour). Chaque morceau de
+  frais porte désormais son origine (`feeOf`) — ne plus répondre « surtout
+  Meta » de mémoire, lire la répartition dans le bloc trésorerie.

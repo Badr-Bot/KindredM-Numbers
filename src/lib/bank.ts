@@ -74,6 +74,11 @@ export interface BankTx {
    * inconnue avec tout ce que le dashboard connaît (abonnements, frais
    * ponctuels, factures fournisseur) par similarité de montant. */
   suggestion?: string | null;
+  /** Pour un FRAIS de change : la catégorie de la dépense qui l'a causé
+   * (META = pub payée en EUR avec la carte USD, ABONNEMENT, AUTRE…). Badr
+   * 04/09 : « les frais de change c'est lié aux dépenses courantes ou à
+   * Meta ? » — la réponse se lit ici, ligne à ligne. */
+  feeOf?: TxCategory | "PERSO" | null;
 }
 
 /** Paiement carte REFUSÉ (declined) — aucun argent sorti, mais un signal :
@@ -341,6 +346,50 @@ export interface SlashTx {
   cashbackInfo?: { amountCents?: number; rate?: number };
 }
 
+/** Frais FX d'un jour, par origine : perso (carte Fahd/Badr), Meta, autre
+ * société — cents USD, valeurs positives. */
+export interface FxSlot {
+  fahd: number;
+  badr: number;
+  meta: number;
+  societe: number;
+}
+
+export interface FxSharePart {
+  suffix: string;
+  amountCents: number;
+  label: TxLabel | null;
+  feeOf: BankTx["feeOf"];
+  qui: string;
+}
+
+/**
+ * Redécoupe l'agrégat quotidien « Slash fee: Foreign transaction fee » au
+ * prorata des frais portés par chaque transaction du jour (fxFeeInfo). Le
+ * dernier morceau prend le reste : la somme des parts vaut EXACTEMENT
+ * l'agrégat, jamais un centime d'arrondi perdu. Exporté pour test.
+ */
+export function fxShares(slot: FxSlot, aggregateCents: number): FxSharePart[] {
+  const total = slot.fahd + slot.badr + slot.meta + slot.societe;
+  if (total <= 0) return [];
+  const defs = (
+    [
+      { suffix: "fahd", w: slot.fahd, label: "PERSO_FAHD", feeOf: "PERSO", qui: "dépenses carte Adnane/Fahd" },
+      { suffix: "badr", w: slot.badr, label: "PERSO_BADR", feeOf: "PERSO", qui: "dépenses carte Badr" },
+      { suffix: "meta", w: slot.meta, label: null, feeOf: "META", qui: "Meta (pub facturée en EUR, payée en USD)" },
+      { suffix: "ste", w: slot.societe, label: null, feeOf: "AUTRE", qui: "autres dépenses société (abonnements…)" },
+    ] as { suffix: string; w: number; label: TxLabel | null; feeOf: BankTx["feeOf"]; qui: string }[]
+  ).filter((d) => d.w > 0);
+  let rest = aggregateCents;
+  return defs
+    .map((d, idx) => {
+      const amountCents = idx === defs.length - 1 ? rest : Math.round((aggregateCents * d.w) / total);
+      rest -= amountCents;
+      return { suffix: d.suffix, amountCents, label: d.label, feeOf: d.feeOf, qui: d.qui };
+    })
+    .filter((p) => p.amountCents !== 0);
+}
+
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
  * `settled` (et refund/returned/dispute) restent — l'argent est engagé. */
 const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "reversed", "pending_approval", "in_review"]);
@@ -473,7 +522,7 @@ export async function fetchSlashData(
   // (« ça part chez eux » pour le perso, le reste en frais société — le gros
   // vient de Meta facturé en EUR sur un compte USD). Cashback : sommé à part
   // (gagné, à récupérer — pas encore de l'argent entré).
-  const fxByDay = new Map<string, { fahd: number; badr: number; societe: number }>();
+  const fxByDay = new Map<string, FxSlot>();
   let cashbackCents = 0;
   for (const t of raw) {
     const cb = t.cashbackInfo?.amountCents;
@@ -482,9 +531,12 @@ export async function fetchSlashData(
     if (typeof fee !== "number" || fee <= 0) continue;
     const day = toParisDay(t.date);
     const owner = t.cardId ? owners.get(t.cardId) : undefined;
-    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, societe: 0 };
-    if (owner?.label === "PERSO_FAHD") slot.fahd += fee;
-    else if (owner?.label === "PERSO_BADR") slot.badr += fee;
+    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, meta: 0, societe: 0 };
+    const desc = t.merchantData?.description || t.description || t.memo || "";
+    const cat = categorizeTx(desc, t.amountCents).category;
+    if (owner?.label === "PERSO_FAHD" && cat === "AUTRE") slot.fahd += fee;
+    else if (owner?.label === "PERSO_BADR" && cat === "AUTRE") slot.badr += fee;
+    else if (cat === "META") slot.meta += fee; // « lié à Meta ou aux dépenses courantes ? » → ici
     else slot.societe += fee;
     fxByDay.set(day, slot);
   }
@@ -517,30 +569,20 @@ export async function fetchSlashData(
     if (agg) {
       const refDay = `20${agg[3]}-${agg[1]}-${agg[2]}`; // MM.DD.YY → YYYY-MM-DD
       const slot = fxByDay.get(refDay) ?? fxByDay.get(mapped.day);
-      const total = slot ? slot.fahd + slot.badr + slot.societe : 0;
-      if (slot && total > 0) {
-        const parts = (
-          [
-            { suffix: "fahd", share: slot.fahd / total, label: "PERSO_FAHD", qui: "dépenses carte Adnane/Fahd" },
-            { suffix: "badr", share: slot.badr / total, label: "PERSO_BADR", qui: "dépenses carte Badr" },
-            { suffix: "ste", share: slot.societe / total, label: null, qui: "dépenses société (Meta en EUR surtout)" },
-          ] as { suffix: string; share: number; label: TxLabel | null; qui: string }[]
-        ).filter((p) => p.share > 0);
-        let restCents = mapped.amountCents;
-        parts.forEach((p, idx) => {
-          const amount = idx === parts.length - 1 ? restCents : Math.round(mapped.amountCents * p.share);
-          restCents -= amount;
-          if (amount === 0) return;
+      const parts = slot ? fxShares(slot, mapped.amountCents) : [];
+      if (parts.length > 0) {
+        for (const p of parts) {
           txs.push({
             ...mapped,
             txId: `${mapped.txId}-${p.suffix}`,
-            amountCents: amount,
-            amountEurCents: toEurCents(amount, "USD", undefined, { rates, day: mapped.day }),
+            amountCents: p.amountCents,
+            amountEurCents: toEurCents(p.amountCents, "USD", undefined, { rates, day: mapped.day }),
             category: "FRAIS",
             label: p.label,
+            feeOf: p.feeOf,
             labelNote: `frais FX du ${refDay.slice(8, 10)}/${refDay.slice(5, 7)} — part ${p.qui} (ventilé automatiquement)`,
           });
-        });
+        }
       } else {
         txs.push({ ...mapped, category: "FRAIS", labelNote: "frais FX du jour — non ventilable (détail indisponible), compté société" });
       }
@@ -556,9 +598,11 @@ export async function fetchSlashData(
       if (parentOwner && parentCat === "AUTRE") {
         mapped.category = "FRAIS";
         mapped.label = parentOwner.label;
+        mapped.feeOf = "PERSO";
         mapped.labelNote = `frais lié à « ${parentDesc} » (${parentOwner.note})`;
       } else {
         mapped.category = parentCat === "AUTRE" || parentCat === "INTERNE" ? "FRAIS" : parentCat;
+        mapped.feeOf = parent ? parentCat : null;
         mapped.labelNote = parent ? `frais lié à « ${parentDesc} »` : "frais Slash — transaction d'origine hors fenêtre";
       }
       txs.push(mapped);
@@ -1467,6 +1511,13 @@ async function buildTreasury(input: {
     const nouveau = (t: BankTx) => t.day > NET_BOOKED_BANK_FEES_UNTIL;
     const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t) && nouveau(t));
     const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t) && nouveau(t));
+    // Frais de change DEPUIS LE DÉBUT, par origine (Badr 04/09 : « c'est lié
+    // aux dépenses courantes ou à Meta ? ») — information, indépendante de ce
+    // qui est déjà inscrit au net.
+    const fx = debits.filter((t) => t.category === "FRAIS" && t.feeOf !== undefined && t.feeOf !== null);
+    const fxMeta = fx.filter((t) => t.feeOf === "META").reduce((a, t) => a + out(t), 0);
+    const fxPerso = fx.filter((t) => t.feeOf === "PERSO").reduce((a, t) => a + out(t), 0);
+    const fxAutre = fx.reduce((a, t) => a + out(t), 0) - fxMeta - fxPerso;
     scan = {
       sinceDay: life.sinceDay,
       coversHistory: life.sinceDay <= TREASURY_START_DAY,
@@ -1483,6 +1534,7 @@ async function buildTreasury(input: {
       ),
       metaBankCents: debits.filter((t) => t.category === "META").reduce((a, t) => a + out(t), 0),
       metaSpendCents,
+      fxSplit: { metaCents: fxMeta, persoCents: fxPerso, autreCents: fxAutre },
     };
   } catch (err) {
     scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;

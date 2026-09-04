@@ -112,6 +112,8 @@ export interface TreasuryBridge {
   /** À qui l'écart est imputable (demande Badr 04/09 : « cet écart est
    * imputé à qui ? »). null quand il n'est pas calculable. */
   attribution: TreasuryAttribution | null;
+  /** Frais de change depuis le début, par origine — null sans balayage. */
+  fxSplit: { metaCents: number; persoCents: number; autreCents: number; totalCents: number } | null;
 }
 
 export interface TreasuryAttribution {
@@ -161,6 +163,10 @@ export interface TreasuryInput {
     metaBankCents: number;
     /** Spend Meta enregistré par le dashboard sur la MÊME période. */
     metaSpendCents: number;
+    /** Frais de change depuis le début, par origine (information) — Badr
+     * 04/09 : « les frais de change c'est lié aux dépenses courantes ou à
+     * Meta ? ». Cents EUR, positifs. */
+    fxSplit?: { metaCents: number; persoCents: number; autreCents: number };
   } | null;
 }
 
@@ -293,6 +299,9 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     scanSinceDay: s?.sinceDay ?? null,
     scanPartial: s ? !s.coversHistory : false,
     attribution,
+    fxSplit: s?.fxSplit
+      ? { ...s.fxSplit, totalCents: s.fxSplit.metaCents + s.fxSplit.persoCents + s.fxSplit.autreCents }
+      : null,
   };
 }
 

@@ -740,6 +740,24 @@ le dernier taux enregistré de la journée ». Livré :
 
 280 tests verts, `next build` OK. Toujours non testé contre les vraies API.
 
+## Mise à jour 04/09 (suite 2) — les frais de change sont bien Meta
+
+Question de Badr : « les frais de change, c'est lié aux dépenses courantes ou à
+Meta ? ». **Vérifié à la main** sur ses captures : les 5 « Foreign Transaction
+Fee » visibles (30/08→03/09) font 145,53 $, soit 29,11 $/jour ; le spend Meta
+des 5 jours correspondants (29/08→02/09, avec le décalage d'un jour de
+facturation) fait 14 335 $ au taux réel 1,1661 → **1 % = 143,35 $**. Écart
+1,5 %. Les abonnements en EUR payés par la carte USD (~500 $/mois) ne peuvent
+produire que ~0,2 $/jour. **≈ 99 % des frais de change viennent de Meta.**
+Depuis le 04/09 Meta est payé depuis Wise en euros : la ligne doit cesser.
+
+Codé pour que le dash le dise lui-même : l'agrégat quotidien Slash est
+redécoupé au prorata des frais portés par chaque transaction (`fxFeeInfo`),
+et chaque morceau porte maintenant son origine (`feeOf` : META / PERSO /
+ABONNEMENT / AUTRE…) — helper pur `fxShares` (3 tests). Le bloc
+« Rapprochement trésorerie » affiche « frais de change depuis le début : X €,
+dont Y € causés par Meta (Z %) ». 285 tests verts, build OK.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
