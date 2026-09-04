@@ -203,7 +203,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Vmake (nouveau tarif)", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Même outil que la ligne 8,80 € ci-dessous, fermée au 13/08 (Badr 20/08 : « c'est le même outil »). Tarif passé à 9,99 € le 14/08 (« on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
-  { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  { label: "Google Workspace", category: "OUTIL", amount: 11.3, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "11,30 $/mois — montant réel lu sur Slash (débit du 02/09). L'ancienne valeur (8,10 €) faisait crier « 10 € débités vs 8 € attendus » à chaque contrôle." },
   // 04/09 — FRAIS DE CHANGE SLASH : Meta facture en euros, la carte Slash paie
   // en dollars, et Slash prend ~1 % de « Foreign Transaction Fee » sur chaque
   // débit. Relevé par Badr le 04/09 : 866 $ sur 39 lignes quotidiennes (≈ 27/07

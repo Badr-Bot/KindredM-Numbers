@@ -561,3 +561,8 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Synchro : CA + spend Meta publiés ensemble** (04/09). Ne jamais republier
   le CA seul quand le spend est disponible : Badr lit un bénéfice puis une
   perte. Le CA seul n'est publié que si Meta échoue.
+- **04/09 soir, premier rapprochement réel : 0 € inexpliqué.** Le modèle tient
+  avec les vraies banques. Les refus de carte et la « marge encaissée 30 j »
+  ont été retirés à la demande de Badr : pas d'argent sorti = pas une info ;
+  une fenêtre bancaire de 30 j n'est pas une marge (le paiement Panda la
+  fausse). Google Workspace = 11,30 $/mois (réel), pas 8,10 €.
