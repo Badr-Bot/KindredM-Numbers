@@ -714,6 +714,29 @@ manches courtes. ~4 € d'impact, mais l'étiquette est fausse et l'écart
 grandit sur les gros paliers. Correctif = une ligne de `products_map` +
 resync, non appliqué (écriture en prod, en attente du feu vert).
 
+## Mise à jour 04/09 (fin) — facture corrigée reçue et VALIDÉE : 25 448,36 €
+
+Le fournisseur a renvoyé le fichier après nos remarques. Il a **fusionné les
+deux paires de commandes parties dans un même colis** (`#6919 + 6917` et
+`#6864+6865`) : taxe UE comptée une seule fois **et** bundle re-tarifé comme
+un seul envoi. **−15,30 €** — plus du double des 6,00 € qu'on réclamait,
+puisqu'il enlève aussi la deuxième livraison.
+
+Revérifié en entier : les 1 153 commandes #5996 → #7148 sont toujours toutes
+couvertes exactement une fois, quantités inchangées, remboursées à 0 €.
+**Recalcul moteur : 25 445,07 € contre 25 448,36 € facturés → +3,29 €
+(0,013 %)**, contre 1,4 % sur les factures d'août.
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée le 06/08 |
+| 20260814 | 12 064,41 € | ✅ payée le 14/08 |
+| **20260903 (v2)** | **25 448,36 €** (29 563,27 $) | **⏳ à payer, rien de contesté** |
+
+Seul point laissé ouvert : les 4 commandes suisses d'un même client dans un
+seul colis (#6953/6954/6955/6981, 203,15 €) n'ont pas été fusionnées — à
+réclamer en avoir sur la prochaine facture, pas de quoi retenir un paiement.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

@@ -22,7 +22,7 @@ describe("Ledger fournisseur Panda", () => {
     expect(SUPPLIER_BILLS.map((b) => [b.ref, b.totalCents])).toEqual([
       ["Bill 20260801", 1427996],
       ["Bill 20260814", 1206441],
-      ["Bill 20260903", 2546366],
+      ["Bill 20260903", 2544836],
     ]);
   });
 
@@ -33,11 +33,11 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("août est soldé, seule la facture du 03/09 reste due", () => {
-    expect(supplierOwedCents()).toBe(2546366);
-    // À régler tout de suite = le dû moins les 6 € de taxe UE facturée 2×.
-    expect(supplierPayableCents()).toBe(2546366 - 600);
-    expect(supplierDisputedCents()).toBe(600);
+  it("août est soldé, seule la facture du 03/09 reste due — et elle est payable en entier", () => {
+    expect(supplierOwedCents()).toBe(2544836);
+    // Plus rien de contesté : la taxe UE en double a été corrigée le 04/09.
+    expect(supplierPayableCents()).toBe(2544836);
+    expect(supplierDisputedCents()).toBe(0);
   });
 
   it("aucune facture ne peut être payée au-delà de son montant", () => {
@@ -53,7 +53,8 @@ describe("Ledger fournisseur Panda", () => {
     // Ce n'était pas une surfacturation : toute commande sans polo paie un
     // packing de colis primaire, la règle acceptée pour le gilet le 14/08.
     expect(SUPPLIER_PENDING_CREDITS.find((c) => c.label.includes("Long Sleeves"))).toBeUndefined();
-    // Ne reste à réclamer que la taxe UE facturée deux fois.
-    expect(supplierPendingCreditsCents()).toBe(600);
+    // La taxe UE en double a été corrigée dans la facture elle-même : il ne
+    // reste aucun avoir chiffré en attente, seulement des questions ouvertes.
+    expect(supplierPendingCreditsCents()).toBe(0);
   });
 });

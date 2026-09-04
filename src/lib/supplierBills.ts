@@ -100,9 +100,17 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // des lignes présentes (recalculée au centime) — donc aucune
     // surfacturation, mais l'en-tête est faux.
     ordersCount: 1152,
-    totalCents: 2546366, // ligne CONFIRMED TOTAL : 25 463,66 €
-    // Le 2e nombre de la ligne TOTAL (29 577,19) = le même total EN DOLLARS,
-    // comme sur la facture du 14/08 : taux implicite 1,1615 (contre 1,1534
+    // (1 151 LIGNES : deux d'entre elles couvrent chacune 2 commandes parties
+    // dans le même colis — les 1 153 numéros #5996→#7148 sont tous couverts,
+    // exactement une fois.)
+    // Version CORRIGÉE du 04/09 (2e envoi du fichier) : 25 448,36 €.
+    // La 1re version réclamait 25 463,66 € — le fournisseur a fusionné les deux
+    // paires de commandes parties dans un seul colis (#6919+#6917 et
+    // #6864+#6865) et les a re-tarifées : −15,30 €, soit PLUS que les 6,00 €
+    // de taxe UE en double qu'on réclamait (il enlève aussi la 2e livraison).
+    totalCents: 2544836, // ligne CONFIRMED TOTAL : 25 448,36 € (= 29 563,27 $)
+    // Le 2e nombre de la ligne TOTAL (29 563,27) = le même total EN DOLLARS,
+    // comme sur la facture du 14/08 : taux implicite 1,1617 (contre 1,1534
     // le 14/08 et 1,1476 le 06/08). À vérifier contre le taux du jour avant
     // de virer : +0,7 % vs le 14/08, soit ~195 $ d'écart sur cette facture.
     //
@@ -113,18 +121,20 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // ce n'était pas une surfacturation. Reste à encoder la règle côté moteur
     // (aujourd'hui appliquée au seul gilet) — cf. MEMO, en attente du feu vert.
     //
-    // CONTESTÉ = 6,00 € de taxe UE payée DEUX FOIS sur des colis groupés :
-    // #6917 + #6919 (même client, MÊME tracking YT2624300711024105) et
-    // #6864 + #6865 (Irlande, même tracking YT2624500708990669) sont taxés
-    // 3 € chacun alors qu'un seul colis est parti. Leur propre règle est
-    // 3 €/COLIS, pas 3 €/commande.
-    disputedCents: 600,
+    // PLUS RIEN DE CONTESTÉ : les 6,00 € de taxe UE en double ont été corrigés
+    // dans la version du 04/09 (les deux paires sont fusionnées en une ligne,
+    // taxées 3 € une fois). Reste UNE question ouverte, pas chiffrée et pas
+    // bloquante : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking
+    // YT2624500709168612, 203,15 €) sont toujours 4 lignes livraison comprise
+    // pour un seul colis — même logique que les paires fusionnées, à demander
+    // en avoir sur la prochaine facture.
+    disputedCents: 0,
     status: "a_payer",
     paidCents: 0,
     note:
-      "Vérifiée ligne à ligne le 04/09 : 25 454,43 € recalculés par le moteur, écart +9,23 € (0,04 % — contre 1,4 % sur les factures d'août), 90,6 % des lignes identiques au centime, taxe 3 €/colis respectée sur 1 151/1 153. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
+      "Version corrigée du 04/09, VALIDÉE. Recalculée par le moteur : 25 445,07 €, écart +3,29 € (0,013 % — contre 1,4 % sur les factures d'août), 90,7 % des lignes identiques au centime, taxe 3 €/colis désormais respectée partout. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
       "⚠️ AVANT DE PAYER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
-      "⚠️ Colis groupés facturés plusieurs fois en plein : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) + les 2 paires ci-dessus. " +
+      "Reste ouvert, non bloquant : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) — à demander en avoir sur la prochaine facture, comme les 2 paires déjà corrigées. " +
       "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
 ];
@@ -143,9 +153,9 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Taxe UE facturée 2× sur colis groupés (03/09)",
-    estimatedCents: 600,
-    note: "#6917+#6919 (même client FR, MÊME tracking) et #6864+#6865 (Irlande, même tracking) : 3 € de taxe sur CHAQUE commande alors qu'un seul colis part. Leur règle est 3 €/colis — confirmée par leurs propres factures depuis le 01/08. Porté en `disputedCents` sur la facture 20260903.",
+    label: "Colis groupé suisse à re-tarifer (à demander)",
+    estimatedCents: 0,
+    note: "#6953/6954/6955/6981 (même client, MÊME tracking YT2624500709168612, 203,15 €) : 4 lignes livraison comprise pour UN seul colis. Le fournisseur a accepté ce raisonnement le 04/09 pour deux autres paires (#6919+#6917 et #6864+#6865, fusionnées et re-tarifées, −15,30 €) mais pas pour celle-ci. À réclamer en avoir sur la prochaine facture. Montant non estimé : c'est leur grille qui fixe le prix d'un colis groupé.",
   },
   {
     label: "Reshipments : où sont-ils facturés ? (à demander)",
