@@ -802,6 +802,116 @@ d'erreurs ». Traité point par point :
 
 292 tests verts, `next build` OK, lint clean. Non testé en prod (session sans
 accès Vercel) — les lenteurs sont à re-mesurer par Badr après déploiement.
+## Mise à jour 04/09 — facture fournisseur du 03/09 vérifiée (25 463,66 €)
+
+Badr a envoyé la 3ᵉ facture Panda (`Bill_20260903`, commandes #5996 → #7148).
+Elle est **ajoutée au ledger `supplierBills.ts` en « à payer »** — le statut ne
+passe à « payée » que sur annonce de Badr, jamais déduit.
+
+**Où on en est côté paiements :**
+
+| Facture | Commandes | Montant | État |
+|---|---|---|---|
+| 20260801 | #4814 → #5462 (649) | 14 279,96 € | ✅ payée le 06/08 (16 388,40 $) |
+| 20260814 | #5463 → #5995 (531) | 12 064,41 € | ✅ payée le 14/08 (13 914,91 $) |
+| **20260903** | **#5996 → #7148 (1 152)** | **25 463,66 €** (29 577,19 $) | **⏳ à payer** |
+
+Les trois plages s'enchaînent sans trou ni recouvrement (test qui le vérifie).
+
+**Le chiffre rassurant** : recalculée dans le moteur, la facture donne
+25 454,43 € — **écart +9,23 €, soit 0,04 %** (les factures d'août étaient à
+1,4 %). 90,6 % des lignes identiques au centime, taxe 3 €/colis respectée sur
+1 151/1 153. **Aucun dérapage de prix** : polo FR 15,06/26,76, caleçon 2,46,
+gilet aux prix du 14/08, Canada aux prix du 02/08, Suisse constante. **Panier
+moyen 22,10 €** contre 22,00 (01/08) et 21,95 (14/08) — le coût par commande
+ne bouge pas alors que le volume double. Pas de ligne « custom packing » cette
+fois (il y avait 410 € le 14/08).
+
+**Le remboursement promis le 14/08 n'y est pas.** Aucune ligne d'avoir, aucun
+crédit — et le même surcoût est refacturé (4 commandes « LS seul » : +16,74 €).
+En cherchant, la cause est claire : **toute commande sans polo paie +4,00 € de
+packing** (LS, débardeur, short, chemise…), c'est-à-dire exactement la règle du
+gilet primaire acceptée le 14/08. Donc soit ils émettent l'avoir promis, soit
+ils écrivent cette règle dans le devis — à leur faire trancher par écrit.
+
+**Ce qu'il faut regarder avant de virer** (dans la note de la facture, carte 📦) :
+
+- **136 commandes facturées sans numéro de suivi (3 066,86 €)**, dont un bloc
+  contigu **#6619 → #6658 + #6945 (41 cmd, 894,76 €)** en milieu de période :
+  les récentes sans tracking sont normales, un bloc de 40 anciennes non.
+- **Taxe UE payée 2× sur des colis groupés** (6,00 €) : #6917+#6919 et
+  #6864+#6865 partagent leur tracking → porté en « contesté ».
+- **4 commandes suisses dans un seul colis facturées en plein** (203,15 €) :
+  4 prix livraison comprise pour un envoi.
+
+Deux corrections de grille COGS sont proposées par cette facture (packing
+« colis primaire » à généraliser ; pantalon FR en upsell à 6,90 € et non
+9,84 €) — **non appliquées** : elles rejouent l'historique (resync complet)
+pour ~22 € net sur 3 semaines. Détail et chiffres dans MEMO.md.
+
+## Mise à jour 04/09 (suite) — facture croisée avec Shopify : quantités justes à l'unité
+
+Badr : « un numéro de commande doit avoir le nombre d'unités affiché sur
+Shopify, pas compté deux fois — et les reshipments, ils figurent où ? »
+
+Vérifié dans la base sur les 1 153 commandes #5996 → #7148 :
+
+- **Une ligne de facture = une commande Shopify**, et chaque commande a
+  EXACTEMENT ses unités : polos 2 511 (Shopify) vs 2 505 (facturés) ·
+  caleçons 259/258 · gilets 203/203 · chemises 67/67 · shorts 26/26 ·
+  pantalons 21/21 · débardeurs 13/13.
+- **Les 3 écarts sont en notre faveur** : #6103 et #6327 (remboursés) et
+  #6794 (annulée) sont facturés **0,00 €**. Ils ne facturent pas ce qu'ils
+  n'expédient pas.
+- **Aucune commande payée deux fois** : numéros contigus, aucun doublon,
+  aucun recouvrement avec la facture du 14/08 (qui s'arrêtait au #5995).
+- **Reshipments : aucun sur cette facture.** Le tracker Drive va de #1003 à
+  #5838 (tous antérieurs) et rien n'apparaît en plus. Reste à demander où
+  sont facturés ceux notés « payed by niva ».
+- **Packing confirmé normal par Badr** → l'avoir Long Sleeves du 14/08 est
+  abandonné (ce n'était pas une surfacturation). **Il ne reste que 6,00 €**
+  de taxe UE facturée deux fois.
+
+**Bug trouvé chez nous** : « La Chemise Turenne » est la chemise MANCHES
+LONGUES (46 unités) mais le renommage du 29/08 l'a mappée sur la grille
+manches courtes. ~4 € d'impact, mais l'étiquette est fausse et l'écart
+grandit sur les gros paliers. Correctif = une ligne de `products_map` +
+resync, non appliqué (écriture en prod, en attente du feu vert).
+
+## Mise à jour 04/09 (fin) — facture corrigée reçue et VALIDÉE : 25 448,36 €
+
+Le fournisseur a renvoyé le fichier après nos remarques. Il a **fusionné les
+deux paires de commandes parties dans un même colis** (`#6919 + 6917` et
+`#6864+6865`) : taxe UE comptée une seule fois **et** bundle re-tarifé comme
+un seul envoi. **−15,30 €** — plus du double des 6,00 € qu'on réclamait,
+puisqu'il enlève aussi la deuxième livraison.
+
+Revérifié en entier : les 1 153 commandes #5996 → #7148 sont toujours toutes
+couvertes exactement une fois, quantités inchangées, remboursées à 0 €.
+**Recalcul moteur : 25 445,07 € contre 25 448,36 € facturés → +3,29 €
+(0,013 %)**, contre 1,4 % sur les factures d'août.
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée le 06/08 |
+| 20260814 | 12 064,41 € | ✅ payée le 14/08 |
+| **20260903 (v2)** | **25 448,36 €** (29 563,27 $) | **⏳ à payer, rien de contesté** |
+
+Seul point laissé ouvert : les 4 commandes suisses d'un même client dans un
+seul colis (#6953/6954/6955/6981, 203,15 €) n'ont pas été fusionnées — à
+réclamer en avoir sur la prochaine facture, pas de quoi retenir un paiement.
+
+## Mise à jour 04/09 (réconciliation) — une seule facture du 03/09
+
+Deux sessions ont travaillé le même jour sur la facture Panda #5996→#7148 :
+l'une l'a vérifiée ligne à ligne (branche `invoice-payment-verification`,
+Bill 20260903, 25 448,36 € validés, plus rien de contesté), l'autre a
+enregistré le paiement (25 448,36 € virés le 04/09) sous un `Bill 20260904
+(PDF à recevoir)` provisoire. Fusionnées : **un seul enregistrement, Bill
+20260903, statut payée**, avec les notes de la vérification. Sans ça, le
+rapprochement aurait compté 25 448 € de dette fournisseur en double.
+Conséquences : l'avoir Long Sleeves est abandonné (packing confirmé normal),
+`supplierOwedCents()` = 0, le bloc 🏭 n'a plus d'avoir chiffré à déduire.
 
 ## Notes techniques utiles
 
