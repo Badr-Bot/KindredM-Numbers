@@ -566,3 +566,8 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   ont été retirés à la demande de Badr : pas d'argent sorti = pas une info ;
   une fenêtre bancaire de 30 j n'est pas une marge (le paiement Panda la
   fausse). Google Workspace = 11,30 $/mois (réel), pas 8,10 €.
+- **TrendTrack payé par Adnane depuis son Revolut** (04/09) = payé avec l'argent
+  société pré-LLC resté dessus (reliquat 1 265 € réel, estimé 1 850 ±700) —
+  pas une avance perso. `noBankClaim`, pas de `paidBy` : le reliquat Revolut
+  du rapprochement baisse de 25 €/mois tout seul. Si Badr décide un jour que
+  c'est l'argent perso d'Adnane : `paidBy: "ADNANE"` + SUB_PAYMENTS datés.

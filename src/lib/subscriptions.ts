@@ -185,7 +185,12 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // voulait dire 18/08, il n'y a que ces deux dates à changer.
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: "2026-09-17", note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC. Facturé en EUR jusqu'au 17/09." },
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "USD", startDay: "2026-09-18", endDay: null, note: "Passage en dollar au 18/09 (Badr 29/08). Carte LLC." },
-  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
+  // TrendTrack : payé par Adnane DEPUIS SON REVOLUT (Badr 04/09) — c'est-à-dire
+  // avec l'argent de la société resté sur ce compte avant la LLC (reliquat
+  // ~1 265 € au 04/09). Ce n'est donc PAS une avance perso à lui rembourser
+  // (pas de paidBy) : la charge est dans le net, aucun débit LLC n'est attendu,
+  // et le reliquat Revolut du rapprochement baisse de 25 € par mois tout seul.
+  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Payé par Adnane depuis son Revolut = avec l'argent société pré-LLC resté dessus (Badr 04/09). Pas une avance perso. Oublié du PDF d'Adnane — ajouté par Badr le 08/08." },
   // 29/08 (Badr) : « Artlist à partir d'aujourd'hui à 40 $ par mois » —
   // démarre le 29/08, rien avant (+1,14 €/j).
   { label: "Artlist", category: "OUTIL", amount: 40, currency: "USD", startDay: "2026-08-29", endDay: null, note: "Ajouté par Badr le 29/08, à partir de ce jour." },
