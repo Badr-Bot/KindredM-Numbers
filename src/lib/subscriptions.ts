@@ -83,6 +83,10 @@ export interface Subscription {
   /** true = charge comptée mais PAS encore prélevée en banque (paiement
    * différé annoncé) : le contrôle bancaire ne la réclame pas. */
   noBankClaim?: boolean;
+  /** Part de Badr FIXÉE pour cette ligne (0 à 1), quand elle déroge à la
+   * règle par date (100 % Adnane avant le 14/07, 50/50 ensuite). Ex. Marwa :
+   * 0 — « son salaire est déjà pris par Adnane » (Badr 05/09). */
+  badrShare?: number;
   note?: string;
 }
 
@@ -126,7 +130,11 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté sur demande de Badr le 29/08 (« plus de monteur depuis aujourd'hui ») — dernier jour compté 28/08. Pause, pas suppression : à rouvrir quand il le dit." },
   // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
   // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },
+  // Marwa : « son salaire est déjà pris par Adnane et sera payé depuis Revolut,
+  // ça ne doit pas bouger le net de Badr » (Badr 05/09) → charge société dans
+  // le net, mais part de Badr = 0 ; aucun débit LLC attendu ; si un débit
+  // passe quand même sur Slash/Wise, il est affecté perso Adnane d'office.
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, badrShare: 0, note: "À la charge d'Adnane, payée depuis son Revolut (Badr 05/09) — part de Badr : 0. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
@@ -268,9 +276,14 @@ export function fixedCostsCentsForDay(day: string): number {
  * pour sommer au centime.
  */
 export function badrFixedCostsCentsForDay(day: string): number {
-  let subs = 0;
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) subs += dailyEurCents(s);
-  return Math.round(subs * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
+  // Règle par date pour les lignes ordinaires ; part FIXÉE (badrShare) pour
+  // celles qui y dérogent (Marwa : 0). Arrondi ligne à ligne.
+  let badr = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (!isActiveOn(s, day)) continue;
+    badr += Math.round(dailyEurCents(s) * (s.badrShare ?? badrFixedShareFor(day)));
+  }
+  return badr + oneOffBadrShareCentsForDay(day);
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit

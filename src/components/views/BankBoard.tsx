@@ -542,6 +542,86 @@ function SupplierBlock({ treasury }: { treasury: TreasuryBridge | null }) {
 // de Badr = son net Année (moins son perso banque, 0 tant que la carte Badr
 // dort), TOUT LE RESTE = Adnane. Sa part doit dépasser son net Année : la
 // différence = l'apport perso qu'il a injecté dans la LLC et qui y est encore.
+/** Les chiffres « ce qu'il reste à chacun », calculés UNE fois — servis par
+ * le résumé en tête d'onglet et par le bloc détaillé. null sans solde lu. */
+function computeOwnership(report: BankReport, annee: { badrCents: number; adnaneCents: number }) {
+  const t = report.treasury;
+  const detteFournisseur = t ? t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents : 0;
+  const revolutAdnane = t?.attribution?.revolutAdnaneCents ?? 0;
+  const known = report.balances.filter((b) => b && typeof b.amountEurCents === "number");
+  if (known.length === 0) return null;
+  const totalCents = known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0);
+  const persoBadr = report.control?.parts.persoBadrCents ?? 0;
+  const partBadr = annee.badrCents - persoBadr;
+  const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
+  const enRouteCents = enRouteExact ?? report.enRouteEstimateCents ?? 0;
+  const patrimoine = totalCents + enRouteCents - detteFournisseur;
+  return { totalCents, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane, persoBadr, partBadr, partAdnane: patrimoine - partBadr };
+}
+
+// 🧾 EN UN COUP D'ŒIL — Badr 05/09 : « je veux juste voir les écarts, combien
+// d'argent reste pour Badr, combien pour Adnane, est-ce qu'il y a une dépense
+// inconnue, et s'il y a un trou par rapport au net affiché. Pas 100 000 infos. »
+// Quatre réponses, rien d'autre ; le détail est replié derrière un bouton.
+function SummaryTile({ title, value, cls, note }: { title: string; value: string; cls: string; note?: string }) {
+  return (
+    <div className="rounded-lg border border-line bg-panel p-3">
+      <div className="text-[9px] font-bold uppercase tracking-wider text-ink-faint">{title}</div>
+      <div className={`tnum text-[20px] font-extrabold ${cls}`}>{value}</div>
+      {note && <div className="mt-0.5 text-[9.5px] leading-snug text-ink-faint">{note}</div>}
+    </div>
+  );
+}
+
+function SummaryBlock({
+  report,
+  annee,
+}: {
+  report: BankReport;
+  annee: { badrCents: number; adnaneCents: number } | null;
+}) {
+  const t = report.treasury;
+  const own = annee ? computeOwnership(report, annee) : null;
+  const inexplique = t?.unexplainedCents ?? null;
+  const trou = inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS;
+  const aAffecter = report.control?.parts.aAffecterCount ?? 0;
+  const aAffecterCents = report.control?.parts.aAffecterCents ?? 0;
+  const perso = t?.gapLines.find((l) => l.label.startsWith("Dépenses perso"))?.cents ?? 0;
+  const revolut = t?.preLlcRevolutCents ?? 0;
+  return (
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <SummaryTile
+        title="Trou dans les comptes ?"
+        value={inexplique === null ? "—" : trou ? formatEur0(inexplique) : "Non"}
+        cls={inexplique === null ? "text-ink-dim" : trou ? "text-red" : "text-phosphor"}
+        note={
+          inexplique === null
+            ? "rapprochement indisponible"
+            : `inexpliqué ${formatEur0(inexplique)} · écart ${formatEur0(t!.gapCents ?? 0)} = perso ${formatEur0(perso)} + Revolut ${formatEur0(revolut)}${t!.enRouteEstimated ? " · en route estimé (±2 000 €)" : ""}`
+        }
+      />
+      <SummaryTile
+        title="Reste à Badr"
+        value={own ? formatEur0(own.partBadr) : "—"}
+        cls="text-net-5"
+        note={own ? `net Année − ${formatEur0(own.persoBadr)} perso` : "net Année indisponible"}
+      />
+      <SummaryTile
+        title="Reste à Adnane"
+        value={own ? formatEur0(own.partAdnane) : "—"}
+        cls="text-amber"
+        note={own ? `comptes + en route − Panda (${formatEur0(own.detteFournisseur)})${own.revolutAdnane > 0 ? ` · + ${formatEur0(own.revolutAdnane)} sur son Revolut` : ""}` : "net Année indisponible"}
+      />
+      <SummaryTile
+        title="Dépense inconnue ?"
+        value={aAffecter === 0 ? "Non" : `${aAffecter} ligne${aAffecter > 1 ? "s" : ""}`}
+        cls={aAffecter === 0 ? "text-phosphor" : "text-red"}
+        note={aAffecter === 0 ? "chaque euro sorti a une case" : `${formatEur0(aAffecterCents)} à affecter ci-dessous`}
+      />
+    </div>
+  );
+}
+
 function OwnershipBlock({
   report,
   annee,
@@ -549,33 +629,11 @@ function OwnershipBlock({
   report: BankReport;
   annee: { badrCents: number; adnaneCents: number };
 }) {
-  // 04/09 : l'argent dû au fournisseur (commandes pas encore facturées +
-  // reste des factures reçues − acomptes déjà virés) est SUR les comptes mais
-  // n'est à PERSONNE — le retirer avant de partager, sinon « le reste =
-  // Adnane » lui prêtait 27 000 € qui sont à Panda.
-  const t = report.treasury;
-  const detteFournisseur = t ? t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents : 0;
-  const revolutAdnane = t?.attribution?.revolutAdnaneCents ?? 0;
-  // typeof === "number" : blindé contre une entrée de cache d'une version
-  // antérieure sans contre-valeur EUR (crash prod 19/08).
-  const known = report.balances.filter((b) => b && typeof b.amountEurCents === "number");
-  if (known.length === 0) return null;
-  const totalCents = known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0);
-  const horsTotal = report.balances.filter((b) => b && typeof b.amountEurCents !== "number").map((b) => b.currency);
-  const persoBadr = report.control?.parts.persoBadrCents ?? 0;
-  const partBadr = annee.badrCents - persoBadr;
-  // Argent EN ROUTE (Badr 19/08 : « il y a de l'argent qu'on n'a pas
-  // encaissé, Shopify met du temps à payer ») : solde Shopify Payments RÉEL
-  // quand les scopes sont là ; sinon estimation (CA − frais − payouts reçus
-  // depuis le 01/08), toujours étiquetée comme telle.
-  const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
-  // Estimation = CA − frais Shopify des 5 derniers jours (délai de versement
-  // observé). L'ancienne (CA − payouts reçus depuis le 01/08) donnait 777 €
-  // pour ~15 000 € réels et faisait crier « argent sorti non tracé ».
+  const own = computeOwnership(report, annee);
+  if (!own) return null;
+  const { totalCents, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane, persoBadr, partBadr, partAdnane } = own;
   const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
-  const enRouteCents = enRouteExact ?? enRouteEstime ?? 0;
-  const patrimoine = totalCents + enRouteCents - detteFournisseur;
-  const partAdnane = patrimoine - partBadr;
+  const horsTotal = report.balances.filter((b) => b && typeof b.amountEurCents !== "number").map((b) => b.currency);
   // Ce qu'Adnane a DÉJÀ hors LLC (reliquat Revolut pré-LLC) compte dans ce
   // qu'il a reçu : son net Année se compare à part LLC + Revolut.
   const apportAdnane = partAdnane + revolutAdnane - annee.adnaneCents;
@@ -644,10 +702,12 @@ export function BankBoard({
   annee?: { badrCents: number; adnaneCents: number; netDepuisCents: number | null } | null;
 }) {
   const control = report.control;
+  // Détail replié par défaut (Badr 05/09 : « je veux pas 100 000 infos »).
+  const [showDetail, setShowDetail] = useState(false);
   return (
     <div className="flex flex-col gap-4">
       <Reveal>
-        <HealthHeader tiles={buildTiles(report, unmappedCount)} />
+        <SummaryBlock report={report} annee={annee} />
       </Reveal>
 
       {control && control.anomalies.length > 0 && (
@@ -665,7 +725,7 @@ export function BankBoard({
           ))}
         </div>
       )}
-      {control && (
+      {showDetail && control && (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {[
             { t: "Société (dep. 01/08)", v: control.parts.societeCents, cls: "text-cyan" },
@@ -681,25 +741,17 @@ export function BankBoard({
         </div>
       )}
 
-      <Reveal delayMs={90}>
-        <CashflowBlock report={report} />
-      </Reveal>
-
-      <Reveal delayMs={135}>
-        <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} />
-      </Reveal>
-
-      <Reveal delayMs={160}>
-        <SupplierBlock treasury={report.treasury} />
-      </Reveal>
-
-      {annee && (
-        <Reveal delayMs={180}>
-          <OwnershipBlock report={report} annee={annee} />
-        </Reveal>
+      {showDetail && (
+        <>
+          <HealthHeader tiles={buildTiles(report, unmappedCount)} />
+          <CashflowBlock report={report} />
+          <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} />
+          <SupplierBlock treasury={report.treasury} />
+          {annee && <OwnershipBlock report={report} annee={annee} />}
+        </>
       )}
 
-      {control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
+      {showDetail && control && (control.parts.persoBadrCents > 0 || control.parts.persoFahdCents > 0) && (
         <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">
           👥 <b className="text-ink">Entre associés (via banque, depuis le 01/08)</b> — le perso payé par la LLC est
           déduit du net de celui qui l&apos;a dépensé (cartes Fahd/Adnane = perso Adnane, carte Badr = perso Badr,
@@ -756,7 +808,15 @@ export function BankBoard({
         </div>
       )}
 
-      {report.balances.length > 0 && (
+      <button
+        type="button"
+        onClick={() => setShowDetail((v) => !v)}
+        className="self-start rounded-md border border-line px-3 py-1 text-[11px] font-semibold text-ink-dim hover:text-ink"
+      >
+        {showDetail ? "Masquer le détail" : "Voir le détail (rapprochement, Panda, banques, 30 jours)"}
+      </button>
+
+      {showDetail && report.balances.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {report.balances.filter(Boolean).map((b) => (
             <span key={`${b.bank}-${b.currency}`} className="tnum rounded-lg border border-line bg-panel px-2.5 py-1.5 text-[12px] font-bold text-ink">
@@ -815,7 +875,7 @@ export function BankBoard({
         </>
       )}
 
-      {report.txs.length > 0 && (
+      {showDetail && report.txs.length > 0 && (
         <details className="overflow-x-auto rounded-lg border border-line bg-panel p-3">
           <summary className="cursor-pointer text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
             Transactions (30 j) — replié, pour audit ({report.txs.length})
