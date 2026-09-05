@@ -939,6 +939,33 @@ Retours de Badr, appliqués :
 
 294 tests verts, `next build` OK.
 
+## Mise à jour 05/09 — Marwa à la charge d'Adnane ; Comptable réduit à 4 réponses
+
+Badr : « pour Marwa son salaire est déjà pris par Adnane et sera payé depuis
+Revolut, donc même si de l'argent est débité depuis Slash ça ne doit pas
+bouger le net de Badr ».
+- `badrShare?: number` sur une ligne d'abonnement : part de Badr FIXÉE quand
+  elle déroge à la règle par date. Marwa : 0. `badrFixedCostsCentsForDay`
+  applique la part ligne à ligne (arrondi par ligne).
+- Un débit « Marwa » vu sur Slash ou Wise est affecté **perso Adnane
+  d'office** (`autoLabelFor`) : avance de la société à Adnane, hors part de
+  Badr. Clés de cache bancaires bumpées (wise v4, slash v6, lifetime v3).
+
+Badr : « je veux juste voir les écarts, combien d'argent reste pour Badr,
+combien pour Adnane, est-ce qu'il y a une dépense inconnue, et s'il y a un
+trou dans les comptes par rapport au net affiché. Pas 100 000 infos. »
+- L'onglet Comptable s'ouvre sur **4 tuiles** : Trou dans les comptes ?
+  (inexpliqué depuis le 04/09, avec l'écart = perso + Revolut en note) · Reste
+  à Badr · Reste à Adnane · Dépense inconnue ? (lignes à affecter). Puis les
+  anomalies et l'inbox « à affecter ».
+- **Tout le reste est replié** derrière « Voir le détail » : tuiles
+  société/perso, bloc 30 jours, rapprochement complet, Panda, ce qu'il reste à
+  chacun (détaillé), entre associés, soldes, transactions.
+- `computeOwnership` : le calcul « reste à chacun » est fait une fois et
+  partagé par le résumé et le bloc détaillé (plus deux arithmétiques).
+
+294 tests verts, build OK, lint clean.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

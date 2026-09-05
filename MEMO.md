@@ -571,3 +571,8 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   pas une avance perso. `noBankClaim`, pas de `paidBy` : le reliquat Revolut
   du rapprochement baisse de 25 €/mois tout seul. Si Badr décide un jour que
   c'est l'argent perso d'Adnane : `paidBy: "ADNANE"` + SUB_PAYMENTS datés.
+- **Marwa = 100 % Adnane** (05/09) : `badrShare: 0` ; un débit Marwa passé par
+  la LLC est perso Adnane d'office. Le net de Badr ne bouge jamais avec Marwa.
+- **Comptable = 4 réponses** (05/09) : trou ? · reste à Badr · reste à Adnane ·
+  dépense inconnue ? — le reste replié. Ne pas remettre d'info en tête d'onglet
+  sans que Badr la demande.

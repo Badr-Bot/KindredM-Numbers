@@ -135,6 +135,17 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "Moon Bundles", re: /moon\s*bundles?/i },
 ];
 
+/** Affectation AUTOMATIQUE d'une ligne d'abonnement reconnue : Marwa est à la
+ * charge d'Adnane (Badr 05/09 : « son salaire est déjà pris par Adnane […] ça
+ * ne doit pas bouger le net de Badr ») → un débit Marwa passé par la LLC est
+ * une avance de la société à Adnane, perso Adnane d'office. */
+export function autoLabelFor(subscriptionLabel: string | null): { label: TxLabel | null; note: string | null } {
+  if (subscriptionLabel === "Marwa") {
+    return { label: "PERSO_FAHD", note: "Marwa : à la charge d'Adnane (Badr 05/09) — avance société, perso Adnane d'office" };
+  }
+  return { label: null, note: null };
+}
+
 export function categorizeTx(description: string, amountCents: number): { category: TxCategory; subscriptionLabel: string | null } {
   const d = description.toLowerCase();
   // INTERNE : l'argent ne quitte pas le périmètre (conversion de devise dans
@@ -426,10 +437,10 @@ export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx 
     description,
     category,
     subscriptionLabel,
-    label: null,
+    label: autoLabelFor(subscriptionLabel).label,
     labelNote: reversal
       ? "retour de versement (remboursements clients repris sur un payout) — déjà déduit du CA, rien à affecter"
-      : null,
+      : autoLabelFor(subscriptionLabel).note,
   };
 }
 
@@ -698,8 +709,8 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
         description,
         category,
         subscriptionLabel,
-        label: null,
-        labelNote: null,
+        label: autoLabelFor(subscriptionLabel).label,
+        labelNote: autoLabelFor(subscriptionLabel).note,
       });
     }
   }
@@ -1298,8 +1309,8 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
       description,
       category,
       subscriptionLabel,
-      label: null,
-      labelNote: null,
+      label: autoLabelFor(subscriptionLabel).label,
+      labelNote: autoLabelFor(subscriptionLabel).note,
     };
   };
   const txs = [
@@ -1331,13 +1342,13 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v3"], // v3 : USD au taux du jour / dernier (04/09)
+  ["wise-data-v4"], // v4 : affectation auto Marwa (05/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v5"], // v5 : USD au taux du jour / dernier, plus de refus collectés (04/09)
+  ["slash-data-v6"], // v6 : affectation auto Marwa (05/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1376,7 +1387,7 @@ async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ t
 
 const fetchLifetimeTxsCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
-  ["bank-lifetime-txs-v2"], // v2 : USD au taux du jour (04/09)
+  ["bank-lifetime-txs-v3"], // v3 : affectation auto Marwa (05/09)
   { revalidate: 3600, tags: ["bank"] }
 );
 
