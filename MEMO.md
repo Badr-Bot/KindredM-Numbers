@@ -568,11 +568,20 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   fausse). Google Workspace = 11,30 $/mois (réel), pas 8,10 €.
 - **TrendTrack payé par Adnane depuis son Revolut** (04/09) = payé avec l'argent
   société pré-LLC resté dessus (reliquat 1 265 € réel, estimé 1 850 ±700) —
-  pas une avance perso. `noBankClaim`, pas de `paidBy` : le reliquat Revolut
-  du rapprochement baisse de 25 €/mois tout seul. Si Badr décide un jour que
-  c'est l'argent perso d'Adnane : `paidBy: "ADNANE"` + SUB_PAYMENTS datés.
-- **Marwa = 100 % Adnane** (05/09) : `badrShare: 0` ; un débit Marwa passé par
-  la LLC est perso Adnane d'office. Le net de Badr ne bouge jamais avec Marwa.
+  pas une avance perso. `noBankClaim`, pas de `paidBy`, et depuis le 06/09
+  `horsNet: true` (voir la règle Revolut ci-dessous). Si Badr décide un jour
+  que c'est l'argent perso d'Adnane : `paidBy: "ADNANE"` + SUB_PAYMENTS datés.
+- **Marwa = 100 % Adnane** (05/09), puis **HORS NET** (06/09). Règle générale
+  posée par Badr : « paiement Revolut, ça veut dire c'est Adnane qui paye et ça
+  rentre pas dans les comptes, parce qu'il a déjà pris de l'argent de la LLC —
+  c'est payé mais ça fait pas bouger le net. » Traduction dans le code :
+  `horsNet: true` sur la ligne d'abonnement (Marwa, TrendTrack). La ligne reste
+  LISTÉE dans Dépenses (on sait qu'elle existe et qui la paie) mais n'entre ni
+  dans le net global, ni dans la part de Badr, ni dans celle d'Adnane —
+  la compter ferait payer Adnane deux fois : une fois par le reliquat Revolut
+  du rapprochement (100 % à lui), une fois par le net. Ne PAS confondre avec
+  `paidBy: "ADNANE"` (avance de sa poche, à lui rembourser) ni avec
+  `badrShare: 0` (charge société portée par Adnane seul, qui baisse son net).
 - **Comptable = 4 réponses** (05/09) : trou ? · reste à Badr · reste à Adnane ·
   dépense inconnue ? — le reste replié. Ne pas remettre d'info en tête d'onglet
   sans que Badr la demande.

@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   SUBSCRIPTIONS,
+  badrFixedCostsCentsForDay,
   dailyEurCents,
   fixedCostsCentsForDay,
+  isActiveOn,
   monthlyEurCents,
   subscriptionTotals,
 } from "../subscriptions";
-import { oneOffCostsCentsForDay } from "../associateLedger";
+import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "../associateLedger";
 
 /**
  * 💳 Charges fixes — fenêtres de facturation.
@@ -62,9 +64,12 @@ describe("Seif — « ne sera pas payé, du 16/07 au 16/08 » (Badr 20/08)", () 
     // quand Klaviyo est passé de 25 € à 150 € sur tout l'historique.
     // Puis +18,76 €/j le 04/09 : les frais de change Slash (Meta payé en USD,
     // 866 $ relevés par Badr) sont inscrits dans le net, étalés du 27/07 au
-    // 04/09 — les deux jours sont dedans. Le pas de Seif, lui, n'a pas bougé.
-    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(170);
-    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(127);
+    // 04/09 — les deux jours sont dedans. Puis −10,68 €/j le 06/09 : Marwa
+    // (9,85 €/j) et TrendTrack (0,82 €/j) sortent du net, payés depuis le
+    // Revolut d'Adnane avec de l'argent société déjà pris. Le pas de Seif,
+    // lui, n'a jamais bougé.
+    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(159);
+    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(117);
   });
 
   it("sort des totaux courants une fois la fenêtre passée", () => {
@@ -193,14 +198,15 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     expect(abosSeuls("2026-08-31") - abosSeuls("2026-09-01")).toBe(
       dailyEurCents(jeremy()) + dailyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)"))
     );
-    // 37 € le 29/08 ; +18,76 €/j de frais de change Slash inscrits le 04/09
-    // (ligne étalée 27/07→04/09, close ce jour-là : Meta est payé depuis Wise
-    // en euros). Dès le 05/09 la journée retombe à ~37 €.
-    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(56);
-    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(37);
+    // +18,76 €/j de frais de change Slash inscrits le 04/09 (ligne étalée
+    // 27/07→04/09, close ce jour-là : Meta est payé depuis Wise en euros),
+    // −10,68 €/j depuis le 06/09 (Marwa + TrendTrack hors net, payés depuis
+    // le Revolut d'Adnane). Dès le 05/09 la journée retombe à ~26 €.
+    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(45);
+    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(26);
   });
 
-  it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
+  it("laisse Marwa seule au poste ÉQUIPE en septembre — mais hors net", () => {
     // Le monteur est arrêté au 28/08 et Seif au 16/08 : plus que Marwa.
     const equipeActive = SUBSCRIPTIONS.filter(
       (s) =>
@@ -209,6 +215,31 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
         (s.endDay === null || "2026-09-01" <= s.endDay)
     ).map((s) => s.label);
     expect(equipeActive).toEqual(["Marwa"]);
+    // Elle est LISTÉE (on sait qu'elle est payée et par qui) mais ne pèse ni
+    // sur le net ni sur les parts : Adnane la règle depuis son Revolut avec de
+    // l'argent société déjà prélevé (Badr 06/09).
+    expect(SUBSCRIPTIONS.find((s) => s.label === "Marwa")?.horsNet).toBe(true);
+  });
+
+  it("ne compte AUCUNE ligne payée depuis le Revolut d'Adnane dans le net", () => {
+    // Règle Badr 06/09 : « paiement Revolut ça veut dire c'est Adnane qui paye
+    // et ça rentre pas dans les comptes, il a déjà pris de l'argent de la LLC ».
+    const horsNet = SUBSCRIPTIONS.filter((s) => s.horsNet).map((s) => s.label);
+    expect(horsNet.sort()).toEqual(["Marwa", "TrendTrack"]);
+    const jour = "2026-09-05";
+    const attendu = SUBSCRIPTIONS.filter((s) => isActiveOn(s, jour) && !s.horsNet).reduce(
+      (a, s) => a + dailyEurCents(s),
+      0
+    );
+    expect(fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour)).toBe(attendu);
+    // Et personne ne les porte : ni Badr, ni Adnane (le solde d'Adnane est le
+    // reste, il baisserait sinon).
+    expect(badrFixedCostsCentsForDay(jour)).toBe(
+      SUBSCRIPTIONS.filter((s) => isActiveOn(s, jour) && !s.horsNet).reduce(
+        (a, s) => a + Math.round(dailyEurCents(s) * (s.badrShare ?? 0.5)),
+        0
+      ) + oneOffBadrShareCentsForDay(jour)
+    );
   });
 });
 

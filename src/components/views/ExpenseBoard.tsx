@@ -299,6 +299,9 @@ export function ExpenseBoard({
                       <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
                         {sub.label}
                         {alerte && " ⚠️"}
+                        {sub.horsNet && (
+                          <span className="ml-1 text-[10px] text-ink-faint">· Revolut Adnane, hors net</span>
+                        )}
                       </td>
                       <td className="py-1 pr-2 text-ink-faint">
                         {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit", FRAIS: "Frais bancaires" }[sub.category]}
@@ -315,7 +318,9 @@ export function ExpenseBoard({
         <p className="mt-2 text-[10px] leading-snug text-ink-faint">
           Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
           les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
-          avant le 14/07, 50/50 ensuite. SmartSize : résilié le 08/08 (Badr) — compté
+          avant le 14/07, 50/50 ensuite. « Revolut Adnane, hors net » (Marwa, TrendTrack) :
+          payé par Adnane avec l&apos;argent société qu&apos;il a déjà pris — listé, jamais
+          déduit du net ni des parts (Badr 06/09). SmartSize : résilié le 08/08 (Badr) — compté
           jusqu&apos;au 08/08 inclus, plus de charge à partir du 09/08. Jeremy/Seif : fixe seul,
           commission oubliée pour le moment (Badr 08/08) — comptés depuis leurs vraies
           dates (16/07 tous les deux) et tous deux ARRÊTÉS : Seif au 16/08 (« ne sera pas

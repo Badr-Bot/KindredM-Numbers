@@ -84,9 +84,17 @@ export interface Subscription {
    * différé annoncé) : le contrôle bancaire ne la réclame pas. */
   noBankClaim?: boolean;
   /** Part de Badr FIXÉE pour cette ligne (0 à 1), quand elle déroge à la
-   * règle par date (100 % Adnane avant le 14/07, 50/50 ensuite). Ex. Marwa :
-   * 0 — « son salaire est déjà pris par Adnane » (Badr 05/09). */
+   * règle par date (100 % Adnane avant le 14/07, 50/50 ensuite). */
   badrShare?: number;
+  /**
+   * true = payé par Adnane DEPUIS SON REVOLUT, c'est-à-dire avec de l'argent
+   * de la société qu'il a DÉJÀ prélevé (reliquat pré-LLC, compté 100 % Adnane
+   * dans le rapprochement). Badr 06/09 : « c'est payé mais ça fait pas bouger
+   * le net ». La ligne reste listée (on sait qu'elle existe et qui la paie)
+   * mais elle n'entre NI dans le net NI dans les parts — la compter ferait
+   * payer deux fois Adnane (une fois via le reliquat, une fois via le net).
+   */
+  horsNet?: boolean;
   note?: string;
 }
 
@@ -130,11 +138,13 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté sur demande de Badr le 29/08 (« plus de monteur depuis aujourd'hui ») — dernier jour compté 28/08. Pause, pas suppression : à rouvrir quand il le dit." },
   // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
   // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
-  // Marwa : « son salaire est déjà pris par Adnane et sera payé depuis Revolut,
-  // ça ne doit pas bouger le net de Badr » (Badr 05/09) → charge société dans
-  // le net, mais part de Badr = 0 ; aucun débit LLC attendu ; si un débit
-  // passe quand même sur Slash/Wise, il est affecté perso Adnane d'office.
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, badrShare: 0, note: "À la charge d'Adnane, payée depuis son Revolut (Badr 05/09) — part de Badr : 0. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
+  // Marwa : « son salaire est déjà pris par Adnane et sera payé depuis Revolut »
+  // (Badr 05/09), puis 06/09 : « paiement Revolut ça veut dire c'est Adnane qui
+  // paye et ça rentre pas dans les comptes, il a déjà pris de l'argent de la
+  // LLC — c'est payé mais ça fait pas bouger le net » → HORS NET (horsNet) :
+  // listée, mais ni dans le net ni dans les parts. Aucun débit LLC attendu ;
+  // si un débit passe quand même sur Slash/Wise, il est affecté perso Adnane.
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, horsNet: true, note: "Payée par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
@@ -195,10 +205,10 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "USD", startDay: "2026-09-18", endDay: null, note: "Passage en dollar au 18/09 (Badr 29/08). Carte LLC." },
   // TrendTrack : payé par Adnane DEPUIS SON REVOLUT (Badr 04/09) — c'est-à-dire
   // avec l'argent de la société resté sur ce compte avant la LLC (reliquat
-  // ~1 265 € au 04/09). Ce n'est donc PAS une avance perso à lui rembourser
-  // (pas de paidBy) : la charge est dans le net, aucun débit LLC n'est attendu,
-  // et le reliquat Revolut du rapprochement baisse de 25 € par mois tout seul.
-  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Payé par Adnane depuis son Revolut = avec l'argent société pré-LLC resté dessus (Badr 04/09). Pas une avance perso. Oublié du PDF d'Adnane — ajouté par Badr le 08/08." },
+  // ~1 265 € au 04/09, compté 100 % Adnane). Ni avance perso (pas de paidBy),
+  // ni charge dans le net (horsNet, règle Badr 06/09 : « paiement Revolut =
+  // ça rentre pas dans les comptes ») ; aucun débit LLC attendu.
+  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, horsNet: true, note: "Payé par Adnane depuis son Revolut = avec l'argent société pré-LLC qu'il a déjà pris (Badr 04/09 et 06/09) : hors net, hors parts. Oublié du PDF d'Adnane — ajouté par Badr le 08/08." },
   // 29/08 (Badr) : « Artlist à partir d'aujourd'hui à 40 $ par mois » —
   // démarre le 29/08, rien avant (+1,14 €/j).
   { label: "Artlist", category: "OUTIL", amount: 40, currency: "USD", startDay: "2026-08-29", endDay: null, note: "Ajouté par Badr le 29/08, à partir de ce jour." },
@@ -265,8 +275,17 @@ export function isActiveOn(s: Subscription, day: string): boolean {
  */
 export function fixedCostsCentsForDay(day: string): number {
   let total = oneOffCostsCentsForDay(day);
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) total += dailyEurCents(s);
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day) && countsInNet(s)) total += dailyEurCents(s);
   return total;
+}
+
+/**
+ * Une ligne pèse-t-elle sur le net ? Tout, sauf ce qui est payé depuis le
+ * Revolut d'Adnane avec de l'argent société déjà prélevé (Badr 06/09) : ces
+ * lignes sont listées dans Dépenses pour mémoire, jamais déduites.
+ */
+export function countsInNet(s: Subscription): boolean {
+  return !s.horsNet;
 }
 
 /**
@@ -277,10 +296,11 @@ export function fixedCostsCentsForDay(day: string): number {
  */
 export function badrFixedCostsCentsForDay(day: string): number {
   // Règle par date pour les lignes ordinaires ; part FIXÉE (badrShare) pour
-  // celles qui y dérogent (Marwa : 0). Arrondi ligne à ligne.
+  // celles qui y dérogent. Arrondi ligne à ligne. Les lignes hors net
+  // (Revolut Adnane) ne pèsent sur personne.
   let badr = 0;
   for (const s of SUBSCRIPTIONS) {
-    if (!isActiveOn(s, day)) continue;
+    if (!isActiveOn(s, day) || !countsInNet(s)) continue;
     badr += Math.round(dailyEurCents(s) * (s.badrShare ?? badrFixedShareFor(day)));
   }
   return badr + oneOffBadrShareCentsForDay(day);
@@ -299,7 +319,7 @@ export function subscriptionTotals(day: string): {
   yearlyCents: number;
 } {
   let monthly = 0;
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) monthly += monthlyEurCents(s);
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day) && countsInNet(s)) monthly += monthlyEurCents(s);
   return {
     monthlyCents: monthly,
     dailyCents: Math.round(monthly / DAYS_PER_MONTH),
