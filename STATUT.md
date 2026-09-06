@@ -966,6 +966,32 @@ trou dans les comptes par rapport au net affiché. Pas 100 000 infos. »
 
 294 tests verts, build OK, lint clean.
 
+## Mise à jour 06/09 — « paiement Revolut = ça ne rentre pas dans les comptes »
+
+Badr, en regardant l'écart de part entre lui et Adnane : « pourquoi ce mois-ci
+je gagne plus qu'Adnane ? » Réponse : Marwa était comptée 100 % sur Adnane
+(règle du 05/09), donc elle creusait 300 €/mois d'écart entre les deux parts.
+
+Badr a tranché la vraie règle : **ce qu'Adnane paie depuis son Revolut est payé
+avec de l'argent de la société qu'il a DÉJÀ prélevé** (le reliquat pré-LLC,
+compté 100 % à lui dans le rapprochement). Ce n'est donc ni une charge du net,
+ni une charge portée par l'un des deux : « c'est payé mais ça fait pas bouger
+le net ».
+- Nouveau drapeau `horsNet` sur un abonnement (`subscriptions.ts`) : la ligne
+  reste LISTÉE dans Dépenses, marquée « Revolut Adnane, hors net », mais elle
+  sort de `fixedCostsCentsForDay`, de `badrFixedCostsCentsForDay` et de
+  `subscriptionTotals`.
+- Deux lignes concernées : **Marwa** (300 €/mois) et **TrendTrack** (25 €/mois)
+  — soit 10,68 €/jour qui ne sont plus déduits du net.
+- Effet : les parts de Badr et d'Adnane redeviennent symétriques (septembre :
+  186,60 € contre 186,26 € de charges portées sur 6 jours, l'écart restant
+  n'étant que Google One payé par Badr).
+- Ne pas confondre les trois cas : `horsNet` (argent société déjà pris, hors
+  net), `paidBy` (avance perso à rembourser), `badrShare` (charge société
+  portée par un seul associé, qui baisse bien son net).
+
+295 tests verts, build OK, lint clean.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
