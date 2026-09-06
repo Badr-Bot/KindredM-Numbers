@@ -3,7 +3,8 @@ import { ONE_OFF_COSTS, badrNetLedgerCentsForDay } from "../associateLedger";
 import {
   SUBSCRIPTIONS,
   badrLedgerCentsForDay,
-  dailyEurCents,
+  isBillingDay,
+  monthlyEurCents,
   paidBySubsLedgerCentsForDay,
   subsPaidOutOfPocketCentsBy,
 } from "../subscriptions";
@@ -34,23 +35,36 @@ describe("Abonnements payés de sa poche : le dû court tout seul", () => {
   });
 
   it("ne compte que la part de l'AUTRE, dans le bon sens", () => {
-    const jour = "2026-09-01"; // après le 14/07 : 50/50
+    const jour = "2026-09-01"; // jour de prélèvement, après le 14/07 : 50/50
     // Adnane paie Hushed → Badr lui doit sa moitié (négatif).
     // Badr paie Google One → Adnane lui doit sa moitié (positif).
     expect(paidBySubsLedgerCentsForDay(jour)).toBe(
-      Math.round(dailyEurCents(ligne("Google One")) * 0.5) -
-        Math.round(dailyEurCents(ligne("Hushed (Adnane)")) * 0.5)
+      Math.round(monthlyEurCents(ligne("Google One")) * 0.5) -
+        Math.round(monthlyEurCents(ligne("Hushed (Adnane)")) * 0.5)
     );
-    expect(paidBySubsLedgerCentsForDay(jour)).toBeLessThan(0); // Hushed pèse plus
+    expect(paidBySubsLedgerCentsForDay(jour)).toBe(-300); // 4 € − 1 €
+  });
+
+  it("tombe UNE fois par mois, en entier — pas étalé", () => {
+    // Étalé, l'écart montait tout le mois (1 € le 6 septembre au lieu de 6 €)
+    // et ne retombait jamais sur le vrai montant : 7,99 € ÷ 30,44 × 31 ≠ 7,99 €.
+    expect(paidBySubsLedgerCentsForDay("2026-09-02")).toBe(0);
+    expect(paidBySubsLedgerCentsForDay("2026-09-15")).toBe(0);
+    expect(isBillingDay(ligne("Hushed (Adnane)"), "2026-09-01")).toBe(true);
+    expect(isBillingDay(ligne("Hushed (Adnane)"), "2026-09-02")).toBe(false);
+    // Avant le premier jour de l'abonnement : jamais.
+    expect(isBillingDay(ligne("Hushed (Adnane)"), "2026-06-01")).toBe(false);
   });
 
   it("applique la règle par date : avant le 14/07, tout est à Adnane", () => {
     // Hushed démarre le 01/07 : tant que Badr ne porte aucune charge, il n'a
     // rien à rembourser à Adnane. Et Google One, payé par Badr, est alors dû
     // EN ENTIER par Adnane — la charge est 100 % la sienne à cette date.
-    expect(paidBySubsLedgerCentsForDay("2026-07-10")).toBe(dailyEurCents(ligne("Google One")));
-    // À partir du 14/07, chacun porte sa moitié et Hushed pèse plus lourd.
-    expect(paidBySubsLedgerCentsForDay("2026-07-14")).toBeLessThan(0);
+    // Prélèvement du 01/07 : Google One entier dû par Adnane, Hushed rien.
+    expect(paidBySubsLedgerCentsForDay("2026-07-01")).toBe(monthlyEurCents(ligne("Google One")));
+    // Le prélèvement suivant (01/08) est après le 14/07 : chacun sa moitié,
+    // et Hushed pèse plus lourd que Google One.
+    expect(paidBySubsLedgerCentsForDay("2026-08-01")).toBe(-300);
   });
 
   it("SEPTEMBRE remonte comme AOÛT — c'est le défaut que Badr a vu", () => {
@@ -74,11 +88,10 @@ describe("Abonnements payés de sa poche : le dû court tout seul", () => {
     expect(Math.round((-2 * solde) / 100)).toBe(6);
   });
 
-  it("cumule ce que chacun a réellement sorti, sans dépasser la fin d'abonnement", () => {
+  it("cumule les PRÉLÈVEMENTS passés, pas des jours", () => {
     const hushed = ligne("Hushed (Adnane)");
-    expect(subsPaidOutOfPocketCentsBy("ADNANE", "2026-09-06")).toBe(
-      dailyEurCents(hushed) * listParisDays(hushed.startDay, "2026-09-06").length
-    );
+    // Démarré le 01/07 : trois prélèvements au 06/09 (juillet, août, septembre).
+    expect(subsPaidOutOfPocketCentsBy("ADNANE", "2026-09-06")).toBe(3 * monthlyEurCents(hushed));
     // Avant son premier jour : rien.
     expect(subsPaidOutOfPocketCentsBy("BADR", "2026-06-30")).toBe(0);
   });

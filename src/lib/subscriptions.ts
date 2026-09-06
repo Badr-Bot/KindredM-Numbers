@@ -343,15 +343,35 @@ export function badrLedgerCentsForDay(day: string): number {
   return badrNetLedgerCentsForDay(day) + paidBySubsLedgerCentsForDay(day);
 }
 
+/**
+ * Jour de PRÉLÈVEMENT d'un abonnement : le même quantième que son premier
+ * jour, chaque mois (le 31 tombe au dernier jour des mois plus courts).
+ *
+ * ⚠️ La CHARGE, elle, reste étalée jour par jour — c'est la convention du
+ * fichier. Ici on parle d'argent qui sort d'une poche : ça arrive en une
+ * fois. Étaler la dette donnait un écart entre associés qui montait tout le
+ * mois (1 € le 6 septembre au lieu de 6 €) et ne retombait jamais sur le vrai
+ * montant (7,99 € ÷ 30,44 × 31 jours ≠ 7,99 €). Badr, 06/09 : « Adnane doit
+ * me dépasser de 6 € sur septembre et août ».
+ */
+export function isBillingDay(s: Subscription, day: string): boolean {
+  if (!isActiveOn(s, day)) return false;
+  const quantieme = Number(s.startDay.slice(8, 10));
+  const [y, m, d] = day.split("-").map(Number);
+  const dernierDuMois = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  return d === Math.min(quantieme, dernierDuMois);
+}
+
 /** Part de l'AUTRE sur les abonnements qu'un associé paie seul, pour un jour
- * (positif = Adnane doit à Badr). Jamais la part du payeur : elle est déjà à
- * sa charge via badrFixedCostsCentsForDay. */
+ * (positif = Adnane doit à Badr). Le MOIS ENTIER tombe le jour du
+ * prélèvement — jamais la part du payeur, elle est déjà à sa charge via
+ * badrFixedCostsCentsForDay. */
 export function paidBySubsLedgerCentsForDay(day: string): number {
   let net = 0;
   for (const s of SUBSCRIPTIONS) {
-    if (!s.paidBy || !isActiveOn(s, day) || !countsInNet(s)) continue;
+    if (!s.paidBy || !countsInNet(s) || !isBillingDay(s, day)) continue;
     const badrShare = s.badrShare ?? badrFixedShareFor(day);
-    const cents = dailyEurCents(s);
+    const cents = monthlyEurCents(s);
     net +=
       s.paidBy === "BADR"
         ? Math.round(cents * (1 - badrShare))
@@ -362,14 +382,16 @@ export function paidBySubsLedgerCentsForDay(day: string): number {
 
 /** Ce qu'un associé a réellement sorti de sa poche en ABONNEMENTS depuis le
  * début, cumulé jusqu'à `untilDay` — le pendant « factures » des lignes
- * paidBy, pour le bloc « Entre associés ». */
+ * paidBy, pour le bloc « Entre associés ». Compte les prélèvements passés,
+ * pas des jours : c'est de l'argent réellement débité. */
 export function subsPaidOutOfPocketCentsBy(payer: "BADR" | "ADNANE", untilDay: string): number {
   let total = 0;
   for (const s of SUBSCRIPTIONS) {
     if (s.paidBy !== payer || !countsInNet(s)) continue;
-    const fin = s.endDay && s.endDay < untilDay ? s.endDay : untilDay;
-    if (fin < s.startDay) continue;
-    total += dailyEurCents(s) * listParisDays(s.startDay, fin).length;
+    if (untilDay < s.startDay) continue;
+    for (const day of listParisDays(s.startDay, untilDay)) {
+      if (isBillingDay(s, day)) total += monthlyEurCents(s);
+    }
   }
   return total;
 }
