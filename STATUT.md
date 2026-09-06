@@ -994,9 +994,14 @@ Dans la foulée, **un seul arrondi par jour** au lieu d'un par ligne
 (`badrFixedCostsCentsForDay`) : 20 arrondis quotidiens tous au demi-centime
 supérieur tombaient TOUJOURS à la charge de Badr, soit ~3 €/mois d'écart entre
 les deux parts que rien ne justifiait. Il reste au plus un centime par jour.
-Sur août, l'écart Badr/Adnane est désormais 8,12 € — c'est-à-dire Hushed
-(7,99 € payé de sa poche par Adnane, donc 4 € qui passent d'un côté à l'autre)
-et rien d'autre.
+Et **Google One remis à 1,99 € PAR MOIS** : les trois débits étaient tous
+datés du 01/09, donc août n'en voyait aucun. Badr (06/09), en parlant d'août :
+« y a 2 € de Google One que je paye ». Datés juillet / août / septembre.
+
+Sur août, l'écart Badr/Adnane est désormais **6,13 € en faveur d'Adnane**, et
+il se lit en deux lignes : Hushed (7,99 € payé par Adnane → 4 € qui passent
+d'un côté à l'autre, soit 8 €) moins Google One (1,99 € payé par Badr → 2 €
+dans l'autre sens). Rien d'autre.
 
 296 tests verts, build OK, lint clean.
 

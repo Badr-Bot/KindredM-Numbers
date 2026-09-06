@@ -85,6 +85,13 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
   // foulée : « enlève 17.53 € ». Ne restent que les TROIS débits de 1,99 € —
   // total 5,97 €. Gardés ligne à ligne pour coller au relevé, comme la LLC.
   //
+  // 06/09 : « y a 2 € de Google One que je paye » EN PARLANT D'AOÛT → c'est
+  // 1,99 € PAR MOIS, pas trois débits d'un même mois. Les trois lignes sont
+  // donc datées juillet / août / septembre. Avant ça, août n'en voyait aucun
+  // et l'écart entre les deux parts sortait à 8 € au lieu de 6 €.
+  // ⚠️ Toujours saisi à la main : ajouter une ligne chaque mois (ou en faire
+  // un abonnement paidBy BADR + SUB_PAYMENTS datés si ça devient pénible).
+  //
   // Pourquoi ici et pas dans subscriptions.ts : Google One n'a AUCUNE ligne
   // d'abonnement (seul « Google Workspace » existe, c'est un autre produit).
   // Un SUB_PAYMENT ne compterait donc que la dette envers Badr sans jamais
@@ -92,13 +99,10 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
   // baisse le net du jour ET ouvre le dû entre associés.
   //
   // ⚠️ DEUX POINTS À CONFIRMER (rien inventé en attendant) :
-  //  • DATE : « ce mois », dit le 01/09 → daté du 01/09. Si les débits sont
-  //    tombés en août, ils changent de mois (23,50 € de charges qui glissent).
-  //  • RÉCURRENCE : si Google One revient tous les mois, ces lignes ponctuelles
-  //    doivent devenir un abonnement (subscriptions.ts, paidBy BADR) — sinon
-  //    il faudra les ressaisir à la main chaque mois.
-  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
-  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  //  • JOUR EXACT : le 1er de chaque mois est une approximation (Badr a donné
+  //    le mois, pas le jour) — sans effet sur le partage, qui est mensuel.
+  { day: "2026-07-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  { day: "2026-08-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
   { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
   // 04/09 — « mettre à jour le net » (Badr) : les frais que la banque voyait et
   // que le net ne comptait pas, relevés sur les totaux Slash envoyés par Badr.
