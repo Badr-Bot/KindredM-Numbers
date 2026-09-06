@@ -4,7 +4,6 @@ import {
   badrNetLedgerCentsForDay,
   oneOffCostsCentsForDay,
 } from "../associateLedger";
-import { fixedCostsCentsForDay } from "../subscriptions";
 
 /**
  * 🤝 Entre associés — avances payées de sa poche.
@@ -12,32 +11,34 @@ import { fixedCostsCentsForDay } from "../subscriptions";
  * seule la part de l'AUTRE est due au payeur (jamais le montant brut).
  */
 
-describe("Google One — payé par Badr (01/09)", () => {
+describe("Google One — payé par Badr, 1,99 € PAR MOIS", () => {
   const lignes = ONE_OFF_COSTS.filter((c) => c.label === "Google One");
 
-  it("garde les 3 débits ligne à ligne, 5,97 € au total", () => {
+  it("étale les 3 débits sur 3 MOIS, pas sur un seul", () => {
     // Badr a d'abord annoncé 17,53 € + 3 × 1,99 €, puis : « enlève 17.53 € ».
+    // Puis le 06/09, en parlant d'AOÛT : « y a 2 € de Google One que je paye »
+    // → c'est 1,99 € par mois. Les trois débits étaient tous datés du 01/09,
+    // donc août n'en voyait aucun et l'écart entre les deux parts sortait à
+    // 8 € au lieu de 6 €.
     expect(lignes).toHaveLength(3);
     expect(lignes.reduce((a, c) => a + c.eurCents, 0)).toBe(597);
     expect(lignes.map((c) => c.eurCents)).toEqual([199, 199, 199]);
+    expect(lignes.map((c) => c.day)).toEqual(["2026-07-01", "2026-08-01", "2026-09-01"]);
     expect(lignes.every((c) => c.paidBy === "BADR")).toBe(true);
   });
 
-  it("entre dans le NET du jour — sinon la charge n'existerait nulle part", () => {
+  it("entre dans le NET du mois — sinon la charge n'existerait nulle part", () => {
     // Google One n'a aucune ligne d'abonnement : si ce frais ne tombait pas
     // dans le net, la dépense serait invisible côté P&L.
-    expect(oneOffCostsCentsForDay("2026-09-01")).toBe(597);
-    // Le net du jour = abonnements étalés + ce frais : la différence entre les
-    // deux est exactement les 5,97 €. (Comparer avec le 02/09 ne marche plus :
-    // il porte son propre frais ponctuel, Google Ads 65,08 $ inscrit le 04/09.)
-    expect(fixedCostsCentsForDay("2026-09-01") - oneOffCostsCentsForDay("2026-09-01")).toBe(
-      fixedCostsCentsForDay("2026-09-01") - 597
-    );
+    for (const jour of ["2026-07-01", "2026-08-01", "2026-09-01"]) {
+      expect(oneOffCostsCentsForDay(jour)).toBe(199);
+    }
   });
 
-  it("ne doit à Badr que la MOITIÉ (la part d'Adnane), pas les 5,97 €", () => {
-    // 3 × 199/2, arrondis ligne à ligne comme le reste du fichier → 3,00 €.
-    expect(badrNetLedgerCentsForDay("2026-09-01")).toBe(300);
+  it("ne doit à Badr que la MOITIÉ (la part d'Adnane), pas les 1,99 €", () => {
+    // 199/2 arrondi → 1,00 € dû par Adnane, chaque mois.
+    expect(badrNetLedgerCentsForDay("2026-08-01")).toBe(100);
+    expect(badrNetLedgerCentsForDay("2026-09-01")).toBe(100);
   });
 
   it("ne pèse que sur son jour, jamais étalé", () => {
