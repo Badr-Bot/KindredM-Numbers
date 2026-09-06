@@ -585,3 +585,14 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Comptable = 4 réponses** (05/09) : trou ? · reste à Badr · reste à Adnane ·
   dépense inconnue ? — le reste replié. Ne pas remettre d'info en tête d'onglet
   sans que Badr la demande.
+- **Un abonnement payé par UN seul associé se règle au jour le jour** (06/09,
+  « ça marche pas ton truc » sur septembre). Mettre `paidBy` sur la ligne
+  d'abonnement suffit : `paidBySubsLedgerCentsForDay` calcule la part de
+  l'autre chaque jour. Ne JAMAIS doubler avec un SUB_PAYMENT ou un frais
+  ponctuel — SUB_PAYMENTS ne sert plus qu'aux factures sans abonnement
+  derrière (le 1er Claude payé par Badr). Concernés : Hushed (Adnane) et
+  Google One (Badr).
+- **L'écart entre les deux parts = ce que l'un a sorti de sa poche pour
+  l'autre, compté DOUBLE** (le montant quitte un côté et arrive de l'autre).
+  Tout le reste — carte LLC, crédits Shopify, Revolut d'Adnane — est neutre
+  entre eux. Aujourd'hui : ~6 €/mois en faveur d'Adnane.

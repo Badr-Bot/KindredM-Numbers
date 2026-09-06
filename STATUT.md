@@ -1003,7 +1003,33 @@ il se lit en deux lignes : Hushed (7,99 € payé par Adnane → 4 € qui passe
 d'un côté à l'autre, soit 8 €) moins Google One (1,99 € payé par Badr → 2 €
 dans l'autre sens). Rien d'autre.
 
-296 tests verts, build OK, lint clean.
+## Mise à jour 06/09 bis — le dû entre associés court tout seul
+
+Badr, capture de l'onglet Année à l'appui : « ça marche pas ton truc ».
+Septembre affichait Badr AU-DESSUS d'Adnane alors qu'août sortait juste.
+
+Cause : Hushed (7,99 €/mois payé par Adnane) et Google One (1,99 €/mois payé
+par Badr) ne remontaient que par des lignes saisies À LA MAIN — deux factures
+Hushed (juillet, août) et trois frais ponctuels Google One. Aucun des deux
+n'existait en septembre, donc plus personne n'était crédité et l'écart
+repartait dans le mauvais sens.
+
+Les deux sont devenus des ABONNEMENTS avec `paidBy` : la charge court chaque
+jour, le dû aussi.
+- `paidBySubsLedgerCentsForDay` (subscriptions.ts) : part de l'AUTRE sur les
+  abonnements payés par un seul associé, jour par jour, règle par date
+  incluse (avant le 14/07, Badr ne doit rien et Adnane doit tout).
+- `badrLedgerCentsForDay` = frais ponctuels + abonnements paidBy. C'est LA
+  fonction que `associates.ts` appelle désormais.
+- `subsPaidOutOfPocketCentsBy` alimente le bloc « Entre associés » de l'onglet
+  Dépenses : une ligne « au jour le jour » par abonnement perso, cumulée.
+- Plus rien à ressaisir chaque mois, plus aucun risque de double compte.
+
+Écart mensuel entre les deux parts, désormais stable : **~6 € en faveur
+d'Adnane** (Hushed 8 € pour lui − Google One 2 € pour Badr ; un montant payé
+de sa poche compte double, il quitte un côté et arrive de l'autre).
+
+300 tests verts, build OK, lint clean.
 
 ## Notes techniques utiles
 
