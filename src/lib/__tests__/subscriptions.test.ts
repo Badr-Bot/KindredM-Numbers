@@ -9,6 +9,7 @@ import {
   subscriptionTotals,
 } from "../subscriptions";
 import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "../associateLedger";
+import { listParisDays } from "../time";
 
 /**
  * 💳 Charges fixes — fenêtres de facturation.
@@ -233,13 +234,29 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     );
     expect(fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour)).toBe(attendu);
     // Et personne ne les porte : ni Badr, ni Adnane (le solde d'Adnane est le
-    // reste, il baisserait sinon).
+    // reste, il baisserait sinon). Un SEUL arrondi sur le total commun.
+    const communCents = SUBSCRIPTIONS.filter(
+      (s) => isActiveOn(s, jour) && !s.horsNet && s.badrShare === undefined
+    ).reduce((a, s) => a + dailyEurCents(s), 0);
     expect(badrFixedCostsCentsForDay(jour)).toBe(
-      SUBSCRIPTIONS.filter((s) => isActiveOn(s, jour) && !s.horsNet).reduce(
-        (a, s) => a + Math.round(dailyEurCents(s) * (s.badrShare ?? 0.5)),
-        0
-      ) + oneOffBadrShareCentsForDay(jour)
+      Math.round(communCents * 0.5) + oneOffBadrShareCentsForDay(jour)
     );
+  });
+
+  it("n'arrondit qu'UNE fois par jour : les deux parts ne dérivent pas", () => {
+    // Arrondir ligne à ligne donnait 20 arrondis/jour tous au demi-centime
+    // supérieur, donc toujours à la charge de Badr : ~3 €/mois d'écart entre
+    // les deux parts, que rien ne justifiait (Badr 06/09 : « c'est pas bon,
+    // c'est simple »). Sur un mois entier, l'écart doit rester au centime.
+    let badr = 0;
+    let total = 0;
+    for (const jour of listParisDays("2026-08-01", "2026-08-31")) {
+      total += fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour);
+      badr += badrFixedCostsCentsForDay(jour) - oneOffBadrShareCentsForDay(jour);
+    }
+    // Août : tout est postérieur au 14/07, donc 50/50 partout. L'écart entre
+    // les deux parts tient dans un centime par jour, pas plus.
+    expect(Math.abs(total - 2 * badr)).toBeLessThanOrEqual(31);
   });
 });
 
