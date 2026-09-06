@@ -1025,11 +1025,19 @@ jour, le dû aussi.
   Dépenses : une ligne « au jour le jour » par abonnement perso, cumulée.
 - Plus rien à ressaisir chaque mois, plus aucun risque de double compte.
 
-Écart mensuel entre les deux parts, désormais stable : **~6 € en faveur
+Et le dû tombe **une fois par mois, en entier**, au jour du prélèvement
+(`isBillingDay` : même quantième que le premier jour de l'abonnement, dernier
+jour du mois si le quantième n'existe pas). L'étaler faisait deux dégâts que
+Badr a vus sur la capture suivante : l'écart montait tout le mois (1 € le
+6 septembre au lieu de 6 €) et ne retombait jamais sur le vrai montant
+(7,99 € ÷ 30,44 × 31 jours ≠ 7,99 €). La CHARGE, elle, reste étalée jour par
+jour — c'est la convention du fichier ; l'argent qui sort d'une poche, non.
+
+Écart mensuel entre les deux parts, désormais stable : **6 € en faveur
 d'Adnane** (Hushed 8 € pour lui − Google One 2 € pour Badr ; un montant payé
 de sa poche compte double, il quitte un côté et arrive de l'autre).
 
-300 tests verts, build OK, lint clean.
+301 tests verts, build OK, lint clean.
 
 ## Notes techniques utiles
 

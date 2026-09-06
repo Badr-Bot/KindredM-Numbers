@@ -591,7 +591,9 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   l'autre chaque jour. Ne JAMAIS doubler avec un SUB_PAYMENT ou un frais
   ponctuel — SUB_PAYMENTS ne sert plus qu'aux factures sans abonnement
   derrière (le 1er Claude payé par Badr). Concernés : Hushed (Adnane) et
-  Google One (Badr).
+  Google One (Badr). Le dû tombe EN ENTIER le jour du prélèvement (même
+  quantième que startDay), pas étalé : la charge s'étale, l'argent qui sort
+  d'une poche non.
 - **L'écart entre les deux parts = ce que l'un a sorti de sa poche pour
   l'autre, compté DOUBLE** (le montant quitte un côté et arrive de l'autre).
   Tout le reste — carte LLC, crédits Shopify, Revolut d'Adnane — est neutre
