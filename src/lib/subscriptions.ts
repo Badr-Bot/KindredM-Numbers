@@ -48,7 +48,13 @@
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
 
-import { badrFixedShareFor, oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
+import {
+  badrFixedShareFor,
+  badrNetLedgerCentsForDay,
+  oneOffBadrShareCentsForDay,
+  oneOffCostsCentsForDay,
+} from "./associateLedger";
+import { listParisDays } from "./time";
 export { badrFixedShareFor, CHARGES_SPLIT_START } from "./associateLedger";
 
 // 04/09 (Badr) : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
@@ -226,6 +232,12 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Vmake (nouveau tarif)", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Même outil que la ligne 8,80 € ci-dessous, fermée au 13/08 (Badr 20/08 : « c'est le même outil »). Tarif passé à 9,99 € le 14/08 (« on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
+  // Google One : payé de sa poche par Badr, 1,99 €/mois (Badr 01/09 puis
+  // 06/09, en parlant d'août : « y a 2 € de Google One que je paye »). Était
+  // saisi en trois frais ponctuels — devenu un abonnement pour que le dû
+  // d'Adnane se calcule tout seul chaque mois. Départ 01/07 : trois débits
+  // constatés (juillet, août, septembre), le jour exact n'a pas été donné.
+  { label: "Google One", category: "OUTIL", amount: 1.99, currency: "EUR", startDay: "2026-07-01", endDay: null, paidBy: "BADR", note: "Payé perso par Badr, 1,99 €/mois. Sa moitié lui est due par Adnane, comptée au jour le jour. Date de départ approximative (3 débits constatés au 01/09)." },
   { label: "Google Workspace", category: "OUTIL", amount: 11.3, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "11,30 $/mois — montant réel lu sur Slash (débit du 02/09). L'ancienne valeur (8,10 €) faisait crier « 10 € débités vs 8 € attendus » à chaque contrôle." },
   // 04/09 — FRAIS DE CHANGE SLASH : Meta facture en euros, la carte Slash paie
   // en dollars, et Slash prend ~1 % de « Foreign Transaction Fee » sur chaque
@@ -312,6 +324,54 @@ export function badrFixedCostsCentsForDay(day: string): number {
     else badr += Math.round(dailyEurCents(s) * s.badrShare);
   }
   return badr + Math.round(communCents * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
+}
+
+/**
+ * SOLDE ENTRE ASSOCIÉS d'un jour, TOUT COMPRIS (centimes ; positif = Adnane
+ * doit à Badr). C'est LA fonction à appeler : elle additionne les avances
+ * ponctuelles d'associateLedger.ts (frais LLC, Google One, transferts,
+ * factures) et les abonnements qu'UNE seule personne paie de sa poche.
+ *
+ * Pourquoi les abonnements comptent AU JOUR LE JOUR (Badr 06/09, « ça marche
+ * pas ton truc ») : Hushed est payé par Adnane tous les mois, mais le dû ne
+ * remontait que par les factures saisies à la main (juillet, août). En
+ * septembre plus personne ne le créditait, et l'écart entre les deux parts
+ * repartait dans le mauvais sens. La charge court chaque jour : le dû aussi.
+ * Plus rien à ressaisir chaque mois.
+ */
+export function badrLedgerCentsForDay(day: string): number {
+  return badrNetLedgerCentsForDay(day) + paidBySubsLedgerCentsForDay(day);
+}
+
+/** Part de l'AUTRE sur les abonnements qu'un associé paie seul, pour un jour
+ * (positif = Adnane doit à Badr). Jamais la part du payeur : elle est déjà à
+ * sa charge via badrFixedCostsCentsForDay. */
+export function paidBySubsLedgerCentsForDay(day: string): number {
+  let net = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (!s.paidBy || !isActiveOn(s, day) || !countsInNet(s)) continue;
+    const badrShare = s.badrShare ?? badrFixedShareFor(day);
+    const cents = dailyEurCents(s);
+    net +=
+      s.paidBy === "BADR"
+        ? Math.round(cents * (1 - badrShare))
+        : -Math.round(cents * badrShare);
+  }
+  return net;
+}
+
+/** Ce qu'un associé a réellement sorti de sa poche en ABONNEMENTS depuis le
+ * début, cumulé jusqu'à `untilDay` — le pendant « factures » des lignes
+ * paidBy, pour le bloc « Entre associés ». */
+export function subsPaidOutOfPocketCentsBy(payer: "BADR" | "ADNANE", untilDay: string): number {
+  let total = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (s.paidBy !== payer || !countsInNet(s)) continue;
+    const fin = s.endDay && s.endDay < untilDay ? s.endDay : untilDay;
+    if (fin < s.startDay) continue;
+    total += dailyEurCents(s) * listParisDays(s.startDay, fin).length;
+  }
+  return total;
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit

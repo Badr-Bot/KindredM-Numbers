@@ -1,6 +1,9 @@
 import type { Market } from "./engine";
-import { badrFixedCostsCentsForDay, fixedCostsCentsForDay } from "./subscriptions";
-import { badrNetLedgerCentsForDay } from "./associateLedger";
+import {
+  badrFixedCostsCentsForDay,
+  badrLedgerCentsForDay,
+  fixedCostsCentsForDay,
+} from "./subscriptions";
 import { listParisDays } from "./time";
 
 // ---------------------------------------------------------------------------
@@ -126,7 +129,7 @@ export function applyFixedCharges(shares: MonthlyShare[], days: string[]): Month
 export function applyAssociateLedger(shares: MonthlyShare[], days: string[]): MonthlyShare[] {
   const byYm = new Map(shares.map((s) => [s.yearMonth, { ...s }]));
   for (const day of days) {
-    const owedToBadr = badrNetLedgerCentsForDay(day);
+    const owedToBadr = badrLedgerCentsForDay(day);
     if (owedToBadr === 0) continue;
     const ym = day.slice(0, 7);
     const cur = byYm.get(ym) ?? { yearMonth: ym, netCents: 0, badrCents: 0, adnaneCents: 0 };
@@ -175,7 +178,7 @@ export function associateTotalsSinceStart(
         badr -= bp;
         adnane -= fixed - bp;
       }
-      const owed = badrNetLedgerCentsForDay(day);
+      const owed = badrLedgerCentsForDay(day);
       if (owed) {
         badr += owed;
         adnane -= owed;
