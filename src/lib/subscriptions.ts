@@ -295,15 +295,23 @@ export function countsInNet(s: Subscription): boolean {
  * pour sommer au centime.
  */
 export function badrFixedCostsCentsForDay(day: string): number {
-  // Règle par date pour les lignes ordinaires ; part FIXÉE (badrShare) pour
-  // celles qui y dérogent. Arrondi ligne à ligne. Les lignes hors net
-  // (Revolut Adnane) ne pèsent sur personne.
+  // Les lignes hors net (Revolut Adnane) ne pèsent sur personne.
+  //
+  // ⚠️ UN SEUL ARRONDI PAR JOUR sur les lignes à règle ordinaire (Badr 06/09).
+  // Arrondir chaque ligne séparément faisait 20 arrondis par jour, tous au
+  // demi-centime supérieur, donc TOUJOURS à la charge de Badr : ~3 €/mois
+  // d'écart entre les deux parts que rien ne justifiait, et que Badr a vu.
+  // On somme d'abord, on arrondit une seule fois ensuite. Les lignes à part
+  // FIXÉE (badrShare, ex. une charge portée par un seul associé) gardent leur
+  // arrondi propre : leur part n'est pas la moitié d'un total commun.
+  let communCents = 0;
   let badr = 0;
   for (const s of SUBSCRIPTIONS) {
     if (!isActiveOn(s, day) || !countsInNet(s)) continue;
-    badr += Math.round(dailyEurCents(s) * (s.badrShare ?? badrFixedShareFor(day)));
+    if (s.badrShare === undefined) communCents += dailyEurCents(s);
+    else badr += Math.round(dailyEurCents(s) * s.badrShare);
   }
-  return badr + oneOffBadrShareCentsForDay(day);
+  return badr + Math.round(communCents * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit
