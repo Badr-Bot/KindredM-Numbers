@@ -372,3 +372,34 @@ describe("estimateEnRoute — argent en route sans le scope Shopify", () => {
     expect(estimateEnRoute([], "2026-09-04")).toBe(0);
   });
 });
+
+// ---------------------------------------------------------------------------
+// 🔀 Argent en route : exact là où Shopify répond, estimé ailleurs.
+// Badr 07/09 : « ES et UK on s'en fout, je fais plus de vente dessus ». Une
+// boutique muette ne doit plus faire retomber TOUT l'en route sur une
+// estimation à ±2 000 € alors que FR (95 % du spend) répond exactement.
+// ---------------------------------------------------------------------------
+
+describe("estimateEnRoute — n'estime que les boutiques qu'on lui donne", () => {
+  const jours = (market: string, ca: number) =>
+    ["2026-09-03", "2026-09-04", "2026-09-05", "2026-09-06", "2026-09-07"].map((day) => ({
+      day,
+      market,
+      caCents: ca,
+      spendCents: 0,
+      feesCents: 0,
+    }));
+
+  it("une boutique muette SANS vente n'ajoute rien : le total reste exact", () => {
+    expect(estimateEnRoute(jours("ES", 0), "2026-09-07")).toBe(0);
+  });
+
+  it("une boutique muette QUI VEND encore est bien estimée", () => {
+    expect(estimateEnRoute(jours("ES", 10000), "2026-09-07")).toBe(50000);
+  });
+
+  it("ne compte que la fenêtre de versement, pas tout l'historique", () => {
+    const vieux = [{ day: "2026-08-01", market: "ES", caCents: 999999, spendCents: 0, feesCents: 0 }];
+    expect(estimateEnRoute([...vieux, ...jours("ES", 10000)], "2026-09-07")).toBe(50000);
+  });
+});

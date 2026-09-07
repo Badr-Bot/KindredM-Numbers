@@ -1,4 +1,5 @@
 import { createSign } from "node:crypto";
+import type { Market } from "./engine";
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
@@ -1176,12 +1177,23 @@ export interface BankReport {
  * versé) — la « part d'Adnane réaliste » en dépend (Badr 19/08 : « il y a de
  * l'argent qu'on n'a pas encaissé, comment on peut avoir la réalité ? »).
  * Nécessite le scope read_shopify_payments_accounts sur chaque app custom. */
-async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingScopes: boolean; skipped: string[] }> {
+async function fetchShopifyEnRoute(): Promise<{
+  totalEurCents: number;
+  missingScopes: boolean;
+  skipped: string[];
+  /** Boutiques dont le solde a été lu pour de vrai. */
+  answered: Market[];
+}> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   let totalEurCents = 0;
   let missingScopes = false;
   const skipped: string[] = [];
   const pending: { amount: number; currency: string }[] = [];
+  // Boutiques qui ont RÉELLEMENT répondu : leur en route est exact, on n'a
+  // plus besoin de l'estimer. Les autres restent à estimer, chacune sur son
+  // propre CA (Badr 07/09 : « ES et UK on s'en fout, je fais plus de vente
+  // dessus » — leur estimation vaut alors zéro, et le total devient exact).
+  const answered: Market[] = [];
   for (const config of getShopifyStoreConfigs()) {
     try {
       const token = await resolveAccessToken(config);
@@ -1209,6 +1221,7 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
         const amount = Number(b.amount);
         if (Number.isFinite(amount) && b.currencyCode) pending.push({ amount, currency: b.currencyCode });
       }
+      answered.push(config.market);
     } catch (err) {
       skipped.push(`${config.market} (${(err as Error).message.slice(0, 60)})`);
     }
@@ -1228,11 +1241,11 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
     if (eur === null) skipped.push(`${p.currency} sans taux`);
     else totalEurCents += eur;
   }
-  return { totalEurCents, missingScopes, skipped };
+  return { totalEurCents, missingScopes, skipped, answered };
 }
 
 // v2 : USD au dernier taux de la journée (04/09).
-const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v2"], {
+const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v3"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1725,24 +1738,36 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
 
   let reconciliation: BankReconciliation | null = null;
   let enRouteEstimateCents: number | null = null;
+  let estimateRowsByMarket: { market: string; row: ExpectedDaily }[] = [];
   if (txs.length > 0) {
     const { data, error } = await supabase
       .from("daily_aggregates")
-      .select("day, ca_cents, spend_cents, fees_cents")
+      .select("day, market, ca_cents, spend_cents, fees_cents")
       .gte("day", sinceDay)
       .lte("day", untilDay);
     if (error) {
       warnings.push(`Agrégats dashboard illisibles : ${error.message}`);
     } else {
       const byDay = new Map<string, ExpectedDaily>();
+      // Même agrégat, mais gardé PAR BOUTIQUE : l'estimation de l'argent en
+      // route ne doit porter que sur celles dont Shopify n'a pas donné le
+      // solde réel (Badr 07/09).
+      const byDayMarket = new Map<string, ExpectedDaily>();
       for (const r of data ?? []) {
         const day = String(r.day);
+        const market = String(r.market);
         const e = byDay.get(day) ?? { day, caCents: 0, spendCents: 0, feesCents: 0 };
         e.caCents += (r.ca_cents as number) ?? 0;
         e.spendCents += (r.spend_cents as number) ?? 0;
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
+        const k = `${market}|${day}`;
+        const m = byDayMarket.get(k) ?? { day, caCents: 0, spendCents: 0, feesCents: 0, market } as ExpectedDaily & { market: string };
+        m.caCents += (r.ca_cents as number) ?? 0;
+        m.feesCents += (r.fees_cents as number) ?? 0;
+        byDayMarket.set(k, m);
       }
+      estimateRowsByMarket = [...byDayMarket.entries()].map(([k, v]) => ({ market: k.split("|")[0], row: v }));
       enRouteEstimateCents = estimateEnRoute([...byDay.values()], untilDay);
       reconciliation = reconcile(txs, [...byDay.values()].filter((e) => e.day >= controlSince), controlSince, untilDay, {
         slashConnected,
@@ -1754,10 +1779,38 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
   const cashbackTotalEurCents =
     typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD", undefined, { rates: usdRatesForReport }) : null;
-  const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
+  // 🔀 EXACT + ESTIMÉ, boutique par boutique (Badr 07/09 : « ES et UK on s'en
+  // fout, je fais plus de vente dessus »). Avant, une seule boutique muette
+  // faisait retomber TOUT l'en route sur une estimation à ±2 000 € — alors que
+  // FR, qui pèse 95 % du spend, répondait exactement. On additionne donc le
+  // solde réel des boutiques qui répondent et l'estimation des autres, chacune
+  // sur SON propre CA. Une boutique muette qui ne vend plus rien ajoute zéro :
+  // le total redevient exact, et c'est DIT.
+  const { getShopifyMarkets } = await import("./shopify");
+  const toutesBoutiques = getShopifyMarkets();
+  const muettes: Market[] = enRouteRes
+    ? toutesBoutiques.filter((m) => !enRouteRes.answered.includes(m))
+    : toutesBoutiques;
+  const estimeMuettesCents = estimateRowsByMarket.length
+    ? estimateEnRoute(
+        estimateRowsByMarket.filter((r) => muettes.includes(r.market as Market)).map((r) => r.row),
+        untilDay
+      )
+    : null;
+  const enRoute = enRouteRes
+    ? {
+        totalEurCents: enRouteRes.totalEurCents + (estimeMuettesCents ?? 0),
+        // « estimé » seulement si une boutique muette a réellement vendu sur
+        // la fenêtre : sinon son apport est nul et le total est exact.
+        missingScopes: (estimeMuettesCents ?? 0) > 0,
+      }
+    : null;
   if (enRouteRes?.missingScopes) {
+    const nom = muettes.join(", ");
     setup.push(
-      "Argent en route : ajouter les scopes read_shopify_payments_accounts + read_shopify_payments_payouts sur chaque app custom (dev.shopify.com → app → Scopes) pour lire le solde exact que Shopify vous doit."
+      (estimeMuettesCents ?? 0) > 0
+        ? `Argent en route : ${nom} ne répond pas (scopes Shopify) et vend encore — sa part est ESTIMÉE. Ajouter read_shopify_payments_accounts + read_shopify_payments_payouts sur ces boutiques (dev.shopify.com → app → Versions → Portées) pour un chiffre exact.`
+        : `Argent en route : ${nom} ne répond pas (scopes Shopify), mais n'a plus de vente sur la période — le total reste exact.`
     );
   }
 

@@ -16,6 +16,11 @@ export interface ShopifyStoreConfig {
 
 const MARKETS: Market[] = ["ES", "UK", "DE", "FR"];
 
+/** Boutiques réellement branchées sur Shopify (CA/NIRA n'en fait pas partie). */
+export function getShopifyMarkets(): Market[] {
+  return [...MARKETS];
+}
+
 /**
  * Deux méthodes d'auth par store, au choix (dans .env.local) :
  *   1. SHOPIFY_<M>_TOKEN=shpat_…                          (token statique)
