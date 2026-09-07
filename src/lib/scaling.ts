@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { DASHBOARD_TAG } from "./cacheTags";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { isExcludedCampaign, type CampaignActivity } from "./meta";
 import { addDaysToDay, toParisDay } from "./time";
@@ -1399,6 +1400,57 @@ const fetchTodayInsightsCached = unstable_cache(
 // pas répondu vrai. Économise 1 aller-retour séquentiel à chaque chargement.
 let hasReachMemo: boolean | null = null;
 
+const MAX_ROWS = 5000;
+const AD_MAX_ROWS = 20000;
+
+/**
+ * Lectures Supabase de l'onglet Scaling, mises en cache 60 s et invalidées
+ * par la synchro (DASHBOARD_TAG) — Badr 07/09 : « fais-le pour tous les
+ * onglets qu'il n'y ait pas de lenteur ». Les données Meta LIVE (budgets,
+ * activités, jour J) gardent leur propre cache, plus court : elles ne
+ * viennent pas de la synchro.
+ *
+ * L'erreur est renvoyée en texte, pas en objet : unstable_cache sérialise en
+ * JSON et un objet d'erreur PostgREST n'y survivrait pas proprement.
+ */
+const fetchScalingInsightsCached = unstable_cache(
+  async (cols: string, startDay: string, today: string) => {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const { data, error } = await createSupabaseServerClient()
+      .from("meta_insights")
+      .select(cols)
+      .gte("day", startDay)
+      .lte("day", today)
+      .order("day", { ascending: true })
+      .order("campaign_id", { ascending: true })
+      .limit(MAX_ROWS);
+    return { data: (data ?? []) as unknown[], error: error?.message ?? null };
+  },
+  ["scaling-insights-v1"],
+  { revalidate: 60, tags: [DASHBOARD_TAG] }
+);
+
+const fetchScalingAdRowsCached = unstable_cache(
+  async (hasReach: boolean, campaignIds: string[], adStartDay: string, today: string) => {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const { data, error } = await createSupabaseServerClient()
+      .from("meta_ad_insights")
+      .select(
+        "day, ad_id, ad_name, campaign_id, spend_cents, purchases, purchase_value_cents, impressions, clicks" +
+          (hasReach ? ", reach" : "")
+      )
+      .in("campaign_id", campaignIds)
+      .gte("day", adStartDay)
+      .lte("day", today)
+      .order("day", { ascending: false })
+      .order("ad_id", { ascending: true })
+      .limit(AD_MAX_ROWS);
+    return { data: (data ?? []) as unknown[], error: error?.message ?? null };
+  },
+  ["scaling-ad-rows-v1"],
+  { revalidate: 60, tags: [DASHBOARD_TAG] }
+);
+
 export async function buildScalingReport(
   supabase: SupabaseClient,
   today: string,
@@ -1429,19 +1481,11 @@ export async function buildScalingReport(
     "day, campaign_id, campaign_name, spend_cents, purchases, purchase_value_cents, impressions, clicks" +
     (hasReach ? ", reach" : "");
 
-  const MAX_ROWS = 5000;
   const [insightsRes, overridesRes] = await Promise.all([
-    supabase
-      .from("meta_insights")
-      .select(insightCols)
-      .gte("day", startDay)
-      .lte("day", today)
-      .order("day", { ascending: true })
-      .order("campaign_id", { ascending: true })
-      .limit(MAX_ROWS),
+    fetchScalingInsightsCached(insightCols, startDay, today),
     supabase.from("app_state").select("value").eq("key", "campaign_daily_budgets").maybeSingle(),
   ]);
-  if (insightsRes.error) throw new Error(insightsRes.error.message);
+  if (insightsRes.error) throw new Error(insightsRes.error);
 
   const extraWarnings: string[] = [];
   if ((insightsRes.data ?? []).length >= MAX_ROWS) {
@@ -1480,7 +1524,6 @@ export async function buildScalingReport(
   // et triée du plus RÉCENT au plus ancien — une troncature éventuelle doit
   // manger les vieux jours, jamais ceux qui portent la décision.
   const adStartDay = addDaysToDay(today, -13);
-  const AD_MAX_ROWS = 20000;
   // Seules les campagnes du protocole (ni exclues ni TESTING) : leurs annonces
   // n'alimentent aucun diagnostic et gonfleraient la limite pour rien.
   const campaignIds = [
@@ -1494,16 +1537,8 @@ export async function buildScalingReport(
     ),
   ];
   const adRes = campaignIds.length
-    ? await supabase
-        .from("meta_ad_insights")
-        .select("day, ad_id, ad_name, campaign_id, spend_cents, purchases, purchase_value_cents, impressions, clicks" + (hasReach ? ", reach" : ""))
-        .in("campaign_id", campaignIds)
-        .gte("day", adStartDay)
-        .lte("day", today)
-        .order("day", { ascending: false })
-        .order("ad_id", { ascending: true })
-        .limit(AD_MAX_ROWS)
-    : { data: [], error: null };
+    ? await fetchScalingAdRowsCached(hasReach, campaignIds, adStartDay, today)
+    : { data: [] as unknown[], error: null };
 
   type RawAdRow = {
     day: string;

@@ -44,12 +44,19 @@ type LoadResult =
 async function loadData(): Promise<LoadResult> {
   try {
     const today = await referenceToday();
+    // Les litiges ne dépendent ni des seuils ni des lignes : lancés tout de
+    // suite, leur latence est recouverte au lieu de s'ajouter à la chaîne
+    // (Badr 07/09 : « fais-le pour tous les onglets »).
+    const chargebacksPromise = fetchChargebacks(HISTORY_START, today);
     const thresholds = await computeThresholds(today);
     const dayLines = {} as Record<MarketTab, DayLine[]>;
-    for (const tab of MARKET_TABS) {
-      dayLines[tab] = await getDayLines(tab, HISTORY_START, today, thresholds[tab], today);
-    }
-    const chargebacks = await fetchChargebacks(HISTORY_START, today);
+    const lines = await Promise.all(
+      MARKET_TABS.map((tab) => getDayLines(tab, HISTORY_START, today, thresholds[tab], today))
+    );
+    MARKET_TABS.forEach((tab, i) => {
+      dayLines[tab] = lines[i];
+    });
+    const chargebacks = await chargebacksPromise;
 
     return { dayLines, chargebacks, months: monthsBetween(HISTORY_START, today), today };
   } catch (err) {

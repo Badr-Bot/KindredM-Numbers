@@ -398,3 +398,65 @@ export function supplierUnbilledCents(
 ): number {
   return supplierUnbilledDetail(rows, lastBill).cents;
 }
+
+// ---------------------------------------------------------------------------
+// 🧾 CE QUI RESTE À CHACUN, ET LE TROU — ordre dicté par Badr (07/09) :
+//
+//   net Badr   = son net Année − SES dépenses carte
+//   net Adnane = son net Année − les dépenses carte d'Adnane et de Fahd
+//   + le CA prévu mais pas encore encaissé (versements Shopify en attente)
+//   = et ce qui manque est le TROU, qui doit tomber sur l'argent resté sur le
+//     Revolut d'Adnane.
+//
+// Les deux parts se calculent de la MÊME façon (« pour Adnane ça doit être
+// pareil »). Avant, celle d'Adnane était le RESTE une fois celle de Badr
+// retirée du patrimoine : elle absorbait en silence toute erreur du reste du
+// calcul, et il ne restait plus rien pour révéler un trou.
+// ---------------------------------------------------------------------------
+
+export interface OwnershipInput {
+  /** Net Année de chacun, charges déduites (associateTotalsSinceStart). */
+  netBadrCents: number;
+  netAdnaneCents: number;
+  /** Dépenses carte nominatives DEPUIS LE DÉBUT (jamais une fenêtre 30 j :
+   * on les retranche d'un net cumulé depuis le début). */
+  persoBadrCents: number;
+  persoAdnaneCents: number;
+  /** Soldes bancaires convertis (Wise + Slash). */
+  bankCents: number;
+  /** CA encaissé par Shopify, pas encore versé en banque. */
+  enRouteCents: number;
+  /** Dû au fournisseur : facturé impayé + livré non facturé − acomptes. */
+  supplierDebtCents: number;
+  /** Reliquat pré-LLC sur le Revolut d'Adnane, 100 % à lui. */
+  revolutAdnaneCents: number;
+}
+
+export interface Ownership {
+  partBadrCents: number;
+  partAdnaneCents: number;
+  /** Ce que les deux possèdent en tout. */
+  dueCents: number;
+  /** Ce qui existe vraiment en face. */
+  availableCents: number;
+  /** Ce qui manque — censé être le Revolut d'Adnane. */
+  gapCents: number;
+  /** Ce qui reste une fois le Revolut retiré : zéro = les comptes tombent juste. */
+  unexplainedCents: number;
+}
+
+export function computeOwnership(input: OwnershipInput): Ownership {
+  const partBadrCents = input.netBadrCents - input.persoBadrCents;
+  const partAdnaneCents = input.netAdnaneCents - input.persoAdnaneCents;
+  const dueCents = partBadrCents + partAdnaneCents;
+  const availableCents = input.bankCents + input.enRouteCents - input.supplierDebtCents;
+  const gapCents = dueCents - availableCents;
+  return {
+    partBadrCents,
+    partAdnaneCents,
+    dueCents,
+    availableCents,
+    gapCents,
+    unexplainedCents: gapCents - input.revolutAdnaneCents,
+  };
+}

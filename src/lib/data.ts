@@ -845,7 +845,7 @@ export interface Chargeback {
   reason: string | null;
 }
 
-export async function fetchChargebacks(start: string, end: string): Promise<Chargeback[]> {
+async function fetchChargebacksUncached(start: string, end: string): Promise<Chargeback[]> {
   const mode = getDataMode();
   if (mode === "demo") {
     const { getDemoChargebacks } = await import("./demo");
@@ -874,6 +874,16 @@ export async function fetchChargebacks(start: string, end: string): Promise<Char
     reason: c.reason,
   }));
 }
+
+/**
+ * Cache 5 min, invalidé par la synchro (DASHBOARD_TAG). Lu à chaque
+ * affichage de l'onglet Mois pour une table qui bouge très rarement — un
+ * aller-retour de moins par navigation (Badr 07/09).
+ */
+export const fetchChargebacks = unstable_cache(fetchChargebacksUncached, ["chargebacks-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});
 
 // ---------------------------------------------------------------------------
 // §4.6 — Spend Meta non affecté (bucket UNMAPPED)

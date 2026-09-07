@@ -1079,6 +1079,13 @@ appellent `revalidateTag` dès qu'une synchro a écrit quelque chose. Tout tombe
 ensemble — jamais le CA rafraîchi et la dépense en retard (le défaut signalé
 le 05/09).
 
+**Et les autres onglets**, dans la foulée (« fais-le pour tous les onglets
+qu'il n'y ait pas de lenteur ») : journal d'événements, brief de l'onglet
+Live, litiges de l'onglet Mois, les deux lectures Supabase de Scaling et les
+listes Klaviyo passent toutes en cache étiqueté. L'onglet Mois lançait aussi
+ses cinq marchés l'un après l'autre et les litiges à la fin : tout part
+ensemble maintenant.
+
 **Pointillés.** Les traits verticaux des graphiques Analyse (événements,
 scale/descale) sont retirés : ils barraient la courbe, et il fallait deviner
 ce qu'ils marquaient. L'information n'est pas perdue, elle est dans
@@ -1099,3 +1106,31 @@ juste au-dessus.
 - Rotation recommandée à terme : les secrets ont transité par le chat —
   bouton **« Faire pivoter »** (Dev Dashboard → Paramètres → Secret) puis
   mettre à jour Vercel. À faire quand tout tourne.
+
+
+## Mise à jour 07/09 (suite) — l'onglet Comptable se lit dans l'ordre
+
+Badr : « le net Badr est bon, donc net − dépenses. Pour Adnane ça doit être
+pareil, donc net − (dépenses Adnane + Fahd). Ensuite le CA prévu et pas encore
+encaissé, en attente de virement Shopify. Et ensuite t'auras ce trou dans les
+comptes, qui doit correspondre à l'argent qui est sur Revolut. »
+
+L'onglet suit maintenant exactement cette chaîne, en quatre tuiles :
+**Net Badr · Net Adnane · CA pas encore encaissé · Trou dans les comptes**,
+avec une ligne qui pose l'égalité en toutes lettres, puis « Dépense inconnue ? »
+en dessous.
+
+Le défaut corrigé : la part d'Adnane était le RESTE (patrimoine − part de
+Badr). Elle absorbait donc en silence n'importe quelle erreur du calcul, et
+il ne restait rien pour révéler un trou. Les deux parts se calculent
+désormais pareil — chacun son net, moins ses propres dépenses — et le trou
+apparaît comme la différence entre ce que les deux possèdent et ce qui existe
+réellement (comptes + en route − dû à Panda).
+
+Autres corrections au passage : les dépenses perso retranchées viennent du
+balayage DEPUIS LE DÉBUT (l'ancien calcul prenait la fenêtre 30 jours du
+contrôle, retranchée d'un net cumulé depuis le début — deux périodes
+différentes), et le calcul pur vit dans `treasury.ts` (`computeOwnership`),
+testé, au lieu d'être noyé dans le composant.
+
+309 tests verts, build OK, lint clean.
