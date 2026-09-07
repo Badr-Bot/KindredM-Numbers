@@ -1039,6 +1039,53 @@ de sa poche compte double, il quitte un côté et arrive de l'autre).
 
 301 tests verts, build OK, lint clean.
 
+## Mise à jour 07/09 — vitesse des onglets, et plus de pointillés
+
+Badr : « pourquoi on a beaucoup de temps quand je passe d'un onglet à un
+autre, surtout Produits, Analyse ? » et « enlève les traits en pointillés au
+niveau des charts, ça casse le visu, je vois même pas la courbe ».
+
+**Vitesse.** Chaque navigation refaisait TOUT le travail de lecture :
+- `meta_ad_insights` (~12 000 lignes) était relue page par page, 1 000 par
+  1 000, EN SÉQUENCE — une douzaine d'allers-retours enchaînés, pour l'onglet
+  Analyse comme pour l'onglet Créas. Les pages partent maintenant en
+  parallèle (un `count` d'abord, puis toutes les pages d'un coup).
+- Rien n'était gardé d'une navigation à l'autre. `getAnalyticsData` et
+  `getCreasData` sont désormais en cache 5 min, `fetchDailyRows` (lue par
+  TOUS les onglets) en cache 60 s.
+- Les « sondes de colonne » (est-ce que `cogs_product_cents` existe ?)
+  coûtaient 2 à 3 allers-retours à chaque lecture pour une réponse qui ne
+  change jamais à chaud : mémoïsées par process (`columnExists`).
+
+**Le passé n'est plus relu.** Idée de Badr : « enregistrer ce qui s'est déjà
+passé les jours d'avant et relire que le jour J ». La synchro profonde réécrit
+J-7 → J ; avant ça, plus rien ne bouge. Les lectures lourdes sont donc coupées
+en deux (`frozenEndDay`) :
+- le passé (≤ J-8) → cache 24 h, étiqueté `HISTORY_TAG`, qu'une synchro
+  ordinaire ne jette JAMAIS ;
+- les huit derniers jours → cache court, étiqueté `DASHBOARD_TAG`, vidé à
+  chaque synchro qui a écrit.
+
+Ouvrir Analyse ne relit donc plus 12 000 lignes, mais ~800.
+
+**Et le gros du travail se fait la nuit** (autre idée de Badr). La clôture de
+minuit (`/api/cron`) est le seul moment où l'historique est vidé — une journée
+vient de basculer dans le passé figé — puis elle RECHARGE tout de suite les
+trois lectures lourdes. Le premier affichage du matin trouve les caches déjà
+chauds. Un backfill complet vide aussi l'historique, forcément.
+
+**Sans jamais afficher un chiffre périmé** : `/api/sync` et `/api/cron`
+appellent `revalidateTag` dès qu'une synchro a écrit quelque chose. Tout tombe
+ensemble — jamais le CA rafraîchi et la dépense en retard (le défaut signalé
+le 05/09).
+
+**Pointillés.** Les traits verticaux des graphiques Analyse (événements,
+scale/descale) sont retirés : ils barraient la courbe, et il fallait deviner
+ce qu'ils marquaient. L'information n'est pas perdue, elle est dans
+l'infobulle du jour, en toutes lettres et en couleur. La moyenne en pointillé
+des mini-graphiques Créas part aussi : elle reste écrite en chiffre (« moy. »)
+juste au-dessus.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { runThrottledIncrementalSync } from "@/lib/incrementalSync";
+import { DASHBOARD_TAG } from "@/lib/cacheTags";
 
 // 300s (pas 60) : une correction de bug peut déclencher un backfill complet
 // de tout l'historique (voir REQUIRED_FULL_RESYNC_VERSION), aussi long que
@@ -20,6 +22,11 @@ export async function POST(request: Request) {
     // (l'appel automatique LiveSync reste à 5 min).
     const force = new URL(request.url).searchParams.get("force") === "1";
     const result = await runThrottledIncrementalSync(force);
+    // La synchro vient d'écrire de nouveaux chiffres : les caches de lecture
+    // (agrégats, insights Meta, split produit) tombent d'un coup. Sans ça,
+    // l'écran resterait sur les anciens chiffres jusqu'à expiration —
+    // exactement ce que Badr ne veut pas voir (05/09).
+    if (result.ran) revalidateTag(DASHBOARD_TAG, "max");
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     return NextResponse.json({ ok: false, reason: (err as Error).message }, { status: 500 });
