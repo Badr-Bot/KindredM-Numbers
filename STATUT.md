@@ -1160,3 +1160,30 @@ existe**, contre **Net Badr + Net Adnane = ce qui nous appartient**, et la
 différence en dessous.
 
 310 tests verts, build OK, lint clean.
+
+## Mise à jour 07/09 — scopes Shopify : FR complet, en route exact
+
+Badr a publié une nouvelle version de l'app avec toutes les portées en
+lecture. Vérifié en direct sur `/api/admin/scopes` :
+
+| Boutique | État |
+|---|---|
+| FR | ✅ 33 portées, dont `read_shopify_payments_payouts`, `_accounts`, `_disputes`, `read_all_orders` |
+| ES / UK | ❌ toujours `read_orders` + `read_products` — Badr : « on s'en fout, je fais plus de vente dessus » |
+| DE | ❌ `app_not_installed` — l'app n'est pas installée sur la boutique |
+| CA | pas branchée (MARKETS de shopify.ts s'arrête à FR) |
+
+FR pèse **95 % du spend** (209 973 € sur 220 115 €). Or une seule boutique
+muette faisait retomber TOUT l'argent en route sur l'estimation à ±2 000 €,
+alors que la boutique qui compte répondait exactement.
+
+Désormais : **solde réel des boutiques qui répondent + estimation des autres,
+chacune sur SON propre CA**. Une boutique muette qui ne vend plus ajoute zéro,
+donc le total est EXACT et le dashboard le dit (`missingScopes` ne se lève que
+si une boutique muette a réellement vendu sur la fenêtre de versement).
+
+Le message de configuration distingue les deux cas : « ne répond pas et vend
+encore → part estimée » vs « ne répond pas mais n'a plus de vente → le total
+reste exact ».
+
+314 tests verts, build OK, lint clean.
