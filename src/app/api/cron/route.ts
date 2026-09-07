@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
-import { DASHBOARD_TAG } from "@/lib/cacheTags";
+import { DASHBOARD_TAG, HISTORY_TAG } from "@/lib/cacheTags";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import type { ProductMapEntry } from "@/lib/engine";
 import { runIncrementalSync } from "@/lib/incrementalSync";
@@ -44,7 +44,40 @@ export async function GET(request: NextRequest) {
   // de la journée, elle n'a aucune contrainte de temps d'affichage. La synchro
   // auto de la journée, elle, alterne rapide/complet (voir incrementalSync.ts).
   const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[], { deep: true });
+
   // Clôture terminée : les caches de lecture repartent des nouveaux chiffres.
+  // La nuit est le SEUL moment où l'on jette aussi l'historique (HISTORY_TAG) :
+  // une journée vient de basculer dans le passé figé, il faut la recompter une
+  // fois. Une synchro de journée, elle, n'y touche jamais.
   revalidateTag(DASHBOARD_TAG, "max");
-  return NextResponse.json({ ok: true, ...result });
+  revalidateTag(HISTORY_TAG, "max");
+
+  // Puis on RECHARGE tout de suite, pendant que personne ne regarde — idée de
+  // Badr (07/09) : « y a pas moyen de faire ça la nuit ? ». Le premier
+  // affichage du matin trouve les caches déjà chauds au lieu de payer la
+  // relecture complète. Best effort : si ça échoue, le premier visiteur la
+  // paiera comme avant, rien n'est cassé.
+  const warmed = await warmCaches();
+
+  return NextResponse.json({ ok: true, ...result, warmed });
+}
+
+/**
+ * Rejoue les lectures lourdes pour remplir les caches. Appelée juste après la
+ * clôture de nuit — jamais dans le chemin d'un affichage.
+ */
+async function warmCaches(): Promise<boolean> {
+  try {
+    const [{ getAnalyticsData, getCreasData }, { getTabDayData, HISTORY_START, referenceToday }] =
+      await Promise.all([import("@/lib/analytics"), import("@/lib/data")]);
+    const today = await referenceToday();
+    await Promise.all([
+      getTabDayData(HISTORY_START, today),
+      getAnalyticsData(HISTORY_START, today),
+      getCreasData(HISTORY_START, today),
+    ]);
+    return true;
+  } catch {
+    return false;
+  }
 }

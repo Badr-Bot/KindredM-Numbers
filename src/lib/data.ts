@@ -11,7 +11,7 @@ import {
 } from "./engine";
 import { cache as reactCache } from "react";
 import { unstable_cache } from "next/cache";
-import { DASHBOARD_TAG } from "./cacheTags";
+import { DASHBOARD_TAG, HISTORY_TAG, frozenEndDay } from "./cacheTags";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
 import { fixedCostsCentsForDay } from "./subscriptions";
@@ -127,21 +127,41 @@ export const fetchDailyRows = reactCache(async (startDay: string, endDay: string
   // En démo, aucun aller-retour réseau : le cache persistant n'apporterait
   // rien et figerait des données déjà locales.
   if (getDataMode() !== "live") return fetchDailyRowsUncached(startDay, endDay);
-  return fetchDailyRowsCached(startDay, endDay);
+  const cut = frozenEndDay(await referenceToday());
+  // Plage entièrement dans le passé, ou entièrement dans la fenêtre chaude :
+  // une seule lecture, dans le bon cache.
+  if (endDay <= cut) return fetchDailyRowsFrozen(startDay, endDay);
+  if (startDay > cut) return fetchDailyRowsHot(startDay, endDay);
+  // À cheval : le passé sort du cache long, seuls les 8 derniers jours sont
+  // vraiment relus. Les lignes sont triées par jour, donc concaténer suffit.
+  const [passe, recent] = await Promise.all([
+    fetchDailyRowsFrozen(startDay, cut),
+    fetchDailyRowsHot(addDaysToDay(cut, 1), endDay),
+  ]);
+  return [...passe, ...recent];
 });
 
 /**
- * Cache PERSISTANT (entre requêtes) des agrégats journaliers — Badr 07/09 :
- * « pourquoi on a beaucoup de temps quand je passe d'un onglet à un autre ».
- * Chaque onglet relisait la même plage depuis Supabase à chaque navigation.
+ * Caches PERSISTANTS (entre requêtes) des agrégats journaliers — Badr 07/09 :
+ * « pourquoi on a beaucoup de temps quand je passe d'un onglet à un autre »,
+ * puis « enregistrer ce qui s'est déjà passé les jours d'avant et relire que
+ * le jour J ». Chaque onglet relisait TOUT l'historique à chaque navigation.
  *
- * 60 s seulement, et surtout INVALIDÉ par la synchro (revalidateTag
- * DASHBOARD_TAG dans /api/sync et /api/cron) : dès que de nouveaux chiffres
- * sont écrits, le prochain rendu les voit. Jamais de chiffre périmé affiché
- * après une synchro — c'était la condition de Badr le 05/09 (« que ça
- * m'annonce pas un bénéfice et une fois ça s'actualise une perte »).
+ * Deux caches, parce que les deux moitiés n'ont pas la même durée de vie :
+ *  • le passé (≤ J-8) ne sera plus jamais réécrit → 24 h, et une synchro
+ *    ordinaire ne le jette PAS (étiquette HISTORY_TAG, vidée seulement par la
+ *    clôture de nuit et un backfill) ;
+ *  • la fenêtre encore réécrite (J-7 → aujourd'hui) → 60 s, et surtout vidée
+ *    par chaque synchro qui a écrit (DASHBOARD_TAG). Jamais de chiffre périmé
+ *    après une synchro : la condition de Badr du 05/09 (« que ça m'annonce
+ *    pas un bénéfice et une fois ça s'actualise une perte »).
  */
-const fetchDailyRowsCached = unstable_cache(fetchDailyRowsUncached, ["daily-rows-v1"], {
+const fetchDailyRowsFrozen = unstable_cache(fetchDailyRowsUncached, ["daily-rows-frozen-v1"], {
+  revalidate: 86400,
+  tags: [HISTORY_TAG],
+});
+
+const fetchDailyRowsHot = unstable_cache(fetchDailyRowsUncached, ["daily-rows-hot-v1"], {
   revalidate: 60,
   tags: [DASHBOARD_TAG],
 });

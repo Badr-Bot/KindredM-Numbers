@@ -1057,8 +1057,24 @@ niveau des charts, ça casse le visu, je vois même pas la courbe ».
   coûtaient 2 à 3 allers-retours à chaque lecture pour une réponse qui ne
   change jamais à chaud : mémoïsées par process (`columnExists`).
 
-**Sans jamais afficher un chiffre périmé** : tous ces caches portent
-`DASHBOARD_TAG` (`src/lib/cacheTags.ts`), et `/api/sync` comme `/api/cron`
+**Le passé n'est plus relu.** Idée de Badr : « enregistrer ce qui s'est déjà
+passé les jours d'avant et relire que le jour J ». La synchro profonde réécrit
+J-7 → J ; avant ça, plus rien ne bouge. Les lectures lourdes sont donc coupées
+en deux (`frozenEndDay`) :
+- le passé (≤ J-8) → cache 24 h, étiqueté `HISTORY_TAG`, qu'une synchro
+  ordinaire ne jette JAMAIS ;
+- les huit derniers jours → cache court, étiqueté `DASHBOARD_TAG`, vidé à
+  chaque synchro qui a écrit.
+
+Ouvrir Analyse ne relit donc plus 12 000 lignes, mais ~800.
+
+**Et le gros du travail se fait la nuit** (autre idée de Badr). La clôture de
+minuit (`/api/cron`) est le seul moment où l'historique est vidé — une journée
+vient de basculer dans le passé figé — puis elle RECHARGE tout de suite les
+trois lectures lourdes. Le premier affichage du matin trouve les caches déjà
+chauds. Un backfill complet vide aussi l'historique, forcément.
+
+**Sans jamais afficher un chiffre périmé** : `/api/sync` et `/api/cron`
 appellent `revalidateTag` dès qu'une synchro a écrit quelque chose. Tout tombe
 ensemble — jamais le CA rafraîchi et la dépense en retard (le défaut signalé
 le 05/09).

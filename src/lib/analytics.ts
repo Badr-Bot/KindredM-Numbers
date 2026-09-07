@@ -4,8 +4,9 @@ import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET
 import { parseUtmCampaign } from "./roasReport";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
-import { columnExists, type Totals } from "./data";
-import { DASHBOARD_TAG } from "./cacheTags";
+import { columnExists, referenceToday, type Totals } from "./data";
+import { DASHBOARD_TAG, HISTORY_TAG, frozenEndDay } from "./cacheTags";
+import { addDaysToDay } from "./time";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -274,10 +275,37 @@ async function getAnalyticsDataUncached(start: string, end: string): Promise<Ana
  * écrit de nouveaux chiffres les fait apparaître au rendu suivant.
  * Sérialisable en JSON (tableaux d'objets plats) : compatible unstable_cache.
  */
-export const getAnalyticsData = unstable_cache(getAnalyticsDataUncached, ["analytics-data-v1"], {
+const analyticsFrozen = unstable_cache(getAnalyticsDataUncached, ["analytics-frozen-v1"], {
+  revalidate: 86400,
+  tags: [HISTORY_TAG],
+});
+
+const analyticsHot = unstable_cache(getAnalyticsDataUncached, ["analytics-hot-v1"], {
   revalidate: 300,
   tags: [DASHBOARD_TAG],
 });
+
+/**
+ * Lecture en deux morceaux (idée de Badr, 07/09 : « enregistrer ce qui s'est
+ * déjà passé les jours d'avant et relire que le jour J ») : le passé sort
+ * d'un cache de 24 h qu'une synchro ordinaire ne jette pas, seuls les huit
+ * derniers jours — ceux que la synchro profonde réécrit — sont vraiment
+ * relus. Ouvrir l'onglet Analyse ne relit plus 12 000 lignes.
+ */
+export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
+  const cut = frozenEndDay(await referenceToday());
+  if (end <= cut) return analyticsFrozen(start, end);
+  if (start > cut) return analyticsHot(start, end);
+  const [passe, recent] = await Promise.all([
+    analyticsFrozen(start, cut),
+    analyticsHot(addDaysToDay(cut, 1), end),
+  ]);
+  return {
+    insights: [...passe.insights, ...recent.insights],
+    adsDaily: [...passe.adsDaily, ...recent.adsDaily],
+    missingTables: passe.missingTables || recent.missingTables,
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Onglet 🎬 Créas — détail par créa (funnel complet, hook/hold vidéo, angle)
@@ -458,10 +486,35 @@ async function getCreasDataUncached(start: string, end: string): Promise<CreasDa
  * Version mise en cache (5 min), invalidée par la synchro (DASHBOARD_TAG) —
  * l'onglet Créas relisait toute la table d'insights à chaque affichage.
  */
-export const getCreasData = unstable_cache(getCreasDataUncached, ["creas-data-v1"], {
+const creasFrozen = unstable_cache(getCreasDataUncached, ["creas-frozen-v1"], {
+  revalidate: 86400,
+  tags: [HISTORY_TAG],
+});
+
+const creasHot = unstable_cache(getCreasDataUncached, ["creas-hot-v1"], {
   revalidate: 300,
   tags: [DASHBOARD_TAG],
 });
+
+/** Même découpe passé/présent que getAnalyticsData. Les métadonnées d'une
+ * créa (nom, angle, classements) sont un instantané courant : celles de la
+ * fenêtre chaude priment sur celles du passé. */
+export async function getCreasData(start: string, end: string): Promise<CreasData> {
+  const cut = frozenEndDay(await referenceToday());
+  if (end <= cut) return creasFrozen(start, end);
+  if (start > cut) return creasHot(start, end);
+  const [passe, recent] = await Promise.all([
+    creasFrozen(start, cut),
+    creasHot(addDaysToDay(cut, 1), end),
+  ]);
+  const meta = new Map(passe.meta.map((m) => [m.adId, m]));
+  for (const m of recent.meta) meta.set(m.adId, m);
+  return {
+    meta: [...meta.values()],
+    daily: [...passe.daily, ...recent.daily],
+    missingTables: passe.missingTables || recent.missingTables,
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Onglet ⚡ Aujourd'hui — carte par produit PRINCIPAL (demandé 02-03/08).

@@ -598,6 +598,12 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   l'autre, compté DOUBLE** (le montant quitte un côté et arrive de l'autre).
   Tout le reste — carte LLC, crédits Shopify, Revolut d'Adnane — est neutre
   entre eux. Aujourd'hui : ~6 €/mois en faveur d'Adnane.
+- **Le passé figé (≤ J-8) ne se relit pas** (07/09). La synchro profonde
+  réécrit J-7 → J : au-delà, les chiffres sont définitifs. Les lectures
+  lourdes sont coupées en deux caches (`frozenEndDay`, `HISTORY_TAG` 24 h vs
+  `DASHBOARD_TAG` court). Si la fenêtre de rescan change dans
+  incrementalSync.ts, `REWRITE_WINDOW_DAYS` doit changer AVEC — sinon un jour
+  encore réécrit serait servi depuis un cache de 24 h (un test le fige).
 - **Toute lecture mise en cache porte `DASHBOARD_TAG`** (07/09). La règle :
   on a le droit de cacher pour aller vite, JAMAIS d'afficher un chiffre
   périmé après une synchro — `/api/sync` et `/api/cron` appellent
