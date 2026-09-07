@@ -85,9 +85,9 @@ describe("buildTreasuryBridge", () => {
       },
     });
     const meta = 21550000 - 21337236;
-    // L'avance chez Meta ne figure PAS dans la ventilation de l'écart : c'est
-    // de l'argent encore à nous, retiré de l'attendu en banque (07/09).
-    expect(b.metaAdvanceCents).toBe(meta);
+    // Le surplus Meta n'est PAS ventilé comme une dépense connue : il reste
+    // dans l'inexpliqué, en rouge, jusqu'à ce qu'on sache ce que c'est (07/09).
+    expect(b.metaExcessCents).toBe(meta);
     expect(b.gapLines.map((l) => l.label)).toEqual([
       "Dépenses perso payées par la carte LLC",
       "Frais bancaires et de change",
@@ -118,9 +118,9 @@ describe("buildTreasuryBridge", () => {
       },
     });
     // Aucun poste mesuré : seul le reliquat Revolut pré-LLC absorbe l'écart.
-    // Et surtout aucune avance chez Meta : un débit INFÉRIEUR au spend est un
-    // décalage de facturation, pas de l'argent qui nous attend chez Meta.
-    expect(b.metaAdvanceCents).toBe(0);
+    // Un débit INFÉRIEUR au spend est un décalage de facturation Meta, pas un
+    // surplus : la ligne reste à zéro.
+    expect(b.metaExcessCents).toBe(0);
     expect(b.gapLines.map((l) => l.label)).toEqual([PRE_LLC_RESIDUAL.label]);
     expect(b.unexplainedCents).toBe(b.gapCents! - b.preLlcRevolutCents!);
   });
@@ -166,25 +166,33 @@ describe("attribution de l'écart", () => {
   it("impute le perso NOMINATIVEMENT et le reste par la règle des associés", () => {
     const b = withScan();
     const a = b.attribution!;
-    // Seul l'INEXPLIQUÉ se partage à l'aveugle : l'avance chez Meta est de
-    // l'argent encore à nous, elle n'est imputée à personne (07/09).
-    const flou = b.unexplainedCents!;
     expect(a.persoBadrCents).toBe(53100);
     expect(a.persoFahdCents).toBe(301800);
-    expect(a.badrCents).toBe(53100 + 84000 + Math.round(flou / 2));
-    expect(a.reparti5050Cents).toBe(flou);
+    // Badr porte SES dépenses perso + sa part des frais datés. Rien d'autre :
+    // ce qu'on n'explique pas n'est imputé à personne (07/09).
+    expect(a.badrCents).toBe(53100 + 84000);
+    expect(a.reparti5050Cents).toBe(0);
   });
 
-  it("Badr + Adnane = l'écart total, au centime", () => {
+  it("Badr + Adnane = l'écart EXPLIQUÉ, jamais l'écart total", () => {
+    // La différence est exactement ce qu'on ne comprend pas — et c'est le but
+    // de l'onglet qu'elle reste visible plutôt que répartie sur les deux.
     const b = withScan();
     const a = b.attribution!;
-    expect(a.badrCents + a.adnaneCents).toBe(b.gapCents);
+    const inconnu = b.gapCents! - (a.badrCents + a.adnaneCents);
+    // Le surplus Meta n'est plus une ligne de ventilation : il tombe dans
+    // l'inexpliqué, avec le reste de ce qu'on ne comprend pas.
+    expect(inconnu).toBe(b.unexplainedCents);
+    expect(b.unexplainedCents!).toBeGreaterThanOrEqual(b.metaExcessCents!);
   });
 
-  it("somme encore juste quand la part flou est impaire (aucun centime perdu)", () => {
-    const b = withScan({ feesCents: 120001 });
-    const a = b.attribution!;
-    expect(a.badrCents + a.adnaneCents).toBe(b.gapCents);
+  it("n'impute JAMAIS l'inconnu à quelqu'un — le défaut du 07/09", () => {
+    // Badr : « je peux pas avoir 1 591 € net, j'ai rien dépensé ». Un écart
+    // inconnu qui double ne doit rien changer à ce que chacun a consommé.
+    const petit = withScan({ metaBankCents: 21337236 });
+    const gros = withScan({ metaBankCents: 21337236 + 1390000 });
+    expect(gros.attribution!.badrCents).toBe(petit.attribution!.badrCents);
+    expect(gros.attribution!.adnaneCents).toBe(petit.attribution!.adnaneCents);
   });
 
   it("pas d'attribution sans balayage bancaire", () => {
@@ -228,9 +236,10 @@ describe("reliquat Revolut pré-LLC (décision Badr 04/09)", () => {
     expect(b.preLlcRevolutCents).toBe(PRE_LLC_RESIDUAL.cents);
     expect(b.unexplainedCents).toBe(250000);
     expect(b.unexplainedCents!).toBeGreaterThan(UNEXPLAINED_ALERT_CENTS);
-    // le trou neuf est réparti 50/50, le reliquat reste à Adnane
-    expect(b.attribution!.badrCents).toBe(125000);
-    expect(b.attribution!.adnaneCents).toBe(125000 + PRE_LLC_RESIDUAL.cents);
+    // Le trou neuf n'est imputé à PERSONNE (07/09) : il reste dehors, visible.
+    // Seul le reliquat pré-LLC est attribué, et il est à Adnane.
+    expect(b.attribution!.badrCents).toBe(0);
+    expect(b.attribution!.adnaneCents).toBe(PRE_LLC_RESIDUAL.cents);
   });
 
   it("jamais négatif : une banque au-dessus de l'attendu ne crée pas de reliquat", () => {

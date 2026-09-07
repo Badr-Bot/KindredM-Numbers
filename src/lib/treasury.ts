@@ -85,9 +85,11 @@ export interface TreasuryBridge {
   supplierNext: SupplierUnbilled | null;
   /** Net + tout ce qui est dû au fournisseur = cash que l'activité a produit. */
   cashTheoriqueCents: number;
-  /** Argent parti vers Meta au-delà du spend enregistré : une AVANCE encore à
-   * nous (solde prépayé), pas une dépense. null sans balayage bancaire. */
-  metaAdvanceCents: number | null;
+  /** Débits Meta au-delà du spend enregistré. NON EXPLIQUÉ : ni dépense
+   * attribuée, ni avance supposée. null sans balayage bancaire. */
+  metaExcessCents: number | null;
+  /** Le même écart mois par mois, pour retrouver QUAND il est apparu. */
+  metaByMonth: { month: string; bankCents: number; spendCents: number }[] | null;
   /** Solde Shopify Payments — exact avec le scope, sinon ESTIMÉ (CA − frais
    * des 5 derniers jours) et signalé par enRouteEstimated. null si rien. */
   enRouteCents: number | null;
@@ -169,6 +171,9 @@ export interface TreasuryInput {
     societeDatedBadrCents: number;
     /** Débits Meta réellement passés en banque. */
     metaBankCents: number;
+    /** Comparaison MOIS PAR MOIS entre ce que la banque a débité vers Meta et
+     * le spend enregistré — sert à retrouver QUAND un écart est apparu. */
+    metaByMonth?: { month: string; bankCents: number; spendCents: number }[];
     /** Spend Meta enregistré par le dashboard sur la MÊME période. */
     metaSpendCents: number;
     /** Frais de change depuis le début, par origine (information) — Badr
@@ -204,28 +209,21 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   const prepaid = input.supplierPrepaidCents ?? 0;
   const cashTheoriqueCents = input.netCumuleCents + input.supplierUnbilledCents + input.supplierOwedCents - prepaid;
 
-  // 💸 AVANCE CHEZ META — ce qui est parti en banque vers Meta AU-DELÀ du spend
-  // enregistré. C'est de l'argent qui a quitté les comptes mais qui NOUS
-  // APPARTIENT ENCORE : un solde prépayé chez Meta, pas une dépense. Il vient
-  // donc s'ajouter à ce qu'on possède, au même titre que le CA pas encore
-  // encaissé — jamais se retrancher du net de quelqu'un.
+  // 💸 DÉBITS META AU-DELÀ DU SPEND ENREGISTRÉ — la banque a payé Meta plus
+  // que ce que le dashboard a compté en dépense publicitaire. On ne SAIT PAS
+  // ce que c'est (Badr 07/09 : « c'est pas de l'argent chez Meta, je sais pas
+  // d'où tu les sors »). Deux explications inventées et démenties : frais de
+  // change (impossible, ce serait 6 % du spend, et les vrais frais sont déjà
+  // comptés à part) puis avance prépayée chez Meta.
   //
-  // Corrigé le 07/09 : c'était compté comme une dépense partagée 50/50, ce qui
-  // amputait le net de Badr de ~7 000 € (« je peux pas avoir 1 591 € net, j'ai
-  // rien dépensé »). Sur 220 000 € de spend, un supplément de ~14 000 € ferait
-  // 6 % de frais de change : impossible, et les vrais frais de change sont
-  // déjà comptés à part (ligne « Frais de change Slash »). Les compter ici
-  // aussi, c'était les compter deux fois.
-  //
-  // Négatif = Meta a diffusé plus qu'il n'a prélevé (palier de facturation pas
-  // encore tombé) : ce n'est pas une avance, la ligne reste à zéro.
+  // Donc : ça reste INEXPLIQUÉ, en rouge, et ce n'est retranché du net de
+  // PERSONNE. Un chiffre qu'on ne comprend pas doit se voir — c'est tout
+  // l'objet de cet onglet : vérifier que l'argent qu'on dit avoir gagné existe
+  // vraiment, pas fabriquer une explication pour que les comptes tombent juste.
   const s = input.scan;
-  const metaAdvanceCents = s ? Math.max(s.metaBankCents - s.metaSpendCents, 0) : null;
+  const metaExcessCents = s ? Math.max(s.metaBankCents - s.metaSpendCents, 0) : null;
 
-  const attenduEnBanqueCents =
-    input.enRouteCents === null
-      ? null
-      : cashTheoriqueCents - input.enRouteCents - (metaAdvanceCents ?? 0);
+  const attenduEnBanqueCents = input.enRouteCents === null ? null : cashTheoriqueCents - input.enRouteCents;
   const gapCents = attenduEnBanqueCents === null || bankCents === null ? null : attenduEnBanqueCents - bankCents;
 
   const gapLines: TreasuryGapLine[] = [];
@@ -273,17 +271,19 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   //   • les dépenses perso sont NOMINATIVES (exactes, aucune répartition) ;
   //   • les frais et Google Ads sont datés → règle des associés jour par jour
   //     (100 % Adnane avant le 14/07, 50/50 ensuite) ;
-  //   • l'inexpliqué n'a pas de date exploitable → 50/50, et c'est DIT (champ
-  //     reparti5050Cents), jamais présenté comme une mesure.
+  //   • ce qu'on n'explique PAS n'est imputé à personne : il reste dehors, en
+  //     rouge, jusqu'à ce qu'on sache ce que c'est.
   //   • le reliquat Revolut pré-LLC est à Adnane, 100 % (décision Badr 04/09).
   let attribution: TreasuryAttribution | null = null;
   if (s && unexplainedCents !== null && preLlcRevolutCents !== null) {
     const dated = s.feesCents + s.googleAdsCents;
-    // Seul l'INEXPLIQUÉ se partage à l'aveugle. L'avance chez Meta n'en fait
-    // plus partie : c'est de l'argent encore à nous, pas une dépense de l'un
-    // ou de l'autre (correction 07/09).
-    const flou = unexplainedCents;
-    const badrFlou = Math.round(flou / 2);
+    // ⚠️ RIEN d'inexpliqué n'est imputé à quelqu'un (07/09). Partager de
+    // l'inconnu 50/50 revient à amputer le net de Badr d'une somme dont on ne
+    // sait même pas si c'est une dépense : c'est ce qui lui a fait afficher
+    // 1 591 € de net alors qu'il n'avait rien dépensé. L'inexpliqué reste
+    // DEHORS, visible, et c'est lui qu'on va chercher.
+    const flou = 0;
+    const badrFlou = 0;
     const badr = s.persoBadrCents + s.societeDatedBadrCents + badrFlou;
     const adnane = s.persoFahdCents + (dated - s.societeDatedBadrCents) + (flou - badrFlou) + preLlcRevolutCents;
     attribution = {
@@ -304,7 +304,8 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     supplierPrepaidCents: prepaid,
     supplierNext: input.supplierNext ?? null,
     cashTheoriqueCents,
-    metaAdvanceCents,
+    metaExcessCents,
+    metaByMonth: s?.metaByMonth ?? null,
     enRouteCents: input.enRouteCents,
     enRouteEstimated: input.enRouteEstimated ?? false,
     bankCents,
@@ -449,7 +450,8 @@ export interface OwnershipInput {
   bankCents: number;
   /** CA encaissé par Shopify, pas encore versé en banque. */
   enRouteCents: number;
-  /** Avance encore chez Meta (solde prépayé) — de l'argent à nous. */
+  /** Avance certaine encore à nous ailleurs (aujourd'hui : rien). Ce qu'on
+   * n'explique PAS ne passe jamais par ici — il doit ressortir dans le trou. */
   metaAdvanceCents: number;
   /** Dû au fournisseur : facturé impayé + livré non facturé − acomptes. */
   supplierDebtCents: number;
