@@ -1079,6 +1079,13 @@ appellent `revalidateTag` dès qu'une synchro a écrit quelque chose. Tout tombe
 ensemble — jamais le CA rafraîchi et la dépense en retard (le défaut signalé
 le 05/09).
 
+**Et les autres onglets**, dans la foulée (« fais-le pour tous les onglets
+qu'il n'y ait pas de lenteur ») : journal d'événements, brief de l'onglet
+Live, litiges de l'onglet Mois, les deux lectures Supabase de Scaling et les
+listes Klaviyo passent toutes en cache étiqueté. L'onglet Mois lançait aussi
+ses cinq marchés l'un après l'autre et les litiges à la fin : tout part
+ensemble maintenant.
+
 **Pointillés.** Les traits verticaux des graphiques Analyse (événements,
 scale/descale) sont retirés : ils barraient la courbe, et il fallait deviner
 ce qu'ils marquaient. L'information n'est pas perdue, elle est dans
