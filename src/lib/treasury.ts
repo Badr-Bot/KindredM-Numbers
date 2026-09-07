@@ -418,45 +418,59 @@ export interface OwnershipInput {
   /** Net Année de chacun, charges déduites (associateTotalsSinceStart). */
   netBadrCents: number;
   netAdnaneCents: number;
-  /** Dépenses carte nominatives DEPUIS LE DÉBUT (jamais une fenêtre 30 j :
-   * on les retranche d'un net cumulé depuis le début). */
-  persoBadrCents: number;
-  persoAdnaneCents: number;
-  /** Soldes bancaires convertis (Wise + Slash). */
+  /**
+   * Ce que chacun a DÉJÀ consommé sur l'argent de la société, depuis le
+   * début : ses dépenses perso à la carte, sa part des frais bancaires, du
+   * supplément Meta et de Google Ads, et pour Adnane le reliquat resté sur
+   * son Revolut. C'est exactement `TreasuryAttribution.badrCents` /
+   * `adnaneCents` — la ventilation complète de l'écart, pas seulement le
+   * perso.
+   *
+   * ⚠️ Ne JAMAIS n'y mettre que les dépenses perso : les frais bancaires, le
+   * supplément Meta et Google Ads sont sortis des comptes eux aussi. Les
+   * oublier faisait apparaître ~14 000 € de « trou » qui n'en était pas un
+   * (Badr 07/09 : « ce trou dans les comptes je ne le comprends pas »).
+   */
+  consommeBadrCents: number;
+  consommeAdnaneCents: number;
+  /** Soldes bancaires convertis (Wise + Slash), après paiement fournisseur. */
   bankCents: number;
   /** CA encaissé par Shopify, pas encore versé en banque. */
   enRouteCents: number;
   /** Dû au fournisseur : facturé impayé + livré non facturé − acomptes. */
   supplierDebtCents: number;
-  /** Reliquat pré-LLC sur le Revolut d'Adnane, 100 % à lui. */
-  revolutAdnaneCents: number;
 }
 
 export interface Ownership {
+  /** Ce qui reste à chacun dans la société. */
   partBadrCents: number;
   partAdnaneCents: number;
   /** Ce que les deux possèdent en tout. */
   dueCents: number;
-  /** Ce qui existe vraiment en face. */
+  /** Ce qui existe vraiment en face (comptes + en route − dû au fournisseur). */
   availableCents: number;
-  /** Ce qui manque — censé être le Revolut d'Adnane. */
+  /** Ce qui manque. Zéro = tout est expliqué, chaque euro a une case. */
   gapCents: number;
-  /** Ce qui reste une fois le Revolut retiré : zéro = les comptes tombent juste. */
-  unexplainedCents: number;
 }
 
+/**
+ * Ce qui reste à chacun, et le trou — ordre dicté par Badr (07/09) :
+ *
+ *   net Badr   = son net Année − ce qu'il a déjà consommé
+ *   net Adnane = son net Année − ce qu'il a déjà consommé (lui + Fahd)
+ *   + le CA pas encore encaissé (versements Shopify en attente)
+ *   − ce qu'on doit encore au fournisseur
+ *   = et l'écart entre les deux côtés est le vrai TROU.
+ *
+ * Les deux parts se calculent de la MÊME façon (« pour Adnane ça doit être
+ * pareil »). Avant, celle d'Adnane était le RESTE une fois celle de Badr
+ * retirée : elle absorbait en silence toute erreur du calcul, et il ne
+ * restait rien pour révéler un trou.
+ */
 export function computeOwnership(input: OwnershipInput): Ownership {
-  const partBadrCents = input.netBadrCents - input.persoBadrCents;
-  const partAdnaneCents = input.netAdnaneCents - input.persoAdnaneCents;
+  const partBadrCents = input.netBadrCents - input.consommeBadrCents;
+  const partAdnaneCents = input.netAdnaneCents - input.consommeAdnaneCents;
   const dueCents = partBadrCents + partAdnaneCents;
   const availableCents = input.bankCents + input.enRouteCents - input.supplierDebtCents;
-  const gapCents = dueCents - availableCents;
-  return {
-    partBadrCents,
-    partAdnaneCents,
-    dueCents,
-    availableCents,
-    gapCents,
-    unexplainedCents: gapCents - input.revolutAdnaneCents,
-  };
+  return { partBadrCents, partAdnaneCents, dueCents, availableCents, gapCents: dueCents - availableCents };
 }

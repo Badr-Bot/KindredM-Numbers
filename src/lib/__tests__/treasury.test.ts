@@ -374,44 +374,60 @@ describe("computeOwnership — les deux parts calculées PAREIL", () => {
   const base = {
     netBadrCents: 874100, // net Année Badr
     netAdnaneCents: 5165800, // net Année Adnane
-    persoBadrCents: 61300, // ses dépenses carte
-    persoAdnaneCents: 348300, // celles d'Adnane + Fahd
-    bankCents: 4500000,
-    enRouteCents: 1000000,
+    // Tout ce que chacun a déjà consommé : dépenses carte, sa part des frais
+    // bancaires / du supplément Meta / de Google Ads, et pour Adnane le
+    // reliquat Revolut.
+    consommeBadrCents: 750000,
+    consommeAdnaneCents: 900000,
+    bankCents: 2500000,
+    enRouteCents: 1866900,
     supplierDebtCents: 200000,
-    revolutAdnaneCents: 126500,
   };
 
-  it("part de chacun = son net MOINS ses propres dépenses", () => {
+  it("part de chacun = son net MOINS ce qu'il a consommé", () => {
     const o = computeOwnership(base);
-    expect(o.partBadrCents).toBe(874100 - 61300);
-    expect(o.partAdnaneCents).toBe(5165800 - 348300);
+    expect(o.partBadrCents).toBe(874100 - 750000);
+    expect(o.partAdnaneCents).toBe(5165800 - 900000);
     // Aucune part n'est le « reste » de l'autre : c'est ce qui permet au trou
     // d'exister. Avant, la part d'Adnane absorbait toute erreur en silence.
     expect(o.partBadrCents + o.partAdnaneCents).toBe(o.dueCents);
   });
 
-  it("le trou = ce qu'on possède − ce qui est réellement disponible", () => {
+  it("le disponible compte le CA pas encore encaissé et retire la dette Panda", () => {
     const o = computeOwnership(base);
-    expect(o.availableCents).toBe(4500000 + 1000000 - 200000);
+    expect(o.availableCents).toBe(2500000 + 1866900 - 200000);
     expect(o.gapCents).toBe(o.dueCents - o.availableCents);
   });
 
-  it("tombe à zéro d'inexpliqué quand le trou vaut le Revolut d'Adnane", () => {
-    // On construit le cas parfait : la banque porte exactement le reste.
-    const parfait = { ...base, bankCents: 0 };
-    const sansBanque = computeOwnership(parfait);
-    const o = computeOwnership({
-      ...base,
-      bankCents: sansBanque.gapCents - base.revolutAdnaneCents,
-    });
-    expect(o.gapCents).toBe(base.revolutAdnaneCents);
-    expect(o.unexplainedCents).toBe(0);
+  it("tombe à ZÉRO quand tout ce qui est sorti est bien attribué", () => {
+    // Cas sain : la banque porte exactement ce qui reste aux deux.
+    const sansBanque = computeOwnership({ ...base, bankCents: 0 });
+    const o = computeOwnership({ ...base, bankCents: sansBanque.gapCents });
+    expect(o.gapCents).toBe(0);
   });
 
-  it("une dépense carte d'Adnane ne touche JAMAIS la part de Badr", () => {
+  it("oublier les frais et le supplément Meta invente un trou — le défaut du 07/09", () => {
+    // Badr voyait « 15 781 € de trou » : le calcul ne retranchait que les
+    // dépenses PERSO, alors que frais bancaires, supplément Meta et Google Ads
+    // sont sortis des comptes eux aussi. Le trou n'était que cet oubli.
+    const sansBanque = computeOwnership({ ...base, bankCents: 0 });
+    const sain = computeOwnership({ ...base, bankCents: sansBanque.gapCents });
+    expect(sain.gapCents).toBe(0);
+    const fraisOublies = 1393100;
+    // La version fautive ne retranchait QUE le perso : le « consommé » était
+    // donc trop petit de tous ces frais.
+    const faux = computeOwnership({
+      ...base,
+      bankCents: sansBanque.gapCents,
+      consommeBadrCents: base.consommeBadrCents - fraisOublies / 2,
+      consommeAdnaneCents: base.consommeAdnaneCents - fraisOublies / 2,
+    });
+    expect(faux.gapCents).toBe(fraisOublies);
+  });
+
+  it("une dépense d'Adnane ne touche JAMAIS la part de Badr", () => {
     const avant = computeOwnership(base);
-    const apres = computeOwnership({ ...base, persoAdnaneCents: base.persoAdnaneCents + 50000 });
+    const apres = computeOwnership({ ...base, consommeAdnaneCents: base.consommeAdnaneCents + 50000 });
     expect(apres.partBadrCents).toBe(avant.partBadrCents);
     expect(apres.partAdnaneCents).toBe(avant.partAdnaneCents - 50000);
   });
