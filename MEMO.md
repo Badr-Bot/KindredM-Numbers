@@ -613,3 +613,9 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Pas de trait vertical sur les courbes** (07/09, Badr : « je vois même pas
   la courbe »). Un repère se met dans l'infobulle, écrit en clair — un trait
   sans légende oblige à deviner ce qu'il marque.
+- **Les deux parts se calculent PAREIL** (07/09) : chacun son net Année moins
+  SES propres dépenses carte. Ne jamais recalculer l'une comme le reste de
+  l'autre : une part résiduelle absorbe silencieusement toutes les erreurs, et
+  il ne reste plus rien pour révéler un trou. Le trou est la différence entre
+  ce que les deux possèdent et ce qui existe (comptes + en route − Panda) ; il
+  doit tomber sur le reliquat Revolut d'Adnane.

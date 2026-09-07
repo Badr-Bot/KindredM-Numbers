@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildTreasuryBridge,
+  computeOwnership,
   orderNumber,
   PRE_LLC_RESIDUAL,
   sumBankBalances,
@@ -362,5 +363,62 @@ describe("point de départ du rapprochement", () => {
     const { HISTORY_START } = await import("../data");
     expect(TREASURY_START_DAY).toBe(HISTORY_START);
     expect(RATES_START_DAY).toBe(HISTORY_START);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// 🧾 Ce qui reste à chacun, et le trou (Badr 07/09).
+// ---------------------------------------------------------------------------
+
+describe("computeOwnership — les deux parts calculées PAREIL", () => {
+  const base = {
+    netBadrCents: 874100, // net Année Badr
+    netAdnaneCents: 5165800, // net Année Adnane
+    persoBadrCents: 61300, // ses dépenses carte
+    persoAdnaneCents: 348300, // celles d'Adnane + Fahd
+    bankCents: 4500000,
+    enRouteCents: 1000000,
+    supplierDebtCents: 200000,
+    revolutAdnaneCents: 126500,
+  };
+
+  it("part de chacun = son net MOINS ses propres dépenses", () => {
+    const o = computeOwnership(base);
+    expect(o.partBadrCents).toBe(874100 - 61300);
+    expect(o.partAdnaneCents).toBe(5165800 - 348300);
+    // Aucune part n'est le « reste » de l'autre : c'est ce qui permet au trou
+    // d'exister. Avant, la part d'Adnane absorbait toute erreur en silence.
+    expect(o.partBadrCents + o.partAdnaneCents).toBe(o.dueCents);
+  });
+
+  it("le trou = ce qu'on possède − ce qui est réellement disponible", () => {
+    const o = computeOwnership(base);
+    expect(o.availableCents).toBe(4500000 + 1000000 - 200000);
+    expect(o.gapCents).toBe(o.dueCents - o.availableCents);
+  });
+
+  it("tombe à zéro d'inexpliqué quand le trou vaut le Revolut d'Adnane", () => {
+    // On construit le cas parfait : la banque porte exactement le reste.
+    const parfait = { ...base, bankCents: 0 };
+    const sansBanque = computeOwnership(parfait);
+    const o = computeOwnership({
+      ...base,
+      bankCents: sansBanque.gapCents - base.revolutAdnaneCents,
+    });
+    expect(o.gapCents).toBe(base.revolutAdnaneCents);
+    expect(o.unexplainedCents).toBe(0);
+  });
+
+  it("une dépense carte d'Adnane ne touche JAMAIS la part de Badr", () => {
+    const avant = computeOwnership(base);
+    const apres = computeOwnership({ ...base, persoAdnaneCents: base.persoAdnaneCents + 50000 });
+    expect(apres.partBadrCents).toBe(avant.partBadrCents);
+    expect(apres.partAdnaneCents).toBe(avant.partAdnaneCents - 50000);
+  });
+
+  it("le CA pas encore encaissé réduit le trou d'autant", () => {
+    const o1 = computeOwnership(base);
+    const o2 = computeOwnership({ ...base, enRouteCents: base.enRouteCents + 200000 });
+    expect(o1.gapCents - o2.gapCents).toBe(200000);
   });
 });

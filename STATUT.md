@@ -1106,3 +1106,31 @@ juste au-dessus.
 - Rotation recommandée à terme : les secrets ont transité par le chat —
   bouton **« Faire pivoter »** (Dev Dashboard → Paramètres → Secret) puis
   mettre à jour Vercel. À faire quand tout tourne.
+
+
+## Mise à jour 07/09 (suite) — l'onglet Comptable se lit dans l'ordre
+
+Badr : « le net Badr est bon, donc net − dépenses. Pour Adnane ça doit être
+pareil, donc net − (dépenses Adnane + Fahd). Ensuite le CA prévu et pas encore
+encaissé, en attente de virement Shopify. Et ensuite t'auras ce trou dans les
+comptes, qui doit correspondre à l'argent qui est sur Revolut. »
+
+L'onglet suit maintenant exactement cette chaîne, en quatre tuiles :
+**Net Badr · Net Adnane · CA pas encore encaissé · Trou dans les comptes**,
+avec une ligne qui pose l'égalité en toutes lettres, puis « Dépense inconnue ? »
+en dessous.
+
+Le défaut corrigé : la part d'Adnane était le RESTE (patrimoine − part de
+Badr). Elle absorbait donc en silence n'importe quelle erreur du calcul, et
+il ne restait rien pour révéler un trou. Les deux parts se calculent
+désormais pareil — chacun son net, moins ses propres dépenses — et le trou
+apparaît comme la différence entre ce que les deux possèdent et ce qui existe
+réellement (comptes + en route − dû à Panda).
+
+Autres corrections au passage : les dépenses perso retranchées viennent du
+balayage DEPUIS LE DÉBUT (l'ancien calcul prenait la fenêtre 30 jours du
+contrôle, retranchée d'un net cumulé depuis le début — deux périodes
+différentes), et le calcul pur vit dans `treasury.ts` (`computeOwnership`),
+testé, au lieu d'être noyé dans le composant.
+
+309 tests verts, build OK, lint clean.
