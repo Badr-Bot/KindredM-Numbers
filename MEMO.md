@@ -598,3 +598,12 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   l'autre, compté DOUBLE** (le montant quitte un côté et arrive de l'autre).
   Tout le reste — carte LLC, crédits Shopify, Revolut d'Adnane — est neutre
   entre eux. Aujourd'hui : ~6 €/mois en faveur d'Adnane.
+- **Toute lecture mise en cache porte `DASHBOARD_TAG`** (07/09). La règle :
+  on a le droit de cacher pour aller vite, JAMAIS d'afficher un chiffre
+  périmé après une synchro — `/api/sync` et `/api/cron` appellent
+  `revalidateTag(DASHBOARD_TAG, "max")` dès qu'ils ont écrit. Une seule
+  étiquette pour tout : si les caches tombaient séparément, on afficherait un
+  CA à jour avec une dépense en retard, c'est-à-dire un faux bénéfice.
+- **Pas de trait vertical sur les courbes** (07/09, Badr : « je vois même pas
+  la courbe »). Un repère se met dans l'infobulle, écrit en clair — un trait
+  sans légende oblige à deviner ce qu'il marque.

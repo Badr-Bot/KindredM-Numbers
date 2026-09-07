@@ -10,6 +10,8 @@ import {
   type RoasStatus,
 } from "./engine";
 import { cache as reactCache } from "react";
+import { unstable_cache } from "next/cache";
+import { DASHBOARD_TAG } from "./cacheTags";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
 import { fixedCostsCentsForDay } from "./subscriptions";
@@ -121,7 +123,28 @@ export async function referenceToday(): Promise<string> {
  * navigation, d'où des changements d'onglet très lents. Une seule lecture
  * désormais, partagée par tout le rendu.
  */
-export const fetchDailyRows = reactCache(fetchDailyRowsUncached);
+export const fetchDailyRows = reactCache(async (startDay: string, endDay: string) => {
+  // En démo, aucun aller-retour réseau : le cache persistant n'apporterait
+  // rien et figerait des données déjà locales.
+  if (getDataMode() !== "live") return fetchDailyRowsUncached(startDay, endDay);
+  return fetchDailyRowsCached(startDay, endDay);
+});
+
+/**
+ * Cache PERSISTANT (entre requêtes) des agrégats journaliers — Badr 07/09 :
+ * « pourquoi on a beaucoup de temps quand je passe d'un onglet à un autre ».
+ * Chaque onglet relisait la même plage depuis Supabase à chaque navigation.
+ *
+ * 60 s seulement, et surtout INVALIDÉ par la synchro (revalidateTag
+ * DASHBOARD_TAG dans /api/sync et /api/cron) : dès que de nouveaux chiffres
+ * sont écrits, le prochain rendu les voit. Jamais de chiffre périmé affiché
+ * après une synchro — c'était la condition de Badr le 05/09 (« que ça
+ * m'annonce pas un bénéfice et une fois ça s'actualise une perte »).
+ */
+const fetchDailyRowsCached = unstable_cache(fetchDailyRowsUncached, ["daily-rows-v1"], {
+  revalidate: 60,
+  tags: [DASHBOARD_TAG],
+});
 
 /**
  * Âge RÉEL des chiffres = horodatage de la dernière synchro allée au bout
@@ -154,6 +177,30 @@ export const lastSyncAt = reactCache(async (): Promise<string | null> => {
   }
 });
 
+/**
+ * « Cette colonne existe-t-elle ? », demandé UNE fois par process et par
+ * colonne. Sélectionner une colonne absente fait échouer toute la requête
+ * PostgREST, d'où ces sondes ; les refaire à chaque lecture coûtait deux
+ * allers-retours pour une réponse qui ne change jamais à chaud.
+ */
+const columnProbes = new Map<string, Promise<boolean>>();
+export function columnExists(table: string, column: string): Promise<boolean> {
+  const key = `${table}.${column}`;
+  const known = columnProbes.get(key);
+  if (known) return known;
+  const probe = (async () => {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const { error } = await createSupabaseServerClient().from(table).select(column).limit(1);
+    return !error;
+  })();
+  // Une sonde en échec réseau ne doit pas figer un « non » définitif.
+  probe.then((ok) => {
+    if (!ok) columnProbes.delete(key);
+  });
+  columnProbes.set(key, probe);
+  return probe;
+}
+
 async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise<DailyRow[]> {
   const mode = getDataMode();
 
@@ -171,12 +218,17 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
   // 0010 — sélectionner une colonne inexistante ferait échouer TOUTE la
   // requête (PostgREST), donc on sonde une fois avant de les inclure (même
   // filet que acquisitionColumnsReady côté écriture).
-  const { error: probeError } = await supabase.from("daily_aggregates").select("cogs_product_cents").limit(1);
-  const hasCogsSplit = !probeError;
-  // Ventilation des frais (migration 0013) : sert à distinguer les frais
-  // RÉELS (ventilés processing/fx/autres) du repli 3 % (aucune ventilation).
-  const { error: feeProbeError } = await supabase.from("daily_aggregates").select("fee_processing_cents").limit(1);
-  const hasFeeBreakdown = !feeProbeError;
+  // Deux sondes = deux allers-retours Supabase sur CHAQUE lecture. Une
+  // colonne n'apparaît ni ne disparaît en cours de vie du process : la
+  // réponse est mémoïsée pour tout le process (Badr 07/09, lenteur des
+  // changements d'onglet). Un déploiement redémarre le process, donc une
+  // migration est prise en compte sans rien vider à la main.
+  const [hasCogsSplit, hasFeeBreakdown] = await Promise.all([
+    columnExists("daily_aggregates", "cogs_product_cents"),
+    // Ventilation des frais (migration 0013) : sert à distinguer les frais
+    // RÉELS (ventilés processing/fx/autres) du repli 3 % (aucune ventilation).
+    columnExists("daily_aggregates", "fee_processing_cents"),
+  ]);
   const cols =
     "day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents" +
     (hasCogsSplit ? ", cogs_product_cents, cogs_upsells_cents" : "") +

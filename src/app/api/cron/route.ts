@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
+import { DASHBOARD_TAG } from "@/lib/cacheTags";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import type { ProductMapEntry } from "@/lib/engine";
 import { runIncrementalSync } from "@/lib/incrementalSync";
@@ -42,5 +44,7 @@ export async function GET(request: NextRequest) {
   // de la journée, elle n'a aucune contrainte de temps d'affichage. La synchro
   // auto de la journée, elle, alterne rapide/complet (voir incrementalSync.ts).
   const result = await runIncrementalSync(supabase, productsMap as ProductMapEntry[], { deep: true });
+  // Clôture terminée : les caches de lecture repartent des nouveaux chiffres.
+  revalidateTag(DASHBOARD_TAG, "max");
   return NextResponse.json({ ok: true, ...result });
 }

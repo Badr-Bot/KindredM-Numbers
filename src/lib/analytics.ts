@@ -4,7 +4,8 @@ import { contributionMargin, feesCentsForCa, roasBreakEven, roasTarget15, TARGET
 import { parseUtmCampaign } from "./roasReport";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
-import type { Totals } from "./data";
+import { columnExists, type Totals } from "./data";
+import { DASHBOARD_TAG } from "./cacheTags";
 
 // Couche data de l'onglet 📊 Analyse. Les tables meta_insights /
 // meta_ad_insights (migration 0005) se remplissent via la synchro dès que le
@@ -155,7 +156,16 @@ export const getBudgetChanges = unstable_cache(fetchBudgetChangesUncached, ["met
   tags: ["meta-live"],
 });
 
-export async function getAnalyticsData(start: string, end: string): Promise<AnalyticsData> {
+/**
+ * Lecture COMPLÈTE des insights Meta (campagnes + créas) sur une plage.
+ *
+ * ⚠️ C'est la lecture la plus lourde du dashboard : ~12 000 lignes de créas,
+ * paginées 1 000 par 1 000. Elle est mise en cache PERSISTANT plus bas
+ * (getAnalyticsData) — Badr 07/09 : « pourquoi on a beaucoup de temps quand
+ * je passe d'un onglet à un autre, surtout Produits/Analyse ». Sans cache,
+ * chaque affichage de l'onglet refaisait la douzaine d'allers-retours.
+ */
+async function getAnalyticsDataUncached(start: string, end: string): Promise<AnalyticsData> {
   const supabase = createSupabaseServerClient();
 
   const insights: InsightDaily[] = [];
@@ -199,22 +209,36 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
 
   // Créas : agrégées par annonce sur la fenêtre demandée. video_p100 vient de
   // la migration 0011 — probe avant de le demander (même filet que getCreasData).
-  const { error: videoPctProbeError } = await supabase.from("meta_ad_insights").select("video_p100").limit(1);
-  const hasVideoPct = !videoPctProbeError;
+  const hasVideoPct = await columnExists("meta_ad_insights", "video_p100");
   const adCols =
     "day, ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, " +
     "purchase_value_cents, video_3s, reach, link_clicks, landing_page_views, add_to_cart, initiate_checkout" +
     (hasVideoPct ? ", video_p100" : "");
   const adsDaily: AdDailyPerf[] = [];
-  for (let from = 0; ; from += PAGE) {
-    const { data, error } = (await supabase
-      .from("meta_ad_insights")
-      .select(adCols)
-      .gte("day", start)
-      .lte("day", end)
-      .order("day", { ascending: true })
-      .order("ad_id", { ascending: true })
-      .range(from, from + PAGE - 1)) as unknown as { data: RawAdInsight[] | null; error: { message: string } | null };
+  // Pages tirées EN PARALLÈLE, pas l'une après l'autre : ~12 000 lignes font
+  // une douzaine d'allers-retours enchaînés, chacun payant sa latence. On
+  // demande d'abord le nombre de lignes, puis toutes les pages d'un coup.
+  const { count: adCount } = await supabase
+    .from("meta_ad_insights")
+    .select("ad_id", { count: "exact", head: true })
+    .gte("day", start)
+    .lte("day", end);
+  const pageStarts: number[] = [];
+  for (let from = 0; from < (adCount ?? 0); from += PAGE) pageStarts.push(from);
+  const pages = await Promise.all(
+    pageStarts.map((from) =>
+      supabase
+        .from("meta_ad_insights")
+        .select(adCols)
+        .gte("day", start)
+        .lte("day", end)
+        .order("day", { ascending: true })
+        .order("ad_id", { ascending: true })
+        .range(from, from + PAGE - 1)
+        .then((r) => r as unknown as { data: RawAdInsight[] | null; error: { message: string } | null })
+    )
+  );
+  for (const { data, error } of pages) {
     if (error) break; // même cause que missingTables, déjà signalée
     const rows = data ?? [];
     for (const r of rows) {
@@ -239,11 +263,21 @@ export async function getAnalyticsData(start: string, end: string): Promise<Anal
         initiateCheckout: r.initiate_checkout ?? 0,
       });
     }
-    if (rows.length < PAGE) break;
   }
 
   return { insights, adsDaily, missingTables };
 }
+
+/**
+ * Version mise en cache (5 min), invalidée par la synchro via DASHBOARD_TAG :
+ * l'onglet Analyse s'ouvre sur des données déjà prêtes, et une synchro qui
+ * écrit de nouveaux chiffres les fait apparaître au rendu suivant.
+ * Sérialisable en JSON (tableaux d'objets plats) : compatible unstable_cache.
+ */
+export const getAnalyticsData = unstable_cache(getAnalyticsDataUncached, ["analytics-data-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});
 
 // ---------------------------------------------------------------------------
 // Onglet 🎬 Créas — détail par créa (funnel complet, hook/hold vidéo, angle)
@@ -319,13 +353,13 @@ interface RawCreaRow {
   conversion_ranking: string | null;
 }
 
-export async function getCreasData(start: string, end: string): Promise<CreasData> {
+async function getCreasDataUncached(start: string, end: string): Promise<CreasData> {
   const supabase = createSupabaseServerClient();
 
   // video_p50/p75/p100 ajoutés par la migration 0011 — probe avant de les
-  // demander (colonne absente ferait échouer toute la requête).
-  const { error: videoPctProbeError } = await supabase.from("meta_ad_insights").select("video_p50").limit(1);
-  const hasVideoPct = !videoPctProbeError;
+  // demander (colonne absente ferait échouer toute la requête). Sondé une
+  // seule fois par process : voir columnExists.
+  const hasVideoPct = await columnExists("meta_ad_insights", "video_p50");
   const cols =
     "day, ad_id, ad_name, campaign_id, campaign_name, spend_cents, impressions, clicks, purchases, " +
     "purchase_value_cents, reach, link_clicks, landing_page_views, add_to_cart, initiate_checkout, " +
@@ -336,15 +370,29 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
   const daily: CreaDailyRow[] = [];
   let missingTables = false;
 
-  for (let from = 0; ; from += PAGE) {
-    const { data, error } = (await supabase
-      .from("meta_ad_insights")
-      .select(cols)
-      .gte("day", start)
-      .lte("day", end)
-      .order("day", { ascending: true })
-      .order("ad_id", { ascending: true })
-      .range(from, from + PAGE - 1)) as unknown as { data: RawCreaRow[] | null; error: { message: string } | null };
+  // Pages tirées EN PARALLÈLE (même raison que getAnalyticsData) : la table
+  // fait ~12 000 lignes, les enchaîner payait une latence par page.
+  const { count: adCount } = await supabase
+    .from("meta_ad_insights")
+    .select("ad_id", { count: "exact", head: true })
+    .gte("day", start)
+    .lte("day", end);
+  const pageStarts: number[] = [];
+  for (let from = 0; from < (adCount ?? 0); from += PAGE) pageStarts.push(from);
+  const pages = await Promise.all(
+    pageStarts.map((from) =>
+      supabase
+        .from("meta_ad_insights")
+        .select(cols)
+        .gte("day", start)
+        .lte("day", end)
+        .order("day", { ascending: true })
+        .order("ad_id", { ascending: true })
+        .range(from, from + PAGE - 1)
+        .then((r) => r as unknown as { data: RawCreaRow[] | null; error: { message: string } | null })
+    )
+  );
+  for (const { data, error } of pages) {
     if (error) {
       missingTables = /does not exist|relation|schema cache/i.test(error.message);
       break;
@@ -389,7 +437,6 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
         video100: r.video_p100 ?? 0,
       });
     }
-    if (rows.length < PAGE) break;
   }
 
   // Texte de la créa (angle/copy) — table séparée, snapshot courant.
@@ -403,8 +450,18 @@ export async function getCreasData(start: string, end: string): Promise<CreasDat
     }
   }
 
+  // Tableaux d'objets plats uniquement : sérialisable en JSON, donc cachable.
   return { meta: [...metaByAd.values()], daily, missingTables };
 }
+
+/**
+ * Version mise en cache (5 min), invalidée par la synchro (DASHBOARD_TAG) —
+ * l'onglet Créas relisait toute la table d'insights à chaque affichage.
+ */
+export const getCreasData = unstable_cache(getCreasDataUncached, ["creas-data-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});
 
 // ---------------------------------------------------------------------------
 // Onglet ⚡ Aujourd'hui — carte par produit PRINCIPAL (demandé 02-03/08).
@@ -712,7 +769,7 @@ export async function getProductSplitForDay(
 export const getProductSplitForRange = unstable_cache(
   async (startDay: string, endDay: string, global: Totals) => getProductSplitForRangeUncached(startDay, endDay, global),
   ["product-split-range-v1"],
-  { revalidate: 300, tags: ["product-day-matrix"] }
+  { revalidate: 300, tags: ["product-day-matrix", DASHBOARD_TAG] }
 );
 
 export async function getProductSplitForRangeUncached(
@@ -1014,7 +1071,7 @@ async function getProductRawBucketsUncached(
 export const getProductRawBuckets = unstable_cache(
   getProductRawBucketsUncached,
   ["product-day-matrix"],
-  { revalidate: 300, tags: ["product-day-matrix"] }
+  { revalidate: 300, tags: ["product-day-matrix", DASHBOARD_TAG] }
 );
 
 /**
@@ -1150,5 +1207,5 @@ async function getProductRoasThresholdsUncached(
 export const getProductRoasThresholds = unstable_cache(
   getProductRoasThresholdsUncached,
   ["product-roas-thresholds"],
-  { revalidate: 300, tags: ["product-roas-thresholds"] }
+  { revalidate: 300, tags: ["product-roas-thresholds", DASHBOARD_TAG] }
 );
