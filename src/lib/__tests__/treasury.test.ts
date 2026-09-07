@@ -85,16 +85,18 @@ describe("buildTreasuryBridge", () => {
       },
     });
     const meta = 21550000 - 21337236;
+    // L'avance chez Meta ne figure PAS dans la ventilation de l'écart : c'est
+    // de l'argent encore à nous, retiré de l'attendu en banque (07/09).
+    expect(b.metaAdvanceCents).toBe(meta);
     expect(b.gapLines.map((l) => l.label)).toEqual([
       "Dépenses perso payées par la carte LLC",
-      "Supplément Meta (change + frais carte)",
       "Frais bancaires et de change",
       "Google Ads",
       PRE_LLC_RESIDUAL.label,
     ]);
     // Ce qui reste après la ventilation part d'abord dans le reliquat Revolut
     // (plafonné), l'inexpliqué n'est que l'au-delà.
-    const resteAvantRevolut = b.gapCents! - (meta + 120000 + 90000 + 354900);
+    const resteAvantRevolut = b.gapCents! - (120000 + 90000 + 354900);
     expect(b.preLlcRevolutCents).toBe(Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents));
     expect(b.unexplainedCents).toBe(resteAvantRevolut - b.preLlcRevolutCents!);
     expect(b.scanPartial).toBe(false);
@@ -116,6 +118,9 @@ describe("buildTreasuryBridge", () => {
       },
     });
     // Aucun poste mesuré : seul le reliquat Revolut pré-LLC absorbe l'écart.
+    // Et surtout aucune avance chez Meta : un débit INFÉRIEUR au spend est un
+    // décalage de facturation, pas de l'argent qui nous attend chez Meta.
+    expect(b.metaAdvanceCents).toBe(0);
     expect(b.gapLines.map((l) => l.label)).toEqual([PRE_LLC_RESIDUAL.label]);
     expect(b.unexplainedCents).toBe(b.gapCents! - b.preLlcRevolutCents!);
   });
@@ -161,8 +166,9 @@ describe("attribution de l'écart", () => {
   it("impute le perso NOMINATIVEMENT et le reste par la règle des associés", () => {
     const b = withScan();
     const a = b.attribution!;
-    const metaExtra = 21550000 - 21337236;
-    const flou = metaExtra + b.unexplainedCents!;
+    // Seul l'INEXPLIQUÉ se partage à l'aveugle : l'avance chez Meta est de
+    // l'argent encore à nous, elle n'est imputée à personne (07/09).
+    const flou = b.unexplainedCents!;
     expect(a.persoBadrCents).toBe(53100);
     expect(a.persoFahdCents).toBe(301800);
     expect(a.badrCents).toBe(53100 + 84000 + Math.round(flou / 2));
@@ -381,6 +387,7 @@ describe("computeOwnership — les deux parts calculées PAREIL", () => {
     consommeAdnaneCents: 900000,
     bankCents: 2500000,
     enRouteCents: 1866900,
+    metaAdvanceCents: 0,
     supplierDebtCents: 200000,
   };
 
@@ -397,6 +404,18 @@ describe("computeOwnership — les deux parts calculées PAREIL", () => {
     const o = computeOwnership(base);
     expect(o.availableCents).toBe(2500000 + 1866900 - 200000);
     expect(o.gapCents).toBe(o.dueCents - o.availableCents);
+  });
+
+  it("l'avance chez Meta est de l'ARGENT À NOUS, pas une dépense", () => {
+    // Corrigé le 07/09 : comptée comme une dépense partagée, elle amputait le
+    // net de Badr de ~7 000 € (« je peux pas avoir 1 591 € net, j'ai rien
+    // dépensé »). Elle rejoint le disponible, comme le CA pas encore encaissé.
+    const o = computeOwnership({ ...base, metaAdvanceCents: 1390000 });
+    const sans = computeOwnership(base);
+    expect(o.partBadrCents).toBe(sans.partBadrCents); // aucune part touchée
+    expect(o.partAdnaneCents).toBe(sans.partAdnaneCents);
+    expect(o.availableCents - sans.availableCents).toBe(1390000);
+    expect(sans.gapCents - o.gapCents).toBe(1390000);
   });
 
   it("tombe à ZÉRO quand tout ce qui est sorti est bien attribué", () => {

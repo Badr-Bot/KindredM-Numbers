@@ -567,6 +567,7 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
   const enRouteCents = enRouteExact ?? report.enRouteEstimateCents ?? 0;
   const detteFournisseur = t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents;
   const totalCents = known.reduce((acc, b) => acc + (b.amountEurCents ?? 0), 0);
+  const metaAdvance = t.metaAdvanceCents ?? 0;
   const own = computeOwnership({
     netBadrCents: annee.badrCents,
     netAdnaneCents: annee.adnaneCents,
@@ -574,10 +575,12 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
     consommeAdnaneCents: a.adnaneCents,
     bankCents: totalCents,
     enRouteCents,
+    metaAdvanceCents: metaAdvance,
     supplierDebtCents: detteFournisseur,
   });
   return {
     totalCents,
+    metaAdvance,
     enRouteCents,
     enRouteExact,
     detteFournisseur,
@@ -587,6 +590,7 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
     persoBadr: a.persoBadrCents,
     persoAdnane: a.persoFahdCents,
     fraisCents: a.badrCents + a.adnaneCents - a.persoBadrCents - a.persoFahdCents - a.revolutAdnaneCents,
+    reparti5050Cents: a.reparti5050Cents,
     partBadr: own.partBadrCents,
     partAdnane: own.partAdnaneCents,
     duCents: own.dueCents,
@@ -672,6 +676,11 @@ function SummaryBlock({
           <div>
             Sur les comptes <b className="tnum text-ink">{formatEur0(own.totalCents)}</b>
             {" + "}CA pas encore encaissé <b className="tnum text-cyan">{formatEur0(own.enRouteCents)}</b>
+            {own.metaAdvance > 0 && (
+              <>
+                {" + "}avance chez Meta <b className="tnum text-cyan">{formatEur0(own.metaAdvance)}</b>
+              </>
+            )}
             {own.detteFournisseur !== 0 && (
               <>
                 {" − "}encore dû à Panda <b className="tnum text-ink">{formatEur0(own.detteFournisseur)}</b>
@@ -721,8 +730,8 @@ function OwnershipBlock({
   const own = ownershipFrom(report, annee);
   if (!own) return null;
   const {
-    totalCents, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane,
-    persoBadr, persoAdnane, fraisCents, consommeBadr, consommeAdnane,
+    totalCents, metaAdvance, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane,
+    persoBadr, persoAdnane, fraisCents, reparti5050Cents, consommeBadr, consommeAdnane,
     partBadr, partAdnane, duCents, disponibleCents, trouCents,
   } = own;
   const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
@@ -755,9 +764,9 @@ function OwnershipBlock({
       {fraisCents > 0 && (
         <p className="mt-1.5 text-[10px] leading-snug text-ink-faint">
           Sur ce qui est « déjà consommé », <b className="tnum text-ink">{formatEur0(fraisCents)}</b> ne sont
-          les dépenses perso de personne : frais bancaires et de change, supplément Meta (la carte paie en
-          dollars ce que Meta facture en euros) et Google Ads. C&apos;est de l&apos;argent réellement sorti des
-          comptes — le détail ligne par ligne est dans le rapprochement plus bas.
+          les dépenses perso de personne : frais bancaires et de change, Google Ads
+          {reparti5050Cents > 0 ? `, et ${formatEur0(reparti5050Cents)} encore inexpliqués partagés 50/50` : ""}.
+          Le détail ligne par ligne est dans le rapprochement plus bas.
         </p>
       )}
 
@@ -785,6 +794,15 @@ function OwnershipBlock({
           Encore dû à Panda <b className="tnum text-ink">−{formatEur0(detteFournisseur)}</b>
           <span className="block text-[9.5px] text-ink-faint">commandes livrées, pas encore facturées</span>
         </div>
+        {metaAdvance > 0 && (
+          <div>
+            Avance chez Meta <b className="tnum text-cyan">{formatEur0(metaAdvance)}</b>
+            <span className="block text-[9.5px] text-ink-faint">
+              parti en banque vers Meta au-delà du spend enregistré — de l&apos;argent encore à nous, pas une
+              dépense
+            </span>
+          </div>
+        )}
       </div>
 
       <p className="mt-2 border-t border-line-soft pt-2 text-[11px] leading-snug text-ink-dim">
