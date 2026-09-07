@@ -548,44 +548,50 @@ function SupplierBlock({ treasury }: { treasury: TreasuryBridge | null }) {
  * Branche le rapport bancaire sur le calcul pur `computeOwnership`
  * (treasury.ts, testé) : ici on ne fait que choisir les bonnes sources.
  *
- * Les dépenses perso viennent du balayage DEPUIS LE DÉBUT (treasury), pas de
- * la fenêtre 30 jours du contrôle : elles se retranchent d'un net cumulé
- * depuis le début, les deux doivent couvrir la même période.
+ * Ce que chacun a « consommé » est la ventilation COMPLÈTE de l'écart
+ * (TreasuryAttribution) : ses dépenses perso, sa part des frais bancaires, du
+ * supplément Meta et de Google Ads, plus pour Adnane le reliquat resté sur son
+ * Revolut. Retrancher les seules dépenses perso — ce que faisait la première
+ * version — laissait ~14 000 € de dépenses réelles se faire passer pour un
+ * trou (Badr 07/09).
+ *
+ * Tout depuis le DÉBUT, jamais la fenêtre 30 jours du contrôle : on retranche
+ * d'un net cumulé depuis le début, les deux doivent couvrir la même période.
  */
 function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCents: number }) {
   const t = report.treasury;
   const known = report.balances.filter((b) => b && typeof b.amountEurCents === "number");
-  if (known.length === 0) return null;
+  if (known.length === 0 || !t?.attribution) return null;
+  const a = t.attribution;
   const enRouteExact = report.enRoute && !report.enRoute.missingScopes ? report.enRoute.totalEurCents : null;
   const enRouteCents = enRouteExact ?? report.enRouteEstimateCents ?? 0;
-  const detteFournisseur = t ? t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents : 0;
-  const persoBadr = t?.attribution?.persoBadrCents ?? report.control?.parts.persoBadrCents ?? 0;
-  const persoAdnane = t?.attribution?.persoFahdCents ?? report.control?.parts.persoFahdCents ?? 0;
-  const revolutAdnane = t?.attribution?.revolutAdnaneCents ?? 0;
+  const detteFournisseur = t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents;
+  const totalCents = known.reduce((acc, b) => acc + (b.amountEurCents ?? 0), 0);
   const own = computeOwnership({
     netBadrCents: annee.badrCents,
     netAdnaneCents: annee.adnaneCents,
-    persoBadrCents: persoBadr,
-    persoAdnaneCents: persoAdnane,
-    bankCents: known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0),
+    consommeBadrCents: a.badrCents,
+    consommeAdnaneCents: a.adnaneCents,
+    bankCents: totalCents,
     enRouteCents,
     supplierDebtCents: detteFournisseur,
-    revolutAdnaneCents: revolutAdnane,
   });
   return {
-    totalCents: known.reduce((a, b) => a + (b.amountEurCents ?? 0), 0),
+    totalCents,
     enRouteCents,
     enRouteExact,
     detteFournisseur,
-    revolutAdnane,
-    persoBadr,
-    persoAdnane,
+    revolutAdnane: a.revolutAdnaneCents,
+    consommeBadr: a.badrCents,
+    consommeAdnane: a.adnaneCents,
+    persoBadr: a.persoBadrCents,
+    persoAdnane: a.persoFahdCents,
+    fraisCents: a.badrCents + a.adnaneCents - a.persoBadrCents - a.persoFahdCents - a.revolutAdnaneCents,
     partBadr: own.partBadrCents,
     partAdnane: own.partAdnaneCents,
     duCents: own.dueCents,
     disponibleCents: own.availableCents,
     trouCents: own.gapCents,
-    inexpliqueCents: own.unexplainedCents,
   };
 }
 
@@ -614,11 +620,9 @@ function SummaryBlock({
   const aAffecter = report.control?.parts.aAffecterCount ?? 0;
   const aAffecterCents = report.control?.parts.aAffecterCents ?? 0;
   const estime = own ? own.enRouteExact === null : false;
-  // Le trou n'est « anormal » que s'il s'écarte du Revolut d'Adnane. Un en
-  // route ESTIMÉ (scope Shopify absent) vaut ±2 000 € : on ne crie pas au
-  // trou sur une estimation, on le dit.
-  const inexplique = own?.inexpliqueCents ?? null;
-  const alerte = inexplique !== null && !estime && Math.abs(inexplique) > UNEXPLAINED_ALERT_CENTS;
+  // Un en route ESTIMÉ vaut ±2 000 € : on ne crie pas au trou sur une
+  // estimation, on le dit.
+  const alerte = own !== null && !estime && Math.abs(own.trouCents) > UNEXPLAINED_ALERT_CENTS;
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -626,13 +630,13 @@ function SummaryBlock({
           title="Net Badr"
           value={own ? formatEur0(own.partBadr) : "—"}
           cls="text-net-5"
-          note={own ? `net Année − ${formatEur0(own.persoBadr)} de dépenses` : "net Année indisponible"}
+          note={own ? `net Année − ${formatEur0(own.consommeBadr)} déjà consommés` : "net Année indisponible"}
         />
         <SummaryTile
           title="Net Adnane"
           value={own ? formatEur0(own.partAdnane) : "—"}
           cls="text-amber"
-          note={own ? `net Année − ${formatEur0(own.persoAdnane)} de dépenses (Adnane + Fahd)` : "net Année indisponible"}
+          note={own ? `net Année − ${formatEur0(own.consommeAdnane)} déjà consommés (lui + Fahd)` : "net Année indisponible"}
         />
         <SummaryTile
           title="CA pas encore encaissé"
@@ -642,31 +646,59 @@ function SummaryBlock({
             own
               ? estime
                 ? "≈ versements Shopify en attente (estimé, ±2 000 €)"
-                : "versements Shopify en attente sur Slash"
+                : "versements Shopify en attente"
               : "indisponible"
           }
         />
         <SummaryTile
           title="Trou dans les comptes"
-          value={own ? formatEur0(own.trouCents) : "—"}
+          value={own ? (Math.abs(own.trouCents) < 100 ? "Non" : formatEur0(own.trouCents)) : "—"}
           cls={own === null ? "text-ink-dim" : alerte ? "text-red" : "text-phosphor"}
           note={
             own === null
               ? "rapprochement indisponible"
-              : `Revolut d'Adnane ${formatEur0(own.revolutAdnane)} → ${
-                  Math.abs(own.inexpliqueCents) < 100 ? "ça tombe juste" : `reste ${formatEur0(own.inexpliqueCents)}`
-                }${estime ? " · en route estimé" : ""}`
+              : Math.abs(own.trouCents) < 100
+                ? "chaque euro sorti des comptes a une case"
+                : `à expliquer${estime ? " · CA pas encore encaissé estimé (±2 000 €)" : ""}`
           }
         />
       </div>
+
+      {/* La vérification, en une phrase : ce qu'on possède contre ce qui
+          existe (Badr 07/09 : « le total après paiement du fournisseur, le CA
+          mérité à date, et la diff entre les deux »). */}
       {own && (
-        <p className="text-[10px] leading-snug text-ink-faint">
-          Net Badr + Net Adnane = <b className="tnum text-ink">{formatEur0(own.duCents)}</b> · sur les comptes
-          + en route − Panda = <b className="tnum text-ink">{formatEur0(own.disponibleCents)}</b> · différence ={" "}
-          <b className="tnum text-ink">{formatEur0(own.trouCents)}</b>, qui doit être l&apos;argent resté sur le
-          Revolut d&apos;Adnane.
-        </p>
+        <div className="rounded-lg border border-line bg-panel px-3 py-2 text-[11px] leading-relaxed">
+          <div>
+            Sur les comptes <b className="tnum text-ink">{formatEur0(own.totalCents)}</b>
+            {" + "}CA pas encore encaissé <b className="tnum text-cyan">{formatEur0(own.enRouteCents)}</b>
+            {own.detteFournisseur !== 0 && (
+              <>
+                {" − "}encore dû à Panda <b className="tnum text-ink">{formatEur0(own.detteFournisseur)}</b>
+              </>
+            )}
+            {" = "}
+            <b className="tnum text-ink">{formatEur0(own.disponibleCents)}</b>
+          </div>
+          <div>
+            Net Badr <b className="tnum text-net-5">{formatEur0(own.partBadr)}</b>
+            {" + "}Net Adnane <b className="tnum text-amber">{formatEur0(own.partAdnane)}</b>
+            {" = "}
+            <b className="tnum text-ink">{formatEur0(own.duCents)}</b>
+          </div>
+          <div className="mt-0.5 border-t border-line-soft pt-1">
+            {Math.abs(own.trouCents) < 100 ? (
+              <b className="text-phosphor">Les deux tombent juste : aucun trou.</b>
+            ) : (
+              <>
+                Différence <b className={`tnum ${alerte ? "text-red" : "text-amber"}`}>{formatEur0(own.trouCents)}</b>
+                {estime && " — dont ±2 000 € d'incertitude sur le CA pas encore encaissé."}
+              </>
+            )}
+          </div>
+        </div>
       )}
+
       <div
         className={`rounded-lg border px-3 py-2 text-[11px] ${
           aAffecter === 0 ? "border-line bg-panel text-ink-dim" : "border-red/50 bg-red/[0.06] text-red"
@@ -690,37 +722,50 @@ function OwnershipBlock({
   if (!own) return null;
   const {
     totalCents, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane,
-    persoBadr, persoAdnane, partBadr, partAdnane, duCents, disponibleCents, trouCents, inexpliqueCents,
+    persoBadr, persoAdnane, fraisCents, consommeBadr, consommeAdnane,
+    partBadr, partAdnane, duCents, disponibleCents, trouCents,
   } = own;
   const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
   const horsTotal = report.balances.filter((b) => b && typeof b.amountEurCents !== "number").map((b) => b.currency);
-  const colle = Math.abs(inexpliqueCents) < 100;
+  const colle = Math.abs(trouCents) < 100;
   return (
     <div className="card-shadow rounded-lg border border-line bg-panel p-3">
-      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
-        🏛️ Le détail du calcul
-      </div>
+      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">🏛️ Le détail du calcul</div>
 
       {/* Ce que les deux possèdent — chacun calculé PAREIL (Badr 07/09). */}
       <div className="mt-1.5 grid grid-cols-2 gap-1.5 text-[12px]">
         <div>
           Net Badr <b className="tnum text-net-5">{formatEur0(partBadr)}</b>
           <span className="block text-[9.5px] text-ink-faint">
-            {formatEur0(annee.badrCents)} au net Année{persoBadr > 0 ? ` − ${formatEur0(persoBadr)} de dépenses` : " (aucune dépense carte)"}
+            {formatEur0(annee.badrCents)} au net Année − {formatEur0(consommeBadr)} déjà consommés
+            {persoBadr > 0 ? ` (dont ${formatEur0(persoBadr)} de dépenses carte)` : ""}
           </span>
         </div>
         <div>
           Net Adnane <b className="tnum text-amber">{formatEur0(partAdnane)}</b>
           <span className="block text-[9.5px] text-ink-faint">
-            {formatEur0(annee.adnaneCents)} au net Année{persoAdnane > 0 ? ` − ${formatEur0(persoAdnane)} de dépenses (Adnane + Fahd)` : " (aucune dépense carte)"}
+            {formatEur0(annee.adnaneCents)} au net Année − {formatEur0(consommeAdnane)} déjà consommés
+            {persoAdnane > 0 ? ` (dont ${formatEur0(persoAdnane)} de dépenses carte Adnane + Fahd` : ""}
+            {persoAdnane > 0 && revolutAdnane > 0 ? `, ${formatEur0(revolutAdnane)} sur son Revolut)` : persoAdnane > 0 ? ")" : ""}
           </span>
         </div>
       </div>
+
+      {/* Ce qui est sorti des comptes sans appartenir à personne en propre. */}
+      {fraisCents > 0 && (
+        <p className="mt-1.5 text-[10px] leading-snug text-ink-faint">
+          Sur ce qui est « déjà consommé », <b className="tnum text-ink">{formatEur0(fraisCents)}</b> ne sont
+          les dépenses perso de personne : frais bancaires et de change, supplément Meta (la carte paie en
+          dollars ce que Meta facture en euros) et Google Ads. C&apos;est de l&apos;argent réellement sorti des
+          comptes — le détail ligne par ligne est dans le rapprochement plus bas.
+        </p>
+      )}
 
       {/* Ce qui est réellement disponible en face. */}
       <div className="mt-2 grid grid-cols-2 gap-1.5 border-t border-line-soft pt-2 text-[12px] sm:grid-cols-3">
         <div>
           Sur les comptes <b className="tnum text-ink">{formatEur0(totalCents)}</b>
+          <span className="block text-[9.5px] text-ink-faint">Wise + Slash, fournisseur déjà payé</span>
           {horsTotal.length > 0 && <span className="block text-[9.5px] text-ink-faint">hors {horsTotal.join(", ")} (sans taux)</span>}
           {!report.balances.some((b) => b.bank === "SLASH") && (
             <span className="block text-[9.5px] text-amber">⚠️ solde Slash non compté</span>
@@ -742,24 +787,18 @@ function OwnershipBlock({
         </div>
       </div>
 
-      {/* Et le trou. */}
       <p className="mt-2 border-t border-line-soft pt-2 text-[11px] leading-snug text-ink-dim">
         <b className="tnum text-ink">{formatEur0(duCents)}</b> qui nous appartiennent, contre{" "}
-        <b className="tnum text-ink">{formatEur0(disponibleCents)}</b> réellement disponibles → trou de{" "}
-        <b className={`tnum ${colle ? "text-phosphor" : "text-ink"}`}>{formatEur0(trouCents)}</b>.
-        <br />
+        <b className="tnum text-ink">{formatEur0(disponibleCents)}</b> réellement disponibles →{" "}
         {colle ? (
-          <>
-            C&apos;est exactement l&apos;argent resté sur le <b>Revolut d&apos;Adnane</b> (
-            {formatEur0(revolutAdnane)}) : <b className="text-phosphor">les comptes tombent juste</b>.
-          </>
+          <b className="text-phosphor">ça tombe juste, aucun trou.</b>
         ) : (
           <>
-            Revolut d&apos;Adnane : {formatEur0(revolutAdnane)} → il reste{" "}
-            <b className={enRouteExact === null ? "text-amber" : "text-red"}>{formatEur0(inexpliqueCents)}</b>{" "}
+            différence de{" "}
+            <b className={enRouteExact === null ? "text-amber" : "text-red"}>{formatEur0(trouCents)}</b>
             {enRouteExact === null
-              ? "— mais le CA pas encore encaissé est une ESTIMATION (±2 000 €) : ajouter le scope Shopify avant de creuser."
-              : "sans explication : à creuser."}
+              ? " — le CA pas encore encaissé est une ESTIMATION (±2 000 €) : ajouter le scope Shopify avant de creuser."
+              : " sans explication : à creuser."}
           </>
         )}
       </p>

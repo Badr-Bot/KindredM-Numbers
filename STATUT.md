@@ -1134,3 +1134,29 @@ différentes), et le calcul pur vit dans `treasury.ts` (`computeOwnership`),
 testé, au lieu d'être noyé dans le composant.
 
 309 tests verts, build OK, lint clean.
+
+## Correction 07/09 (soir) — le « trou » n'en était pas un
+
+Badr, devant l'onglet : « CA pas encore encaissé 18 669 €, trou 15 781 €… ce
+trou je ne le comprends pas. On attend 18k et tu dis qu'il y a un trou de 15k,
+donc on aura un surplus de 3k ? »
+
+Il avait raison de tiquer : le chiffre était faux, et il venait de ma
+correction du matin. Les deux parts retranchaient les seules dépenses PERSO du
+net de chacun. Or il y a trois autres postes réellement sortis des comptes :
+les frais bancaires et de change, le supplément Meta (la carte paie en dollars
+ce que Meta facture en euros) et Google Ads. Environ 13 900 €, que personne ne
+retranchait — donc qui ressortaient en « trou ».
+
+Chacun retranche désormais **tout ce qu'il a consommé** : c'est exactement la
+ventilation complète de l'écart (`TreasuryAttribution.badrCents` /
+`adnaneCents`), dépenses perso + sa part des frais + pour Adnane le reliquat
+Revolut. Le trou redevient ce qu'il doit être : ce qui reste quand chaque euro
+sorti a déjà sa case, donc zéro tant que le rapprochement ferme.
+
+L'onglet affiche maintenant la vérification en clair, dans l'ordre que Badr
+demande : **sur les comptes + CA pas encore encaissé − dû à Panda = ce qui
+existe**, contre **Net Badr + Net Adnane = ce qui nous appartient**, et la
+différence en dessous.
+
+310 tests verts, build OK, lint clean.

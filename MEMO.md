@@ -614,7 +614,11 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   la courbe »). Un repère se met dans l'infobulle, écrit en clair — un trait
   sans légende oblige à deviner ce qu'il marque.
 - **Les deux parts se calculent PAREIL** (07/09) : chacun son net Année moins
-  SES propres dépenses carte. Ne jamais recalculer l'une comme le reste de
+  TOUT ce qu'il a consommé (`TreasuryAttribution`) — dépenses carte, sa part
+  des frais bancaires, du supplément Meta et de Google Ads, plus pour Adnane
+  le reliquat Revolut. Ne jamais n'y retrancher que le perso : les autres
+  postes sont sortis des comptes eux aussi, et les oublier fabrique un faux
+  trou (~14 000 € affichés le 07/09). Ne jamais recalculer l'une comme le reste de
   l'autre : une part résiduelle absorbe silencieusement toutes les erreurs, et
   il ne reste plus rien pour révéler un trou. Le trou est la différence entre
   ce que les deux possèdent et ce qui existe (comptes + en route − Panda) ; il
