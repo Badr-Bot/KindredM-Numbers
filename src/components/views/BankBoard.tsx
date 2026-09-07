@@ -567,6 +567,7 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
   const enRouteCents = enRouteExact ?? report.enRouteEstimateCents ?? 0;
   const detteFournisseur = t.supplierUnbilledCents + t.supplierOwedCents - t.supplierPrepaidCents;
   const totalCents = known.reduce((acc, b) => acc + (b.amountEurCents ?? 0), 0);
+  const metaExcess = t.metaExcessCents ?? 0;
   const own = computeOwnership({
     netBadrCents: annee.badrCents,
     netAdnaneCents: annee.adnaneCents,
@@ -574,10 +575,15 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
     consommeAdnaneCents: a.adnaneCents,
     bankCents: totalCents,
     enRouteCents,
+    // Ce qu'on n'explique pas ne compte NI comme argent à nous, ni comme
+    // dépense de quelqu'un : il ressort dans le trou, en rouge.
+    metaAdvanceCents: 0,
     supplierDebtCents: detteFournisseur,
   });
   return {
     totalCents,
+    metaExcess,
+    metaByMonth: t.metaByMonth,
     enRouteCents,
     enRouteExact,
     detteFournisseur,
@@ -587,6 +593,7 @@ function ownershipFrom(report: BankReport, annee: { badrCents: number; adnaneCen
     persoBadr: a.persoBadrCents,
     persoAdnane: a.persoFahdCents,
     fraisCents: a.badrCents + a.adnaneCents - a.persoBadrCents - a.persoFahdCents - a.revolutAdnaneCents,
+    reparti5050Cents: a.reparti5050Cents,
     partBadr: own.partBadrCents,
     partAdnane: own.partAdnaneCents,
     duCents: own.dueCents,
@@ -721,8 +728,8 @@ function OwnershipBlock({
   const own = ownershipFrom(report, annee);
   if (!own) return null;
   const {
-    totalCents, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane,
-    persoBadr, persoAdnane, fraisCents, consommeBadr, consommeAdnane,
+    totalCents, metaExcess, metaByMonth, enRouteCents, enRouteExact, detteFournisseur, revolutAdnane,
+    persoBadr, persoAdnane, fraisCents, reparti5050Cents, consommeBadr, consommeAdnane,
     partBadr, partAdnane, duCents, disponibleCents, trouCents,
   } = own;
   const enRouteEstime = enRouteExact === null ? report.enRouteEstimateCents : null;
@@ -755,9 +762,9 @@ function OwnershipBlock({
       {fraisCents > 0 && (
         <p className="mt-1.5 text-[10px] leading-snug text-ink-faint">
           Sur ce qui est « déjà consommé », <b className="tnum text-ink">{formatEur0(fraisCents)}</b> ne sont
-          les dépenses perso de personne : frais bancaires et de change, supplément Meta (la carte paie en
-          dollars ce que Meta facture en euros) et Google Ads. C&apos;est de l&apos;argent réellement sorti des
-          comptes — le détail ligne par ligne est dans le rapprochement plus bas.
+          les dépenses perso de personne : frais bancaires et de change, Google Ads
+          {reparti5050Cents > 0 ? `, et ${formatEur0(reparti5050Cents)} encore inexpliqués partagés 50/50` : ""}.
+          Le détail ligne par ligne est dans le rapprochement plus bas.
         </p>
       )}
 
@@ -786,6 +793,54 @@ function OwnershipBlock({
           <span className="block text-[9.5px] text-ink-faint">commandes livrées, pas encore facturées</span>
         </div>
       </div>
+
+      {/* 🔎 La chasse au trou : où et QUAND l'argent part sans être compté.
+          Badr 07/09 : « cherche d'où sortent ces 13 000 €, avant y avait pas
+          ce trou ». Un total ne dit pas quand ; un mois, si. */}
+      {metaExcess > 0 && metaByMonth && metaByMonth.length > 0 && (
+        <div className="mt-2 border-t border-line-soft pt-2">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-red">
+            🔎 {formatEur0(metaExcess)} payés à Meta au-delà de la pub comptée — à identifier
+          </div>
+          <div className="mt-1 overflow-x-auto">
+            <table className="w-full min-w-[320px] text-left text-[11px]">
+              <thead>
+                <tr className="border-b border-hair text-[9px] uppercase text-ink-faint">
+                  <th className="py-1 pr-2">Mois</th>
+                  <th className="py-1 pr-2 text-right">Payé en banque</th>
+                  <th className="py-1 pr-2 text-right">Pub comptée</th>
+                  <th className="py-1 text-right">Écart</th>
+                </tr>
+              </thead>
+              <tbody>
+                {metaByMonth.map((m) => {
+                  const ecart = m.bankCents - m.spendCents;
+                  return (
+                    <tr key={m.month} className="border-b border-hair/50">
+                      <td className="py-1 pr-2 tnum">{m.month}</td>
+                      <td className="tnum py-1 pr-2 text-right">{formatEur0(m.bankCents)}</td>
+                      <td className="tnum py-1 pr-2 text-right text-ink-faint">{formatEur0(m.spendCents)}</td>
+                      <td
+                        className={`tnum py-1 text-right ${
+                          Math.abs(ecart) < 50000 ? "text-ink-faint" : ecart > 0 ? "text-red" : "text-amber"
+                        }`}
+                      >
+                        {ecart >= 0 ? "+" : "−"}
+                        {formatEur0(Math.abs(ecart))}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-1 text-[9.5px] leading-snug text-ink-faint">
+            Écart positif = la banque a payé Meta plus que la pub comptée ce mois-là. Négatif = Meta a diffusé
+            sans avoir encore prélevé (décalage de facturation, normal). Le mois où l&apos;écart apparaît dit
+            quoi chercher sur le relevé.
+          </p>
+        </div>
+      )}
 
       <p className="mt-2 border-t border-line-soft pt-2 text-[11px] leading-snug text-ink-dim">
         <b className="tnum text-ink">{formatEur0(duCents)}</b> qui nous appartiennent, contre{" "}

@@ -1425,6 +1425,31 @@ async function fetchOrderCostsSince(supabase: SupabaseClient, fromDay: string): 
 /** Le rapprochement complet. Chaque brique manquante dégrade proprement :
  * pas de banque → pas d'écart (jamais un écart calculé contre un solde vide,
  * qui afficherait « il manque 80 000 € »). */
+/**
+ * Débité en banque vers Meta vs spend enregistré, mois par mois. Un écart
+ * total ne dit pas d'où il vient ; le voir apparaître sur un mois précis, si
+ * (Badr 07/09). Tous les mois présents d'un côté OU de l'autre sont rendus —
+ * un mois où la banque a payé sans qu'aucun spend soit enregistré est
+ * précisément ce qu'on cherche.
+ */
+function metaMonths(
+  metaDebits: BankTx[],
+  spendByMonth: Map<string, number>,
+  out: (t: BankTx) => number
+): { month: string; bankCents: number; spendCents: number }[] {
+  const bankByMonth = new Map<string, number>();
+  for (const t of metaDebits) {
+    const month = t.day.slice(0, 7);
+    bankByMonth.set(month, (bankByMonth.get(month) ?? 0) + out(t));
+  }
+  const months = [...new Set([...bankByMonth.keys(), ...spendByMonth.keys()])].sort();
+  return months.map((month) => ({
+    month,
+    bankCents: bankByMonth.get(month) ?? 0,
+    spendCents: spendByMonth.get(month) ?? 0,
+  }));
+}
+
 async function buildTreasury(input: {
   supabase: SupabaseClient;
   untilDay: string;
@@ -1449,9 +1474,16 @@ async function buildTreasury(input: {
   if (aggErr) return { treasury: null, setup: null, warning: `Rapprochement trésorerie : agrégats illisibles (${aggErr.message}).` };
   let netCumuleCents = 0;
   let metaSpendCents = 0;
+  // Spend Meta MOIS PAR MOIS : sert à retrouver quand un écart avec la banque
+  // est apparu (Badr 07/09 : « d'où sortent ces 13 000 € alors qu'avant y
+  // avait pas ce trou ? »). Un total ne dit pas QUAND ; un mois, si.
+  const metaSpendByMonth = new Map<string, number>();
   for (const r of aggRows ?? []) {
     netCumuleCents += (r.net_cents as number) ?? 0;
-    metaSpendCents += (r.spend_cents as number) ?? 0;
+    const spend = (r.spend_cents as number) ?? 0;
+    metaSpendCents += spend;
+    const month = String(r.day).slice(0, 7);
+    metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
   }
   for (const day of listParisDays(TREASURY_START_DAY, untilDay)) netCumuleCents -= fixedCostsCentsForDay(day);
 
@@ -1516,6 +1548,7 @@ async function buildTreasury(input: {
       ),
       metaBankCents: debits.filter((t) => t.category === "META").reduce((a, t) => a + out(t), 0),
       metaSpendCents,
+      metaByMonth: metaMonths(debits.filter((t) => t.category === "META"), metaSpendByMonth, out),
       fxSplit: { metaCents: fxMeta, persoCents: fxPerso, autreCents: fxAutre },
     };
   } catch (err) {
