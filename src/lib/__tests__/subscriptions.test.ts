@@ -203,9 +203,10 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     // +18,76 €/j de frais de change Slash inscrits le 04/09 (ligne étalée
     // 27/07→04/09, close ce jour-là : Meta est payé depuis Wise en euros),
     // −10,68 €/j depuis le 06/09 (Marwa + TrendTrack hors net, payés depuis
-    // le Revolut d'Adnane). Dès le 05/09 la journée retombe à ~26 €.
-    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(45);
-    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(26);
+    // le Revolut d'Adnane), +7 €/j de boosts Instagram depuis le 24/08 (Meta
+    // hors compte pub, Badr 08/09). Dès le 05/09 la journée retombe à ~33 €.
+    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(52);
+    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(33);
   });
 
   it("laisse Marwa seule au poste ÉQUIPE en septembre — mais hors net", () => {
