@@ -287,7 +287,7 @@ function CashflowBlock({ report }: { report: BankReport }) {
 // qui »). Le reste de cette page contrôle des DÉTAILS sur 30 jours ; ce bloc
 // répond à la seule question qui compte pour la trésorerie : le net gagné
 // est-il vraiment sur les comptes, et sinon où est parti le reste.
-function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; setup: string | null }) {
+function TreasuryBlock({ treasury, setup, deposited = 0 }: { treasury: TreasuryBridge | null; setup: string | null; deposited?: number }) {
   if (!treasury) {
     return setup ? (
       <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">🧮 {setup}</p>
@@ -333,7 +333,11 @@ function TreasuryBlock({ treasury, setup }: { treasury: TreasuryBridge | null; s
         {ligne("Cash que l'activité a produit", t.cashTheoriqueCents, { fort: true })}
         {ligne("Argent en route chez Shopify", t.enRouteCents, {
           signe: "−",
-          note: t.enRouteEstimated ? "≈ estimation (CA − frais des 5 derniers jours) — scope Shopify à ajouter pour l'exact" : undefined,
+          note: t.enRouteEstimated
+            ? "≈ estimation (CA − frais des 5 derniers jours) — scope Shopify à ajouter pour l'exact"
+            : deposited > 0
+              ? `solde Shopify + ${formatEur0(deposited)} déposés par Shopify, pas encore sur Wise`
+              : undefined,
         })}
         {ligne("Devrait être sur les comptes", t.attenduEnBanqueCents, { fort: true })}
         {ligne("Solde réel Wise + Slash", t.bankCents, {
@@ -1342,7 +1346,7 @@ export function BankBoard({
         <>
           <HealthHeader tiles={buildTiles(report, unmappedCount)} />
           <CashflowBlock report={report} />
-          <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} />
+          <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} deposited={report.enRouteDepositedCents} />
           <SupplierBlock treasury={report.treasury} />
           {annee && <OwnershipBlock report={report} annee={annee} />}
         </>

@@ -1158,6 +1158,9 @@ export interface BankReport {
    * 777 € pour ~15 000 € réels : les payouts reçus début août payaient des
    * ventes de juillet. null si les agrégats manquent. */
   enRouteEstimateCents: number | null;
+  /** Versements « Déposé » par Shopify pas encore arrivés en banque (≤ 6 j) :
+   * inclus dans enRoute / enRouteEstimateCents. */
+  enRouteDepositedCents: number;
   /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
    * d'aller tout retracer depuis le tout début »). null = pas calculable
    * (aucune banque branchée, ou agrégats illisibles). */
@@ -2105,6 +2108,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
       enRouteEstimateCents: 185000,
+      enRouteDepositedCents: 0,
       treasury: demoTreasury,
       treasurySetup: null,
     };
@@ -2244,7 +2248,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         untilDay
       )
     : null;
-  const enRoute = enRouteRes
+  let enRoute = enRouteRes
     ? {
         totalEurCents: enRouteRes.totalEurCents + (estimeMuettesCents ?? 0),
         // « estimé » seulement si une boutique muette a réellement vendu sur
@@ -2295,22 +2299,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     }
   }
 
-  let treasury: TreasuryBridge | null = null;
-  let treasurySetup: string | null = null;
-  try {
-    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, caOldAccountCents, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
-    treasury = t.treasury;
-    treasurySetup = t.setup;
-    if (t.warning) warnings.push(t.warning);
-  } catch (err) {
-    warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
-  }
-
-  const control =
-    txs.length > 0
-      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, treasury })
-      : null;
-
+  let enRouteDepositedCents = 0;
   // 📦 Versements Shopify ↔ banque (Badr 08/09). Les crédits Shopify de TOUT
   // l'historique lu (pas seulement la fenêtre de contrôle) : un versement
   // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
@@ -2404,12 +2393,41 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
           description: t.description,
         }));
       payouts = reconcilePayouts(fetched.payouts, credits, untilDay);
+      // 🚚 « Déposé » par Shopify mais pas encore sur Wise : sorti du solde
+      // Shopify, pas encore en banque → c'est encore de l'argent en route
+      // (Badr 08/09 : versements du 7-8/09 visibles chez Shopify, pas sur Wise).
+      const pendCur = payouts.paidPending.map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const pendToken = process.env.WISE_API_TOKEN;
+      const pendRates = pendCur.length > 0 && pendToken ? await fetchWiseRates([...new Set(pendCur)], pendToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      enRouteDepositedCents = payouts.paidPending.reduce((a, x) => a + (toEurCents(x.amountCents, x.currency, pendRates, { rates: usdRatesForReport }) ?? 0), 0);
     }
     for (const w of fetched.warnings) warnings.push(w);
     }
   } catch (err) {
     warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
   }
+
+  // L'en route porte aussi les versements déposés pas encore arrivés.
+  if (enRouteDepositedCents > 0) {
+    if (enRoute) enRoute = { ...enRoute, totalEurCents: enRoute.totalEurCents + enRouteDepositedCents };
+    if (enRouteEstimateCents !== null) enRouteEstimateCents += enRouteDepositedCents;
+  }
+
+  let treasury: TreasuryBridge | null = null;
+  let treasurySetup: string | null = null;
+  try {
+    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, caOldAccountCents, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
+    treasury = t.treasury;
+    treasurySetup = t.setup;
+    if (t.warning) warnings.push(t.warning);
+  } catch (err) {
+    warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
+  }
+
+  const control =
+    txs.length > 0
+      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, treasury })
+      : null;
 
   return {
     ready: txs.length > 0,
@@ -2430,6 +2448,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     cashbackTotalEurCents,
     enRoute,
     enRouteEstimateCents,
+    enRouteDepositedCents,
     treasury,
     treasurySetup,
   };
