@@ -1281,15 +1281,20 @@ const PAYOUTS_QUERY = `{
   }
 }`;
 
-/** Première transaction jamais traitée par le compte Shopify Payments de la
- * société : c'est LA date à partir de laquelle les ventes ont été encaissées
- * par la LLC (le premier VERSEMENT, lui, arrive quelques jours après et paie
- * déjà des ventes antérieures — coupure fausse de 30 000 €, constatée le
- * 08/09). */
+/** Première vente VERSÉE à la société par Shopify : c'est LA date à partir de
+ * laquelle les ventes ont été encaissées par la LLC. Ni le premier versement
+ * (il arrive quelques jours après et paie déjà des ventes antérieures —
+ * coupure fausse de 30 000 €), ni la première vente traitée par le compte
+ * (05/05 : jamais versée à la LLC). Constaté le 08/09. */
+// `payout_status:paid` : la première vente RÉELLEMENT VERSÉE à la société.
+// Sans ce filtre on lisait la première vente traitée par le compte (05/05,
+// #1132) — or aucun versement n'existe avant le 21/07 : l'argent de mai →
+// 20/07 n'est jamais passé par ces versements. La coupure est donc la
+// première vente couverte par un versement payé, pas la première vente.
 const FIRST_TX_QUERY = `{
   shopifyPaymentsAccount {
-    balanceTransactions(first: 3, sortKey: PROCESSED_AT) {
-      edges { node { transactionDate type associatedOrder { name } } }
+    balanceTransactions(first: 5, sortKey: PROCESSED_AT, query: "payout_status:paid") {
+      edges { node { transactionDate type associatedOrder { name } associatedPayout { status } } }
     }
   }
 }`;
@@ -1401,7 +1406,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v4"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v5"], {
   revalidate: 900,
   tags: ["bank"],
 });
