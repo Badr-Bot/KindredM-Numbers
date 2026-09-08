@@ -1291,9 +1291,14 @@ const PAYOUTS_QUERY = `{
 // #1132) — or aucun versement n'existe avant le 21/07 : l'argent de mai →
 // 20/07 n'est jamais passé par ces versements. La coupure est donc la
 // première vente couverte par un versement payé, pas la première vente.
+// Trié par DATE DE VERSEMENT (pas par date de vente) et SANS filtre `query` :
+// Shopify ignore silencieusement `query` sur cette connexion (constaté deux
+// fois le 08/09). Les premières lignes sont donc les ventes couvertes par le
+// tout premier versement payé — la plus ancienne d'entre elles est la
+// première vente encaissée par la société.
 const FIRST_TX_QUERY = `{
   shopifyPaymentsAccount {
-    balanceTransactions(first: 5, sortKey: PROCESSED_AT, query: "payout_status:paid") {
+    balanceTransactions(first: 40, sortKey: PAYOUT_DATE) {
       edges { node { transactionDate type associatedOrder { name } associatedPayout { status } } }
     }
   }
@@ -1359,10 +1364,14 @@ async function fetchShopifyPayouts(): Promise<{
           body: JSON.stringify({ query: FIRST_TX_QUERY }),
         });
         const j2 = (await r2.json()) as {
-          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null } }[] } } | null };
+          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
         };
-        const first = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? []).find((e) => e.node.type === "CHARGE") ?? j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges?.[0];
-        if (first) starts.push({ market: config.market, day: toParisDay(first.node.transactionDate), orderName: first.node.associatedOrder?.name ?? null });
+        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
+          .map((e) => e.node)
+          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
+          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
+        const first = paid[0];
+        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
       } catch {
         // rien : la coupure retombe sur la constante
       }
@@ -1406,7 +1415,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v5"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v6"], {
   revalidate: 900,
   tags: ["bank"],
 });
