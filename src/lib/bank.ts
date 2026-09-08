@@ -1184,7 +1184,13 @@ export interface BankReport {
     /** Conversion EUR des totaux Shopify (taux du jour Wise pour USD ; CAD/GBP
      * au dernier taux connu). */
     shopifyEur: { chargesGross: number; fees: number; refunds: number; adjustments: number; reserved: number; net: number };
+    /** Ventes traitées mais pas encore versées (solde en attente), en EUR. */
+    pendingEur: { gross: number; fee: number; net: number };
     dashEur: { sinceDay: string; ca: number; fees: number; refunds: number; expected: number };
+    /** CA du dashboard depuis la coupure que la société n'a PAS encaissé :
+     * dash − (versements + en attente). Encaissé par l'ancien compte Shopify
+     * (Adnane) sur les premiers jours après la coupure. */
+    caNotCollectedByLlcCents: number;
   } | null;
 }
 
@@ -1343,6 +1349,18 @@ export interface PayoutsSummary {
   count: number;
 }
 
+/** Ventes traitées par le compte, pas encore rattachées à un versement
+ * (le solde « en attente ») : brut, frais, net — pour reconstituer le CA
+ * encaissé par la société sans attendre les versements. */
+const PENDING_TX_QUERY = `query PendingTx($after: String) {
+  shopifyPaymentsAccount {
+    balanceTransactions(first: 250, query: "payout_status:pending", after: $after) {
+      edges { node { amount { amount currencyCode } fee { amount } net { amount } } }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}`;
+
 export interface PayoutsStart {
   market: string;
   day: string;
@@ -1361,6 +1379,8 @@ async function fetchShopifyPayouts(): Promise<{
   oldestIssuedDay: string | null;
   /** Résumé des retenues Shopify, par devise, sur tous les versements lus. */
   summaries: PayoutsSummary[];
+  /** Ventes en attente de versement, par devise (brut / frais / net). */
+  pending: { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }[];
 }> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   const payouts: ShopifyPayout[] = [];
@@ -1369,6 +1389,7 @@ async function fetchShopifyPayouts(): Promise<{
   const starts: PayoutsStart[] = [];
   const history = new Map<string, { month: string; currency: string; paidCents: number; count: number }>();
   const summaries = new Map<string, PayoutsSummary>();
+  const pending = new Map<string, { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }>();
   let oldestIssuedDay: string | null = null;
   const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
   for (const config of getShopifyStoreConfigs()) {
@@ -1470,6 +1491,42 @@ async function fetchShopifyPayouts(): Promise<{
       } catch {
         // rien : la coupure retombe sur la constante
       }
+      // Ventes en attente de versement (quelques jours, quelques centaines de
+      // lignes au plus) — best effort, paginé.
+      try {
+        let after: string | null = null;
+        for (let page = 0; page < 8; page++) {
+          const r3 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+            body: JSON.stringify({ query: PENDING_TX_QUERY, variables: { after } }),
+          });
+          const j3 = (await r3.json()) as {
+            data?: {
+              shopifyPaymentsAccount?: {
+                balanceTransactions?: {
+                  edges?: { node: { amount: { amount: string; currencyCode: string }; fee: { amount: string }; net: { amount: string } } }[];
+                  pageInfo?: { hasNextPage: boolean; endCursor: string | null };
+                };
+              } | null;
+            };
+          };
+          const conn = j3.data?.shopifyPaymentsAccount?.balanceTransactions;
+          for (const { node } of conn?.edges ?? []) {
+            const cur = node.amount.currencyCode;
+            const pdg = pending.get(cur) ?? { currency: cur, grossCents: 0, feeCents: 0, netCents: 0, count: 0 };
+            pdg.grossCents += Math.round(Number(node.amount.amount) * 100);
+            pdg.feeCents += Math.round(Number(node.fee.amount) * 100);
+            pdg.netCents += Math.round(Number(node.net.amount) * 100);
+            pdg.count += 1;
+            pending.set(cur, pdg);
+          }
+          if (!conn?.pageInfo?.hasNextPage || !conn.pageInfo.endCursor) break;
+          after = conn.pageInfo.endCursor;
+        }
+      } catch {
+        // rien : le CA encaissé par la société sera légèrement sous-estimé
+      }
     } catch (err) {
       warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
     }
@@ -1482,10 +1539,11 @@ async function fetchShopifyPayouts(): Promise<{
     history: [...history.values()].sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency)),
     oldestIssuedDay,
     summaries: [...summaries.values()].sort((a, b) => b.net - a.net),
+    pending: [...pending.values()],
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v8"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v9"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1709,6 +1767,9 @@ async function buildTreasury(input: {
   /** Coupure Revolut / LLC lue chez Shopify (première transaction encaissée
    * par le compte de la société) ; sinon la constante. */
   llcStartDay?: string;
+  /** CA du dashboard depuis la coupure que la société n'a PAS encaissé
+   * (ancien compte Shopify, premiers jours). */
+  caOldAccountCents?: number;
   balances: BankBalance[];
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
   /** Estimation (5 derniers jours) utilisée quand le scope Shopify manque. */
@@ -1922,7 +1983,7 @@ async function buildTreasury(input: {
     netCumuleCents,
     llcSplit: aggErr
       ? undefined
-      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut, llcOutByCategory },
+      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut, llcOutByCategory, caOldAccountCents: input.caOldAccountCents ?? 0 },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),
@@ -2186,11 +2247,31 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
   }
   const frStart = fetchedPayouts?.starts.find((x) => x.market === "FR")?.day;
+  // CA du dashboard depuis la coupure NON encaissé par la société (pris par
+  // l'ancien compte Shopify sur les premiers jours) — calculé ici, avant le
+  // rapprochement, pour être porté du côté Revolut.
+  let caOldAccountCents = 0;
+  if (fetchedPayouts && frStart && fetchedPayouts.summaries.length > 0) {
+    try {
+      const others = [...fetchedPayouts.summaries, ...fetchedPayouts.pending].map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const wiseToken = process.env.WISE_API_TOKEN;
+      const rates = others.length > 0 && wiseToken ? await fetchWiseRates([...new Set(others)], wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
+      const collected =
+        fetchedPayouts.summaries.reduce((a, x) => a + conv(x.chargesGross, x.currency), 0) +
+        fetchedPayouts.pending.reduce((a, x) => a + conv(x.grossCents, x.currency), 0);
+      const { data: agg } = await supabase.from("daily_aggregates").select("ca_cents").gte("day", frStart).lte("day", untilDay);
+      const dashCa = (agg ?? []).reduce((a, r) => a + ((r.ca_cents as number) ?? 0), 0);
+      caOldAccountCents = Math.max(dashCa - collected, 0);
+    } catch {
+      caOldAccountCents = 0;
+    }
+  }
 
   let treasury: TreasuryBridge | null = null;
   let treasurySetup: string | null = null;
   try {
-    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
+    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, caOldAccountCents, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
     treasury = t.treasury;
     treasurySetup = t.setup;
     if (t.warning) warnings.push(t.warning);
@@ -2212,6 +2293,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let payoutsByMonth: BankReport["payoutsByMonth"] = [];
   let payoutsOldestDay: string | null = null;
   let payoutsSummary: BankReport["payoutsSummary"] = null;
+  let caNotCollectedByLlcCents = 0;
   try {
     const fetched = fetchedPayouts;
     if (fetched) {
@@ -2225,6 +2307,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       const wiseToken = process.env.WISE_API_TOKEN;
       const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
       const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
+      const pe = { gross: 0, fee: 0, net: 0 };
+      for (const x of fetched.pending) {
+        pe.gross += conv(x.grossCents, x.currency);
+        pe.fee += conv(x.feeCents, x.currency);
+        pe.net += conv(x.netCents, x.currency);
+      }
       const sh = { chargesGross: 0, fees: 0, refunds: 0, adjustments: 0, reserved: 0, net: 0 };
       for (const x of fetched.summaries) {
         sh.chargesGross += conv(x.chargesGross, x.currency);
@@ -2247,7 +2335,11 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         d.refunds += (r.refunded_cents as number) ?? 0;
       }
       d.expected = d.ca - d.fees - d.refunds;
-      payoutsSummary = { byCurrency: fetched.summaries, shopifyEur: sh, dashEur: d };
+      // Ce que la société a réellement encaissé depuis la coupure = brut des
+      // versements + brut en attente. Ce que le dash compte en plus n'est
+      // jamais entré chez la société : c'est l'ancien compte qui l'a pris.
+      caNotCollectedByLlcCents = Math.max(d.ca - (sh.chargesGross + pe.gross), 0);
+      payoutsSummary = { byCurrency: fetched.summaries, shopifyEur: sh, pendingEur: pe, dashEur: d, caNotCollectedByLlcCents };
     }
     if (fetched.history.length > 0) {
       // Crédits Shopify en banque, par mois et devise (tout l'historique lu).

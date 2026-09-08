@@ -155,6 +155,8 @@ export interface TreasuryPeriods {
     /** Coûts de la période LLC réglés depuis le Revolut (sortis de chez
      * Adnane, jamais des comptes LLC). */
     paidForLlc: { metaCents: number; cogsCents: number; subsCents: number; totalCents: number };
+    /** CA d'après la coupure encaissé par l'ancien compte (Adnane). */
+    caOldAccountCents: number;
     /** Ce qui est parti du Revolut vers la LLC (apports). */
     transfersToLlcCents: number;
     /** Ce que le Revolut devrait encore porter, ou avoir dépensé hors compta :
@@ -240,6 +242,10 @@ export interface TreasuryInput {
      * déjà, mais Meta / Panda / abonnements partaient encore du Revolut) :
      * ils sont dans le net LLC sans être sortis des comptes LLC. */
     llcCostsPaidByRevolut?: { metaCents: number; cogsCents: number; subsCents: number };
+    /** CA compté par le dashboard depuis la coupure mais encaissé par l'ANCIEN
+     * compte Shopify (les premiers jours, avant que la société ne prenne
+     * toutes les ventes). Dans le net LLC, jamais entré chez la LLC. */
+    caOldAccountCents?: number;
     /** Sorti des comptes LLC depuis la coupure, par poste, face à ce que le
      * net a compté pour le même poste — pour NOMMER un trou au lieu de le
      * laisser flotter. `netCents` null = le net ne compte pas ce poste. */
@@ -369,7 +375,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
       label: periods ? `Période Revolut (avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)}) — à justifier par Adnane` : PRE_LLC_RESIDUAL.label,
       cents: preLlcRevolutCents,
       detail: periods
-        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
+        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} + CA d'après la coupure encaissé par l'ancien compte ${eur(periods.revolut.caOldAccountCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
         : PRE_LLC_RESIDUAL.note,
     });
   }
@@ -451,13 +457,17 @@ function buildPeriods(
   const paidForLlcCents = pfl.metaCents + pfl.cogsCents + pfl.subsCents;
   // Les coûts LLC payés depuis le Revolut sont dans le net LLC mais ne sont
   // jamais sortis des comptes LLC : ils y sont encore, on les rajoute.
+  const caOld = split.caOldAccountCents ?? 0;
+  // … et le CA d'après la coupure pris par l'ancien compte est dans le net
+  // LLC sans être jamais entré chez la LLC : on le retire.
   const cashTheoriqueCents =
     split.netLlcCents +
     input.supplierUnbilledCents +
     input.supplierOwedCents -
     prepaid -
     split.cogsPreLlcPaidByLlcCents +
-    paidForLlcCents +
+    paidForLlcCents -
+    caOld +
     split.transfersInCents;
   const attenduEnBanqueCents = input.enRouteCents === null ? null : cashTheoriqueCents - input.enRouteCents;
   const gapCents = attenduEnBanqueCents === null || bankCents === null ? null : attenduEnBanqueCents - bankCents;
@@ -472,9 +482,11 @@ function buildPeriods(
       cogsPaidByLlcCents: split.cogsPreLlcPaidByLlcCents,
       transfersToLlcCents: split.transfersInCents,
       paidForLlc: { ...pfl, totalCents: paidForLlcCents },
+      caOldAccountCents: caOld,
       // Ce qui devrait rester sur le Revolut : son net, plus ce que la LLC a
-      // payé à sa place, moins ce qu'il a payé pour la LLC, moins ses apports.
-      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents - paidForLlcCents - split.transfersInCents,
+      // payé à sa place, plus le CA d'après la coupure encaissé par l'ancien
+      // compte, moins ce qu'il a payé pour la LLC, moins ses apports.
+      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents + caOld - paidForLlcCents - split.transfersInCents,
       estimatedLeftCents: PRE_LLC_RESIDUAL.cents,
     },
     llc: {
