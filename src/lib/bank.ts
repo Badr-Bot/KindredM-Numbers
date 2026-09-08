@@ -4,12 +4,12 @@ import { reconcilePayouts, type BankCredit, type PayoutReconciliation, type Shop
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
-import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { fixedCostsCentsForDay, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
 import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
-import { buildTreasuryBridge, LLC_START_DAY, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
+import { buildTreasuryBridge, LLC_START_DAY, REVOLUT_OFF_BOOK_ONE_OFFS, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -1994,7 +1994,23 @@ async function buildTreasury(input: {
     netCumuleCents,
     llcSplit: aggErr
       ? undefined
-      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut, llcOutByCategory, caOldAccountCents: input.caOldAccountCents ?? 0 },
+      : {
+          llcStartDay,
+          netRevolutCents,
+          netLlcCents,
+          cogsPreLlcPaidByLlcCents,
+          transfersInCents,
+          bigCredits,
+          llcCostsPaidByRevolut,
+          llcOutByCategory,
+          caOldAccountCents: input.caOldAccountCents ?? 0,
+          // Sorti du Revolut hors compta : mensuels horsNet réellement
+          // prélevés jusqu'à aujourd'hui + ponctuels (Badr 08/09).
+          revolutOffBook: [
+            ...horsNetPaidUntil(input.untilDay).map((l) => ({ label: l.label, cents: l.cents, note: `${l.months} mois` })),
+            ...REVOLUT_OFF_BOOK_ONE_OFFS,
+          ],
+        },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),

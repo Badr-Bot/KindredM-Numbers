@@ -58,6 +58,12 @@ export const PRE_LLC_RESIDUAL = {
   note: "Reliquat du rapprochement du 04/09, resté sur le Revolut perso d'Adnane (l'activité tournait dessus avant Slash/Wise). Décision Badr : imputé 100 % Adnane. Plafond figé — un écart au-delà est un trou NEUF.",
 } as const;
 
+/** Sorties du Revolut d'Adnane HORS COMPTA, ponctuelles (Badr 08/09). Les
+ * mensuelles (Marwa, TrendTrack) viennent des abonnements `horsNet`. */
+export const REVOLUT_OFF_BOOK_ONE_OFFS: { label: string; cents: number; note?: string }[] = [
+  { label: "MacBook", cents: 180000, note: "Badr 08/09 : 1 800 €, date inconnue" },
+];
+
 /** Seuil au-delà duquel l'inexpliqué depuis le 04/09 devient une anomalie
  * rouge. En dessous : arrondis de change, décalages de facturation. */
 export const UNEXPLAINED_ALERT_CENTS = 100000;
@@ -164,6 +170,10 @@ export interface TreasuryPeriods {
     toJustifyCents: number;
     /** Estimation de Badr de ce qui reste dessus (PRE_LLC_RESIDUAL). */
     estimatedLeftCents: number;
+    /** Sorti du Revolut hors compta (Marwa, TrendTrack, MacBook…). */
+    offBook: { items: { label: string; cents: number; note?: string }[]; totalCents: number };
+    /** Ce qui doit rester sur le Revolut d'Adnane : à justifier − hors compta. */
+    shouldRemainCents: number;
   };
   llc: {
     netCents: number;
@@ -250,6 +260,9 @@ export interface TreasuryInput {
      * net a compté pour le même poste — pour NOMMER un trou au lieu de le
      * laisser flotter. `netCents` null = le net ne compte pas ce poste. */
     llcOutByCategory?: { category: string; bankCents: number; netCents: number | null; note?: string }[];
+    /** Sorti du Revolut HORS COMPTA (Marwa, TrendTrack, MacBook…) : ni dans
+     * le net ni dans les parts, mais bien parti du compte. */
+    revolutOffBook?: { label: string; cents: number; note?: string }[];
   };
   scan: {
     sinceDay: string;
@@ -368,14 +381,14 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     resteAvantRevolut === null
       ? null
       : periods
-        ? Math.max(periods.revolut.toJustifyCents, 0)
+        ? Math.max(periods.revolut.shouldRemainCents, 0)
         : Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents);
   if (preLlcRevolutCents !== null && preLlcRevolutCents > 0) {
     gapLines.push({
-      label: periods ? `Période Revolut (avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)}) — à justifier par Adnane` : PRE_LLC_RESIDUAL.label,
+      label: periods ? `Doit rester sur le Revolut d'Adnane (période avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)})` : PRE_LLC_RESIDUAL.label,
       cents: preLlcRevolutCents,
       detail: periods
-        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} + CA d'après la coupure encaissé par l'ancien compte ${eur(periods.revolut.caOldAccountCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
+        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} + CA d'après la coupure encaissé par l'ancien compte ${eur(periods.revolut.caOldAccountCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)} = à justifier ${eur(periods.revolut.toJustifyCents)} − sorti hors compta ${eur(periods.revolut.offBook.totalCents)} (${periods.revolut.offBook.items.map((l) => `${l.label} ${eur(l.cents)}`).join(", ") || "rien"}). C'est ce qui doit être sur le Revolut d'Adnane aujourd'hui.`
         : PRE_LLC_RESIDUAL.note,
     });
   }
@@ -474,6 +487,9 @@ function buildPeriods(
   // Perso, frais, Google Ads : tous datés de la période LLC (la carte n'existait
   // pas avant), donc ils expliquent l'écart LLC, pas l'écart Revolut.
   const explained = gapLines.reduce((t, l) => t + l.cents, 0);
+  const toJustifyCents = split.netRevolutCents + split.cogsPreLlcPaidByLlcCents + caOld - paidForLlcCents - split.transfersInCents;
+  const offBook = split.revolutOffBook ?? [];
+  const offBookCents = offBook.reduce((t, l) => t + l.cents, 0);
   return {
     llcStartDay: split.llcStartDay ?? LLC_START_DAY,
     bigCredits: split.bigCredits ?? [],
@@ -486,8 +502,10 @@ function buildPeriods(
       // Ce qui devrait rester sur le Revolut : son net, plus ce que la LLC a
       // payé à sa place, plus le CA d'après la coupure encaissé par l'ancien
       // compte, moins ce qu'il a payé pour la LLC, moins ses apports.
-      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents + caOld - paidForLlcCents - split.transfersInCents,
+      toJustifyCents,
       estimatedLeftCents: PRE_LLC_RESIDUAL.cents,
+      offBook: { items: offBook, totalCents: offBookCents },
+      shouldRemainCents: toJustifyCents - offBookCents,
     },
     llc: {
       netCents: split.netLlcCents,

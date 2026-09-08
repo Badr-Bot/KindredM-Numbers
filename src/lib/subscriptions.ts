@@ -150,7 +150,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // LLC — c'est payé mais ça fait pas bouger le net » → HORS NET (horsNet) :
   // listée, mais ni dans le net ni dans les parts. Aucun débit LLC attendu ;
   // si un débit passe quand même sur Slash/Wise, il est affecté perso Adnane.
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, horsNet: true, note: "Payée par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: "2026-06-01", endDay: null, noBankClaim: true, horsNet: true, note: "Payée par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. 300 € chaque mois depuis juin (Badr 08/09). Un débit LLC éventuel est affecté perso Adnane automatiquement." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
@@ -394,6 +394,23 @@ export function subsPaidOutOfPocketCentsBy(payer: "BADR" | "ADNANE", untilDay: s
     }
   }
   return total;
+}
+
+/** Lignes HORS NET (payées depuis le Revolut d'Adnane) réellement débitées
+ * jusqu'à `untilDay` : un prélèvement par jour de facturation. C'est ce qui
+ * est sorti du Revolut hors compta — à retirer de ce qui doit y rester. */
+export function horsNetPaidUntil(untilDay: string): { label: string; cents: number; months: number }[] {
+  const out: { label: string; cents: number; months: number }[] = [];
+  for (const s of SUBSCRIPTIONS) {
+    if (!s.horsNet || untilDay < s.startDay) continue;
+    let months = 0;
+    for (const day of listParisDays(s.startDay, untilDay)) {
+      if (s.endDay !== null && day > s.endDay) break;
+      if (isBillingDay(s, day)) months += 1;
+    }
+    if (months > 0) out.push({ label: s.label, cents: months * monthlyEurCents(s), months });
+  }
+  return out;
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit

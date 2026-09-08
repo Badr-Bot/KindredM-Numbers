@@ -510,7 +510,7 @@ describe("périodes Revolut / LLC", () => {
     const b = buildTreasuryBridge({ ...base, bankBalances: [{ currency: "EUR", amountEurCents: 1000000 }] });
     expect(b.periods?.revolut.toJustifyCents).toBe(5185600 + 361918);
     expect(b.preLlcRevolutCents).toBe(5185600 + 361918);
-    expect(b.gapLines.find((l) => l.label.startsWith("Période Revolut"))).toBeTruthy();
+    expect(b.gapLines.find((l) => l.label.startsWith("Doit rester sur le Revolut"))).toBeTruthy();
     expect(b.attribution?.revolutAdnaneCents).toBe(5185600 + 361918); // 100 % Adnane
   });
 
@@ -528,6 +528,27 @@ describe("périodes Revolut / LLC", () => {
     expect(b.periods?.llc.unexplainedCents).toBe(trou);
     expect(b.unexplainedCents).toBe(trou);
     expect(b.preLlcRevolutCents).toBe(5185600 + 361918);
+  });
+
+  it("les sorties hors compta (Marwa, TrendTrack, MacBook) ne changent pas l'à-justifier mais ce qui doit RESTER sur le Revolut", () => {
+    const bal = [{ currency: "EUR", amountEurCents: 1000000 }];
+    const offBook = [
+      { label: "Marwa", cents: 120000 },
+      { label: "TrendTrack", cents: 10000 },
+      { label: "MacBook", cents: 180000 },
+    ];
+    const avec = buildTreasuryBridge({ ...base, llcSplit: { ...split, revolutOffBook: offBook }, bankBalances: bal });
+    const sans = buildTreasuryBridge({ ...base, bankBalances: bal });
+    expect(avec.periods!.revolut.toJustifyCents).toBe(sans.periods!.revolut.toJustifyCents);
+    expect(sans.periods!.revolut.shouldRemainCents).toBe(sans.periods!.revolut.toJustifyCents);
+    expect(avec.periods!.revolut.offBook.totalCents).toBe(310000);
+    expect(avec.periods!.revolut.shouldRemainCents).toBe(sans.periods!.revolut.toJustifyCents - 310000);
+    // La ligne du pont global porte ce qui doit rester, pas l'à-justifier brut.
+    expect(avec.preLlcRevolutCents).toBe(avec.periods!.revolut.shouldRemainCents);
+    const line = avec.gapLines.find((l) => l.label.startsWith("Doit rester sur le Revolut"));
+    expect(line?.detail).toMatch(/MacBook 1[\s\u202f]800 €/);
+    // Et le trou LLC n'en bouge pas d'un centime.
+    expect(avec.periods!.llc.unexplainedCents).toBe(sans.periods!.llc.unexplainedCents);
   });
 
   it("un apport Revolut → LLC réduit ce qu'Adnane doit justifier et gonfle l'attendu LLC", () => {
