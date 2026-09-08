@@ -110,7 +110,7 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "TrendTrack", re: /trend\s*track/i },
   // Boosts Instagram : capté AVANT ce tableau par categorizeTx (voir la règle
   // META) — présent ici pour que le contrôle compare débits et charge attendue.
-  { label: "Boosts Instagram", re: /^facebk \*/i },
+  { label: "Meta — frais de paiement en dollars", re: /^facebk \*/i },
   { label: "Artlist", re: /art\s*list/i },
   { label: "Floxy (proxy)", re: /floxy/i },
   { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
@@ -160,12 +160,12 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // for MM.DD.YY ») : FRAIS — ventilé perso/société au prorata dans
   // fetchSlashData quand les fxFeeInfo du jour le permettent.
   if (/^slash fee/.test(d)) return { category: "FRAIS", subscriptionLabel: null };
-  // Boosts Instagram (Meta HORS compte pub, Badr 08/09) : petits débits
-  // « FACEBK *xxxx » (espace avant l'astérisque, libellé fb.me/ads) de
-  // ~16,80 $ — aucun des comptes pub suivis ne les porte. Rapprochés de la
-  // charge fixe « Boosts Instagram », jamais mélangés aux paliers Meta.
+  // Meta — frais de paiement en dollars (Badr 08/09 : « c'est des fees, vu
+  // que je payais en dollars ») : petits débits « FACEBK *xxxx » (espace
+  // avant l'astérisque, libellé fb.me/ads) de ~16,80 $ tant que Meta était
+  // payé en USD par Slash. Rapprochés de la charge fixe du même nom.
   if (/^facebk \*/.test(d) && Math.abs(amountCents) < 5000)
-    return { category: "ABONNEMENT", subscriptionLabel: "Boosts Instagram" };
+    return { category: "ABONNEMENT", subscriptionLabel: "Meta — frais de paiement en dollars" };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // Fournisseur (Badr 19/08 : « Panda Dropshipping c'est le fournisseur ») —
   // les factures détaillées vivent dans l'onglet Dépenses ; ici le paiement
@@ -1459,7 +1459,12 @@ async function fetchShopifyPayouts(): Promise<{
         // (net en attente 21 994 € ≈ solde 23 530 €). Les exclure ici (PR #98)
         // faisait manquer ~6 900 € de CA encaissé → « pris par l'ancien
         // compte » gonflé d'autant.
-        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
+        // + FAILED : un versement échoué est RÉÉMIS plus tard (retriedPayoutsGross
+        // du versement de reprise = son net). Ses ventes ne sont que dans SON
+        // résumé : sans lui, ~4 350 € (5 063 $) de CA encaissé manquaient le
+        // 08/09 — portés à tort au Revolut d'Adnane. Le net total retire le
+        // « retried » pour ne pas compter cet argent deux fois (voir shopifyEur).
+        if ((node.status === "PAID" || node.status === "SCHEDULED" || node.status === "FAILED") && node.summary) {
           const cur = node.net.currencyCode;
           const sm = summaries.get(cur) ?? {
             currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
@@ -1564,7 +1569,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v11"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v12"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1674,13 +1679,13 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v5"], // v5 : Boosts Instagram (08/09)
+  ["wise-data-v5"], // v5 : frais Meta en dollars (08/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v7"], // v7 : Boosts Instagram (08/09)
+  ["slash-data-v7"], // v7 : frais Meta en dollars (08/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1719,7 +1724,7 @@ async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ t
 
 const fetchLifetimeTxsCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
-  ["bank-lifetime-txs-v4"], // v4 : Boosts Instagram (08/09)
+  ["bank-lifetime-txs-v4"], // v4 : frais Meta en dollars (08/09)
   { revalidate: 3600, tags: ["bank"] }
 );
 
@@ -2353,7 +2358,9 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         sh.refunds += conv(x.refundsGross, x.currency);
         sh.adjustments += conv(x.adjustmentsGross, x.currency);
         sh.reserved += conv(x.reservedGross, x.currency);
-        sh.net += conv(x.net, x.currency);
+        // net des versements − montants repris (déjà dans le net du versement
+        // ÉCHOUÉ, compté ci-dessus) : chaque euro une seule fois.
+        sh.net += conv(x.net - x.retriedGross, x.currency);
       }
       // Côté dashboard, même période (depuis la première vente encaissée par la LLC).
       const { data: agg } = await supabase
