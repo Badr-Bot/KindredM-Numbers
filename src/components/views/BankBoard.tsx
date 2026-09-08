@@ -957,7 +957,17 @@ function payoutLine(p: ShopifyPayout): string {
   return `${formatDayShort(p.issuedDay)} · ${moneyIn(p.amountCents, p.currency)}`;
 }
 
-function PayoutsBlock({ payouts, markets }: { payouts: PayoutReconciliation; markets: string[] }) {
+function PayoutsBlock({
+  payouts,
+  markets,
+  byMonth,
+  oldestDay,
+}: {
+  payouts: PayoutReconciliation;
+  markets: string[];
+  byMonth: BankReport["payoutsByMonth"];
+  oldestDay: string | null;
+}) {
   const { lastReceived, paidNotInBank, paidPending, inTransit, scheduled, matched, creditsUnmatched } = payouts;
   const sumBy = (list: ShopifyPayout[]) => {
     const by: Record<string, number> = {};
@@ -1013,6 +1023,50 @@ function PayoutsBlock({ payouts, markets }: { payouts: PayoutReconciliation; mar
             </div>
           ))}
         </div>
+      )}
+
+      {byMonth.length > 0 && (
+        <details className="mt-2 border-t border-line-soft pt-2 text-[11px]" open>
+          <summary className="cursor-pointer text-ink-dim">
+            📅 Mois par mois : versé par Shopify vs reçu en banque
+            {oldestDay ? ` (versements lus depuis le ${formatDayShort(oldestDay)})` : ""}
+          </summary>
+          <div className="mt-1 overflow-x-auto">
+            <table className="w-full min-w-[360px] text-left text-[11px]">
+              <thead>
+                <tr className="border-b border-hair text-[9px] uppercase text-ink-faint">
+                  <th className="py-1 pr-2">Mois</th>
+                  <th className="py-1 pr-2">Devise</th>
+                  <th className="py-1 pr-2 text-right">Versé par Shopify</th>
+                  <th className="py-1 pr-2 text-right">Reçu en banque</th>
+                  <th className="py-1 text-right">Écart</th>
+                </tr>
+              </thead>
+              <tbody>
+                {byMonth.map((m) => {
+                  const ecart = m.shopifyCents - m.bankCents;
+                  const gros = Math.abs(ecart) > Math.max(20000, m.shopifyCents * 0.15);
+                  return (
+                    <tr key={`${m.month}-${m.currency}`} className="border-b border-hair/50">
+                      <td className="py-1 pr-2 tnum">{m.month}</td>
+                      <td className="py-1 pr-2 text-ink-faint">{m.currency}</td>
+                      <td className="tnum py-1 pr-2 text-right">{moneyIn(m.shopifyCents, m.currency)}</td>
+                      <td className="tnum py-1 pr-2 text-right">{moneyIn(m.bankCents, m.currency)}</td>
+                      <td className={`tnum py-1 text-right ${gros ? "text-red" : "text-ink-faint"}`}>
+                        {ecart === 0 ? "—" : `${ecart > 0 ? "+" : "−"}${moneyIn(Math.abs(ecart), m.currency)}`}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-1 text-[9.5px] leading-snug text-ink-faint">
+            Écart positif = Shopify a versé plus que ce que la banque a reçu ce mois-là : l&apos;argent est allé
+            sur un autre compte (ou arrive le mois suivant). Le décalage de 2-4 jours explique de petits écarts
+            en fin de mois, pas les gros.
+          </p>
+        </details>
       )}
 
       <details className="mt-2 border-t border-line-soft pt-2 text-[11px]">
@@ -1082,7 +1136,12 @@ export function BankBoard({
 
       {report.payouts && (
         <Reveal>
-          <PayoutsBlock payouts={report.payouts} markets={report.payoutsMarkets} />
+          <PayoutsBlock
+            payouts={report.payouts}
+            markets={report.payoutsMarkets}
+            byMonth={report.payoutsByMonth}
+            oldestDay={report.payoutsOldestDay}
+          />
         </Reveal>
       )}
 
