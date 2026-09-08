@@ -629,6 +629,7 @@ function SummaryBlock({
   annee: { badrCents: number; adnaneCents: number } | null;
 }) {
   const own = annee ? ownershipFrom(report, annee) : null;
+  const rev = report.treasury?.periods?.revolut ?? null;
   const aAffecter = report.control?.parts.aAffecterCount ?? 0;
   const aAffecterCents = report.control?.parts.aAffecterCents ?? 0;
   const estime = own ? own.enRouteExact === null : false;
@@ -719,6 +720,24 @@ function SummaryBlock({
         Dépense inconnue ?{" "}
         <b>{aAffecter === 0 ? "Non — chaque euro sorti a une case." : `${aAffecter} ligne${aAffecter > 1 ? "s" : ""} à affecter (${formatEur0(aAffecterCents)}), ci-dessous.`}</b>
       </div>
+
+      {/* Le Revolut d'Adnane (avant la LLC) : le dash ne le voit pas, il dit
+          seulement ce qui DOIT y être. Une ligne, pas dix. */}
+      {rev && (
+        <div className="rounded-lg border border-line bg-panel px-3 py-2 text-[11px] text-ink-dim">
+          Revolut d&apos;Adnane (avant le {formatDayShort(report.treasury!.periods!.llcStartDay)}) : doit porter{" "}
+          <b className={`tnum ${Math.abs(rev.shouldRemainCents) <= UNEXPLAINED_ALERT_CENTS ? "text-phosphor" : "text-amber"}`}>{formatEur0(rev.shouldRemainCents)}</b>
+          {rev.provisions.totalCents > 0 && (
+            <>
+              {", dont à payer "}
+              {rev.provisions.items.map((l) => `${l.label} ${formatEur0(l.cents)}`).join(", ")}
+              {" → libre "}
+              <b className={`tnum ${rev.freeCents < 0 ? "text-red" : "text-ink"}`}>{formatEur0(rev.freeCents)}</b>
+            </>
+          )}
+          . Le dash ne voit pas ce compte : à comparer au solde réel.
+        </div>
+      )}
     </div>
   );
 }
@@ -851,6 +870,18 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
           </div>
           <div className="mt-1 text-[13px]">
             Doit rester sur le Revolut d&apos;Adnane <b className="tnum text-amber">{formatEur0(p.revolut.shouldRemainCents)}</b>
+            {p.revolut.provisions.totalCents > 0 && (
+              <span className="block text-[11px] text-ink-dim">
+                dont déjà dû, pas encore payé <b className="tnum text-ink">{formatEur0(p.revolut.provisions.totalCents)}</b>
+                <span className="text-[10px] text-ink-faint">
+                  {" ("}
+                  {p.revolut.provisions.items.map((l) => `${l.label} ${formatEur0(l.cents)}${l.note ? ` · ${l.note}` : ""}`).join(", ")}
+                  {")"}
+                </span>
+                {" → libre pour Adnane "}
+                <b className={`tnum ${p.revolut.freeCents < 0 ? "text-red" : "text-ink"}`}>{formatEur0(p.revolut.freeCents)}</b>
+              </span>
+            )}
           </div>
           <div className="text-[10px] leading-snug text-ink-faint">
             Le dash ne voit pas ce compte : à comparer au solde réel du Revolut. Un écart est soit une dépense hors compta
@@ -1288,7 +1319,7 @@ export function BankBoard({
         <SummaryBlock report={report} annee={annee} />
       </Reveal>
 
-      {report.payouts && (
+      {showDetail && report.payouts && (
         <Reveal>
           <PayoutsBlock
             payouts={report.payouts}
@@ -1299,13 +1330,13 @@ export function BankBoard({
         </Reveal>
       )}
 
-      {report.payoutsSummary && (
+      {showDetail && report.payoutsSummary && (
         <Reveal>
           <PayoutsSummaryBlock ps={report.payoutsSummary} />
         </Reveal>
       )}
 
-      {report.treasury?.periods && (
+      {showDetail && report.treasury?.periods && (
         <Reveal>
           <PeriodsBlock t={report.treasury} />
         </Reveal>
@@ -1414,7 +1445,7 @@ export function BankBoard({
         onClick={() => setShowDetail((v) => !v)}
         className="self-start rounded-md border border-line px-3 py-1 text-[11px] font-semibold text-ink-dim hover:text-ink"
       >
-        {showDetail ? "Masquer le détail" : "Voir le détail (rapprochement, Panda, banques, 30 jours)"}
+        {showDetail ? "Masquer le détail" : "Voir le détail (versements Shopify, deux périodes, rapprochement, Panda, banques)"}
       </button>
 
       {showDetail && report.balances.length > 0 && (
