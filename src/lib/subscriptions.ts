@@ -214,6 +214,14 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // ~1 265 € au 04/09, compté 100 % Adnane). Ni avance perso (pas de paidBy),
   // ni charge dans le net (horsNet, règle Badr 06/09 : « paiement Revolut =
   // ça rentre pas dans les comptes ») ; aucun débit LLC attendu.
+  // Boosts Instagram (Meta HORS compte pub) — Badr 08/09 : débits Slash
+  // « FACEBK *… fb.me/ads » de 16,80 $ (14 $ + 20 % TVA) tous les 2-3 jours,
+  // qui ne sortent d'AUCUN des 4 comptes pub visibles (Niva, NIVA 1, KINDRED,
+  // Badr) — donc absents du spend Meta et du net. « Essaye de l'absorber ce
+  // coût… les points il faut les étaler sur la durée du mois » → charge fixe
+  // étalée, MESURÉE : 97,95 $ sur 12 jours (24/08 → 04/09) = 248 $/mois.
+  // Départ = premier débit vu ; à reculer si des débits plus anciens existent.
+  { label: "Boosts Instagram", category: "OUTIL", amount: 248, currency: "USD", startDay: "2026-08-24", endDay: null, note: "Meta hors compte pub (boosts Instagram, 16,80 $ tous les 2-3 jours sur la carte Slash « Meta »). Mesuré 24/08 → 04/09 : 248 $/mois, étalé sur le mois (Badr 08/09 : « essaye de l'absorber »). Source exacte à confirmer avec Adnane." },
   { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, horsNet: true, note: "Payé par Adnane depuis son Revolut = avec l'argent société pré-LLC qu'il a déjà pris (Badr 04/09 et 06/09) : hors net, hors parts. Oublié du PDF d'Adnane — ajouté par Badr le 08/08." },
   // 29/08 (Badr) : « Artlist à partir d'aujourd'hui à 40 $ par mois » —
   // démarre le 29/08, rien avant (+1,14 €/j).

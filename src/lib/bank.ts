@@ -108,6 +108,9 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // subscriptions.ts, sinon le montant attendu retombe à zéro en silence.
   { label: "Vmake", re: /v\s*make|vmake/i },
   { label: "TrendTrack", re: /trend\s*track/i },
+  // Boosts Instagram : capté AVANT ce tableau par categorizeTx (voir la règle
+  // META) — présent ici pour que le contrôle compare débits et charge attendue.
+  { label: "Boosts Instagram", re: /^facebk \*/i },
   { label: "Artlist", re: /art\s*list/i },
   { label: "Floxy (proxy)", re: /floxy/i },
   { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
@@ -157,6 +160,12 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // for MM.DD.YY ») : FRAIS — ventilé perso/société au prorata dans
   // fetchSlashData quand les fxFeeInfo du jour le permettent.
   if (/^slash fee/.test(d)) return { category: "FRAIS", subscriptionLabel: null };
+  // Boosts Instagram (Meta HORS compte pub, Badr 08/09) : petits débits
+  // « FACEBK *xxxx » (espace avant l'astérisque, libellé fb.me/ads) de
+  // ~16,80 $ — aucun des comptes pub suivis ne les porte. Rapprochés de la
+  // charge fixe « Boosts Instagram », jamais mélangés aux paliers Meta.
+  if (/^facebk \*/.test(d) && Math.abs(amountCents) < 5000)
+    return { category: "ABONNEMENT", subscriptionLabel: "Boosts Instagram" };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // Fournisseur (Badr 19/08 : « Panda Dropshipping c'est le fournisseur ») —
   // les factures détaillées vivent dans l'onglet Dépenses ; ici le paiement
@@ -1659,13 +1668,13 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v4"], // v4 : affectation auto Marwa (05/09)
+  ["wise-data-v5"], // v5 : Boosts Instagram (08/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v6"], // v6 : affectation auto Marwa (05/09)
+  ["slash-data-v7"], // v7 : Boosts Instagram (08/09)
   { revalidate: 900, tags: ["bank"] }
 );
 
@@ -1704,7 +1713,7 @@ async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ t
 
 const fetchLifetimeTxsCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
-  ["bank-lifetime-txs-v3"], // v3 : affectation auto Marwa (05/09)
+  ["bank-lifetime-txs-v4"], // v4 : Boosts Instagram (08/09)
   { revalidate: 3600, tags: ["bank"] }
 );
 
