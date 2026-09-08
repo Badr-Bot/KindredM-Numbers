@@ -1438,7 +1438,10 @@ async function fetchShopifyPayouts(): Promise<{
         // devise : dit quand Shopify a commencé à verser, et combien — à
         // comparer aux crédits reçus en banque sur les mêmes mois.
         if (!oldestIssuedDay || issuedDay < oldestIssuedDay) oldestIssuedDay = issuedDay;
-        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
+        // Résumés sur les versements PAYÉS seulement : les ventes d'un versement
+        // encore programmé sont AUSSI dans le solde « en attente » lu à part —
+        // les compter ici les comptait deux fois (~6 500 € le 08/09).
+        if (node.status === "PAID" && node.summary) {
           const cur = node.net.currencyCode;
           const sm = summaries.get(cur) ?? {
             currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
@@ -1543,7 +1546,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v9"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v10"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1900,7 +1903,12 @@ async function buildTreasury(input: {
     // le libellé cite la LLC) — pour voir d'où vient l'argent, pas deviner.
     // Sans les mouvements internes Slash (remboursement quotidien de la carte,
     // virements Slash → Wise, conversions) : ils ne sont pas de l'argent entré.
-    const interne = /daily\s*credit|kindredm|^converted\b|\bwise\b/i;
+    // On n'écarte QUE ce qui est sûrement interne : le remboursement quotidien
+    // de la carte Slash, les virements Slash → Wise (vus côté Wise « from
+    // SLASH ») et les conversions. Un virement Revolut → Slash, lui, doit
+    // apparaître ici quelle que soit sa catégorie (Badr 08/09 : « on avait
+    // reçu des virements depuis Revolut sur Slash non ? »).
+    const interne = /daily\s*credit|from\s+slash|^converted\b/i;
     bigCredits = life.txs
       .filter((t) => t.amountCents > 0 && t.category !== "SHOPIFY" && (t.amountEurCents ?? 0) >= 20000 && !interne.test(t.description))
       .sort((a, b) => (b.amountEurCents ?? 0) - (a.amountEurCents ?? 0))
