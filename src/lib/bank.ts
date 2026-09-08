@@ -1,5 +1,6 @@
 import { createSign } from "node:crypto";
 import type { Market } from "./engine";
+import { reconcilePayouts, type BankCredit, type PayoutReconciliation, type ShopifyPayout } from "./payouts";
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
@@ -1171,6 +1172,11 @@ export interface BankReport {
   treasury: TreasuryBridge | null;
   /** Message quand le rapprochement n'a pas pu être fait. */
   treasurySetup: string | null;
+  /** 📦 Versements Shopify rapprochés de la banque (Badr 08/09) — null tant
+   * qu'aucune boutique n'a le scope read_shopify_payments_payouts. */
+  payouts: PayoutReconciliation | null;
+  /** Boutiques dont les versements ont été lus. */
+  payoutsMarkets: string[];
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1246,6 +1252,77 @@ async function fetchShopifyEnRoute(): Promise<{
 
 // v2 : USD au dernier taux de la journée (04/09).
 const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v3"], {
+  revalidate: 900,
+  tags: ["bank"],
+});
+
+/**
+ * 📦 VERSEMENTS SHOPIFY (payouts) — Badr 08/09. Lus sur chaque boutique qui a
+ * le scope (FR aujourd'hui) ; les autres sont sautées sans bruit. Statuts
+ * Shopify : SCHEDULED (programmé, l'argent est encore chez eux), PAID (ce que
+ * l'admin affiche « Déposé » : soumis à la banque, arrive 2-3 jours après),
+ * FAILED / CANCELED (rien à attendre). Il n'y a PAS de statut « en transit »
+ * en 2025-01 : c'est le rapprochement (payouts.ts) qui distingue un PAID
+ * encore dans le délai d'un PAID jamais arrivé.
+ *
+ * 60 jours en arrière : assez pour couvrir ce que la fenêtre bancaire lue
+ * peut rapprocher, et pour attraper un versement parti ailleurs.
+ */
+const PAYOUTS_LOOKBACK_DAYS = 60;
+const PAYOUTS_QUERY = `query Payouts($query: String!) {
+  shopifyPaymentsAccount {
+    payouts(first: 250, sortKey: ISSUED_AT, reverse: true, query: $query) {
+      edges { node { id issuedAt status net { amount currencyCode } } }
+    }
+  }
+}`;
+
+async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; markets: string[]; warnings: string[] }> {
+  const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
+  const payouts: ShopifyPayout[] = [];
+  const markets: string[] = [];
+  const warnings: string[] = [];
+  const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
+  for (const config of getShopifyStoreConfigs()) {
+    try {
+      const token = await resolveAccessToken(config);
+      const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+        body: JSON.stringify({ query: PAYOUTS_QUERY, variables: { query: `issued_at:>=${since}T00:00:00Z` } }),
+      });
+      if (!res.ok) continue; // boutique injoignable (DE : app non installée) — déjà signalé ailleurs
+      const json = (await res.json()) as {
+        data?: {
+          shopifyPaymentsAccount?: {
+            payouts?: { edges?: { node: { id: string; issuedAt: string; status: string; net: { amount: string; currencyCode: string } } }[] };
+          } | null;
+        };
+        errors?: { message?: string }[];
+      };
+      if (json.errors?.some((e) => /access denied|scope/i.test(e.message ?? ""))) continue; // pas le scope : sautée
+      const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
+      markets.push(config.market);
+      for (const { node } of edges) {
+        const amount = Number(node.net?.amount);
+        if (!Number.isFinite(amount) || !node.net?.currencyCode) continue;
+        payouts.push({
+          id: node.id,
+          market: config.market,
+          issuedDay: toParisDay(node.issuedAt),
+          status: node.status as ShopifyPayout["status"],
+          amountCents: Math.round(amount * 100),
+          currency: node.net.currencyCode,
+        });
+      }
+    } catch (err) {
+      warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
+    }
+  }
+  return { payouts, markets, warnings };
+}
+
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v1"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1651,6 +1728,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       slashConnected,
       balances: demo.balances,
       txs: demo.txs,
+      payouts: null,
+      payoutsMarkets: [],
       reconciliation,
       control,
       warnings: [],
@@ -1833,12 +1912,41 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, treasury })
       : null;
 
+  // 📦 Versements Shopify ↔ banque (Badr 08/09). Les crédits Shopify de TOUT
+  // l'historique lu (pas seulement la fenêtre de contrôle) : un versement
+  // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
+  let payouts: PayoutReconciliation | null = null;
+  let payoutsMarkets: string[] = [];
+  try {
+    const fetched = await fetchShopifyPayoutsCached();
+    payoutsMarkets = fetched.markets;
+    if (fetched.payouts.length > 0) {
+      const credits: BankCredit[] = txs
+        .filter((t) => t.category === "SHOPIFY" && t.amountCents > 0)
+        .map((t) => ({
+          txId: t.txId,
+          day: t.day,
+          bank: t.bank,
+          currency: t.currency,
+          amountCents: t.amountCents,
+          amountEurCents: t.amountEurCents,
+          description: t.description,
+        }));
+      payouts = reconcilePayouts(fetched.payouts, credits, untilDay);
+    }
+    for (const w of fetched.warnings) warnings.push(w);
+  } catch (err) {
+    warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
+  }
+
   return {
     ready: txs.length > 0,
     setup,
     slashConnected,
     balances,
     txs: txs.slice(0, 200),
+    payouts,
+    payoutsMarkets,
     reconciliation,
     control,
     warnings,

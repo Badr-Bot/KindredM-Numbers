@@ -623,3 +623,10 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   il ne reste plus rien pour révéler un trou. Le trou est la différence entre
   ce que les deux possèdent et ce qui existe (comptes + en route − Panda) ; il
   doit tomber sur le reliquat Revolut d'Adnane.
+- **Versements Shopify** (08/09) : PAID chez Shopify = « Déposé » dans
+  l'admin = soumis à la banque, PAS arrivé. L'arrivée se prouve par un crédit
+  banque de même devise et même montant (J-1 → J+6). Un PAID sans crédit
+  passé ce délai est un versement parti ailleurs : rouge, jamais absorbé.
+- **Ne jamais étiqueter un reste inexpliqué avec une cause** (08/09) : j'ai
+  appelé « surplus Meta » ce qui était le reliquat global du rapprochement.
+  Avant de nommer un écart, lire les lignes (mois par mois) — le dash les a.

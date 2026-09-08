@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { AnomalyKind, BankReport, BankTx, TxLabel } from "@/lib/bank";
 import type { TreasuryBridge } from "@/lib/treasury";
 import { PRE_LLC_RESIDUAL, UNEXPLAINED_ALERT_CENTS, computeOwnership } from "@/lib/treasury";
+import type { PayoutReconciliation, ShopifyPayout } from "@/lib/payouts";
 import {
   SUPPLIER_BILLS,
   SUPPLIER_NAME,
@@ -12,7 +13,7 @@ import {
   SUPPLIER_PREPAYMENTS,
   supplierPendingCreditsCents,
 } from "@/lib/supplierBills";
-import { formatEur0 } from "@/lib/format";
+import { formatDayShort, formatEur0 } from "@/lib/format";
 import { Reveal } from "../fx/Reveal";
 
 // 🏦 Contrôle bancaire — chaque euro sorti doit finir dans exactement une
@@ -861,6 +862,123 @@ function OwnershipBlock({
   );
 }
 
+
+// 📦 VERSEMENTS SHOPIFY ↔ BANQUE — Badr 08/09 : « tu dois savoir quel est le
+// dernier encaissement reçu de Shopify, les versements programmés ou déjà
+// réalisés et pas atterris sur le compte ». Quatre réponses, puis la liste.
+function moneyIn(cents: number, currency: string): string {
+  const v = (Math.abs(cents) / 100).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const sym = currency === "EUR" ? "€" : currency === "USD" ? "$" : currency === "GBP" ? "£" : currency === "CAD" ? "$ CAD" : currency;
+  return `${v} ${sym}`;
+}
+
+function payoutLine(p: ShopifyPayout): string {
+  return `${formatDayShort(p.issuedDay)} · ${moneyIn(p.amountCents, p.currency)}`;
+}
+
+function PayoutsBlock({ payouts, markets }: { payouts: PayoutReconciliation; markets: string[] }) {
+  const { lastReceived, paidNotInBank, paidPending, inTransit, scheduled, matched, creditsUnmatched } = payouts;
+  const sumBy = (list: ShopifyPayout[]) => {
+    const by: Record<string, number> = {};
+    for (const p of list) by[p.currency] = (by[p.currency] ?? 0) + p.amountCents;
+    return Object.entries(by)
+      .map(([cur, c]) => moneyIn(c, cur))
+      .join(" + ");
+  };
+  const enAttente = [...inTransit, ...paidPending];
+  return (
+    <div className="card-shadow rounded-lg border border-line bg-panel p-3">
+      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+        📦 Versements Shopify ↔ banque <span className="normal-case">({markets.join(", ")})</span>
+      </div>
+
+      <div className="mt-1.5 grid grid-cols-2 gap-1.5 text-[12px] sm:grid-cols-4">
+        <div>
+          Dernier reçu en banque{" "}
+          <b className="tnum text-phosphor">{lastReceived ? moneyIn(lastReceived.credit.amountCents, lastReceived.credit.currency) : "—"}</b>
+          <span className="block text-[9.5px] text-ink-faint">
+            {lastReceived ? `${formatDayShort(lastReceived.credit.day)} sur ${lastReceived.credit.bank}` : "aucun rapproché"}
+          </span>
+        </div>
+        <div>
+          Partis, pas encore arrivés <b className="tnum text-cyan">{enAttente.length}</b>
+          <span className="block text-[9.5px] text-ink-faint">{enAttente.length ? sumBy(enAttente) : "rien en route"}</span>
+        </div>
+        <div>
+          Programmés <b className="tnum text-cyan">{scheduled.length}</b>
+          <span className="block text-[9.5px] text-ink-faint">{scheduled.length ? sumBy(scheduled) : "aucun"}</span>
+        </div>
+        <div>
+          Versés, jamais arrivés{" "}
+          <b className={`tnum ${paidNotInBank.length ? "text-red" : "text-phosphor"}`}>{paidNotInBank.length}</b>
+          <span className={`block text-[9.5px] ${paidNotInBank.length ? "text-red" : "text-ink-faint"}`}>
+            {paidNotInBank.length ? `${sumBy(paidNotInBank)} — sur un autre compte ?` : "chaque versement a son crédit"}
+          </span>
+        </div>
+      </div>
+
+      {(paidNotInBank.length > 0 || creditsUnmatched.length > 0) && (
+        <div className="mt-2 border-t border-line-soft pt-2 text-[11px]">
+          {paidNotInBank.map((p) => (
+            <div key={p.id} className="text-red">
+              ❌ Shopify dit « versé » le {formatDayShort(p.issuedDay)} — {moneyIn(p.amountCents, p.currency)} ({p.market}) — aucun crédit
+              en banque depuis. Où est-il parti ?
+            </div>
+          ))}
+          {creditsUnmatched.map((c) => (
+            <div key={c.txId} className="text-amber">
+              ⚠️ Crédit Shopify en banque le {formatDayShort(c.day)} — {moneyIn(c.amountCents, c.currency)} ({c.bank}) — qu&apos;aucun
+              versement lu n&apos;explique (autre boutique, ou hors période lue).
+            </div>
+          ))}
+        </div>
+      )}
+
+      <details className="mt-2 border-t border-line-soft pt-2 text-[11px]">
+        <summary className="cursor-pointer text-ink-dim">
+          Les {matched.length + enAttente.length + scheduled.length} derniers versements, un par un
+        </summary>
+        <div className="mt-1 overflow-x-auto">
+          <table className="w-full min-w-[380px] text-left text-[11px]">
+            <thead>
+              <tr className="border-b border-hair text-[9px] uppercase text-ink-faint">
+                <th className="py-1 pr-2">Émis</th>
+                <th className="py-1 pr-2 text-right">Montant</th>
+                <th className="py-1 pr-2">Shopify</th>
+                <th className="py-1">Banque</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ...scheduled.map((p) => ({ p, shop: "programmé", bank: "—", cls: "text-ink-faint" })),
+                ...inTransit.map((p) => ({ p, shop: "en transit", bank: "⏳ attendu", cls: "text-cyan" })),
+                ...paidPending.map((p) => ({ p, shop: "versé", bank: "⏳ attendu", cls: "text-cyan" })),
+                ...paidNotInBank.map((p) => ({ p, shop: "versé", bank: "❌ jamais arrivé", cls: "text-red" })),
+                ...matched.map((m) => ({
+                  p: m.payout,
+                  shop: "versé",
+                  bank: `✓ ${formatDayShort(m.credit.day)} ${m.credit.bank}`,
+                  cls: "text-phosphor",
+                })),
+              ]
+                .sort((a, b) => b.p.issuedDay.localeCompare(a.p.issuedDay))
+                .slice(0, 40)
+                .map(({ p, shop, bank, cls }) => (
+                  <tr key={p.id} className="border-b border-hair/50">
+                    <td className="py-1 pr-2 tnum">{payoutLine(p).split(" · ")[0]}</td>
+                    <td className="tnum py-1 pr-2 text-right">{moneyIn(p.amountCents, p.currency)}</td>
+                    <td className="py-1 pr-2 text-ink-dim">{shop}</td>
+                    <td className={`py-1 ${cls}`}>{bank}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  );
+}
+
 export function BankBoard({
   report,
   unmappedCount,
@@ -878,6 +996,12 @@ export function BankBoard({
       <Reveal>
         <SummaryBlock report={report} annee={annee} />
       </Reveal>
+
+      {report.payouts && (
+        <Reveal>
+          <PayoutsBlock payouts={report.payouts} markets={report.payoutsMarkets} />
+        </Reveal>
+      )}
 
       {control && control.anomalies.length > 0 && (
         <div className="flex flex-col gap-1.5">

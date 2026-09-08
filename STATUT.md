@@ -1187,3 +1187,35 @@ encore → part estimée » vs « ne répond pas mais n'a plus de vente → le t
 reste exact ».
 
 314 tests verts, build OK, lint clean.
+
+## Mise à jour 08/09 — versements Shopify rapprochés, et le faux « surplus Meta »
+
+**Le « 13 000 € payés à Meta » n'existait pas.** Lu sur le dash en production,
+mois par mois : la banque a payé 75 582 € à Meta au total contre 220 115 € de
+spend — avant août, Meta était payé depuis le Revolut d'Adnane, pas depuis la
+LLC. Sur la période LLC (août-septembre) l'écart est de +2 130 € sur 70 000 €
+(3 % : fin juillet facturée en août sur la nouvelle carte + conversion €→$
+de Meta). `metaExcessCents` vaut 0. Le chiffre que Badr avait vu était le
+RESTE INEXPLIQUÉ du rapprochement global (11 805 € au 08/09), mal étiqueté
+dans mes réponses — pas un trop-payé Meta.
+
+**Versements Shopify ↔ banque** (`src/lib/payouts.ts`, pur, 9 tests) :
+Badr a donné le scope payouts sur FR. Le dash lit maintenant les versements
+des 60 derniers jours (`fetchShopifyPayouts`, cache 15 min) et rapproche
+chaque versement PAID avec UN crédit banque : même devise, même montant au
+centime, crédit entre J-1 et J+6. Statuts Shopify 2025-01 : SCHEDULED,
+PAID (= « Déposé » dans l'admin, arrive 2-3 j après), FAILED, CANCELED — il
+n'y a pas de statut « en transit », c'est le rapprochement qui distingue un
+PAID encore dans le délai (⏳) d'un PAID jamais arrivé (❌ rouge : parti sur
+un autre compte ?).
+
+Nouveau bloc « 📦 Versements Shopify ↔ banque » en tête du Comptable :
+dernier reçu en banque, partis pas encore arrivés, programmés, versés jamais
+arrivés, puis la liste un par un (dépliable). Les crédits Shopify en banque
+qu'aucun versement n'explique sont signalés (autre boutique / hors période).
+
+Vérifié sur les vraies lignes : les crédits arrivent sur Slash (USD, « Incoming
+ACH credit from SHOPIFY »), Wise EUR (« Stripe Payments UK Ltd … Shopify »),
+Wise CAD/GBP — les montants nets Shopify tombent au centime sur la banque.
+
+323 tests verts, build OK, lint clean.
