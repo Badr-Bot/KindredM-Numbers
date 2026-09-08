@@ -1358,26 +1358,7 @@ async function fetchShopifyPayouts(): Promise<{
       }
       const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
       markets.push(config.market);
-      // Première transaction du compte (best effort : son absence ne retire
-      // rien aux versements).
-      try {
-        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
-          body: JSON.stringify({ query: FIRST_TX_QUERY, variables: { query: `payout_date:>=${oldestIssuedDay ?? since}` } }),
-        });
-        const j2 = (await r2.json()) as {
-          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
-        };
-        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
-          .map((e) => e.node)
-          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
-          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
-        const first = paid[0];
-        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
-      } catch {
-        // rien : la coupure retombe sur la constante
-      }
+
       if (edges.length === 0) warnings.push(`Versements Shopify ${config.market} : Shopify n'a renvoyé aucun versement.`);
       for (const { node } of edges) {
         const amount = Number(node.net?.amount);
@@ -1403,6 +1384,27 @@ async function fetchShopifyPayouts(): Promise<{
           amountCents: Math.round(amount * 100),
           currency: node.net.currencyCode,
         });
+      }
+      // Première vente encaissée par la société — APRÈS la boucle : elle a
+      // besoin du plus ancien versement lu. (Best effort : son absence ne retire
+      // rien aux versements).
+      try {
+        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+          body: JSON.stringify({ query: FIRST_TX_QUERY, variables: { query: `payout_date:>=${oldestIssuedDay ?? since}` } }),
+        });
+        const j2 = (await r2.json()) as {
+          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
+        };
+        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
+          .map((e) => e.node)
+          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
+          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
+        const first = paid[0];
+        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
+      } catch {
+        // rien : la coupure retombe sur la constante
       }
     } catch (err) {
       warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
