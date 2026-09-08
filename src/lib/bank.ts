@@ -1459,12 +1459,13 @@ async function fetchShopifyPayouts(): Promise<{
         // (net en attente 21 994 € ≈ solde 23 530 €). Les exclure ici (PR #98)
         // faisait manquer ~6 900 € de CA encaissé → « pris par l'ancien
         // compte » gonflé d'autant.
-        // + FAILED : un versement échoué est RÉÉMIS plus tard (retriedPayoutsGross
-        // du versement de reprise = son net). Ses ventes ne sont que dans SON
-        // résumé : sans lui, ~4 350 € (5 063 $) de CA encaissé manquaient le
-        // 08/09 — portés à tort au Revolut d'Adnane. Le net total retire le
-        // « retried » pour ne pas compter cet argent deux fois (voir shopifyEur).
-        if ((node.status === "PAID" || node.status === "SCHEDULED" || node.status === "FAILED") && node.summary) {
+        // Un versement ÉCHOUÉ n'est pas renvoyé par l'API : il est réémis, et
+        // seul le « retriedPayoutsGross » du versement de reprise garde la
+        // trace de ses ventes (5 063 $ le 08/09). Ce montant s'ajoute donc au
+        // brut ENCAISSÉ (voir le calcul du CA pris par l'ancien compte et
+        // shopifyEur) — sinon ~4 350 € de CA réellement versés à la société
+        // étaient portés à tort au Revolut d'Adnane.
+        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
           const cur = node.net.currencyCode;
           const sm = summaries.get(cur) ?? {
             currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
@@ -1569,7 +1570,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v12"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v13"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -2310,7 +2311,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       const rates = others.length > 0 && wiseToken ? await fetchWiseRates([...new Set(others)], wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
       const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
       const collected =
-        fetchedPayouts.summaries.reduce((a, x) => a + conv(x.chargesGross, x.currency), 0) +
+        fetchedPayouts.summaries.reduce((a, x) => a + conv(x.chargesGross + x.retriedGross, x.currency), 0) +
         fetchedPayouts.pending.reduce((a, x) => a + conv(x.grossCents, x.currency), 0);
       const { data: agg } = await supabase.from("daily_aggregates").select("ca_cents").gte("day", frStart).lte("day", untilDay);
       const dashCa = (agg ?? []).reduce((a, r) => a + ((r.ca_cents as number) ?? 0), 0);
@@ -2353,14 +2354,14 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       }
       const sh = { chargesGross: 0, fees: 0, refunds: 0, adjustments: 0, reserved: 0, net: 0 };
       for (const x of fetched.summaries) {
-        sh.chargesGross += conv(x.chargesGross, x.currency);
+        // + repris : ventes d'un versement échoué réémis, absentes de tout
+        // autre résumé (net de ses frais, ~4 %, non retrouvables).
+        sh.chargesGross += conv(x.chargesGross + x.retriedGross, x.currency);
         sh.fees += conv(x.chargesFee + x.refundsFee + x.adjustmentsFee + x.reservedFee + x.retriedFee, x.currency);
         sh.refunds += conv(x.refundsGross, x.currency);
         sh.adjustments += conv(x.adjustmentsGross, x.currency);
         sh.reserved += conv(x.reservedGross, x.currency);
-        // net des versements − montants repris (déjà dans le net du versement
-        // ÉCHOUÉ, compté ci-dessus) : chaque euro une seule fois.
-        sh.net += conv(x.net - x.retriedGross, x.currency);
+        sh.net += conv(x.net, x.currency);
       }
       // Côté dashboard, même période (depuis la première vente encaissée par la LLC).
       const { data: agg } = await supabase
