@@ -287,7 +287,7 @@ function CashflowBlock({ report }: { report: BankReport }) {
 // qui »). Le reste de cette page contrôle des DÉTAILS sur 30 jours ; ce bloc
 // répond à la seule question qui compte pour la trésorerie : le net gagné
 // est-il vraiment sur les comptes, et sinon où est parti le reste.
-function TreasuryBlock({ treasury, setup, deposited = 0 }: { treasury: TreasuryBridge | null; setup: string | null; deposited?: number }) {
+function TreasuryBlock({ treasury, setup, deposited = 0, scheduled = 0 }: { treasury: TreasuryBridge | null; setup: string | null; deposited?: number; scheduled?: number }) {
   if (!treasury) {
     return setup ? (
       <p className="rounded-lg border border-line bg-panel/40 p-2.5 text-[10.5px] text-ink-dim">🧮 {setup}</p>
@@ -335,8 +335,8 @@ function TreasuryBlock({ treasury, setup, deposited = 0 }: { treasury: TreasuryB
           signe: "−",
           note: t.enRouteEstimated
             ? "≈ estimation (CA − frais des 5 derniers jours) — scope Shopify à ajouter pour l'exact"
-            : deposited > 0
-              ? `solde Shopify + ${formatEur0(deposited)} déposés par Shopify, pas encore sur Wise`
+            : deposited + scheduled > 0
+              ? `solde Shopify${scheduled > 0 ? ` + ${formatEur0(scheduled)} programmés` : ""}${deposited > 0 ? ` + ${formatEur0(deposited)} déposés pas encore en banque` : ""}`
               : undefined,
         })}
         {ligne("Devrait être sur les comptes", t.attenduEnBanqueCents, { fort: true })}
@@ -1346,7 +1346,7 @@ export function BankBoard({
         <>
           <HealthHeader tiles={buildTiles(report, unmappedCount)} />
           <CashflowBlock report={report} />
-          <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} deposited={report.enRouteDepositedCents} />
+          <TreasuryBlock treasury={report.treasury} setup={report.treasurySetup} deposited={report.enRouteDepositedCents} scheduled={report.enRouteScheduledCents} />
           <SupplierBlock treasury={report.treasury} />
           {annee && <OwnershipBlock report={report} annee={annee} />}
         </>
