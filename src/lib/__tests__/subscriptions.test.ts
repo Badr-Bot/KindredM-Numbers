@@ -7,6 +7,7 @@ import {
   isActiveOn,
   monthlyEurCents,
   subscriptionTotals,
+  horsNetPaidUntil,
 } from "../subscriptions";
 import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "../associateLedger";
 import { listParisDays } from "../time";
@@ -300,5 +301,22 @@ describe("Eleven Labs — arrêté (Badr 01/09 : « t'as pas enlevé eleven labs
     expect(avant - apres).toBe(
       monthlyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)")) + monthlyEurCents(jeremy)
     );
+  });
+});
+
+describe("Hors compta Revolut — ce qu'Adnane a réellement prélevé (Badr 08/09)", () => {
+  it("Marwa : 300 € chaque mois depuis juin → 4 prélèvements au 08/09", () => {
+    const marwa = horsNetPaidUntil("2026-09-08").find((l) => l.label === "Marwa");
+    expect(marwa).toEqual({ label: "Marwa", cents: 120000, months: 4 });
+  });
+
+  it("TrendTrack : 25 € chaque mois depuis le 21/05 → 4 prélèvements au 08/09, le 5e le 21/09", () => {
+    expect(horsNetPaidUntil("2026-09-08").find((l) => l.label === "TrendTrack")).toEqual({ label: "TrendTrack", cents: 10000, months: 4 });
+    expect(horsNetPaidUntil("2026-09-21").find((l) => l.label === "TrendTrack")?.months).toBe(5);
+  });
+
+  it("rien avant le premier prélèvement, et seules les lignes horsNet comptent", () => {
+    expect(horsNetPaidUntil("2026-05-20")).toEqual([]);
+    for (const l of horsNetPaidUntil("2026-09-08")) expect(["Marwa", "TrendTrack"]).toContain(l.label);
   });
 });

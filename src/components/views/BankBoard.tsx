@@ -833,12 +833,24 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
             )}
           </div>
           <div className="mt-1 text-[12px]">
-            À justifier par Adnane <b className="tnum text-amber">{formatEur0(p.revolut.toJustifyCents)}</b>
+            À justifier par Adnane <b className="tnum text-ink">{formatEur0(p.revolut.toJustifyCents)}</b>
+            {p.revolut.offBook.totalCents > 0 && (
+              <>
+                {" − "}sorti hors compta <b className="tnum text-ink">{formatEur0(p.revolut.offBook.totalCents)}</b>
+                <span className="text-[10px] text-ink-faint">
+                  {" ("}
+                  {p.revolut.offBook.items.map((l) => `${l.label} ${formatEur0(l.cents)}${l.note ? ` · ${l.note}` : ""}`).join(", ")}
+                  {")"}
+                </span>
+              </>
+            )}
+          </div>
+          <div className="mt-1 text-[13px]">
+            Doit rester sur le Revolut d&apos;Adnane <b className="tnum text-amber">{formatEur0(p.revolut.shouldRemainCents)}</b>
           </div>
           <div className="text-[10px] leading-snug text-ink-faint">
-            Cet argent devrait être sur son Revolut, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…).
-            Badr estime qu&apos;il en reste {formatEur0(p.revolut.estimatedLeftCents)}. Le dash ne voit pas ce compte :
-            seul un export Revolut du 21/05 au 05/08 permet de le rapprocher ligne à ligne.
+            Le dash ne voit pas ce compte : à comparer au solde réel du Revolut. Un écart est soit une dépense hors compta
+            oubliée ici, soit un trou.
           </div>
         </div>
         <div className="rounded border border-line-soft p-2">
