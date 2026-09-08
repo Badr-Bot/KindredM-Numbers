@@ -1170,6 +1170,9 @@ export interface BankReport {
   /** Versements « Déposé » par Shopify pas encore arrivés en banque (≤ 6 j) :
    * inclus dans enRoute / enRouteEstimateCents. */
   enRouteDepositedCents: number;
+  /** Versements PROGRAMMÉS par Shopify (sortis du solde, pas encore émis) :
+   * inclus dans enRoute / enRouteEstimateCents. */
+  enRouteScheduledCents: number;
   /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
    * d'aller tout retracer depuis le tout début »). null = pas calculable
    * (aucune banque branchée, ou agrégats illisibles). */
@@ -1450,10 +1453,13 @@ async function fetchShopifyPayouts(): Promise<{
         // devise : dit quand Shopify a commencé à verser, et combien — à
         // comparer aux crédits reçus en banque sur les mêmes mois.
         if (!oldestIssuedDay || issuedDay < oldestIssuedDay) oldestIssuedDay = issuedDay;
-        // Résumés sur les versements PAYÉS seulement : les ventes d'un versement
-        // encore programmé sont AUSSI dans le solde « en attente » lu à part —
-        // les compter ici les comptait deux fois (~6 500 € le 08/09).
-        if (node.status === "PAID" && node.summary) {
+        // Résumés sur PAID + SCHEDULED. Vérifié en prod le 08/09 : les ventes
+        // d'un versement PROGRAMMÉ ne sont ni dans le solde Shopify (USD :
+        // solde 1 935 $ < 4 566 $ programmés) ni dans « payout_status:pending »
+        // (net en attente 21 994 € ≈ solde 23 530 €). Les exclure ici (PR #98)
+        // faisait manquer ~6 900 € de CA encaissé → « pris par l'ancien
+        // compte » gonflé d'autant.
+        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
           const cur = node.net.currencyCode;
           const sm = summaries.get(cur) ?? {
             currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
@@ -1558,7 +1564,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v10"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v11"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -2118,6 +2124,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       enRoute: { totalEurCents: 185000, missingScopes: false },
       enRouteEstimateCents: 185000,
       enRouteDepositedCents: 0,
+      enRouteScheduledCents: 0,
       treasury: demoTreasury,
       treasurySetup: null,
     };
@@ -2309,6 +2316,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   }
 
   let enRouteDepositedCents = 0;
+  let enRouteScheduledCents = 0;
   // 📦 Versements Shopify ↔ banque (Badr 08/09). Les crédits Shopify de TOUT
   // l'historique lu (pas seulement la fenêtre de contrôle) : un versement
   // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
@@ -2409,6 +2417,9 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       const pendToken = process.env.WISE_API_TOKEN;
       const pendRates = pendCur.length > 0 && pendToken ? await fetchWiseRates([...new Set(pendCur)], pendToken).catch(() => new Map<string, number>()) : new Map<string, number>();
       enRouteDepositedCents = payouts.paidPending.reduce((a, x) => a + (toEurCents(x.amountCents, x.currency, pendRates, { rates: usdRatesForReport }) ?? 0), 0);
+      // 📅 PROGRAMMÉS : déjà sortis du solde Shopify (USD : solde 1 935 $ <
+      // 4 566 $ programmés le 08/09), pas encore en banque → en route aussi.
+      enRouteScheduledCents = payouts.scheduled.reduce((a, x) => a + (toEurCents(x.amountCents, x.currency, pendRates, { rates: usdRatesForReport }) ?? 0), 0);
     }
     for (const w of fetched.warnings) warnings.push(w);
     }
@@ -2416,10 +2427,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
   }
 
-  // L'en route porte aussi les versements déposés pas encore arrivés.
-  if (enRouteDepositedCents > 0) {
-    if (enRoute) enRoute = { ...enRoute, totalEurCents: enRoute.totalEurCents + enRouteDepositedCents };
-    if (enRouteEstimateCents !== null) enRouteEstimateCents += enRouteDepositedCents;
+  // L'en route = solde Shopify + versements programmés + déposés pas encore
+  // arrivés : trois états successifs du même argent, aucun encore en banque.
+  const enRouteExtraCents = enRouteDepositedCents + enRouteScheduledCents;
+  if (enRouteExtraCents > 0) {
+    if (enRoute) enRoute = { ...enRoute, totalEurCents: enRoute.totalEurCents + enRouteExtraCents };
+    if (enRouteEstimateCents !== null) enRouteEstimateCents += enRouteExtraCents;
   }
 
   let treasury: TreasuryBridge | null = null;
@@ -2458,6 +2471,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     enRoute,
     enRouteEstimateCents,
     enRouteDepositedCents,
+    enRouteScheduledCents,
     treasury,
     treasurySetup,
   };
