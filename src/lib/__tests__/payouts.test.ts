@@ -89,6 +89,19 @@ describe("reconcilePayouts", () => {
     expect(r.byCurrency.USD).toEqual({ scheduled: 78746, inTransit: 115682, paidNotInBank: 0, paidPending: 0 });
   });
 
+  it("un versement encore « programmé » chez Shopify mais DÉJÀ en banque compte comme reçu", () => {
+    // 08/09 : 3 267,04 € « programmé » côté Shopify, arrivé sur Wise le jour
+    // même. Le crédit fait foi.
+    const r = reconcilePayouts(
+      [payout({ status: "SCHEDULED", issuedDay: "2026-09-08", amountCents: 326704, currency: "EUR" })],
+      [credit({ day: "2026-09-08", amountCents: 326704, currency: "EUR", bank: "WISE" })],
+      "2026-09-08"
+    );
+    expect(r.matched).toHaveLength(1);
+    expect(r.scheduled).toEqual([]);
+    expect(r.lastReceived?.credit.currency).toBe("EUR");
+  });
+
   it("un crédit Shopify en banque sans versement connu est signalé, jamais avalé", () => {
     const r = reconcilePayouts([], [credit({ amountCents: 5392, currency: "EUR", bank: "WISE" })], "2026-09-08");
     expect(r.creditsUnmatched).toHaveLength(1);

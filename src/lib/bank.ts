@@ -1934,7 +1934,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     const fetched = await fetchShopifyPayoutsCached();
     payoutsMarkets = fetched.markets;
     if (fetched.payouts.length > 0) {
-      const credits: BankCredit[] = txs
+      // Crédits de TOUT l'historique (même lecture que le rapprochement
+      // trésorerie, déjà en cache) — pas la fenêtre de 30 jours du contrôle :
+      // avec elle, 32 versements de fin juillet ressortaient « jamais arrivés »
+      // alors que la banque n'avait simplement pas été lue si loin (08/09).
+      const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+      const credits: BankCredit[] = life.txs
         .filter((t) => t.category === "SHOPIFY" && t.amountCents > 0)
         .map((t) => ({
           txId: t.txId,

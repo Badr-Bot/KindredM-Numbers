@@ -102,16 +102,15 @@ export function reconcilePayouts(
   const ordered = [...payouts].sort((a, b) => a.issuedDay.localeCompare(b.issuedDay) || a.id.localeCompare(b.id));
 
   for (const p of ordered) {
-    if (p.status === "SCHEDULED") {
-      scheduled.push(p);
-      continue;
-    }
+    if (p.status === "FAILED" || p.status === "CANCELED") continue; // rien à attendre en banque
     if (p.status === "IN_TRANSIT") {
       inTransit.push(p);
       continue;
     }
-    if (p.status !== "PAID") continue; // FAILED / CANCELED : rien à attendre en banque
-
+    // Un versement encore « programmé » côté Shopify peut DÉJÀ être en banque
+    // (statut mis à jour avec retard : le 08/09, 3 267,04 € « programmé » était
+    // arrivé sur Wise le jour même). Le crédit fait foi : s'il existe, le
+    // versement est reçu, quel que soit ce que dit Shopify.
     const from = addDays(p.issuedDay, -EARLIEST_OFFSET_DAYS);
     const to = addDays(p.issuedDay, PAYOUT_ARRIVAL_DAYS);
     const candidates = credits
@@ -128,6 +127,8 @@ export function reconcilePayouts(
     if (credit) {
       used.add(credit.txId);
       matched.push({ payout: p, credit });
+    } else if (p.status === "SCHEDULED") {
+      scheduled.push(p);
     } else if (daysBetween(p.issuedDay, today) > PAYOUT_ARRIVAL_DAYS) {
       paidNotInBank.push(p);
     } else {
