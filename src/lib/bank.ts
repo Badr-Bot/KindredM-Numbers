@@ -1177,6 +1177,15 @@ export interface BankReport {
   payoutsByMonth: { month: string; currency: string; shopifyCents: number; bankCents: number; count: number }[];
   /** Plus ancien versement renvoyé par l'API. */
   payoutsOldestDay: string | null;
+  /** Retenues Shopify par devise (tous versements lus) + la même chose vue
+   * par le dashboard depuis la coupure, en EUR, pour comparer. */
+  payoutsSummary: {
+    byCurrency: PayoutsSummary[];
+    /** Conversion EUR des totaux Shopify (taux du jour Wise pour USD ; CAD/GBP
+     * au dernier taux connu). */
+    shopifyEur: { chargesGross: number; fees: number; refunds: number; adjustments: number; reserved: number; net: number };
+    dashEur: { sinceDay: string; ca: number; fees: number; refunds: number; expected: number };
+  } | null;
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1276,7 +1285,14 @@ const PAYOUTS_LOOKBACK_DAYS = 60;
 const PAYOUTS_QUERY = `{
   shopifyPaymentsAccount {
     payouts(first: 250, sortKey: ISSUED_AT, reverse: true) {
-      edges { node { id issuedAt status net { amount currencyCode } } }
+      edges { node { id issuedAt status net { amount currencyCode }
+        summary {
+          chargesGross { amount } chargesFee { amount }
+          refundsFeeGross { amount } refundsFee { amount }
+          adjustmentsGross { amount } adjustmentsFee { amount }
+          reservedFundsGross { amount } reservedFundsFee { amount }
+          retriedPayoutsGross { amount } retriedPayoutsFee { amount }
+        } } }
     }
   }
 }`;
@@ -1307,6 +1323,26 @@ const FIRST_TX_QUERY = `query FirstPaidTx($query: String!) {
   }
 }`;
 
+/** Ce que Shopify a retenu entre le CA encaissé et les versements, cumulé
+ * sur tous les versements lus (PAID + SCHEDULED), par devise. Centimes de la
+ * devise. C'est la vue de SHOPIFY : à comparer au CA / frais / remboursements
+ * que le dashboard compte pour la même période. */
+export interface PayoutsSummary {
+  currency: string;
+  chargesGross: number;
+  chargesFee: number;
+  refundsGross: number;
+  refundsFee: number;
+  adjustmentsGross: number;
+  adjustmentsFee: number;
+  reservedGross: number;
+  reservedFee: number;
+  retriedGross: number;
+  retriedFee: number;
+  net: number;
+  count: number;
+}
+
 export interface PayoutsStart {
   market: string;
   day: string;
@@ -1323,6 +1359,8 @@ async function fetchShopifyPayouts(): Promise<{
   history: { month: string; currency: string; paidCents: number; count: number }[];
   /** Plus ancien versement lu (borne de ce que l'API a renvoyé). */
   oldestIssuedDay: string | null;
+  /** Résumé des retenues Shopify, par devise, sur tous les versements lus. */
+  summaries: PayoutsSummary[];
 }> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   const payouts: ShopifyPayout[] = [];
@@ -1330,6 +1368,7 @@ async function fetchShopifyPayouts(): Promise<{
   const warnings: string[] = [];
   const starts: PayoutsStart[] = [];
   const history = new Map<string, { month: string; currency: string; paidCents: number; count: number }>();
+  const summaries = new Map<string, PayoutsSummary>();
   let oldestIssuedDay: string | null = null;
   const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
   for (const config of getShopifyStoreConfigs()) {
@@ -1344,7 +1383,17 @@ async function fetchShopifyPayouts(): Promise<{
       const json = (await res.json()) as {
         data?: {
           shopifyPaymentsAccount?: {
-            payouts?: { edges?: { node: { id: string; issuedAt: string; status: string; net: { amount: string; currencyCode: string } } }[] };
+            payouts?: {
+              edges?: {
+                node: {
+                  id: string;
+                  issuedAt: string;
+                  status: string;
+                  net: { amount: string; currencyCode: string };
+                  summary?: Record<string, { amount?: string } | null> | null;
+                };
+              }[];
+            };
           } | null;
         };
         errors?: { message?: string }[];
@@ -1368,6 +1417,21 @@ async function fetchShopifyPayouts(): Promise<{
         // devise : dit quand Shopify a commencé à verser, et combien — à
         // comparer aux crédits reçus en banque sur les mêmes mois.
         if (!oldestIssuedDay || issuedDay < oldestIssuedDay) oldestIssuedDay = issuedDay;
+        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
+          const cur = node.net.currencyCode;
+          const sm = summaries.get(cur) ?? {
+            currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
+            adjustmentsFee: 0, reservedGross: 0, reservedFee: 0, retriedGross: 0, retriedFee: 0, net: 0, count: 0,
+          };
+          const c = (k: string) => Math.round(Number(node.summary?.[k]?.amount ?? 0) * 100);
+          sm.chargesGross += c("chargesGross"); sm.chargesFee += c("chargesFee");
+          sm.refundsGross += c("refundsFeeGross"); sm.refundsFee += c("refundsFee");
+          sm.adjustmentsGross += c("adjustmentsGross"); sm.adjustmentsFee += c("adjustmentsFee");
+          sm.reservedGross += c("reservedFundsGross"); sm.reservedFee += c("reservedFundsFee");
+          sm.retriedGross += c("retriedPayoutsGross"); sm.retriedFee += c("retriedPayoutsFee");
+          sm.net += Math.round(amount * 100); sm.count += 1;
+          summaries.set(cur, sm);
+        }
         if (node.status === "PAID" || node.status === "SCHEDULED") {
           const k = `${issuedDay.slice(0, 7)}|${node.net.currencyCode}`;
           const h = history.get(k) ?? { month: issuedDay.slice(0, 7), currency: node.net.currencyCode, paidCents: 0, count: 0 };
@@ -1417,10 +1481,11 @@ async function fetchShopifyPayouts(): Promise<{
     starts,
     history: [...history.values()].sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency)),
     oldestIssuedDay,
+    summaries: [...summaries.values()].sort((a, b) => b.net - a.net),
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v7"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v8"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1944,6 +2009,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       payoutsStarts: [],
       payoutsByMonth: [],
       payoutsOldestDay: null,
+      payoutsSummary: null,
       reconciliation,
       control,
       warnings: [],
@@ -2145,12 +2211,44 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let payoutsStarts: PayoutsStart[] = [];
   let payoutsByMonth: BankReport["payoutsByMonth"] = [];
   let payoutsOldestDay: string | null = null;
+  let payoutsSummary: BankReport["payoutsSummary"] = null;
   try {
     const fetched = fetchedPayouts;
     if (fetched) {
     payoutsMarkets = fetched.markets;
     payoutsStarts = fetched.starts;
     payoutsOldestDay = fetched.oldestIssuedDay;
+    if (fetched.summaries.length > 0 && frStart) {
+      // Côté Shopify → EUR. USD au taux Wise du jour (approché : dernier taux),
+      // CAD / GBP au dernier taux connu — c'est de l'argent qui a dormi.
+      const others = fetched.summaries.map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const wiseToken = process.env.WISE_API_TOKEN;
+      const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
+      const sh = { chargesGross: 0, fees: 0, refunds: 0, adjustments: 0, reserved: 0, net: 0 };
+      for (const x of fetched.summaries) {
+        sh.chargesGross += conv(x.chargesGross, x.currency);
+        sh.fees += conv(x.chargesFee + x.refundsFee + x.adjustmentsFee + x.reservedFee + x.retriedFee, x.currency);
+        sh.refunds += conv(x.refundsGross, x.currency);
+        sh.adjustments += conv(x.adjustmentsGross, x.currency);
+        sh.reserved += conv(x.reservedGross, x.currency);
+        sh.net += conv(x.net, x.currency);
+      }
+      // Côté dashboard, même période (depuis la première vente encaissée par la LLC).
+      const { data: agg } = await supabase
+        .from("daily_aggregates")
+        .select("ca_cents, fees_cents, refunded_cents")
+        .gte("day", frStart)
+        .lte("day", untilDay);
+      const d = { sinceDay: frStart, ca: 0, fees: 0, refunds: 0, expected: 0 };
+      for (const r of agg ?? []) {
+        d.ca += (r.ca_cents as number) ?? 0;
+        d.fees += (r.fees_cents as number) ?? 0;
+        d.refunds += (r.refunded_cents as number) ?? 0;
+      }
+      d.expected = d.ca - d.fees - d.refunds;
+      payoutsSummary = { byCurrency: fetched.summaries, shopifyEur: sh, dashEur: d };
+    }
     if (fetched.history.length > 0) {
       // Crédits Shopify en banque, par mois et devise (tout l'historique lu).
       const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
@@ -2205,6 +2303,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     payoutsStarts,
     payoutsByMonth,
     payoutsOldestDay,
+    payoutsSummary,
     reconciliation,
     control,
     warnings,
