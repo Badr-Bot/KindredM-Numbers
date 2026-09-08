@@ -1269,9 +1269,13 @@ const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute
  * peut rapprocher, et pour attraper un versement parti ailleurs.
  */
 const PAYOUTS_LOOKBACK_DAYS = 60;
-const PAYOUTS_QUERY = `query Payouts($query: String!) {
+// Pas de filtre `query` côté Shopify : le premier déploiement (08/09) l'a
+// envoyé avec une date ISO, Shopify a répondu ZÉRO versement sans erreur, et
+// le bloc est resté vide. 250 versements triés du plus récent au plus ancien
+// couvrent largement 60 jours ; on coupe ensuite par date, chez nous.
+const PAYOUTS_QUERY = `{
   shopifyPaymentsAccount {
-    payouts(first: 250, sortKey: ISSUED_AT, reverse: true, query: $query) {
+    payouts(first: 250, sortKey: ISSUED_AT, reverse: true) {
       edges { node { id issuedAt status net { amount currencyCode } } }
     }
   }
@@ -1289,7 +1293,7 @@ async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; market
       const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
-        body: JSON.stringify({ query: PAYOUTS_QUERY, variables: { query: `issued_at:>=${since}T00:00:00Z` } }),
+        body: JSON.stringify({ query: PAYOUTS_QUERY }),
       });
       if (!res.ok) continue; // boutique injoignable (DE : app non installée) — déjà signalé ailleurs
       const json = (await res.json()) as {
@@ -1301,15 +1305,24 @@ async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; market
         errors?: { message?: string }[];
       };
       if (json.errors?.some((e) => /access denied|scope/i.test(e.message ?? ""))) continue; // pas le scope : sautée
+      if (json.errors?.length) {
+        // Toute autre erreur doit SE VOIR : un bloc vide sans explication a
+        // déjà coûté un aller-retour (08/09).
+        warnings.push(`Versements Shopify ${config.market} : ${json.errors[0].message?.slice(0, 120)}`);
+        continue;
+      }
       const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
       markets.push(config.market);
+      if (edges.length === 0) warnings.push(`Versements Shopify ${config.market} : Shopify n'a renvoyé aucun versement.`);
       for (const { node } of edges) {
         const amount = Number(node.net?.amount);
         if (!Number.isFinite(amount) || !node.net?.currencyCode) continue;
+        const issuedDay = toParisDay(node.issuedAt);
+        if (issuedDay < since) continue;
         payouts.push({
           id: node.id,
           market: config.market,
-          issuedDay: toParisDay(node.issuedAt),
+          issuedDay,
           status: node.status as ShopifyPayout["status"],
           amountCents: Math.round(amount * 100),
           currency: node.net.currencyCode,
@@ -1322,7 +1335,7 @@ async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; market
   return { payouts, markets, warnings };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v1"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v2"], {
   revalidate: 900,
   tags: ["bank"],
 });
