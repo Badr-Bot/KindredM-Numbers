@@ -777,6 +777,60 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
           </div>
         </div>
       </div>
+      {p.llc.outByCategory.length > 0 && (
+        <details className="mt-2 border-t border-line-soft pt-2 text-[11px]" open>
+          <summary className="cursor-pointer text-ink-dim">
+            🔎 Sorti des comptes depuis le {formatDayShort(p.llcStartDay)}, poste par poste, face à ce que le net a compté
+          </summary>
+          <div className="mt-1 overflow-x-auto">
+            <table className="w-full min-w-[420px] text-left text-[11px]">
+              <thead>
+                <tr className="border-b border-hair text-[9px] uppercase text-ink-faint">
+                  <th className="py-1 pr-2">Poste</th>
+                  <th className="py-1 pr-2 text-right">Sorti en banque</th>
+                  <th className="py-1 pr-2 text-right">Compté dans le net</th>
+                  <th className="py-1 text-right">Écart</th>
+                </tr>
+              </thead>
+              <tbody>
+                {p.llc.outByCategory.map((c) => {
+                  const ecart = c.netCents === null ? null : c.bankCents - c.netCents;
+                  return (
+                    <tr key={c.category} className="border-b border-hair/50">
+                      <td className="py-1 pr-2">
+                        {c.category}
+                        {c.note && <span className="block text-[9.5px] text-ink-faint">{c.note}</span>}
+                      </td>
+                      <td className="tnum py-1 pr-2 text-right">{formatEur0(c.bankCents)}</td>
+                      <td className="tnum py-1 pr-2 text-right text-ink-faint">{c.netCents === null ? "—" : formatEur0(c.netCents)}</td>
+                      <td
+                        className={`tnum py-1 text-right ${
+                          ecart === null
+                            ? c.bankCents > 0
+                              ? "text-amber"
+                              : "text-ink-faint"
+                            : Math.abs(ecart) < 50000
+                              ? "text-ink-faint"
+                              : ecart > 0
+                                ? "text-red"
+                                : "text-amber"
+                        }`}
+                      >
+                        {ecart === null ? (c.bankCents > 0 ? "hors net" : "—") : `${ecart >= 0 ? "+" : "−"}${formatEur0(Math.abs(ecart))}`}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-1 text-[9.5px] leading-snug text-ink-faint">
+            Écart positif = la banque a sorti plus que le net n&apos;a compté pour ce poste : un coût réel absent du
+            P&amp;L. Négatif = le net compte un coût que la LLC n&apos;a pas (encore) payé. « Hors net » = sorti sans
+            aucune case.
+          </p>
+        </details>
+      )}
       {p.bigCredits.length > 0 && (
         <details className="mt-2 border-t border-line-soft pt-2 text-[11px]">
           <summary className="cursor-pointer text-ink-dim">
