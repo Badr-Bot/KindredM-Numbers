@@ -719,6 +719,78 @@ function SummaryBlock({
   );
 }
 
+// 🧾 CE QUE SHOPIFY A RETENU entre le CA encaissé et les versements — la vue
+// de Shopify (résumés de versements) face à celle du dashboard (CA, frais,
+// remboursements comptés) sur la même période. C'est ici qu'un « trou » qui
+// n'est ni en banque ni dans les sorties se nomme : litiges, réserve, frais
+// non comptés, CA surestimé.
+function PayoutsSummaryBlock({ ps }: { ps: NonNullable<BankReport["payoutsSummary"]> }) {
+  const sh = ps.shopifyEur;
+  const d = ps.dashEur;
+  const rows: { label: string; shopify: number; dash: number | null; note?: string }[] = [
+    { label: "CA encaissé", shopify: sh.chargesGross, dash: d.ca, note: "ventes passées par Shopify Payments" },
+    { label: "− Frais Shopify", shopify: sh.fees, dash: d.fees, note: "traitement + change + frais sur remboursements" },
+    { label: "− Remboursements", shopify: sh.refunds, dash: d.refunds },
+    { label: "− Ajustements / litiges", shopify: sh.adjustments, dash: null, note: "chargebacks, corrections — le net ne les compte pas" },
+    { label: "− Réserve retenue", shopify: sh.reserved, dash: null, note: "fonds gardés par Shopify" },
+    { label: "= Versé (ou programmé)", shopify: sh.net, dash: d.expected, note: "dashboard : CA − frais − remboursements" },
+  ];
+  const ecartNet = d.expected - sh.net;
+  return (
+    <div className="card-shadow rounded-lg border border-line bg-panel p-3">
+      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+        🧾 Entre le CA et les versements : ce que Shopify a retenu (depuis le {formatDayShort(d.sinceDay)})
+      </div>
+      <div className="mt-1 overflow-x-auto">
+        <table className="w-full min-w-[420px] text-left text-[11px]">
+          <thead>
+            <tr className="border-b border-hair text-[9px] uppercase text-ink-faint">
+              <th className="py-1 pr-2">Poste</th>
+              <th className="py-1 pr-2 text-right">Shopify dit</th>
+              <th className="py-1 pr-2 text-right">Le dash compte</th>
+              <th className="py-1 text-right">Écart</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => {
+              const ec = r.dash === null ? null : r.shopify - r.dash;
+              return (
+                <tr key={r.label} className="border-b border-hair/50">
+                  <td className="py-1 pr-2">
+                    {r.label}
+                    {r.note && <span className="block text-[9.5px] text-ink-faint">{r.note}</span>}
+                  </td>
+                  <td className="tnum py-1 pr-2 text-right">{formatEur0(r.shopify)}</td>
+                  <td className="tnum py-1 pr-2 text-right text-ink-faint">{r.dash === null ? "—" : formatEur0(r.dash)}</td>
+                  <td className={`tnum py-1 text-right ${ec === null ? (r.shopify > 0 ? "text-amber" : "text-ink-faint") : Math.abs(ec) < 50000 ? "text-ink-faint" : "text-red"}`}>
+                    {ec === null ? (r.shopify > 0 ? "non compté" : "—") : `${ec >= 0 ? "+" : "−"}${formatEur0(Math.abs(ec))}`}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-1 text-[10.5px] leading-snug text-ink-dim">
+        {Math.abs(ecartNet) < 50000 ? (
+          <b className="text-phosphor">Le dash et Shopify racontent la même histoire.</b>
+        ) : (
+          <>
+            Le dash attend <b className="tnum text-ink">{formatEur0(ecartNet)}</b> de plus que ce que Shopify a
+            versé ou programmé : cet argent n&apos;est jamais entré, il a été retenu ou n&apos;a jamais été encaissé —
+            les lignes ci-dessus disent où.
+          </>
+        )}
+      </p>
+      <p className="mt-1 text-[9.5px] leading-snug text-ink-faint">
+        Devises converties en euros (USD au taux Wise, CAD/GBP au dernier taux connu) : une petite différence de
+        change est normale. Détail par devise :{" "}
+        {ps.byCurrency.map((c) => `${c.currency} ${c.count} versements, net ${(c.net / 100).toLocaleString("fr-FR", { maximumFractionDigits: 0 })}`).join(" · ")}.
+      </p>
+    </div>
+  );
+}
+
 // 🏦 DEUX PÉRIODES — Badr 08/09 : l'écart posé au bon endroit. Avant le
 // 21/07 tout passait par le Revolut d'Adnane (le dash ne le voit pas) ; depuis,
 // tout passe par Wise + Slash (le dash voit tout).
@@ -1196,6 +1268,12 @@ export function BankBoard({
             byMonth={report.payoutsByMonth}
             oldestDay={report.payoutsOldestDay}
           />
+        </Reveal>
+      )}
+
+      {report.payoutsSummary && (
+        <Reveal>
+          <PayoutsSummaryBlock ps={report.payoutsSummary} />
         </Reveal>
       )}
 
