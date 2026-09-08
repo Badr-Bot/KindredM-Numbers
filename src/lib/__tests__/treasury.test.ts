@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildTreasuryBridge,
+  LLC_START_DAY,
   computeOwnership,
   orderNumber,
   PRE_LLC_RESIDUAL,
@@ -464,5 +465,82 @@ describe("computeOwnership — les deux parts calculées PAREIL", () => {
     const o1 = computeOwnership(base);
     const o2 = computeOwnership({ ...base, enRouteCents: base.enRouteCents + 200000 });
     expect(o1.gapCents - o2.gapCents).toBe(200000);
+  });
+});
+
+
+// ---------------------------------------------------------------------------
+// 🏦 Deux périodes : Revolut (avant le 21/07) et LLC (depuis). Badr 08/09 :
+// « fais ce qui est mieux » — l'écart est posé au bon endroit au lieu de
+// flotter en rouge.
+// ---------------------------------------------------------------------------
+
+describe("périodes Revolut / LLC", () => {
+  const scan = {
+    sinceDay: "2026-05-21",
+    coversHistory: true,
+    feesCents: 0,
+    googleAdsCents: 0,
+    persoBadrCents: 50000,
+    persoFahdCents: 100000,
+    societeDatedBadrCents: 0,
+    metaBankCents: 0,
+    metaSpendCents: 0,
+  };
+  const split = {
+    netRevolutCents: 5185600,
+    netLlcCents: 1965300,
+    cogsPreLlcPaidByLlcCents: 361918,
+    transfersInCents: 0,
+  };
+  const base = {
+    ...BASE,
+    netCumuleCents: split.netRevolutCents + split.netLlcCents,
+    supplierUnbilledCents: 686212,
+    enRouteCents: 2102877,
+    scan,
+    llcSplit: split,
+  };
+
+  it("commence la période LLC au premier versement Shopify reçu par la société", () => {
+    expect(LLC_START_DAY).toBe("2026-07-21");
+  });
+
+  it("la ligne Revolut est CALCULÉE, plus un bouche-trou plafonné", () => {
+    const b = buildTreasuryBridge({ ...base, bankBalances: [{ currency: "EUR", amountEurCents: 1000000 }] });
+    expect(b.periods?.revolut.toJustifyCents).toBe(5185600 + 361918);
+    expect(b.preLlcRevolutCents).toBe(5185600 + 361918);
+    expect(b.gapLines.find((l) => l.label.startsWith("Période Revolut"))).toBeTruthy();
+    expect(b.attribution?.revolutAdnaneCents).toBe(5185600 + 361918); // 100 % Adnane
+  });
+
+  it("la période LLC tombe juste quand la banque porte exactement ce qu'elle doit", () => {
+    const attendu = split.netLlcCents + 686212 - split.cogsPreLlcPaidByLlcCents - 2102877 - (50000 + 100000);
+    const b = buildTreasuryBridge({ ...base, bankBalances: [{ currency: "EUR", amountEurCents: attendu }] });
+    expect(b.periods?.llc.unexplainedCents).toBe(0);
+    expect(b.unexplainedCents).toBe(0); // le pont global ferme aussi
+  });
+
+  it("un vrai trou sur la période LLC reste visible — jamais avalé par la ligne Revolut", () => {
+    const attendu = split.netLlcCents + 686212 - split.cogsPreLlcPaidByLlcCents - 2102877 - 150000;
+    const trou = 500000;
+    const b = buildTreasuryBridge({ ...base, bankBalances: [{ currency: "EUR", amountEurCents: attendu - trou }] });
+    expect(b.periods?.llc.unexplainedCents).toBe(trou);
+    expect(b.unexplainedCents).toBe(trou);
+    expect(b.preLlcRevolutCents).toBe(5185600 + 361918);
+  });
+
+  it("un apport Revolut → LLC réduit ce qu'Adnane doit justifier et gonfle l'attendu LLC", () => {
+    const bal = [{ currency: "EUR", amountEurCents: 1000000 }];
+    const avec = buildTreasuryBridge({ ...base, llcSplit: { ...split, transfersInCents: 1000000 }, bankBalances: bal });
+    const sans = buildTreasuryBridge({ ...base, bankBalances: bal });
+    expect(sans.periods!.revolut.toJustifyCents - avec.periods!.revolut.toJustifyCents).toBe(1000000);
+    expect(avec.periods!.llc.cashTheoriqueCents - sans.periods!.llc.cashTheoriqueCents).toBe(1000000);
+  });
+
+  it("sans coupure (démo) : ancien comportement, reliquat plafonné", () => {
+    const b = buildTreasuryBridge({ ...BASE, scan });
+    expect(b.periods).toBeNull();
+    expect(b.preLlcRevolutCents!).toBeLessThanOrEqual(PRE_LLC_RESIDUAL.cents);
   });
 });

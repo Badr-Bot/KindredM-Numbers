@@ -9,15 +9,7 @@ import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from
 import { ONE_OFF_COSTS } from "./associateLedger";
 import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
-import {
-  buildTreasuryBridge,
-  NET_BOOKED_BANK_FEES_UNTIL,
-  supplierUnbilledDetail,
-  UNEXPLAINED_ALERT_CENTS,
-  type OrderCostRow,
-  type SupplierUnbilled,
-  type TreasuryBridge,
-} from "./treasury";
+import { buildTreasuryBridge, LLC_START_DAY, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS } from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -1581,8 +1573,13 @@ async function buildTreasury(input: {
   // est apparu (Badr 07/09 : « d'où sortent ces 13 000 € alors qu'avant y
   // avait pas ce trou ? »). Un total ne dit pas QUAND ; un mois, si.
   const metaSpendByMonth = new Map<string, number>();
+  let netRevolutCents = 0;
+  let netLlcCents = 0;
   for (const r of aggRows ?? []) {
-    netCumuleCents += (r.net_cents as number) ?? 0;
+    const net = (r.net_cents as number) ?? 0;
+    netCumuleCents += net;
+    if (String(r.day) < LLC_START_DAY) netRevolutCents += net;
+    else netLlcCents += net;
     const spend = (r.spend_cents as number) ?? 0;
     metaSpendCents += spend;
     const month = String(r.day).slice(0, 7);
@@ -1609,6 +1606,7 @@ async function buildTreasury(input: {
   // 3) Ventilation depuis le début : ce que la banque voit et que le net ne
   //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
   let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
+  let transfersInCents = 0;
   let scanWarning: string | null = null;
   try {
     const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
@@ -1621,6 +1619,13 @@ async function buildTreasury(input: {
     }
     const out = (t: BankTx) => Math.abs(t.amountEurCents ?? 0);
     const debits = life.txs.filter((t) => t.amountCents < 0 && t.label !== "IGNORER" && t.category !== "INTERNE");
+    // Apports : tout crédit qui n'est ni un versement Shopify ni un mouvement
+    // interne — de l'argent entré de l'extérieur (Revolut → LLC). Sur les 30
+    // derniers jours il n'y en a aucun ; s'il y en a eu au démarrage de la
+    // LLC, c'est ici qu'ils comptent.
+    transfersInCents = life.txs
+      .filter((t) => t.amountCents > 0 && t.label !== "IGNORER" && t.category !== "INTERNE" && t.category !== "SHOPIFY")
+      .reduce((a, t) => a + (t.amountEurCents ?? 0), 0);
     const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
     // Frais et Google Ads : seulement APRÈS le 04/09 — ceux d'avant sont déjà
     // inscrits dans le net (subscriptions.ts / associateLedger.ts) et
@@ -1658,8 +1663,33 @@ async function buildTreasury(input: {
     scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;
   }
 
+  // 🏦 COGS de commandes de la période Revolut payés par la LLC : la première
+  // facture Panda réglée depuis Slash (Bill 20260801) commence à #4814, soit
+  // le 18/07 — trois jours AVANT le premier versement Shopify sur la LLC. Ces
+  // ventes ont été encaissées sur Revolut, mais c'est la LLC qui a payé Panda.
+  let cogsPreLlcPaidByLlcCents = 0;
+  try {
+    const firstLlcBill = SUPPLIER_BILLS[0];
+    if (firstLlcBill) {
+      const fromNumber = orderNumber(firstLlcBill.ordersFrom);
+      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(LLC_START_DAY, -10));
+      for (const r of rows) {
+        if (r.day >= LLC_START_DAY) continue;
+        const n = orderNumber(r.orderName);
+        const covered = r.store === SUPPLIER_BILL_STORE ? n !== null && fromNumber !== null && n >= fromNumber : true;
+        if (covered) cogsPreLlcPaidByLlcCents += r.costCents;
+      }
+    }
+  } catch {
+    // Sans cette lecture, la coupure reste possible mais moins précise (au
+    // pire ~3 600 € mal placés entre les deux périodes) — rien de bloquant.
+  }
+
   const treasury = buildTreasuryBridge({
     netCumuleCents,
+    llcSplit: aggErr
+      ? undefined
+      : { netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),

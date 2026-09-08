@@ -62,6 +62,22 @@ export const PRE_LLC_RESIDUAL = {
  * rouge. En dessous : arrondis de change, décalages de facturation. */
 export const UNEXPLAINED_ALERT_CENTS = 100000;
 
+/**
+ * 🏦 DÉBUT DE LA PÉRIODE LLC — le jour du PREMIER versement Shopify arrivé
+ * sur les comptes de la société (Slash, 21/07/2026, 1 688,32 $ — lu par
+ * l'API payouts le 08/09). Avant ce jour, TOUT passait par le Revolut perso
+ * d'Adnane : les encaissements Shopify, Meta, Panda. Le dashboard ne voit pas
+ * ce compte. Il compte donc deux périodes, jamais mélangées :
+ *   • période Revolut (21/05 → 20/07) : le net gagné devrait être sur le
+ *     Revolut d'Adnane, ou en être sorti — 100 % Adnane, à justifier par lui
+ *     (règle Badr 04/09 : « l'écart c'est sur le compte Revolut d'Adnane
+ *     avant le transfert vers la LLC ») ;
+ *   • période LLC (depuis le 21/07) : le net gagné doit être sur Wise + Slash,
+ *     en route chez Shopify, ou expliqué ligne à ligne. C'est ICI qu'un trou
+ *     serait un vrai trou.
+ */
+export const LLC_START_DAY = "2026-07-21";
+
 /** Une ligne de la ventilation de l'écart : un poste que le net ne connaît pas. */
 export interface TreasuryGapLine {
   label: string;
@@ -121,8 +137,39 @@ export interface TreasuryBridge {
   /** À qui l'écart est imputable (demande Badr 04/09 : « cet écart est
    * imputé à qui ? »). null quand il n'est pas calculable. */
   attribution: TreasuryAttribution | null;
+  /** Les deux périodes, chacune avec son propre attendu — null sans coupure. */
+  periods: TreasuryPeriods | null;
   /** Frais de change depuis le début, par origine — null sans balayage. */
   fxSplit: { metaCents: number; persoCents: number; autreCents: number; totalCents: number } | null;
+}
+
+export interface TreasuryPeriods {
+  llcStartDay: string;
+  revolut: {
+    /** Net gagné sur la période, charges déduites. */
+    netCents: number;
+    /** COGS de ses commandes que la LLC a payés à sa place. */
+    cogsPaidByLlcCents: number;
+    /** Ce qui est parti du Revolut vers la LLC (apports). */
+    transfersToLlcCents: number;
+    /** Ce que le Revolut devrait encore porter, ou avoir dépensé hors compta :
+     * net + COGS payés par la LLC − apports. 100 % Adnane, à justifier. */
+    toJustifyCents: number;
+    /** Estimation de Badr de ce qui reste dessus (PRE_LLC_RESIDUAL). */
+    estimatedLeftCents: number;
+  };
+  llc: {
+    netCents: number;
+    /** Net + dû fournisseur non payé − acomptes − COGS avancés pour la
+     * période Revolut + apports reçus = ce que la LLC devrait porter. */
+    cashTheoriqueCents: number;
+    /** … moins l'argent en route = attendu sur les comptes. */
+    attenduEnBanqueCents: number | null;
+    /** Attendu − réel. */
+    gapCents: number | null;
+    /** Après perso, frais, Google Ads. Zéro = les comptes tombent juste. */
+    unexplainedCents: number | null;
+  };
 }
 
 export interface TreasuryAttribution {
@@ -153,6 +200,23 @@ export interface TreasuryInput {
   bankBalances: { currency: string; amountEurCents: number | null }[];
   /** Débits bancaires par catégorie sur la période balayée (valeurs
    * POSITIVES = argent sorti). */
+  /**
+   * Coupure période Revolut / période LLC (voir LLC_START_DAY). Absent en
+   * démo ou si les agrégats manquent : on retombe sur le pont global seul.
+   */
+  llcSplit?: {
+    /** Net (charges déduites) des jours AVANT LLC_START_DAY. */
+    netRevolutCents: number;
+    /** Net des jours DEPUIS LLC_START_DAY. */
+    netLlcCents: number;
+    /** COGS de commandes de la période Revolut PAYÉS par la LLC (première
+     * facture Panda réglée depuis Slash : #4814 → #4975, 18-20/07). Cet
+     * argent est sorti de la LLC pour des ventes encaissées sur Revolut. */
+    cogsPreLlcPaidByLlcCents: number;
+    /** Crédits reçus en banque qui ne sont ni Shopify ni internes : apports
+     * (Revolut → LLC). Ils gonflent les comptes sans venir du net LLC. */
+    transfersInCents: number;
+  };
   scan: {
     sinceDay: string;
     /** true si la période balayée démarre au lancement de l'activité. */
@@ -256,13 +320,30 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
   const explained = gapLines.reduce((t, l) => t + l.cents, 0);
   const resteAvantRevolut = gapCents === null || s === null ? null : gapCents - explained;
 
-  // 🏦 Reliquat Revolut perso Adnane (pré-LLC) : absorbe ce qui reste, dans la
-  // limite du plafond figé le 04/09. Si le balayage explique déjà tout (ou si
-  // la banque dépasse l'attendu), la ligne tombe à zéro — jamais négative.
+  // 🏦 PÉRIODE REVOLUT — deux lectures selon ce qu'on sait :
+  //   • avec la coupure (llcSplit) : la ligne Revolut est CALCULÉE à partir
+  //     de données indépendantes de l'écart (net d'avant le 21/07, COGS de
+  //     cette période payés par la LLC, apports reçus). Ce n'est plus un
+  //     bouche-trou : si l'inexpliqué tombe à zéro, c'est que le modèle
+  //     tient ; sinon le reste est un vrai trou, sur la période LLC.
+  //   • sans coupure (démo, agrégats absents) : ancien comportement, le
+  //     reliquat absorbe ce qui reste dans la limite du plafond du 04/09.
+  const split = input.llcSplit;
+  const periods: TreasuryPeriods | null = split ? buildPeriods(split, input, bankCents, gapLines) : null;
   const preLlcRevolutCents =
-    resteAvantRevolut === null ? null : Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents);
+    resteAvantRevolut === null
+      ? null
+      : periods
+        ? Math.max(periods.revolut.toJustifyCents, 0)
+        : Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents);
   if (preLlcRevolutCents !== null && preLlcRevolutCents > 0) {
-    gapLines.push({ label: PRE_LLC_RESIDUAL.label, cents: preLlcRevolutCents, detail: PRE_LLC_RESIDUAL.note });
+    gapLines.push({
+      label: periods ? "Période Revolut (avant le 21/07) — à justifier par Adnane" : PRE_LLC_RESIDUAL.label,
+      cents: preLlcRevolutCents,
+      detail: periods
+        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
+        : PRE_LLC_RESIDUAL.note,
+    });
   }
   const unexplainedCents =
     resteAvantRevolut === null || preLlcRevolutCents === null ? null : resteAvantRevolut - preLlcRevolutCents;
@@ -318,9 +399,54 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
     scanSinceDay: s?.sinceDay ?? null,
     scanPartial: s ? !s.coversHistory : false,
     attribution,
+    periods,
     fxSplit: s?.fxSplit
       ? { ...s.fxSplit, totalCents: s.fxSplit.metaCents + s.fxSplit.persoCents + s.fxSplit.autreCents }
       : null,
+  };
+}
+
+/**
+ * Les deux périodes. Côté LLC, l'attendu se construit comme le pont global
+ * mais sur le net DEPUIS le 21/07, corrigé de deux flux qui traversent la
+ * coupure : les COGS de commandes Revolut payés par la LLC (sortis, à
+ * retirer) et les apports Revolut → LLC (entrés, à ajouter).
+ */
+function buildPeriods(
+  split: NonNullable<TreasuryInput["llcSplit"]>,
+  input: TreasuryInput,
+  bankCents: number | null,
+  gapLines: TreasuryGapLine[]
+): TreasuryPeriods {
+  const prepaid = input.supplierPrepaidCents ?? 0;
+  const cashTheoriqueCents =
+    split.netLlcCents +
+    input.supplierUnbilledCents +
+    input.supplierOwedCents -
+    prepaid -
+    split.cogsPreLlcPaidByLlcCents +
+    split.transfersInCents;
+  const attenduEnBanqueCents = input.enRouteCents === null ? null : cashTheoriqueCents - input.enRouteCents;
+  const gapCents = attenduEnBanqueCents === null || bankCents === null ? null : attenduEnBanqueCents - bankCents;
+  // Perso, frais, Google Ads : tous datés de la période LLC (la carte n'existait
+  // pas avant), donc ils expliquent l'écart LLC, pas l'écart Revolut.
+  const explained = gapLines.reduce((t, l) => t + l.cents, 0);
+  return {
+    llcStartDay: LLC_START_DAY,
+    revolut: {
+      netCents: split.netRevolutCents,
+      cogsPaidByLlcCents: split.cogsPreLlcPaidByLlcCents,
+      transfersToLlcCents: split.transfersInCents,
+      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents - split.transfersInCents,
+      estimatedLeftCents: PRE_LLC_RESIDUAL.cents,
+    },
+    llc: {
+      netCents: split.netLlcCents,
+      cashTheoriqueCents,
+      attenduEnBanqueCents,
+      gapCents,
+      unexplainedCents: gapCents === null ? null : gapCents - explained,
+    },
   };
 }
 

@@ -719,6 +719,68 @@ function SummaryBlock({
   );
 }
 
+// 🏦 DEUX PÉRIODES — Badr 08/09 : l'écart posé au bon endroit. Avant le
+// 21/07 tout passait par le Revolut d'Adnane (le dash ne le voit pas) ; depuis,
+// tout passe par Wise + Slash (le dash voit tout).
+function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
+  const p = t.periods;
+  if (!p) return null;
+  const llcOk = p.llc.unexplainedCents !== null && Math.abs(p.llc.unexplainedCents) <= UNEXPLAINED_ALERT_CENTS;
+  return (
+    <div className="card-shadow rounded-lg border border-line bg-panel p-3">
+      <div className="text-[9.5px] font-bold uppercase tracking-wider text-ink-faint">
+        🏦 Deux périodes — la coupure est le premier versement Shopify reçu par la société ({formatDayShort(p.llcStartDay)})
+      </div>
+      <div className="mt-1.5 grid grid-cols-1 gap-2 text-[12px] sm:grid-cols-2">
+        <div className="rounded border border-line-soft p-2">
+          <div className="font-semibold">Avant le {formatDayShort(p.llcStartDay)} — Revolut d&apos;Adnane</div>
+          <div className="mt-1 text-[11px] leading-snug text-ink-dim">
+            Net gagné <b className="tnum text-ink">{formatEur0(p.revolut.netCents)}</b>
+            {p.revolut.cogsPaidByLlcCents > 0 && (
+              <>
+                {" + "}Panda payé par la LLC pour ces ventes{" "}
+                <b className="tnum text-ink">{formatEur0(p.revolut.cogsPaidByLlcCents)}</b>
+              </>
+            )}
+            {p.revolut.transfersToLlcCents > 0 && (
+              <>
+                {" − "}apports vers la LLC <b className="tnum text-ink">{formatEur0(p.revolut.transfersToLlcCents)}</b>
+              </>
+            )}
+          </div>
+          <div className="mt-1 text-[12px]">
+            À justifier par Adnane <b className="tnum text-amber">{formatEur0(p.revolut.toJustifyCents)}</b>
+          </div>
+          <div className="text-[10px] leading-snug text-ink-faint">
+            Cet argent devrait être sur son Revolut, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…).
+            Badr estime qu&apos;il en reste {formatEur0(p.revolut.estimatedLeftCents)}. Le dash ne voit pas ce compte :
+            seul un export Revolut du 21/05 au 05/08 permet de le rapprocher ligne à ligne.
+          </div>
+        </div>
+        <div className="rounded border border-line-soft p-2">
+          <div className="font-semibold">Depuis le {formatDayShort(p.llcStartDay)} — Wise + Slash</div>
+          <div className="mt-1 text-[11px] leading-snug text-ink-dim">
+            Net gagné <b className="tnum text-ink">{formatEur0(p.llc.netCents)}</b> → attendu sur les comptes{" "}
+            <b className="tnum text-ink">{p.llc.attenduEnBanqueCents === null ? "—" : formatEur0(p.llc.attenduEnBanqueCents)}</b>
+            {" vs réel "}
+            <b className="tnum text-ink">{t.bankCents === null ? "—" : formatEur0(t.bankCents)}</b>
+          </div>
+          <div className="mt-1 text-[12px]">
+            Trou sur cette période{" "}
+            <b className={`tnum ${p.llc.unexplainedCents === null ? "text-ink-dim" : llcOk ? "text-phosphor" : "text-red"}`}>
+              {p.llc.unexplainedCents === null ? "—" : llcOk ? "Non" : formatEur0(p.llc.unexplainedCents)}
+            </b>
+          </div>
+          <div className="text-[10px] leading-snug text-ink-faint">
+            Après perso, frais et Google Ads. C&apos;est ici qu&apos;un trou serait un vrai trou : chaque versement
+            Shopify et chaque débit sont lus.{t.enRouteEstimated ? " En route estimé (±2 000 €)." : ""}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function OwnershipBlock({
   report,
   annee,
@@ -1002,6 +1064,12 @@ export function BankBoard({
       {report.payouts && (
         <Reveal>
           <PayoutsBlock payouts={report.payouts} markets={report.payoutsMarkets} />
+        </Reveal>
+      )}
+
+      {report.treasury?.periods && (
+        <Reveal>
+          <PeriodsBlock t={report.treasury} />
         </Reveal>
       )}
 

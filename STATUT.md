@@ -1219,3 +1219,36 @@ ACH credit from SHOPIFY »), Wise EUR (« Stripe Payments UK Ltd … Shopify »)
 Wise CAD/GBP — les montants nets Shopify tombent au centime sur la banque.
 
 323 tests verts, build OK, lint clean.
+
+## Mise à jour 08/09 (soir) — deux périodes : Revolut, puis LLC
+
+Les versements Shopify (82 rapprochés au centime) ont daté la chose : le
+**premier versement Shopify reçu par la société est du 21/07** (Slash,
+1 688,32 $). Avant, TOUT passait par le Revolut perso d'Adnane — les
+encaissements, Meta (0 € payé par la LLC en mai/juin), Panda. Le dashboard
+ne voit pas ce compte.
+
+Le pont trésorerie supposait que tout le net depuis le 21/05 devait se trouver
+sur Wise + Slash, moins 1 850 € « restés sur Revolut » (une estimation). D'où
+un « inexpliqué » de ~11 700 € qui flottait en rouge depuis le 04/09 alors que
+la période LLC, elle, est propre.
+
+`LLC_START_DAY = 2026-07-21` (treasury.ts) coupe maintenant en deux :
+- **Période Revolut** (21/05 → 20/07) : net gagné + COGS de ces ventes payés
+  par la LLC (Bill 20260801 commence à #4814, le 18/07 : 3 619 €) − apports
+  Revolut → LLC = **à justifier par Adnane**, 100 % lui (règle du 04/09).
+  Calculé à partir de données indépendantes de l'écart — ce n'est plus un
+  bouche-trou plafonné.
+- **Période LLC** (depuis le 21/07) : net LLC + non facturé − COGS avancés
+  pour Revolut + apports − en route = attendu, vs réel, après perso / frais /
+  Google Ads. C'est ICI qu'un trou serait un vrai trou, et un test fige qu'un
+  trou LLC n'est jamais avalé par la ligne Revolut.
+
+Nouveau bloc « 🏦 Deux périodes » sous les versements Shopify. Sans coupure
+(démo, agrégats absents) l'ancien plafond reste.
+
+Reste hors de portée du dash : le Revolut lui-même. Un export Revolut du
+21/05 au 05/08 permettrait de rapprocher cette période ligne à ligne comme
+pour Shopify.
+
+332 tests verts, build OK, lint clean.
