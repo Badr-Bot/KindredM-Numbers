@@ -102,6 +102,25 @@ describe("reconcilePayouts", () => {
     expect(r.lastReceived?.credit.currency).toBe("EUR");
   });
 
+  it("un crédit un peu plus petit (frais de réception) est rapproché, et les frais sont comptés", () => {
+    // 01/09 : 40,38 £ annoncés par Shopify, 38,22 £ reçus sur Wise.
+    const r = reconcilePayouts(
+      [payout({ issuedDay: "2026-09-01", amountCents: 4038, currency: "GBP" })],
+      [credit({ day: "2026-09-01", amountCents: 3822, currency: "GBP", bank: "WISE" })],
+      "2026-09-08"
+    );
+    expect(r.matched).toHaveLength(1);
+    expect(r.matched[0].feeCents).toBe(216);
+    expect(r.paidNotInBank).toEqual([]);
+  });
+
+  it("jamais un crédit PLUS GRAND, ni plus de 10 % plus petit", () => {
+    const plusGrand = reconcilePayouts([payout({ amountCents: 1000 })], [credit({ amountCents: 1001 })], "2026-09-08");
+    expect(plusGrand.matched).toEqual([]);
+    const tropPetit = reconcilePayouts([payout({ amountCents: 1000 })], [credit({ amountCents: 899 })], "2026-09-08");
+    expect(tropPetit.matched).toEqual([]);
+  });
+
   it("un crédit Shopify en banque sans versement connu est signalé, jamais avalé", () => {
     const r = reconcilePayouts([], [credit({ amountCents: 5392, currency: "EUR", bank: "WISE" })], "2026-09-08");
     expect(r.creditsUnmatched).toHaveLength(1);

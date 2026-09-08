@@ -957,7 +957,9 @@ function PayoutsBlock({ payouts, markets }: { payouts: PayoutReconciliation; mar
                 ...matched.map((m) => ({
                   p: m.payout,
                   shop: "versé",
-                  bank: `✓ ${formatDayShort(m.credit.day)} ${m.credit.bank}`,
+                  bank: `✓ ${formatDayShort(m.credit.day)} ${m.credit.bank}${
+                    m.feeCents > 0 ? ` (−${moneyIn(m.feeCents, m.payout.currency)} de frais)` : ""
+                  }`,
                   cls: "text-phosphor",
                 })),
               ]

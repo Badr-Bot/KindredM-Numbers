@@ -44,7 +44,15 @@ export interface BankCredit {
 export interface PayoutMatch {
   payout: ShopifyPayout;
   credit: BankCredit;
+  /** Frais retenus entre Shopify et la banque (crédit < net Shopify, même
+   * devise). 0 quand ça tombe au centime. Vu le 01/09 : 40,38 £ annoncés,
+   * 38,22 £ reçus sur Wise (2,16 £ de frais de réception en livres). */
+  feeCents: number;
 }
+
+/** Tolérance pour un crédit AMPUTÉ de frais de réception : jusqu'à 10 % de
+ * moins que le net Shopify, jamais plus, jamais davantage que le net. */
+const FEE_TOLERANCE = 0.1;
 
 export interface PayoutReconciliation {
   /** Dernier versement Shopify réellement ARRIVÉ en banque. */
@@ -113,20 +121,21 @@ export function reconcilePayouts(
     // versement est reçu, quel que soit ce que dit Shopify.
     const from = addDays(p.issuedDay, -EARLIEST_OFFSET_DAYS);
     const to = addDays(p.issuedDay, PAYOUT_ARRIVAL_DAYS);
-    const candidates = credits
-      .filter(
-        (c) =>
-          !used.has(c.txId) &&
-          c.currency === p.currency &&
-          c.amountCents === p.amountCents &&
-          c.day >= from &&
-          c.day <= to
-      )
-      .sort((a, b) => Math.abs(daysBetween(p.issuedDay, a.day)) - Math.abs(daysBetween(p.issuedDay, b.day)));
-    const credit = candidates[0];
+    const inWindow = (c: BankCredit) => !used.has(c.txId) && c.currency === p.currency && c.day >= from && c.day <= to;
+    const byProximity = (a: BankCredit, b: BankCredit) =>
+      Math.abs(daysBetween(p.issuedDay, a.day)) - Math.abs(daysBetween(p.issuedDay, b.day));
+    // D'abord au centime ; à défaut, un crédit un peu plus petit (frais de
+    // réception retenus par la banque) — jamais un crédit plus grand.
+    const exact = credits.filter((c) => inWindow(c) && c.amountCents === p.amountCents).sort(byProximity)[0];
+    const reduced = exact
+      ? undefined
+      : credits
+          .filter((c) => inWindow(c) && c.amountCents < p.amountCents && c.amountCents >= p.amountCents * (1 - FEE_TOLERANCE))
+          .sort(byProximity)[0];
+    const credit = exact ?? reduced;
     if (credit) {
       used.add(credit.txId);
-      matched.push({ payout: p, credit });
+      matched.push({ payout: p, credit, feeCents: p.amountCents - credit.amountCents });
     } else if (p.status === "SCHEDULED") {
       scheduled.push(p);
     } else if (daysBetween(p.issuedDay, today) > PAYOUT_ARRIVAL_DAYS) {
