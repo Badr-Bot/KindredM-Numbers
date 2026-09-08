@@ -39,8 +39,8 @@ describe("categorizeTx", () => {
     expect(categorizeTx("FACEBK *ADS 12345", -25000).category).toBe("META");
     // Paliers Meta (800 €) : « FACEBK* xxxx », jamais un abonnement.
     expect(categorizeTx("FACEBK* N6WRLZ5T22", -93657).category).toBe("META");
-    // Boosts Instagram (Badr 08/09) : « FACEBK *xxxx » + petit montant (16,80 $).
-    expect(categorizeTx("FACEBK *9PJJWZ9M62", -1687)).toEqual({ category: "ABONNEMENT", subscriptionLabel: "Boosts Instagram" });
+    // Frais Meta en dollars (Badr 08/09) : « FACEBK *xxxx » + petit montant (16,80 $).
+    expect(categorizeTx("FACEBK *9PJJWZ9M62", -1687)).toEqual({ category: "ABONNEMENT", subscriptionLabel: "Meta — frais de paiement en dollars" });
     expect(categorizeTx("Meta Platforms Ireland", -25000).category).toBe("META");
     expect(categorizeTx("Shopify Payments payout", 150000).category).toBe("SHOPIFY");
     expect(categorizeTx("SHOPIFY INC monthly", -3900).category).toBe("ABONNEMENT");
