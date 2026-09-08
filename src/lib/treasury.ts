@@ -165,6 +165,8 @@ export interface TreasuryPeriods {
   };
   llc: {
     netCents: number;
+    /** Sorti des comptes depuis la coupure, par poste, vs compté dans le net. */
+    outByCategory: { category: string; bankCents: number; netCents: number | null; note?: string }[];
     /** Net + dû fournisseur non payé − acomptes − COGS avancés pour la
      * période Revolut + apports reçus = ce que la LLC devrait porter. */
     cashTheoriqueCents: number;
@@ -238,6 +240,10 @@ export interface TreasuryInput {
      * déjà, mais Meta / Panda / abonnements partaient encore du Revolut) :
      * ils sont dans le net LLC sans être sortis des comptes LLC. */
     llcCostsPaidByRevolut?: { metaCents: number; cogsCents: number; subsCents: number };
+    /** Sorti des comptes LLC depuis la coupure, par poste, face à ce que le
+     * net a compté pour le même poste — pour NOMMER un trou au lieu de le
+     * laisser flotter. `netCents` null = le net ne compte pas ce poste. */
+    llcOutByCategory?: { category: string; bankCents: number; netCents: number | null; note?: string }[];
   };
   scan: {
     sinceDay: string;
@@ -473,6 +479,7 @@ function buildPeriods(
     },
     llc: {
       netCents: split.netLlcCents,
+      outByCategory: split.llcOutByCategory ?? [],
       cashTheoriqueCents,
       attenduEnBanqueCents,
       gapCents,

@@ -1660,7 +1660,7 @@ async function buildTreasury(input: {
   //    que l'onglet Mois : le net société, pas le net avant charges).
   const { data: aggRows, error: aggErr } = await supabase
     .from("daily_aggregates")
-    .select("day, net_cents, spend_cents")
+    .select("day, net_cents, spend_cents, cogs_cents, tax_cents")
     .gte("day", TREASURY_START_DAY)
     .lte("day", untilDay);
   if (aggErr) return { treasury: null, setup: null, warning: `Rapprochement trésorerie : agrégats illisibles (${aggErr.message}).` };
@@ -1671,6 +1671,7 @@ async function buildTreasury(input: {
   // avait pas ce trou ? »). Un total ne dit pas QUAND ; un mois, si.
   const metaSpendByMonth = new Map<string, number>();
   const metaSpendByDay = new Map<string, number>();
+  const cogsNetByDay = new Map<string, number>();
   let netRevolutCents = 0;
   let netLlcCents = 0;
   for (const r of aggRows ?? []) {
@@ -1683,6 +1684,7 @@ async function buildTreasury(input: {
     const month = String(r.day).slice(0, 7);
     metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
     metaSpendByDay.set(String(r.day), (metaSpendByDay.get(String(r.day)) ?? 0) + spend);
+    cogsNetByDay.set(String(r.day), (cogsNetByDay.get(String(r.day)) ?? 0) + ((r.cogs_cents as number) ?? 0) + ((r.tax_cents as number) ?? 0));
   }
   for (const day of listParisDays(TREASURY_START_DAY, untilDay)) {
     const fixed = fixedCostsCentsForDay(day);
@@ -1745,6 +1747,7 @@ async function buildTreasury(input: {
 
   let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
   let transfersInCents = 0;
+  let llcOutByCategory: NonNullable<TreasuryInput["llcSplit"]>["llcOutByCategory"];
   let llcCostsPaidByRevolut: NonNullable<TreasuryInput["llcSplit"]>["llcCostsPaidByRevolut"];
   let bigCredits: NonNullable<TreasuryInput["llcSplit"]>["bigCredits"] = [];
   let scanWarning: string | null = null;
@@ -1805,6 +1808,27 @@ async function buildTreasury(input: {
       cogsCents: cogsLlcPaidByRevolutCents,
       subsCents: Math.max(chargesSinceCut - subsBankSinceCut, 0),
     };
+    // 🔎 Sorti des comptes LLC depuis la coupure, PAR POSTE, face à ce que le
+    // net a compté pour le même poste. C'est ce tableau qui nomme un trou :
+    // un poste où la banque a sorti plus que le net n'a compté est un coût
+    // réel absent du P&L ; un poste sans contrepartie dans le net (« autre »,
+    // à affecter) est de l'argent sorti sans case.
+    const sinceCut = debits.filter((t) => t.day >= llcStartDay);
+    const sumCat = (cat: TxCategory, pred: (t: BankTx) => boolean = () => true) =>
+      sinceCut.filter((t) => t.category === cat && pred(t)).reduce((a, t) => a + out(t), 0);
+    const cogsNetSinceCut = [...cogsNetByDay.entries()].filter(([d]) => d >= llcStartDay).reduce((a, [, c]) => a + c, 0);
+    const supplierPaidSinceCut = SUPPLIER_BILLS.filter((b) => b.status === "payee" && b.issuedDay >= llcStartDay).reduce((a, b) => a + (b.paidCents ?? b.totalCents), 0);
+    const eurTxt = (c: number) => `${Math.round(c / 100).toLocaleString("fr-FR")} €`;
+    llcOutByCategory = [
+      { category: "Meta", bankCents: metaBankSinceCut, netCents: metaSpendSinceCut, note: "spend enregistré par le dashboard" },
+      { category: "Fournisseur (Panda)", bankCents: sumCat("FOURNISSEUR"), netCents: cogsNetSinceCut, note: `COGS + taxe UE des commandes ; factures réglées depuis la coupure ${eurTxt(supplierPaidSinceCut)}` },
+      { category: "Abonnements / équipe", bankCents: subsBankSinceCut, netCents: chargesSinceCut, note: "charges fixes étalées + frais ponctuels" },
+      { category: "Dépenses perso (Badr + Adnane)", bankCents: sumCat("FRAIS", isPerso) + sinceCut.filter(isPerso).reduce((a, t) => a + out(t), 0) - sumCat("FRAIS", isPerso), netCents: null, note: "hors P&L, à solder entre associés" },
+      { category: "Google Ads", bankCents: sumCat("GOOGLE_ADS", (t) => !isPerso(t)), netCents: sumCat("GOOGLE_ADS", (t) => !isPerso(t) && !nouveau(t)), note: "compté dans le net jusqu'au 04/09" },
+      { category: "Frais bancaires / change", bankCents: sumCat("FRAIS", (t) => !isPerso(t)), netCents: sumCat("FRAIS", (t) => !isPerso(t) && !nouveau(t)), note: "compté dans le net jusqu'au 04/09" },
+      { category: "Retours de versement Shopify", bankCents: sumCat("SHOPIFY"), netCents: sumCat("SHOPIFY"), note: "remboursements repris sur un payout — déjà déduits du CA" },
+      { category: "Autre / à affecter", bankCents: sumCat("AUTRE", (t) => !isPerso(t)), netCents: null, note: "aucune case dans le net" },
+    ];
     scan = {
       sinceDay: life.sinceDay,
       coversHistory: life.sinceDay <= TREASURY_START_DAY,
@@ -1833,7 +1857,7 @@ async function buildTreasury(input: {
     netCumuleCents,
     llcSplit: aggErr
       ? undefined
-      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut },
+      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut, llcOutByCategory },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),
