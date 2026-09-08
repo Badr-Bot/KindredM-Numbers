@@ -630,3 +630,9 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Ne jamais étiqueter un reste inexpliqué avec une cause** (08/09) : j'ai
   appelé « surplus Meta » ce qui était le reliquat global du rapprochement.
   Avant de nommer un écart, lire les lignes (mois par mois) — le dash les a.
+- **Deux périodes, jamais mélangées** (08/09) : Revolut (avant le 21/07,
+  premier versement Shopify sur la LLC) et LLC (depuis). Ce que le dash ne
+  voit pas (Revolut) est posé comme « à justifier par Adnane », calculé, pas
+  deviné ; ce que le dash voit (Wise + Slash) doit fermer à zéro, et un trou
+  là-dedans est un vrai trou. Ne jamais laisser un écart de la période Revolut
+  se faire passer pour un trou LLC, ni l'inverse.
