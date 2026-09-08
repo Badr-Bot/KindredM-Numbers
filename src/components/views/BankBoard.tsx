@@ -777,6 +777,25 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
           </div>
         </div>
       </div>
+      {p.bigCredits.length > 0 && (
+        <details className="mt-2 border-t border-line-soft pt-2 text-[11px]">
+          <summary className="cursor-pointer text-ink-dim">
+            🔎 {p.bigCredits.length} gros crédits reçus qui ne sont pas des versements Shopify (≥ 200 €)
+          </summary>
+          <table className="mt-1 w-full text-left text-[11px]">
+            <tbody>
+              {p.bigCredits.map((c, i) => (
+                <tr key={i} className="border-b border-hair/50">
+                  <td className="py-1 pr-2 tnum">{formatDayShort(c.day)}</td>
+                  <td className="py-1 pr-2 text-ink-faint">{c.bank}</td>
+                  <td className="tnum py-1 pr-2 text-right">{formatEur0(c.amountEurCents)}</td>
+                  <td className="py-1 text-ink-dim">{c.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      )}
     </div>
   );
 }

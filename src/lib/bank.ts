@@ -9,7 +9,7 @@ import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from
 import { ONE_OFF_COSTS } from "./associateLedger";
 import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
-import { buildTreasuryBridge, LLC_START_DAY, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS } from "./treasury";
+import { buildTreasuryBridge, LLC_START_DAY, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -1169,6 +1169,9 @@ export interface BankReport {
   payouts: PayoutReconciliation | null;
   /** Boutiques dont les versements ont été lus. */
   payoutsMarkets: string[];
+  /** Première transaction encaissée par le compte Shopify Payments de la
+   * société, par boutique — fixe la coupure Revolut / LLC. */
+  payoutsStarts: PayoutsStart[];
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1273,11 +1276,37 @@ const PAYOUTS_QUERY = `{
   }
 }`;
 
-async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; markets: string[]; warnings: string[] }> {
+/** Première transaction jamais traitée par le compte Shopify Payments de la
+ * société : c'est LA date à partir de laquelle les ventes ont été encaissées
+ * par la LLC (le premier VERSEMENT, lui, arrive quelques jours après et paie
+ * déjà des ventes antérieures — coupure fausse de 30 000 €, constatée le
+ * 08/09). */
+const FIRST_TX_QUERY = `{
+  shopifyPaymentsAccount {
+    balanceTransactions(first: 3, sortKey: PROCESSED_AT) {
+      edges { node { transactionDate type associatedOrder { name } } }
+    }
+  }
+}`;
+
+export interface PayoutsStart {
+  market: string;
+  day: string;
+  orderName: string | null;
+}
+
+async function fetchShopifyPayouts(): Promise<{
+  payouts: ShopifyPayout[];
+  markets: string[];
+  warnings: string[];
+  /** Par boutique : première transaction encaissée par le compte de la LLC. */
+  starts: PayoutsStart[];
+}> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   const payouts: ShopifyPayout[] = [];
   const markets: string[] = [];
   const warnings: string[] = [];
+  const starts: PayoutsStart[] = [];
   const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
   for (const config of getShopifyStoreConfigs()) {
     try {
@@ -1305,6 +1334,22 @@ async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; market
       }
       const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
       markets.push(config.market);
+      // Première transaction du compte (best effort : son absence ne retire
+      // rien aux versements).
+      try {
+        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+          body: JSON.stringify({ query: FIRST_TX_QUERY }),
+        });
+        const j2 = (await r2.json()) as {
+          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null } }[] } } | null };
+        };
+        const first = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? []).find((e) => e.node.type === "CHARGE") ?? j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges?.[0];
+        if (first) starts.push({ market: config.market, day: toParisDay(first.node.transactionDate), orderName: first.node.associatedOrder?.name ?? null });
+      } catch {
+        // rien : la coupure retombe sur la constante
+      }
       if (edges.length === 0) warnings.push(`Versements Shopify ${config.market} : Shopify n'a renvoyé aucun versement.`);
       for (const { node } of edges) {
         const amount = Number(node.net?.amount);
@@ -1324,10 +1369,10 @@ async function fetchShopifyPayouts(): Promise<{ payouts: ShopifyPayout[]; market
       warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
     }
   }
-  return { payouts, markets, warnings };
+  return { payouts, markets, warnings, starts };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v2"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v3"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1548,6 +1593,9 @@ function metaMonths(
 async function buildTreasury(input: {
   supabase: SupabaseClient;
   untilDay: string;
+  /** Coupure Revolut / LLC lue chez Shopify (première transaction encaissée
+   * par le compte de la société) ; sinon la constante. */
+  llcStartDay?: string;
   balances: BankBalance[];
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
   /** Estimation (5 derniers jours) utilisée quand le scope Shopify manque. */
@@ -1555,6 +1603,7 @@ async function buildTreasury(input: {
   labels: Map<string, TxLabel>;
 }): Promise<{ treasury: TreasuryBridge | null; setup: string | null; warning: string | null }> {
   const { supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels } = input;
+  const llcStartDay = input.llcStartDay ?? LLC_START_DAY;
   if (balances.length === 0) {
     return { treasury: null, setup: "Rapprochement trésorerie : en attente des soldes bancaires (Wise/Slash).", warning: null };
   }
@@ -1578,7 +1627,7 @@ async function buildTreasury(input: {
   for (const r of aggRows ?? []) {
     const net = (r.net_cents as number) ?? 0;
     netCumuleCents += net;
-    if (String(r.day) < LLC_START_DAY) netRevolutCents += net;
+    if (String(r.day) < llcStartDay) netRevolutCents += net;
     else netLlcCents += net;
     const spend = (r.spend_cents as number) ?? 0;
     metaSpendCents += spend;
@@ -1607,6 +1656,7 @@ async function buildTreasury(input: {
   //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
   let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
   let transfersInCents = 0;
+  let bigCredits: NonNullable<TreasuryInput["llcSplit"]>["bigCredits"] = [];
   let scanWarning: string | null = null;
   try {
     const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
@@ -1626,6 +1676,14 @@ async function buildTreasury(input: {
     transfersInCents = life.txs
       .filter((t) => t.amountCents > 0 && t.label !== "IGNORER" && t.category !== "INTERNE" && t.category !== "SHOPIFY")
       .reduce((a, t) => a + (t.amountEurCents ?? 0), 0);
+    // 🔎 Tous les GROS crédits qui ne sont pas des versements Shopify, quelle
+    // que soit leur catégorie (un apport Revolut peut être classé INTERNE si
+    // le libellé cite la LLC) — pour voir d'où vient l'argent, pas deviner.
+    bigCredits = life.txs
+      .filter((t) => t.amountCents > 0 && t.category !== "SHOPIFY" && (t.amountEurCents ?? 0) >= 20000)
+      .sort((a, b) => (b.amountEurCents ?? 0) - (a.amountEurCents ?? 0))
+      .slice(0, 25)
+      .map((t) => ({ day: t.day, bank: t.bank, category: t.category, currency: t.currency, amountCents: t.amountCents, amountEurCents: t.amountEurCents ?? 0, description: t.description.slice(0, 80) }));
     const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
     // Frais et Google Ads : seulement APRÈS le 04/09 — ceux d'avant sont déjà
     // inscrits dans le net (subscriptions.ts / associateLedger.ts) et
@@ -1672,9 +1730,9 @@ async function buildTreasury(input: {
     const firstLlcBill = SUPPLIER_BILLS[0];
     if (firstLlcBill) {
       const fromNumber = orderNumber(firstLlcBill.ordersFrom);
-      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(LLC_START_DAY, -10));
+      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(llcStartDay, -10));
       for (const r of rows) {
-        if (r.day >= LLC_START_DAY) continue;
+        if (r.day >= llcStartDay) continue;
         const n = orderNumber(r.orderName);
         const covered = r.store === SUPPLIER_BILL_STORE ? n !== null && fromNumber !== null && n >= fromNumber : true;
         if (covered) cogsPreLlcPaidByLlcCents += r.costCents;
@@ -1689,7 +1747,7 @@ async function buildTreasury(input: {
     netCumuleCents,
     llcSplit: aggErr
       ? undefined
-      : { netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents },
+      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),
@@ -1773,6 +1831,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs: demo.txs,
       payouts: null,
       payoutsMarkets: [],
+      payoutsStarts: [],
       reconciliation,
       control,
       warnings: [],
@@ -1939,10 +1998,21 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   // 🧮 Rapprochement depuis le tout début — AVANT le contrôle (il en tire
   // l'anomalie « trésorerie inexpliquée »), et jamais bloquant : une erreur
   // ici ne doit pas emporter le contrôle bancaire, qui marche déjà.
+  // 📦 Versements Shopify — lus AVANT le rapprochement : la première
+  // transaction encaissée par le compte de la société fixe la coupure
+  // Revolut / LLC (FR porte 95 % du spend : c'est sa date qui compte).
+  let fetchedPayouts: Awaited<ReturnType<typeof fetchShopifyPayoutsCached>> | null = null;
+  try {
+    fetchedPayouts = await fetchShopifyPayoutsCached();
+  } catch (err) {
+    warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
+  }
+  const frStart = fetchedPayouts?.starts.find((x) => x.market === "FR")?.day;
+
   let treasury: TreasuryBridge | null = null;
   let treasurySetup: string | null = null;
   try {
-    const t = await buildTreasury({ supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
+    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
     treasury = t.treasury;
     treasurySetup = t.setup;
     if (t.warning) warnings.push(t.warning);
@@ -1960,9 +2030,12 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
   let payouts: PayoutReconciliation | null = null;
   let payoutsMarkets: string[] = [];
+  let payoutsStarts: PayoutsStart[] = [];
   try {
-    const fetched = await fetchShopifyPayoutsCached();
+    const fetched = fetchedPayouts;
+    if (fetched) {
     payoutsMarkets = fetched.markets;
+    payoutsStarts = fetched.starts;
     if (fetched.payouts.length > 0) {
       // Crédits de TOUT l'historique (même lecture que le rapprochement
       // trésorerie, déjà en cache) — pas la fenêtre de 30 jours du contrôle :
@@ -1983,6 +2056,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       payouts = reconcilePayouts(fetched.payouts, credits, untilDay);
     }
     for (const w of fetched.warnings) warnings.push(w);
+    }
   } catch (err) {
     warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
   }
@@ -1995,6 +2069,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     txs: txs.slice(0, 200),
     payouts,
     payoutsMarkets,
+    payoutsStarts,
     reconciliation,
     control,
     warnings,
