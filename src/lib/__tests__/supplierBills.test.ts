@@ -7,6 +7,7 @@ import {
   supplierPayableCents,
   supplierPendingCreditsCents,
 } from "../supplierBills";
+import { OLD_SUPPLIER_LAST_DAY, OLD_SUPPLIER_MARKUP, oldSupplierExtraCents } from "../supplierBills";
 
 /**
  * Le ledger fournisseur est saisi À LA MAIN (montants relevés sur les fichiers
@@ -58,5 +59,23 @@ describe("Ledger fournisseur Panda", () => {
     // La taxe UE en double a été corrigée dans la facture elle-même : il ne
     // reste aucun avoir chiffré en attente, seulement des questions ouvertes.
     expect(supplierPendingCreditsCents()).toBe(0);
+  });
+});
+
+
+describe("ancien fournisseur (avant Panda) — Badr 08/09", () => {
+  it("+5 % de COGS jusqu'au 30/06 inclus, rien dès le 01/07", () => {
+    expect(OLD_SUPPLIER_MARKUP).toBe(0.05);
+    expect(OLD_SUPPLIER_LAST_DAY).toBe("2026-06-30");
+    expect(oldSupplierExtraCents("2026-06-30", 10000)).toBe(500);
+    expect(oldSupplierExtraCents("2026-07-01", 10000)).toBe(0);
+    expect(oldSupplierExtraCents("2026-05-21", 0)).toBe(0);
+  });
+
+  it("tombe entièrement avant l'entrée de Badr : son net ne bouge pas", () => {
+    // La règle par boutique donne 0 % à Badr avant le 20/06 (ES/UK/DE) et
+    // avant le 14/07 (FR) ; le surcoût s'arrête au 30/06, donc seule ES/UK/DE
+    // du 20 au 30/06 pourrait le toucher — trois boutiques à ~1 % du CA.
+    expect(OLD_SUPPLIER_LAST_DAY < "2026-07-14").toBe(true);
   });
 });

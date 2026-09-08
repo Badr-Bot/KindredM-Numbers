@@ -12,6 +12,7 @@ import {
 import { cache as reactCache } from "react";
 import { unstable_cache } from "next/cache";
 import { DASHBOARD_TAG, HISTORY_TAG, frozenEndDay } from "./cacheTags";
+import { oldSupplierExtraCents } from "./supplierBills";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
 import { fixedCostsCentsForDay } from "./subscriptions";
@@ -283,14 +284,18 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
   };
   if (error) throw error;
 
-  return (data ?? []).map((r) => ({
+  return (data ?? []).map((r) => {
+    // Ancien fournisseur jusqu'au 30/06 : +5 % de COGS (Badr 08/09), appliqué à
+    // la lecture — voir oldSupplierExtraCents. Retiré du net d'autant.
+    const extra = oldSupplierExtraCents(String(r.day), r.cogs_cents);
+    return {
     day: r.day,
     market: r.market as Market,
     orders: r.orders,
     caCents: r.ca_cents,
     spendCents: r.spend_cents,
-    cogsCents: r.cogs_cents,
-    cogsProductCents: hasCogsSplit ? r.cogs_product_cents ?? 0 : 0,
+    cogsCents: r.cogs_cents + extra,
+    cogsProductCents: hasCogsSplit ? (r.cogs_product_cents ?? 0) + extra : 0,
     cogsUpsellsCents: hasCogsSplit ? r.cogs_upsells_cents ?? 0 : 0,
     taxCents: r.tax_cents,
     feesCents: r.fees_cents,
@@ -302,9 +307,10 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
           r.fees_cents - ((r.fee_processing_cents ?? 0) + (r.fee_fx_cents ?? 0) + (r.fee_other_cents ?? 0))
         )
       : 0,
-    netCents: r.net_cents,
+    netCents: r.net_cents - extra,
     refundedCents: r.refunded_cents ?? 0,
-  }));
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { DASHBOARD_TAG } from "./cacheTags";
+import { oldSupplierExtraCents } from "./supplierBills";
 import { createSupabaseServerClient } from "./supabase";
 import { addDaysToDay, todayParisDay } from "./time";
 
@@ -39,7 +40,7 @@ async function computeBriefUncached(): Promise<Brief | null> {
 
   const { data, error } = await supabase
     .from("daily_aggregates")
-    .select("day, ca_cents, spend_cents, net_cents, orders")
+    .select("day, ca_cents, spend_cents, net_cents, cogs_cents, orders")
     .gte("day", since)
     .lte("day", yesterday);
   if (error || !data || data.length === 0) return null;
@@ -50,7 +51,7 @@ async function computeBriefUncached(): Promise<Brief | null> {
     const t = byDay.get(day) ?? { caCents: 0, spendCents: 0, netCents: 0, orders: 0 };
     t.caCents += r.ca_cents as number;
     t.spendCents += r.spend_cents as number;
-    t.netCents += r.net_cents as number;
+    t.netCents += (r.net_cents as number) - oldSupplierExtraCents(day, (r.cogs_cents as number) ?? 0);
     t.orders += r.orders as number;
     byDay.set(day, t);
   }
