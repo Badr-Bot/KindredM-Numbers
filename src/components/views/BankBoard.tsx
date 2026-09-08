@@ -814,6 +814,18 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
                 <b className="tnum text-ink">{formatEur0(p.revolut.cogsPaidByLlcCents)}</b>
               </>
             )}
+            {p.revolut.caOldAccountCents > 0 && (
+              <>
+                {" + "}CA d&apos;après la coupure encaissé par l&apos;ancien compte Shopify{" "}
+                <b className="tnum text-ink">{formatEur0(p.revolut.caOldAccountCents)}</b>
+              </>
+            )}
+            {p.revolut.paidForLlc.totalCents > 0 && (
+              <>
+                {" − "}Meta / Panda / abonnements de la LLC payés depuis le Revolut{" "}
+                <b className="tnum text-ink">{formatEur0(p.revolut.paidForLlc.totalCents)}</b>
+              </>
+            )}
             {p.revolut.transfersToLlcCents > 0 && (
               <>
                 {" − "}apports vers la LLC <b className="tnum text-ink">{formatEur0(p.revolut.transfersToLlcCents)}</b>
