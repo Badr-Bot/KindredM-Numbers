@@ -7,7 +7,7 @@ import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
 import { fixedCostsCentsForDay, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
 import { buildTreasuryBridge, LLC_START_DAY, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
 
@@ -1804,7 +1804,10 @@ async function buildTreasury(input: {
   let netRevolutCents = 0;
   let netLlcCents = 0;
   for (const r of aggRows ?? []) {
-    const net = (r.net_cents as number) ?? 0;
+    // Ancien fournisseur jusqu'au 30/06 : +5 % de COGS (même règle que les
+    // onglets, voir oldSupplierExtraCents).
+    const extra = oldSupplierExtraCents(String(r.day), (r.cogs_cents as number) ?? 0);
+    const net = ((r.net_cents as number) ?? 0) - extra;
     netCumuleCents += net;
     if (String(r.day) < llcStartDay) netRevolutCents += net;
     else netLlcCents += net;
@@ -1813,7 +1816,7 @@ async function buildTreasury(input: {
     const month = String(r.day).slice(0, 7);
     metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
     metaSpendByDay.set(String(r.day), (metaSpendByDay.get(String(r.day)) ?? 0) + spend);
-    cogsNetByDay.set(String(r.day), (cogsNetByDay.get(String(r.day)) ?? 0) + ((r.cogs_cents as number) ?? 0) + ((r.tax_cents as number) ?? 0));
+    cogsNetByDay.set(String(r.day), (cogsNetByDay.get(String(r.day)) ?? 0) + ((r.cogs_cents as number) ?? 0) + extra + ((r.tax_cents as number) ?? 0));
   }
   for (const day of listParisDays(TREASURY_START_DAY, untilDay)) {
     const fixed = fixedCostsCentsForDay(day);

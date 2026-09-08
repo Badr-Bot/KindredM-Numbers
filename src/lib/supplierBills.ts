@@ -233,3 +233,27 @@ export function supplierPayableCents(): number {
 export function supplierDisputedCents(): number {
   return SUPPLIER_BILLS.reduce((t, b) => t + (b.status === "payee" ? 0 : b.disputedCents), 0);
 }
+
+
+// ---------------------------------------------------------------------------
+// 🏭 ANCIEN FOURNISSEUR (avant Panda) — Badr 08/09.
+//
+// Jusqu'au 30/06, les commandes étaient produites par un autre fournisseur,
+// payé depuis le Revolut d'Adnane, environ 5 % plus cher que Panda (« remet
+// 5 % et pas 10 % »). Panda a commencé le 01/07. Le moteur COGS ne connaît que
+// les prix Panda : sur cette période, le coût réel est donc sous-estimé.
+//
+// Le surcoût est appliqué À LA LECTURE, jour par jour, partout où le COGS des
+// agrégats est lu (onglets, rapprochement, brief) — jamais réécrit en base :
+// une seule règle, un seul endroit, et on peut la retirer d'un trait. Tout
+// tombe avant le 14/07 : 100 % Adnane, le net de Badr ne bouge pas.
+// ---------------------------------------------------------------------------
+
+export const OLD_SUPPLIER_LAST_DAY = "2026-06-30";
+export const OLD_SUPPLIER_MARKUP = 0.05;
+
+/** Surcoût (centimes) à ajouter au COGS d'un jour donné — 0 dès le 01/07. */
+export function oldSupplierExtraCents(day: string, cogsCents: number): number {
+  if (day > OLD_SUPPLIER_LAST_DAY) return 0;
+  return Math.round(cogsCents * OLD_SUPPLIER_MARKUP);
+}
