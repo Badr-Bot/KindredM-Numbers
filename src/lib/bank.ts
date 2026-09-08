@@ -1670,6 +1670,7 @@ async function buildTreasury(input: {
   // est apparu (Badr 07/09 : « d'où sortent ces 13 000 € alors qu'avant y
   // avait pas ce trou ? »). Un total ne dit pas QUAND ; un mois, si.
   const metaSpendByMonth = new Map<string, number>();
+  const metaSpendByDay = new Map<string, number>();
   let netRevolutCents = 0;
   let netLlcCents = 0;
   for (const r of aggRows ?? []) {
@@ -1681,6 +1682,7 @@ async function buildTreasury(input: {
     metaSpendCents += spend;
     const month = String(r.day).slice(0, 7);
     metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
+    metaSpendByDay.set(String(r.day), (metaSpendByDay.get(String(r.day)) ?? 0) + spend);
   }
   for (const day of listParisDays(TREASURY_START_DAY, untilDay)) {
     const fixed = fixedCostsCentsForDay(day);
@@ -1711,8 +1713,39 @@ async function buildTreasury(input: {
 
   // 3) Ventilation depuis le début : ce que la banque voit et que le net ne
   //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
+  // 🏦 COGS de commandes de la période Revolut payés par la LLC : la première
+  // facture Panda réglée depuis Slash (Bill 20260801) commence à #4814, soit
+  // le 18/07 — trois jours AVANT le premier versement Shopify sur la LLC. Ces
+  // ventes ont été encaissées sur Revolut, mais c'est la LLC qui a payé Panda.
+  let cogsPreLlcPaidByLlcCents = 0;
+  // … et l'inverse : COGS de commandes de la PÉRIODE LLC (≥ coupure) mais
+  // AVANT la première facture payée par la LLC (< #4814) — réglés par la
+  // facture précédente, depuis le Revolut. La LLC les a déduits de son net
+  // sans jamais les payer.
+  let cogsLlcPaidByRevolutCents = 0;
+  try {
+    const firstLlcBill = SUPPLIER_BILLS[0];
+    if (firstLlcBill) {
+      const fromNumber = orderNumber(firstLlcBill.ordersFrom);
+      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(llcStartDay, -10));
+      for (const r of rows) {
+        const n = orderNumber(r.orderName);
+        const inFirstLlcBill = r.store === SUPPLIER_BILL_STORE ? n !== null && fromNumber !== null && n >= fromNumber : true;
+        if (r.day < llcStartDay) {
+          if (inFirstLlcBill) cogsPreLlcPaidByLlcCents += r.costCents;
+        } else if (r.day < firstLlcBill.issuedDay && !inFirstLlcBill) {
+          cogsLlcPaidByRevolutCents += r.costCents;
+        }
+      }
+    }
+  } catch {
+    // Sans cette lecture, la coupure reste possible mais moins précise (au
+    // pire ~3 600 € mal placés entre les deux périodes) — rien de bloquant.
+  }
+
   let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
   let transfersInCents = 0;
+  let llcCostsPaidByRevolut: NonNullable<TreasuryInput["llcSplit"]>["llcCostsPaidByRevolut"];
   let bigCredits: NonNullable<TreasuryInput["llcSplit"]>["bigCredits"] = [];
   let scanWarning: string | null = null;
   try {
@@ -1758,6 +1791,20 @@ async function buildTreasury(input: {
     const fxMeta = fx.filter((t) => t.feeOf === "META").reduce((a, t) => a + out(t), 0);
     const fxPerso = fx.filter((t) => t.feeOf === "PERSO").reduce((a, t) => a + out(t), 0);
     const fxAutre = fx.reduce((a, t) => a + out(t), 0) - fxMeta - fxPerso;
+    // Meta de la période LLC payé depuis le Revolut = spend enregistré depuis
+    // la coupure − ce que la LLC a réellement payé à Meta depuis la coupure
+    // (Meta facture en retard : ce qui manque n'a pas été payé par la LLC).
+    const metaSpendSinceCut = [...metaSpendByDay.entries()].filter(([d]) => d >= llcStartDay).reduce((a, [, c]) => a + c, 0);
+    const metaBankSinceCut = debits.filter((t) => t.category === "META" && t.day >= llcStartDay).reduce((a, t) => a + out(t), 0);
+    // Abonnements de la période LLC payés hors LLC = charges fixes depuis la
+    // coupure − débits d'abonnements vus en banque depuis la coupure.
+    const chargesSinceCut = listParisDays(llcStartDay, untilDay).reduce((a, d) => a + fixedCostsCentsForDay(d), 0);
+    const subsBankSinceCut = debits.filter((t) => t.category === "ABONNEMENT" && t.day >= llcStartDay).reduce((a, t) => a + out(t), 0);
+    llcCostsPaidByRevolut = {
+      metaCents: Math.max(metaSpendSinceCut - metaBankSinceCut, 0),
+      cogsCents: cogsLlcPaidByRevolutCents,
+      subsCents: Math.max(chargesSinceCut - subsBankSinceCut, 0),
+    };
     scan = {
       sinceDay: life.sinceDay,
       coversHistory: life.sinceDay <= TREASURY_START_DAY,
@@ -1781,33 +1828,12 @@ async function buildTreasury(input: {
     scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;
   }
 
-  // 🏦 COGS de commandes de la période Revolut payés par la LLC : la première
-  // facture Panda réglée depuis Slash (Bill 20260801) commence à #4814, soit
-  // le 18/07 — trois jours AVANT le premier versement Shopify sur la LLC. Ces
-  // ventes ont été encaissées sur Revolut, mais c'est la LLC qui a payé Panda.
-  let cogsPreLlcPaidByLlcCents = 0;
-  try {
-    const firstLlcBill = SUPPLIER_BILLS[0];
-    if (firstLlcBill) {
-      const fromNumber = orderNumber(firstLlcBill.ordersFrom);
-      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(llcStartDay, -10));
-      for (const r of rows) {
-        if (r.day >= llcStartDay) continue;
-        const n = orderNumber(r.orderName);
-        const covered = r.store === SUPPLIER_BILL_STORE ? n !== null && fromNumber !== null && n >= fromNumber : true;
-        if (covered) cogsPreLlcPaidByLlcCents += r.costCents;
-      }
-    }
-  } catch {
-    // Sans cette lecture, la coupure reste possible mais moins précise (au
-    // pire ~3 600 € mal placés entre les deux périodes) — rien de bloquant.
-  }
 
   const treasury = buildTreasuryBridge({
     netCumuleCents,
     llcSplit: aggErr
       ? undefined
-      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits },
+      : { llcStartDay, netRevolutCents, netLlcCents, cogsPreLlcPaidByLlcCents, transfersInCents, bigCredits, llcCostsPaidByRevolut },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
     supplierPrepaidCents: supplierPrepaidCents(),
