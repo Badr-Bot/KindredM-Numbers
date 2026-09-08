@@ -1291,14 +1291,17 @@ const PAYOUTS_QUERY = `{
 // #1132) — or aucun versement n'existe avant le 21/07 : l'argent de mai →
 // 20/07 n'est jamais passé par ces versements. La coupure est donc la
 // première vente couverte par un versement payé, pas la première vente.
-// Trié par DATE DE VERSEMENT (pas par date de vente) et SANS filtre `query` :
-// Shopify ignore silencieusement `query` sur cette connexion (constaté deux
-// fois le 08/09). Les premières lignes sont donc les ventes couvertes par le
-// tout premier versement payé — la plus ancienne d'entre elles est la
-// première vente encaissée par la société.
-const FIRST_TX_QUERY = `{
+// La boutique a eu DEUX comptes Shopify Payments : celui d'Adnane (ventes
+// versées dès le 05/05, #1132) puis celui de la société (premier versement
+// 21/07). `balanceTransactions` couvre les deux ; `payouts` ne liste que
+// ceux de la société. On ne retient donc que les ventes versées à partir du
+// premier versement de la société (`payout_date:>=…`), et la plus ancienne
+// d'entre elles est la première vente encaissée par la LLC. (Le filtre
+// `query` fonctionne, c'est la syntaxe des dates qui doit rester AAAA-MM-JJ :
+// une date ISO avec heure ne matche rien — constaté sur les versements.)
+const FIRST_TX_QUERY = `query FirstPaidTx($query: String!) {
   shopifyPaymentsAccount {
-    balanceTransactions(first: 40, sortKey: PAYOUT_DATE) {
+    balanceTransactions(first: 40, sortKey: PROCESSED_AT, query: $query) {
       edges { node { transactionDate type associatedOrder { name } associatedPayout { status } } }
     }
   }
@@ -1355,26 +1358,7 @@ async function fetchShopifyPayouts(): Promise<{
       }
       const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
       markets.push(config.market);
-      // Première transaction du compte (best effort : son absence ne retire
-      // rien aux versements).
-      try {
-        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
-          body: JSON.stringify({ query: FIRST_TX_QUERY }),
-        });
-        const j2 = (await r2.json()) as {
-          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
-        };
-        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
-          .map((e) => e.node)
-          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
-          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
-        const first = paid[0];
-        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
-      } catch {
-        // rien : la coupure retombe sur la constante
-      }
+
       if (edges.length === 0) warnings.push(`Versements Shopify ${config.market} : Shopify n'a renvoyé aucun versement.`);
       for (const { node } of edges) {
         const amount = Number(node.net?.amount);
@@ -1401,6 +1385,27 @@ async function fetchShopifyPayouts(): Promise<{
           currency: node.net.currencyCode,
         });
       }
+      // Première vente encaissée par la société — APRÈS la boucle : elle a
+      // besoin du plus ancien versement lu. (Best effort : son absence ne retire
+      // rien aux versements).
+      try {
+        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+          body: JSON.stringify({ query: FIRST_TX_QUERY, variables: { query: `payout_date:>=${oldestIssuedDay ?? since}` } }),
+        });
+        const j2 = (await r2.json()) as {
+          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
+        };
+        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
+          .map((e) => e.node)
+          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
+          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
+        const first = paid[0];
+        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
+      } catch {
+        // rien : la coupure retombe sur la constante
+      }
     } catch (err) {
       warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
     }
@@ -1415,7 +1420,7 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v6"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v7"], {
   revalidate: 900,
   tags: ["bank"],
 });
