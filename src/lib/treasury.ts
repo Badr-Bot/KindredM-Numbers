@@ -145,6 +145,8 @@ export interface TreasuryBridge {
 
 export interface TreasuryPeriods {
   llcStartDay: string;
+  /** Gros crédits non-Shopify (≥ 200 €) de tout l'historique. */
+  bigCredits: NonNullable<NonNullable<TreasuryInput["llcSplit"]>["bigCredits"]>;
   revolut: {
     /** Net gagné sur la période, charges déduites. */
     netCents: number;
@@ -205,6 +207,19 @@ export interface TreasuryInput {
    * démo ou si les agrégats manquent : on retombe sur le pont global seul.
    */
   llcSplit?: {
+    /** Jour de coupure réel (lu chez Shopify), sinon LLC_START_DAY. */
+    llcStartDay?: string;
+    /** Gros crédits non-Shopify de tout l'historique, pour voir d'où vient
+     * l'argent entré (apport Revolut ?) au lieu de le deviner. */
+    bigCredits?: {
+      day: string;
+      bank: string;
+      category: string;
+      currency: string;
+      amountCents: number;
+      amountEurCents: number;
+      description: string;
+    }[];
     /** Net (charges déduites) des jours AVANT LLC_START_DAY. */
     netRevolutCents: number;
     /** Net des jours DEPUIS LLC_START_DAY. */
@@ -338,7 +353,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
         : Math.min(Math.max(resteAvantRevolut, 0), PRE_LLC_RESIDUAL.cents);
   if (preLlcRevolutCents !== null && preLlcRevolutCents > 0) {
     gapLines.push({
-      label: periods ? "Période Revolut (avant le 21/07) — à justifier par Adnane" : PRE_LLC_RESIDUAL.label,
+      label: periods ? `Période Revolut (avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)}) — à justifier par Adnane` : PRE_LLC_RESIDUAL.label,
       cents: preLlcRevolutCents,
       detail: periods
         ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
@@ -432,7 +447,8 @@ function buildPeriods(
   // pas avant), donc ils expliquent l'écart LLC, pas l'écart Revolut.
   const explained = gapLines.reduce((t, l) => t + l.cents, 0);
   return {
-    llcStartDay: LLC_START_DAY,
+    llcStartDay: split.llcStartDay ?? LLC_START_DAY,
+    bigCredits: split.bigCredits ?? [],
     revolut: {
       netCents: split.netRevolutCents,
       cogsPaidByLlcCents: split.cogsPreLlcPaidByLlcCents,
