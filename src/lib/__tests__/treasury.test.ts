@@ -551,6 +551,17 @@ describe("périodes Revolut / LLC", () => {
     expect(avec.periods!.llc.unexplainedCents).toBe(sans.periods!.llc.unexplainedCents);
   });
 
+  it("une provision (Marwa pas encore payée) ne sort pas du Revolut : « doit rester » inchangé, « libre » réduit", () => {
+    const bal = [{ currency: "EUR", amountEurCents: 1000000 }];
+    const avec = buildTreasuryBridge({ ...base, llcSplit: { ...split, revolutProvisions: [{ label: "Marwa", cents: 120000 }] }, bankBalances: bal });
+    const sans = buildTreasuryBridge({ ...base, bankBalances: bal });
+    expect(avec.periods!.revolut.shouldRemainCents).toBe(sans.periods!.revolut.shouldRemainCents);
+    expect(avec.periods!.revolut.provisions.totalCents).toBe(120000);
+    expect(avec.periods!.revolut.freeCents).toBe(sans.periods!.revolut.shouldRemainCents - 120000);
+    expect(avec.preLlcRevolutCents).toBe(sans.preLlcRevolutCents);
+    expect(avec.gapLines.find((l) => l.label.startsWith("Doit rester sur le Revolut"))?.detail).toMatch(/Marwa 1[\s\u202f]200 €/);
+  });
+
   it("un apport Revolut → LLC réduit ce qu'Adnane doit justifier et gonfle l'attendu LLC", () => {
     const bal = [{ currency: "EUR", amountEurCents: 1000000 }];
     const avec = buildTreasuryBridge({ ...base, llcSplit: { ...split, transfersInCents: 1000000 }, bankBalances: bal });

@@ -101,6 +101,10 @@ export interface Subscription {
    * payer deux fois Adnane (une fois via le reliquat, une fois via le net).
    */
   horsNet?: boolean;
+  /** true = charge courue mais PAS ENCORE PAYÉE (Badr 08/09 : « on n'a pas
+   * payé Marwa encore ») : l'argent doit encore être sur le compte qui la
+   * paiera — une PROVISION, pas une sortie. */
+  unpaid?: boolean;
   note?: string;
 }
 
@@ -150,7 +154,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // LLC — c'est payé mais ça fait pas bouger le net » → HORS NET (horsNet) :
   // listée, mais ni dans le net ni dans les parts. Aucun débit LLC attendu ;
   // si un débit passe quand même sur Slash/Wise, il est affecté perso Adnane.
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: "2026-06-01", endDay: null, noBankClaim: true, horsNet: true, note: "Payée par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. 300 € chaque mois depuis juin (Badr 08/09). Un débit LLC éventuel est affecté perso Adnane automatiquement." },
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: "2026-06-01", endDay: null, noBankClaim: true, horsNet: true, unpaid: true, note: "À payer par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. 300 € chaque mois depuis juin, PAS ENCORE PAYÉE (Badr 08/09) : provision, l'argent doit encore être sur le Revolut. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
   // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
@@ -409,9 +413,19 @@ export function subsPaidOutOfPocketCentsBy(payer: "BADR" | "ADNANE", untilDay: s
  * jusqu'à `untilDay` : un prélèvement par jour de facturation. C'est ce qui
  * est sorti du Revolut hors compta — à retirer de ce qui doit y rester. */
 export function horsNetPaidUntil(untilDay: string): { label: string; cents: number; months: number }[] {
+  return horsNetAccruedUntil(untilDay, false);
+}
+
+/** Lignes HORS NET courues jusqu'à `untilDay` mais PAS ENCORE PAYÉES (Marwa,
+ * Badr 08/09) : une PROVISION — l'argent doit encore être sur le Revolut. */
+export function horsNetOwedUntil(untilDay: string): { label: string; cents: number; months: number }[] {
+  return horsNetAccruedUntil(untilDay, true);
+}
+
+function horsNetAccruedUntil(untilDay: string, unpaid: boolean): { label: string; cents: number; months: number }[] {
   const out: { label: string; cents: number; months: number }[] = [];
   for (const s of SUBSCRIPTIONS) {
-    if (!s.horsNet || untilDay < s.startDay) continue;
+    if (!s.horsNet || Boolean(s.unpaid) !== unpaid || untilDay < s.startDay) continue;
     let months = 0;
     for (const day of listParisDays(s.startDay, untilDay)) {
       if (s.endDay !== null && day > s.endDay) break;

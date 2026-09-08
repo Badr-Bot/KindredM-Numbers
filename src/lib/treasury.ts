@@ -174,6 +174,11 @@ export interface TreasuryPeriods {
     offBook: { items: { label: string; cents: number; note?: string }[]; totalCents: number };
     /** Ce qui doit rester sur le Revolut d'Adnane : à justifier − hors compta. */
     shouldRemainCents: number;
+    /** Dû mais pas encore payé depuis ce compte (Marwa) : une part de ce qui
+     * doit y rester est déjà promise. */
+    provisions: { items: { label: string; cents: number; note?: string }[]; totalCents: number };
+    /** Ce qui reste LIBRE à Adnane une fois les provisions payées. */
+    freeCents: number;
   };
   llc: {
     netCents: number;
@@ -263,6 +268,9 @@ export interface TreasuryInput {
     /** Sorti du Revolut HORS COMPTA (Marwa, TrendTrack, MacBook…) : ni dans
      * le net ni dans les parts, mais bien parti du compte. */
     revolutOffBook?: { label: string; cents: number; note?: string }[];
+    /** Couru mais PAS ENCORE PAYÉ depuis le Revolut (Marwa) : provision,
+     * l'argent doit encore y être. */
+    revolutProvisions?: { label: string; cents: number; note?: string }[];
   };
   scan: {
     sinceDay: string;
@@ -388,7 +396,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
       label: periods ? `Doit rester sur le Revolut d'Adnane (période avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)})` : PRE_LLC_RESIDUAL.label,
       cents: preLlcRevolutCents,
       detail: periods
-        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} + CA d'après la coupure encaissé par l'ancien compte ${eur(periods.revolut.caOldAccountCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)} = à justifier ${eur(periods.revolut.toJustifyCents)} − sorti hors compta ${eur(periods.revolut.offBook.totalCents)} (${periods.revolut.offBook.items.map((l) => `${l.label} ${eur(l.cents)}`).join(", ") || "rien"}). C'est ce qui doit être sur le Revolut d'Adnane aujourd'hui.`
+        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} + CA d'après la coupure encaissé par l'ancien compte ${eur(periods.revolut.caOldAccountCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)} = à justifier ${eur(periods.revolut.toJustifyCents)} − sorti hors compta ${eur(periods.revolut.offBook.totalCents)} (${periods.revolut.offBook.items.map((l) => `${l.label} ${eur(l.cents)}`).join(", ") || "rien"}). C'est ce qui doit être sur le Revolut d'Adnane aujourd'hui${periods.revolut.provisions.totalCents > 0 ? `, dont ${eur(periods.revolut.provisions.totalCents)} déjà dus (${periods.revolut.provisions.items.map((l) => `${l.label} ${eur(l.cents)}`).join(", ")})` : ""}.`
         : PRE_LLC_RESIDUAL.note,
     });
   }
@@ -490,6 +498,8 @@ function buildPeriods(
   const toJustifyCents = split.netRevolutCents + split.cogsPreLlcPaidByLlcCents + caOld - paidForLlcCents - split.transfersInCents;
   const offBook = split.revolutOffBook ?? [];
   const offBookCents = offBook.reduce((t, l) => t + l.cents, 0);
+  const provisions = split.revolutProvisions ?? [];
+  const provisionsCents = provisions.reduce((t, l) => t + l.cents, 0);
   return {
     llcStartDay: split.llcStartDay ?? LLC_START_DAY,
     bigCredits: split.bigCredits ?? [],
@@ -506,6 +516,8 @@ function buildPeriods(
       estimatedLeftCents: PRE_LLC_RESIDUAL.cents,
       offBook: { items: offBook, totalCents: offBookCents },
       shouldRemainCents: toJustifyCents - offBookCents,
+      provisions: { items: provisions, totalCents: provisionsCents },
+      freeCents: toJustifyCents - offBookCents - provisionsCents,
     },
     llc: {
       netCents: split.netLlcCents,

@@ -4,7 +4,7 @@ import { reconcilePayouts, type BankCredit, type PayoutReconciliation, type Shop
 import { unstable_cache } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
-import { fixedCostsCentsForDay, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { fixedCostsCentsForDay, horsNetOwedUntil, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
 import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
@@ -2034,6 +2034,9 @@ async function buildTreasury(input: {
             ...horsNetPaidUntil(input.untilDay).map((l) => ({ label: l.label, cents: l.cents, note: `${l.months} mois` })),
             ...REVOLUT_OFF_BOOK_ONE_OFFS,
           ],
+          // Couru mais pas encore payé (Marwa, Badr 08/09) : l'argent doit
+          // encore être sur le Revolut — provision, pas sortie.
+          revolutProvisions: horsNetOwedUntil(input.untilDay).map((l) => ({ label: l.label, cents: l.cents, note: `${l.months} mois` })),
         },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
