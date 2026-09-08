@@ -1172,6 +1172,11 @@ export interface BankReport {
   /** Première transaction encaissée par le compte Shopify Payments de la
    * société, par boutique — fixe la coupure Revolut / LLC. */
   payoutsStarts: PayoutsStart[];
+  /** Mois par mois et par devise : versé par Shopify vs crédité en banque.
+   * Un mois versé sans crédit = l'argent est allé sur un autre compte. */
+  payoutsByMonth: { month: string; currency: string; shopifyCents: number; bankCents: number; count: number }[];
+  /** Plus ancien versement renvoyé par l'API. */
+  payoutsOldestDay: string | null;
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
@@ -1301,12 +1306,18 @@ async function fetchShopifyPayouts(): Promise<{
   warnings: string[];
   /** Par boutique : première transaction encaissée par le compte de la LLC. */
   starts: PayoutsStart[];
+  /** Versements PAID/SCHEDULED par mois et devise, sur tout ce qui a été lu. */
+  history: { month: string; currency: string; paidCents: number; count: number }[];
+  /** Plus ancien versement lu (borne de ce que l'API a renvoyé). */
+  oldestIssuedDay: string | null;
 }> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   const payouts: ShopifyPayout[] = [];
   const markets: string[] = [];
   const warnings: string[] = [];
   const starts: PayoutsStart[] = [];
+  const history = new Map<string, { month: string; currency: string; paidCents: number; count: number }>();
+  let oldestIssuedDay: string | null = null;
   const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
   for (const config of getShopifyStoreConfigs()) {
     try {
@@ -1355,6 +1366,17 @@ async function fetchShopifyPayouts(): Promise<{
         const amount = Number(node.net?.amount);
         if (!Number.isFinite(amount) || !node.net?.currencyCode) continue;
         const issuedDay = toParisDay(node.issuedAt);
+        // Historique COMPLET des versements lus (jusqu'à 250), par mois et
+        // devise : dit quand Shopify a commencé à verser, et combien — à
+        // comparer aux crédits reçus en banque sur les mêmes mois.
+        if (!oldestIssuedDay || issuedDay < oldestIssuedDay) oldestIssuedDay = issuedDay;
+        if (node.status === "PAID" || node.status === "SCHEDULED") {
+          const k = `${issuedDay.slice(0, 7)}|${node.net.currencyCode}`;
+          const h = history.get(k) ?? { month: issuedDay.slice(0, 7), currency: node.net.currencyCode, paidCents: 0, count: 0 };
+          h.paidCents += Math.round(amount * 100);
+          h.count += 1;
+          history.set(k, h);
+        }
         if (issuedDay < since) continue;
         payouts.push({
           id: node.id,
@@ -1369,10 +1391,17 @@ async function fetchShopifyPayouts(): Promise<{
       warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
     }
   }
-  return { payouts, markets, warnings, starts };
+  return {
+    payouts,
+    markets,
+    warnings,
+    starts,
+    history: [...history.values()].sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency)),
+    oldestIssuedDay,
+  };
 }
 
-const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v3"], {
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v4"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1634,7 +1663,16 @@ async function buildTreasury(input: {
     const month = String(r.day).slice(0, 7);
     metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
   }
-  for (const day of listParisDays(TREASURY_START_DAY, untilDay)) netCumuleCents -= fixedCostsCentsForDay(day);
+  for (const day of listParisDays(TREASURY_START_DAY, untilDay)) {
+    const fixed = fixedCostsCentsForDay(day);
+    netCumuleCents -= fixed;
+    // La coupure porte les mêmes charges que le global, jour par jour — sinon
+    // les deux périodes additionnées ne retombent pas sur le net global
+    // (10 414 € d'écart constatés le 08/09 : les agrégats journaliers sont
+    // BRUTS de charges fixes).
+    if (day < llcStartDay) netRevolutCents -= fixed;
+    else netLlcCents -= fixed;
+  }
 
   // 2) Dette fournisseur : les commandes que Panda n'a pas encore facturées.
   //    Leur coût est déjà déduit du net mais l'argent est TOUJOURS en banque.
@@ -1679,8 +1717,11 @@ async function buildTreasury(input: {
     // 🔎 Tous les GROS crédits qui ne sont pas des versements Shopify, quelle
     // que soit leur catégorie (un apport Revolut peut être classé INTERNE si
     // le libellé cite la LLC) — pour voir d'où vient l'argent, pas deviner.
+    // Sans les mouvements internes Slash (remboursement quotidien de la carte,
+    // virements Slash → Wise, conversions) : ils ne sont pas de l'argent entré.
+    const interne = /daily\s*credit|kindredm|^converted\b|\bwise\b/i;
     bigCredits = life.txs
-      .filter((t) => t.amountCents > 0 && t.category !== "SHOPIFY" && (t.amountEurCents ?? 0) >= 20000)
+      .filter((t) => t.amountCents > 0 && t.category !== "SHOPIFY" && (t.amountEurCents ?? 0) >= 20000 && !interne.test(t.description))
       .sort((a, b) => (b.amountEurCents ?? 0) - (a.amountEurCents ?? 0))
       .slice(0, 25)
       .map((t) => ({ day: t.day, bank: t.bank, category: t.category, currency: t.currency, amountCents: t.amountCents, amountEurCents: t.amountEurCents ?? 0, description: t.description.slice(0, 80) }));
@@ -1832,6 +1873,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       payouts: null,
       payoutsMarkets: [],
       payoutsStarts: [],
+      payoutsByMonth: [],
+      payoutsOldestDay: null,
       reconciliation,
       control,
       warnings: [],
@@ -2031,11 +2074,32 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   let payouts: PayoutReconciliation | null = null;
   let payoutsMarkets: string[] = [];
   let payoutsStarts: PayoutsStart[] = [];
+  let payoutsByMonth: BankReport["payoutsByMonth"] = [];
+  let payoutsOldestDay: string | null = null;
   try {
     const fetched = fetchedPayouts;
     if (fetched) {
     payoutsMarkets = fetched.markets;
     payoutsStarts = fetched.starts;
+    payoutsOldestDay = fetched.oldestIssuedDay;
+    if (fetched.history.length > 0) {
+      // Crédits Shopify en banque, par mois et devise (tout l'historique lu).
+      const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+      const bank = new Map<string, number>();
+      for (const t of life.txs) {
+        if (t.category !== "SHOPIFY" || t.amountCents <= 0) continue;
+        const k = `${t.day.slice(0, 7)}|${t.currency}`;
+        bank.set(k, (bank.get(k) ?? 0) + t.amountCents);
+      }
+      const keys = new Set([...fetched.history.map((h) => `${h.month}|${h.currency}`), ...bank.keys()]);
+      payoutsByMonth = [...keys]
+        .map((k) => {
+          const [month, currency] = k.split("|");
+          const h = fetched.history.find((x) => x.month === month && x.currency === currency);
+          return { month, currency, shopifyCents: h?.paidCents ?? 0, bankCents: bank.get(k) ?? 0, count: h?.count ?? 0 };
+        })
+        .sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency));
+    }
     if (fetched.payouts.length > 0) {
       // Crédits de TOUT l'historique (même lecture que le rapprochement
       // trésorerie, déjà en cache) — pas la fenêtre de 30 jours du contrôle :
@@ -2070,6 +2134,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     payouts,
     payoutsMarkets,
     payoutsStarts,
+    payoutsByMonth,
+    payoutsOldestDay,
     reconciliation,
     control,
     warnings,
