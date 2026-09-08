@@ -152,6 +152,9 @@ export interface TreasuryPeriods {
     netCents: number;
     /** COGS de ses commandes que la LLC a payés à sa place. */
     cogsPaidByLlcCents: number;
+    /** Coûts de la période LLC réglés depuis le Revolut (sortis de chez
+     * Adnane, jamais des comptes LLC). */
+    paidForLlc: { metaCents: number; cogsCents: number; subsCents: number; totalCents: number };
     /** Ce qui est parti du Revolut vers la LLC (apports). */
     transfersToLlcCents: number;
     /** Ce que le Revolut devrait encore porter, ou avoir dépensé hors compta :
@@ -231,6 +234,10 @@ export interface TreasuryInput {
     /** Crédits reçus en banque qui ne sont ni Shopify ni internes : apports
      * (Revolut → LLC). Ils gonflent les comptes sans venir du net LLC. */
     transfersInCents: number;
+    /** Coûts de la PÉRIODE LLC payés depuis le Revolut (la LLC encaissait
+     * déjà, mais Meta / Panda / abonnements partaient encore du Revolut) :
+     * ils sont dans le net LLC sans être sortis des comptes LLC. */
+    llcCostsPaidByRevolut?: { metaCents: number; cogsCents: number; subsCents: number };
   };
   scan: {
     sinceDay: string;
@@ -356,7 +363,7 @@ export function buildTreasuryBridge(input: TreasuryInput): TreasuryBridge {
       label: periods ? `Période Revolut (avant le ${periods.llcStartDay.slice(8, 10)}/${periods.llcStartDay.slice(5, 7)}) — à justifier par Adnane` : PRE_LLC_RESIDUAL.label,
       cents: preLlcRevolutCents,
       detail: periods
-        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
+        ? `Net gagné avant la LLC ${eur(periods.revolut.netCents)} + COGS de cette période payés par la LLC ${eur(periods.revolut.cogsPaidByLlcCents)} − coûts LLC payés depuis le Revolut ${eur(periods.revolut.paidForLlc.totalCents)} − apports Revolut → LLC ${eur(periods.revolut.transfersToLlcCents)}. Cet argent devrait être sur le Revolut d'Adnane, ou en être sorti hors compta (Marwa, TrendTrack, MacBook…). Badr estime qu'il en reste ${eur(periods.revolut.estimatedLeftCents)}.`
         : PRE_LLC_RESIDUAL.note,
     });
   }
@@ -434,12 +441,17 @@ function buildPeriods(
   gapLines: TreasuryGapLine[]
 ): TreasuryPeriods {
   const prepaid = input.supplierPrepaidCents ?? 0;
+  const pfl = split.llcCostsPaidByRevolut ?? { metaCents: 0, cogsCents: 0, subsCents: 0 };
+  const paidForLlcCents = pfl.metaCents + pfl.cogsCents + pfl.subsCents;
+  // Les coûts LLC payés depuis le Revolut sont dans le net LLC mais ne sont
+  // jamais sortis des comptes LLC : ils y sont encore, on les rajoute.
   const cashTheoriqueCents =
     split.netLlcCents +
     input.supplierUnbilledCents +
     input.supplierOwedCents -
     prepaid -
     split.cogsPreLlcPaidByLlcCents +
+    paidForLlcCents +
     split.transfersInCents;
   const attenduEnBanqueCents = input.enRouteCents === null ? null : cashTheoriqueCents - input.enRouteCents;
   const gapCents = attenduEnBanqueCents === null || bankCents === null ? null : attenduEnBanqueCents - bankCents;
@@ -453,7 +465,10 @@ function buildPeriods(
       netCents: split.netRevolutCents,
       cogsPaidByLlcCents: split.cogsPreLlcPaidByLlcCents,
       transfersToLlcCents: split.transfersInCents,
-      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents - split.transfersInCents,
+      paidForLlc: { ...pfl, totalCents: paidForLlcCents },
+      // Ce qui devrait rester sur le Revolut : son net, plus ce que la LLC a
+      // payé à sa place, moins ce qu'il a payé pour la LLC, moins ses apports.
+      toJustifyCents: split.netRevolutCents + split.cogsPreLlcPaidByLlcCents - paidForLlcCents - split.transfersInCents,
       estimatedLeftCents: PRE_LLC_RESIDUAL.cents,
     },
     llc: {
