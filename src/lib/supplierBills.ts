@@ -157,6 +157,11 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     //     lieu de l'avoir, elles reviennent en plein tarif. Réexpéditions ou
     //     doublon, il faut qu'ils tranchent — et le numéro #6953 est en plus le
     //     mauvais (sur le 03/09, #6953 = CALECONx1+POLOx4, non repris ici).
+    //     VÉRIFIÉ DANS LE TRACKER DRIVE le 09/09 (fichier à jour au 08/09) :
+    //     AUCUNE trace de réexpédition — ni « Lenain », ni #6953/6954/6955/6981,
+    //     ni les trackings 0608650723xxxx. Le tracker s'arrête à #6577. Donc
+    //     rien ne documente une réexpédition : à ce stade c'est un doublon non
+    //     expliqué, et c'est à eux de prouver le contraire.
     //
     //   • 533,50 € de « size up change cost » RÉTROACTIF. La ligne couvre
     //     #4815→#7506, c'est-à-dire les DEUX factures déjà payées et soldées
@@ -193,7 +198,7 @@ export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
     label: "Colis groupé suisse : avoir demandé, RE-FACTURÉ à la place",
     estimatedCents: 16840,
-    note: "On demandait le regroupement de #6953/6954/6955/6981 (même client, MÊME tracking, 4 lignes livraison comprise pour UN colis). La facture du 09/09 fait l'inverse : les trois lignes #6954/#6955/#6981 y reviennent EN PLEIN TARIF (62,40 + 53,50 + 52,50 = 168,40 €), sous le numéro #6953 et avec de nouveaux trackings. Réexpéditions non annoncées ou doublon pur — à faire trancher avant paiement. Porté en `disputedCents` sur la facture 20260909.",
+    note: "On demandait le regroupement de #6953/6954/6955/6981 (même client, MÊME tracking, 4 lignes livraison comprise pour UN colis). La facture du 09/09 fait l'inverse : les trois lignes #6954/#6955/#6981 y reviennent EN PLEIN TARIF (62,40 + 53,50 + 52,50 = 168,40 €), sous le numéro #6953 et avec de nouveaux trackings. Vérifié dans le tracker Drive le 09/09 : AUCUNE réexpédition n'y est enregistrée pour ce client ni pour ces commandes (le tracker s'arrête à #6577). Donc doublon non expliqué jusqu'à preuve du contraire. Porté en `disputedCents` sur la facture 20260909.",
   },
   {
     label: "« Size up change cost » rétroactif (09/09)",
