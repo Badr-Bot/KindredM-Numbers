@@ -737,6 +737,42 @@ Seul point laissé ouvert : les 4 commandes suisses d'un même client dans un
 seul colis (#6953/6954/6955/6981, 203,15 €) n'ont pas été fusionnées — à
 réclamer en avoir sur la prochaine facture, pas de quoi retenir un paiement.
 
+## Mise à jour 09/09 — facture du 09/09 : la plage est nickel, 701,90 € à contester
+
+Nouvelle facture reçue (#7149 → #7506). **FINAL TOTAL 8 494,71 €.**
+
+**La partie commandes est la plus propre reçue à ce jour** : 358 lignes =
+358 commandes Shopify du 03 au 08/09, contiguës, sans doublon, et le
+recalcul moteur donne **7 710,05 € contre 7 710,01 € facturés — 4 centimes
+d'écart**.
+
+**Mais deux choses ne passent pas, 701,90 € :**
+
+1. **168,40 € re-facturés.** Trois lignes numérotées #6953 (Suisse,
+   Stephane Lenain) sont, au centime près, les lignes #6954/#6955/#6981
+   **déjà sur la facture du 03/09**. Ce sont exactement celles dont on
+   demandait le regroupement en avoir — elles reviennent en plein tarif,
+   avec de nouveaux trackings et un numéro de commande faux.
+2. **533,50 € de « size up change cost » rétroactif.** Nouvelle ligne de
+   616,30 € (0,10 €/polo) couvrant #4815 → #7506, donc les deux factures
+   déjà payées et celle du 03/09 déjà validée. Seuls 82,80 € concernent
+   les commandes de cette facture.
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée le 06/08 |
+| 20260814 | 12 064,41 € | ✅ payée le 14/08 |
+| 20260903 | 25 448,36 € | ⏳ à payer, rien de contesté |
+| **20260909** | **8 494,71 €** | **⏳ dont 701,90 € contestés → 7 792,81 € à régler** |
+
+**Bug trouvé chez nous au passage** : deux commandes sont facturées avec
+moins d'unités que Shopify n'en montre, et le fournisseur a raison — les
+lignes en question ont été retirées de la commande (`current_quantity` 0).
+Notre `shopify.ts` lit `quantity` au lieu de `current_quantity` : **82
+commandes, 254 unités comptées en trop dans le COGS depuis le 01/07**. Le
+net réel est donc un peu meilleur qu'affiché. Correctif non appliqué, à
+grouper avec les autres corrections en attente de resync.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

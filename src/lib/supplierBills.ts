@@ -137,6 +137,44 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
       "Reste ouvert, non bloquant : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) — à demander en avoir sur la prochaine facture, comme les 2 paires déjà corrigées. " +
       "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
+  {
+    ref: "Bill 20260909",
+    issuedDay: "2026-09-09",
+    ordersFrom: "#7149",
+    ordersTo: "#7506",
+    ordersCount: 358,
+    // FINAL TOTAL du fichier : 8 494,71 € = 7 878,41 € de lignes commandes
+    // + 616,30 € d'une ligne nouvelle, « size up change cost from (#4815-#7506),
+    // total 6163 pieces, cost is 616.3 euro » (0,10 € la pièce).
+    totalCents: 849471,
+    // CONTESTÉ = 701,90 €, deux motifs bien distincts :
+    //
+    //   • 168,40 € RE-FACTURÉS : trois lignes portant le numéro #6953 (Suisse,
+    //     Stephane Lenain — LSx3+SSx3 62,40 · SSx5 53,50 · LSx5 52,50) sont
+    //     bundle pour bundle et centime pour centime les lignes #6981, #6955 et
+    //     #6954 de la facture du 03/09, seuls les trackings changent. Ce sont
+    //     exactement les lignes dont on demandait le regroupement en avoir : au
+    //     lieu de l'avoir, elles reviennent en plein tarif. Réexpéditions ou
+    //     doublon, il faut qu'ils tranchent — et le numéro #6953 est en plus le
+    //     mauvais (sur le 03/09, #6953 = CALECONx1+POLOx4, non repris ici).
+    //
+    //   • 533,50 € de « size up change cost » RÉTROACTIF. La ligne couvre
+    //     #4815→#7506, c'est-à-dire les DEUX factures déjà payées et soldées
+    //     (« on part à zéro depuis les deux dernières bills », Badr 14/08) plus
+    //     celle du 03/09 déjà validée. Répartition à 0,10 €/polo, comptée sur
+    //     Shopify : 20260801 = 158,50 € · 20260814 = 122,00 € · 20260903 =
+    //     251,10 € · période courante = 82,80 €. Seuls ces 82,80 € portent sur
+    //     les commandes de CETTE facture ; les 533,50 € restants rouvrent des
+    //     factures closes. À noter aussi : ils comptent 6 163 pièces là où
+    //     Shopify en compte 6 144 sur la même plage (+19).
+    disputedCents: 70190,
+    status: "a_payer",
+    paidCents: 0,
+    note:
+      "Nouvelle plage #7149→#7506 (358 commandes du 03 au 08/09) : IRRÉPROCHABLE. Recalculée par le moteur, elle donne 7 710,05 € contre 7 710,01 € facturés — 4 CENTIMES d'écart. Croisée avec Shopify : 358 lignes = 358 commandes, contiguës, sans doublon, upsells au compte exact (124 unités). Les 2 seules différences de quantité (#7331 : 4 polos facturés sur 8 commandés · #7441 Mexique : 2 sur 3) sont JUSTES — dans les deux cas les autres lignes ont été retirées de la commande côté Shopify (current_quantity 0) ; c'est NOTRE base qui les compte encore. " +
+      "⚠️ Deux réserves, 701,90 € au total, détaillées en commentaire : 168,40 € de lignes suisses re-facturées (déjà sur la facture du 03/09) et 533,50 € de « size up change cost » rétroactif sur des factures déjà soldées. À régler hors contesté : 7 792,81 €. " +
+      "Le principe du « size up change cost » (0,10 €/polo) est la réponse à notre question du 04/09 sur les réexpéditions — discutable pour l'avenir (250 réexpéditions au tracker à ~7,25 € pièce coûteraient bien plus), mais pas applicable au passé.",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -153,14 +191,14 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Colis groupé suisse à re-tarifer (à demander)",
-    estimatedCents: 0,
-    note: "#6953/6954/6955/6981 (même client, MÊME tracking YT2624500709168612, 203,15 €) : 4 lignes livraison comprise pour UN seul colis. Le fournisseur a accepté ce raisonnement le 04/09 pour deux autres paires (#6919+#6917 et #6864+#6865, fusionnées et re-tarifées, −15,30 €) mais pas pour celle-ci. À réclamer en avoir sur la prochaine facture. Montant non estimé : c'est leur grille qui fixe le prix d'un colis groupé.",
+    label: "Colis groupé suisse : avoir demandé, RE-FACTURÉ à la place",
+    estimatedCents: 16840,
+    note: "On demandait le regroupement de #6953/6954/6955/6981 (même client, MÊME tracking, 4 lignes livraison comprise pour UN colis). La facture du 09/09 fait l'inverse : les trois lignes #6954/#6955/#6981 y reviennent EN PLEIN TARIF (62,40 + 53,50 + 52,50 = 168,40 €), sous le numéro #6953 et avec de nouveaux trackings. Réexpéditions non annoncées ou doublon pur — à faire trancher avant paiement. Porté en `disputedCents` sur la facture 20260909.",
   },
   {
-    label: "Reshipments : où sont-ils facturés ? (à demander)",
-    estimatedCents: 0,
-    note: "Le tracker Drive (NIVA_Reshipment_Tracker) liste ~250 réexpéditions, dont plusieurs notées « payed by niva » — mais AUCUNE ligne de reshipment n'apparaît sur les 3 factures : les trois sont des plages de commandes contiguës (une ligne = une commande Shopify), et la seule ligne hors commande jamais vue est le « custom packing » de 410 € du 14/08. Vérifié le 04/09 : les cas du tracker vont de #1003 à #5838, tous ANTÉRIEURS à cette facture, et les quantités facturées collent à Shopify à l'unité — donc rien n'est facturé deux fois. Reste à leur faire dire où passent les réexpéditions à notre charge (dans le « custom packing » ? gratuites ? sur un autre document ?).",
+    label: "« Size up change cost » rétroactif (09/09)",
+    estimatedCents: 53350,
+    note: "Réponse du fournisseur à notre question sur les réexpéditions : une ligne « size up change cost from (#4815-#7506), total 6163 pieces, cost is 616.3 euro » — 0,10 € par polo, appliquée à TOUT l'historique depuis la 1re facture du ledger. 82,80 € portent sur les commandes de la facture du 09/09 ; les 533,50 € restants rouvrent des factures déjà payées (20260801 : 158,50 € · 20260814 : 122,00 €) ou déjà validées (20260903 : 251,10 €). Le principe se discute pour l'AVENIR (250 réexpéditions au tracker à ~7,25 € pièce coûteraient bien plus que 0,10 €/polo) ; le rétroactif, non. Ils comptent aussi 6 163 pièces contre 6 144 polos dans Shopify sur la même plage.",
   },
 ];
 
