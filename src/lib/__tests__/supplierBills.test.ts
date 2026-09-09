@@ -34,12 +34,12 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("août est soldé ; restent les factures du 03/09 et du 09/09", () => {
-    expect(supplierOwedCents()).toBe(2544836 + 849471);
+  it("tout est soldé sauf la facture du 09/09", () => {
+    expect(supplierOwedCents()).toBe(849471);
     // Contesté sur la 09/09 : 168,40 € de lignes suisses re-facturées
     // + 533,50 € de « size up change cost » rétroactif.
     expect(supplierDisputedCents()).toBe(70190);
-    expect(supplierPayableCents()).toBe(2544836 + 849471 - 70190);
+    expect(supplierPayableCents()).toBe(849471 - 70190);
   });
 
   it("aucune facture ne peut être payée au-delà de son montant", () => {

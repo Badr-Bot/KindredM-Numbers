@@ -762,7 +762,7 @@ d'écart**.
 |---|---|---|
 | 20260801 | 14 279,96 € | ✅ payée le 06/08 |
 | 20260814 | 12 064,41 € | ✅ payée le 14/08 |
-| 20260903 | 25 448,36 € | ⏳ à payer, rien de contesté |
+| 20260903 | 25 448,36 € | ✅ payée (annonce Badr 09/09) |
 | **20260909** | **8 494,71 €** | **⏳ dont 701,90 € contestés → 7 792,81 € à régler** |
 
 **Bug trouvé chez nous au passage** : deux commandes sont facturées avec
