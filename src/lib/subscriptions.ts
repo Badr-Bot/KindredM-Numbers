@@ -48,15 +48,28 @@
 //     (montant inconnu), seul l'abonnement l'est.
 // ---------------------------------------------------------------------------
 
-import { badrFixedShareFor, oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "./associateLedger";
+import {
+  badrFixedShareFor,
+  badrNetLedgerCentsForDay,
+  oneOffBadrShareCentsForDay,
+  oneOffCostsCentsForDay,
+} from "./associateLedger";
+import { listParisDays } from "./time";
 export { badrFixedShareFor, CHARGES_SPLIT_START } from "./associateLedger";
 
+// 04/09 (Badr) : « pour ce qui est payé, le vrai taux ; pour l'argent qui dort,
+// le dernier taux de la journée » → les montants BANCAIRES (débits, soldes, en
+// route, cashback) suivent désormais la série Wise quotidienne (rates.ts).
+// Ce taux figé reste : (1) le repli quand la série manque, (2) la règle des
+// ESTIMATIONS — abonnements en USD étalés par jour et frais ponctuels saisis à
+// la main — qui ne sont pas des débits datés lus en banque et ne doivent pas
+// bouger après coup.
 export const USD_TO_EUR = 1 / 1.1539;
 
 /** Jours moyens par mois (365,25 ÷ 12) — pour l'étalement quotidien. */
 export const DAYS_PER_MONTH = 30.44;
 
-export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT";
+export type SubscriptionCategory = "OUTIL" | "APP_SHOPIFY" | "EQUIPE" | "CREDIT" | "FRAIS";
 
 export interface Subscription {
   label: string;
@@ -76,6 +89,22 @@ export interface Subscription {
   /** true = charge comptée mais PAS encore prélevée en banque (paiement
    * différé annoncé) : le contrôle bancaire ne la réclame pas. */
   noBankClaim?: boolean;
+  /** Part de Badr FIXÉE pour cette ligne (0 à 1), quand elle déroge à la
+   * règle par date (100 % Adnane avant le 14/07, 50/50 ensuite). */
+  badrShare?: number;
+  /**
+   * true = payé par Adnane DEPUIS SON REVOLUT, c'est-à-dire avec de l'argent
+   * de la société qu'il a DÉJÀ prélevé (reliquat pré-LLC, compté 100 % Adnane
+   * dans le rapprochement). Badr 06/09 : « c'est payé mais ça fait pas bouger
+   * le net ». La ligne reste listée (on sait qu'elle existe et qui la paie)
+   * mais elle n'entre NI dans le net NI dans les parts — la compter ferait
+   * payer deux fois Adnane (une fois via le reliquat, une fois via le net).
+   */
+  horsNet?: boolean;
+  /** true = charge courue mais PAS ENCORE PAYÉE (Badr 08/09 : « on n'a pas
+   * payé Marwa encore ») : l'argent doit encore être sur le compte qui la
+   * paiera — une PROVISION, pas une sortie. */
+  unpaid?: boolean;
   note?: string;
 }
 
@@ -119,11 +148,21 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Monteur", category: "EQUIPE", amount: 650, currency: "USD", startDay: START_DEFAULT, endDay: "2026-08-28", note: "Arrêté sur demande de Badr le 29/08 (« plus de monteur depuis aujourd'hui ») — dernier jour compté 28/08. Pause, pas suppression : à rouvrir quand il le dit." },
   // 19/08 (Badr) : « Marwa sera payée plus tard » → la charge court, mais le
   // contrôle bancaire ne la réclame pas tant que le paiement n'est pas fait.
-  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Paiement différé (Badr 19/08 : « sera payée plus tard »)." },
+  // Marwa : « son salaire est déjà pris par Adnane et sera payé depuis Revolut »
+  // (Badr 05/09), puis 06/09 : « paiement Revolut ça veut dire c'est Adnane qui
+  // paye et ça rentre pas dans les comptes, il a déjà pris de l'argent de la
+  // LLC — c'est payé mais ça fait pas bouger le net » → HORS NET (horsNet) :
+  // listée, mais ni dans le net ni dans les parts. Aucun débit LLC attendu ;
+  // si un débit passe quand même sur Slash/Wise, il est affecté perso Adnane.
+  { label: "Marwa", category: "EQUIPE", amount: 300, currency: "EUR", startDay: "2026-06-01", endDay: null, noBankClaim: true, horsNet: true, unpaid: true, note: "À payer par Adnane depuis son Revolut = avec l'argent société qu'il a déjà pris (Badr 06/09) : hors net, hors parts. 300 € chaque mois depuis juin, PAS ENCORE PAYÉE (Badr 08/09) : provision, l'argent doit encore être sur le Revolut. Un débit LLC éventuel est affecté perso Adnane automatiquement." },
   // Apps Shopify (boutique FR)
   { label: "SmartSize", category: "APP_SHOPIFY", amount: 287.49, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-08", note: "Résilié par Badr le 08/08 — dernier jour compté 08/08, plus de charge à partir du 09/08 (287 €/mois d'économie). Montant réel payé via Slash (249 $ affichés + taxes)." },
-  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "Hors frais d'utilisation variables (montant inconnu)" },
-  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null },
+  // Apps facturées PAR Shopify (sur la facture Shopify, elle-même couverte par
+  // les crédits Shopify — Badr 04/09 : « Moon Bundles etc. c'est payé
+  // directement par Shopify »). Comptées dans le net, mais AUCUN débit carte
+  // attendu : le contrôle bancaire ne les réclame pas.
+  { label: "CWILL (Parcel Panel)", category: "APP_SHOPIFY", amount: 59, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits). Hors frais d'utilisation variables (montant inconnu)." },
+  { label: "Moon Bundles", category: "APP_SHOPIFY", amount: 59.99, currency: "USD", startDay: START_DEFAULT, endDay: null, noBankClaim: true, note: "Facturée via Shopify (crédits) — Badr 04/09." },
   // Outils
   { label: "WeTracked", category: "OUTIL", amount: 160, currency: "USD", startDay: WETRACKED_START, endDay: null, note: "Démarré après les autres abonnements (Badr 08/08) — vraie date à préciser, 04/06 est une approximation." },
   // 29/08 (Badr) : « Klaviyo par contre est à 150 € par mois »… puis, à ma
@@ -174,7 +213,21 @@ export const SUBSCRIPTIONS: Subscription[] = [
   // voulait dire 18/08, il n'y a que ces deux dates à changer.
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "EUR", startDay: "2026-07-15", endDay: "2026-09-17", note: "1re facture (15/07) payée perso par Badr — tracée dans « Entre associés ». Factures suivantes (dès la 2e, 08/08) sur la carte LLC. Facturé en EUR jusqu'au 17/09." },
   { label: "Claude (Badr)", category: "OUTIL", amount: 100, currency: "USD", startDay: "2026-09-18", endDay: null, note: "Passage en dollar au 18/09 (Badr 29/08). Carte LLC." },
-  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, note: "Oublié du PDF d'Adnane — ajouté par Badr le 08/08" },
+  // TrendTrack : payé par Adnane DEPUIS SON REVOLUT (Badr 04/09) — c'est-à-dire
+  // avec l'argent de la société resté sur ce compte avant la LLC (reliquat
+  // ~1 265 € au 04/09, compté 100 % Adnane). Ni avance perso (pas de paidBy),
+  // ni charge dans le net (horsNet, règle Badr 06/09 : « paiement Revolut =
+  // ça rentre pas dans les comptes ») ; aucun débit LLC attendu.
+  // Meta — frais de paiement en dollars (Badr 08/09 : « les 16 € j'ai trouvé,
+  // c'est des fees, vu que je payais en dollars ») : débits Slash
+  // « FACEBK *xxxx fb.me/ads » de 16,80 $ tous les 2-3 jours tant que Meta
+  // était réglé par la carte Slash en USD. Aucun compte pub ne les porte,
+  // donc absents du spend et du net. « Essaye de l'absorber… étaler sur la
+  // durée du mois » → charge fixe MESURÉE (97,95 $ sur 12 jours = 248 $/mois),
+  // du premier débit vu (24/08) au dernier (04/09) : depuis le 03/09 Meta est
+  // payé depuis Wise en euros, plus aucun de ces frais.
+  { label: "Meta — frais de paiement en dollars", category: "FRAIS", amount: 248, currency: "USD", startDay: "2026-08-24", endDay: "2026-09-04", note: "Frais Meta sur les paiements en dollars par la carte Slash (16,80 $ tous les 2-3 jours, libellé FACEBK *… fb.me/ads). Mesuré 24/08 → 04/09 : 248 $/mois, étalé. Terminé le 04/09 : Meta est payé depuis Wise en euros (Badr 08/09)." },
+  { label: "TrendTrack", category: "OUTIL", amount: 25, currency: "EUR", startDay: START_DEFAULT, endDay: null, noBankClaim: true, horsNet: true, note: "Payé par Adnane depuis son Revolut = avec l'argent société pré-LLC qu'il a déjà pris (Badr 04/09 et 06/09) : hors net, hors parts. Oublié du PDF d'Adnane — ajouté par Badr le 08/08." },
   // 29/08 (Badr) : « Artlist à partir d'aujourd'hui à 40 $ par mois » —
   // démarre le 29/08, rien avant (+1,14 €/j).
   { label: "Artlist", category: "OUTIL", amount: 40, currency: "USD", startDay: "2026-08-29", endDay: null, note: "Ajouté par Badr le 29/08, à partir de ce jour." },
@@ -192,7 +245,21 @@ export const SUBSCRIPTIONS: Subscription[] = [
   { label: "Vmake (nouveau tarif)", category: "OUTIL", amount: 9.99, currency: "EUR", startDay: "2026-08-14", endDay: null, note: "Même outil que la ligne 8,80 € ci-dessous, fermée au 13/08 (Badr 20/08 : « c'est le même outil »). Tarif passé à 9,99 € le 14/08 (« on le prend à partir d'aujourd'hui »)." },
   { label: "Master Ecom (Skool)", category: "OUTIL", amount: 249, currency: "USD", startDay: "2026-07-26", endDay: null, note: "Communauté/formation rejointe le 26/07 (Badr 08/08)." },
   { label: "Vmake (ancien tarif)", category: "OUTIL", amount: 8.8, currency: "EUR", startDay: START_DEFAULT, endDay: "2026-08-13", note: "Fermée au 13/08 : même outil que « Vmake (nouveau tarif) » qui prend le relais à 9,99 € le 14/08 (Badr 20/08). Comptée jusque-là — c'est ce qui a réellement été payé." },
-  { label: "Google Workspace", category: "OUTIL", amount: 8.1, currency: "EUR", startDay: START_DEFAULT, endDay: null },
+  // Google One : payé de sa poche par Badr, 1,99 €/mois (Badr 01/09 puis
+  // 06/09, en parlant d'août : « y a 2 € de Google One que je paye »). Était
+  // saisi en trois frais ponctuels — devenu un abonnement pour que le dû
+  // d'Adnane se calcule tout seul chaque mois. Départ 01/07 : trois débits
+  // constatés (juillet, août, septembre), le jour exact n'a pas été donné.
+  { label: "Google One", category: "OUTIL", amount: 1.99, currency: "EUR", startDay: "2026-07-01", endDay: null, paidBy: "BADR", note: "Payé perso par Badr, 1,99 €/mois. Sa moitié lui est due par Adnane, comptée au jour le jour. Date de départ approximative (3 débits constatés au 01/09)." },
+  { label: "Google Workspace", category: "OUTIL", amount: 11.3, currency: "USD", startDay: START_DEFAULT, endDay: null, note: "11,30 $/mois — montant réel lu sur Slash (débit du 02/09). L'ancienne valeur (8,10 €) faisait crier « 10 € débités vs 8 € attendus » à chaque contrôle." },
+  // 04/09 — FRAIS DE CHANGE SLASH : Meta facture en euros, la carte Slash paie
+  // en dollars, et Slash prend ~1 % de « Foreign Transaction Fee » sur chaque
+  // débit. Relevé par Badr le 04/09 : 866 $ sur 39 lignes quotidiennes (≈ 27/07
+  // → 03/09). Étalé sur cette période pour que chaque mois porte SA part :
+  // 659 $/mois × 40 j ÷ 30,44 ≈ 866 $. CLOS le 04/09 : Badr a branché Wise (EUR)
+  // sur Meta ce jour-là — plus aucun frais attendu. S'il en repasse, le
+  // rapprochement trésorerie les ressort comme écart neuf (NET_BOOKED_BANK_FEES_UNTIL).
+  { label: "Frais de change Slash (Meta payé en USD)", category: "FRAIS", amount: 659, currency: "USD", startDay: "2026-07-27", endDay: "2026-09-04", noBankClaim: true, note: "866 $ de « Foreign Transaction Fee » relevés sur Slash le 04/09, étalés du 27/07 au 04/09. Arrêté le 04/09 : Meta est désormais payé depuis Wise en euros (Badr). La date de début (27/07) est déduite du nombre de lignes, pas lue." },
   // Crédit d'abonnement (−88 €, Adnane) : RETIRÉ le 08/08. Badr a clarifié
   // qu'il ne finance QUE l'abonnement Shopify de base (le plan Shopify
   // lui-même) — un poste qu'on ne compte pas du tout ici — jamais les apps
@@ -233,8 +300,17 @@ export function isActiveOn(s: Subscription, day: string): boolean {
  */
 export function fixedCostsCentsForDay(day: string): number {
   let total = oneOffCostsCentsForDay(day);
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) total += dailyEurCents(s);
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day) && countsInNet(s)) total += dailyEurCents(s);
   return total;
+}
+
+/**
+ * Une ligne pèse-t-elle sur le net ? Tout, sauf ce qui est payé depuis le
+ * Revolut d'Adnane avec de l'argent société déjà prélevé (Badr 06/09) : ces
+ * lignes sont listées dans Dépenses pour mémoire, jamais déduites.
+ */
+export function countsInNet(s: Subscription): boolean {
+  return !s.horsNet;
 }
 
 /**
@@ -244,9 +320,120 @@ export function fixedCostsCentsForDay(day: string): number {
  * pour sommer au centime.
  */
 export function badrFixedCostsCentsForDay(day: string): number {
-  let subs = 0;
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) subs += dailyEurCents(s);
-  return Math.round(subs * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
+  // Les lignes hors net (Revolut Adnane) ne pèsent sur personne.
+  //
+  // ⚠️ UN SEUL ARRONDI PAR JOUR sur les lignes à règle ordinaire (Badr 06/09).
+  // Arrondir chaque ligne séparément faisait 20 arrondis par jour, tous au
+  // demi-centime supérieur, donc TOUJOURS à la charge de Badr : ~3 €/mois
+  // d'écart entre les deux parts que rien ne justifiait, et que Badr a vu.
+  // On somme d'abord, on arrondit une seule fois ensuite. Les lignes à part
+  // FIXÉE (badrShare, ex. une charge portée par un seul associé) gardent leur
+  // arrondi propre : leur part n'est pas la moitié d'un total commun.
+  let communCents = 0;
+  let badr = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (!isActiveOn(s, day) || !countsInNet(s)) continue;
+    if (s.badrShare === undefined) communCents += dailyEurCents(s);
+    else badr += Math.round(dailyEurCents(s) * s.badrShare);
+  }
+  return badr + Math.round(communCents * badrFixedShareFor(day)) + oneOffBadrShareCentsForDay(day);
+}
+
+/**
+ * SOLDE ENTRE ASSOCIÉS d'un jour, TOUT COMPRIS (centimes ; positif = Adnane
+ * doit à Badr). C'est LA fonction à appeler : elle additionne les avances
+ * ponctuelles d'associateLedger.ts (frais LLC, Google One, transferts,
+ * factures) et les abonnements qu'UNE seule personne paie de sa poche.
+ *
+ * Pourquoi les abonnements comptent AU JOUR LE JOUR (Badr 06/09, « ça marche
+ * pas ton truc ») : Hushed est payé par Adnane tous les mois, mais le dû ne
+ * remontait que par les factures saisies à la main (juillet, août). En
+ * septembre plus personne ne le créditait, et l'écart entre les deux parts
+ * repartait dans le mauvais sens. La charge court chaque jour : le dû aussi.
+ * Plus rien à ressaisir chaque mois.
+ */
+export function badrLedgerCentsForDay(day: string): number {
+  return badrNetLedgerCentsForDay(day) + paidBySubsLedgerCentsForDay(day);
+}
+
+/**
+ * Jour de PRÉLÈVEMENT d'un abonnement : le même quantième que son premier
+ * jour, chaque mois (le 31 tombe au dernier jour des mois plus courts).
+ *
+ * ⚠️ La CHARGE, elle, reste étalée jour par jour — c'est la convention du
+ * fichier. Ici on parle d'argent qui sort d'une poche : ça arrive en une
+ * fois. Étaler la dette donnait un écart entre associés qui montait tout le
+ * mois (1 € le 6 septembre au lieu de 6 €) et ne retombait jamais sur le vrai
+ * montant (7,99 € ÷ 30,44 × 31 jours ≠ 7,99 €). Badr, 06/09 : « Adnane doit
+ * me dépasser de 6 € sur septembre et août ».
+ */
+export function isBillingDay(s: Subscription, day: string): boolean {
+  if (!isActiveOn(s, day)) return false;
+  const quantieme = Number(s.startDay.slice(8, 10));
+  const [y, m, d] = day.split("-").map(Number);
+  const dernierDuMois = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  return d === Math.min(quantieme, dernierDuMois);
+}
+
+/** Part de l'AUTRE sur les abonnements qu'un associé paie seul, pour un jour
+ * (positif = Adnane doit à Badr). Le MOIS ENTIER tombe le jour du
+ * prélèvement — jamais la part du payeur, elle est déjà à sa charge via
+ * badrFixedCostsCentsForDay. */
+export function paidBySubsLedgerCentsForDay(day: string): number {
+  let net = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (!s.paidBy || !countsInNet(s) || !isBillingDay(s, day)) continue;
+    const badrShare = s.badrShare ?? badrFixedShareFor(day);
+    const cents = monthlyEurCents(s);
+    net +=
+      s.paidBy === "BADR"
+        ? Math.round(cents * (1 - badrShare))
+        : -Math.round(cents * badrShare);
+  }
+  return net;
+}
+
+/** Ce qu'un associé a réellement sorti de sa poche en ABONNEMENTS depuis le
+ * début, cumulé jusqu'à `untilDay` — le pendant « factures » des lignes
+ * paidBy, pour le bloc « Entre associés ». Compte les prélèvements passés,
+ * pas des jours : c'est de l'argent réellement débité. */
+export function subsPaidOutOfPocketCentsBy(payer: "BADR" | "ADNANE", untilDay: string): number {
+  let total = 0;
+  for (const s of SUBSCRIPTIONS) {
+    if (s.paidBy !== payer || !countsInNet(s)) continue;
+    if (untilDay < s.startDay) continue;
+    for (const day of listParisDays(s.startDay, untilDay)) {
+      if (isBillingDay(s, day)) total += monthlyEurCents(s);
+    }
+  }
+  return total;
+}
+
+/** Lignes HORS NET (payées depuis le Revolut d'Adnane) réellement débitées
+ * jusqu'à `untilDay` : un prélèvement par jour de facturation. C'est ce qui
+ * est sorti du Revolut hors compta — à retirer de ce qui doit y rester. */
+export function horsNetPaidUntil(untilDay: string): { label: string; cents: number; months: number }[] {
+  return horsNetAccruedUntil(untilDay, false);
+}
+
+/** Lignes HORS NET courues jusqu'à `untilDay` mais PAS ENCORE PAYÉES (Marwa,
+ * Badr 08/09) : une PROVISION — l'argent doit encore être sur le Revolut. */
+export function horsNetOwedUntil(untilDay: string): { label: string; cents: number; months: number }[] {
+  return horsNetAccruedUntil(untilDay, true);
+}
+
+function horsNetAccruedUntil(untilDay: string, unpaid: boolean): { label: string; cents: number; months: number }[] {
+  const out: { label: string; cents: number; months: number }[] = [];
+  for (const s of SUBSCRIPTIONS) {
+    if (!s.horsNet || Boolean(s.unpaid) !== unpaid || untilDay < s.startDay) continue;
+    let months = 0;
+    for (const day of listParisDays(s.startDay, untilDay)) {
+      if (s.endDay !== null && day > s.endDay) break;
+      if (isBillingDay(s, day)) months += 1;
+    }
+    if (months > 0) out.push({ label: s.label, cents: months * monthlyEurCents(s), months });
+  }
+  return out;
 }
 
 // NB : le tracé « ce que Badr a réellement sorti de sa poche » ne se déduit
@@ -262,7 +449,7 @@ export function subscriptionTotals(day: string): {
   yearlyCents: number;
 } {
   let monthly = 0;
-  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day)) monthly += monthlyEurCents(s);
+  for (const s of SUBSCRIPTIONS) if (isActiveOn(s, day) && countsInNet(s)) monthly += monthlyEurCents(s);
   return {
     monthlyCents: monthly,
     dailyCents: Math.round(monthly / DAYS_PER_MONTH),

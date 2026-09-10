@@ -7,7 +7,14 @@ import type { MarketTab } from "@/lib/markets";
 import { formatDayShort, formatEur0, formatEurSigned0, formatMonthLabel, formatPct } from "@/lib/format";
 import { MarketTabs } from "../shell/MarketTabs";
 import { useSound } from "../sound/SoundProvider";
-import { SUBSCRIPTIONS, fixedCostsCentsForDay, isActiveOn, monthlyEurCents, subscriptionTotals } from "@/lib/subscriptions";
+import {
+  SUBSCRIPTIONS,
+  fixedCostsCentsForDay,
+  isActiveOn,
+  monthlyEurCents,
+  subsPaidOutOfPocketCentsBy,
+  subscriptionTotals,
+} from "@/lib/subscriptions";
 import {
   SUPPLIER_BILLS,
   SUPPLIER_NAME,
@@ -300,9 +307,12 @@ export function ExpenseBoard({
                       <td className={`py-1 pr-2 ${alerte ? "text-red" : ""}`}>
                         {sub.label}
                         {alerte && " ⚠️"}
+                        {sub.horsNet && (
+                          <span className="ml-1 text-[10px] text-ink-faint">· Revolut Adnane, hors net</span>
+                        )}
                       </td>
                       <td className="py-1 pr-2 text-ink-faint">
-                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit" }[sub.category]}
+                        {{ EQUIPE: "Équipe", APP_SHOPIFY: "App Shopify", OUTIL: "Outil", CREDIT: "Crédit", FRAIS: "Frais bancaires" }[sub.category]}
                       </td>
                       <td className={`tnum py-1 pr-2 text-right ${m < 0 ? "text-phosphor" : ""}`}>{formatEurSigned0(m).replace("+", "")}</td>
                       <td className="tnum py-1 pr-2 text-right text-ink-faint">{(m / 3044).toFixed(2).replace(".", ",")}</td>
@@ -316,7 +326,9 @@ export function ExpenseBoard({
         <p className="mt-2 text-[10px] leading-snug text-ink-faint">
           Déduites du net GLOBAL jour par jour (~{(subscriptionTotals(historyEnd).dailyCents / 100).toFixed(0)} €/j) —
           les cartes par pays et par produit restent hors charges. Partage : 100 % Adnane
-          avant le 14/07, 50/50 ensuite. SmartSize : résilié le 08/08 (Badr) — compté
+          avant le 14/07, 50/50 ensuite. « Revolut Adnane, hors net » (Marwa, TrendTrack) :
+          payé par Adnane avec l&apos;argent société qu&apos;il a déjà pris — listé, jamais
+          déduit du net ni des parts (Badr 06/09). SmartSize : résilié le 08/08 (Badr) — compté
           jusqu&apos;au 08/08 inclus, plus de charge à partir du 09/08. Jeremy/Seif : fixe seul,
           commission oubliée pour le moment (Badr 08/08) — comptés depuis leurs vraies
           dates (16/07 tous les deux) et tous deux ARRÊTÉS : Seif au 16/08 (« ne sera pas
@@ -330,10 +342,19 @@ export function ExpenseBoard({
       <section className="rounded-lg border border-line bg-panel/40 p-3.5">
         <div className="mb-1 text-sm font-semibold">🤝 Entre associés — ce que chacun a avancé</div>
         {(() => {
+          // Les abonnements payés de sa poche (paidBy) comptent au jour le
+          // jour, pas en factures saisies à la main : sinon un mois sans
+          // saisie fait disparaître le dû (Badr 06/09).
           const badrTotal =
-            oneOffTotalCentsBy("BADR") + transfersTotalCentsFrom("BADR") + subPaymentsTotalCentsBy("BADR");
+            oneOffTotalCentsBy("BADR") +
+            transfersTotalCentsFrom("BADR") +
+            subPaymentsTotalCentsBy("BADR") +
+            subsPaidOutOfPocketCentsBy("BADR", historyEnd);
           const adnaneTotal =
-            oneOffTotalCentsBy("ADNANE") + transfersTotalCentsFrom("ADNANE") + subPaymentsTotalCentsBy("ADNANE");
+            oneOffTotalCentsBy("ADNANE") +
+            transfersTotalCentsFrom("ADNANE") +
+            subPaymentsTotalCentsBy("ADNANE") +
+            subsPaidOutOfPocketCentsBy("ADNANE", historyEnd);
           return (
             <>
               <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
@@ -372,6 +393,21 @@ export function ExpenseBoard({
                         </td>
                         <td className="py-1 pr-2">{t.from === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
                         <td className="tnum py-1 text-right">{formatEur0(t.eurCents)}</td>
+                      </tr>
+                    ))}
+                    {SUBSCRIPTIONS.filter((sub) => sub.paidBy && isActiveOn(sub, historyEnd)).map((sub) => (
+                      <tr key={`paidby-${sub.label}`} className="border-b border-hair/50">
+                        <td className="py-1 pr-2 tnum text-ink-faint">au jour le jour</td>
+                        <td className="py-1 pr-2">
+                          {sub.label}{" "}
+                          <span className="text-ink-faint">
+                            (abonnement payé de sa poche, cumulé depuis le {formatDayShort(sub.startDay)})
+                          </span>
+                        </td>
+                        <td className="py-1 pr-2">{sub.paidBy === "BADR" ? "🟠 Badr" : "🔵 Adnane"}</td>
+                        <td className="tnum py-1 text-right">
+                          {formatEur0(subsPaidOutOfPocketCentsBy(sub.paidBy as "BADR" | "ADNANE", historyEnd))}
+                        </td>
                       </tr>
                     ))}
                     {SUB_PAYMENTS.map((p, i) => (

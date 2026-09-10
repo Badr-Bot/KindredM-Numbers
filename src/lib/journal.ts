@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+import { DASHBOARD_TAG } from "./cacheTags";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "./supabase";
 import { addDaysToDay, todayParisDay } from "./time";
@@ -34,7 +36,7 @@ export const EVENT_TYPE_META: Record<EventType, { emoji: string; label: string }
   autre: { emoji: "📌", label: "Autre" },
 };
 
-export async function getJournalEvents(): Promise<{ events: JournalEvent[]; ready: boolean }> {
+async function getJournalEventsUncached(): Promise<{ events: JournalEvent[]; ready: boolean }> {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from("events")
@@ -53,6 +55,17 @@ export async function getJournalEvents(): Promise<{ events: JournalEvent[]; read
     ready: true,
   };
 }
+
+/**
+ * Cache 5 min, invalidé par la synchro (DASHBOARD_TAG) : le journal est relu
+ * à chaque affichage de l'onglet Analyse alors qu'il ne change qu'au rythme
+ * des événements détectés. Un aller-retour de moins par navigation (Badr
+ * 07/09 : « fais-le pour tous les onglets qu'il n'y ait pas de lenteur »).
+ */
+export const getJournalEvents = unstable_cache(getJournalEventsUncached, ["journal-events-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});
 
 /**
  * Détection automatique d'événements depuis meta_spend (10 derniers jours) :

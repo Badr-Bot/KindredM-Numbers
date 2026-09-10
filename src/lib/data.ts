@@ -10,6 +10,9 @@ import {
   type RoasStatus,
 } from "./engine";
 import { cache as reactCache } from "react";
+import { unstable_cache } from "next/cache";
+import { DASHBOARD_TAG, HISTORY_TAG, frozenEndDay } from "./cacheTags";
+import { oldSupplierExtraCents } from "./supplierBills";
 import { MARKETS, type MarketTab } from "./markets";
 import { addDaysToDay, listParisDays, todayParisDay } from "./time";
 import { fixedCostsCentsForDay } from "./subscriptions";
@@ -121,7 +124,48 @@ export async function referenceToday(): Promise<string> {
  * navigation, d'où des changements d'onglet très lents. Une seule lecture
  * désormais, partagée par tout le rendu.
  */
-export const fetchDailyRows = reactCache(fetchDailyRowsUncached);
+export const fetchDailyRows = reactCache(async (startDay: string, endDay: string) => {
+  // En démo, aucun aller-retour réseau : le cache persistant n'apporterait
+  // rien et figerait des données déjà locales.
+  if (getDataMode() !== "live") return fetchDailyRowsUncached(startDay, endDay);
+  const cut = frozenEndDay(await referenceToday());
+  // Plage entièrement dans le passé, ou entièrement dans la fenêtre chaude :
+  // une seule lecture, dans le bon cache.
+  if (endDay <= cut) return fetchDailyRowsFrozen(startDay, endDay);
+  if (startDay > cut) return fetchDailyRowsHot(startDay, endDay);
+  // À cheval : le passé sort du cache long, seuls les 8 derniers jours sont
+  // vraiment relus. Les lignes sont triées par jour, donc concaténer suffit.
+  const [passe, recent] = await Promise.all([
+    fetchDailyRowsFrozen(startDay, cut),
+    fetchDailyRowsHot(addDaysToDay(cut, 1), endDay),
+  ]);
+  return [...passe, ...recent];
+});
+
+/**
+ * Caches PERSISTANTS (entre requêtes) des agrégats journaliers — Badr 07/09 :
+ * « pourquoi on a beaucoup de temps quand je passe d'un onglet à un autre »,
+ * puis « enregistrer ce qui s'est déjà passé les jours d'avant et relire que
+ * le jour J ». Chaque onglet relisait TOUT l'historique à chaque navigation.
+ *
+ * Deux caches, parce que les deux moitiés n'ont pas la même durée de vie :
+ *  • le passé (≤ J-8) ne sera plus jamais réécrit → 24 h, et une synchro
+ *    ordinaire ne le jette PAS (étiquette HISTORY_TAG, vidée seulement par la
+ *    clôture de nuit et un backfill) ;
+ *  • la fenêtre encore réécrite (J-7 → aujourd'hui) → 60 s, et surtout vidée
+ *    par chaque synchro qui a écrit (DASHBOARD_TAG). Jamais de chiffre périmé
+ *    après une synchro : la condition de Badr du 05/09 (« que ça m'annonce
+ *    pas un bénéfice et une fois ça s'actualise une perte »).
+ */
+const fetchDailyRowsFrozen = unstable_cache(fetchDailyRowsUncached, ["daily-rows-frozen-v1"], {
+  revalidate: 86400,
+  tags: [HISTORY_TAG],
+});
+
+const fetchDailyRowsHot = unstable_cache(fetchDailyRowsUncached, ["daily-rows-hot-v1"], {
+  revalidate: 60,
+  tags: [DASHBOARD_TAG],
+});
 
 /**
  * Âge RÉEL des chiffres = horodatage de la dernière synchro allée au bout
@@ -154,6 +198,30 @@ export const lastSyncAt = reactCache(async (): Promise<string | null> => {
   }
 });
 
+/**
+ * « Cette colonne existe-t-elle ? », demandé UNE fois par process et par
+ * colonne. Sélectionner une colonne absente fait échouer toute la requête
+ * PostgREST, d'où ces sondes ; les refaire à chaque lecture coûtait deux
+ * allers-retours pour une réponse qui ne change jamais à chaud.
+ */
+const columnProbes = new Map<string, Promise<boolean>>();
+export function columnExists(table: string, column: string): Promise<boolean> {
+  const key = `${table}.${column}`;
+  const known = columnProbes.get(key);
+  if (known) return known;
+  const probe = (async () => {
+    const { createSupabaseServerClient } = await import("./supabase");
+    const { error } = await createSupabaseServerClient().from(table).select(column).limit(1);
+    return !error;
+  })();
+  // Une sonde en échec réseau ne doit pas figer un « non » définitif.
+  probe.then((ok) => {
+    if (!ok) columnProbes.delete(key);
+  });
+  columnProbes.set(key, probe);
+  return probe;
+}
+
 async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise<DailyRow[]> {
   const mode = getDataMode();
 
@@ -171,12 +239,17 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
   // 0010 — sélectionner une colonne inexistante ferait échouer TOUTE la
   // requête (PostgREST), donc on sonde une fois avant de les inclure (même
   // filet que acquisitionColumnsReady côté écriture).
-  const { error: probeError } = await supabase.from("daily_aggregates").select("cogs_product_cents").limit(1);
-  const hasCogsSplit = !probeError;
-  // Ventilation des frais (migration 0013) : sert à distinguer les frais
-  // RÉELS (ventilés processing/fx/autres) du repli 3 % (aucune ventilation).
-  const { error: feeProbeError } = await supabase.from("daily_aggregates").select("fee_processing_cents").limit(1);
-  const hasFeeBreakdown = !feeProbeError;
+  // Deux sondes = deux allers-retours Supabase sur CHAQUE lecture. Une
+  // colonne n'apparaît ni ne disparaît en cours de vie du process : la
+  // réponse est mémoïsée pour tout le process (Badr 07/09, lenteur des
+  // changements d'onglet). Un déploiement redémarre le process, donc une
+  // migration est prise en compte sans rien vider à la main.
+  const [hasCogsSplit, hasFeeBreakdown] = await Promise.all([
+    columnExists("daily_aggregates", "cogs_product_cents"),
+    // Ventilation des frais (migration 0013) : sert à distinguer les frais
+    // RÉELS (ventilés processing/fx/autres) du repli 3 % (aucune ventilation).
+    columnExists("daily_aggregates", "fee_processing_cents"),
+  ]);
   const cols =
     "day, market, orders, ca_cents, spend_cents, cogs_cents, tax_cents, fees_cents, net_cents, refunded_cents" +
     (hasCogsSplit ? ", cogs_product_cents, cogs_upsells_cents" : "") +
@@ -211,14 +284,18 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
   };
   if (error) throw error;
 
-  return (data ?? []).map((r) => ({
+  return (data ?? []).map((r) => {
+    // Ancien fournisseur jusqu'au 30/06 : +5 % de COGS (Badr 08/09), appliqué à
+    // la lecture — voir oldSupplierExtraCents. Retiré du net d'autant.
+    const extra = oldSupplierExtraCents(String(r.day), r.cogs_cents);
+    return {
     day: r.day,
     market: r.market as Market,
     orders: r.orders,
     caCents: r.ca_cents,
     spendCents: r.spend_cents,
-    cogsCents: r.cogs_cents,
-    cogsProductCents: hasCogsSplit ? r.cogs_product_cents ?? 0 : 0,
+    cogsCents: r.cogs_cents + extra,
+    cogsProductCents: hasCogsSplit ? (r.cogs_product_cents ?? 0) + extra : 0,
     cogsUpsellsCents: hasCogsSplit ? r.cogs_upsells_cents ?? 0 : 0,
     taxCents: r.tax_cents,
     feesCents: r.fees_cents,
@@ -230,9 +307,10 @@ async function fetchDailyRowsUncached(startDay: string, endDay: string): Promise
           r.fees_cents - ((r.fee_processing_cents ?? 0) + (r.fee_fx_cents ?? 0) + (r.fee_other_cents ?? 0))
         )
       : 0,
-    netCents: r.net_cents,
+    netCents: r.net_cents - extra,
     refundedCents: r.refunded_cents ?? 0,
-  }));
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -773,7 +851,7 @@ export interface Chargeback {
   reason: string | null;
 }
 
-export async function fetchChargebacks(start: string, end: string): Promise<Chargeback[]> {
+async function fetchChargebacksUncached(start: string, end: string): Promise<Chargeback[]> {
   const mode = getDataMode();
   if (mode === "demo") {
     const { getDemoChargebacks } = await import("./demo");
@@ -802,6 +880,16 @@ export async function fetchChargebacks(start: string, end: string): Promise<Char
     reason: c.reason,
   }));
 }
+
+/**
+ * Cache 5 min, invalidé par la synchro (DASHBOARD_TAG). Lu à chaque
+ * affichage de l'onglet Mois pour une table qui bouge très rarement — un
+ * aller-retour de moins par navigation (Badr 07/09).
+ */
+export const fetchChargebacks = unstable_cache(fetchChargebacksUncached, ["chargebacks-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});
 
 // ---------------------------------------------------------------------------
 // §4.6 — Spend Meta non affecté (bucket UNMAPPED)

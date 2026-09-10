@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -966,7 +965,6 @@ export function AnalyseBoard({
               effectiveCampaignFilter !== "ALL" &&
               (def.key === "cpaCents" || def.key === "cvrPct" || def.key === "aovCents")
             }
-            markers={eventMarkers}
             changes={changeMarkers}
           />
         ))}
@@ -1322,7 +1320,6 @@ function MetricChart({
   series,
   locked,
   metaAttributed,
-  markers,
   changes,
 }: {
   def: MetricDef;
@@ -1330,7 +1327,6 @@ function MetricChart({
   locked: boolean;
   /** true = valeur calculée sur l'attribution META et non sur Shopify. */
   metaAttributed?: boolean;
-  markers: { label: string; emoji: string }[];
   changes: (ChangeMarker & { label: string })[];
 }) {
   const data = series.map((d) => ({
@@ -1411,23 +1407,12 @@ function MetricChart({
                   );
                 }}
               />
-              {markers.map((m, i) => (
-                <ReferenceLine
-                  key={`ev-${m.label}-${i}`}
-                  x={m.label}
-                  stroke="#6c6482"
-                  strokeDasharray="3 3"
-                />
-              ))}
-              {changes.map((c, i) => (
-                <ReferenceLine
-                  key={`ch-${c.day}-${c.kind}-${i}`}
-                  x={c.label}
-                  stroke={CHANGE_COLOR[c.kind]}
-                  strokeDasharray="4 3"
-                  strokeWidth={1.5}
-                />
-              ))}
+              {/* Aucun trait vertical sur la courbe (Badr 07/09 : « ça casse
+                  le visu, y a trop de traits et du coup je vois même pas la
+                  courbe »). Les repères (événements, scale/descale) n'ont pas
+                  disparu : ils sont dans l'infobulle du jour, en toutes
+                  lettres et en couleur — un trait sans légende demandait de
+                  toute façon de deviner ce qu'il marquait. */}
               <Line
                 dataKey="value"
                 stroke={def.color}

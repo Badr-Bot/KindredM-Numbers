@@ -1,10 +1,16 @@
 import { createSign } from "node:crypto";
+import type { Market } from "./engine";
+import { reconcilePayouts, type BankCredit, type PayoutReconciliation, type ShopifyPayout } from "./payouts";
 import { unstable_cache } from "next/cache";
+import { fetchMetaBilledCharges } from "./meta";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { addDaysToDay, toParisDay, todayParisDay } from "./time";
-import { monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
+import { fixedCostsCentsForDay, horsNetOwedUntil, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
+import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { SUPPLIER_BILLS } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, SUPPLIER_PREPAYMENTS, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
+import { badrFixedShareFor } from "./associateLedger";
+import { buildTreasuryBridge, LLC_START_DAY, REVOLUT_OFF_BOOK_ONE_OFFS, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
 
 // ---------------------------------------------------------------------------
 // 🏦 Banque — rapprochement PRÉVU vs RÉEL (demande Badr 19/08 : « vérifier
@@ -63,6 +69,11 @@ export interface BankTx {
    * inconnue avec tout ce que le dashboard connaît (abonnements, frais
    * ponctuels, factures fournisseur) par similarité de montant. */
   suggestion?: string | null;
+  /** Pour un FRAIS de change : la catégorie de la dépense qui l'a causé
+   * (META = pub payée en EUR avec la carte USD, ABONNEMENT, AUTRE…). Badr
+   * 04/09 : « les frais de change c'est lié aux dépenses courantes ou à
+   * Meta ? » — la réponse se lit ici, ligne à ligne. */
+  feeOf?: TxCategory | "PERSO" | null;
 }
 
 export interface BankBalance {
@@ -98,6 +109,9 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // subscriptions.ts, sinon le montant attendu retombe à zéro en silence.
   { label: "Vmake", re: /v\s*make|vmake/i },
   { label: "TrendTrack", re: /trend\s*track/i },
+  // Boosts Instagram : capté AVANT ce tableau par categorizeTx (voir la règle
+  // META) — présent ici pour que le contrôle compare débits et charge attendue.
+  { label: "Meta — frais de paiement en dollars", re: /^facebk \*/i },
   { label: "Artlist", re: /art\s*list/i },
   { label: "Floxy (proxy)", re: /floxy/i },
   { label: "Master Ecom (Skool)", re: /skool|master\s*ecom/i },
@@ -107,6 +121,10 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   // « Emailing : Altura » = la LLC de Jeremy (Badr 19/08 : « emailing c'est
   // pour Jeremy ») — ses virements ACH/wire sont sa presta emailing.
   { label: "Jeremy — emailing (fixe, hors %)", re: /emailing|altura/i },
+  // Monteur = ARINLOYE ISMAEL KOREDELE (Badr 04/09 : « Ismael c'est le
+  // monteur ») — virement Wise du 28/08 (660 $, prorata, dernier jour compté
+  // 28/08). Sans ce motif la ligne restait « à affecter » à chaque visite.
+  { label: "Monteur", re: /arinloye|ismael|koredele/i },
   // Apps Shopify — parfois débitées en direct, parfois via la facture
   // Shopify (Badr 19/08 : « je ne sais pas si c'est Shopify qui prélève ou
   // bien eux ») : si une facture Shopify est débitée sur la fenêtre, on ne
@@ -114,6 +132,33 @@ const SUBSCRIPTION_PATTERNS: { label: string; re: RegExp }[] = [
   { label: "CWILL (Parcel Panel)", re: /cwill|parcel\s*panel/i },
   { label: "Moon Bundles", re: /moon\s*bundles?/i },
 ];
+
+/** Affectation AUTOMATIQUE d'une ligne d'abonnement reconnue : Marwa est à la
+ * charge d'Adnane (Badr 05/09 : « son salaire est déjà pris par Adnane […] ça
+ * ne doit pas bouger le net de Badr ») → un débit Marwa passé par la LLC est
+ * une avance de la société à Adnane, perso Adnane d'office. */
+export function autoLabelFor(subscriptionLabel: string | null): { label: TxLabel | null; note: string | null } {
+  if (subscriptionLabel === "Marwa") {
+    return { label: "PERSO_FAHD", note: "Marwa : à la charge d'Adnane (Badr 05/09) — avance société, perso Adnane d'office" };
+  }
+  return { label: null, note: null };
+}
+
+/** Un virement Panda vu en banque qui ne colle à aucune facture du suivi ni à
+ * aucun acompte enregistré. S'il est POSTÉRIEUR à la dernière facture, c'est
+ * un ACOMPTE sur la suivante (l'argent est sorti, la facture n'est pas encore
+ * dans le suivi) — jamais « une vieille facture soldée ». Sans cette règle,
+ * le 10/09, 5 613 € partis vers Panda ont fabriqué un faux trou de 6 819 €
+ * (Badr : « c'est toi qui as fait de la merde »). Antérieur à la dernière
+ * facture : facture d'avant le suivi, réputée soldée (décision Badr 14/08). */
+export function pandaTransferKind(t: { day: string; amountEurCents: number | null }): "facture" | "acompte" | "acompte_auto" | "ancienne" {
+  const eur = Math.abs(t.amountEurCents ?? 0);
+  const near = (a: number, b: number) => b > 0 && Math.abs(a - b) <= b * 0.02;
+  if (SUPPLIER_BILLS.some((b) => near(eur, b.paidCents > 0 ? b.paidCents : b.totalCents))) return "facture";
+  if (SUPPLIER_PREPAYMENTS.some((p) => p.day === t.day && near(eur, p.eurCents))) return "acompte";
+  const last = lastSupplierBill();
+  return last && t.day > last.issuedDay ? "acompte_auto" : "ancienne";
+}
 
 export function categorizeTx(description: string, amountCents: number): { category: TxCategory; subscriptionLabel: string | null } {
   const d = description.toLowerCase();
@@ -132,6 +177,12 @@ export function categorizeTx(description: string, amountCents: number): { catego
   // for MM.DD.YY ») : FRAIS — ventilé perso/société au prorata dans
   // fetchSlashData quand les fxFeeInfo du jour le permettent.
   if (/^slash fee/.test(d)) return { category: "FRAIS", subscriptionLabel: null };
+  // Meta — frais de paiement en dollars (Badr 08/09 : « c'est des fees, vu
+  // que je payais en dollars ») : petits débits « FACEBK *xxxx » (espace
+  // avant l'astérisque, libellé fb.me/ads) de ~16,80 $ tant que Meta était
+  // payé en USD par Slash. Rapprochés de la charge fixe du même nom.
+  if (/^facebk \*/.test(d) && Math.abs(amountCents) < 5000)
+    return { category: "ABONNEMENT", subscriptionLabel: "Meta — frais de paiement en dollars" };
   if (/facebk|facebook|meta\s*platforms|metaplatforms/.test(d)) return { category: "META", subscriptionLabel: null };
   // Fournisseur (Badr 19/08 : « Panda Dropshipping c'est le fournisseur ») —
   // les factures détaillées vivent dans l'onglet Dépenses ; ici le paiement
@@ -139,6 +190,13 @@ export function categorizeTx(description: string, amountCents: number): { catego
   if (/panda/.test(d)) return { category: "FOURNISSEUR", subscriptionLabel: null };
   // crédit Shopify = versement (payout) ; débit Shopify = abonnement/app
   if (/shopify/.test(d) && amountCents > 0) return { category: "SHOPIFY", subscriptionLabel: null };
+  // « Disbursement Reversal » (Slash, ACH) = un versement reçu qui est REPRIS
+  // — Shopify reprend sur un payout les remboursements clients. Ce n'est pas
+  // une dépense : les remboursements sont déjà déduits du CA (refunded_cents,
+  // onglets Mois/Année). Compté comme versement négatif, jamais « à affecter »
+  // (Badr 04/09). Hypothèse Shopify : le libellé bancaire ne nomme pas
+  // l'émetteur — si un autre ACH reçu était repris, il tomberait ici aussi.
+  if (/disbursement\s*reversal/.test(d) && amountCents < 0) return { category: "SHOPIFY", subscriptionLabel: null };
   for (const p of SUBSCRIPTION_PATTERNS) {
     if (p.re.test(description)) return { category: "ABONNEMENT", subscriptionLabel: p.label };
   }
@@ -175,9 +233,21 @@ export function subsForPattern(patternLabel: string, untilDay: string) {
   );
 }
 
-function toEurCents(amountCents: number, currency: string, liveRates?: Map<string, number>): number | null {
+/** Conversion EUR. USD : règle Badr 04/09 — `usd.day` posé = c'est un débit
+ * PAYÉ, converti au taux de son jour ; sans jour = de l'argent qui DORT
+ * (solde, en route, cashback), converti au dernier taux de la série. Sans
+ * série Wise : taux figé 1,1539 (décision 08/08, devenue le repli). */
+function toEurCents(
+  amountCents: number,
+  currency: string,
+  liveRates?: Map<string, number>,
+  usd?: { rates: DailyRates | null; day?: string }
+): number | null {
   if (currency === "EUR") return amountCents;
-  if (currency === "USD") return Math.round(amountCents * USD_TO_EUR); // taux FIGÉ du dashboard (décision Badr 08/08)
+  if (currency === "USD") {
+    const rate = usd ? (usd.day ? usdToEurForDay(usd.rates, usd.day) : usdToEurLatest(usd.rates)) : USD_TO_EUR;
+    return Math.round(amountCents * rate);
+  }
   const rate = liveRates?.get(currency);
   if (rate !== undefined) return Math.round(amountCents * rate); // taux Wise du jour (CAD, CHF, MAD…)
   return null; // devise inconnue : on l'affiche telle quelle, jamais convertie au pif
@@ -233,6 +303,43 @@ async function fetchWiseRates(currencies: string[], token: string): Promise<Map<
   return rates;
 }
 
+/** Série QUOTIDIENNE USD→EUR depuis le lancement (Wise /v1/rates, group=day)
+ * — une seule requête pour tout l'historique. null sans jeton ou en erreur :
+ * les conversions retombent sur le taux figé, jamais sur un taux inventé. */
+async function fetchWiseUsdEurHistory(fromDay: string, toDay: string): Promise<DailyRates | null> {
+  const token = process.env.WISE_API_TOKEN;
+  if (!token) return null;
+  try {
+    const qs = new URLSearchParams({
+      source: "USD",
+      target: "EUR",
+      from: `${fromDay}T00:00:00`,
+      to: `${toDay}T23:59:59`,
+      group: "day",
+    });
+    const res = await fetch(`${WISE_API}/v1/rates?${qs}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+    const arr = (await res.json()) as { rate?: number; time?: string }[];
+    const points = (arr ?? [])
+      .filter((p) => typeof p.rate === "number" && typeof p.time === "string")
+      .map((p) => ({ day: toParisDay(p.time as string), rate: p.rate as number }));
+    const built = buildDailyRates(points);
+    return built.days.length > 0 ? built : null;
+  } catch {
+    return null;
+  }
+}
+
+const fetchWiseUsdEurHistoryCached = unstable_cache(
+  async (fromDay: string, toDay: string) => fetchWiseUsdEurHistory(fromDay, toDay),
+  ["wise-usd-eur-history-v1"],
+  { revalidate: 3600, tags: ["bank"] } // le « dernier taux de la journée » se rafraîchit à l'heure
+);
+
+/** Point de départ des taux : le lancement de l'activité (même valeur que
+ * TREASURY_START_DAY, déclarée plus bas — les deux sont verrouillées par test). */
+export const RATES_START_DAY = "2026-05-21";
+
 // --- Client Slash --------------------------------------------------------------
 // Doc collée par Badr le 19/08 (docs.slash.com, OpenAPI) :
 //   GET https://api.slash.com/transaction — header X-API-Key ; clé user-scoped
@@ -268,6 +375,50 @@ export interface SlashTx {
   cashbackInfo?: { amountCents?: number; rate?: number };
 }
 
+/** Frais FX d'un jour, par origine : perso (carte Fahd/Badr), Meta, autre
+ * société — cents USD, valeurs positives. */
+export interface FxSlot {
+  fahd: number;
+  badr: number;
+  meta: number;
+  societe: number;
+}
+
+export interface FxSharePart {
+  suffix: string;
+  amountCents: number;
+  label: TxLabel | null;
+  feeOf: BankTx["feeOf"];
+  qui: string;
+}
+
+/**
+ * Redécoupe l'agrégat quotidien « Slash fee: Foreign transaction fee » au
+ * prorata des frais portés par chaque transaction du jour (fxFeeInfo). Le
+ * dernier morceau prend le reste : la somme des parts vaut EXACTEMENT
+ * l'agrégat, jamais un centime d'arrondi perdu. Exporté pour test.
+ */
+export function fxShares(slot: FxSlot, aggregateCents: number): FxSharePart[] {
+  const total = slot.fahd + slot.badr + slot.meta + slot.societe;
+  if (total <= 0) return [];
+  const defs = (
+    [
+      { suffix: "fahd", w: slot.fahd, label: "PERSO_FAHD", feeOf: "PERSO", qui: "dépenses carte Adnane/Fahd" },
+      { suffix: "badr", w: slot.badr, label: "PERSO_BADR", feeOf: "PERSO", qui: "dépenses carte Badr" },
+      { suffix: "meta", w: slot.meta, label: null, feeOf: "META", qui: "Meta (pub facturée en EUR, payée en USD)" },
+      { suffix: "ste", w: slot.societe, label: null, feeOf: "AUTRE", qui: "autres dépenses société (abonnements…)" },
+    ] as { suffix: string; w: number; label: TxLabel | null; feeOf: BankTx["feeOf"]; qui: string }[]
+  ).filter((d) => d.w > 0);
+  let rest = aggregateCents;
+  return defs
+    .map((d, idx) => {
+      const amountCents = idx === defs.length - 1 ? rest : Math.round((aggregateCents * d.w) / total);
+      rest -= amountCents;
+      return { suffix: d.suffix, amountCents, label: d.label, feeOf: d.feeOf, qui: d.qui };
+    })
+    .filter((p) => p.amountCents !== 0);
+}
+
 /** Statuts qui n'ont PAS bougé d'argent : exclus du contrôle. `pending` et
  * `settled` (et refund/returned/dispute) restent — l'argent est engagé. */
 const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "reversed", "pending_approval", "in_review"]);
@@ -275,7 +426,7 @@ const SLASH_STATUTS_SANS_ARGENT = new Set(["canceled", "failed", "declined", "re
 /** Mapping pur (testé) : une transaction Slash → BankTx, ou null si le
  * statut n'a pas bougé d'argent. Compte Slash en USD ⇒ conversion au taux
  * figé du dashboard, comme partout. */
-export function mapSlashTx(t: SlashTx): BankTx | null {
+export function mapSlashTx(t: SlashTx, rates: DailyRates | null = null): BankTx | null {
   if (t.status === "failed" || SLASH_STATUTS_SANS_ARGENT.has(t.detailedStatus)) return null;
   const description = t.merchantData?.description || t.description || t.memo || "(sans libellé)";
   const { category, subscriptionLabel } = categorizeTx(description, t.amountCents);
@@ -293,6 +444,7 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
   } catch {
     // date illisible : le reste du contexte suffit
   }
+  const reversal = /disbursement\s*reversal/i.test(description);
   return {
     detail: bits.join(" · "),
     bank: "SLASH",
@@ -300,12 +452,15 @@ export function mapSlashTx(t: SlashTx): BankTx | null {
     day: toParisDay(t.date),
     amountCents: t.amountCents,
     currency: "USD",
-    amountEurCents: toEurCents(t.amountCents, "USD"),
+    // PAYÉ → taux du jour de la transaction (règle Badr 04/09).
+    amountEurCents: toEurCents(t.amountCents, "USD", undefined, { rates, day: toParisDay(t.date) }),
     description,
     category,
     subscriptionLabel,
-    label: null,
-    labelNote: null,
+    label: autoLabelFor(subscriptionLabel).label,
+    labelNote: reversal
+      ? "retour de versement (remboursements clients repris sur un payout) — déjà déduit du CA, rien à affecter"
+      : autoLabelFor(subscriptionLabel).note,
   };
 }
 
@@ -340,8 +495,13 @@ export async function fetchSlashData(
     res = await call(null);
   }
 
+  // Série de taux (règle 04/09) — en parallèle de la première page, non bloquante.
+  const ratesPromise = fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay);
+
   const raw: SlashTx[] = [];
-  for (let page = 0; page < 20; page++) {
+  // 60 pages (et non 20) : la même lecture sert au balayage DEPUIS LE DÉBUT du
+  // rapprochement trésorerie — 20 pages ne couvraient pas l'historique.
+  for (let page = 0; page < 60; page++) {
     if (!res.ok) throw new Error(`Slash /transaction : HTTP ${res.status} — ${(await res.text()).slice(0, 200)}`);
     const json = (await res.json()) as { items?: SlashTx[]; metadata?: { nextCursor?: string } };
     raw.push(...(json.items ?? []));
@@ -394,7 +554,7 @@ export async function fetchSlashData(
   // (« ça part chez eux » pour le perso, le reste en frais société — le gros
   // vient de Meta facturé en EUR sur un compte USD). Cashback : sommé à part
   // (gagné, à récupérer — pas encore de l'argent entré).
-  const fxByDay = new Map<string, { fahd: number; badr: number; societe: number }>();
+  const fxByDay = new Map<string, FxSlot>();
   let cashbackCents = 0;
   for (const t of raw) {
     const cb = t.cashbackInfo?.amountCents;
@@ -403,16 +563,20 @@ export async function fetchSlashData(
     if (typeof fee !== "number" || fee <= 0) continue;
     const day = toParisDay(t.date);
     const owner = t.cardId ? owners.get(t.cardId) : undefined;
-    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, societe: 0 };
-    if (owner?.label === "PERSO_FAHD") slot.fahd += fee;
-    else if (owner?.label === "PERSO_BADR") slot.badr += fee;
+    const slot = fxByDay.get(day) ?? { fahd: 0, badr: 0, meta: 0, societe: 0 };
+    const desc = t.merchantData?.description || t.description || t.memo || "";
+    const cat = categorizeTx(desc, t.amountCents).category;
+    if (owner?.label === "PERSO_FAHD" && cat === "AUTRE") slot.fahd += fee;
+    else if (owner?.label === "PERSO_BADR" && cat === "AUTRE") slot.badr += fee;
+    else if (cat === "META") slot.meta += fee; // « lié à Meta ou aux dépenses courantes ? » → ici
     else slot.societe += fee;
     fxByDay.set(day, slot);
   }
 
+  const rates = await ratesPromise;
   const txs: BankTx[] = [];
   for (const t of raw) {
-    const mapped = mapSlashTx(t);
+    const mapped = mapSlashTx(t, rates);
     if (!mapped) continue;
     // Contexte : le NOM de la carte utilisée (toutes cartes, pas seulement
     // les perso) — c'est souvent ce qui identifie une ligne mystère.
@@ -423,30 +587,20 @@ export async function fetchSlashData(
     if (agg) {
       const refDay = `20${agg[3]}-${agg[1]}-${agg[2]}`; // MM.DD.YY → YYYY-MM-DD
       const slot = fxByDay.get(refDay) ?? fxByDay.get(mapped.day);
-      const total = slot ? slot.fahd + slot.badr + slot.societe : 0;
-      if (slot && total > 0) {
-        const parts = (
-          [
-            { suffix: "fahd", share: slot.fahd / total, label: "PERSO_FAHD", qui: "dépenses carte Adnane/Fahd" },
-            { suffix: "badr", share: slot.badr / total, label: "PERSO_BADR", qui: "dépenses carte Badr" },
-            { suffix: "ste", share: slot.societe / total, label: null, qui: "dépenses société (Meta en EUR surtout)" },
-          ] as { suffix: string; share: number; label: TxLabel | null; qui: string }[]
-        ).filter((p) => p.share > 0);
-        let restCents = mapped.amountCents;
-        parts.forEach((p, idx) => {
-          const amount = idx === parts.length - 1 ? restCents : Math.round(mapped.amountCents * p.share);
-          restCents -= amount;
-          if (amount === 0) return;
+      const parts = slot ? fxShares(slot, mapped.amountCents) : [];
+      if (parts.length > 0) {
+        for (const p of parts) {
           txs.push({
             ...mapped,
             txId: `${mapped.txId}-${p.suffix}`,
-            amountCents: amount,
-            amountEurCents: toEurCents(amount, "USD"),
+            amountCents: p.amountCents,
+            amountEurCents: toEurCents(p.amountCents, "USD", undefined, { rates, day: mapped.day }),
             category: "FRAIS",
             label: p.label,
+            feeOf: p.feeOf,
             labelNote: `frais FX du ${refDay.slice(8, 10)}/${refDay.slice(5, 7)} — part ${p.qui} (ventilé automatiquement)`,
           });
-        });
+        }
       } else {
         txs.push({ ...mapped, category: "FRAIS", labelNote: "frais FX du jour — non ventilable (détail indisponible), compté société" });
       }
@@ -462,9 +616,11 @@ export async function fetchSlashData(
       if (parentOwner && parentCat === "AUTRE") {
         mapped.category = "FRAIS";
         mapped.label = parentOwner.label;
+        mapped.feeOf = "PERSO";
         mapped.labelNote = `frais lié à « ${parentDesc} » (${parentOwner.note})`;
       } else {
         mapped.category = parentCat === "AUTRE" || parentCat === "INTERNE" ? "FRAIS" : parentCat;
+        mapped.feeOf = parent ? parentCat : null;
         mapped.labelNote = parent ? `frais lié à « ${parentDesc} »` : "frais Slash — transaction d'origine hors fenêtre";
       }
       txs.push(mapped);
@@ -504,7 +660,8 @@ export async function fetchSlashData(
         }
       }
       if (any) {
-        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD") }];
+        // Argent qui DORT → dernier taux de la journée (règle Badr 04/09).
+        balances = [{ bank: "SLASH", currency: "USD", amountCents: totalCents, amountEurCents: toEurCents(totalCents, "USD", undefined, { rates }) }];
       }
     }
   } catch {
@@ -538,7 +695,10 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
   const balances = (await balancesRes.json()) as { id: number; currency: string; amount: { value: number } }[];
 
   const extraCurrencies = [...new Set(balances.map((b) => b.currency))].filter((c) => c !== "EUR" && c !== "USD");
-  const liveRates = extraCurrencies.length > 0 ? await fetchWiseRates(extraCurrencies, token) : new Map<string, number>();
+  const [liveRates, usdRates] = await Promise.all([
+    extraCurrencies.length > 0 ? fetchWiseRates(extraCurrencies, token) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay),
+  ]);
 
   const txs: BankTx[] = [];
   for (const b of balances) {
@@ -565,12 +725,12 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
         day: toParisDay(t.date),
         amountCents,
         currency: t.amount.currency,
-        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates),
+        amountEurCents: toEurCents(amountCents, t.amount.currency, liveRates, { rates: usdRates, day: toParisDay(t.date) }),
         description,
         category,
         subscriptionLabel,
-        label: null,
-        labelNote: null,
+        label: autoLabelFor(subscriptionLabel).label,
+        labelNote: autoLabelFor(subscriptionLabel).note,
       });
     }
   }
@@ -579,7 +739,12 @@ export async function fetchWiseData(sinceDay: string, untilDay: string): Promise
     txs,
     balances: balances.map((b) => {
       const amountCents = Math.round(b.amount.value * 100);
-      return { bank: "WISE" as const, currency: b.currency, amountCents, amountEurCents: toEurCents(amountCents, b.currency, liveRates) };
+      return {
+        bank: "WISE" as const,
+        currency: b.currency,
+        amountCents,
+        amountEurCents: toEurCents(amountCents, b.currency, liveRates, { rates: usdRates }),
+      };
     }),
   };
 }
@@ -599,7 +764,15 @@ export interface BankReconciliation {
   /** Meta : débits banque vs spend dashboard sur la fenêtre. Meta facture par
    * PALIERS (pas jour par jour) : seul le TOTAL doit coller, l'écart
    * journalier est normal — dit dans l'UI. */
-  meta: { bankCents: number; expectedCents: number; gapCents: number };
+  meta: {
+    bankCents: number;
+    expectedCents: number;
+    gapCents: number;
+    /** Ce que Meta a RÉELLEMENT facturé sur la fenêtre (journal du compte,
+     * converti en euros). null = journal illisible. */
+    billedCents: number | null;
+    billedCount: number;
+  };
   /** true = AUCUN débit Meta visible sur les banques branchées ET Slash pas
    * encore connecté : Meta est débité sur la carte Slash (constaté 19/08 —
    * zéro débit facebk sur Wise pour 47 k€ de spend). Contrôle EN ATTENTE du
@@ -675,7 +848,7 @@ export function reconcile(
   return {
     sinceDay,
     untilDay,
-    meta: { bankCents: metaBank, expectedCents: metaExpected, gapCents: metaGap },
+    meta: { bankCents: metaBank, expectedCents: metaExpected, gapCents: metaGap, billedCents: null, billedCount: 0 },
     metaPending,
     shopify: { bankCents: shopifyBank, expectedCents: shopifyExpected, gapCents: shopifyBank - shopifyExpected },
     subscriptions: subs,
@@ -687,6 +860,7 @@ export function reconcile(
 // --- Anomalies + parts (pur, testé) ---------------------------------------------
 
 export type AnomalyKind =
+  | "TRESORERIE_INEXPLIQUE"
   | "TX_NON_AFFECTEE"
   | "ABO_NON_DEBITE"
   | "ABO_MONTANT"
@@ -738,10 +912,30 @@ export function computeControl(input: {
    * l'est pas, les débits carte LLC (Meta, abonnements) passent sur Slash et
    * sont invisibles ici : on ne crie pas « impayé » sur ce qu'on ne voit pas. */
   slashConnected?: boolean;
+  /** Rapprochement depuis le début — l'inexpliqué DEPUIS le 04/09 alerte. */
+  treasury?: TreasuryBridge | null;
 }): ControlReport {
   const { txs, reconciliation, sinceDay, untilDay } = input;
   const slashConnected = input.slashConnected ?? false;
   const anomalies: Anomaly[] = [];
+
+  // 0) TRÉSORERIE : l'écart que ni la ventilation ni le reliquat Revolut
+  //    pré-LLC (plafond figé le 04/09) n'expliquent. Badr 04/09 : « à partir
+  //    de ce jour on part du principe qu'il n'y a pas de trou » — donc tout
+  //    reste au-delà du seuil est un trou NEUF, en rouge.
+  const inexplique = input.treasury?.unexplainedCents ?? null;
+  // Sur un « en route » ESTIMÉ (scope Shopify absent), pas d'alerte rouge :
+  // l'estimation vaut ±10 %, soit ±2 000 € — un faux trou ferait paniquer.
+  if (inexplique !== null && inexplique > UNEXPLAINED_ALERT_CENTS && !input.treasury?.enRouteEstimated) {
+    anomalies.push({
+      kind: "TRESORERIE_INEXPLIQUE",
+      severity: "red",
+      label: `Trésorerie : ${Math.round(inexplique / 100)} € manquent sur les comptes sans explication (depuis le 04/09)`,
+      detail:
+        "Écart entre ce que l'activité a produit et ce qu'il y a réellement sur Wise + Slash, une fois retirés les frais connus, le perso et le reliquat Revolut pré-LLC. Voir le bloc « Rapprochement trésorerie ».",
+    });
+  }
+
   const inWindow = txs.filter((t) => t.day >= sinceDay && t.day <= untilDay && t.label !== "IGNORER");
   const debits = inWindow.filter((t) => t.amountCents < 0);
   const eur = (c: number) => `${Math.round(Math.abs(c) / 100)} €`;
@@ -930,10 +1124,26 @@ export function computeControl(input: {
   // décision Badr 14/08) — information, PAS une anomalie (Badr 19/08 :
   // « c'est forcément une facture d'avant début août, tu ne me remontes
   // pas l'anomalie »).
+  // … sauf s'il est enregistré en ACOMPTE (SUPPLIER_PREPAYMENTS) : l'argent
+  // est sorti avant la facture, le rapprochement le sait, on le pointe.
+  for (const p of SUPPLIER_PREPAYMENTS) {
+    const match = pandaTxs.find(
+      (t) => !pointes.has(t.txId) && t.amountEurCents !== null && t.day === p.day && Math.abs(Math.abs(t.amountEurCents) - p.eurCents) <= p.eurCents * 0.02
+    );
+    if (match) {
+      pointes.add(match.txId);
+      fournisseurPointage.push(
+        `✓ Acompte Panda de ${eur(p.eurCents)} pointé en banque le ${match.day.slice(8, 10)}/${match.day.slice(5, 7)} (${match.bank})${p.appliedTo ? ` — absorbé par ${p.appliedTo}` : " — facture pas encore reçue, déduit de la prochaine"}`
+      );
+    }
+  }
   for (const t of pandaTxs) {
     if (pointes.has(t.txId)) continue;
+    const jour = `${t.day.slice(8, 10)}/${t.day.slice(5, 7)}`;
     fournisseurPointage.push(
-      `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : facture antérieure au suivi (réputée soldée)`
+      pandaTransferKind(t) === "acompte_auto"
+        ? `⏳ Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${jour} : postérieur à la dernière facture du suivi, compté en ACOMPTE sur la prochaine — facture à enregistrer dès réception`
+        : `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${jour} : facture antérieure au suivi (réputée soldée)`
     );
   }
 
@@ -991,18 +1201,79 @@ export interface BankReport {
    * toutes boutiques). missingScopes = ajouter read_shopify_payments_accounts
    * sur les apps custom (Badr 19/08 : « j'ajoute le scope »). */
   enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Argent en route ESTIMÉ quand le scope Shopify Payments manque : CA −
+   * frais Shopify des 5 derniers jours (délai de versement observé le 04/09 :
+   * solde + versements programmés = CA net des 5 derniers jours à 0,6 % près).
+   * L'ancienne estimation (CA − payouts reçus depuis le 01/08) affichait
+   * 777 € pour ~15 000 € réels : les payouts reçus début août payaient des
+   * ventes de juillet. null si les agrégats manquent. */
+  enRouteEstimateCents: number | null;
+  /** Versements « Déposé » par Shopify pas encore arrivés en banque (≤ 6 j) :
+   * inclus dans enRoute / enRouteEstimateCents. */
+  enRouteDepositedCents: number;
+  /** Versements PROGRAMMÉS par Shopify (sortis du solde, pas encore émis) :
+   * inclus dans enRoute / enRouteEstimateCents. */
+  enRouteScheduledCents: number;
+  /** Frais Meta sur les paiements en dollars (débits « FACEBK *… » < 50 $),
+   * mesurés sur tout l'historique bancaire lu. null = aucun vu. */
+  metaUsdFees: { firstDay: string; lastDay: string; count: number; totalEurCents: number } | null;
+  /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
+   * d'aller tout retracer depuis le tout début »). null = pas calculable
+   * (aucune banque branchée, ou agrégats illisibles). */
+  treasury: TreasuryBridge | null;
+  /** Message quand le rapprochement n'a pas pu être fait. */
+  treasurySetup: string | null;
+  /** 📦 Versements Shopify rapprochés de la banque (Badr 08/09) — null tant
+   * qu'aucune boutique n'a le scope read_shopify_payments_payouts. */
+  payouts: PayoutReconciliation | null;
+  /** Boutiques dont les versements ont été lus. */
+  payoutsMarkets: string[];
+  /** Première transaction encaissée par le compte Shopify Payments de la
+   * société, par boutique — fixe la coupure Revolut / LLC. */
+  payoutsStarts: PayoutsStart[];
+  /** Mois par mois et par devise : versé par Shopify vs crédité en banque.
+   * Un mois versé sans crédit = l'argent est allé sur un autre compte. */
+  payoutsByMonth: { month: string; currency: string; shopifyCents: number; bankCents: number; count: number }[];
+  /** Plus ancien versement renvoyé par l'API. */
+  payoutsOldestDay: string | null;
+  /** Retenues Shopify par devise (tous versements lus) + la même chose vue
+   * par le dashboard depuis la coupure, en EUR, pour comparer. */
+  payoutsSummary: {
+    byCurrency: PayoutsSummary[];
+    /** Conversion EUR des totaux Shopify (taux du jour Wise pour USD ; CAD/GBP
+     * au dernier taux connu). */
+    shopifyEur: { chargesGross: number; fees: number; refunds: number; adjustments: number; reserved: number; net: number };
+    /** Ventes traitées mais pas encore versées (solde en attente), en EUR. */
+    pendingEur: { gross: number; fee: number; net: number };
+    dashEur: { sinceDay: string; ca: number; fees: number; refunds: number; expected: number };
+    /** CA du dashboard depuis la coupure que la société n'a PAS encaissé :
+     * dash − (versements + en attente). Encaissé par l'ancien compte Shopify
+     * (Adnane) sur les premiers jours après la coupure. */
+    caNotCollectedByLlcCents: number;
+  } | null;
 }
 
 /** Solde Shopify Payments réel (l'argent que Shopify DOIT, pas encore
  * versé) — la « part d'Adnane réaliste » en dépend (Badr 19/08 : « il y a de
  * l'argent qu'on n'a pas encaissé, comment on peut avoir la réalité ? »).
  * Nécessite le scope read_shopify_payments_accounts sur chaque app custom. */
-async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingScopes: boolean; skipped: string[] }> {
+async function fetchShopifyEnRoute(): Promise<{
+  totalEurCents: number;
+  missingScopes: boolean;
+  skipped: string[];
+  /** Boutiques dont le solde a été lu pour de vrai. */
+  answered: Market[];
+}> {
   const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   let totalEurCents = 0;
   let missingScopes = false;
   const skipped: string[] = [];
   const pending: { amount: number; currency: string }[] = [];
+  // Boutiques qui ont RÉELLEMENT répondu : leur en route est exact, on n'a
+  // plus besoin de l'estimer. Les autres restent à estimer, chacune sur son
+  // propre CA (Badr 07/09 : « ES et UK on s'en fout, je fais plus de vente
+  // dessus » — leur estimation vaut alors zéro, et le total devient exact).
+  const answered: Market[] = [];
   for (const config of getShopifyStoreConfigs()) {
     try {
       const token = await resolveAccessToken(config);
@@ -1030,6 +1301,7 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
         const amount = Number(b.amount);
         if (Number.isFinite(amount) && b.currencyCode) pending.push({ amount, currency: b.currencyCode });
       }
+      answered.push(config.market);
     } catch (err) {
       skipped.push(`${config.market} (${(err as Error).message.slice(0, 60)})`);
     }
@@ -1039,17 +1311,315 @@ async function fetchShopifyEnRoute(): Promise<{ totalEurCents: number; missingSc
   // et signalée (jamais convertie au pif).
   const others = [...new Set(pending.map((p) => p.currency).filter((c) => c !== "EUR" && c !== "USD"))];
   const wiseToken = process.env.WISE_API_TOKEN;
-  const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken) : new Map<string, number>();
+  const [rates, usdRates] = await Promise.all([
+    others.length > 0 && wiseToken ? fetchWiseRates(others, wiseToken) : Promise.resolve(new Map<string, number>()),
+    fetchWiseUsdEurHistoryCached(RATES_START_DAY, todayParisDay()),
+  ]);
   for (const p of pending) {
     const cents = Math.round(p.amount * 100);
-    const eur = toEurCents(cents, p.currency, rates);
+    const eur = toEurCents(cents, p.currency, rates, { rates: usdRates }); // en route = argent qui dort
     if (eur === null) skipped.push(`${p.currency} sans taux`);
     else totalEurCents += eur;
   }
-  return { totalEurCents, missingScopes, skipped };
+  return { totalEurCents, missingScopes, skipped, answered };
 }
 
-const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v1"], {
+// v2 : USD au dernier taux de la journée (04/09).
+const fetchShopifyEnRouteCached = unstable_cache(async () => fetchShopifyEnRoute(), ["shopify-enroute-v3"], {
+  revalidate: 900,
+  tags: ["bank"],
+});
+
+/**
+ * 📦 VERSEMENTS SHOPIFY (payouts) — Badr 08/09. Lus sur chaque boutique qui a
+ * le scope (FR aujourd'hui) ; les autres sont sautées sans bruit. Statuts
+ * Shopify : SCHEDULED (programmé, l'argent est encore chez eux), PAID (ce que
+ * l'admin affiche « Déposé » : soumis à la banque, arrive 2-3 jours après),
+ * FAILED / CANCELED (rien à attendre). Il n'y a PAS de statut « en transit »
+ * en 2025-01 : c'est le rapprochement (payouts.ts) qui distingue un PAID
+ * encore dans le délai d'un PAID jamais arrivé.
+ *
+ * 60 jours en arrière : assez pour couvrir ce que la fenêtre bancaire lue
+ * peut rapprocher, et pour attraper un versement parti ailleurs.
+ */
+const PAYOUTS_LOOKBACK_DAYS = 60;
+// Pas de filtre `query` côté Shopify : le premier déploiement (08/09) l'a
+// envoyé avec une date ISO, Shopify a répondu ZÉRO versement sans erreur, et
+// le bloc est resté vide. 250 versements triés du plus récent au plus ancien
+// couvrent largement 60 jours ; on coupe ensuite par date, chez nous.
+const PAYOUTS_QUERY = `{
+  shopifyPaymentsAccount {
+    payouts(first: 250, sortKey: ISSUED_AT, reverse: true) {
+      edges { node { id issuedAt status net { amount currencyCode }
+        summary {
+          chargesGross { amount } chargesFee { amount }
+          refundsFeeGross { amount } refundsFee { amount }
+          adjustmentsGross { amount } adjustmentsFee { amount }
+          reservedFundsGross { amount } reservedFundsFee { amount }
+          retriedPayoutsGross { amount } retriedPayoutsFee { amount }
+        } } }
+    }
+  }
+}`;
+
+/** Première vente VERSÉE à la société par Shopify : c'est LA date à partir de
+ * laquelle les ventes ont été encaissées par la LLC. Ni le premier versement
+ * (il arrive quelques jours après et paie déjà des ventes antérieures —
+ * coupure fausse de 30 000 €), ni la première vente traitée par le compte
+ * (05/05 : jamais versée à la LLC). Constaté le 08/09. */
+// `payout_status:paid` : la première vente RÉELLEMENT VERSÉE à la société.
+// Sans ce filtre on lisait la première vente traitée par le compte (05/05,
+// #1132) — or aucun versement n'existe avant le 21/07 : l'argent de mai →
+// 20/07 n'est jamais passé par ces versements. La coupure est donc la
+// première vente couverte par un versement payé, pas la première vente.
+// La boutique a eu DEUX comptes Shopify Payments : celui d'Adnane (ventes
+// versées dès le 05/05, #1132) puis celui de la société (premier versement
+// 21/07). `balanceTransactions` couvre les deux ; `payouts` ne liste que
+// ceux de la société. On ne retient donc que les ventes versées à partir du
+// premier versement de la société (`payout_date:>=…`), et la plus ancienne
+// d'entre elles est la première vente encaissée par la LLC. (Le filtre
+// `query` fonctionne, c'est la syntaxe des dates qui doit rester AAAA-MM-JJ :
+// une date ISO avec heure ne matche rien — constaté sur les versements.)
+const FIRST_TX_QUERY = `query FirstPaidTx($query: String!) {
+  shopifyPaymentsAccount {
+    balanceTransactions(first: 40, sortKey: PROCESSED_AT, query: $query) {
+      edges { node { transactionDate type associatedOrder { name } associatedPayout { status } } }
+    }
+  }
+}`;
+
+/** Ce que Shopify a retenu entre le CA encaissé et les versements, cumulé
+ * sur tous les versements lus (PAID + SCHEDULED), par devise. Centimes de la
+ * devise. C'est la vue de SHOPIFY : à comparer au CA / frais / remboursements
+ * que le dashboard compte pour la même période. */
+export interface PayoutsSummary {
+  currency: string;
+  chargesGross: number;
+  chargesFee: number;
+  refundsGross: number;
+  refundsFee: number;
+  adjustmentsGross: number;
+  adjustmentsFee: number;
+  reservedGross: number;
+  reservedFee: number;
+  retriedGross: number;
+  retriedFee: number;
+  net: number;
+  count: number;
+}
+
+/** Ventes traitées par le compte, pas encore rattachées à un versement
+ * (le solde « en attente ») : brut, frais, net — pour reconstituer le CA
+ * encaissé par la société sans attendre les versements. */
+const PENDING_TX_QUERY = `query PendingTx($after: String) {
+  shopifyPaymentsAccount {
+    balanceTransactions(first: 250, query: "payout_status:pending", after: $after) {
+      edges { node { amount { amount currencyCode } fee { amount } net { amount } } }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}`;
+
+export interface PayoutsStart {
+  market: string;
+  day: string;
+  orderName: string | null;
+}
+
+async function fetchShopifyPayouts(): Promise<{
+  payouts: ShopifyPayout[];
+  markets: string[];
+  warnings: string[];
+  /** Par boutique : première transaction encaissée par le compte de la LLC. */
+  starts: PayoutsStart[];
+  /** Versements PAID/SCHEDULED par mois et devise, sur tout ce qui a été lu. */
+  history: { month: string; currency: string; paidCents: number; count: number }[];
+  /** Plus ancien versement lu (borne de ce que l'API a renvoyé). */
+  oldestIssuedDay: string | null;
+  /** Résumé des retenues Shopify, par devise, sur tous les versements lus. */
+  summaries: PayoutsSummary[];
+  /** Ventes en attente de versement, par devise (brut / frais / net). */
+  pending: { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }[];
+}> {
+  const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
+  const payouts: ShopifyPayout[] = [];
+  const markets: string[] = [];
+  const warnings: string[] = [];
+  const starts: PayoutsStart[] = [];
+  const history = new Map<string, { month: string; currency: string; paidCents: number; count: number }>();
+  const summaries = new Map<string, PayoutsSummary>();
+  const pending = new Map<string, { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }>();
+  let oldestIssuedDay: string | null = null;
+  const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
+  for (const config of getShopifyStoreConfigs()) {
+    try {
+      const token = await resolveAccessToken(config);
+      const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+        body: JSON.stringify({ query: PAYOUTS_QUERY }),
+      });
+      if (!res.ok) continue; // boutique injoignable (DE : app non installée) — déjà signalé ailleurs
+      const json = (await res.json()) as {
+        data?: {
+          shopifyPaymentsAccount?: {
+            payouts?: {
+              edges?: {
+                node: {
+                  id: string;
+                  issuedAt: string;
+                  status: string;
+                  net: { amount: string; currencyCode: string };
+                  summary?: Record<string, { amount?: string } | null> | null;
+                };
+              }[];
+            };
+          } | null;
+        };
+        errors?: { message?: string }[];
+      };
+      if (json.errors?.some((e) => /access denied|scope/i.test(e.message ?? ""))) continue; // pas le scope : sautée
+      if (json.errors?.length) {
+        // Toute autre erreur doit SE VOIR : un bloc vide sans explication a
+        // déjà coûté un aller-retour (08/09).
+        warnings.push(`Versements Shopify ${config.market} : ${json.errors[0].message?.slice(0, 120)}`);
+        continue;
+      }
+      const edges = json.data?.shopifyPaymentsAccount?.payouts?.edges ?? [];
+      markets.push(config.market);
+
+      if (edges.length === 0) warnings.push(`Versements Shopify ${config.market} : Shopify n'a renvoyé aucun versement.`);
+      for (const { node } of edges) {
+        const amount = Number(node.net?.amount);
+        if (!Number.isFinite(amount) || !node.net?.currencyCode) continue;
+        const issuedDay = toParisDay(node.issuedAt);
+        // Historique COMPLET des versements lus (jusqu'à 250), par mois et
+        // devise : dit quand Shopify a commencé à verser, et combien — à
+        // comparer aux crédits reçus en banque sur les mêmes mois.
+        if (!oldestIssuedDay || issuedDay < oldestIssuedDay) oldestIssuedDay = issuedDay;
+        // Résumés sur PAID + SCHEDULED. Vérifié en prod le 08/09 : les ventes
+        // d'un versement PROGRAMMÉ ne sont ni dans le solde Shopify (USD :
+        // solde 1 935 $ < 4 566 $ programmés) ni dans « payout_status:pending »
+        // (net en attente 21 994 € ≈ solde 23 530 €). Les exclure ici (PR #98)
+        // faisait manquer ~6 900 € de CA encaissé → « pris par l'ancien
+        // compte » gonflé d'autant.
+        // Un versement ÉCHOUÉ n'est pas renvoyé par l'API : il est réémis, et
+        // seul le « retriedPayoutsGross » du versement de reprise garde la
+        // trace de ses ventes (5 063 $ le 08/09). Ce montant s'ajoute donc au
+        // brut ENCAISSÉ (voir le calcul du CA pris par l'ancien compte et
+        // shopifyEur) — sinon ~4 350 € de CA réellement versés à la société
+        // étaient portés à tort au Revolut d'Adnane.
+        if ((node.status === "PAID" || node.status === "SCHEDULED") && node.summary) {
+          const cur = node.net.currencyCode;
+          const sm = summaries.get(cur) ?? {
+            currency: cur, chargesGross: 0, chargesFee: 0, refundsGross: 0, refundsFee: 0, adjustmentsGross: 0,
+            adjustmentsFee: 0, reservedGross: 0, reservedFee: 0, retriedGross: 0, retriedFee: 0, net: 0, count: 0,
+          };
+          const c = (k: string) => Math.round(Number(node.summary?.[k]?.amount ?? 0) * 100);
+          sm.chargesGross += c("chargesGross"); sm.chargesFee += c("chargesFee");
+          sm.refundsGross += c("refundsFeeGross"); sm.refundsFee += c("refundsFee");
+          sm.adjustmentsGross += c("adjustmentsGross"); sm.adjustmentsFee += c("adjustmentsFee");
+          sm.reservedGross += c("reservedFundsGross"); sm.reservedFee += c("reservedFundsFee");
+          sm.retriedGross += c("retriedPayoutsGross"); sm.retriedFee += c("retriedPayoutsFee");
+          sm.net += Math.round(amount * 100); sm.count += 1;
+          summaries.set(cur, sm);
+        }
+        if (node.status === "PAID" || node.status === "SCHEDULED") {
+          const k = `${issuedDay.slice(0, 7)}|${node.net.currencyCode}`;
+          const h = history.get(k) ?? { month: issuedDay.slice(0, 7), currency: node.net.currencyCode, paidCents: 0, count: 0 };
+          h.paidCents += Math.round(amount * 100);
+          h.count += 1;
+          history.set(k, h);
+        }
+        if (issuedDay < since) continue;
+        payouts.push({
+          id: node.id,
+          market: config.market,
+          issuedDay,
+          status: node.status as ShopifyPayout["status"],
+          amountCents: Math.round(amount * 100),
+          currency: node.net.currencyCode,
+        });
+      }
+      // Première vente encaissée par la société — APRÈS la boucle : elle a
+      // besoin du plus ancien versement lu. (Best effort : son absence ne retire
+      // rien aux versements).
+      try {
+        const r2 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+          body: JSON.stringify({ query: FIRST_TX_QUERY, variables: { query: `payout_date:>=${oldestIssuedDay ?? since}` } }),
+        });
+        const j2 = (await r2.json()) as {
+          data?: { shopifyPaymentsAccount?: { balanceTransactions?: { edges?: { node: { transactionDate: string; type: string; associatedOrder?: { name?: string } | null; associatedPayout?: { status?: string } | null } }[] } } | null };
+        };
+        const paid = (j2.data?.shopifyPaymentsAccount?.balanceTransactions?.edges ?? [])
+          .map((e) => e.node)
+          .filter((n) => n.associatedPayout?.status === "PAID" && n.transactionDate)
+          .sort((a, b) => a.transactionDate.localeCompare(b.transactionDate));
+        const first = paid[0];
+        if (first) starts.push({ market: config.market, day: toParisDay(first.transactionDate), orderName: first.associatedOrder?.name ?? null });
+      } catch {
+        // rien : la coupure retombe sur la constante
+      }
+      // Ventes en attente de versement (quelques jours, quelques centaines de
+      // lignes au plus) — best effort, paginé.
+      try {
+        let after: string | null = null;
+        for (let page = 0; page < 8; page++) {
+          const r3 = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+            body: JSON.stringify({ query: PENDING_TX_QUERY, variables: { after } }),
+          });
+          const j3 = (await r3.json()) as {
+            data?: {
+              shopifyPaymentsAccount?: {
+                balanceTransactions?: {
+                  edges?: { node: { amount: { amount: string; currencyCode: string }; fee: { amount: string }; net: { amount: string } } }[];
+                  pageInfo?: { hasNextPage: boolean; endCursor: string | null };
+                };
+              } | null;
+            };
+          };
+          const conn = j3.data?.shopifyPaymentsAccount?.balanceTransactions;
+          for (const { node } of conn?.edges ?? []) {
+            const cur = node.amount.currencyCode;
+            const pdg = pending.get(cur) ?? { currency: cur, grossCents: 0, feeCents: 0, netCents: 0, count: 0 };
+            pdg.grossCents += Math.round(Number(node.amount.amount) * 100);
+            pdg.feeCents += Math.round(Number(node.fee.amount) * 100);
+            pdg.netCents += Math.round(Number(node.net.amount) * 100);
+            pdg.count += 1;
+            pending.set(cur, pdg);
+          }
+          if (!conn?.pageInfo?.hasNextPage || !conn.pageInfo.endCursor) break;
+          after = conn.pageInfo.endCursor;
+        }
+      } catch {
+        // rien : le CA encaissé par la société sera légèrement sous-estimé
+      }
+    } catch (err) {
+      warnings.push(`Versements Shopify ${config.market} : ${(err as Error).message.slice(0, 80)}`);
+    }
+  }
+  return {
+    payouts,
+    markets,
+    warnings,
+    starts,
+    history: [...history.values()].sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency)),
+    oldestIssuedDay,
+    summaries: [...summaries.values()].sort((a, b) => b.net - a.net),
+    pending: [...pending.values()],
+  };
+}
+
+const fetchMetaBilledChargesCached = unstable_cache(async (sinceDay: string) => fetchMetaBilledCharges(sinceDay), ["meta-billed-v1"], {
+  revalidate: 900,
+  tags: ["bank"],
+});
+
+const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v13"], {
   revalidate: 900,
   tags: ["bank"],
 });
@@ -1126,8 +1696,8 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
       description,
       category,
       subscriptionLabel,
-      label: null,
-      labelNote: null,
+      label: autoLabelFor(subscriptionLabel).label,
+      labelNote: autoLabelFor(subscriptionLabel).note,
     };
   };
   const txs = [
@@ -1159,15 +1729,393 @@ function demoBankData(untilDay: string): { txs: BankTx[]; balances: BankBalance[
 // changement de forme de retour, incrémenter le suffixe.
 const fetchWiseCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchWiseData(sinceDay, untilDay),
-  ["wise-data-v2"],
+  ["wise-data-v5"], // v5 : frais Meta en dollars (08/09)
   { revalidate: 900, tags: ["bank"] } // 15 min — les banques ne bougent pas plus vite
 );
 
 const fetchSlashCached = unstable_cache(
   async (sinceDay: string, untilDay: string) => fetchSlashData(sinceDay, untilDay),
-  ["slash-data-v2"],
+  ["slash-data-v7"], // v7 : frais Meta en dollars (08/09)
   { revalidate: 900, tags: ["bank"] }
 );
+
+// ---------------------------------------------------------------------------
+// 🧮 RAPPROCHEMENT TRÉSORERIE — balayage DEPUIS LE TOUT DÉBUT
+//
+// Badr, 04/09 : « dis-lui d'aller tout retracer depuis le tout début […] c'est
+// pas à moi d'aller voir ». Le contrôle bancaire regarde 30 jours ; ici on
+// relit TOUTE la vie des comptes pour répondre à une seule question : le net
+// gagné correspond-il à l'argent réellement présent, et sinon où est parti le
+// reste — et à qui l'imputer.
+//
+// Coûteux (pagination complète des deux banques) donc CACHÉ 1 h et lancé en
+// parallèle du reste : un rapprochement de fond n'a pas besoin d'être à la
+// minute, et il ne doit jamais retarder l'affichage du contrôle.
+// ---------------------------------------------------------------------------
+
+/** Jour de lancement de l'activité — même valeur que HISTORY_START de
+ * data.ts, redéclarée ici pour ne pas créer de dépendance croisée entre le
+ * module banque et le module données (bank.ts est importé par data-less
+ * routes). Un test verrouille l'égalité des deux. */
+export const TREASURY_START_DAY = "2026-05-21";
+
+async function fetchLifetimeTxs(sinceDay: string, untilDay: string): Promise<{ txs: BankTx[]; sinceDay: string }> {
+  const parts: BankTx[][] = [];
+  if (process.env.WISE_API_TOKEN) {
+    const wise = await fetchWiseData(sinceDay, untilDay);
+    parts.push(wise.txs);
+  }
+  if (process.env.SLASH_API_TOKEN) {
+    const slash = await fetchSlashData(sinceDay, untilDay);
+    parts.push(slash.txs ?? []);
+  }
+  return { txs: parts.flat(), sinceDay };
+}
+
+const fetchLifetimeTxsCached = unstable_cache(
+  async (sinceDay: string, untilDay: string) => fetchLifetimeTxs(sinceDay, untilDay),
+  ["bank-lifetime-txs-v4"], // v4 : frais Meta en dollars (08/09)
+  { revalidate: 3600, tags: ["bank"] }
+);
+
+/** Toutes les commandes depuis la coupe de la dernière facture fournisseur.
+ * Pagination explicite : Supabase plafonne à 1 000 lignes par requête et il y
+ * a plus de 1 200 commandes non facturées — sans ça le dû fournisseur serait
+ * silencieusement amputé. */
+async function fetchOrderCostsSince(supabase: SupabaseClient, fromDay: string): Promise<OrderCostRow[]> {
+  const rows: OrderCostRow[] = [];
+  const PAGE = 1000;
+  for (let page = 0; page < 40; page++) {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("store, order_name, day, cogs_product_cents, cogs_upsells_cents, tax_eu_cents")
+      .gte("day", fromDay)
+      .order("order_name", { ascending: true })
+      .range(page * PAGE, page * PAGE + PAGE - 1);
+    if (error) throw new Error(error.message);
+    for (const r of data ?? []) {
+      rows.push({
+        store: String(r.store),
+        orderName: String(r.order_name),
+        day: String(r.day),
+        costCents:
+          ((r.cogs_product_cents as number) ?? 0) +
+          ((r.cogs_upsells_cents as number) ?? 0) +
+          ((r.tax_eu_cents as number) ?? 0),
+      });
+    }
+    if ((data?.length ?? 0) < PAGE) break;
+  }
+  return rows;
+}
+
+/** Le rapprochement complet. Chaque brique manquante dégrade proprement :
+ * pas de banque → pas d'écart (jamais un écart calculé contre un solde vide,
+ * qui afficherait « il manque 80 000 € »). */
+/**
+ * Débité en banque vers Meta vs spend enregistré, mois par mois. Un écart
+ * total ne dit pas d'où il vient ; le voir apparaître sur un mois précis, si
+ * (Badr 07/09). Tous les mois présents d'un côté OU de l'autre sont rendus —
+ * un mois où la banque a payé sans qu'aucun spend soit enregistré est
+ * précisément ce qu'on cherche.
+ */
+function metaMonths(
+  metaDebits: BankTx[],
+  spendByMonth: Map<string, number>,
+  out: (t: BankTx) => number
+): { month: string; bankCents: number; spendCents: number }[] {
+  const bankByMonth = new Map<string, number>();
+  for (const t of metaDebits) {
+    const month = t.day.slice(0, 7);
+    bankByMonth.set(month, (bankByMonth.get(month) ?? 0) + out(t));
+  }
+  const months = [...new Set([...bankByMonth.keys(), ...spendByMonth.keys()])].sort();
+  return months.map((month) => ({
+    month,
+    bankCents: bankByMonth.get(month) ?? 0,
+    spendCents: spendByMonth.get(month) ?? 0,
+  }));
+}
+
+async function buildTreasury(input: {
+  supabase: SupabaseClient;
+  untilDay: string;
+  /** Coupure Revolut / LLC lue chez Shopify (première transaction encaissée
+   * par le compte de la société) ; sinon la constante. */
+  llcStartDay?: string;
+  /** CA du dashboard depuis la coupure que la société n'a PAS encaissé
+   * (ancien compte Shopify, premiers jours). */
+  caOldAccountCents?: number;
+  balances: BankBalance[];
+  enRoute: { totalEurCents: number; missingScopes: boolean } | null;
+  /** Estimation (5 derniers jours) utilisée quand le scope Shopify manque. */
+  enRouteEstimateCents: number | null;
+  labels: Map<string, TxLabel>;
+}): Promise<{ treasury: TreasuryBridge | null; setup: string | null; warning: string | null }> {
+  const { supabase, untilDay, balances, enRoute, enRouteEstimateCents, labels } = input;
+  const llcStartDay = input.llcStartDay ?? LLC_START_DAY;
+  if (balances.length === 0) {
+    return { treasury: null, setup: "Rapprochement trésorerie : en attente des soldes bancaires (Wise/Slash).", warning: null };
+  }
+
+  // 1) Net cumulé depuis le début, charges fixes déduites (même arithmétique
+  //    que l'onglet Mois : le net société, pas le net avant charges).
+  const { data: aggRows, error: aggErr } = await supabase
+    .from("daily_aggregates")
+    .select("day, net_cents, spend_cents, cogs_cents, tax_cents")
+    .gte("day", TREASURY_START_DAY)
+    .lte("day", untilDay);
+  if (aggErr) return { treasury: null, setup: null, warning: `Rapprochement trésorerie : agrégats illisibles (${aggErr.message}).` };
+  let netCumuleCents = 0;
+  let metaSpendCents = 0;
+  // Spend Meta MOIS PAR MOIS : sert à retrouver quand un écart avec la banque
+  // est apparu (Badr 07/09 : « d'où sortent ces 13 000 € alors qu'avant y
+  // avait pas ce trou ? »). Un total ne dit pas QUAND ; un mois, si.
+  const metaSpendByMonth = new Map<string, number>();
+  const metaSpendByDay = new Map<string, number>();
+  const cogsNetByDay = new Map<string, number>();
+  let netRevolutCents = 0;
+  let netLlcCents = 0;
+  for (const r of aggRows ?? []) {
+    // Ancien fournisseur jusqu'au 30/06 : +5 % de COGS (même règle que les
+    // onglets, voir oldSupplierExtraCents).
+    const extra = oldSupplierExtraCents(String(r.day), (r.cogs_cents as number) ?? 0);
+    const net = ((r.net_cents as number) ?? 0) - extra;
+    netCumuleCents += net;
+    if (String(r.day) < llcStartDay) netRevolutCents += net;
+    else netLlcCents += net;
+    const spend = (r.spend_cents as number) ?? 0;
+    metaSpendCents += spend;
+    const month = String(r.day).slice(0, 7);
+    metaSpendByMonth.set(month, (metaSpendByMonth.get(month) ?? 0) + spend);
+    metaSpendByDay.set(String(r.day), (metaSpendByDay.get(String(r.day)) ?? 0) + spend);
+    cogsNetByDay.set(String(r.day), (cogsNetByDay.get(String(r.day)) ?? 0) + ((r.cogs_cents as number) ?? 0) + extra + ((r.tax_cents as number) ?? 0));
+  }
+  for (const day of listParisDays(TREASURY_START_DAY, untilDay)) {
+    const fixed = fixedCostsCentsForDay(day);
+    netCumuleCents -= fixed;
+    // La coupure porte les mêmes charges que le global, jour par jour — sinon
+    // les deux périodes additionnées ne retombent pas sur le net global
+    // (10 414 € d'écart constatés le 08/09 : les agrégats journaliers sont
+    // BRUTS de charges fixes).
+    if (day < llcStartDay) netRevolutCents -= fixed;
+    else netLlcCents -= fixed;
+  }
+
+  // 2) Dette fournisseur : les commandes que Panda n'a pas encore facturées.
+  //    Leur coût est déjà déduit du net mais l'argent est TOUJOURS en banque.
+  const lastBill = lastSupplierBill();
+  let unbilled: SupplierUnbilled | null = null;
+  let supplierWarning: string | null = null;
+  try {
+    const fromDay = lastBill ? addDaysToDay(lastBill.issuedDay, -7) : TREASURY_START_DAY;
+    const orderRows = await fetchOrderCostsSince(supabase, fromDay);
+    unbilled = supplierUnbilledDetail(
+      orderRows,
+      lastBill ? { store: SUPPLIER_BILL_STORE, ordersTo: lastBill.ordersTo, issuedDay: lastBill.issuedDay } : null
+    );
+  } catch (err) {
+    supplierWarning = `Rapprochement : dû fournisseur illisible (${(err as Error).message}) — écart affiché sans lui.`;
+  }
+
+  // 3) Ventilation depuis le début : ce que la banque voit et que le net ne
+  //    compte nulle part. Non bloquant — sans lui on montre quand même le pont.
+  // 🏦 COGS de commandes de la période Revolut payés par la LLC : la première
+  // facture Panda réglée depuis Slash (Bill 20260801) commence à #4814, soit
+  // le 18/07 — trois jours AVANT le premier versement Shopify sur la LLC. Ces
+  // ventes ont été encaissées sur Revolut, mais c'est la LLC qui a payé Panda.
+  let cogsPreLlcPaidByLlcCents = 0;
+  // … et l'inverse : COGS de commandes de la PÉRIODE LLC (≥ coupure) mais
+  // AVANT la première facture payée par la LLC (< #4814) — réglés par la
+  // facture précédente, depuis le Revolut. La LLC les a déduits de son net
+  // sans jamais les payer.
+  let cogsLlcPaidByRevolutCents = 0;
+  let autoPrepaidCents = 0;
+  try {
+    const firstLlcBill = SUPPLIER_BILLS[0];
+    if (firstLlcBill) {
+      const fromNumber = orderNumber(firstLlcBill.ordersFrom);
+      const rows = await fetchOrderCostsSince(supabase, addDaysToDay(llcStartDay, -10));
+      for (const r of rows) {
+        const n = orderNumber(r.orderName);
+        const inFirstLlcBill = r.store === SUPPLIER_BILL_STORE ? n !== null && fromNumber !== null && n >= fromNumber : true;
+        if (r.day < llcStartDay) {
+          if (inFirstLlcBill) cogsPreLlcPaidByLlcCents += r.costCents;
+        } else if (r.day < firstLlcBill.issuedDay && !inFirstLlcBill) {
+          cogsLlcPaidByRevolutCents += r.costCents;
+        }
+      }
+    }
+  } catch {
+    // Sans cette lecture, la coupure reste possible mais moins précise (au
+    // pire ~3 600 € mal placés entre les deux périodes) — rien de bloquant.
+  }
+
+  let scan: Parameters<typeof buildTreasuryBridge>[0]["scan"] = null;
+  let transfersInCents = 0;
+  let llcOutByCategory: NonNullable<TreasuryInput["llcSplit"]>["llcOutByCategory"];
+  let llcCostsPaidByRevolut: NonNullable<TreasuryInput["llcSplit"]>["llcCostsPaidByRevolut"];
+  let bigCredits: NonNullable<TreasuryInput["llcSplit"]>["bigCredits"] = [];
+  let scanWarning: string | null = null;
+  try {
+    const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+    autoPrepaidCents = life.txs
+      .filter((t) => t.category === "FOURNISSEUR" && t.amountCents < 0 && !(t.labelNote?.startsWith("frais lié") ?? false) && pandaTransferKind(t) === "acompte_auto")
+      .reduce((a, t) => a + Math.abs(t.amountEurCents ?? 0), 0);
+    // Une affectation MANUELLE écrase l'automatique (titulaire de la carte) ;
+    // sans affectation manuelle, l'automatique reste — l'écraser par null
+    // vidait le perso d'Adnane du rapprochement (bug repéré le 04/09).
+    for (const t of life.txs) {
+      const manual = labels.get(`${t.bank}|${t.txId}`);
+      if (manual) t.label = manual;
+    }
+    const out = (t: BankTx) => Math.abs(t.amountEurCents ?? 0);
+    const debits = life.txs.filter((t) => t.amountCents < 0 && t.label !== "IGNORER" && t.category !== "INTERNE");
+    // Apports : tout crédit qui n'est ni un versement Shopify ni un mouvement
+    // interne — de l'argent entré de l'extérieur (Revolut → LLC). Sur les 30
+    // derniers jours il n'y en a aucun ; s'il y en a eu au démarrage de la
+    // LLC, c'est ici qu'ils comptent.
+    transfersInCents = life.txs
+      .filter((t) => t.amountCents > 0 && t.label !== "IGNORER" && t.category !== "INTERNE" && t.category !== "SHOPIFY")
+      .reduce((a, t) => a + (t.amountEurCents ?? 0), 0);
+    // 🔎 Tous les GROS crédits qui ne sont pas des versements Shopify, quelle
+    // que soit leur catégorie (un apport Revolut peut être classé INTERNE si
+    // le libellé cite la LLC) — pour voir d'où vient l'argent, pas deviner.
+    // Sans les mouvements internes Slash (remboursement quotidien de la carte,
+    // virements Slash → Wise, conversions) : ils ne sont pas de l'argent entré.
+    // On n'écarte QUE ce qui est sûrement interne : le remboursement quotidien
+    // de la carte Slash, les virements Slash → Wise (vus côté Wise « from
+    // SLASH ») et les conversions. Un virement Revolut → Slash, lui, doit
+    // apparaître ici quelle que soit sa catégorie (Badr 08/09 : « on avait
+    // reçu des virements depuis Revolut sur Slash non ? »).
+    const interne = /daily\s*credit|from\s+slash|^converted\b/i;
+    bigCredits = life.txs
+      .filter((t) => t.amountCents > 0 && t.category !== "SHOPIFY" && (t.amountEurCents ?? 0) >= 20000 && !interne.test(t.description))
+      .sort((a, b) => (b.amountEurCents ?? 0) - (a.amountEurCents ?? 0))
+      .slice(0, 25)
+      .map((t) => ({ day: t.day, bank: t.bank, category: t.category, currency: t.currency, amountCents: t.amountCents, amountEurCents: t.amountEurCents ?? 0, description: t.description.slice(0, 80) }));
+    const isPerso = (t: BankTx) => t.label === "PERSO_BADR" || t.label === "PERSO_FAHD";
+    // Frais et Google Ads : seulement APRÈS le 04/09 — ceux d'avant sont déjà
+    // inscrits dans le net (subscriptions.ts / associateLedger.ts) et
+    // ressortiraient deux fois. Tout ce qui repasse après = écart neuf.
+    const nouveau = (t: BankTx) => t.day > NET_BOOKED_BANK_FEES_UNTIL;
+    const fees = debits.filter((t) => t.category === "FRAIS" && !isPerso(t) && nouveau(t));
+    const google = debits.filter((t) => t.category === "GOOGLE_ADS" && !isPerso(t) && nouveau(t));
+    // Frais de change DEPUIS LE DÉBUT, par origine (Badr 04/09 : « c'est lié
+    // aux dépenses courantes ou à Meta ? ») — information, indépendante de ce
+    // qui est déjà inscrit au net.
+    const fx = debits.filter((t) => t.category === "FRAIS" && t.feeOf !== undefined && t.feeOf !== null);
+    const fxMeta = fx.filter((t) => t.feeOf === "META").reduce((a, t) => a + out(t), 0);
+    const fxPerso = fx.filter((t) => t.feeOf === "PERSO").reduce((a, t) => a + out(t), 0);
+    const fxAutre = fx.reduce((a, t) => a + out(t), 0) - fxMeta - fxPerso;
+    // Meta de la période LLC payé depuis le Revolut = spend enregistré depuis
+    // la coupure − ce que la LLC a réellement payé à Meta depuis la coupure
+    // (Meta facture en retard : ce qui manque n'a pas été payé par la LLC).
+    const metaSpendSinceCut = [...metaSpendByDay.entries()].filter(([d]) => d >= llcStartDay).reduce((a, [, c]) => a + c, 0);
+    const metaBankSinceCut = debits.filter((t) => t.category === "META" && t.day >= llcStartDay).reduce((a, t) => a + out(t), 0);
+    // Abonnements de la période LLC payés hors LLC = charges fixes depuis la
+    // coupure − débits d'abonnements vus en banque depuis la coupure.
+    const chargesSinceCut = listParisDays(llcStartDay, untilDay).reduce((a, d) => a + fixedCostsCentsForDay(d), 0);
+    const subsBankSinceCut = debits.filter((t) => t.category === "ABONNEMENT" && t.day >= llcStartDay).reduce((a, t) => a + out(t), 0);
+    llcCostsPaidByRevolut = {
+      metaCents: Math.max(metaSpendSinceCut - metaBankSinceCut, 0),
+      cogsCents: cogsLlcPaidByRevolutCents,
+      subsCents: Math.max(chargesSinceCut - subsBankSinceCut, 0),
+    };
+    // 🔎 Sorti des comptes LLC depuis la coupure, PAR POSTE, face à ce que le
+    // net a compté pour le même poste. C'est ce tableau qui nomme un trou :
+    // un poste où la banque a sorti plus que le net n'a compté est un coût
+    // réel absent du P&L ; un poste sans contrepartie dans le net (« autre »,
+    // à affecter) est de l'argent sorti sans case.
+    const sinceCut = debits.filter((t) => t.day >= llcStartDay);
+    const sumCat = (cat: TxCategory, pred: (t: BankTx) => boolean = () => true) =>
+      sinceCut.filter((t) => t.category === cat && pred(t)).reduce((a, t) => a + out(t), 0);
+    const cogsNetSinceCut = [...cogsNetByDay.entries()].filter(([d]) => d >= llcStartDay).reduce((a, [, c]) => a + c, 0);
+    const supplierPaidSinceCut = SUPPLIER_BILLS.filter((b) => b.status === "payee" && b.issuedDay >= llcStartDay).reduce((a, b) => a + (b.paidCents ?? b.totalCents), 0);
+    const eurTxt = (c: number) => `${Math.round(c / 100).toLocaleString("fr-FR")} €`;
+    llcOutByCategory = [
+      { category: "Meta", bankCents: metaBankSinceCut, netCents: metaSpendSinceCut, note: "spend enregistré par le dashboard" },
+      { category: "Fournisseur (Panda)", bankCents: sumCat("FOURNISSEUR"), netCents: cogsNetSinceCut, note: `COGS + taxe UE des commandes ; factures réglées depuis la coupure ${eurTxt(supplierPaidSinceCut)}` },
+      { category: "Abonnements / équipe", bankCents: subsBankSinceCut, netCents: chargesSinceCut, note: "charges fixes étalées + frais ponctuels" },
+      { category: "Dépenses perso (Badr + Adnane)", bankCents: sumCat("FRAIS", isPerso) + sinceCut.filter(isPerso).reduce((a, t) => a + out(t), 0) - sumCat("FRAIS", isPerso), netCents: null, note: "hors P&L, à solder entre associés" },
+      { category: "Google Ads", bankCents: sumCat("GOOGLE_ADS", (t) => !isPerso(t)), netCents: sumCat("GOOGLE_ADS", (t) => !isPerso(t) && !nouveau(t)), note: "compté dans le net jusqu'au 04/09" },
+      { category: "Frais bancaires / change", bankCents: sumCat("FRAIS", (t) => !isPerso(t)), netCents: sumCat("FRAIS", (t) => !isPerso(t) && !nouveau(t)), note: "compté dans le net jusqu'au 04/09" },
+      { category: "Retours de versement Shopify", bankCents: sumCat("SHOPIFY"), netCents: sumCat("SHOPIFY"), note: "remboursements repris sur un payout — déjà déduits du CA" },
+      { category: "Autre / à affecter", bankCents: sumCat("AUTRE", (t) => !isPerso(t)), netCents: null, note: "aucune case dans le net" },
+    ];
+    scan = {
+      sinceDay: life.sinceDay,
+      coversHistory: life.sinceDay <= TREASURY_START_DAY,
+      feesCents: fees.reduce((a, t) => a + out(t), 0),
+      googleAdsCents: google.reduce((a, t) => a + out(t), 0),
+      persoBadrCents: debits.filter((t) => t.label === "PERSO_BADR").reduce((a, t) => a + out(t), 0),
+      persoFahdCents: debits.filter((t) => t.label === "PERSO_FAHD").reduce((a, t) => a + out(t), 0),
+      // Part de Badr sur les frais et Google Ads : règle des associés
+      // appliquée AU JOUR de chaque débit (100 % Adnane avant le 14/07,
+      // 50/50 ensuite) — jamais un 50/50 plaqué sur toute l'histoire.
+      societeDatedBadrCents: [...fees, ...google].reduce(
+        (a, t) => a + Math.round(out(t) * badrFixedShareFor(t.day)),
+        0
+      ),
+      metaBankCents: debits.filter((t) => t.category === "META").reduce((a, t) => a + out(t), 0),
+      metaSpendCents,
+      metaByMonth: metaMonths(debits.filter((t) => t.category === "META"), metaSpendByMonth, out),
+      fxSplit: { metaCents: fxMeta, persoCents: fxPerso, autreCents: fxAutre },
+    };
+  } catch (err) {
+    scanWarning = `Rapprochement : balayage bancaire complet indisponible (${(err as Error).message}) — écart affiché sans ventilation.`;
+  }
+
+
+  const treasury = buildTreasuryBridge({
+    netCumuleCents,
+    llcSplit: aggErr
+      ? undefined
+      : {
+          llcStartDay,
+          netRevolutCents,
+          netLlcCents,
+          cogsPreLlcPaidByLlcCents,
+          transfersInCents,
+          bigCredits,
+          llcCostsPaidByRevolut,
+          llcOutByCategory,
+          caOldAccountCents: input.caOldAccountCents ?? 0,
+          // Sorti du Revolut hors compta : mensuels horsNet réellement
+          // prélevés jusqu'à aujourd'hui + ponctuels (Badr 08/09).
+          revolutOffBook: [
+            ...horsNetPaidUntil(input.untilDay).map((l) => ({ label: l.label, cents: l.cents, note: `${l.months} mois` })),
+            ...REVOLUT_OFF_BOOK_ONE_OFFS,
+          ],
+          // Couru mais pas encore payé (Marwa, Badr 08/09) : l'argent doit
+          // encore être sur le Revolut — provision, pas sortie.
+          revolutProvisions: horsNetOwedUntil(input.untilDay).map((l) => ({ label: l.label, cents: l.cents, note: `${l.months} mois` })),
+        },
+    supplierUnbilledCents: unbilled?.cents ?? 0,
+    supplierOwedCents: supplierOwedCents(),
+    // Acomptes enregistrés + virements Panda postérieurs à la dernière facture
+    // et sans facture dans le suivi (voir pandaTransferKind) : sortis de la
+    // banque, à déduire de la prochaine facture.
+    supplierPrepaidCents: supplierPrepaidCents() + autoPrepaidCents,
+    supplierNext: unbilled,
+    enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : enRouteEstimateCents,
+    enRouteEstimated: !(enRoute && !enRoute.missingScopes),
+    bankBalances: balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+    scan,
+  });
+  return { treasury, setup: null, warning: supplierWarning ?? scanWarning };
+}
+
+/** Délai moyen entre une vente et son versement Shopify (jours), observé le
+ * 04/09 : EUR 5 j, USD 4 j. */
+export const PAYOUT_LAG_DAYS = 5;
+
+/** Argent en route estimé = CA − frais Shopify des PAYOUT_LAG_DAYS derniers
+ * jours (untilDay inclus). Pur, exporté pour test. */
+export function estimateEnRoute(days: ExpectedDaily[], untilDay: string): number {
+  const from = addDaysToDay(untilDay, -(PAYOUT_LAG_DAYS - 1));
+  return days.filter((d) => d.day >= from && d.day <= untilDay).reduce((t, d) => t + d.caCents - d.feesCents, 0);
+}
 
 /** supabase = null ⇢ mode démo : données synthétiques, aucune lecture. */
 export async function buildBankReport(supabase: SupabaseClient | null): Promise<BankReport> {
@@ -1186,24 +2134,77 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   if (!supabase) {
     const demo = demoBankData(untilDay);
     const reconciliation = reconcile(demo.txs, demo.expected, controlSince, untilDay, { slashConnected });
-    const control = computeControl({ txs: demo.txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected });
+    const demoTreasury = buildTreasuryBridge({
+      netCumuleCents: 5931571,
+      supplierUnbilledCents: 2698847,
+      supplierOwedCents: 0,
+      enRouteCents: 185000,
+      supplierPrepaidCents: 0,
+      supplierNext: {
+        cents: 2698847,
+        orders: 1219,
+        firstOrder: "#5996",
+        lastOrder: "#7214",
+        firstDay: "2026-08-12",
+        lastDay: untilDay,
+      },
+      bankBalances: demo.balances.map((b) => ({ currency: b.currency, amountEurCents: b.amountEurCents })),
+      scan: {
+        sinceDay: TREASURY_START_DAY,
+        coversHistory: true,
+        feesCents: 0,
+        googleAdsCents: 0,
+        persoBadrCents: 53100,
+        persoFahdCents: 301800,
+        societeDatedBadrCents: 0,
+        metaBankCents: 21337236,
+        metaSpendCents: 21337236,
+      },
+    });
+    const control = computeControl({
+      txs: demo.txs,
+      reconciliation,
+      sinceDay: controlSince,
+      untilDay,
+      slashConnected,
+      treasury: demoTreasury,
+    });
     return {
       ready: true,
       setup: ["Mode démo : données bancaires synthétiques (aucune API appelée)."],
       slashConnected,
       balances: demo.balances,
       txs: demo.txs,
+      payouts: null,
+      payoutsMarkets: [],
+      payoutsStarts: [],
+      payoutsByMonth: [],
+      payoutsOldestDay: null,
+      payoutsSummary: null,
       reconciliation,
       control,
       warnings: [],
       slashCashbackEurCents: 2150,
       cashbackTotalEurCents: 9640,
       enRoute: { totalEurCents: 185000, missingScopes: false },
+      enRouteEstimateCents: 185000,
+      enRouteDepositedCents: 0,
+      enRouteScheduledCents: 0,
+      metaUsdFees: null,
+      treasury: demoTreasury,
+      treasurySetup: null,
     };
   }
 
   let txs: BankTx[] = [];
   let balances: BankBalance[] = [];
+  // Série de taux pour l'argent qui dort (cashback) — même source que les
+  // banques, même cache.
+  const usdRatesForReport = await fetchWiseUsdEurHistoryCached(RATES_START_DAY, untilDay).catch(() => null);
+  // Affectations manuelles, réutilisées par le rapprochement depuis le début
+  // (les mêmes labels doivent valoir sur TOUTES les transactions, pas
+  // seulement celles des 30 derniers jours).
+  const labelsByKey = new Map<string, TxLabel>();
   let slashCashbackEurCents: number | null = null;
   // Argent en route (solde Shopify Payments réel) + cashback total depuis le
   // début — lancés en parallèle des banques, jamais bloquants.
@@ -1232,7 +2233,8 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       txs = txs.concat(slash.txs ?? []);
       txs.sort((a, b) => b.day.localeCompare(a.day) || a.txId.localeCompare(b.txId));
       balances = balances.concat(slash.balances ?? []);
-      slashCashbackEurCents = typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD") : null;
+      slashCashbackEurCents =
+        typeof slash.cashbackCents === "number" ? toEurCents(slash.cashbackCents, "USD", undefined, { rates: usdRatesForReport }) : null;
       slashConnected = true;
       if ((slash.balances ?? []).length === 0) {
         warnings.push("Slash : transactions lues mais solde illisible — la répartition Badr/Adnane ne compte que Wise.");
@@ -1256,6 +2258,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       }
     } else {
       const byKey = new Map((labelRows ?? []).map((r) => [`${r.bank}|${r.tx_id}`, r]));
+      for (const [k, r] of byKey) labelsByKey.set(k, r.kind as TxLabel);
       for (const t of txs) {
         const l = byKey.get(`${t.bank}|${t.txId}`);
         if (l) {
@@ -1267,42 +2270,278 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
   }
 
   let reconciliation: BankReconciliation | null = null;
+  let enRouteEstimateCents: number | null = null;
+  let estimateRowsByMarket: { market: string; row: ExpectedDaily }[] = [];
   if (txs.length > 0) {
     const { data, error } = await supabase
       .from("daily_aggregates")
-      .select("day, ca_cents, spend_cents, fees_cents")
+      .select("day, market, ca_cents, spend_cents, fees_cents")
       .gte("day", sinceDay)
       .lte("day", untilDay);
     if (error) {
       warnings.push(`Agrégats dashboard illisibles : ${error.message}`);
     } else {
       const byDay = new Map<string, ExpectedDaily>();
+      // Même agrégat, mais gardé PAR BOUTIQUE : l'estimation de l'argent en
+      // route ne doit porter que sur celles dont Shopify n'a pas donné le
+      // solde réel (Badr 07/09).
+      const byDayMarket = new Map<string, ExpectedDaily>();
       for (const r of data ?? []) {
         const day = String(r.day);
+        const market = String(r.market);
         const e = byDay.get(day) ?? { day, caCents: 0, spendCents: 0, feesCents: 0 };
         e.caCents += (r.ca_cents as number) ?? 0;
         e.spendCents += (r.spend_cents as number) ?? 0;
         e.feesCents += (r.fees_cents as number) ?? 0;
         byDay.set(day, e);
+        const k = `${market}|${day}`;
+        const m = byDayMarket.get(k) ?? { day, caCents: 0, spendCents: 0, feesCents: 0, market } as ExpectedDaily & { market: string };
+        m.caCents += (r.ca_cents as number) ?? 0;
+        m.feesCents += (r.fees_cents as number) ?? 0;
+        byDayMarket.set(k, m);
       }
+      estimateRowsByMarket = [...byDayMarket.entries()].map(([k, v]) => ({ market: k.split("|")[0], row: v }));
+      enRouteEstimateCents = estimateEnRoute([...byDay.values()], untilDay);
       reconciliation = reconcile(txs, [...byDay.values()].filter((e) => e.day >= controlSince), controlSince, untilDay, {
         slashConnected,
       });
       warnings.push(...reconciliation.warnings);
+      // 🧾 Ce que Meta a RÉELLEMENT facturé sur la fenêtre (journal du compte)
+      // — le maillon entre le spend et la banque (Badr 10/09 : « des fees
+      // facturés par Meta… à toi d'aller voir »).
+      try {
+        const charges = (await fetchMetaBilledChargesCached(controlSince)).filter((c) => c.day >= controlSince && c.day <= untilDay);
+        reconciliation.meta.billedCount = charges.length;
+        reconciliation.meta.billedCents = charges.reduce((a, c) => a + (toEurCents(c.cents, c.currency, undefined, { rates: usdRatesForReport }) ?? 0), 0);
+      } catch (err) {
+        warnings.push(`Prélèvements Meta illisibles (journal du compte) : ${(err as Error).message}`);
+      }
     }
   }
 
-  const control =
-    txs.length > 0 ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected }) : null;
-
   const [enRouteRes, cashbackTotalRaw] = await Promise.all([enRoutePromise, cashbackTotalPromise]);
-  const cashbackTotalEurCents = typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD") : null;
-  const enRoute = enRouteRes ? { totalEurCents: enRouteRes.totalEurCents, missingScopes: enRouteRes.missingScopes } : null;
+  const cashbackTotalEurCents =
+    typeof cashbackTotalRaw === "number" ? toEurCents(cashbackTotalRaw, "USD", undefined, { rates: usdRatesForReport }) : null;
+  // 🔀 EXACT + ESTIMÉ, boutique par boutique (Badr 07/09 : « ES et UK on s'en
+  // fout, je fais plus de vente dessus »). Avant, une seule boutique muette
+  // faisait retomber TOUT l'en route sur une estimation à ±2 000 € — alors que
+  // FR, qui pèse 95 % du spend, répondait exactement. On additionne donc le
+  // solde réel des boutiques qui répondent et l'estimation des autres, chacune
+  // sur SON propre CA. Une boutique muette qui ne vend plus rien ajoute zéro :
+  // le total redevient exact, et c'est DIT.
+  const { getShopifyMarkets } = await import("./shopify");
+  const toutesBoutiques = getShopifyMarkets();
+  const muettes: Market[] = enRouteRes
+    ? toutesBoutiques.filter((m) => !enRouteRes.answered.includes(m))
+    : toutesBoutiques;
+  const estimeMuettesCents = estimateRowsByMarket.length
+    ? estimateEnRoute(
+        estimateRowsByMarket.filter((r) => muettes.includes(r.market as Market)).map((r) => r.row),
+        untilDay
+      )
+    : null;
+  let enRoute = enRouteRes
+    ? {
+        totalEurCents: enRouteRes.totalEurCents + (estimeMuettesCents ?? 0),
+        // « estimé » seulement si une boutique muette a réellement vendu sur
+        // la fenêtre : sinon son apport est nul et le total est exact.
+        missingScopes: (estimeMuettesCents ?? 0) > 0,
+      }
+    : null;
   if (enRouteRes?.missingScopes) {
+    const nom = muettes.join(", ");
     setup.push(
-      "Argent en route : ajouter les scopes read_shopify_payments_accounts + read_shopify_payments_payouts sur chaque app custom (dev.shopify.com → app → Scopes) pour lire le solde exact que Shopify vous doit."
+      (estimeMuettesCents ?? 0) > 0
+        ? `Argent en route : ${nom} ne répond pas (scopes Shopify) et vend encore — sa part est ESTIMÉE. Ajouter read_shopify_payments_accounts + read_shopify_payments_payouts sur ces boutiques (dev.shopify.com → app → Versions → Portées) pour un chiffre exact.`
+        : `Argent en route : ${nom} ne répond pas (scopes Shopify), mais n'a plus de vente sur la période — le total reste exact.`
     );
   }
+
+  // 🧮 Rapprochement depuis le tout début — AVANT le contrôle (il en tire
+  // l'anomalie « trésorerie inexpliquée »), et jamais bloquant : une erreur
+  // ici ne doit pas emporter le contrôle bancaire, qui marche déjà.
+  // 📦 Versements Shopify — lus AVANT le rapprochement : la première
+  // transaction encaissée par le compte de la société fixe la coupure
+  // Revolut / LLC (FR porte 95 % du spend : c'est sa date qui compte).
+  let fetchedPayouts: Awaited<ReturnType<typeof fetchShopifyPayoutsCached>> | null = null;
+  try {
+    fetchedPayouts = await fetchShopifyPayoutsCached();
+  } catch (err) {
+    warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
+  }
+  const frStart = fetchedPayouts?.starts.find((x) => x.market === "FR")?.day;
+  // CA du dashboard depuis la coupure NON encaissé par la société (pris par
+  // l'ancien compte Shopify sur les premiers jours) — calculé ici, avant le
+  // rapprochement, pour être porté du côté Revolut.
+  let caOldAccountCents = 0;
+  if (fetchedPayouts && frStart && fetchedPayouts.summaries.length > 0) {
+    try {
+      const others = [...fetchedPayouts.summaries, ...fetchedPayouts.pending].map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const wiseToken = process.env.WISE_API_TOKEN;
+      const rates = others.length > 0 && wiseToken ? await fetchWiseRates([...new Set(others)], wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
+      const collected =
+        fetchedPayouts.summaries.reduce((a, x) => a + conv(x.chargesGross + x.retriedGross, x.currency), 0) +
+        fetchedPayouts.pending.reduce((a, x) => a + conv(x.grossCents, x.currency), 0);
+      const { data: agg } = await supabase.from("daily_aggregates").select("ca_cents").gte("day", frStart).lte("day", untilDay);
+      const dashCa = (agg ?? []).reduce((a, r) => a + ((r.ca_cents as number) ?? 0), 0);
+      caOldAccountCents = Math.max(dashCa - collected, 0);
+    } catch {
+      caOldAccountCents = 0;
+    }
+  }
+
+  let enRouteDepositedCents = 0;
+  let enRouteScheduledCents = 0;
+  let metaUsdFees: BankReport["metaUsdFees"] = null;
+  // 📦 Versements Shopify ↔ banque (Badr 08/09). Les crédits Shopify de TOUT
+  // l'historique lu (pas seulement la fenêtre de contrôle) : un versement
+  // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
+  let payouts: PayoutReconciliation | null = null;
+  let payoutsMarkets: string[] = [];
+  let payoutsStarts: PayoutsStart[] = [];
+  let payoutsByMonth: BankReport["payoutsByMonth"] = [];
+  let payoutsOldestDay: string | null = null;
+  let payoutsSummary: BankReport["payoutsSummary"] = null;
+  let caNotCollectedByLlcCents = 0;
+  try {
+    const fetched = fetchedPayouts;
+    if (fetched) {
+    payoutsMarkets = fetched.markets;
+    payoutsStarts = fetched.starts;
+    payoutsOldestDay = fetched.oldestIssuedDay;
+    if (fetched.summaries.length > 0 && frStart) {
+      // Côté Shopify → EUR. USD au taux Wise du jour (approché : dernier taux),
+      // CAD / GBP au dernier taux connu — c'est de l'argent qui a dormi.
+      const others = fetched.summaries.map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const wiseToken = process.env.WISE_API_TOKEN;
+      const rates = others.length > 0 && wiseToken ? await fetchWiseRates(others, wiseToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      const conv = (cents: number, cur: string) => toEurCents(cents, cur, rates, { rates: usdRatesForReport }) ?? 0;
+      const pe = { gross: 0, fee: 0, net: 0 };
+      for (const x of fetched.pending) {
+        pe.gross += conv(x.grossCents, x.currency);
+        pe.fee += conv(x.feeCents, x.currency);
+        pe.net += conv(x.netCents, x.currency);
+      }
+      const sh = { chargesGross: 0, fees: 0, refunds: 0, adjustments: 0, reserved: 0, net: 0 };
+      for (const x of fetched.summaries) {
+        // + repris : ventes d'un versement échoué réémis, absentes de tout
+        // autre résumé (net de ses frais, ~4 %, non retrouvables).
+        sh.chargesGross += conv(x.chargesGross + x.retriedGross, x.currency);
+        sh.fees += conv(x.chargesFee + x.refundsFee + x.adjustmentsFee + x.reservedFee + x.retriedFee, x.currency);
+        sh.refunds += conv(x.refundsGross, x.currency);
+        sh.adjustments += conv(x.adjustmentsGross, x.currency);
+        sh.reserved += conv(x.reservedGross, x.currency);
+        sh.net += conv(x.net, x.currency);
+      }
+      // Côté dashboard, même période (depuis la première vente encaissée par la LLC).
+      const { data: agg } = await supabase
+        .from("daily_aggregates")
+        .select("ca_cents, fees_cents, refunded_cents")
+        .gte("day", frStart)
+        .lte("day", untilDay);
+      const d = { sinceDay: frStart, ca: 0, fees: 0, refunds: 0, expected: 0 };
+      for (const r of agg ?? []) {
+        d.ca += (r.ca_cents as number) ?? 0;
+        d.fees += (r.fees_cents as number) ?? 0;
+        d.refunds += (r.refunded_cents as number) ?? 0;
+      }
+      d.expected = d.ca - d.fees - d.refunds;
+      // Ce que la société a réellement encaissé depuis la coupure = brut des
+      // versements + brut en attente. Ce que le dash compte en plus n'est
+      // jamais entré chez la société : c'est l'ancien compte qui l'a pris.
+      caNotCollectedByLlcCents = Math.max(d.ca - (sh.chargesGross + pe.gross), 0);
+      payoutsSummary = { byCurrency: fetched.summaries, shopifyEur: sh, pendingEur: pe, dashEur: d, caNotCollectedByLlcCents };
+    }
+    if (fetched.history.length > 0) {
+      // Crédits Shopify en banque, par mois et devise (tout l'historique lu).
+      const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+      // 🧾 Frais Meta sur les paiements en dollars, MESURÉS sur tout
+      // l'historique (Badr 10/09 : « comment voir ces fees et les anticiper ») :
+      // premier / dernier débit, nombre, total — c'est ce qui fixe la ligne
+      // étalée de subscriptions.ts, jamais l'inverse.
+      const feeTxs = life.txs.filter((t) => t.subscriptionLabel === "Meta — frais de paiement en dollars" && t.amountCents < 0).sort((a, b) => a.day.localeCompare(b.day));
+      if (feeTxs.length > 0) {
+        metaUsdFees = {
+          firstDay: feeTxs[0].day,
+          lastDay: feeTxs[feeTxs.length - 1].day,
+          count: feeTxs.length,
+          totalEurCents: feeTxs.reduce((a, t) => a - (t.amountEurCents ?? 0), 0),
+        };
+      }
+      const bank = new Map<string, number>();
+      for (const t of life.txs) {
+        if (t.category !== "SHOPIFY" || t.amountCents <= 0) continue;
+        const k = `${t.day.slice(0, 7)}|${t.currency}`;
+        bank.set(k, (bank.get(k) ?? 0) + t.amountCents);
+      }
+      const keys = new Set([...fetched.history.map((h) => `${h.month}|${h.currency}`), ...bank.keys()]);
+      payoutsByMonth = [...keys]
+        .map((k) => {
+          const [month, currency] = k.split("|");
+          const h = fetched.history.find((x) => x.month === month && x.currency === currency);
+          return { month, currency, shopifyCents: h?.paidCents ?? 0, bankCents: bank.get(k) ?? 0, count: h?.count ?? 0 };
+        })
+        .sort((a, b) => a.month.localeCompare(b.month) || a.currency.localeCompare(b.currency));
+    }
+    if (fetched.payouts.length > 0) {
+      // Crédits de TOUT l'historique (même lecture que le rapprochement
+      // trésorerie, déjà en cache) — pas la fenêtre de 30 jours du contrôle :
+      // avec elle, 32 versements de fin juillet ressortaient « jamais arrivés »
+      // alors que la banque n'avait simplement pas été lue si loin (08/09).
+      const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+      const credits: BankCredit[] = life.txs
+        .filter((t) => t.category === "SHOPIFY" && t.amountCents > 0)
+        .map((t) => ({
+          txId: t.txId,
+          day: t.day,
+          bank: t.bank,
+          currency: t.currency,
+          amountCents: t.amountCents,
+          amountEurCents: t.amountEurCents,
+          description: t.description,
+        }));
+      payouts = reconcilePayouts(fetched.payouts, credits, untilDay);
+      // 🚚 « Déposé » par Shopify mais pas encore sur Wise : sorti du solde
+      // Shopify, pas encore en banque → c'est encore de l'argent en route
+      // (Badr 08/09 : versements du 7-8/09 visibles chez Shopify, pas sur Wise).
+      const pendCur = payouts.paidPending.map((x) => x.currency).filter((c) => c !== "EUR" && c !== "USD");
+      const pendToken = process.env.WISE_API_TOKEN;
+      const pendRates = pendCur.length > 0 && pendToken ? await fetchWiseRates([...new Set(pendCur)], pendToken).catch(() => new Map<string, number>()) : new Map<string, number>();
+      enRouteDepositedCents = payouts.paidPending.reduce((a, x) => a + (toEurCents(x.amountCents, x.currency, pendRates, { rates: usdRatesForReport }) ?? 0), 0);
+      // 📅 PROGRAMMÉS : déjà sortis du solde Shopify (USD : solde 1 935 $ <
+      // 4 566 $ programmés le 08/09), pas encore en banque → en route aussi.
+      enRouteScheduledCents = payouts.scheduled.reduce((a, x) => a + (toEurCents(x.amountCents, x.currency, pendRates, { rates: usdRatesForReport }) ?? 0), 0);
+    }
+    for (const w of fetched.warnings) warnings.push(w);
+    }
+  } catch (err) {
+    warnings.push(`Versements Shopify illisibles : ${(err as Error).message}`);
+  }
+
+  // L'en route = solde Shopify + versements programmés + déposés pas encore
+  // arrivés : trois états successifs du même argent, aucun encore en banque.
+  const enRouteExtraCents = enRouteDepositedCents + enRouteScheduledCents;
+  if (enRouteExtraCents > 0) {
+    if (enRoute) enRoute = { ...enRoute, totalEurCents: enRoute.totalEurCents + enRouteExtraCents };
+    if (enRouteEstimateCents !== null) enRouteEstimateCents += enRouteExtraCents;
+  }
+
+  let treasury: TreasuryBridge | null = null;
+  let treasurySetup: string | null = null;
+  try {
+    const t = await buildTreasury({ supabase, untilDay, llcStartDay: frStart, caOldAccountCents, balances, enRoute, enRouteEstimateCents, labels: labelsByKey });
+    treasury = t.treasury;
+    treasurySetup = t.setup;
+    if (t.warning) warnings.push(t.warning);
+  } catch (err) {
+    warnings.push(`Rapprochement trésorerie indisponible : ${(err as Error).message}`);
+  }
+
+  const control =
+    txs.length > 0
+      ? computeControl({ txs, reconciliation, sinceDay: controlSince, untilDay, slashConnected, treasury })
+      : null;
 
   return {
     ready: txs.length > 0,
@@ -1310,11 +2549,23 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     slashConnected,
     balances,
     txs: txs.slice(0, 200),
+    payouts,
+    payoutsMarkets,
+    payoutsStarts,
+    payoutsByMonth,
+    payoutsOldestDay,
+    payoutsSummary,
     reconciliation,
     control,
     warnings,
     slashCashbackEurCents,
     cashbackTotalEurCents,
     enRoute,
+    enRouteEstimateCents,
+    enRouteDepositedCents,
+    enRouteScheduledCents,
+    metaUsdFees,
+    treasury,
+    treasurySetup,
   };
 }

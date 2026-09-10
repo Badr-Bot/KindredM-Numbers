@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 // ---------------------------------------------------------------------------
 // KLAVIYO — CA attribué aux campagnes email (Jeremy, branché 08/08).
 //
@@ -197,7 +198,7 @@ export interface KlaviyoCampaignListItem {
 }
 
 /** Toutes les campagnes (par défaut email), triées des plus récentes aux plus anciennes. */
-export async function listAllCampaigns(channel: "email" | "sms" = "email"): Promise<KlaviyoCampaignListItem[]> {
+async function listAllCampaignsUncached(channel: "email" | "sms" = "email"): Promise<KlaviyoCampaignListItem[]> {
   const items: KlaviyoCampaignListItem[] = [];
   const filter = encodeURIComponent(`equals(messages.channel,'${channel}')`);
   let url: string | null =
@@ -249,7 +250,7 @@ export interface KlaviyoFlowListItem {
 }
 
 /** Tous les flows (email de bienvenue, panier abandonné, post-achat…), triés des plus récents aux plus anciens. */
-export async function listAllFlows(): Promise<KlaviyoFlowListItem[]> {
+async function listAllFlowsUncached(): Promise<KlaviyoFlowListItem[]> {
   const items: KlaviyoFlowListItem[] = [];
   let url: string | null =
     `${KLAVIYO_BASE}/flows/?sort=-created&fields[flow]=name,status,archived,trigger_type,created,updated`;
@@ -285,3 +286,20 @@ export async function listAllFlows(): Promise<KlaviyoFlowListItem[]> {
   }
   return items;
 }
+
+/**
+ * Listes Klaviyo mises en cache 15 min — Badr 07/09 : « fais-le pour tous les
+ * onglets qu'il n'y ait pas de lenteur ». Ces deux lectures paginent l'API
+ * Klaviyo page par page à CHAQUE affichage ; l'état d'un compte emailing ne
+ * bouge pas à la minute. Pas d'étiquette de synchro : le dashboard n'écrit
+ * jamais dans Klaviyo, rien ici ne dépend de la synchro Shopify/Meta.
+ */
+export const listAllCampaigns = unstable_cache(listAllCampaignsUncached, ["klaviyo-campaigns-v1"], {
+  revalidate: 900,
+  tags: ["klaviyo"],
+});
+
+export const listAllFlows = unstable_cache(listAllFlowsUncached, ["klaviyo-flows-v1"], {
+  revalidate: 900,
+  tags: ["klaviyo"],
+});

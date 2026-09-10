@@ -1,3 +1,6 @@
+import { unstable_cache } from "next/cache";
+import { DASHBOARD_TAG } from "./cacheTags";
+import { oldSupplierExtraCents } from "./supplierBills";
 import { createSupabaseServerClient } from "./supabase";
 import { addDaysToDay, todayParisDay } from "./time";
 
@@ -29,7 +32,7 @@ const eur = (c: number) =>
 const eurAbs = (c: number) => Math.round(c / 100).toLocaleString("fr-FR") + " €";
 const pct = (v: number) => (v >= 0 ? "+" : "−") + Math.round(Math.abs(v) * 100) + " %";
 
-export async function computeBrief(): Promise<Brief | null> {
+async function computeBriefUncached(): Promise<Brief | null> {
   const supabase = createSupabaseServerClient();
   const today = todayParisDay();
   const yesterday = addDaysToDay(today, -1);
@@ -37,7 +40,7 @@ export async function computeBrief(): Promise<Brief | null> {
 
   const { data, error } = await supabase
     .from("daily_aggregates")
-    .select("day, ca_cents, spend_cents, net_cents, orders")
+    .select("day, ca_cents, spend_cents, net_cents, cogs_cents, orders")
     .gte("day", since)
     .lte("day", yesterday);
   if (error || !data || data.length === 0) return null;
@@ -48,7 +51,7 @@ export async function computeBrief(): Promise<Brief | null> {
     const t = byDay.get(day) ?? { caCents: 0, spendCents: 0, netCents: 0, orders: 0 };
     t.caCents += r.ca_cents as number;
     t.spendCents += r.spend_cents as number;
-    t.netCents += r.net_cents as number;
+    t.netCents += (r.net_cents as number) - oldSupplierExtraCents(day, (r.cogs_cents as number) ?? 0);
     t.orders += r.orders as number;
     byDay.set(day, t);
   }
@@ -130,3 +133,13 @@ export async function computeBrief(): Promise<Brief | null> {
 
   return { day: yesterday, lines: lines.slice(0, 5) };
 }
+
+/**
+ * Cache 5 min, invalidé par la synchro : le brief lit dix jours d'agrégats à
+ * chaque ouverture de l'onglet Live alors qu'il ne bouge qu'après une
+ * synchro (Badr 07/09).
+ */
+export const computeBrief = unstable_cache(computeBriefUncached, ["brief-v1"], {
+  revalidate: 300,
+  tags: [DASHBOARD_TAG],
+});

@@ -17,7 +17,7 @@ import {
   type ProductRoasThresholds,
 } from "@/lib/analytics";
 import { getJournalEvents, type JournalEvent } from "@/lib/journal";
-import { fetchActiveCampaignIds } from "@/lib/meta";
+import { getActiveCampaignIdsCached } from "@/lib/meta";
 import type { MarketTab } from "@/lib/markets";
 import { PageHeading } from "@/components/shell/PageHeading";
 import { DataError } from "@/components/shell/DataError";
@@ -62,7 +62,9 @@ async function loadData(): Promise<LoadResult> {
       getAnalyticsData(HISTORY_START, today),
       getJournalEvents(),
       computeThresholds(today),
-      fetchActiveCampaignIds().catch(() => null),
+      getActiveCampaignIdsCached()
+        .then((ids) => new Set(ids))
+        .catch(() => null),
       getProductRoasThresholds(today).catch(() => null),
       // Best effort, comme les autres lectures Meta live : son échec ne doit
       // pas priver Badr de tout l'onglet, juste des repères exacts.

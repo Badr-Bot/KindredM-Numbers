@@ -1,12 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   SUBSCRIPTIONS,
+  badrFixedCostsCentsForDay,
   dailyEurCents,
   fixedCostsCentsForDay,
+  isActiveOn,
   monthlyEurCents,
   subscriptionTotals,
+  horsNetPaidUntil,
+  horsNetOwedUntil,
 } from "../subscriptions";
-import { oneOffCostsCentsForDay } from "../associateLedger";
+import { oneOffBadrShareCentsForDay, oneOffCostsCentsForDay } from "../associateLedger";
+import { listParisDays } from "../time";
 
 /**
  * 💳 Charges fixes — fenêtres de facturation.
@@ -57,12 +62,17 @@ describe("Seif — « ne sera pas payé, du 16/07 au 16/08 » (Badr 20/08)", () 
     expect(fixedCostsCentsForDay("2026-08-16") - fixedCostsCentsForDay("2026-08-17")).toBe(jour);
   });
 
-  it("fait tomber les charges du jour de ~151 € à ~109 €", () => {
-    // Repères relevés le 29/08 : les deux jours ont pris +4,93 €/j quand
-    // Klaviyo est passé de 25 € (hypothèse) à 150 € (réel) sur TOUT
-    // l'historique — le pas de Seif entre les deux jours, lui, n'a pas bougé.
-    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(151);
-    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(109);
+  it("fait tomber les charges du jour de ~170 € à ~127 €", () => {
+    // Repères relevés le 29/08 (151 → 109) : les deux jours ont pris +4,93 €/j
+    // quand Klaviyo est passé de 25 € à 150 € sur tout l'historique.
+    // Puis +18,76 €/j le 04/09 : les frais de change Slash (Meta payé en USD,
+    // 866 $ relevés par Badr) sont inscrits dans le net, étalés du 27/07 au
+    // 04/09 — les deux jours sont dedans. Puis −10,68 €/j le 06/09 : Marwa
+    // (9,85 €/j) et TrendTrack (0,82 €/j) sortent du net, payés depuis le
+    // Revolut d'Adnane avec de l'argent société déjà pris. Le pas de Seif,
+    // lui, n'a jamais bougé.
+    expect(Math.round(fixedCostsCentsForDay("2026-08-16") / 100)).toBe(159);
+    expect(Math.round(fixedCostsCentsForDay("2026-08-17") / 100)).toBe(117);
   });
 
   it("sort des totaux courants une fois la fenêtre passée", () => {
@@ -191,10 +201,16 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
     expect(abosSeuls("2026-08-31") - abosSeuls("2026-09-01")).toBe(
       dailyEurCents(jeremy()) + dailyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)"))
     );
-    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(37);
+    // +18,76 €/j de frais de change Slash inscrits le 04/09 (ligne étalée
+    // 27/07→04/09, close ce jour-là : Meta est payé depuis Wise en euros),
+    // −10,68 €/j depuis le 06/09 (Marwa + TrendTrack hors net, payés depuis
+    // le Revolut d'Adnane), +7 €/j de frais Meta sur les paiements en dollars
+    // du 24/08 au 04/09 (Badr 08/09). Dès le 05/09 la journée retombe à ~26 €.
+    expect(Math.round(abosSeuls("2026-09-01") / 100)).toBe(52);
+    expect(Math.round(abosSeuls("2026-09-05") / 100)).toBe(26);
   });
 
-  it("laisse Marwa seule au poste ÉQUIPE en septembre", () => {
+  it("laisse Marwa seule au poste ÉQUIPE en septembre — mais hors net", () => {
     // Le monteur est arrêté au 28/08 et Seif au 16/08 : plus que Marwa.
     const equipeActive = SUBSCRIPTIONS.filter(
       (s) =>
@@ -203,6 +219,47 @@ describe("Jeremy — emailing : à zéro dès le 1er septembre (confirmé Badr 2
         (s.endDay === null || "2026-09-01" <= s.endDay)
     ).map((s) => s.label);
     expect(equipeActive).toEqual(["Marwa"]);
+    // Elle est LISTÉE (on sait qu'elle est payée et par qui) mais ne pèse ni
+    // sur le net ni sur les parts : Adnane la règle depuis son Revolut avec de
+    // l'argent société déjà prélevé (Badr 06/09).
+    expect(SUBSCRIPTIONS.find((s) => s.label === "Marwa")?.horsNet).toBe(true);
+  });
+
+  it("ne compte AUCUNE ligne payée depuis le Revolut d'Adnane dans le net", () => {
+    // Règle Badr 06/09 : « paiement Revolut ça veut dire c'est Adnane qui paye
+    // et ça rentre pas dans les comptes, il a déjà pris de l'argent de la LLC ».
+    const horsNet = SUBSCRIPTIONS.filter((s) => s.horsNet).map((s) => s.label);
+    expect(horsNet.sort()).toEqual(["Marwa", "TrendTrack"]);
+    const jour = "2026-09-05";
+    const attendu = SUBSCRIPTIONS.filter((s) => isActiveOn(s, jour) && !s.horsNet).reduce(
+      (a, s) => a + dailyEurCents(s),
+      0
+    );
+    expect(fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour)).toBe(attendu);
+    // Et personne ne les porte : ni Badr, ni Adnane (le solde d'Adnane est le
+    // reste, il baisserait sinon). Un SEUL arrondi sur le total commun.
+    const communCents = SUBSCRIPTIONS.filter(
+      (s) => isActiveOn(s, jour) && !s.horsNet && s.badrShare === undefined
+    ).reduce((a, s) => a + dailyEurCents(s), 0);
+    expect(badrFixedCostsCentsForDay(jour)).toBe(
+      Math.round(communCents * 0.5) + oneOffBadrShareCentsForDay(jour)
+    );
+  });
+
+  it("n'arrondit qu'UNE fois par jour : les deux parts ne dérivent pas", () => {
+    // Arrondir ligne à ligne donnait 20 arrondis/jour tous au demi-centime
+    // supérieur, donc toujours à la charge de Badr : ~3 €/mois d'écart entre
+    // les deux parts, que rien ne justifiait (Badr 06/09 : « c'est pas bon,
+    // c'est simple »). Sur un mois entier, l'écart doit rester au centime.
+    let badr = 0;
+    let total = 0;
+    for (const jour of listParisDays("2026-08-01", "2026-08-31")) {
+      total += fixedCostsCentsForDay(jour) - oneOffCostsCentsForDay(jour);
+      badr += badrFixedCostsCentsForDay(jour) - oneOffBadrShareCentsForDay(jour);
+    }
+    // Août : tout est postérieur au 14/07, donc 50/50 partout. L'écart entre
+    // les deux parts tient dans un centime par jour, pas plus.
+    expect(Math.abs(total - 2 * badr)).toBeLessThanOrEqual(31);
   });
 });
 
@@ -246,5 +303,22 @@ describe("Eleven Labs — arrêté (Badr 01/09 : « t'as pas enlevé eleven labs
     expect(avant - apres).toBe(
       monthlyEurCents(ligne("Eleven Labs ×2 (Adnane + monteur)")) + monthlyEurCents(jeremy)
     );
+  });
+});
+
+describe("Hors compta Revolut — ce qu'Adnane a réellement prélevé (Badr 08/09)", () => {
+  it("Marwa : 300 € chaque mois depuis juin, PAS ENCORE PAYÉE → 4 mois dus au 08/09, rien de sorti", () => {
+    expect(horsNetPaidUntil("2026-09-08").find((l) => l.label === "Marwa")).toBeUndefined();
+    expect(horsNetOwedUntil("2026-09-08")).toEqual([{ label: "Marwa", cents: 120000, months: 4 }]);
+  });
+
+  it("TrendTrack : 25 € chaque mois depuis le 21/05 → 4 prélèvements au 08/09, le 5e le 21/09", () => {
+    expect(horsNetPaidUntil("2026-09-08").find((l) => l.label === "TrendTrack")).toEqual({ label: "TrendTrack", cents: 10000, months: 4 });
+    expect(horsNetPaidUntil("2026-09-21").find((l) => l.label === "TrendTrack")?.months).toBe(5);
+  });
+
+  it("rien avant le premier prélèvement, et seules les lignes horsNet comptent", () => {
+    expect(horsNetPaidUntil("2026-05-20")).toEqual([]);
+    for (const l of horsNetPaidUntil("2026-09-08")) expect(["Marwa", "TrendTrack"]).toContain(l.label);
   });
 });

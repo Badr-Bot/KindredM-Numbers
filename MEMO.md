@@ -610,6 +610,213 @@ Badr : « vérifie tout, que tout se concorde, je veux que mon net affiché soit
 - Montants en centimes (integers) dans le code. Tests fixtures §8 = validés au centime, ne jamais casser.
 - UI française, ton simple pour non-technique, emojis par section.
 
+
+## 04/09 — Rapprochement trésorerie : faits vérifiés et décisions
+
+- **Facture Panda = COGS moteur + taxe UE.** Sa ligne TOTAL tombe à +0,5 % /
+  +1,2 % (hors « custom packing ») du moteur sur les 2 factures d'août. La taxe
+  UE (3 €/produit) est DANS sa facture : comparer le COGS seul donnait −11,6 %
+  et faisait croire à une sous-estimation du moteur.
+- **Suivi fournisseur figé = dette invisible.** 3 semaines sans facture
+  = 1 219 commandes (~27 000 €) dont le coût était déduit du net mais toujours
+  en banque. Le dash le calcule maintenant seul (« prochaine facture estimée »).
+- **Shopify « Solde des versements » n'inclut PAS les versements programmés**
+  (preuve : solde USD 1 175 $ < 4 895 $ programmés). En route = solde + programmés.
+- **Les ACH Shopify « Pending » sur Slash ne sont pas dans le solde disponible**
+  (1 959 € en transit le 04/09) — ni banque ni en route si on n'y pense pas.
+- **Meta : conversion au taux du marché, zéro marge cachée** (802,90 € →
+  936,26 $ = 1,1661). Le coût est la « Foreign Transaction Fee » Slash (~1 % du
+  spend, 866 $ du 27/07 au 03/09). Wise EUR branché sur Meta le 04/09 → 0.
+- **Taux figé 1,1539 périmé** (réel 1,1661 le 29/08). Décision 08/08 maintenue,
+  signalé : −1 % sur la valeur des soldes USD, rien sur le P&L.
+- **Le filtre Slash « Google » affichait 192 $ dont 127 $ de REFUS** (Google
+  Workspace ×6 le 01/09) : un total de filtre inclut les declined. Ne jamais
+  lire un total Slash sans vérifier les statuts.
+- **Décision Badr : reliquat ~1 850 € = Revolut perso Adnane (pré-LLC)**, 100 %
+  Adnane, plafond figé (`PRE_LLC_RESIDUAL`) ; tout au-delà depuis le 04/09 =
+  trou neuf, anomalie rouge. Aucun virement vers un compte perso (Badr).
+- **Plan Shopify payé par les crédits Shopify** (Badr) ; 571 $ de débits carte
+  au total depuis mai, inscrits au net. Si les crédits s'épuisent, le contrôle
+  bancaire (motif « Shopify (abonnement) ») le verra.
+- **Frais relevés à la main inscrits au net le 04/09** → le balayage bancaire
+  ne les recompte qu'après cette date (`NET_BOOKED_BANK_FEES_UNTIL`). Règle :
+  un poste va SOIT dans le net (subscriptions/ledger), SOIT dans l'écart, jamais
+  les deux.
+- **À trancher (Badr) :** MacBook d'Adnane sur la carte LLC — société (50/50,
+  immobilisation) ou perso (100 % lui) ? Classé perso par défaut aujourd'hui.
+
+- **Paiement Panda du 04/09 : 25 448,36 € pour #5996→#7148** (1 153 cmd) vs
+  moteur 25 498,20 € → −0,2 %. Troisième facture d'affilée à ±1 % : le moteur
+  COGS + taxe UE EST la facture Panda, on peut anticiper la suivante avec.
+- **Règle des taux (04/09, Badr)** : montants bancaires en USD → « payé » au
+  taux du jour, « qui dort » au dernier taux (série Wise quotidienne,
+  `rates.ts`). Le taux figé 1,1539 (08/08) n'est plus qu'un repli et la règle
+  des estimations. Un débit ne se convertit JAMAIS à un taux postérieur.
+- **MacBook Adnane** : perso, absorbé par le reliquat Revolut pré-LLC (Badr).
+- **Frais de change Slash ≈ 1 % du spend Meta, jour par jour** (vérifié
+  04/09 : 145,53 $ de fees sur 5 jours vs 1 % de 14 335 $ de Meta = 143,35 $).
+  Les dépenses courantes n'y sont pour rien (~0,2 $/jour). Chaque morceau de
+  frais porte désormais son origine (`feeOf`) — ne plus répondre « surtout
+  Meta » de mémoire, lire la répartition dans le bloc trésorerie.
+- **Table `bank_tx_labels` : migration 0013 appliquée en prod le 04/09** (elle
+  manquait depuis le 19/08 → aucune affectation ne se sauvegardait).
+- **Ismael (ARINLOYE ISMAEL KOREDELE) = le monteur** ; **« Disbursement
+  Reversal » = versement Shopify repris** (remboursements, déjà dans le CA).
+- **CWILL / Moon Bundles / plan Shopify : payés via Shopify + crédits**, aucun
+  débit carte à attendre (`noBankClaim`).
+- **En route sans scope = CA − frais des 5 derniers jours** (délai de
+  versement). L'ancienne estimation « CA − payouts depuis le 01/08 » se trompait
+  d'un facteur 20 et faisait crier « argent sorti non tracé ».
+- **Synchro : CA + spend Meta publiés ensemble** (04/09). Ne jamais republier
+  le CA seul quand le spend est disponible : Badr lit un bénéfice puis une
+  perte. Le CA seul n'est publié que si Meta échoue.
+- **04/09 soir, premier rapprochement réel : 0 € inexpliqué.** Le modèle tient
+  avec les vraies banques. Les refus de carte et la « marge encaissée 30 j »
+  ont été retirés à la demande de Badr : pas d'argent sorti = pas une info ;
+  une fenêtre bancaire de 30 j n'est pas une marge (le paiement Panda la
+  fausse). Google Workspace = 11,30 $/mois (réel), pas 8,10 €.
+- **TrendTrack payé par Adnane depuis son Revolut** (04/09) = payé avec l'argent
+  société pré-LLC resté dessus (reliquat 1 265 € réel, estimé 1 850 ±700) —
+  pas une avance perso. `noBankClaim`, pas de `paidBy`, et depuis le 06/09
+  `horsNet: true` (voir la règle Revolut ci-dessous). Si Badr décide un jour
+  que c'est l'argent perso d'Adnane : `paidBy: "ADNANE"` + SUB_PAYMENTS datés.
+- **Marwa = 100 % Adnane** (05/09), puis **HORS NET** (06/09). Règle générale
+  posée par Badr : « paiement Revolut, ça veut dire c'est Adnane qui paye et ça
+  rentre pas dans les comptes, parce qu'il a déjà pris de l'argent de la LLC —
+  c'est payé mais ça fait pas bouger le net. » Traduction dans le code :
+  `horsNet: true` sur la ligne d'abonnement (Marwa, TrendTrack). La ligne reste
+  LISTÉE dans Dépenses (on sait qu'elle existe et qui la paie) mais n'entre ni
+  dans le net global, ni dans la part de Badr, ni dans celle d'Adnane —
+  la compter ferait payer Adnane deux fois : une fois par le reliquat Revolut
+  du rapprochement (100 % à lui), une fois par le net. Ne PAS confondre avec
+  `paidBy: "ADNANE"` (avance de sa poche, à lui rembourser) ni avec
+  `badrShare: 0` (charge société portée par Adnane seul, qui baisse son net).
+- **Comptable = 4 réponses** (05/09) : trou ? · reste à Badr · reste à Adnane ·
+  dépense inconnue ? — le reste replié. Ne pas remettre d'info en tête d'onglet
+  sans que Badr la demande.
+- **Un abonnement payé par UN seul associé se règle au jour le jour** (06/09,
+  « ça marche pas ton truc » sur septembre). Mettre `paidBy` sur la ligne
+  d'abonnement suffit : `paidBySubsLedgerCentsForDay` calcule la part de
+  l'autre chaque jour. Ne JAMAIS doubler avec un SUB_PAYMENT ou un frais
+  ponctuel — SUB_PAYMENTS ne sert plus qu'aux factures sans abonnement
+  derrière (le 1er Claude payé par Badr). Concernés : Hushed (Adnane) et
+  Google One (Badr). Le dû tombe EN ENTIER le jour du prélèvement (même
+  quantième que startDay), pas étalé : la charge s'étale, l'argent qui sort
+  d'une poche non.
+- **L'écart entre les deux parts = ce que l'un a sorti de sa poche pour
+  l'autre, compté DOUBLE** (le montant quitte un côté et arrive de l'autre).
+  Tout le reste — carte LLC, crédits Shopify, Revolut d'Adnane — est neutre
+  entre eux. Aujourd'hui : ~6 €/mois en faveur d'Adnane.
+- **Le passé figé (≤ J-8) ne se relit pas** (07/09). La synchro profonde
+  réécrit J-7 → J : au-delà, les chiffres sont définitifs. Les lectures
+  lourdes sont coupées en deux caches (`frozenEndDay`, `HISTORY_TAG` 24 h vs
+  `DASHBOARD_TAG` court). Si la fenêtre de rescan change dans
+  incrementalSync.ts, `REWRITE_WINDOW_DAYS` doit changer AVEC — sinon un jour
+  encore réécrit serait servi depuis un cache de 24 h (un test le fige).
+- **Toute lecture mise en cache porte `DASHBOARD_TAG`** (07/09). La règle :
+  on a le droit de cacher pour aller vite, JAMAIS d'afficher un chiffre
+  périmé après une synchro — `/api/sync` et `/api/cron` appellent
+  `revalidateTag(DASHBOARD_TAG, "max")` dès qu'ils ont écrit. Une seule
+  étiquette pour tout : si les caches tombaient séparément, on afficherait un
+  CA à jour avec une dépense en retard, c'est-à-dire un faux bénéfice.
+- **Pas de trait vertical sur les courbes** (07/09, Badr : « je vois même pas
+  la courbe »). Un repère se met dans l'infobulle, écrit en clair — un trait
+  sans légende oblige à deviner ce qu'il marque.
+- **Les deux parts se calculent PAREIL** (07/09) : chacun son net Année moins
+  TOUT ce qu'il a consommé (`TreasuryAttribution`) — dépenses carte, sa part
+  des frais bancaires, du supplément Meta et de Google Ads, plus pour Adnane
+  le reliquat Revolut. Ne jamais n'y retrancher que le perso : les autres
+  postes sont sortis des comptes eux aussi, et les oublier fabrique un faux
+  trou (~14 000 € affichés le 07/09). Ne jamais recalculer l'une comme le reste de
+  l'autre : une part résiduelle absorbe silencieusement toutes les erreurs, et
+  il ne reste plus rien pour révéler un trou. Le trou est la différence entre
+  ce que les deux possèdent et ce qui existe (comptes + en route − Panda) ; il
+  doit tomber sur le reliquat Revolut d'Adnane.
+- **Versements Shopify** (08/09) : PAID chez Shopify = « Déposé » dans
+  l'admin = soumis à la banque, PAS arrivé. L'arrivée se prouve par un crédit
+  banque de même devise et même montant (J-1 → J+6). Un PAID sans crédit
+  passé ce délai est un versement parti ailleurs : rouge, jamais absorbé.
+- **Ne jamais étiqueter un reste inexpliqué avec une cause** (08/09) : j'ai
+  appelé « surplus Meta » ce qui était le reliquat global du rapprochement.
+  Avant de nommer un écart, lire les lignes (mois par mois) — le dash les a.
+- **Deux périodes, jamais mélangées** (08/09) : Revolut (avant le 21/07,
+  premier versement Shopify sur la LLC) et LLC (depuis). Ce que le dash ne
+  voit pas (Revolut) est posé comme « à justifier par Adnane », calculé, pas
+  deviné ; ce que le dash voit (Wise + Slash) doit fermer à zéro, et un trou
+  là-dedans est un vrai trou. Ne jamais laisser un écart de la période Revolut
+  se faire passer pour un trou LLC, ni l'inverse.
+
+## 08/09 → 10/09 — faits vérifiés et règles
+
+- **Le solde Shopify n'inclut PAS les versements programmés** — déjà écrit ici
+  le 04/09, et cassé quand même le 08/09 (PR #98) en croyant à un double
+  compte. Leçon : avant de « corriger » un double compte, relire ce mémo et
+  PROUVER le double compte sur les chiffres (solde USD 1 935 $ < 4 566 $
+  programmés = les programmés sont sortis du solde). `payout_status:pending`
+  ≈ le solde : il exclut aussi les programmés. Résumés = PAID + SCHEDULED.
+- **Un versement ÉCHOUÉ n'est pas renvoyé par l'API** : ses ventes ne vivent
+  que dans `retriedPayoutsGross` du versement de reprise. Compter le
+  « repris » dans le brut encaissé, sinon 4 350 € de CA réel partent au
+  Revolut et Shopify semble payer plus que prévu.
+- **Coupure Revolut / LLC = première vente VERSÉE à la société** (14/07,
+  #4431), lue avec `payout_date:>=` premier versement de la société. Le CA
+  « pris par l'ancien compte » = CA dash − brut encaissé, mesuré : 2 858 €,
+  soit le 14/07 avant #4431. Toute coïncidence avec « le CA du 14 et 15/07 »
+  était un hasard qui a justifié une erreur.
+- **Meta facture exactement le spend, en euros, sans frais** — vérifié sur le
+  journal du compte (`ad_account_billing_charge`) : 69 prélèvements =
+  54 104 € pour 53 884 € de spend (+0,4 %). Paliers de 800 € (798 à 803 €),
+  parfois un solde partiel (306 € le 22/08, 125 € le 03/09 au changement de
+  carte). Wise EUR = Meta au centime. Slash USD : 0,47 % de marge sur le taux
+  + « Foreign transaction fee » à part. Le dash lit ces prélèvements
+  (`fetchMetaBilledCharges`) : c'est le maillon spend → facturé → banque. Un
+  écart mensuel banque/spend n'est PAS un frais : c'est un palier qui
+  chevauche le mois. Ne comparer qu'en cumulé, jamais mois par mois.
+- **16,80 $ « FACEBK *xxxx fb.me/ads »** (24/08 → 04/09, tous les 2-3 jours) :
+  aucun des 4 comptes pub visibles ne les porte (API), le compte Niva ne
+  facture qu'en euros et jamais moins de 125 €. Frais Meta d'un autre compte
+  de facturation sur la carte Slash, 14 $ + 20 % TVA (Badr : « des fees vu
+  que je payais en dollars »). Arrêtés au passage sur Wise EUR. Ligne FRAIS
+  mesurée (248 $/mois) close au 04/09 ; règle banque `^facebk \*` + < 50 $.
+  Si ça revient, la règle les capte et la ligne se rouvre — ne pas les
+  remettre dans Meta.
+- **Ancien fournisseur ≤ 30/06 : +5 % de COGS** (Badr : « remets 5 % et pas
+  10 % »), appliqué à la lecture (`oldSupplierExtraCents`), jamais en base.
+- **Revolut d'Adnane : doit rester = à justifier − hors compta PAYÉ ; les
+  provisions (Marwa non payée) ne se retirent pas de « doit rester »**, elles
+  s'affichent « dont déjà dû » et se retirent de « libre ». Une charge
+  `horsNet` + `unpaid` est une provision ; `horsNet` seul est une sortie.
+  Réponse du 08/09 : rien ne doit rester sur le Revolut (−1 117 €, dont
+  Marwa 1 200 € à payer). Badr : « pour moi il doit rester rien ».
+- **Ne pas confondre deux frais sur les mêmes paiements Meta** (Badr 10/09 :
+  « il faut séparer ») : la marge de change de Slash (connue, dans le net,
+  ligne étalée 27/07 → 04/09) et d'éventuels frais facturés PAR Meta (aucun
+  sur Niva). Réponse à donner avec le journal du compte, pas de mémoire.
+- **Frais Shopify : le dash lit les frais réels par commande** (traitement +
+  change) ; le résumé des versements ne montre que le traitement (le change
+  est dans le taux). 12 779 € dash vs 12 270 € résumé depuis le 14/07 = 4 %
+  de conversion des frais en dollars au dernier taux, pas un sur-comptage.
+  Ne pas « rectifier » les frais sur le résumé : la banque confirme le dash.
+- **COGS provisionnés deux fois** : chaque commande déduit son COGS le jour
+  même, et « encore dû à Panda » (non facturé, 7 444 € le 08/09) reste retiré
+  du disponible. Rien de ce qui est dû à Panda n'est jamais compté comme
+  argent à nous.
+- **Comptable = l'essentiel** (Badr 08/09 : « pas 10 000 lignes ») : 4 tuiles,
+  la vérification, « Dépense inconnue ? », une ligne Revolut d'Adnane. Tout le
+  reste replié. Ne rien remonter en tête sans qu'il le demande.
+- **Badr 10/09 : « la prochaine fois demande rien, t'as le droit à tout »** —
+  agir (code, PR, merge, vérification en prod) et rendre compte ; une
+  question ne se pose que si la réponse change le résultat.
+- **Doc Meta officielle** (centre d'aide, lu le 10/09 via l'outil Meta — les
+  moteurs et facebook.com sont bloqués par le proxy) : Meta ne facture pas de
+  frais de change, « votre prestataire de paiement peut en prendre quand le
+  compte pub est dans une autre devise que le moyen de paiement »
+  (help/369145380966373) ; la facture peut porter des « location fees »
+  (taxes numériques par juridiction, help/716180208457684) — sur Niva, 0 %
+  mesuré au journal du compte. Le montant dépensé d'Ads Manager est une
+  estimation, le reçu fait foi (help/196476577203529). Si un jour la tuile
+  Meta du Comptable s'écarte de 0 %, chercher d'abord un location fee.
+
 ### ⚠️ À VÉRIFIER AU DÉPLOIEMENT (relevé le 10/09 au soir)
 
 `app_state` en production, lu le 10/09 à 15h38 :

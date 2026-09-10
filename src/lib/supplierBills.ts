@@ -48,6 +48,19 @@ export interface SupplierBill {
 
 export const SUPPLIER_NAME = "Panda Dropshipping";
 
+/** Boutique dont les factures portent la numérotation (#4814, #5995…) : le
+ * fournisseur facture toute l'activité, mais ses plages de commandes suivent
+ * les numéros de la boutique FR. Les autres boutiques ont leur propre série,
+ * indépendante — les couper au même numéro mélangerait deux comptes. */
+export const SUPPLIER_BILL_STORE = "FR";
+
+/** Dernière facture reçue — la coupe à partir de laquelle les commandes ne
+ * sont PAS encore facturées (et donc pas encore payées, alors que leur coût
+ * est déjà déduit du net). null si le suivi est vide. */
+export function lastSupplierBill(): SupplierBill | null {
+  return SUPPLIER_BILLS.length === 0 ? null : SUPPLIER_BILLS[SUPPLIER_BILLS.length - 1];
+}
+
 export const SUPPLIER_BILLS: SupplierBill[] = [
   {
     ref: "Bill 20260801",
@@ -137,13 +150,16 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // pour un seul colis — même logique que les paires fusionnées, à demander
     // en avoir sur la prochaine facture.
     disputedCents: 0,
-    // PAYÉE : annoncé par Badr (« 20260903 elle est déjà réglée, je te
-    // l'avais déjà dit », 09/09). Montant demandé réglé en entier.
+    // PAYÉE le 04/09 (Badr : « 25 448,36 € j'ai viré ça aujourd'hui, on a payé
+    // jusqu'à la commande #7148 ») — montant réglé en entier, avant même que la
+    // vérification ligne à ligne ci-dessus soit fusionnée (deux sessions le
+    // même jour : celle-ci a vérifié la facture, l'autre a enregistré le
+    // paiement ; réconciliées le 04/09, un seul enregistrement).
     status: "payee",
     paidCents: 2544836,
     note:
-      "Payée (annonce Badr, 09/09) : 25 448,36 € réglés en entier, rien de contesté. Version corrigée du 04/09, VALIDÉE. Recalculée par le moteur : 25 445,07 €, écart +3,29 € (0,013 % — contre 1,4 % sur les factures d'août), 90,7 % des lignes identiques au centime, taxe 3 €/colis désormais respectée partout. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
-      "⚠️ AVANT DE PAYER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
+      "Payée le 04/09 : 25 448,36 € virés par Badr (montant demandé réglé en entier). Version corrigée du 04/09, VALIDÉE. Recalculée par le moteur : 25 445,07 €, écart +3,29 € (0,013 % — contre 1,4 % sur les factures d'août), 90,7 % des lignes identiques au centime, taxe 3 €/colis désormais respectée partout. Aucun dérapage de prix : polo FR 15,06/26,76 · caleçon 2,46 · gilet aux prix du 14/08 · Canada aux prix relevés le 02/08 · Suisse constante. Pas de ligne « custom packing » cette fois. Panier moyen 22,10 € (22,00 le 01/08, 21,95 le 14/08 hors packing). " +
+      "⚠️ PAYÉE, mais À DEMANDER : 136 commandes facturées SANS numéro de suivi (3 066,86 €), dont un bloc contigu #6619→#6658 + #6945 (41 cmd, 894,76 €) qui date du milieu de période — lot jamais expédié ou tracking non renseigné, à éclaircir. " +
       "Reste ouvert, non bloquant : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) — à demander en avoir sur la prochaine facture, comme les 2 paires déjà corrigées. " +
       "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
@@ -251,6 +267,61 @@ export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   },
 ];
 
+// ---------------------------------------------------------------------------
+// ACOMPTES — virements faits au fournisseur AVANT sa facture (Badr 04/09 :
+// « une fois que je t'envoie la facture tu la déduis de ce qui a été déjà
+// viré, c'est pour anticiper et savoir ce qu'il pourra me réclamer »).
+//
+// Un acompte vit ici tant qu'aucune facture ne l'absorbe. Quand la facture
+// arrive : on crée la SupplierBill, on reporte l'acompte dans son paidCents et
+// on pose `appliedTo` = sa ref. Jamais supprimé — l'historique des virements
+// doit rester lisible ligne à ligne, comme les factures.
+// ---------------------------------------------------------------------------
+export interface SupplierPrepayment {
+  /** Jour du virement (YYYY-MM-DD). */
+  day: string;
+  /** Montant en EUR (centimes) — contre-valeur au moment du virement. */
+  eurCents: number;
+  /** Montant d'origine tel que viré (le fournisseur encaisse en USD). */
+  original: string;
+  /** Ref de la facture qui l'a absorbé — null tant qu'elle n'est pas reçue. */
+  appliedTo: string | null;
+  note?: string;
+}
+
+export const SUPPLIER_PREPAYMENTS: SupplierPrepayment[] = [
+  // 10/09 : virement Wise « Sent money to Panda Dropshipping Limited »
+  // 5 613,02 €, vu en banque, d'abord enregistré en ACOMPTE parce que la
+  // facture n'était pas encore dans le suivi (sans cette ligne le
+  // rapprochement affichait un faux trou de 6 819 €).
+  //
+  // ABSORBÉ le 10/09 au soir : la facture est arrivée — Bill 20260909,
+  // #7149 → #7506, 8 326,31 € réclamés, dont ces 5 613,02 € payés et
+  // 2 713,29 € retenus. C'est exactement la manœuvre prévue par la note
+  // d'origine (« dès réception : créer la SupplierBill, reporter ce montant
+  // dans son paidCents, appliedTo = sa ref »).
+  //
+  // ⚠️ POURQUOI `appliedTo` DOIT ÊTRE RENSEIGNÉ : la dette fournisseur vaut
+  // `unbilled + owed − prepaid`. Le montant vit désormais dans le `paidCents`
+  // de la facture, donc dans `owed` ; le laisser aussi dans les acomptes le
+  // déduirait UNE DEUXIÈME FOIS et sous-estimerait la dette de 5 613,02 €.
+  // `supplierPrepaidCents()` ne compte que les `appliedTo === null`.
+  {
+    day: "2026-09-10",
+    eurCents: 561302,
+    original: "5 613,02 € (Wise EUR)",
+    appliedTo: "Bill 20260909",
+    note: "Absorbé par la facture 20260909 (#7149→#7506) le 10/09 : il en constitue le paidCents. L'estimation faite à l'aveugle (#7149→#7408, 5 607 à 5 625 €) était bonne à 0,2 % — la vraie facture couvre une plage plus large et 2 713,29 € en sont retenus.",
+  },
+  // Aucun acompte enregistré : Badr annonce le virement (montant, jour) et on
+  // l'ajoute ici — jamais déduit d'une capture de solde, jamais deviné.
+];
+
+/** Acomptes pas encore absorbés par une facture — à déduire de la prochaine. */
+export function supplierPrepaidCents(): number {
+  return SUPPLIER_PREPAYMENTS.filter((p) => p.appliedTo === null).reduce((t, p) => t + p.eurCents, 0);
+}
+
 export function supplierPendingCreditsCents(): number {
   return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);
 }
@@ -290,4 +361,28 @@ export function supplierPayableCents(): number {
 
 export function supplierDisputedCents(): number {
   return SUPPLIER_BILLS.reduce((t, b) => t + (b.status === "payee" ? 0 : b.disputedCents), 0);
+}
+
+
+// ---------------------------------------------------------------------------
+// 🏭 ANCIEN FOURNISSEUR (avant Panda) — Badr 08/09.
+//
+// Jusqu'au 30/06, les commandes étaient produites par un autre fournisseur,
+// payé depuis le Revolut d'Adnane, environ 5 % plus cher que Panda (« remet
+// 5 % et pas 10 % »). Panda a commencé le 01/07. Le moteur COGS ne connaît que
+// les prix Panda : sur cette période, le coût réel est donc sous-estimé.
+//
+// Le surcoût est appliqué À LA LECTURE, jour par jour, partout où le COGS des
+// agrégats est lu (onglets, rapprochement, brief) — jamais réécrit en base :
+// une seule règle, un seul endroit, et on peut la retirer d'un trait. Tout
+// tombe avant le 14/07 : 100 % Adnane, le net de Badr ne bouge pas.
+// ---------------------------------------------------------------------------
+
+export const OLD_SUPPLIER_LAST_DAY = "2026-06-30";
+export const OLD_SUPPLIER_MARKUP = 0.05;
+
+/** Surcoût (centimes) à ajouter au COGS d'un jour donné — 0 dès le 01/07. */
+export function oldSupplierExtraCents(day: string, cogsCents: number): number {
+  if (day > OLD_SUPPLIER_LAST_DAY) return 0;
+  return Math.round(cogsCents * OLD_SUPPLIER_MARKUP);
 }

@@ -5,7 +5,6 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -1235,9 +1234,8 @@ function MiniChart({
                 );
               }}
             />
-            {average !== null && average !== undefined && (
-              <ReferenceLine y={average / divideBy} stroke="#6c6482" strokeDasharray="3 3" />
-            )}
+            {/* Moyenne : plus de trait en pointillé non plus (Badr 07/09) —
+                elle reste lisible en chiffre au-dessus du graphique. */}
             {/* connectNulls VOLONTAIREMENT absent : relier par-dessus un jour
                 sans diffusion faisait lire « le CTR chute » là où la créa était
                 simplement à l'arrêt (signalé 26/07). Les points isolés doivent

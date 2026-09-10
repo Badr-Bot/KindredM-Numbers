@@ -80,26 +80,25 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
     badrShare: 0.5,
     note: "Conversion au taux figé du dashboard (1 € = 1,1539 $). Dépense variable : à rajouter chaque fois qu'un débit tombe.",
   },
-  // Google One, payé de sa poche par Badr (01/09 : « j'ai payé moi de mon
-  // côté google one 17.53 € ce mois +1.99 +1.99 +1.99 »), puis CORRIGÉ dans la
-  // foulée : « enlève 17.53 € ». Ne restent que les TROIS débits de 1,99 € —
-  // total 5,97 €. Gardés ligne à ligne pour coller au relevé, comme la LLC.
-  //
-  // Pourquoi ici et pas dans subscriptions.ts : Google One n'a AUCUNE ligne
-  // d'abonnement (seul « Google Workspace » existe, c'est un autre produit).
-  // Un SUB_PAYMENT ne compterait donc que la dette envers Badr sans jamais
-  // toucher le net — la charge disparaîtrait du P&L. En frais ponctuel, elle
-  // baisse le net du jour ET ouvre le dû entre associés.
-  //
-  // ⚠️ DEUX POINTS À CONFIRMER (rien inventé en attendant) :
-  //  • DATE : « ce mois », dit le 01/09 → daté du 01/09. Si les débits sont
-  //    tombés en août, ils changent de mois (23,50 € de charges qui glissent).
-  //  • RÉCURRENCE : si Google One revient tous les mois, ces lignes ponctuelles
-  //    doivent devenir un abonnement (subscriptions.ts, paidBy BADR) — sinon
-  //    il faudra les ressaisir à la main chaque mois.
-  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
-  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
-  { day: "2026-09-01", label: "Google One", eurCents: 199, original: "1,99 €", paidBy: "BADR", badrShare: 0.5 },
+  // Google One (1,99 €/mois payé par Badr) et Hushed (7,99 €/mois payé par
+  // Adnane) ne sont PLUS des frais ponctuels : ce sont des abonnements, ils
+  // vivent dans subscriptions.ts avec `paidBy`, et le dû entre associés se
+  // calcule au jour le jour (paidBySubsLedgerCentsForDay). Avant, chaque mois
+  // demandait une ressaisie à la main : septembre n'avait ni l'un ni l'autre
+  // et l'écart entre les deux parts repartait dans le mauvais sens (Badr
+  // 06/09 : « ça marche pas ton truc »). Historique de la ligne Google One :
+  // annoncée le 01/09 à 17,53 € + 3 × 1,99 €, corrigée dans la foulée
+  // (« enlève 17.53 € »), puis le 06/09, en parlant d'AOÛT : « y a 2 € de
+  // Google One que je paye » → c'est bien 1,99 € PAR MOIS.
+  // 04/09 — « mettre à jour le net » (Badr) : les frais que la banque voyait et
+  // que le net ne comptait pas, relevés sur les totaux Slash envoyés par Badr.
+  // Carte LLC → rien à solder entre associés ; 50/50 par la règle par date
+  // (tous postérieurs au 14/07). Convertis au taux figé maison (1,1539).
+  { day: "2026-08-06", label: "Virement SWIFT — paiement Panda (Bill 20260801)", eurCents: 2167, original: "25 $", paidBy: "LLC", badrShare: 0.5, note: "Frais de virement international, 25 $ par virement (Badr 04/09)." },
+  { day: "2026-08-14", label: "Virement SWIFT — paiement Panda (Bill 20260814)", eurCents: 2167, original: "25 $", paidBy: "LLC", badrShare: 0.5, note: "Frais de virement international, 25 $ par virement (Badr 04/09)." },
+  { day: "2026-08-06", label: "Plan Shopify — débit carte « Shopify Niva »", eurCents: 41677, original: "480,91 $", paidBy: "LLC", badrShare: 0.5, note: "Le plan Shopify est normalement couvert par les crédits Shopify cumulés (Badr 04/09) ; ce débit carte est le seul daté sur le relevé Slash." },
+  { day: "2026-09-04", label: "Plan Shopify — reste des débits carte (date inconnue)", eurCents: 7807, original: "90,09 $", paidBy: "LLC", badrShare: 0.5, note: "Total des débits Shopify sur Slash depuis le début = 571 $ (relevé Badr 04/09) ; 480,91 $ sont datés du 06/08, ce reliquat n'a pas de date lisible — posé au jour du relevé, PAS une vraie date." },
+  { day: "2026-09-02", label: "Google Ads", eurCents: 5640, original: "65,08 $", paidBy: "LLC", badrShare: 0.5, note: "Seul débit Google Ads réellement passé (le filtre Slash affichait 192 $ dont 6 refus de Google Workspace le 01/09, qui n'ont rien débité). Aucune API Google branchée : seule la banque le voit." },
 ];
 
 export interface AssociateTransfer {
@@ -147,21 +146,18 @@ export const SUB_PAYMENTS: SubPayment[] = [
     day: "2026-07-15",
     note: "« J'ai payé 100 € pour le 1er abonnement » — facture du 15/07 (Badr 08/08). Factures suivantes sur la CARTE LLC → ce compteur reste à 100 €, rien d'autre à ajouter.",
   },
-  {
-    payer: "ADNANE",
-    label: "Hushed — juillet",
-    eurCents: 799,
-    day: "2026-07-08",
-    note: "« Adnane paye lui-même depuis 2 mois » (Badr 08/08) — date approximative. À partir de septembre (3e mois), la carte LLC prend le relais.",
-  },
-  {
-    payer: "ADNANE",
-    label: "Hushed — août",
-    eurCents: 799,
-    day: "2026-08-08",
-    note: "2e mois payé perso par Adnane — date approximative.",
-  },
-];
+]; // Hushed n'est PLUS ici : voir le commentaire ci-dessous.
+
+// 06/09 — Hushed (7,99 €/mois payé par Adnane) a quitté cette liste. Il n'y
+// figurait qu'en deux factures saisies à la main (juillet, août) : dès
+// septembre, plus personne ne créditait Adnane et l'écart entre les deux parts
+// repartait dans le mauvais sens (Badr : « ça marche pas ton truc »). Un
+// abonnement porte déjà `paidBy` et une durée : le dû se calcule maintenant au
+// jour le jour depuis la ligne d'abonnement (paidBySubsLedgerCentsForDay dans
+// subscriptions.ts). Rien à ressaisir chaque mois, et aucun risque de compter
+// deux fois. SUB_PAYMENTS ne garde donc que les factures PONCTUELLES, celles
+// qui n'ont pas d'abonnement paidBy derrière (ex. le 1er Claude payé par Badr,
+// dont les mois suivants sont passés sur la carte LLC).
 
 export function subPaymentsTotalCentsBy(payer: Payer): number {
   let total = 0;
