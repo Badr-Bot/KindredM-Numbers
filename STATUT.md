@@ -1252,3 +1252,106 @@ Reste hors de portée du dash : le Revolut lui-même. Un export Revolut du
 pour Shopify.
 
 332 tests verts, build OK, lint clean.
+## Mise à jour 08/09 → 10/09 — le Revolut d'Adnane ferme, versements et Meta au centime
+
+Suite de l'enquête « une question à la fois » (Badr : « où sont les erreurs,
+où va l'argent, pourquoi des écarts entre le réel et le dash »). PRs #99 → #108.
+
+**Ancien fournisseur +5 % jusqu'au 30/06** (PR #99). Avant Panda, les COGS
+étaient payés depuis le Revolut à un autre fournisseur, 5 % plus cher (Badr :
+« remets 5 % et pas 10 %, applique-le au net et au calcul Revolut »).
+`oldSupplierExtraCents` (supplierBills.ts) est appliqué à la LECTURE
+(data.ts, bank.ts, brief.ts) : +1 726 € de COGS, retirés du net de la
+période Revolut (100 % Adnane).
+
+**La coupure réelle est le 14/07** (#4431, première vente versée à la
+société), pas le 21/07 (premier versement reçu). Le « CA d'après la coupure
+encaissé par l'ancien compte » est MESURÉ : CA du dash depuis le 14/07 −
+brut des versements (PAID + SCHEDULED + repris) − brut en attente. Résultat
+final : 2 858 € = les ventes du 14/07 avant #4431. Trois erreurs corrigées en
+chemin, chacune vérifiée sur les chiffres de Shopify :
+- **versements programmés** (PR #103) : ils ne sont ni dans le solde Shopify
+  (solde USD 1 935 $ < 4 566 $ programmés) ni dans `payout_status:pending`
+  (net en attente 21 994 € ≈ solde 23 530 €). La PR #98 les avait sortis des
+  résumés en croyant à un double compte : le Revolut portait 6 900 € de trop
+  et l'en route manquait 6 460 €, les deux se compensant dans le contrôle LLC.
+  Cette règle était DÉJÀ dans MEMO.md depuis le 04/09 — je l'ai cassée sans
+  relire. En route = solde + programmés + déposés pas encore en banque
+  (PR #101 : les « Déposé » ≤ 6 j n'étaient nulle part) ;
+- **versement échoué réémis** (PR #104/#105) : l'API ne renvoie pas le
+  versement échoué, seul `retriedPayoutsGross` du versement de reprise garde
+  ses ventes (5 063 $) : ajouté au brut encaissé. Sans lui, Shopify « payait »
+  5 031 € de plus que le dash n'attendait, et ces 4 350 € étaient portés au
+  Revolut.
+
+**Le Revolut d'Adnane** (PR #100, #106). Ce qui doit y rester = à justifier
+(net période Revolut + COGS de ces ventes payés par la LLC + CA du 14/07 pris
+par l'ancien compte − Meta/Panda/abonnements de la LLC payés depuis le Revolut
+− apports) − sorti hors compta (TrendTrack 25 €/mois, MacBook 1 800 €) ;
+Marwa (300 €/mois depuis juin) n'est PAS payée (Badr 08/09) → provision,
+« dont déjà dû », et « libre pour Adnane » la retire. Lu en prod le 08/09 :
+
+| | |
+|---|---|
+| À justifier | 783 € |
+| − hors compta (TrendTrack 100 €, MacBook 1 800 €) | 1 900 € |
+| Doit rester sur le Revolut | −1 117 € |
+| dont Marwa à payer (4 mois) | 1 200 € |
+| Libre pour Adnane | −2 317 € |
+| Écart inexpliqué côté LLC | −677 € |
+
+Réponse à la question de Badr (« combien il doit y avoir sur le Revolut
+d'Adnane ») : rien — il a même ~1 100 € de plus dépensé que la période ne lui
+laissait, dans la marge du +5 %. Badr : « pour moi il doit rester rien ». Le
+dash ne voit toujours pas ce compte : ce chiffre est ce qui DOIT y être.
+
+**Frais Meta en dollars** (PR #102, #104, #107). Débits Slash « FACEBK *xxxx
+fb.me/ads » de 16,80 $ (14 $ + 20 % TVA) tous les 2-3 jours, du 24/08 au
+04/09, qu'aucun des 4 comptes pub visibles ne porte (Niva, NIVA 1, KINDRED,
+Badr — vérifié par l'API). D'abord pris pour des boosts Instagram (Badr :
+« toutes mes campagnes boost sont éteintes »), puis identifiés par Badr comme
+des frais Meta liés au paiement en dollars. Ligne FRAIS étalée, MESURÉE
+(248 $/mois), close au 04/09 ; règle banque `^facebk \*` + montant < 50 $ ;
+le rapport mesure ces débits sur tout l'historique (`metaUsdFees`).
+
+**Meta facture exactement le spend** (PR #108). Lu dans le journal du compte
+Niva (event `ad_account_billing_charge`) : 69 prélèvements du 15/08 au 10/09
+= 54 104 € pour 53 884 € de spend (+0,4 %, journées partielles aux deux
+bouts) ; les 16 débits Wise en euros collent aux prélèvements au centime ;
+côté Slash (USD), Meta a facturé 24 008 € pour 28 034 $ débités : taux
+1,1677 contre 1,1622 marché, 0,47 % de marge Slash, plus ses « Foreign
+transaction fee » à part. Aucun frais, aucune taxe côté Meta. Le rapport lit
+ces prélèvements sur la fenêtre de contrôle et la tuile Meta du Comptable
+affiche « Meta a facturé X (n prélèvements) pour Y de spend : +z % » — un
+frais Meta futur s'y verrait.
+
+**Comptable réduit à l'essentiel** (PR #106, Badr : « pas 10 000 lignes »).
+Par défaut : 4 tuiles, la vérification en 3 lignes, « Dépense inconnue ? »,
+une ligne Revolut d'Adnane. Versements, résumés Shopify, deux périodes :
+derrière « Voir le détail ».
+
+Ce qui est vérifié par la banque : tout depuis le 14/07 (Meta au palier près,
+frais Shopify réels commande par commande — 9 297 € de traitement + 3 360 € de
+change depuis le 14/07, Panda facture par facture, versements au centime).
+Ce qui reste « aussi vrai que les API » : la période Revolut (21/05 → 13/07),
+Meta compris (148 000 € de spend payés depuis le Revolut, jamais rapprochés
+d'une banque).
+
+Vérification demandée par Badr le 10/09 (« cherche sur internet ») : les
+moteurs de recherche et facebook.com sont bloqués par le proxy de cet
+environnement, mais le centre d'aide Meta est lisible via l'outil Meta. Il
+confirme les mesures :
+- « About foreign transaction fees » (facebook.com/business/help/369145380966373) :
+  Meta ne facture PAS de frais de change ; c'est le prestataire de paiement
+  qui peut en prendre « quand le compte pub est dans une autre devise que le
+  moyen de paiement par défaut, ou pour un paiement à une entité étrangère »
+  — exactement Slash en USD sur un compte en EUR ;
+- « How Meta charges for ads » (…/716180208457684) : facturation par paliers
+  (payment threshold), montant dépensé = estimation, le reçu fait foi ; Meta
+  « introduit des location fees » (taxes sur les services numériques) dans
+  certaines juridictions, ajoutées sur la facture — sur Niva, 0 % mesuré ;
+- « Why amount spent is different… » (…/196476577203529) et « About payment
+  thresholds » (…/776240779095515) : le même argent apparaît à des dates
+  différentes selon qu'on regarde le spend, la facture ou la banque.
+
+339 tests verts, build OK, lint et typecheck clean.
