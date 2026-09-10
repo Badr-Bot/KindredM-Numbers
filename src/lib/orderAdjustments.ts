@@ -63,6 +63,21 @@ export function lostChargebacksTotalCents(): number {
 // ledger part du 01/08, tout ce qui précède est réputé soldé) — c'est le
 // statut Shopify qui fait foi, et il est sans ambiguïté.
 //
+// ⚠️ LIMITE CONNUE DE LA RÈGLE, à ne pas oublier : « non expédié côté
+// Shopify » ne prouve pas à 100 % « non facturé ». Contre-exemple réel :
+// #5458 (Luxembourg) est UNFULFILLED, sans tracking sur la facture du
+// 01/08 — et pourtant facturée 39,22 €. On a pu l'écarter parce qu'on
+// DÉTIENT cette facture ; pour les 77 commandes antérieures à #4814 aucune
+// facture n'existe de notre côté, cette vérification est impossible.
+// Ce qui rend la liste tenable malgré ça : #5458 n'est pas ANNULÉE (elle est
+// remboursée « Non livrable »), alors que 83 des 88 le sont, avec un
+// cancelReason Shopify (CUSTOMER, DECLINED). Un fournisseur ne produit pas
+// une commande annulée avant expédition — et le seul cas testable sur
+// facture (#6794, annulée, facture du 03/09) est bien à 0,00 €.
+// Risque résiduel si l'hypothèse était fausse sur TOUTE la période sans
+// facture : 1 965,27 € retirés à tort, dont ~100 % côté Adnane (tout tombe
+// avant l'entrée de Badr sur FR le 14/07).
+//
 // ⚠️ N'y figurent PAS les commandes dont le colis EST parti, même mal :
 //   • #1903 « Colis non livré », #5458 « Non livrable » : colis expédié et
 //     facturé (39,22 € pour #5458 sur la facture du 01/08).
