@@ -1477,7 +1477,9 @@ export function BankBoard({
               note={
                 report.reconciliation.metaPending
                   ? "Meta est débité sur la carte Slash (pas encore branchée) — contrôle actif dès le branchement, pas un écart."
-                  : "Meta facture par paliers, pas jour par jour : seul le TOTAL de la fenêtre doit coller."
+                  : report.reconciliation.meta.billedCents !== null && report.reconciliation.meta.expectedCents > 0
+                    ? `Meta a facturé ${formatEur0(report.reconciliation.meta.billedCents)} (${report.reconciliation.meta.billedCount} prélèvements) pour ${formatEur0(report.reconciliation.meta.expectedCents)} de spend : ${((report.reconciliation.meta.billedCents / report.reconciliation.meta.expectedCents - 1) * 100).toFixed(1).replace(".", ",")} % — Meta facture le spend, sans frais. L'écart banque est du change ou du bord de fenêtre.`
+                    : "Meta facture par paliers, pas jour par jour : seul le TOTAL de la fenêtre doit coller."
               }
             />
             <GapTile
