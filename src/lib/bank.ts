@@ -1173,6 +1173,9 @@ export interface BankReport {
   /** Versements PROGRAMMÉS par Shopify (sortis du solde, pas encore émis) :
    * inclus dans enRoute / enRouteEstimateCents. */
   enRouteScheduledCents: number;
+  /** Frais Meta sur les paiements en dollars (débits « FACEBK *… » < 50 $),
+   * mesurés sur tout l'historique bancaire lu. null = aucun vu. */
+  metaUsdFees: { firstDay: string; lastDay: string; count: number; totalEurCents: number } | null;
   /** 🧮 Rapprochement trésorerie depuis le TOUT DÉBUT (Badr 04/09 : « dis-lui
    * d'aller tout retracer depuis le tout début »). null = pas calculable
    * (aucune banque branchée, ou agrégats illisibles). */
@@ -2134,6 +2137,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
       enRouteEstimateCents: 185000,
       enRouteDepositedCents: 0,
       enRouteScheduledCents: 0,
+      metaUsdFees: null,
       treasury: demoTreasury,
       treasurySetup: null,
     };
@@ -2326,6 +2330,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
 
   let enRouteDepositedCents = 0;
   let enRouteScheduledCents = 0;
+  let metaUsdFees: BankReport["metaUsdFees"] = null;
   // 📦 Versements Shopify ↔ banque (Badr 08/09). Les crédits Shopify de TOUT
   // l'historique lu (pas seulement la fenêtre de contrôle) : un versement
   // « PAID » d'il y a trois semaines doit pouvoir retrouver son crédit.
@@ -2388,6 +2393,19 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     if (fetched.history.length > 0) {
       // Crédits Shopify en banque, par mois et devise (tout l'historique lu).
       const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+      // 🧾 Frais Meta sur les paiements en dollars, MESURÉS sur tout
+      // l'historique (Badr 10/09 : « comment voir ces fees et les anticiper ») :
+      // premier / dernier débit, nombre, total — c'est ce qui fixe la ligne
+      // étalée de subscriptions.ts, jamais l'inverse.
+      const feeTxs = life.txs.filter((t) => t.subscriptionLabel === "Meta — frais de paiement en dollars" && t.amountCents < 0).sort((a, b) => a.day.localeCompare(b.day));
+      if (feeTxs.length > 0) {
+        metaUsdFees = {
+          firstDay: feeTxs[0].day,
+          lastDay: feeTxs[feeTxs.length - 1].day,
+          count: feeTxs.length,
+          totalEurCents: feeTxs.reduce((a, t) => a - (t.amountEurCents ?? 0), 0),
+        };
+      }
       const bank = new Map<string, number>();
       for (const t of life.txs) {
         if (t.category !== "SHOPIFY" || t.amountCents <= 0) continue;
@@ -2483,6 +2501,7 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
     enRouteEstimateCents,
     enRouteDepositedCents,
     enRouteScheduledCents,
+    metaUsdFees,
     treasury,
     treasurySetup,
   };
