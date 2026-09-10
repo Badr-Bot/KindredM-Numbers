@@ -876,3 +876,34 @@ unités** de polo diffèrent (#7331, #7441) ; (b) sur TOUTES les commandes
 (#1134, #4079, #4910). Le chiffrer exactement demanderait de relire les
 ~6 600 commandes une par une côté Shopify. **À ne pas citer tant que ce n'est
 pas fait** — il va dans le bon sens, il ne change pas l'ordre de grandeur.
+
+## Effet des correctifs sur l'écart de trésorerie (onglet Banque) — chiffré le 10/09 au soir
+
+Badr : « le trou entre ce qu'on doit avoir en banque et ce qu'on a réellement, il deviendra plus grand là non ? » — **Oui, de 1 833,35 €.** Et c'est voulu.
+
+Le pont de trésorerie (`treasury.ts`) calcule :
+`cash théorique = net cumulé + dû sur factures reçues + livré-non-facturé − acomptes déjà virés`, puis
+`attendu en banque = cash théorique − versements Shopify en route`, et
+`écart = attendu − solde réel` (positif = il manque de l'argent).
+
+| Poste | Avant (déployé) | Après | Δ |
+|---|---|---|---|
+| Net cumulé, charges fixes déduites | 62 311,72 € | 63 558,89 € | +1 247,17 € |
+| Dû sur factures reçues (`supplierOwed`) | 0 € | 2 713,29 € | +2 713,29 € |
+| Livré, pas encore facturé (`supplierUnbilled`) | 11 214,68 € | 3 474,55 € | −7 740,13 € |
+| Acompte viré (se SOUSTRAIT) | −5 613,02 € | 0 € | +5 613,02 € |
+| **= cash théorique** | **67 913,38 €** | **69 746,73 €** | **+1 833,35 €** |
+| Versements Shopify en route (estimé, 5 j) | −22 930,90 € | −22 930,90 € | 0 |
+| **= attendu en banque** | **44 982,48 €** | **46 815,83 €** | **+1 833,35 €** |
+
+D'où viennent ces 1 833,35 € :
+- **1 247,17 €** — la correction du net (le rattrapage COGS fantôme, chargebacks, coûts par commande).
+- **586,18 €** — la reconnaissance de la facture du 09/09 : elle réclame 8 326,31 € sur une plage que notre moteur coûtait 7 740,13 €. L'écart, c'est essentiellement la **ligne size-up de 616,30 €** — une vraie charge nouvelle, acceptée, pas un trou.
+
+**L'écart ne se CRÉE pas, il se RÉVÈLE.** Pendant quatre mois le dashboard a soutenu qu'on avait dépensé 2 266,84 € qu'on n'a jamais sortis. Cet argent est censé être en banque. Le coût fantôme MASQUAIT l'écart : en le retirant, le modèle dit la vérité, et si l'argent n'y est pas, l'onglet le dira au lieu de le cacher. C'est exactement le service qu'on lui demande.
+
+⚠️ **L'alerte va s'allumer au déploiement, et c'est normal.** `UNEXPLAINED_ALERT_CENTS` = 1 000 € et `PRE_LLC_RESIDUAL` est plafonné à 1 850 € (figé le 04/09, « un écart au-delà est un trou NEUF »). +1 833 € passe largement le seuil. Ne pas le prendre pour une régression du correctif.
+
+**Ce qui le fera redescendre**, sans rien coder : si Claire accepte les 2 713,29 € de déductions, `supplierOwed` retombe à 0 et l'attendu baisse d'autant. Les 995,05 € de trackings, eux, sont dus dès réception des numéros.
+
+**Non calculable d'ici** : le solde réel Slash/Wise. Le montant ABSOLU de l'écart n'existe que dans l'app déployée, qui lit les comptes. Ce tableau donne l'attendu ; le réel, c'est l'onglet Banque qui l'a.
