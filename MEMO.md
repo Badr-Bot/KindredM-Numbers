@@ -940,3 +940,13 @@ Le ledger fournisseur compte maintenant **trois listes qui ne doivent jamais se 
 Réclamer une perte qui n'a pas eu lieu est le meilleur moyen de faire tomber tout le reste du relevé. C'est la même raison qui nous fait signaler les 59,78 € de sous-facturation en leur faveur.
 
 **Ce qu'on demande d'abord, et ce n'est pas de l'argent** : sur #2870, la décision (remplacement ou avoir) — deux semaines de retard. Sur #4486, la preuve de remise au transporteur ; si elle existe, les 267,80 € tombent.
+
+### ⚠️ Le total réclamé doit exister, sinon un ajout ne se voit nulle part
+
+Badr, 10/09 : « le chiffre demandé au fournisseur n'a pas bougé alors que je t'ai rajouté des choses où il a merdé, donc c'est pas bon là ». **Il avait raison.** J'avais ajouté les catégories 7 et 8 au relevé sans qu'AUCUN total ne les additionne : le document affichait toujours « 2 713,29 retenus / 5 613,02 payés » et les 485,37 € nouveaux flottaient sans être sommés nulle part.
+
+Corrigé des deux côtés :
+- **Dans le relevé** : un bloc « Total on the table — 3 198,66 EUR » juste après le règlement, plus le total dans l'en-tête. Les trois natures restent listées séparément (elles n'ont pas le même statut), mais elles ont enfin une somme.
+- **Dans le code** : `supplierTotalClaimedCents()` = contesté + avoirs + dossiers ouverts, verrouillé par un test à 3 198,66 €.
+
+**La leçon, à ne pas re-perdre** : séparer proprement des natures d'argent (retenu / déjà versé / pas encore dû) est juste, mais si aucun total ne les rassemble, le document ment par omission — il donne l'impression que rien n'a bougé. Toute catégorie ajoutée doit apparaître dans `supplierTotalClaimedCents()`.

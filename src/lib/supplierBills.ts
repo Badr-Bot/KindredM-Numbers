@@ -409,6 +409,22 @@ export function supplierOpenCasesCents(): number {
   return SUPPLIER_OPEN_CASES.reduce((t, c) => t + c.estimatedCents, 0);
 }
 
+/**
+ * TOTAL RÉCLAMÉ AU FOURNISSEUR, toutes natures confondues : 3 198,66 €.
+ *
+ * Badr, 10/09 : « le chiffre demandé au fournisseur n'a pas bougé alors que
+ * je t'ai rajouté des choses où il a merdé ». Il avait raison — on ajoutait
+ * des catégories au relevé sans qu'AUCUN total ne les additionne. Cette
+ * fonction existe pour qu'un ajout futur se voie forcément quelque part.
+ *
+ * Les trois natures restent séparées à l'affichage (elles n'ont pas le même
+ * statut : retenu / déjà versé / pas encore dû), mais elles ont désormais UNE
+ * somme, et c'est elle qu'on met en tête du relevé.
+ */
+export function supplierTotalClaimedCents(): number {
+  return supplierDisputedCents() + supplierClaimsOnPaidBillsCents() + supplierOpenCasesCents();
+}
+
 export function supplierClaimsOnPaidBillsCents(): number {
   return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
 }

@@ -7,6 +7,7 @@ import {
   SUPPLIER_UNDERBILLED_CENTS,
   supplierClaimsOnPaidBillsCents,
   supplierOpenCasesCents,
+  supplierTotalClaimedCents,
   supplierDisputedCents,
   supplierOwedCents,
   supplierPayableCents,
@@ -95,6 +96,14 @@ describe("Ledger fournisseur Panda", () => {
     expect(SUPPLIER_OPEN_CASES.map((c) => c.label.slice(0, 5))).toEqual(["#2870", "#4486"]);
     expect(supplierDisputedCents()).toBe(271329);
     expect(supplierClaimsOnPaidBillsCents()).toBe(15533);
+  });
+
+  it("le TOTAL réclamé additionne bien les trois natures", () => {
+    // Le relevé envoyé au fournisseur affiche ce chiffre en tête. Sans lui,
+    // on ajoutait des catégories sans qu'aucun total ne bouge (remarque de
+    // Badr le 10/09) — un ajout futur doit se voir ici, forcément.
+    expect(supplierTotalClaimedCents()).toBe(271329 + 15533 + 33004);
+    expect(supplierTotalClaimedCents()).toBe(319866);
   });
 
   it("les trois listes fournisseur restent étanches", () => {
