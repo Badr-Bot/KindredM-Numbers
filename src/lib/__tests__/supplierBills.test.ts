@@ -8,6 +8,7 @@ import {
   supplierClaimsOnPaidBillsCents,
   supplierOpenCasesCents,
   supplierTotalClaimedCents,
+  supplierToDeductNextBillCents,
   supplierDisputedCents,
   supplierOwedCents,
   supplierPayableCents,
@@ -104,6 +105,18 @@ describe("Ledger fournisseur Panda", () => {
     // Badr le 10/09) — un ajout futur doit se voir ici, forcément.
     expect(supplierTotalClaimedCents()).toBe(271329 + 15533 + 33004);
     expect(supplierTotalClaimedCents()).toBe(319866);
+  });
+
+  it("le chiffre ACTIONNABLE : à déduire de la prochaine facture", () => {
+    // La facture du 09/09 est soldée (5 613,02 € virés) : plus rien ne se
+    // paie dessus, tout se reporte en déduction. C'est ce montant-là que le
+    // fournisseur doit lire en premier, pas le total réclamé.
+    expect(supplierToDeductNextBillCents()).toBe(271329 + 15533);
+    expect(supplierToDeductNextBillCents()).toBe(286862);
+    // Les dossiers ouverts en sont exclus : la perte n'existe pas encore.
+    expect(supplierTotalClaimedCents() - supplierToDeductNextBillCents()).toBe(
+      supplierOpenCasesCents()
+    );
   });
 
   it("les trois listes fournisseur restent étanches", () => {

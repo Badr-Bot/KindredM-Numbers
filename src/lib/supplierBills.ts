@@ -425,6 +425,24 @@ export function supplierTotalClaimedCents(): number {
   return supplierDisputedCents() + supplierClaimsOnPaidBillsCents() + supplierOpenCasesCents();
 }
 
+/**
+ * À DÉDUIRE DE LA PROCHAINE FACTURE : 2 868,62 €.
+ *
+ * C'est LE chiffre actionnable, celui que le fournisseur doit lire en premier
+ * (Badr, 10/09 : « elle doit comprendre directement combien je dois faire en
+ * virement »). La facture du 09/09 est SOLDÉE — les 5 613,02 € sont partis —
+ * donc plus rien ne se paie dessus : tout se reporte en déduction.
+ *
+ * = le retenu (2 713,29 €, jamais versé) + les avoirs sur factures soldées
+ *   (155,33 €, déjà versés et dus en retour).
+ *
+ * Les dossiers ouverts (330,04 €) en sont VOLONTAIREMENT exclus : le client
+ * n'a pas été remboursé, la perte n'existe pas, on ne la déduit pas.
+ */
+export function supplierToDeductNextBillCents(): number {
+  return supplierDisputedCents() + supplierClaimsOnPaidBillsCents();
+}
+
 export function supplierClaimsOnPaidBillsCents(): number {
   return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
 }
