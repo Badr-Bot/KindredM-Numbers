@@ -2,6 +2,7 @@ import { createSign } from "node:crypto";
 import type { Market } from "./engine";
 import { reconcilePayouts, type BankCredit, type PayoutReconciliation, type ShopifyPayout } from "./payouts";
 import { unstable_cache } from "next/cache";
+import { fetchMetaBilledCharges } from "./meta";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
 import { fixedCostsCentsForDay, horsNetOwedUntil, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
@@ -747,7 +748,15 @@ export interface BankReconciliation {
   /** Meta : débits banque vs spend dashboard sur la fenêtre. Meta facture par
    * PALIERS (pas jour par jour) : seul le TOTAL doit coller, l'écart
    * journalier est normal — dit dans l'UI. */
-  meta: { bankCents: number; expectedCents: number; gapCents: number };
+  meta: {
+    bankCents: number;
+    expectedCents: number;
+    gapCents: number;
+    /** Ce que Meta a RÉELLEMENT facturé sur la fenêtre (journal du compte,
+     * converti en euros). null = journal illisible. */
+    billedCents: number | null;
+    billedCount: number;
+  };
   /** true = AUCUN débit Meta visible sur les banques branchées ET Slash pas
    * encore connecté : Meta est débité sur la carte Slash (constaté 19/08 —
    * zéro débit facebk sur Wise pour 47 k€ de spend). Contrôle EN ATTENTE du
@@ -823,7 +832,7 @@ export function reconcile(
   return {
     sinceDay,
     untilDay,
-    meta: { bankCents: metaBank, expectedCents: metaExpected, gapCents: metaGap },
+    meta: { bankCents: metaBank, expectedCents: metaExpected, gapCents: metaGap, billedCents: null, billedCount: 0 },
     metaPending,
     shopify: { bankCents: shopifyBank, expectedCents: shopifyExpected, gapCents: shopifyBank - shopifyExpected },
     subscriptions: subs,
@@ -1573,6 +1582,11 @@ async function fetchShopifyPayouts(): Promise<{
   };
 }
 
+const fetchMetaBilledChargesCached = unstable_cache(async (sinceDay: string) => fetchMetaBilledCharges(sinceDay), ["meta-billed-v1"], {
+  revalidate: 900,
+  tags: ["bank"],
+});
+
 const fetchShopifyPayoutsCached = unstable_cache(async () => fetchShopifyPayouts(), ["shopify-payouts-v13"], {
   revalidate: 900,
   tags: ["bank"],
@@ -2253,6 +2267,16 @@ export async function buildBankReport(supabase: SupabaseClient | null): Promise<
         slashConnected,
       });
       warnings.push(...reconciliation.warnings);
+      // 🧾 Ce que Meta a RÉELLEMENT facturé sur la fenêtre (journal du compte)
+      // — le maillon entre le spend et la banque (Badr 10/09 : « des fees
+      // facturés par Meta… à toi d'aller voir »).
+      try {
+        const charges = (await fetchMetaBilledChargesCached(controlSince)).filter((c) => c.day >= controlSince && c.day <= untilDay);
+        reconciliation.meta.billedCount = charges.length;
+        reconciliation.meta.billedCents = charges.reduce((a, c) => a + (toEurCents(c.cents, c.currency, undefined, { rates: usdRatesForReport }) ?? 0), 0);
+      } catch (err) {
+        warnings.push(`Prélèvements Meta illisibles (journal du compte) : ${(err as Error).message}`);
+      }
     }
   }
 

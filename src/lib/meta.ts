@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import type { Market } from "./engine";
+import { toParisDay } from "./time";
 
 const API_VERSION = "v21.0";
 
@@ -582,6 +583,68 @@ export async function fetchCampaignActivities(sinceDay: string): Promise<Campaig
   return out;
 }
 
+
+/** Un prélèvement Meta (événement « Account billed » du journal du compte) :
+ * ce que Meta a RÉELLEMENT facturé, dans la devise du compte. */
+export interface MetaBilledCharge {
+  day: string;
+  eventTime: string;
+  cents: number;
+  currency: string;
+  transactionId: string | null;
+}
+
+/**
+ * Les prélèvements Meta depuis `sinceDay`, lus dans le journal d'activité du
+ * compte (event_type ad_account_billing_charge, extra_data = {currency,
+ * new_value, transaction_id}). Vérifié le 10/09 sur le compte Niva : 69
+ * prélèvements du 15/08 au 10/09 = 54 104 € pour 53 884 € de spend (+0,4 %,
+ * bord de fenêtre) — Meta facture le spend, en euros, sans frais. C'est la
+ * brique qui permet le contrôle à trois : spend → facturé Meta → banque.
+ */
+export async function fetchMetaBilledCharges(sinceDay: string): Promise<MetaBilledCharge[]> {
+  const token = process.env.META_ACCESS_TOKEN;
+  const accountId = process.env.META_AD_ACCOUNT_ID;
+  if (!token || !accountId) {
+    throw new Error("META_ACCESS_TOKEN / META_AD_ACCOUNT_ID manquants.");
+  }
+  const params = new URLSearchParams({
+    fields: "event_type,event_time,extra_data",
+    since: sinceDay,
+    limit: "500",
+    access_token: token,
+  });
+  let url: string | null = `https://graph.facebook.com/${API_VERSION}/act_${accountId}/activities?` + params.toString();
+  const out: MetaBilledCharge[] = [];
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Meta API error ${res.status}: ${await res.text()}`);
+    }
+    const body: { data: MetaActivityRow[]; paging?: { next?: string } } = await res.json();
+    for (const row of body.data) {
+      if (!/billing_charge$/.test(row.event_type)) continue;
+      let extra: Record<string, unknown> = {};
+      try {
+        extra = row.extra_data ? JSON.parse(row.extra_data) : {};
+      } catch {
+        continue;
+      }
+      const cents = Number(readActivityValue(extra, "new_value"));
+      if (!Number.isFinite(cents) || cents <= 0) continue;
+      out.push({
+        day: toParisDay(row.event_time),
+        eventTime: row.event_time,
+        cents: Math.round(cents),
+        currency: typeof extra.currency === "string" ? extra.currency : "EUR",
+        transactionId: typeof extra.transaction_id === "string" ? extra.transaction_id : null,
+      });
+    }
+    url = body.paging?.next ?? null;
+  }
+  out.sort((a, b) => new Date(a.eventTime).getTime() - new Date(b.eventTime).getTime());
+  return out;
+}
 
 /** Version CACHÉE de fetchActiveCampaignIds pour les rendus de page (onglet
  * Analyse) : l'appel live à Meta à chaque affichage faisait attendre 2-5 s
