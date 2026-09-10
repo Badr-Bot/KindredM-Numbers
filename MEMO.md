@@ -398,7 +398,9 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Badr tranche** : les 410 € de « custom packing » de la facture du 14/08 sont **une AVANCE sur un stock d'emballages**, et le nouveau packaging part avec les colis **à partir de cette date**. Le coût se reconnaît donc commande par commande, à mesure que le stock est consommé.
 - **`PACKAGING_START_DATE = "2026-08-14"`, 0,35 €/commande.** Pas de double compte : les 410 € eux-mêmes ne sont comptés nulle part dans le net — la carte 📦 de `supplierBills.ts` est un suivi de TRÉSORERIE, pas une comptabilisation (règle posée le 14/08). Ordre de grandeur : 410 ÷ 0,35 ≈ 1 171 emballages, soit environ 3 semaines de volume ; quand le stock sera épuisé une nouvelle avance apparaîtra sur une facture, sans rien changer au calcul.
 - **Les deux dates sont désormais SÉPARÉES** (`PACKAGING_START_DATE` / `THANKS_CARD_START_DATE`) : elles n'ont aucune raison d'être les mêmes, et les fusionner obligeait à attendre la seconde pour activer la première. `perOrderExtrasCents()` additionne les composants actifs.
-- **La carte de remerciement reste INACTIVE — la date est INTROUVABLE, pas oubliée.** Badr a demandé de l'activer le 10/09 (« tu devras avoir la date »). Cherchée le 10/09 dans les trois endroits où elle pourrait être : **MEMO** (le 12/08 il annonce les deux coûts avec « je te donnerai la date », jamais donnée depuis) · **Gmail** (aucun fil sur des cartes/inserts) · **Drive** (aucun bon de commande). **Rien.** 0,03 €/commande ≈ 75 €/mois, ~198 € si on remontait à toute l'histoire — trop pour être deviné, et deviner une date de départ fausserait tout l'historique dans le sens optimiste. **Une ligne suffit dès que Badr la donne : `THANKS_CARD_START_DATE = "AAAA-MM-JJ"`.** Le test `perOrderExtras.test.ts` vérifie déjà que l'activation de l'une n'active pas l'autre.
+- **La carte de remerciement est ACTIVE au 12/08/2026** — `THANKS_CARD_START_DATE = "2026-08-12"`, 0,03 €/commande. La date a d'abord été cherchée (MEMO, Gmail, Drive : introuvable ailleurs), puis **confirmée par Badr le 10/09 : « donc oui c'est le 12 »** — le jour même où il annonçait les deux coûts. Elle précède bien le packaging de 2 jours, exactement ce qu'il disait (« la carte a démarré avant je crois »).
+- **La fenêtre 12-13/08 est le garde-fou** : sur ces deux jours, la carte compte et le packaging non (0,03 € et pas 0,38 €). Un test dédié la verrouille — c'est la seule preuve mécanique que les deux dates sont restées indépendantes, et ça empêche quiconque de les refusionner « pour simplifier ».
+- **Impact mesuré** : 1 687 commandes depuis le 12/08 = **50,61 €** (≈ 75 €/mois au rythme actuel). Petit, mais il rentre par la même porte que le packaging, `cogsUpsellsCents`, jamais `cogsProductCents`.
 - **Où le coût atterrit** : dans `cogsUpsellsCents`, jamais dans `cogsProductCents`. Ce n'est pas un coût de polo et ça n'a rien à faire dans la ligne « COGS polo » du macaron Dépenses — c'est exactement le raccourci d'étiquetage qui avait produit le bug de mai, et c'est écrit dans le code.
 - **Effet MESURÉ** (compté en base le 10/09, pas estimé) : **1 583 commandes depuis le 14/08** → 0,35 €/cmd = **554,05 €/mois**. Le forfait size-up, lui, pèse plus que je ne l'avais dit : **1 189 polos en 8 jours** depuis le 03/09, soit ~4 460 polos/mois × 0,10 € = **~446 €/mois**. Les deux ensemble : **~1 000 €/mois** de charges qui n'étaient pas comptées.
 - **⚠️ POINT DE VIGILANCE : on a déjà dépassé l'avance.** 1 583 commandes × 0,35 € = 554,05 € comptabilisés, contre **410 € réellement décaissés**. Trois lectures : (a) le stock de 410 € couvrait plus de 1 171 unités, donc le coût unitaire réel est inférieur à 0,35 € ; (b) le stock est épuisé et une nouvelle avance tombera sur la prochaine facture ; (c) une avance est passée sans qu'on la voie — écarté, aucune ligne packing sur les factures du 03/09 ni du 09/09. **À trancher à la réception de la prochaine facture** : si aucune nouvelle avance n'apparaît, le coût unitaire est à recalculer (410 € ÷ nombre réel d'unités livrées) et la constante à corriger.
@@ -607,3 +609,24 @@ Badr : « vérifie tout, que tout se concorde, je veux que mon net affiché soit
 - Jamais de chiffre inventé ; en cas de doute, le dire. Toute erreur trouvée = la corriger partout (code + spec + STATUT.md + ce MEMO).
 - Montants en centimes (integers) dans le code. Tests fixtures §8 = validés au centime, ne jamais casser.
 - UI française, ton simple pour non-technique, emojis par section.
+
+### ⚠️ À VÉRIFIER AU DÉPLOIEMENT (relevé le 10/09 au soir)
+
+`app_state` en production, lu le 10/09 à 15h38 :
+
+| Clé | Valeur en base | Valeur dans le code |
+|---|---|---|
+| `full_resync_version` | `2026-08-17-…-v13` (28/08) | **v15** |
+| `full_recompute_version` | `2026-08-16-…-v15` (28/08) | **v17** |
+
+**Aucun correctif du 10/09 n'est encore appliqué en base** — ni les
+chargebacks, ni le COGS fantôme, ni le packaging, ni la carte. La synchro
+tourne bien (`last_incremental_sync_at` = 15h38 le 10/09), donc ce n'est pas
+un blocage : c'est que **le code déployé sur Vercel n'est pas cette branche**
+(`claude/invoice-payment-verification-n033vp`). Les chiffres du dashboard ne
+bougeront **qu'une fois la branche déployée** ; au premier passage après, le
+resync complet part tout seul et le recompute suit.
+
+**Bonne pratique confirmée ici** : ne jamais adosser un correctif de COGS à un
+bump de resync déjà en attente. Le packaging du 588a76f l'avait fait — ça a
+tenu par chance (le v14 n'était pas encore consommé). Le v15 est explicite.

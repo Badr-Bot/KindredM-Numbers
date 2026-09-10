@@ -644,7 +644,14 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // SHIRT) : seul le lien titre→clé manquait, ajouté dans fix-products-map.yml.
 // Le COGS étant FIGÉ par commande à l'écriture, seul un re-téléchargement
 // applique les grilles aux commandes déjà en base — d'où ce bump.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-09-10-current-quantity-packing-colis-primaire-v14";
+// v15 (10/09 soir) : COÛTS PAR COMMANDE — packaging 0,35 € au 14/08 ET carte
+// de remerciement 0,03 € au 12/08 (date confirmée par Badr le 10/09). Ils
+// entrent dans `cogs_upsells_cents`, qui est FIGÉ par commande à la synchro :
+// seul un re-téléchargement les applique. Le bump est EXPLICITE et pas
+// simplement adossé au v14 encore en attente — sinon, le jour où le v14 sera
+// consommé avant le déploiement de ce code, les deux coûts n'entreraient
+// jamais dans l'historique et personne ne le verrait.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-09-10-packaging-14-08-carte-12-08-v15";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

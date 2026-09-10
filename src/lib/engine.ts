@@ -582,9 +582,12 @@ export const PACKAGING_START_DATE: string | null = "2026-08-14";
 
 /**
  * Jour d'entrée en vigueur de la carte de remerciement, INCLUS.
- * `null` = pas encore connue — Badr doit confirmer la date.
+ * 12/08/2026 = le jour où Badr annonce les deux coûts. Confirmé par lui le
+ * 10/09 après recherche : la date n'existe nulle part ailleurs (ni Gmail, ni
+ * Drive, ni facture), et c'est bien celle-là. Cohérent avec « la carte a
+ * démarré avant le packaging » — 2 jours avant les 410 € du 14/08.
  */
-export const THANKS_CARD_START_DATE: string | null = null;
+export const THANKS_CARD_START_DATE: string | null = "2026-08-12";
 
 /**
  * Coût packaging + carte d'une commande, en centimes. Chaque composant a sa
