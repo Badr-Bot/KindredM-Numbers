@@ -144,6 +144,22 @@ export function autoLabelFor(subscriptionLabel: string | null): { label: TxLabel
   return { label: null, note: null };
 }
 
+/** Un virement Panda vu en banque qui ne colle à aucune facture du suivi ni à
+ * aucun acompte enregistré. S'il est POSTÉRIEUR à la dernière facture, c'est
+ * un ACOMPTE sur la suivante (l'argent est sorti, la facture n'est pas encore
+ * dans le suivi) — jamais « une vieille facture soldée ». Sans cette règle,
+ * le 10/09, 5 613 € partis vers Panda ont fabriqué un faux trou de 6 819 €
+ * (Badr : « c'est toi qui as fait de la merde »). Antérieur à la dernière
+ * facture : facture d'avant le suivi, réputée soldée (décision Badr 14/08). */
+export function pandaTransferKind(t: { day: string; amountEurCents: number | null }): "facture" | "acompte" | "acompte_auto" | "ancienne" {
+  const eur = Math.abs(t.amountEurCents ?? 0);
+  const near = (a: number, b: number) => b > 0 && Math.abs(a - b) <= b * 0.02;
+  if (SUPPLIER_BILLS.some((b) => near(eur, b.paidCents > 0 ? b.paidCents : b.totalCents))) return "facture";
+  if (SUPPLIER_PREPAYMENTS.some((p) => p.day === t.day && near(eur, p.eurCents))) return "acompte";
+  const last = lastSupplierBill();
+  return last && t.day > last.issuedDay ? "acompte_auto" : "ancienne";
+}
+
 export function categorizeTx(description: string, amountCents: number): { category: TxCategory; subscriptionLabel: string | null } {
   const d = description.toLowerCase();
   // INTERNE : l'argent ne quitte pas le périmètre (conversion de devise dans
@@ -1123,8 +1139,11 @@ export function computeControl(input: {
   }
   for (const t of pandaTxs) {
     if (pointes.has(t.txId)) continue;
+    const jour = `${t.day.slice(8, 10)}/${t.day.slice(5, 7)}`;
     fournisseurPointage.push(
-      `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${t.day.slice(8, 10)}/${t.day.slice(5, 7)} : facture antérieure au suivi (réputée soldée)`
+      pandaTransferKind(t) === "acompte_auto"
+        ? `⏳ Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${jour} : postérieur à la dernière facture du suivi, compté en ACOMPTE sur la prochaine — facture à enregistrer dès réception`
+        : `• Virement Panda de ${eur(Math.abs(t.amountEurCents ?? 0))} le ${jour} : facture antérieure au suivi (réputée soldée)`
     );
   }
 
@@ -1911,6 +1930,7 @@ async function buildTreasury(input: {
   // facture précédente, depuis le Revolut. La LLC les a déduits de son net
   // sans jamais les payer.
   let cogsLlcPaidByRevolutCents = 0;
+  let autoPrepaidCents = 0;
   try {
     const firstLlcBill = SUPPLIER_BILLS[0];
     if (firstLlcBill) {
@@ -1939,6 +1959,9 @@ async function buildTreasury(input: {
   let scanWarning: string | null = null;
   try {
     const life = await fetchLifetimeTxsCached(TREASURY_START_DAY, untilDay);
+    autoPrepaidCents = life.txs
+      .filter((t) => t.category === "FOURNISSEUR" && t.amountCents < 0 && !(t.labelNote?.startsWith("frais lié") ?? false) && pandaTransferKind(t) === "acompte_auto")
+      .reduce((a, t) => a + Math.abs(t.amountEurCents ?? 0), 0);
     // Une affectation MANUELLE écrase l'automatique (titulaire de la carte) ;
     // sans affectation manuelle, l'automatique reste — l'écraser par null
     // vidait le perso d'Adnane du rapprochement (bug repéré le 04/09).
@@ -2070,7 +2093,10 @@ async function buildTreasury(input: {
         },
     supplierUnbilledCents: unbilled?.cents ?? 0,
     supplierOwedCents: supplierOwedCents(),
-    supplierPrepaidCents: supplierPrepaidCents(),
+    // Acomptes enregistrés + virements Panda postérieurs à la dernière facture
+    // et sans facture dans le suivi (voir pandaTransferKind) : sortis de la
+    // banque, à déduire de la prochaine facture.
+    supplierPrepaidCents: supplierPrepaidCents() + autoPrepaidCents,
     supplierNext: unbilled,
     enRouteCents: enRoute && !enRoute.missingScopes ? enRoute.totalEurCents : enRouteEstimateCents,
     enRouteEstimated: !(enRoute && !enRoute.missingScopes),
