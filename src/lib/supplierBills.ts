@@ -369,6 +369,46 @@ export const SUPPLIER_CLAIMS_ON_PAID_BILLS: SupplierPendingCredit[] = [
 // ---------------------------------------------------------------------------
 export const SUPPLIER_UNDERBILLED_CENTS = 5978;
 
+// ---------------------------------------------------------------------------
+// DOSSIERS OUVERTS — faute fournisseur établie, montant PAS ENCORE dû
+// (trouvés par Badr le 10/09 au soir, vérifiés dans Shopify le même jour).
+//
+// Troisième liste, et la distinction est délibérée :
+//   • SUPPLIER_PENDING_CREDITS  = retenu sur la facture du 09/09 (2 713,29 €)
+//   • SUPPLIER_CLAIMS_ON_PAID_BILLS = avoir à réclamer, argent déjà versé
+//   • ici = RIEN n'est encore sorti ni réclamé. Sur ces deux commandes le
+//     client n'a PAS été remboursé (`refunded_cents` = 0, aucun litige) : la
+//     perte n'existe pas encore. On ne réclame pas une perte qui n'a pas eu
+//     lieu — c'est ce qui rend le reste du relevé crédible.
+//
+// Les deux sont postérieures au 01/07 (périmètre Panda) et ont un tracking,
+// donc le colis a été facturé. Mais elles sont sous #4814 : aucune facture de
+// cette période n'est en notre possession, le COGS est donc PRIXÉ sur leurs
+// grilles, pas cité d'un document — et le relevé le dit noir sur blanc.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_OPEN_CASES: SupplierPendingCredit[] = [
+  {
+    label: "#2870 — mauvais article envoyé, jamais corrigé depuis le 26/08",
+    estimatedCents: 6224,
+    note: "01/07, France, 179,98 € payés pour POLOx4 + SHORTSx3, expédiée le 03/07 (YT2621500711304158). Un tee-shirt noir est arrivé à la place d'un polo et d'un short. Correction promise le 26/08, toujours rien. " +
+      "49,44 € = la valeur RÉELLEMENT PAYÉE des 2 articles, au prorata du panier (124,98 € catalogue × 179,98 ÷ 454,93) et non au prix affiché — la commande est un bundle remisé, facturer le prix catalogue serait gonfler. " +
+      "12,80 € = le COGS de ces 2 articles à leurs propres tarifs (1 polo au palier 4 : 6,69 € · 1 short au palier 3 : 6,11 €). " +
+      "PAS de coût publicitaire réclamé : le client garde 5 articles sur 7, la vente tient. Le réclamer serait indéfendable.",
+  },
+  {
+    label: "#4486 — tracking contredit par le transporteur",
+    estimatedCents: 26780,
+    note: "14/07, France, 179,97 € pour POLOx4 + SSx1 + SHORTSx1. Tracking fourni : DOFR9010176136745HD, WanbExpress — un transporteur qui n'apparaît sur AUCUNE de leurs 4 factures, où tout ce qui part vers la France est en YunExpress. La Poste annonce le colis encore chez nous, donc jamais remis. Client sans rien depuis le 14/07. " +
+      "179,97 € de CA (remboursable, PAS encore remboursé) + 9,94 € de frais de carte que Shopify garde sur un remboursement (7,28 + 2,66, lus sur la transaction) + 35,00 € de pub (CAC mesuré, commande totalement perdue) + 42,89 € de marchandise (26,76 polos + 13,13 chemise/short + 3,00 taxe UE). " +
+      "Une preuve de remise au transporteur annule la totalité de la ligne — c'est ce qu'on leur demande d'abord.",
+  },
+];
+
+/** 330,04 € annoncés mais PAS encore dus — jamais mélangés au contesté. */
+export function supplierOpenCasesCents(): number {
+  return SUPPLIER_OPEN_CASES.reduce((t, c) => t + c.estimatedCents, 0);
+}
+
 export function supplierClaimsOnPaidBillsCents(): number {
   return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
 }

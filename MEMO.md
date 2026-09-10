@@ -907,3 +907,36 @@ D'où viennent ces 1 833,35 € :
 **Ce qui le fera redescendre**, sans rien coder : si Claire accepte les 2 713,29 € de déductions, `supplierOwed` retombe à 0 et l'attendu baisse d'autant. Les 995,05 € de trackings, eux, sont dus dès réception des numéros.
 
 **Non calculable d'ici** : le solde réel Slash/Wise. Le montant ABSOLU de l'écart n'existe que dans l'app déployée, qui lit les comptes. Ce tableau donne l'attendu ; le réel, c'est l'onglet Banque qui l'a.
+
+## Deux fautes fournisseur trouvées par Badr (10/09 au soir) — 330,04 € annoncés, PAS ENCORE dus
+
+Vérifiées dans Shopify le jour même. Les deux sont **postérieures au 01/07**, donc dans le périmètre Panda, et les deux ont un tracking — le colis a été facturé.
+
+| Cde | Date | Panier | Payé | Remboursé | Tracking fourni |
+|---|---|---|---|---|---|
+| #2870 | 01/07 | POLOx4 + SHORTSx3 | 179,98 € | **0 €** | YT2621500711304158 (YunExpress) |
+| #4486 | 14/07 | POLOx4 + SSx1 + SHORTSx1 | 179,97 € | **0 €** | DOFR9010176136745HD (WanbExpress) |
+
+**#2870 — mauvais article, jamais corrigé (62,24 €).** Un tee-shirt noir à la place d'un polo et d'un short. Correction promise le 26/08, rien depuis.
+- **49,44 €** = la valeur RÉELLEMENT PAYÉE des 2 articles. La commande est un bundle remisé : 179,98 € payés pour 454,93 € de prix catalogue. Le calcul est au prorata (124,98 × 179,98 ÷ 454,93), **pas au prix affiché** — facturer 124,98 € serait gonfler de 75 € et casserait la crédibilité du reste.
+- **12,80 €** = le COGS des 2 articles à leurs propres tarifs (1 polo au palier 4 : 6,69 € · 1 short au palier 3 : 6,11 €).
+- **Aucun coût publicitaire réclamé** : le client garde 5 articles sur 7, la vente tient. Le réclamer serait indéfendable.
+
+**#4486 — tracking contredit par le transporteur (267,80 €).** WanbExpress n'apparaît sur **aucune** des 4 factures Panda, où tout ce qui part vers la France est en YunExpress. La Poste annonce le colis encore chez nous.
+- 179,97 € de CA + 9,94 € de frais de carte (7,28 + 2,66, **lus sur la transaction**) + 35,00 € de pub (CAC mesuré) + 42,89 € de marchandise.
+- Le COGS est **prixé sur leurs grilles, pas cité d'un document** : #4486 est sous #4814, aucune facture de cette période n'est en notre possession. Le relevé le dit explicitement — mieux vaut l'annoncer que se le faire opposer.
+
+### La règle posée ici, et pourquoi elle compte
+**Sur les deux, le client n'a PAS été remboursé** (`refunded_cents` = 0, aucun litige bancaire). **La perte n'existe donc pas encore.** Ces 330,04 € sont ANNONCÉS, pas déduits : ils vivent dans `SUPPLIER_OPEN_CASES`, une troisième liste étanche des deux autres.
+
+Le ledger fournisseur compte maintenant **trois listes qui ne doivent jamais se mélanger** — un test vérifie qu'aucun numéro de commande n'apparaît dans deux d'entre elles :
+
+| Liste | Montant | Statut de l'argent |
+|---|---|---|
+| `SUPPLIER_PENDING_CREDITS` | 2 713,29 € | **Retenu** sur la facture du 09/09 |
+| `SUPPLIER_CLAIMS_ON_PAID_BILLS` | 155,33 € | **Déjà versé**, à réclamer en avoir |
+| `SUPPLIER_OPEN_CASES` | 330,04 € | **Rien n'est sorti**, annoncé seulement |
+
+Réclamer une perte qui n'a pas eu lieu est le meilleur moyen de faire tomber tout le reste du relevé. C'est la même raison qui nous fait signaler les 59,78 € de sous-facturation en leur faveur.
+
+**Ce qu'on demande d'abord, et ce n'est pas de l'argent** : sur #2870, la décision (remplacement ou avoir) — deux semaines de retard. Sur #4486, la preuve de remise au transporteur ; si elle existe, les 267,80 € tombent.

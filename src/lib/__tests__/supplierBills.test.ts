@@ -3,8 +3,10 @@ import {
   SUPPLIER_BILLS,
   SUPPLIER_CLAIMS_ON_PAID_BILLS,
   SUPPLIER_PENDING_CREDITS,
+  SUPPLIER_OPEN_CASES,
   SUPPLIER_UNDERBILLED_CENTS,
   supplierClaimsOnPaidBillsCents,
+  supplierOpenCasesCents,
   supplierDisputedCents,
   supplierOwedCents,
   supplierPayableCents,
@@ -82,6 +84,30 @@ describe("Ledger fournisseur Panda", () => {
     ]);
     // Le contesté ne bouge PAS : ces 155,33 € sont sur des factures soldées.
     expect(supplierDisputedCents()).toBe(271329);
+  });
+
+  it("les dossiers ouverts sont annoncés mais PAS comptés comme dus", () => {
+    // #2870 (62,24 €) + #4486 (267,80 €). Sur les deux, le client n'a pas
+    // encore été remboursé : la perte n'existe pas. Les compter dans le
+    // contesté ou dans les avoirs ferait réclamer de l'argent qu'on n'a pas
+    // perdu — c'est précisément ce qui décrédibiliserait tout le relevé.
+    expect(supplierOpenCasesCents()).toBe(33004);
+    expect(SUPPLIER_OPEN_CASES.map((c) => c.label.slice(0, 5))).toEqual(["#2870", "#4486"]);
+    expect(supplierDisputedCents()).toBe(271329);
+    expect(supplierClaimsOnPaidBillsCents()).toBe(15533);
+  });
+
+  it("les trois listes fournisseur restent étanches", () => {
+    // Retenu / avoir à réclamer / annoncé non dû : aucune commande ne doit
+    // apparaître dans deux listes à la fois, sinon on réclame deux fois.
+    const refs = (cs: { label: string }[]) =>
+      cs.flatMap((c) => c.label.match(/#\d+/g) ?? []);
+    const toutes = [
+      ...refs(SUPPLIER_PENDING_CREDITS),
+      ...refs(SUPPLIER_CLAIMS_ON_PAID_BILLS),
+      ...refs(SUPPLIER_OPEN_CASES),
+    ];
+    expect(new Set(toutes).size).toBe(toutes.length);
   });
 
   it("la sous-facturation en notre faveur est tracée, jamais encaissée", () => {
