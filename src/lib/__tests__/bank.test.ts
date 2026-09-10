@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   categorizeTx,
   computeControl,
+  pandaTransferKind,
   mapSlashTx,
   reconcile,
   subsForPattern,
@@ -405,5 +406,20 @@ describe("estimateEnRoute — n'estime que les boutiques qu'on lui donne", () =>
   it("ne compte que la fenêtre de versement, pas tout l'historique", () => {
     const vieux = [{ day: "2026-08-01", market: "ES", caCents: 999999, spendCents: 0, feesCents: 0 }];
     expect(estimateEnRoute([...vieux, ...jours("ES", 10000)], "2026-09-07")).toBe(50000);
+  });
+});
+
+describe("pandaTransferKind — un virement Panda sans facture n'est jamais « une vieille facture » s'il est récent (10/09)", () => {
+  it("colle à une facture du suivi → facture", () => {
+    expect(pandaTransferKind({ day: "2026-09-04", amountEurCents: -2544836 })).toBe("facture");
+  });
+  it("colle à un acompte enregistré (même jour, ±2 %) → acompte", () => {
+    expect(pandaTransferKind({ day: "2026-09-10", amountEurCents: -561302 })).toBe("acompte");
+  });
+  it("postérieur à la dernière facture, inconnu → acompte automatique (l'argent est sorti, il se déduit de la prochaine)", () => {
+    expect(pandaTransferKind({ day: "2026-09-20", amountEurCents: -700000 })).toBe("acompte_auto");
+  });
+  it("antérieur à la dernière facture, inconnu → facture d'avant le suivi, réputée soldée (Badr 14/08)", () => {
+    expect(pandaTransferKind({ day: "2026-08-22", amountEurCents: -400 })).toBe("ancienne");
   });
 });
