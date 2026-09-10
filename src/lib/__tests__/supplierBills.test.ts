@@ -3,6 +3,7 @@ import {
   SUPPLIER_BILLS,
   SUPPLIER_CLAIMS_ON_PAID_BILLS,
   SUPPLIER_PENDING_CREDITS,
+  SUPPLIER_UNDERBILLED_CENTS,
   supplierClaimsOnPaidBillsCents,
   supplierDisputedCents,
   supplierOwedCents,
@@ -72,9 +73,20 @@ describe("Ledger fournisseur Panda", () => {
     // 10,27 € de doublon sur la facture du 01/08 : l'argent est déjà parti,
     // il se réclame en avoir. Le mélanger au contesté ferait croire qu'on
     // retient 2 723,56 € alors qu'on en retient 2 713,29 €.
-    expect(supplierClaimsOnPaidBillsCents()).toBe(1027);
-    expect(SUPPLIER_CLAIMS_ON_PAID_BILLS.map((c) => c.label.slice(0, 5))).toEqual(["#4856"]);
+    // 10,27 (#4856 en double) + 39,22 (#5458) + 105,84 (les 4 sans preuve).
+    expect(supplierClaimsOnPaidBillsCents()).toBe(15533);
+    expect(SUPPLIER_CLAIMS_ON_PAID_BILLS.map((c) => c.label.slice(0, 5))).toEqual([
+      "#4856",
+      "#5458",
+      "#5455",
+    ]);
+    // Le contesté ne bouge PAS : ces 155,33 € sont sur des factures soldées.
     expect(supplierDisputedCents()).toBe(271329);
+  });
+
+  it("la sous-facturation en notre faveur est tracée, jamais encaissée", () => {
+    // #5535/#5576/#5642 : 4 polos expédiés, POLOx1 facturé. On le signale.
+    expect(SUPPLIER_UNDERBILLED_CENTS).toBe(5978);
   });
 
   it("les nombres de commandes suivent les fichiers, pas leurs en-têtes", () => {

@@ -341,7 +341,33 @@ export const SUPPLIER_CLAIMS_ON_PAID_BILLS: SupplierPendingCredit[] = [
     estimatedCents: 1027,
     note: "Seul doublon de tout l'historique : deux lignes pour #4856, trackings différents (06086507176810 « SHORTSx1, POLOx2 » 24,39 € et 06086507184076 « POLOx1 » 10,27 €). Shopify ne connaît QU'UN seul colis pour cette commande (2 polos + 1 short, tracking 06086507176810) et le client n'a jamais commandé de 3e polo. La 2e ligne n'a donc pas de contrepartie : 10,27 € à rendre. Vérification : les 650 lignes du fichier ne couvrent que 649 numéros — c'est ce trou d'un qui a mis le doublon en évidence.",
   },
+  {
+    label: "#5458 facturée sans colis, client remboursé à 100 % (01/08, payée)",
+    estimatedCents: 3922,
+    note: "La ligne la plus nette de l'audit : aucun tracking sur leur facture, aucun fulfilment côté Shopify, et le client a été remboursé de 89,99 € EN ENTIER — il n'a rien gardé. On a donc payé 39,22 € pour une marchandise qui n'est jamais partie. C'est aussi le contre-exemple qui prouve que « annulée » et « non expédiée » ne sont pas la même chose : le fournisseur FACTURE parfois une commande qu'il n'expédie pas, d'où l'obligation de croiser ses factures avec Shopify plutôt que de se fier à un seul des deux.",
+  },
+  {
+    label: "#5455, #5842, #6945, #7023 — aucune preuve d'expédition des deux côtés",
+    estimatedCents: 10584,
+    note: "Même test que la catégorie 1 du relevé du 10/09 (les 47 commandes, 995,05 €), appliqué cette fois aux trois factures ANTÉRIEURES : ni tracking sur leur fichier, ni fulfilment côté Shopify au 10/09. #5455 (Suisse, 17,07 €) date du 01/08, six semaines. #5842 (Belgique, 34,73 €), #6945 (Belgique, 19,29 €), #7023 (Suisse, 34,75 €). Ce n'est PAS un litige : dès qu'ils envoient les numéros de suivi, la réclamation tombe. " +
+      "Garde-fou du test : on ne signale une commande que si LES DEUX sources sont muettes. Sur la seule facture du 03/09, 136 commandes sont facturées sans tracking — mais 134 sont bien fulfilled côté Shopify, donc le colis est parti et on ne dit rien. Seules #6945 et #7023 échouent aux deux.",
+  },
 ];
+
+// ---------------------------------------------------------------------------
+// EN NOTRE DÉFAVEUR, VOLONTAIREMENT NON ENCAISSÉ — le pendant honnête de la
+// liste ci-dessus, et la raison pour laquelle elle est crédible.
+//
+// #5535, #5576 et #5642 : Shopify montre 4 polos (+ caleçon) expédiés sous UN
+// seul tracking, la facture du 14/08 ne porte qu'un « POLOx1 » avec un tracking
+// DIFFÉRENT — 12,23 / 9,65 / 12,91 € facturés au lieu de ~31 €. Le fournisseur
+// nous a SOUS-facturés d'environ 59,78 €.
+//
+// Le COGS reste INCHANGÉ sur ces trois commandes : le colis complet est bien
+// parti, la facturation peut revenir. On le signale à Claire au lieu de
+// l'empocher — et on ne l'inscrit nulle part comme un gain.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_UNDERBILLED_CENTS = 5978;
 
 export function supplierClaimsOnPaidBillsCents(): number {
   return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
