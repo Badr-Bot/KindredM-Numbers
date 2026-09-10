@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   CANCELLED_BEFORE_DISPATCH_FR,
   LOST_CHARGEBACKS_FR,
+  NEVER_DISPATCHED_FR,
+  NO_PARCEL_FR,
   lostChargebacksTotalCents,
   orderAdjustment,
 } from "../orderAdjustments";
@@ -52,17 +54,50 @@ describe("Chargebacks perdus (relevé Shopify du 10/09)", () => {
   });
 });
 
-describe("Commandes annulées avant expédition", () => {
-  it("81 commandes, jamais expédiées donc jamais facturées par le fournisseur", () => {
-    expect(CANCELLED_BEFORE_DISPATCH_FR.size).toBe(81);
-    expect(orderAdjustment("FR", "#6327").cancelledBeforeDispatch).toBe(true);
-    expect(orderAdjustment("FR", "#2195").cancelledBeforeDispatch).toBe(true);
+describe("Commandes sans colis (relevé Shopify exhaustif du 10/09)", () => {
+  it("les 83 commandes annulées — la requête `status:cancelled` en rend 83, pas 81", () => {
+    // #2213 et #2257 manquaient jusqu'au 10/09 : la liste avait été bâtie sur
+    // les notes de remboursement, pas sur le statut. Ce test verrouille le
+    // compte exact pour que le trou ne puisse pas revenir en silence.
+    expect(CANCELLED_BEFORE_DISPATCH_FR.size).toBe(83);
+    expect(CANCELLED_BEFORE_DISPATCH_FR.has("#2213")).toBe(true);
+    expect(CANCELLED_BEFORE_DISPATCH_FR.has("#2257")).toBe(true);
+  });
+
+  it("les 5 commandes remboursées sans expédition, non marquées annulées", () => {
+    expect([...NEVER_DISPATCHED_FR].sort()).toEqual([
+      "#2409",
+      "#2965",
+      "#3277",
+      "#5420",
+      "#6103",
+    ]);
+    // Les deux que la facture confirme à 0,00 € (01/08 et 03/09).
+    expect(orderAdjustment("FR", "#5420").noParcelSent).toBe(true);
+    expect(orderAdjustment("FR", "#6103").noParcelSent).toBe(true);
+  });
+
+  it("88 commandes au total, aucune comptée deux fois", () => {
+    expect(NO_PARCEL_FR.size).toBe(
+      CANCELLED_BEFORE_DISPATCH_FR.size + NEVER_DISPATCHED_FR.size
+    );
+    expect(NO_PARCEL_FR.size).toBe(88);
   });
 
   it("les colis PARTIS n'y sont pas — le fournisseur les a bien facturés", () => {
-    // #1903 « Colis non livré » et #5458 « Non livrable » : le colis existe.
-    expect(orderAdjustment("FR", "#1903").cancelledBeforeDispatch).toBe(false);
-    expect(orderAdjustment("FR", "#5458").cancelledBeforeDispatch).toBe(false);
+    // #1903 « Colis non livré » et #5458 « Non livrable » : le colis existe
+    // (#5458 est facturée 39,22 € sur la facture du 01/08).
+    expect(orderAdjustment("FR", "#1903").noParcelSent).toBe(false);
+    expect(orderAdjustment("FR", "#5458").noParcelSent).toBe(false);
+    // #5599 (Croatie) et #5759 (Réunion) : facturées 0,00 € « country not
+    // covered by polo quote » MAIS avec un tracking — le colis est parti, le
+    // prix viendra. On garde leur COGS.
+    expect(orderAdjustment("FR", "#5599").noParcelSent).toBe(false);
+    expect(orderAdjustment("FR", "#5759").noParcelSent).toBe(false);
+  });
+
+  it("rien hors du store FR", () => {
+    expect(orderAdjustment("ES", "#6327").noParcelSent).toBe(false);
   });
 });
 

@@ -69,7 +69,15 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     issuedDay: "2026-08-14",
     ordersFrom: "#5463",
     ordersTo: "#5995",
-    ordersCount: 531,
+    // 533 lignes dans le fichier, une par commande, couvrant #5463→#5995 sans
+    // trou ni doublon (recompté le 10/09 — la valeur 531 saisie le 14/08 était
+    // fausse de 2). ⚠️ L'en-tête annonce « 535 Orders | 533 billed | 2 not
+    // charged yet » : même défaut d'en-tête que sur la facture du 03/09, le
+    // TOTAL est juste, le compte annoncé non. Les « 2 not charged » sont
+    // #5599 (Croatie) et #5759 (Réunion), expédiées avec tracking mais
+    // facturées 0,00 € « country not covered by polo quote » — leur prix peut
+    // encore tomber, leur COGS reste compté chez nous.
+    ordersCount: 533,
     // Ligne TOTAL du fournisseur : 11 654,41 € de commandes + 410,00 € de
     // « custom packing » = 12 064,41 €. Le « 13 914,91 » en bout de ligne est
     // LE MÊME TOTAL EN DOLLARS (confirmé par Badr le 14/08 — vérifié :
@@ -245,6 +253,27 @@ export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
 
 export function supplierPendingCreditsCents(): number {
   return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);
+}
+
+// ---------------------------------------------------------------------------
+// AVOIRS À RÉCLAMER SUR DES FACTURES DÉJÀ PAYÉES (audit ligne à ligne du
+// 10/09/2026, les 4 fichiers Panda repassés au peigne fin).
+//
+// Distinct de SUPPLIER_PENDING_CREDITS : ces montants ne sont retenus sur
+// RIEN — ils sont déjà partis. Ils se réclament en avoir sur la prochaine
+// facture. Les garder dans une liste séparée évite de gonfler le « contesté »
+// avec de l'argent qu'on a déjà versé.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_CLAIMS_ON_PAID_BILLS: SupplierPendingCredit[] = [
+  {
+    label: "#4856 facturée DEUX FOIS (facture du 01/08, payée)",
+    estimatedCents: 1027,
+    note: "Seul doublon de tout l'historique : deux lignes pour #4856, trackings différents (06086507176810 « SHORTSx1, POLOx2 » 24,39 € et 06086507184076 « POLOx1 » 10,27 €). Shopify ne connaît QU'UN seul colis pour cette commande (2 polos + 1 short, tracking 06086507176810) et le client n'a jamais commandé de 3e polo. La 2e ligne n'a donc pas de contrepartie : 10,27 € à rendre. Vérification : les 650 lignes du fichier ne couvrent que 649 numéros — c'est ce trou d'un qui a mis le doublon en évidence.",
+  },
+];
+
+export function supplierClaimsOnPaidBillsCents(): number {
+  return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
 }
 
 export function supplierOwedCents(): number {

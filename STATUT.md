@@ -814,15 +814,16 @@ ouverture du site) re-télécharge les commandes et recalcule les jours.
 | | Correctif | Effet sur le net |
 |---|---|---|
 | 1 | Chargebacks perdus déduits du CA (5 cmd) | **−383,91 €** |
-| 2 | COGS fantôme des 81 commandes annulées | **+2 082,70 €** |
+| 2 | COGS fantôme des commandes sans colis (81 → **88**, cf. audit ci-dessous) | **+2 266,84 €** |
 | 3 | `current_quantity` au lieu de `quantity` | + (254 unités) |
 | 4 | Packing « colis primaire » généralisé | − (~4 €/cmd sans polo) |
 | 5 | Pantalon FR à 6,90 € en upsell | + (~2,94 €/cmd concernée) |
 | 6 | Forfait size-up 0,10 €/polo depuis le 03/09 | − (~250 €/mois) |
 | 7 | « La Chemise Turenne » → manches longues (en base) | ~0 |
 
-**Solde attendu : environ +1 700 € de bénéfice**, dominé par le COGS qu'on
-n'a jamais payé sur les commandes annulées.
+**Solde attendu : environ +1 883 € de bénéfice** (révisé après l'audit
+exhaustif du 10/09 au soir), dominé par le COGS qu'on n'a jamais payé sur les
+commandes dont aucun colis n'est parti.
 
 Chaque correctif est adossé à une pièce et verrouillé par un test qui
 reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
@@ -856,3 +857,37 @@ dans le code, il suffira de poser celle de la carte.
 - Rotation recommandée à terme : les secrets ont transité par le chat —
   bouton **« Faire pivoter »** (Dev Dashboard → Paramètres → Secret) puis
   mettre à jour Vercel. À faire quand tout tourne.
+
+## Mise à jour 10/09 (soir) — audit exhaustif : « je veux que le net soit vraiment réel »
+
+`REQUIRED_RECOMPUTE_VERSION` → **v17**. **268 tests verts, tsc + eslint + `next build` OK.**
+Recalcul seul, aucun appel API : les listes voyagent avec le code.
+
+Les 4 factures Panda (#4814→#7506, **2 697 lignes**) reparsées et croisées
+ligne à ligne avec la base, plus le **statut d'expédition de la totalité des
+commandes** relevé sur Shopify. Bilan :
+
+| | Constat | Preuve | Effet |
+|---|---|---|---|
+| 1 | La liste « COGS fantôme » était **incomplète : 81 → 88** | `status:cancelled` rend **83** commandes (#2213 et #2257 manquaient) + 5 remboursées sans colis (#2409, #2965, #3277, #5420, #6103) — toutes `UNFULFILLED`, `fulfillments: []` | **+184,14 €** |
+| 2 | **#4856 facturée deux fois** le 01/08 (déjà payée) | 650 lignes pour 649 numéros ; 2 trackings, Shopify n'en connaît qu'un | **10,27 € à réclamer** |
+| 3 | `ordersCount` du 14/08 faux | 533 lignes recomptées, pas 531 (en-tête Panda : 535, faux) | tracé |
+| 4 | **Sous-facturation** #5535/#5576/#5642 | 4 polos expédiés, `POLOx1` facturé | **~59,78 € en notre faveur, NON encaissés** |
+| 5 | #5599 / #5759 facturées 0 € mais **expédiées** | tracking présent, « country not covered by polo quote » | COGS **conservé** (57,49 €) |
+
+**Ce qui a changé dans la nature de la preuve.** Avant : « le fournisseur
+facture 0 € les commandes annulées, vérifié sur 3 exemples » — une déduction
+étendue à 81 commandes, dont 80 hors de toute facture en notre possession.
+Maintenant : chaque commande de la liste est `UNFULFILLED` avec zéro
+fulfillment. Le fournisseur facture le COLIS ; pas de colis, pas de ligne.
+La preuve ne dépend plus d'une facture qu'on n'a pas.
+
+**Restes connus, chiffrés, non corrigés** (aucun n'est un trou — ils sont mesurés) :
+- **9 commandes ES/UK/DE remboursées à 100 %, 183,47 € de COGS** : même profil,
+  mais la connexion Shopify pointe la boutique FR — pas vérifiable d'ici, donc
+  **pas retiré sans preuve**.
+- **172 commandes du 14→18/06 au repli 3 %** (réel juin mesuré : 2,26 %) →
+  frais **surestimés d'environ 74 €**. Le net penche du côté pessimiste.
+- **5 sur-remboursements, 2,58 €** au total (écarts de change).
+- **Carte de remerciement toujours inactive** : date cherchée dans MEMO, Gmail
+  et Drive le 10/09 — introuvable. Une ligne suffit dès que Badr la donne.

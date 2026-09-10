@@ -195,14 +195,15 @@ export async function recomputeDailyAggregatesForDays(
     //    que ce qui DÉPASSE le remboursement déjà enregistré : les litiges
     //    perdus qui ont aussi été remboursés côté Shopify sont donc comptés
     //    une seule fois, quoi qu'il arrive.
-    //  • COMMANDE ANNULÉE AVANT EXPÉDITION — jamais expédiée, donc jamais
-    //    facturée par le fournisseur (vérifié : il les facture 0,00 €). Son
-    //    COGS et sa taxe UE sont un coût fantôme, mis à zéro ici.
+    //  • COMMANDE SANS COLIS — le fournisseur facture le COLIS, pas la
+    //    commande : `UNFULFILLED` + `fulfillments: []` côté Shopify = aucune
+    //    ligne de facture possible. Son COGS et sa taxe UE sont un coût
+    //    fantôme, mis à zéro ici.
     const adj = orderAdjustment(o.store, o.order_name);
     const chargebackCents = Math.max(0, adj.lostChargebackCents - o.refunded_cents);
-    const cogsProduct = adj.cancelledBeforeDispatch ? 0 : o.cogs_product_cents;
-    const cogsUpsells = adj.cancelledBeforeDispatch ? 0 : o.cogs_upsells_cents;
-    const taxCents = adj.cancelledBeforeDispatch ? 0 : o.tax_eu_cents;
+    const cogsProduct = adj.noParcelSent ? 0 : o.cogs_product_cents;
+    const cogsUpsells = adj.noParcelSent ? 0 : o.cogs_upsells_cents;
+    const taxCents = adj.noParcelSent ? 0 : o.tax_eu_cents;
 
     b.caCents += o.total_cents - o.refunded_cents - chargebackCents;
     b.cogsCents += cogsProduct + cogsUpsells;

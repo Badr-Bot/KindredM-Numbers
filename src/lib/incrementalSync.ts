@@ -587,7 +587,13 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // mesuré est 2,26 % : le forfait surestimait les frais de 142,02 €. Recompute
 // seul, aucun appel API : les valeurs sont dans le code, consommées par
 // aggregate.ts quand fee_total_cents est NULL.
-const REQUIRED_RECOMPUTE_VERSION = "2026-09-10-chargebacks-perdus-et-cogs-fantome-v16";
+// v17 (10/09, soir) : la liste « COGS fantôme » passe de 81 à 88 commandes.
+// Elle avait été bâtie sur les NOTES de remboursement Shopify ; refaite sur le
+// STATUT (`status:cancelled` + `fulfillments: []`), elle rend 83 annulées (2 de
+// plus : #2213, #2257) et 5 remboursées-non-expédiées (#2409, #2965, #3277,
+// #5420, #6103). +184,14 € de coût fantôme retiré. Recompute SEUL : les listes
+// voyagent avec le code, aucun appel API.
+const REQUIRED_RECOMPUTE_VERSION = "2026-09-10-cogs-sans-colis-88-commandes-v17";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €

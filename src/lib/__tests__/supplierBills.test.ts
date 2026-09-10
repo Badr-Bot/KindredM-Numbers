@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   SUPPLIER_BILLS,
+  SUPPLIER_CLAIMS_ON_PAID_BILLS,
   SUPPLIER_PENDING_CREDITS,
+  supplierClaimsOnPaidBillsCents,
   supplierDisputedCents,
   supplierOwedCents,
   supplierPayableCents,
@@ -61,5 +63,21 @@ describe("Ledger fournisseur Panda", () => {
     // exactement ce qui est retenu sur la facture du 09/09.
     expect(supplierPendingCreditsCents()).toBe(271329);
     expect(supplierPendingCreditsCents()).toBe(supplierDisputedCents());
+  });
+
+  it("les avoirs sur factures PAYÉES restent hors du contesté", () => {
+    // 10,27 € de doublon sur la facture du 01/08 : l'argent est déjà parti,
+    // il se réclame en avoir. Le mélanger au contesté ferait croire qu'on
+    // retient 2 723,56 € alors qu'on en retient 2 713,29 €.
+    expect(supplierClaimsOnPaidBillsCents()).toBe(1027);
+    expect(SUPPLIER_CLAIMS_ON_PAID_BILLS.map((c) => c.label.slice(0, 5))).toEqual(["#4856"]);
+    expect(supplierDisputedCents()).toBe(271329);
+  });
+
+  it("les nombres de commandes suivent les fichiers, pas leurs en-têtes", () => {
+    // Les en-têtes Panda sur-annoncent (535 vs 533 le 14/08, 1157 vs 1153 le
+    // 03/09) : on retient le nombre de LIGNES recompté, seul aligné sur le
+    // TOTAL réclamé.
+    expect(SUPPLIER_BILLS.map((b) => b.ordersCount)).toEqual([649, 533, 1152, 358]);
   });
 });
