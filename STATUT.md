@@ -773,6 +773,38 @@ commandes, 254 unités comptées en trop dans le COGS depuis le 01/07**. Le
 net réel est donc un peu meilleur qu'affiché. Correctif non appliqué, à
 grouper avec les autres corrections en attente de resync.
 
+## Mise à jour 10/09 — facture du 09/09 réglée en partie, 2 713,29 € retenus
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée |
+| 20260814 | 12 064,41 € | ✅ payée |
+| 20260903 | 25 448,36 € | ✅ payée |
+| **20260909** | **8 326,31 €** | **5 613,02 € payés · 2 713,29 € retenus** |
+
+Le fournisseur a retiré de lui-même les 168,40 € de lignes suisses. Badr a
+viré le solde hors déductions le 10/09.
+
+**Les 2 713,29 € retenus, notifiés par un relevé détaillé** (chaque numéro de
+commande listé, une source par ligne) :
+
+| | Ligne | EUR |
+|---|---|---|
+| 1 | 47 commandes sans preuve d'expédition | 995,05 |
+| 2 | 11 commandes qu'ils n'ont pas pu expédier | 842,24 |
+| 3 | Leurs erreurs sur commandes livrées (#4079, #5649) | 118,48 |
+| 4 | Chargebacks perdus (#3285, #4368) | 253,21 |
+| 5 | Publicité perdue — 13 cmd × 35 € | 455,00 |
+| 6 | Corrections du forfait size-up | 49,31 |
+
+**La ligne 1 n'est pas un litige** : elle se paie dès réception des trackings.
+Règle posée par Badr — on paie à l'EXPÉDITION, pas à la livraison.
+
+**Deux garde-fous qui rendent le dossier tenable** : tout ce qui précède le
+01/07 a été retiré (le fournisseur n'existait pas avant), soit ~1 107 € de
+pertes réelles abandonnées ; et le coût pub est facturé à **35 €**, la valeur
+mesurée, pas les 40 € demandés au départ.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

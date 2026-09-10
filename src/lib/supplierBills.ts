@@ -148,39 +148,48 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // FINAL TOTAL du fichier : 8 494,71 € = 7 878,41 € de lignes commandes
     // + 616,30 € d'une ligne nouvelle, « size up change cost from (#4815-#7506),
     // total 6163 pieces, cost is 616.3 euro » (0,10 € la pièce).
-    totalCents: 849471,
-    // CONTESTÉ = 701,90 €, deux motifs bien distincts :
+    // Le fournisseur a RETIRÉ les 168,40 € de lignes suisses re-facturées
+    // (Claire, 09/09 : « Yes you are right for Stéphane, I delete it ») →
+    // le montant réclamé tombe à 8 326,31 €, la valeur retenue ici.
+    totalCents: 832631,
     //
-    //   • 168,40 € RE-FACTURÉS : trois lignes portant le numéro #6953 (Suisse,
-    //     Stephane Lenain — LSx3+SSx3 62,40 · SSx5 53,50 · LSx5 52,50) sont
-    //     bundle pour bundle et centime pour centime les lignes #6981, #6955 et
-    //     #6954 de la facture du 03/09, seuls les trackings changent. Ce sont
-    //     exactement les lignes dont on demandait le regroupement en avoir : au
-    //     lieu de l'avoir, elles reviennent en plein tarif. Réexpéditions ou
-    //     doublon, il faut qu'ils tranchent — et le numéro #6953 est en plus le
-    //     mauvais (sur le 03/09, #6953 = CALECONx1+POLOx4, non repris ici).
-    //     VÉRIFIÉ DANS LE TRACKER DRIVE le 09/09 (fichier à jour au 08/09) :
-    //     AUCUNE trace de réexpédition — ni « Lenain », ni #6953/6954/6955/6981,
-    //     ni les trackings 0608650723xxxx. Le tracker s'arrête à #6577. Donc
-    //     rien ne documente une réexpédition : à ce stade c'est un doublon non
-    //     expliqué, et c'est à eux de prouver le contraire.
+    // RETENU = 2 713,29 €, notifiés par un relevé de déduction détaillé envoyé
+    // le 10/09 (chaque numéro de commande listé, une source par ligne) :
     //
-    //   • 533,50 € de « size up change cost » RÉTROACTIF. La ligne couvre
-    //     #4815→#7506, c'est-à-dire les DEUX factures déjà payées et soldées
-    //     (« on part à zéro depuis les deux dernières bills », Badr 14/08) plus
-    //     celle du 03/09 déjà validée. Répartition à 0,10 €/polo, comptée sur
-    //     Shopify : 20260801 = 158,50 € · 20260814 = 122,00 € · 20260903 =
-    //     251,10 € · période courante = 82,80 €. Seuls ces 82,80 € portent sur
-    //     les commandes de CETTE facture ; les 533,50 € restants rouvrent des
-    //     factures closes. À noter aussi : ils comptent 6 163 pièces là où
-    //     Shopify en compte 6 144 sur la même plage (+19).
-    disputedCents: 70190,
-    status: "a_payer",
-    paidCents: 0,
+    //   1. 995,05 € — 47 commandes facturées sans AUCUNE preuve d'expédition
+    //      (#7173 + #7460→#7506 sauf #7493) : ni tracking sur leur fichier, ni
+    //      fulfilment côté Shopify au 10/09. Ce n'est PAS un litige, c'est du
+    //      décalage : payé le jour où ils envoient les trackings. Règle posée
+    //      par Badr : « si c'est pas expédié, je paye pas » — expédition, pas
+    //      livraison.
+    //   2. 842,24 € — 11 commandes annulées et remboursées parce que le colis
+    //      n'est jamais parti, vers des pays qu'on livre. Jamais facturées par
+    //      eux (donc aucun COGS payé), mais la vente est perdue.
+    //   3. 118,48 € — #4079 et #5649 : compensations versées aux clients
+    //      (107,99 €) + frais de carte jamais rendus par Shopify (10,49 €).
+    //   4. 253,21 € — #3285 et #4368 : chargebacks PERDUS (173,96 € repris par
+    //      la banque) + marchandise déjà payée dessus (49,25 €) + frais de
+    //      litige Shopify estimés (30,00 €, seul chiffre estimé du relevé).
+    //   5. 455,00 € — publicité perdue : 13 commandes totalement perdues × 35 €.
+    //      35 € = le CAC MESURÉ (35,05 juillet · 34,55 août · 35,43 septembre),
+    //      pas un objectif. Badr voulait 40 €, ramené à la valeur prouvable.
+    //   6. 49,31 € — forfait size-up : leur part (3 des 39 réexpéditions sur
+    //      #4815→#7506 sont de leur faute = 7,7 % de 616,30 € = 47,41 €) +
+    //      1,90 € de comptage gonflé (6 163 pièces facturées vs 6 144 polos).
+    //
+    // BORNE DE PÉRIODE : ce fournisseur ne travaille avec nous que depuis le
+    // 01/07/2026 (Badr, 10/09). Tout ce qui précède a été RETIRÉ de la
+    // réclamation même quand la perte était réelle — #2195, #1903, #2593 et
+    // 5 chargebacks de juin, soit ~1 107 € abandonnés volontairement. C'est ce
+    // qui rend le reste crédible en négociation.
+    disputedCents: 271329,
+    // PARTIELLE : Badr a viré 5 613,02 € le 10/09 (8 326,31 − 2 713,29).
+    status: "partielle",
+    paidCents: 561302,
     note:
       "Nouvelle plage #7149→#7506 (358 commandes du 03 au 08/09) : IRRÉPROCHABLE. Recalculée par le moteur, elle donne 7 710,05 € contre 7 710,01 € facturés — 4 CENTIMES d'écart. Croisée avec Shopify : 358 lignes = 358 commandes, contiguës, sans doublon, upsells au compte exact (124 unités). Les 2 seules différences de quantité (#7331 : 4 polos facturés sur 8 commandés · #7441 Mexique : 2 sur 3) sont JUSTES — dans les deux cas les autres lignes ont été retirées de la commande côté Shopify (current_quantity 0) ; c'est NOTRE base qui les compte encore. " +
-      "⚠️ Deux réserves, 701,90 € au total, détaillées en commentaire : 168,40 € de lignes suisses re-facturées (déjà sur la facture du 03/09) et 533,50 € de « size up change cost » rétroactif sur des factures déjà soldées. À régler hors contesté : 7 792,81 €. " +
-      "Le principe du « size up change cost » (0,10 €/polo) est la réponse à notre question du 04/09 sur les réexpéditions — discutable pour l'avenir (250 réexpéditions au tracker à ~7,25 € pièce coûteraient bien plus), mais pas applicable au passé.",
+      "PAYÉE À HAUTEUR DE 5 613,02 € le 10/09. Les 2 713,29 € restants sont retenus et notifiés par un relevé détaillé (6 catégories, chaque numéro de commande listé) — détail en commentaire ci-dessus. La plus grosse ligne (995,05 €) n'est pas un litige mais un décalage : elle se paie dès réception des trackings. " +
+      "Le forfait size-up (0,10 €/pièce) est ACCEPTÉ pour l'avenir, sur les seuls changements de taille demandés par le client, et à condition qu'il soit facturé chaque mois sur sa propre ligne. À encoder dans le moteur (coût par commande absent aujourd'hui) — cf. MEMO.",
   },
 ];
 
@@ -198,14 +207,39 @@ export interface SupplierPendingCredit {
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
   {
-    label: "Colis groupé suisse : avoir demandé, RE-FACTURÉ à la place",
-    estimatedCents: 16840,
-    note: "On demandait le regroupement de #6953/6954/6955/6981 (même client, MÊME tracking, 4 lignes livraison comprise pour UN colis). La facture du 09/09 fait l'inverse : les trois lignes #6954/#6955/#6981 y reviennent EN PLEIN TARIF (62,40 + 53,50 + 52,50 = 168,40 €), sous le numéro #6953 et avec de nouveaux trackings. Vérifié dans le tracker Drive le 09/09 : AUCUNE réexpédition n'y est enregistrée pour ce client ni pour ces commandes (le tracker s'arrête à #6577). Donc doublon non expliqué jusqu'à preuve du contraire. Porté en `disputedCents` sur la facture 20260909.",
+    label: "Trackings des 47 commandes non expédiées (facture 09/09)",
+    estimatedCents: 99505,
+    note: "#7173 + #7460→#7506 sauf #7493. Ni tracking sur leur fichier, ni fulfilment côté Shopify au 10/09. Retenu sur la facture, PAS contesté : payable le jour où ils envoient les numéros de suivi. C'est la ligne à relancer en premier, c'est la plus grosse et la plus simple à solder.",
   },
   {
-    label: "« Size up change cost » rétroactif (09/09)",
-    estimatedCents: 53350,
-    note: "Réponse du fournisseur à notre question sur les réexpéditions : une ligne « size up change cost from (#4815-#7506), total 6163 pieces, cost is 616.3 euro » — 0,10 € par polo, appliquée à TOUT l'historique depuis la 1re facture du ledger. 82,80 € portent sur les commandes de la facture du 09/09 ; les 533,50 € restants rouvrent des factures déjà payées (20260801 : 158,50 € · 20260814 : 122,00 €) ou déjà validées (20260903 : 251,10 €). Le principe se discute pour l'AVENIR (250 réexpéditions au tracker à ~7,25 € pièce coûteraient bien plus que 0,10 €/polo) ; le rétroactif, non. Ils comptent aussi 6 163 pièces contre 6 144 polos dans Shopify sur la même plage.",
+    label: "Commandes qu'ils n'ont pas pu expédier (11 cmd)",
+    estimatedCents: 84224,
+    note: "Annulées et remboursées au client parce que le colis n'est jamais parti, vers des pays qu'on livre : #6327, #5458, #4615, #4493, #4458, #3618, #3439, #3346, #3290, #2874, #2850. Jamais facturées par eux — donc aucun COGS payé — mais la vente est perdue. Preuve : note de remboursement Shopify « Commande annulée » + notre réponse au client « nous n'avons pas pu assurer l'expédition ».",
+  },
+  {
+    label: "Leurs erreurs sur commandes livrées (#4079, #5649)",
+    estimatedCents: 11848,
+    note: "Compensations versées aux clients (107,99 €) + frais de carte que Shopify ne rend jamais sur un remboursement (10,49 €). Motif écrit dans le tracker : « Supplier Shipping Issue » sur les deux.",
+  },
+  {
+    label: "Chargebacks perdus (#3285, #4368)",
+    estimatedCents: 25321,
+    note: "173,96 € repris par la banque + 49,25 € de marchandise déjà payée + 30,00 € de frais de litige Shopify ESTIMÉS (~15 €/litige, seul chiffre non lu du relevé — le scope `read_shopify_payments` reste refusé). Claire a écrit le 09/09 : « let me know on the chargebacks or any loss you got as of the shipping issue, we will cover ».",
+  },
+  {
+    label: "Publicité perdue — 13 commandes × 35 €",
+    estimatedCents: 45500,
+    note: "Le coût d'acquisition est payé AVANT que la commande existe : quand elle est totalement perdue, il l'est aussi. 35 € = CAC mesuré dans le dashboard (35,05 juillet · 34,55 août · 35,43 septembre), pas un objectif — Badr voulait 40 €, ramené à la valeur prouvable. Appliqué aux seules commandes totalement perdues (catégories 2 et 4), jamais aux remboursements partiels où le client garde la marchandise.",
+  },
+  {
+    label: "Forfait size-up : leur part + comptage gonflé",
+    estimatedCents: 4931,
+    note: "47,41 € = 3 des 39 réexpéditions sur #4815→#7506 sont de leur faute (#4933, #5446, #5649) = 7,7 % des 616,30 €. Le ratio est calculé sur la FENÊTRE DU FORFAIT, pas sur les 295 réexpéditions depuis le début — c'est ce qui le rend incontestable. + 1,90 € : ils comptent 6 163 pièces là où Shopify en a 6 144.",
+  },
+  {
+    label: "Réexpédition #2994 — réelle mais NON réclamée",
+    estimatedCents: 0,
+    note: "Renvoyée à nos frais après une erreur de taille inscrite de leur côté, mais le tracker ne porte aucun montant pour elle. Volontairement laissée hors du relevé : on ne chiffre pas ce qu'on ne peut pas prouver. Même logique pour #2859, retirée après vérification (statut « Not Shipped » — la réexpédition n'est jamais partie).",
   },
 ];
 

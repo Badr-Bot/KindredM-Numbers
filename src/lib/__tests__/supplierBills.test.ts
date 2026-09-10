@@ -23,7 +23,7 @@ describe("Ledger fournisseur Panda", () => {
       ["Bill 20260801", 1427996],
       ["Bill 20260814", 1206441],
       ["Bill 20260903", 2544836],
-      ["Bill 20260909", 849471],
+      ["Bill 20260909", 832631],
     ]);
   });
 
@@ -34,12 +34,14 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("tout est soldé sauf la facture du 09/09", () => {
-    expect(supplierOwedCents()).toBe(849471);
-    // Contesté sur la 09/09 : 168,40 € de lignes suisses re-facturées
-    // + 533,50 € de « size up change cost » rétroactif.
-    expect(supplierDisputedCents()).toBe(70190);
-    expect(supplierPayableCents()).toBe(849471 - 70190);
+  it("facture du 09/09 : payée à hauteur de 5 613,02 €, le reste retenu", () => {
+    // Elle a retiré les 168,40 € de lignes suisses : réclamé 8 326,31 €.
+    // Badr a viré 5 613,02 € le 10/09 → il reste exactement le montant retenu.
+    expect(supplierOwedCents()).toBe(832631 - 561302);
+    expect(supplierOwedCents()).toBe(271329);
+    expect(supplierDisputedCents()).toBe(271329);
+    // Rien de payable immédiatement : tout le reste est notifié en déduction.
+    expect(supplierPayableCents()).toBe(0);
   });
 
   it("aucune facture ne peut être payée au-delà de son montant", () => {
@@ -51,12 +53,13 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("l'avoir Long Sleeves est abandonné (packing confirmé par Badr le 04/09)", () => {
-    // Ce n'était pas une surfacturation : toute commande sans polo paie un
-    // packing de colis primaire, la règle acceptée pour le gilet le 14/08.
+  it("les 6 lignes retenues du relevé du 10/09 somment au montant retenu", () => {
+    // L'avoir Long Sleeves est abandonné (packing confirmé par Badr le 04/09),
+    // les lignes suisses ont été retirées par le fournisseur lui-même.
     expect(SUPPLIER_PENDING_CREDITS.find((c) => c.label.includes("Long Sleeves"))).toBeUndefined();
-    // Restent les deux réserves de la facture du 09/09 : 168,40 € de lignes
-    // suisses re-facturées + 533,50 € de « size up change cost » rétroactif.
-    expect(supplierPendingCreditsCents()).toBe(16840 + 53350);
+    // 995,05 + 842,24 + 118,48 + 253,21 + 455,00 + 49,31 = 2 713,29 €,
+    // exactement ce qui est retenu sur la facture du 09/09.
+    expect(supplierPendingCreditsCents()).toBe(271329);
+    expect(supplierPendingCreditsCents()).toBe(supplierDisputedCents());
   });
 });
