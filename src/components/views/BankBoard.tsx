@@ -817,7 +817,7 @@ function PayoutsSummaryBlock({ ps }: { ps: NonNullable<BankReport["payoutsSummar
 // 🏦 DEUX PÉRIODES — Badr 08/09 : l'écart posé au bon endroit. Avant le
 // 21/07 tout passait par le Revolut d'Adnane (le dash ne le voit pas) ; depuis,
 // tout passe par Wise + Slash (le dash voit tout).
-function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
+function PeriodsBlock({ t, metaUsdFees = null }: { t: NonNullable<BankReport["treasury"]>; metaUsdFees?: BankReport["metaUsdFees"] }) {
   const p = t.periods;
   if (!p) return null;
   const llcOk = p.llc.unexplainedCents !== null && Math.abs(p.llc.unexplainedCents) <= UNEXPLAINED_ALERT_CENTS;
@@ -908,6 +908,14 @@ function PeriodsBlock({ t }: { t: NonNullable<BankReport["treasury"]> }) {
           </div>
         </div>
       </div>
+      {metaUsdFees && (
+        <p className="mt-2 border-t border-line-soft pt-2 text-[10.5px] text-ink-dim">
+          🧾 Frais Meta sur les paiements en dollars (mesurés en banque) : {metaUsdFees.count} débits du{" "}
+          {formatDayShort(metaUsdFees.firstDay)} au {formatDayShort(metaUsdFees.lastDay)},{" "}
+          <b className="tnum text-ink">{formatEur0(metaUsdFees.totalEurCents)}</b> en tout — étalés dans le net sur ces dates.
+          Plus aucun depuis que Meta est payé depuis Wise en euros.
+        </p>
+      )}
       {p.llc.outByCategory.length > 0 && (
         <details className="mt-2 border-t border-line-soft pt-2 text-[11px]" open>
           <summary className="cursor-pointer text-ink-dim">
@@ -1338,7 +1346,7 @@ export function BankBoard({
 
       {showDetail && report.treasury?.periods && (
         <Reveal>
-          <PeriodsBlock t={report.treasury} />
+          <PeriodsBlock t={report.treasury} metaUsdFees={report.metaUsdFees} />
         </Reveal>
       )}
 
