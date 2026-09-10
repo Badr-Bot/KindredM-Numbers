@@ -8,7 +8,7 @@ import { addDaysToDay, listParisDays, toParisDay, todayParisDay } from "./time";
 import { fixedCostsCentsForDay, horsNetOwedUntil, horsNetPaidUntil, monthlyEurCents, SUBSCRIPTIONS, USD_TO_EUR } from "./subscriptions";
 import { buildDailyRates, usdToEurForDay, usdToEurLatest, type DailyRates } from "./rates";
 import { ONE_OFF_COSTS } from "./associateLedger";
-import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
+import { lastSupplierBill, SUPPLIER_BILLS, SUPPLIER_BILL_STORE, SUPPLIER_PREPAYMENTS, supplierOwedCents, supplierPrepaidCents, oldSupplierExtraCents } from "./supplierBills";
 import { badrFixedShareFor } from "./associateLedger";
 import { buildTreasuryBridge, LLC_START_DAY, REVOLUT_OFF_BOOK_ONE_OFFS, NET_BOOKED_BANK_FEES_UNTIL, orderNumber, supplierUnbilledDetail, type OrderCostRow, type SupplierUnbilled, type TreasuryBridge, UNEXPLAINED_ALERT_CENTS, type TreasuryInput } from "./treasury";
 
@@ -1108,6 +1108,19 @@ export function computeControl(input: {
   // décision Badr 14/08) — information, PAS une anomalie (Badr 19/08 :
   // « c'est forcément une facture d'avant début août, tu ne me remontes
   // pas l'anomalie »).
+  // … sauf s'il est enregistré en ACOMPTE (SUPPLIER_PREPAYMENTS) : l'argent
+  // est sorti avant la facture, le rapprochement le sait, on le pointe.
+  for (const p of SUPPLIER_PREPAYMENTS) {
+    const match = pandaTxs.find(
+      (t) => !pointes.has(t.txId) && t.amountEurCents !== null && t.day === p.day && Math.abs(Math.abs(t.amountEurCents) - p.eurCents) <= p.eurCents * 0.02
+    );
+    if (match) {
+      pointes.add(match.txId);
+      fournisseurPointage.push(
+        `✓ Acompte Panda de ${eur(p.eurCents)} pointé en banque le ${match.day.slice(8, 10)}/${match.day.slice(5, 7)} (${match.bank})${p.appliedTo ? ` — absorbé par ${p.appliedTo}` : " — facture pas encore reçue, déduit de la prochaine"}`
+      );
+    }
+  }
   for (const t of pandaTxs) {
     if (pointes.has(t.txId)) continue;
     fournisseurPointage.push(

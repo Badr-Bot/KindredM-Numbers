@@ -205,6 +205,23 @@ export interface SupplierPrepayment {
 }
 
 export const SUPPLIER_PREPAYMENTS: SupplierPrepayment[] = [
+  // 10/09 : virement Wise « Sent money to Panda Dropshipping Limited »
+  // 5 613,02 €, vu en banque, sans facture transmise au dash. Le moteur
+  // COGS + taxe UE des commandes #7149 → #7407 donne 5 606,60 €, #7149 →
+  // #7408 : 5 624,66 € — le montant colle à 0,2 % près à une facture de
+  // ~260 commandes du 03 au 07/09. Enregistré en ACOMPTE (l'argent est
+  // sorti, la facture n'est pas encore dans le suivi) : sans cette ligne le
+  // rapprochement affichait un faux trou de 6 819 € (Badr 10/09 : « la
+  // facture Panda modifie le dashboard, vérifie qu'elle fait pas de la
+  // merde »). Dès réception de la facture : créer la SupplierBill
+  // #7149 → #7408, reporter ce montant dans son paidCents, appliedTo = sa ref.
+  {
+    day: "2026-09-10",
+    eurCents: 561302,
+    original: "5 613,02 € (Wise EUR)",
+    appliedTo: null,
+    note: "Facture non transmise. Moteur #7149→#7408 : 5 607 à 5 625 €. À vérifier ligne à ligne dès réception, comme les trois précédentes.",
+  },
   // Aucun acompte enregistré : Badr annonce le virement (montant, jour) et on
   // l'ajoute ici — jamais déduit d'une capture de solde, jamais deviné.
 ];
