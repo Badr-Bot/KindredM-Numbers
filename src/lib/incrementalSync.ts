@@ -9,6 +9,7 @@ import {
   orderAcquisitionFields,
   acquisitionColumnsReady,
   realFeeColumnsReady,
+  effectiveQuantity,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -206,7 +207,7 @@ export async function runIncrementalSync(
           order.line_items.map((li) => ({
             title: li.title,
             sku: li.sku ?? undefined,
-            quantity: li.quantity,
+            quantity: effectiveQuantity(li),
             price_cents: Math.round(parseFloat(li.price) * 100),
           })),
           productsMap,
@@ -586,7 +587,7 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // mesuré est 2,26 % : le forfait surestimait les frais de 142,02 €. Recompute
 // seul, aucun appel API : les valeurs sont dans le code, consommées par
 // aggregate.ts quand fee_total_cents est NULL.
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-16-frais-reels-juin-0413-v15";
+const REQUIRED_RECOMPUTE_VERSION = "2026-09-10-chargebacks-perdus-et-cogs-fantome-v16";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €
@@ -637,7 +638,7 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // SHIRT) : seul le lien titre→clé manquait, ajouté dans fix-products-map.yml.
 // Le COGS étant FIGÉ par commande à l'écriture, seul un re-téléchargement
 // applique les grilles aux commandes déjà en base — d'où ce bump.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-17-mapping-debardeur-chemise-mc-v13";
+const REQUIRED_FULL_RESYNC_VERSION = "2026-09-10-current-quantity-packing-colis-primaire-v14";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

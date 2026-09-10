@@ -805,6 +805,33 @@ Règle posée par Badr — on paie à l'EXPÉDITION, pas à la livraison.
 pertes réelles abandonnées ; et le coût pub est facturé à **35 €**, la valeur
 mesurée, pas les 40 € demandés au départ.
 
+## Mise à jour 10/09 (suite) — resync : 7 correctifs passés d'un coup
+
+`REQUIRED_FULL_RESYNC_VERSION` → v14, `REQUIRED_RECOMPUTE_VERSION` → v16.
+**262 tests verts, `next build` OK.** Le prochain passage du cron (ou une
+ouverture du site) re-télécharge les commandes et recalcule les jours.
+
+| | Correctif | Effet sur le net |
+|---|---|---|
+| 1 | Chargebacks perdus déduits du CA (5 cmd) | **−383,91 €** |
+| 2 | COGS fantôme des 81 commandes annulées | **+2 082,70 €** |
+| 3 | `current_quantity` au lieu de `quantity` | + (254 unités) |
+| 4 | Packing « colis primaire » généralisé | − (~4 €/cmd sans polo) |
+| 5 | Pantalon FR à 6,90 € en upsell | + (~2,94 €/cmd concernée) |
+| 6 | Forfait size-up 0,10 €/polo depuis le 03/09 | − (~250 €/mois) |
+| 7 | « La Chemise Turenne » → manches longues (en base) | ~0 |
+
+**Solde attendu : environ +1 700 € de bénéfice**, dominé par le COGS qu'on
+n'a jamais payé sur les commandes annulées.
+
+Chaque correctif est adossé à une pièce et verrouillé par un test qui
+reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
+
+**Le packaging (0,38 €/cmd) reste inactif volontairement** : la seule ligne
+d'emballage jamais facturée est le « custom packing » de 410 € du 14/08, un
+montant unique. Si c'est un stock d'emballages déjà payé, l'activer par
+commande le compterait deux fois. Question posée au fournisseur.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le

@@ -195,7 +195,15 @@ const UPSELL_GRID_CENTS: Record<StandardUpsellKey, Record<string, Record<UpsellT
     BE: { 1: 740, 2: 1462, 4: 2176 },
   },
   DRESS_TROUSERS: {
-    FR: { 1: 984, 2: 1926, 4: 2873 },
+    // FR : prix RÉELS relevés sur la facture Panda du 03/09 — le devis
+    // (9,84/19,26/28,73) était faux. 12 commandes « POLOx2 + TROUSERSx1 »
+    // facturées 21,96 € donnent 21,96 − 15,06 = 6,90 € le pantalon, au centime
+    // et sans exception. Le palier 2 est celui qui reproduit la seule commande
+    // multi-pantalons observée (#6060, POLOx4 + TROUSERSx3 = 49,56 €, soit
+    // 22,80 € pour 3 via la formule hors-grille g2 + (g2 − g1)) ; le palier 4
+    // prolonge la même pente. Correction d'une valeur de devis erronée, donc
+    // appliquée à tout l'historique — ce n'est pas un changement de prix.
+    FR: { 1: 690, 2: 1485, 4: 3075 },
     IT: { 1: 1000, 2: 1981, 4: 2956 },
     ES: { 1: 989, 2: 1959, 4: 2923 },
     DE: { 1: 967, 2: 1915, 4: 2857 },
@@ -336,6 +344,62 @@ function giletCogsCents(country: string, qty: number, day?: string, primaryParce
           return Math.round(g3 + (g3 - g2) * (qty - 3));
         })();
   return base + (primaryParcel ? giletPrimarySurchargeCents(country, qty, day) : 0);
+}
+
+// ---------------------------------------------------------------------------
+// PACKING « COLIS PRIMAIRE » — généralisé à tous les produits (10/09/2026)
+//
+// La règle acceptée le 14/08 ne visait que le gilet : quand il part dans SON
+// colis (aucun polo dans la commande), Panda ajoute un packing. La facture du
+// 03/09 montre que la règle vaut pour TOUT : LS seul FR 10,80 = 6,80 + 4,00 ·
+// débardeur seul 7,16 = 3,16 + 4,00 · short BE 23,51 = 19,46 + 4,05 · chemise
+// Irlande 12,83 = 8,90 + 3,93 · pantalon seul 10,90 = 6,90 + 4,00.
+//
+// Le supplément est PAR COLIS, pas par produit : un GILETx1 + LSx1 en France
+// est facturé 19,20 = 12,40 (gilet, packing inclus) + 6,80 (LS au prix du
+// devis). D'où la règle ci-dessous : si la commande contient un gilet, le
+// supplément est déjà porté par `giletCogsCents` et on ne l'ajoute pas deux
+// fois.
+// ---------------------------------------------------------------------------
+
+/** Supplément packing d'une commande SANS polo, en centimes. 0 si la commande
+ * contient un polo, si elle contient un gilet (le supplément est déjà dans le
+ * prix du gilet primaire), ou si le jour précède l'entrée en vigueur. */
+export function primaryParcelPackingCents(
+  country: string,
+  day: string | undefined,
+  poloQty: number,
+  upsells: { productKey: string; qty: number }[]
+): number {
+  if (poloQty > 0) return 0;
+  if (upsells.length === 0) return 0;
+  if (day && day < GILET_PRIMARY_SURCHARGE_START_DAY) return 0;
+  // Le gilet porte déjà son propre packing (grille datée du 02/08).
+  if (upsells.some((u) => u.productKey === "GILET" && u.qty > 0)) return 0;
+  return GILET_PRIMARY_SURCHARGE_CENTS;
+}
+
+// ---------------------------------------------------------------------------
+// FORFAIT « SIZE UP CHANGE » — 0,10 € par polo (accepté le 10/09/2026)
+//
+// Réponse du fournisseur à la question « où sont facturées les réexpéditions ? » :
+// un forfait de 0,10 € la pièce, qui mutualise les changements de taille
+// demandés par le client. Accepté par Badr POUR L'AVENIR uniquement, à partir
+// de la facture du 09/09 — dont la première commande est le #7149 du 03/09.
+// Le rattrapage de 616,30 € qu'ils réclamaient sur le passé est traité en
+// négociation (supplierBills.ts), jamais étalé sur l'historique.
+// ---------------------------------------------------------------------------
+
+export const SIZE_UP_FEE_CENTS_PER_POLO = 10;
+export const SIZE_UP_FEE_START_DAY = "2026-09-03";
+
+/** Forfait changement de taille d'une commande : 0,10 € par polo, à partir du
+ * jour d'entrée en vigueur INCLUS. Les commandes d'avant n'ont pas supporté ce
+ * coût — les charger ferait mentir l'historique (même règle que la taxe UE). */
+export function sizeUpFeeCents(day: string | undefined, poloQty: number): number {
+  if (poloQty <= 0) return 0;
+  if (!day || day < SIZE_UP_FEE_START_DAY) return 0;
+  return poloQty * SIZE_UP_FEE_CENTS_PER_POLO;
 }
 
 /**
@@ -573,15 +637,18 @@ export interface OrderCogsTax {
 }
 
 export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
-  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
+  const cogsProductCents =
+    poloCogsCents(order.shippingCountry, order.poloQty, order.day) +
+    sizeUpFeeCents(order.day, order.poloQty);
   // Gilet primaire = aucun polo dans la commande (le gilet part dans son
   // propre colis → supplément packing Panda depuis le 02/08).
   const giletPrimaryParcel = order.poloQty === 0;
-  const cogsUpsellsCents = order.upsells.reduce(
-    (sum, u) =>
-      sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty, { day: order.day, giletPrimaryParcel }),
-    0
-  );
+  const cogsUpsellsCents =
+    order.upsells.reduce(
+      (sum, u) =>
+        sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty, { day: order.day, giletPrimaryParcel }),
+      0
+    ) + primaryParcelPackingCents(order.shippingCountry, order.day, order.poloQty, order.upsells);
   const taxCents = euTaxCents(
     order.shippingCountry,
     order.day,
@@ -661,9 +728,16 @@ export interface TolerantOrderCogsTax extends OrderCogsTax {
 export function computeOrderCogsTaxTolerant(
   order: OrderForEngine & { unknownDistinctCount?: number }
 ): TolerantOrderCogsTax {
-  const cogsProductCents = poloCogsCents(order.shippingCountry, order.poloQty, order.day);
+  const cogsProductCents =
+    poloCogsCents(order.shippingCountry, order.poloQty, order.day) +
+    sizeUpFeeCents(order.day, order.poloQty);
   const unknownUpsellKeys: string[] = [];
-  let cogsUpsellsCents = 0;
+  let cogsUpsellsCents = primaryParcelPackingCents(
+    order.shippingCountry,
+    order.day,
+    order.poloQty,
+    order.upsells
+  );
   // Même règle que computeOrderCogsTax : gilet primaire = aucun polo.
   const giletPrimaryParcel = order.poloQty === 0;
   for (const u of order.upsells) {
