@@ -537,12 +537,23 @@ export function euTaxCents(shippingCountry: string, day: string, hasItems: boole
 
 // ---------------------------------------------------------------------------
 // §4.4 bis — Coûts fixes PAR COMMANDE : packaging + carte de remerciement
-// (annoncés par Badr le 12/08, PAS ENCORE ACTIFS — il donnera la date).
 //
-// ⚠️ INACTIF tant que `PER_ORDER_EXTRAS_START_DATE` vaut null : la fonction
-// renvoie 0, donc aucun chiffre du dashboard ne bouge aujourd'hui. Activer =
-// poser la date ici (une seule ligne), puis bumper REQUIRED_RECOMPUTE_VERSION
-// pour que les jours concernés se recalculent.
+// PACKAGING ACTIF depuis le 14/08/2026 (Badr, 10/09) : le « custom packing »
+// de 410,00 € facturé sur la bill 20260814 est une AVANCE sur un stock
+// d'emballages, et le nouveau packaging part avec les colis à partir de cette
+// date. Le coût se reconnaît donc commande par commande, à mesure que le stock
+// est consommé — les 410 € eux-mêmes ne sont comptés nulle part ailleurs dans
+// le net (la carte 📦 de supplierBills.ts est un suivi de TRÉSORERIE, pas une
+// comptabilisation), donc aucun double compte.
+//
+// CARTE DE REMERCIEMENT toujours INACTIVE : Badr la pense antérieure au
+// packaging mais n'est pas sûr de la date (« je crois »). Tant qu'elle n'est
+// pas connue, la constante reste `null` et le coût vaut 0 — on ne devine pas
+// une date qui ferait bouger tout l'historique pour 0,03 € la commande.
+//
+// Les deux dates sont SÉPARÉES depuis le 10/09 : elles n'ont aucune raison
+// d'être les mêmes, et les fusionner obligeait à attendre la seconde pour
+// activer la première.
 //
 // Date gérée comme la taxe UE (EU_TAX_START_DATE) : coût appliqué à partir du
 // jour d'entrée en vigueur INCLUS, jamais rétroactivement — les commandes
@@ -551,28 +562,41 @@ export function euTaxCents(shippingCountry: string, day: string, hasItems: boole
 //
 // PAR COMMANDE (un colis = un packaging + une carte), pas par produit :
 // même logique que le forfait 3 €/colis de la taxe UE.
+//
+// ⚠️ Ces coûts sont agrégés dans `cogsUpsellsCents`, PAS dans
+// `cogsProductCents` : ils ne sont pas un coût de polo et n'ont rien à faire
+// dans la ligne « COGS polo » du macaron Dépenses. C'est dit ici parce que
+// c'est exactement le raccourci d'étiquetage qui avait produit le bug de mai.
 // ---------------------------------------------------------------------------
 
 export const PACKAGING_COST_CENTS = 35; // 0,35 €
 export const THANKS_CARD_COST_CENTS = 3; // 0,03 €
+/** Somme des deux, pour les repères et l'affichage. */
 export const PER_ORDER_EXTRAS_CENTS = PACKAGING_COST_CENTS + THANKS_CARD_COST_CENTS; // 0,38 €
 
 /**
- * Jour d'entrée en vigueur (YYYY-MM-DD, Europe/Paris), INCLUS.
- * `null` = pas encore actif — Badr doit fournir la date.
+ * Jour d'entrée en vigueur du packaging (YYYY-MM-DD, Europe/Paris), INCLUS.
+ * 14/08/2026 = la facture qui porte l'avance de 410 € sur le stock.
  */
-export const PER_ORDER_EXTRAS_START_DATE: string | null = null;
+export const PACKAGING_START_DATE: string | null = "2026-08-14";
 
 /**
- * Coût packaging + carte de remerciement d'une commande, en centimes.
- * 0 tant que la date n'est pas fixée, avant cette date, ou si la commande
- * est vide (aucun colis expédié → aucun packaging consommé).
+ * Jour d'entrée en vigueur de la carte de remerciement, INCLUS.
+ * `null` = pas encore connue — Badr doit confirmer la date.
+ */
+export const THANKS_CARD_START_DATE: string | null = null;
+
+/**
+ * Coût packaging + carte d'une commande, en centimes. Chaque composant a sa
+ * propre date : le packaging peut être actif alors que la carte ne l'est pas
+ * encore. 0 si la commande est vide (aucun colis expédié → rien de consommé).
  */
 export function perOrderExtrasCents(day: string, hasItems: boolean): number {
-  if (PER_ORDER_EXTRAS_START_DATE === null) return 0;
-  if (day < PER_ORDER_EXTRAS_START_DATE) return 0;
   if (!hasItems) return 0;
-  return PER_ORDER_EXTRAS_CENTS;
+  let total = 0;
+  if (PACKAGING_START_DATE !== null && day >= PACKAGING_START_DATE) total += PACKAGING_COST_CENTS;
+  if (THANKS_CARD_START_DATE !== null && day >= THANKS_CARD_START_DATE) total += THANKS_CARD_COST_CENTS;
+  return total;
 }
 
 // ---------------------------------------------------------------------------
@@ -648,7 +672,9 @@ export function computeOrderCogsTax(order: OrderForEngine): OrderCogsTax {
       (sum, u) =>
         sum + upsellCogsCents(u.productKey, order.shippingCountry, u.qty, { day: order.day, giletPrimaryParcel }),
       0
-    ) + primaryParcelPackingCents(order.shippingCountry, order.day, order.poloQty, order.upsells);
+    ) +
+    primaryParcelPackingCents(order.shippingCountry, order.day, order.poloQty, order.upsells) +
+    perOrderExtrasCents(order.day, order.poloQty > 0 || order.upsells.length > 0);
   const taxCents = euTaxCents(
     order.shippingCountry,
     order.day,
@@ -732,12 +758,12 @@ export function computeOrderCogsTaxTolerant(
     poloCogsCents(order.shippingCountry, order.poloQty, order.day) +
     sizeUpFeeCents(order.day, order.poloQty);
   const unknownUpsellKeys: string[] = [];
-  let cogsUpsellsCents = primaryParcelPackingCents(
-    order.shippingCountry,
-    order.day,
-    order.poloQty,
-    order.upsells
-  );
+  let cogsUpsellsCents =
+    primaryParcelPackingCents(order.shippingCountry, order.day, order.poloQty, order.upsells) +
+    perOrderExtrasCents(
+      order.day,
+      order.poloQty > 0 || order.upsells.length > 0 || (order.unknownDistinctCount ?? 0) > 0
+    );
   // Même règle que computeOrderCogsTax : gilet primaire = aucun polo.
   const giletPrimaryParcel = order.poloQty === 0;
   for (const u of order.upsells) {

@@ -827,10 +827,16 @@ n'a jamais payé sur les commandes annulées.
 Chaque correctif est adossé à une pièce et verrouillé par un test qui
 reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
 
-**Le packaging (0,38 €/cmd) reste inactif volontairement** : la seule ligne
-d'emballage jamais facturée est le « custom packing » de 410 € du 14/08, un
-montant unique. Si c'est un stock d'emballages déjà payé, l'activer par
-commande le compterait deux fois. Question posée au fournisseur.
+**Packaging activé au 14/08** (8ᵉ correctif) : Badr confirme que les 410 € de
+« custom packing » sont une avance sur un stock d'emballages et que le nouveau
+packaging part depuis cette date. **0,35 €/commande, soit ~875 €/mois** — le
+seul correctif qui alourdit vraiment les charges, mais c'est un coût réel
+qu'on payait sans le voir. Aucun double compte : les 410 € ne touchent pas le
+net (la carte fournisseur est un suivi de trésorerie).
+
+**La carte de remerciement (0,03 €) reste inactive** : Badr la pense
+antérieure mais n'a pas la date. Les deux dates sont maintenant indépendantes
+dans le code, il suffira de poser celle de la carte.
 
 ## Notes techniques utiles
 

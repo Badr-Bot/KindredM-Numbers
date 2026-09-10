@@ -1,22 +1,29 @@
 import { describe, expect, it } from "vitest";
 import {
   PACKAGING_COST_CENTS,
+  PACKAGING_START_DATE,
   PER_ORDER_EXTRAS_CENTS,
-  PER_ORDER_EXTRAS_START_DATE,
   THANKS_CARD_COST_CENTS,
+  THANKS_CARD_START_DATE,
+  computeOrderCogsTax,
   perOrderExtrasCents,
+  poloCogsCents,
 } from "../engine";
 
 /**
- * Packaging (0,35 €) + carte de remerciement (0,03 €) par commande — annoncés
- * par Badr le 12/08, date d'entrée en vigueur à venir.
+ * Packaging (0,35 €) + carte de remerciement (0,03 €) par commande, annoncés
+ * par Badr le 12/08.
  *
- * Ce test verrouille les deux propriétés qui comptent :
- *  1. TANT QUE LA DATE N'EST PAS POSÉE, le coût est NUL — aucun chiffre du
- *     dashboard ne doit bouger avant que Badr donne la date. Un coût activé
- *     par erreur fausserait le net de toutes les commandes de l'historique.
- *  2. Une fois la date posée, le coût ne s'applique JAMAIS rétroactivement :
- *     les commandes d'avant n'ont pas supporté ce coût.
+ * Le packaging est ACTIF depuis le 14/08/2026 : les 410 € de « custom
+ * packing » de la facture du même jour sont une avance sur un stock
+ * d'emballages, consommé commande par commande (Badr, 10/09).
+ *
+ * La carte reste INACTIVE : Badr la pense antérieure mais n'a pas la date.
+ *
+ * Ce test verrouille les trois propriétés qui comptent :
+ *  1. les deux dates sont INDÉPENDANTES — activer l'une n'active pas l'autre ;
+ *  2. aucun coût n'est jamais rétroactif ;
+ *  3. tant qu'une date vaut `null`, son coût est nul, quoi qu'il arrive.
  */
 describe("Coûts par commande — packaging + carte de remerciement", () => {
   it("les montants annoncés : 0,35 € + 0,03 € = 0,38 € par commande", () => {
@@ -25,25 +32,43 @@ describe("Coûts par commande — packaging + carte de remerciement", () => {
     expect(PER_ORDER_EXTRAS_CENTS).toBe(38);
   });
 
-  it("INACTIF tant que la date n'est pas fournie : 0 € partout", () => {
-    // Garde-fou : si quelqu'un pose la date sans le vouloir, ce test le dit.
-    expect(PER_ORDER_EXTRAS_START_DATE).toBeNull();
-    expect(perOrderExtrasCents("2026-08-12", true)).toBe(0);
-    expect(perOrderExtrasCents("2027-01-01", true)).toBe(0);
+  it("packaging actif au 14/08, jamais avant", () => {
+    expect(PACKAGING_START_DATE).toBe("2026-08-14");
+    expect(perOrderExtrasCents("2026-08-13", true)).toBe(0);
+    expect(perOrderExtrasCents("2026-08-14", true)).toBe(35);
+    expect(perOrderExtrasCents("2026-09-10", true)).toBe(35);
   });
 
-  it("une fois la date posée : appliqué à partir du jour J inclus, jamais avant", () => {
-    // Simule le comportement futur sans toucher à la constante réelle.
-    const futur = (day: string, start: string, hasItems = true) =>
-      start !== null && day >= start && hasItems ? PER_ORDER_EXTRAS_CENTS : 0;
-
-    expect(futur("2026-08-31", "2026-09-01")).toBe(0); // veille → rien
-    expect(futur("2026-09-01", "2026-09-01")).toBe(38); // jour J → appliqué
-    expect(futur("2026-09-02", "2026-09-01")).toBe(38);
-    expect(futur("2026-09-02", "2026-09-01", false)).toBe(0); // commande vide
+  it("carte INACTIVE tant que la date n'est pas connue — jamais devinée", () => {
+    // Garde-fou : si quelqu'un pose la date sans le vouloir, ce test le dit.
+    expect(THANKS_CARD_START_DATE).toBeNull();
+    // Le total reste à 0,35 € et non 0,38 € : la carte n'est pas comptée.
+    expect(perOrderExtrasCents("2027-01-01", true)).toBe(35);
   });
 
   it("une commande vide ne consomme ni packaging ni carte", () => {
-    expect(perOrderExtrasCents("2027-01-01", false)).toBe(0);
+    expect(perOrderExtrasCents("2026-09-10", false)).toBe(0);
+  });
+
+  it("le packaging entre bien dans le COGS de la commande, côté upsells", () => {
+    const avant = computeOrderCogsTax({
+      store: "FR",
+      shippingCountry: "FR",
+      day: "2026-08-13",
+      poloQty: 2,
+      upsells: [],
+    });
+    const apres = computeOrderCogsTax({
+      store: "FR",
+      shippingCountry: "FR",
+      day: "2026-08-14",
+      poloQty: 2,
+      upsells: [],
+    });
+    // Le polo ne bouge pas : le packaging n'est PAS fondu dans le COGS polo.
+    expect(avant.cogsProductCents).toBe(poloCogsCents("FR", 2));
+    expect(apres.cogsProductCents).toBe(poloCogsCents("FR", 2));
+    expect(avant.cogsUpsellsCents).toBe(0);
+    expect(apres.cogsUpsellsCents).toBe(35);
   });
 });

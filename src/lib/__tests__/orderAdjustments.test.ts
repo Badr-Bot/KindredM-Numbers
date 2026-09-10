@@ -7,10 +7,20 @@ import {
 } from "../orderAdjustments";
 import {
   computeOrderCogsTax,
+  perOrderExtrasCents,
   primaryParcelPackingCents,
   sizeUpFeeCents,
   upsellCogsCents,
 } from "../engine";
+
+/**
+ * Les lignes ci-dessous reproduisent ce que le FOURNISSEUR facture. Notre COGS
+ * ajoute par-dessus nos propres coûts par commande (packaging depuis le
+ * 14/08) : on les retire pour comparer ce qui est comparable, au lieu de
+ * figer un total qui bougerait au prochain coût interne ajouté.
+ */
+const factureFournisseur = (res: { cogsProductCents: number; cogsUpsellsCents: number }, day: string) =>
+  res.cogsProductCents + res.cogsUpsellsCents - perOrderExtrasCents(day, true);
 
 /**
  * Les corrections du 10/09/2026, chacune adossée à une ligne de facture ou à
@@ -93,7 +103,7 @@ describe("Packing colis primaire — généralisé à tous les produits (facture
       poloQty: 0,
       upsells: [{ productKey: "LONG_SLEEVE_DRESS_SHIRT", qty: 1 }],
     });
-    expect(lsSeul.cogsProductCents + lsSeul.cogsUpsellsCents).toBe(1080);
+    expect(factureFournisseur(lsSeul, "2026-08-28")).toBe(1080);
 
     // #6541 : TANKx1 seul en France = 7,16 € facturés.
     const tankSeul = computeOrderCogsTax({
@@ -103,7 +113,7 @@ describe("Packing colis primaire — généralisé à tous les produits (facture
       poloQty: 0,
       upsells: [{ productKey: "COMPRESSION_TANK_TOP", qty: 1 }],
     });
-    expect(tankSeul.cogsProductCents + tankSeul.cogsUpsellsCents).toBe(716);
+    expect(factureFournisseur(tankSeul, "2026-08-25")).toBe(716);
   });
 });
 
@@ -117,7 +127,7 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 2,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 1 }],
     });
-    expect(res.cogsProductCents + res.cogsUpsellsCents).toBe(2196);
+    expect(factureFournisseur(res, "2026-08-20")).toBe(2196);
   });
 
   it("le palier 2 reproduit la seule commande multi-pantalons observée", () => {
@@ -129,7 +139,7 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 4,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 3 }],
     });
-    expect(res.cogsProductCents + res.cogsUpsellsCents).toBe(4956);
+    expect(factureFournisseur(res, "2026-08-20")).toBe(4956);
   });
 
   it("pantalon SEUL = 6,90 + 4,00 de packing = 10,90 € (#6264)", () => {
@@ -140,7 +150,7 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 0,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 1 }],
     });
-    expect(res.cogsProductCents + res.cogsUpsellsCents).toBe(1090);
+    expect(factureFournisseur(res, "2026-08-18")).toBe(1090);
   });
 });
 
