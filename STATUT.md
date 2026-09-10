@@ -829,9 +829,14 @@ reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
 
 **Packaging activé au 14/08** (8ᵉ correctif) : Badr confirme que les 410 € de
 « custom packing » sont une avance sur un stock d'emballages et que le nouveau
-packaging part depuis cette date. **0,35 €/commande, soit ~875 €/mois** — le
-seul correctif qui alourdit vraiment les charges, mais c'est un coût réel
-qu'on payait sans le voir. Aucun double compte : les 410 € ne touchent pas le
+packaging part depuis cette date. **0,35 €/commande. Compté en base :
+1 583 commandes depuis le 14/08 = 554 €/mois** (et le forfait size-up pèse
+~446 €/mois, pas 250 : 1 189 polos en 8 jours). Soit **~1 000 €/mois** de
+charges réelles qui n'étaient pas comptées.
+
+⚠️ On a déjà comptabilisé 554 € de packaging pour 410 € décaissés : soit le
+stock couvrait plus de 1 171 unités, soit une nouvelle avance arrive sur la
+prochaine facture. À trancher à sa réception. Aucun double compte : les 410 € ne touchent pas le
 net (la carte fournisseur est un suivi de trésorerie).
 
 **La carte de remerciement (0,03 €) reste inactive** : Badr la pense
