@@ -387,12 +387,12 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - `REQUIRED_FULL_RESYNC_VERSION` → **v14** (`2026-09-10-current-quantity-packing-colis-primaire-v14`) et `REQUIRED_RECOMPUTE_VERSION` → **v16**. Le premier re-télécharge les commandes (le COGS est figé par commande), le second recalcule les jours. **262 tests verts, `next build` OK.**
 - **(1) Chargebacks perdus déduits du CA** — `orderAdjustments.ts`, `LOST_CHARGEBACKS_FR` : **5 commandes, 383,91 €** (#2005, #2232, #2291, #3285, #4368) que la banque a reprises et que RIEN ne déduisait. Les 2 autres litiges perdus (#1447, #2787) ont aussi été remboursés côté Shopify : ils ne sont PAS dans la liste, et `aggregate.ts` ne déduit de toute façon que ce qui dépasse `refunded_cents` — impossible de compter deux fois, même en cas d'erreur de saisie.
 - **(2) COGS fantôme des commandes annulées** — `CANCELLED_BEFORE_DISPATCH_FR` : **81 commandes**, jamais expédiées donc jamais facturées (le fournisseur les facture 0,00 €, vérifié sur #6794/#6327/#6103). Leur COGS **2 061,70 €** et leur taxe **21,00 €** passent à zéro : **+2 082,70 € de bénéfice** qui existait déjà. Les colis PARTIS mais non livrés (#1903, #5458) restent facturés — ils l'ont bien été.
-- **(3) `current_quantity` au lieu de `quantity`** — `effectiveQuantity()` dans `shopify.ts`, branché aux 3 endroits qui lisent les line items. Une ligne retirée d'une commande tombe à 0 côté Shopify sans que `quantity` bouge : 82 commandes, 254 unités portaient un COGS fantôme depuis le 01/07. C'est la facture du 03/09 qui l'a révélé (#7331 et #7441 facturées avec moins d'unités que notre base — et le fournisseur avait raison).
+- **(3) `current_quantity` au lieu de `quantity`** — `effectiveQuantity()` dans `shopify.ts`, branché aux 3 endroits qui lisent les line items. Une ligne retirée d'une commande tombe à 0 côté Shopify sans que `quantity` bouge : 82 commandes, 254 unités portaient un COGS fantôme depuis le 01/07. C'est la facture du 03/09 qui l'a révélé (#7331 et #7441 facturées avec moins d'unités que notre base — et le fournisseur avait raison). ⚠️ **Le compte « 82 commandes / 254 unités » n'est PAS vérifié et paraît très surévalué** (relevé du 10/09 : 5 unités sur les 2 693 commandes croisées avec les factures, 8 unités sur tous les `partially_refunded` de l'historique). Effet positif, ordre de grandeur inchangé, mais à ne pas citer comme un chiffre mesuré.
 - **(4) Packing « colis primaire » généralisé** — `primaryParcelPackingCents()` : **toute** commande sans polo paie +4,00 €, plus seulement le gilet. Le supplément est PAR COLIS : si la commande contient un gilet, il est déjà dans `giletCogsCents` et n'est pas ajouté deux fois (GILETx1+LSx1 FR = 19,20 € facturés, reproduit au centime par un test).
 - **(5) Pantalon FR : 6,90 € en upsell, pas 9,84** — la grille du devis était fausse. 12 commandes « POLOx2 + TROUSERSx1 » facturées 21,96 € donnent 6,90 € pile. Palier 2 fixé à 14,85 € pour reproduire la seule commande multi-pantalons observée (#6060, POLOx4+TROUSERSx3 = 49,56 €), palier 4 sur la même pente. **Correction d'une valeur de devis erronée → appliquée à tout l'historique**, ce n'est pas un changement de prix (même traitement que la Suisse le 14/08).
 - **(6) Forfait size-up encodé** — `sizeUpFeeCents()` : **0,10 €/polo à partir du 03/09** (1re commande de la facture du 09/09, date à laquelle Badr l'accepte). Jamais rétroactif : le rattrapage de 616,30 € qu'ils réclamaient sur le passé se règle en négociation, pas dans l'historique.
 - **(7) Mapping « La Chemise Turenne »** — corrigé EN BASE (`products_map`, store FR) vers `LONG_SLEEVE_DRESS_SHIRT` : c'est la chemise manches LONGUES, le renommage du 29/08 l'avait versée dans la grille manches courtes.
-- **Solde attendu sur le net : ≈ +1 883 €** (révisé le 10/09 au soir, après l'audit exhaustif ci-dessous), dominé par le COGS fantôme (**+2 267**, 88 commandes) moins les chargebacks (−384). Les deux corrections vont en sens inverse et c'est normal : l'une retirait du coût qu'on n'a jamais payé, l'autre rendait du CA qu'on n'a jamais encaissé.
+- **Solde attendu sur le net : ≈ +1 247 €** (chiffré ligne à ligne le 10/09 au soir — cf. « Solde réel » plus bas). ⚠️ Les deux premières estimations de ce solde (+1 700 puis +1 883) étaient FAUSSES : elles ne retenaient que le COGS fantôme moins les chargebacks et **oubliaient les quatre coûts par commande** (packaging, size-up, packing colis primaire, carte). Un solde ne se lit jamais sur deux lignes. Les deux corrections vont en sens inverse et c'est normal : l'une retirait du coût qu'on n'a jamais payé, l'autre rendait du CA qu'on n'a jamais encaissé.
 
 ## Packaging ACTIVÉ au 14/08, carte toujours en attente (10/09)
 - **Badr tranche** : les 410 € de « custom packing » de la facture du 14/08 sont **une AVANCE sur un stock d'emballages**, et le nouveau packaging part avec les colis **à partir de cette date**. Le coût se reconnaît donc commande par commande, à mesure que le stock est consommé.
@@ -473,7 +473,7 @@ Badr : « vérifie tout, que tout se concorde, je veux que mon net affiché soit
 
 ## Notre base compte les lignes de commande ANNULÉES (trouvé le 09/09)
 - Deux commandes de la facture du 09/09 sont facturées avec MOINS d'unités que Shopify n'en montre — **et le fournisseur a raison** : #7331 (8 polos en base, 4 facturés) et #7441 Mexique (3 en base, 2 facturés). Dans les deux cas la ligne manquante a `current_quantity: 0` et `fulfillment_status: null` : elle a été **retirée de la commande côté Shopify**, jamais expédiée.
-- `shopify.ts` lit `quantity` (la quantité d'ORIGINE) au lieu de `current_quantity` (ce qui reste après édition). **Depuis le 01/07 : 82 commandes concernées, 254 unités comptées en trop** dans le COGS — le net réel est donc un peu MEILLEUR qu'affiché. Correctif = lire `coalesce(current_quantity, quantity)` + resync. **Non appliqué**, à grouper avec les autres corrections en attente.
+- `shopify.ts` lit `quantity` (la quantité d'ORIGINE) au lieu de `current_quantity` (ce qui reste après édition). **Depuis le 01/07 : 82 commandes concernées, 254 unités comptées en trop** dans le COGS — le net réel est donc un peu MEILLEUR qu'affiché. Correctif = lire `coalesce(current_quantity, quantity)` + resync. **Non appliqué**, à grouper avec les autres corrections en attente. ⚠️ **Le compte « 82 commandes / 254 unités » n'est PAS vérifié et paraît très surévalué** (relevé du 10/09 : 5 unités sur les 2 693 commandes croisées avec les factures, 8 unités sur tous les `partially_refunded` de l'historique). Effet positif, ordre de grandeur inchangé, mais à ne pas citer comme un chiffre mesuré.
 
 ## ⚠️ Bug de mapping trouvé au passage (04/09) — « La Chemise Turenne » est la MANCHES LONGUES
 - La facture distingue **LS (46 unités) et SS (21 unités)** là où Shopify n'a que du `SHORT_SLEEVE_DRESS_SHIRT` (67 unités). En remontant aux titres : **« La Chemise Turenne » = 46 unités** (la manches LONGUES, ex-« Nivafit™ - Chemise infroissable à coupe extensible ») et **« La Chemise Turenne — Édition Manches Courtes » = 21 unités**. Les deux titres pointent sur `SHORT_SLEEVE_DRESS_SHIRT` dans `products_map` : le renommage Shopify du 29/08 a versé la manches longues dans la grille manches courtes, et la clé `LONG_SLEEVE_DRESS_SHIRT` n'est plus jamais utilisée.
@@ -630,3 +630,42 @@ resync complet part tout seul et le recompute suit.
 **Bonne pratique confirmée ici** : ne jamais adosser un correctif de COGS à un
 bump de resync déjà en attente. Le packaging du 588a76f l'avait fait — ça a
 tenu par chance (le v14 n'était pas encore consommé). Le v15 est explicite.
+
+## Solde réel des correctifs en attente (chiffré le 10/09 au soir)
+
+Badr : « donc mon net augmente ? » — oui, mais il fallait le CALCULER, pas
+l'estimer. Chaque ligne est comptée en base, aucune n'est extrapolée :
+
+| Correctif | Assiette mesurée | Effet sur le net |
+|---|---|---|
+| COGS fantôme — 88 commandes sans colis | 88 cmd | **+2 266,84 €** |
+| Pantalon FR à 6,90 € (palier 1) | 43 cmd ×1 | +126,42 € |
+| Pantalon FR palier 2 (`g2 + (g2−g1)`) | 7 cmd ×3 | +41,16 € |
+| Chemise Turenne → manches longues | ~75 pièces × 0,09 € | +6,75 € |
+| Chargebacks perdus déduits du CA | 5 cmd | −383,91 € |
+| Packaging 0,35 €/cmd depuis le 14/08 | 1 599 cmd | −559,65 € |
+| Forfait size-up 0,10 €/polo depuis le 03/09 | 1 235 polos | −123,50 € |
+| Packing colis primaire +4 € depuis le 02/08 | 19 cmd | −76,00 € |
+| Carte de remerciement 0,03 €/cmd depuis le 12/08 | 1 698 cmd | −50,94 € |
+| **TOTAL** | | **+1 247,17 €** |
+
+**Deux lectures à ne pas confondre.** Le +1 247 € est un RATTRAPAGE
+ponctuel sur l'historique. Les coûts par commande, eux, sont RÉCURRENTS :
+packaging + size-up ≈ **1 000 €/mois** à partir de maintenant. Le net des
+mois passés monte une fois ; celui des mois à venir portera cette charge en
+permanence.
+
+**Pourquoi le packing colis primaire ne pèse que 76 € et pas des milliers** :
+il ne s'applique qu'aux commandes SANS polo ET SANS gilet (le gilet porte
+déjà son packing depuis le 14/08, appliqué en base au resync v13 du 28/08 —
+pas de double compte). Il n'y en a que 19 depuis le 02/08.
+
+**Effet `current_quantity` : positif, non chiffré, et petit.** Le MEMO
+annonçait « 82 commandes, 254 unités » — **ce chiffre n'est pas vérifié et il
+est probablement très surévalué**. Deux mesures le contredisent : (a) sur les
+2 693 commandes #4814→#7506 croisées avec les factures Panda, seules **5
+unités** de polo diffèrent (#7331, #7441) ; (b) sur TOUTES les commandes
+`partially_refunded` de l'historique, on trouve **8 unités** retirées
+(#1134, #4079, #4910). Le chiffrer exactement demanderait de relire les
+~6 600 commandes une par une côté Shopify. **À ne pas citer tant que ce n'est
+pas fait** — il va dans le bon sens, il ne change pas l'ordre de grandeur.

@@ -769,7 +769,9 @@ d'écart**.
 moins d'unités que Shopify n'en montre, et le fournisseur a raison — les
 lignes en question ont été retirées de la commande (`current_quantity` 0).
 Notre `shopify.ts` lit `quantity` au lieu de `current_quantity` : **82
-commandes, 254 unités comptées en trop dans le COGS depuis le 01/07**. Le
+commandes, 254 unités comptées en trop dans le COGS depuis le 01/07** —
+chiffre NON vérifié et probablement très surévalué (relevé du 10/09 : 5 unités
+sur 2 693 commandes croisées avec les factures). Le
 net réel est donc un peu meilleur qu'affiché. Correctif non appliqué, à
 grouper avec les autres corrections en attente de resync.
 
@@ -815,15 +817,23 @@ ouverture du site) re-télécharge les commandes et recalcule les jours.
 |---|---|---|
 | 1 | Chargebacks perdus déduits du CA (5 cmd) | **−383,91 €** |
 | 2 | COGS fantôme des commandes sans colis (81 → **88**, cf. audit ci-dessous) | **+2 266,84 €** |
-| 3 | `current_quantity` au lieu de `quantity` | + (254 unités) |
+| 3 | `current_quantity` au lieu de `quantity` | + (petit — le « 254 unités » n'est pas vérifié, cf. MEMO) |
 | 4 | Packing « colis primaire » généralisé | − (~4 €/cmd sans polo) |
 | 5 | Pantalon FR à 6,90 € en upsell | + (~2,94 €/cmd concernée) |
 | 6 | Forfait size-up 0,10 €/polo depuis le 03/09 | − (~250 €/mois) |
 | 7 | « La Chemise Turenne » → manches longues (en base) | ~0 |
 
-**Solde attendu : environ +1 883 € de bénéfice** (révisé après l'audit
-exhaustif du 10/09 au soir), dominé par le COGS qu'on n'a jamais payé sur les
-commandes dont aucun colis n'est parti.
+**Solde attendu : +1 247,17 €**, chiffré ligne à ligne le 10/09 au soir (voir
+le tableau complet dans le MEMO, « Solde réel des correctifs en attente »).
+⚠️ Les deux estimations précédentes de ce solde (+1 700 puis +1 883) étaient
+FAUSSES : elles ne retenaient que le COGS fantôme moins les chargebacks et
+oubliaient les quatre coûts par commande (packaging −559,65 €, size-up
+−123,50 €, packing colis primaire −76,00 €, carte −50,94 €).
+
+**Et le rattrapage ne doit pas masquer la charge récurrente** : packaging +
+size-up pèsent **≈ 1 000 €/mois** à partir de maintenant. Le net des mois
+passés monte une fois ; celui des mois à venir porte cette charge en
+permanence.
 
 Chaque correctif est adossé à une pièce et verrouillé par un test qui
 reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
