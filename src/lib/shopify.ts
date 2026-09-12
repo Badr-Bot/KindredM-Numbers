@@ -83,8 +83,27 @@ export async function resolveAccessToken(config: ShopifyStoreConfig): Promise<st
 export interface ShopifyLineItem {
   title: string;
   sku: string | null;
+  /** Quantité D'ORIGINE de la ligne, figée à la commande. */
   quantity: number;
+  /** Quantité RESTANTE après édition de la commande côté Shopify. Une ligne
+   * retirée tombe à 0 sans que `quantity` bouge. Absente sur les commandes
+   * anciennes → on retombe sur `quantity`. */
+  current_quantity?: number | null;
   price: string;
+}
+
+/**
+ * Quantité RÉELLE d'une ligne de commande (10/09/2026).
+ *
+ * Le pipeline lisait `quantity`, donc une ligne retirée de la commande
+ * continuait à porter son COGS. Révélé par la facture Panda du 03/09 : deux
+ * commandes y sont facturées avec MOINS d'unités que Shopify n'en montre
+ * (#7331 : 4 polos facturés sur 8 · #7441 : 2 sur 3) — et le fournisseur avait
+ * raison, les lignes manquantes ont `current_quantity: 0` et n'ont jamais été
+ * expédiées. 82 commandes concernées depuis le 01/07, 254 unités en trop.
+ */
+export function effectiveQuantity(li: ShopifyLineItem): number {
+  return typeof li.current_quantity === "number" ? li.current_quantity : li.quantity;
 }
 
 export interface ShopifyRefundTransaction {

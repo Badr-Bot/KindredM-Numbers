@@ -18,6 +18,8 @@ import {
 import {
   SUPPLIER_BILLS,
   SUPPLIER_NAME,
+  SUPPLIER_CLAIMS_ON_PAID_BILLS,
+  SUPPLIER_OPEN_CASES,
   SUPPLIER_PENDING_CREDITS,
   supplierDisputedCents,
   supplierOwedCents,
@@ -737,6 +739,39 @@ function SupplierBillsCard() {
             <div key={c.label} className="text-[10.5px] leading-snug">
               <span className="font-semibold text-cyan">🎫 {c.label}</span>{" "}
               <b className="tnum">~{formatEur0(c.estimatedCents)}</b>
+              <span className="text-ink-faint"> — {c.note}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {SUPPLIER_OPEN_CASES.length > 0 && (
+        // 3e bloc, volontairement distinct des deux autres : ici RIEN n'est
+        // encore dû. Le client n'a pas été remboursé, la perte n'existe pas.
+        // Les fondre dans le contesté ferait réclamer de l'argent non perdu.
+        <div className="mt-2 rounded-md border border-ink-faint/30 bg-ink-faint/[0.05] p-2">
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-ink-faint">
+            Faute fournisseur — annoncé, pas encore dû
+          </p>
+          {SUPPLIER_OPEN_CASES.map((c) => (
+            <div key={c.label} className="text-[10.5px] leading-snug">
+              <span className="font-semibold text-ink-dim">⏳ {c.label}</span>{" "}
+              <b className="tnum">{formatEur0(c.estimatedCents)}</b>
+              <span className="text-ink-faint"> — {c.note}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {SUPPLIER_CLAIMS_ON_PAID_BILLS.length > 0 && (
+        // Séparé du bloc ci-dessus : cet argent est DÉJÀ parti, il n'est retenu
+        // sur rien. Le confondre avec le contesté ferait mentir la carte.
+        <div className="mt-2 rounded-md border border-amber/30 bg-amber/[0.05] p-2">
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-amber">
+            Déjà payé — à réclamer en avoir
+          </p>
+          {SUPPLIER_CLAIMS_ON_PAID_BILLS.map((c) => (
+            <div key={c.label} className="text-[10.5px] leading-snug">
+              <span className="font-semibold text-amber">↩︎ {c.label}</span>{" "}
+              <b className="tnum">{formatEur0(c.estimatedCents)}</b>
               <span className="text-ink-faint"> — {c.note}</span>
             </div>
           ))}

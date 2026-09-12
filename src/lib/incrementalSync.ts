@@ -9,6 +9,7 @@ import {
   orderAcquisitionFields,
   acquisitionColumnsReady,
   realFeeColumnsReady,
+  effectiveQuantity,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -208,7 +209,7 @@ export async function runIncrementalSync(
           order.line_items.map((li) => ({
             title: li.title,
             sku: li.sku ?? undefined,
-            quantity: li.quantity,
+            quantity: effectiveQuantity(li),
             price_cents: Math.round(parseFloat(li.price) * 100),
           })),
           productsMap,
@@ -594,7 +595,13 @@ const RECOMPUTE_VERSION_KEY = "full_recompute_version";
 // mesuré est 2,26 % : le forfait surestimait les frais de 142,02 €. Recompute
 // seul, aucun appel API : les valeurs sont dans le code, consommées par
 // aggregate.ts quand fee_total_cents est NULL.
-const REQUIRED_RECOMPUTE_VERSION = "2026-08-16-frais-reels-juin-0413-v15";
+// v17 (10/09, soir) : la liste « COGS fantôme » passe de 81 à 88 commandes.
+// Elle avait été bâtie sur les NOTES de remboursement Shopify ; refaite sur le
+// STATUT (`status:cancelled` + `fulfillments: []`), elle rend 83 annulées (2 de
+// plus : #2213, #2257) et 5 remboursées-non-expédiées (#2409, #2965, #3277,
+// #5420, #6103). +184,14 € de coût fantôme retiré. Recompute SEUL : les listes
+// voyagent avec le code, aucun appel API.
+const REQUIRED_RECOMPUTE_VERSION = "2026-09-10-cogs-sans-colis-88-commandes-v17";
 
 const RESYNC_VERSION_KEY = "full_resync_version";
 // v12 (14/08) : supplément packing du GILET PRIMAIRE (+3,50 FR x1 / +4,00 €
@@ -645,7 +652,14 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // SHIRT) : seul le lien titre→clé manquait, ajouté dans fix-products-map.yml.
 // Le COGS étant FIGÉ par commande à l'écriture, seul un re-téléchargement
 // applique les grilles aux commandes déjà en base — d'où ce bump.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-08-17-mapping-debardeur-chemise-mc-v13";
+// v15 (10/09 soir) : COÛTS PAR COMMANDE — packaging 0,35 € au 14/08 ET carte
+// de remerciement 0,03 € au 12/08 (date confirmée par Badr le 10/09). Ils
+// entrent dans `cogs_upsells_cents`, qui est FIGÉ par commande à la synchro :
+// seul un re-téléchargement les applique. Le bump est EXPLICITE et pas
+// simplement adossé au v14 encore en attente — sinon, le jour où le v14 sera
+// consommé avant le déploiement de ce code, les deux coûts n'entreraient
+// jamais dans l'historique et personne ne le verrait.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-09-10-packaging-14-08-carte-12-08-v15";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).

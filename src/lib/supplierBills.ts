@@ -82,7 +82,15 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     issuedDay: "2026-08-14",
     ordersFrom: "#5463",
     ordersTo: "#5995",
-    ordersCount: 531,
+    // 533 lignes dans le fichier, une par commande, couvrant #5463→#5995 sans
+    // trou ni doublon (recompté le 10/09 — la valeur 531 saisie le 14/08 était
+    // fausse de 2). ⚠️ L'en-tête annonce « 535 Orders | 533 billed | 2 not
+    // charged yet » : même défaut d'en-tête que sur la facture du 03/09, le
+    // TOTAL est juste, le compte annoncé non. Les « 2 not charged » sont
+    // #5599 (Croatie) et #5759 (Réunion), expédiées avec tracking mais
+    // facturées 0,00 € « country not covered by polo quote » — leur prix peut
+    // encore tomber, leur COGS reste compté chez nous.
+    ordersCount: 533,
     // Ligne TOTAL du fournisseur : 11 654,41 € de commandes + 410,00 € de
     // « custom packing » = 12 064,41 €. Le « 13 914,91 » en bout de ligne est
     // LE MÊME TOTAL EN DOLLARS (confirmé par Badr le 14/08 — vérifié :
@@ -155,6 +163,66 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
       "Reste ouvert, non bloquant : #6953/6954/6955/6981 (Suisse, même client, MÊME tracking, 203,15 € = 4 prix DDP livraison comprise pour UN envoi) — à demander en avoir sur la prochaine facture, comme les 2 paires déjà corrigées. " +
       "CROISÉE AVEC SHOPIFY le 04/09 (Supabase, les 1 153 commandes du store FR sur #5996→#7148) : une ligne = une commande, quantités identiques à l'unité produit par produit (polos 2 511 vs 2 505 facturés, caleçons 259/258, gilets 203/203, chemises 67/67, shorts 26/26, pantalons 21/21, débardeurs 13/13). Les seuls écarts sont les 3 commandes remboursées/annulées (#6103, #6327, #6794) facturées 0 € — en notre faveur. Aucune commande facturée deux fois, aucune unité en trop, aucun reshipment refacturé.",
   },
+  {
+    ref: "Bill 20260909",
+    issuedDay: "2026-09-09",
+    ordersFrom: "#7149",
+    ordersTo: "#7506",
+    ordersCount: 358,
+    // FINAL TOTAL du fichier : 8 494,71 € = 7 878,41 € de lignes commandes
+    // + 616,30 € d'une ligne nouvelle, « size up change cost from (#4815-#7506),
+    // total 6163 pieces, cost is 616.3 euro » (0,10 € la pièce).
+    // Le fournisseur a RETIRÉ les 168,40 € de lignes suisses re-facturées
+    // (Claire, 09/09 : « Yes you are right for Stéphane, I delete it ») →
+    // le montant réclamé tombe à 8 326,31 €, la valeur retenue ici.
+    totalCents: 832631,
+    //
+    // RETENU AU 12/09 = 351,90 € (était 2 713,29 € sur le relevé du 10/09).
+    // Après trois jours d'échanges avec Claire (10 → 12/09), le relevé a été
+    // repris ligne à ligne — détail et preuves dans
+    // NIVA\Fournisseur\PANDA-DOSSIER-FACTURES.md (fait foi) :
+    //
+    //   A1.  54,02 € — #7173 et #7484 : seules commandes vraiment non parties
+    //        (adresses incomplètes ; seule ligne « fulfilled » = l'e-book).
+    //        Les 45 autres des « 47 sans tracking » ont été expédiées le 10/09,
+    //        le lendemain de la facture — Claire avait raison, elles sont payées.
+    //        ✅ accordé par Claire : retiré de la facture, re-facturé au départ.
+    //   A2.   4,40 € — comptage size-up : 6 163 pièces facturées, 6 119 polos
+    //        recomptés sur SES lignes #4815→#7506 (44 × 0,10 €). ✅ accordé.
+    //        L'ancien prorata « 3 des 39 réexpéditions » (47,41 €) était faux.
+    //   B2. 175,00 € — publicité perdue : 5 commandes jamais expédiées, 0 ligne
+    //        partie, remboursées à 100 % (#2850, #3618, #4458, #4615, #5458)
+    //        × 35 € de CAC mesuré. ⏳ Claire conteste. Antérieures à #4814 : on
+    //        ne réclame que la pub, jamais la marchandise.
+    //   B3. 118,48 € — #4079, #5649 : erreurs d'expédition, clients dédommagés
+    //        (107,99 €) + frais de carte Shopify (10,49 €). ⏳ non abordé.
+    //
+    // RETIRÉ PAR NOUS (erreurs de notre côté, reconnues par écrit) :
+    //   • 995,05 → 54,02 € : 45 des 47 commandes étaient bien parties.
+    //   • 842,24 € (11 commandes annulées) : antérieures aux factures qu'on
+    //     détient, marchandise non prouvable — seule la pub reste (B2).
+    //   • 253,21 € chargebacks #3285/#4368 : colis LIVRÉS (18 jours), fraude
+    //     client, affaire de banque — pas de Claire. Et −70 € de pub avec.
+    //   • 455,00 → 175,00 € de pub (13 → 5 commandes).
+    //   • 49,31 → 4,40 € (le forfait est 0,10 €/pièce, pas un forfait de
+    //     réexpédition).
+    //
+    // LES 155,33 € d'A3 (SUPPLIER_CLAIMS_ON_PAID_BILLS) sont aussi COMPENSÉS
+    // sur ce virement : à virer = 8 326,31 − 58,42 − 5 613,02 − 155,33 − 293,48
+    // = 2 206,06 €. La carte affiche « payable » 2 361,39 € (dû − contesté) et,
+    // séparément, les 155,33 € d'avoirs sur factures payées : la différence
+    // est voulue, ce sont deux natures.
+    disputedCents: 35190,
+    // PARTIELLE : Badr a viré 5 613,02 € le 10/09. Le solde de 2 206,06 € est
+    // ANNONCÉ pour le lundi 15/09 — il ne sera noté ici qu'une fois que Badr
+    // confirme le virement (montant en $, date). Jamais avant.
+    status: "partielle",
+    paidCents: 561302,
+    note:
+      "Nouvelle plage #7149→#7506 (358 commandes du 03 au 08/09) : IRRÉPROCHABLE. Recalculée par le moteur, elle donne 7 710,05 € contre 7 710,01 € facturés — 4 CENTIMES d'écart. Croisée avec Shopify : 358 lignes = 358 commandes, contiguës, sans doublon, upsells au compte exact (124 unités). Les 2 seules différences de quantité (#7331 : 4 polos facturés sur 8 commandés · #7441 Mexique : 2 sur 3) sont JUSTES — dans les deux cas les autres lignes ont été retirées de la commande côté Shopify (current_quantity 0) ; c'est NOTRE base qui les compte encore. " +
+      "PAYÉE À HAUTEUR DE 5 613,02 € le 10/09. Relevé du 10/09 (2 713,29 € retenus) REPRIS le 12/09 après échanges avec Claire : retenue justifiée 351,90 € (A1 54,02 + A2 4,40 accordés · B2 175,00 + B3 118,48 en discussion). Les 155,33 € d'avoirs sur factures payées (A3) se compensent sur le même virement → RESTE À VIRER 2 206,06 € (annoncé par Badr pour le 15/09, non encore noté). " +
+      "Le forfait size-up (0,10 €/pièce) est ACCEPTÉ pour l'avenir, sur les seuls changements de taille demandés par le client, et à condition qu'il soit facturé chaque mois sur sa propre ligne. À encoder dans le moteur (coût par commande absent aujourd'hui) — cf. MEMO.",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -170,15 +238,28 @@ export interface SupplierPendingCredit {
 }
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
+  // État au 12/09/2026 — somme = 351,90 € = disputedCents de la Bill 20260909.
+  // Source : NIVA\Fournisseur\PANDA-DOSSIER-FACTURES.md (fait foi). Les lignes du
+  // relevé du 10/09 retirées par nous sont listées en commentaire de la facture.
   {
-    label: "Colis groupé suisse à re-tarifer (à demander)",
-    estimatedCents: 0,
-    note: "#6953/6954/6955/6981 (même client, MÊME tracking YT2624500709168612, 203,15 €) : 4 lignes livraison comprise pour UN seul colis. Le fournisseur a accepté ce raisonnement le 04/09 pour deux autres paires (#6919+#6917 et #6864+#6865, fusionnées et re-tarifées, −15,30 €) mais pas pour celle-ci. À réclamer en avoir sur la prochaine facture. Montant non estimé : c'est leur grille qui fixe le prix d'un colis groupé.",
+    label: "#7173, #7484 — jamais expédiées (adresses incomplètes)",
+    estimatedCents: 5402,
+    note: "Reste des « 47 commandes sans tracking » du relevé du 10/09 (995,05 €) : 45 ont été expédiées le 10/09, le lendemain de la facture — Claire avait raison, elles sont payées. Sur ces deux-là, la seule ligne fulfilled côté Shopify est l'e-book (numérique) ; aucun article physique n'est parti. ACCORDÉ par Claire : retiré de la facture, re-facturé au départ du colis. Action NIVA : lui envoyer les deux adresses complètes.",
   },
   {
-    label: "Reshipments : où sont-ils facturés ? (à demander)",
-    estimatedCents: 0,
-    note: "Le tracker Drive (NIVA_Reshipment_Tracker) liste ~250 réexpéditions, dont plusieurs notées « payed by niva » — mais AUCUNE ligne de reshipment n'apparaît sur les 3 factures : les trois sont des plages de commandes contiguës (une ligne = une commande Shopify), et la seule ligne hors commande jamais vue est le « custom packing » de 410 € du 14/08. Vérifié le 04/09 : les cas du tracker vont de #1003 à #5838, tous ANTÉRIEURS à cette facture, et les quantités facturées collent à Shopify à l'unité — donc rien n'est facturé deux fois. Reste à leur faire dire où passent les réexpéditions à notre charge (dans le « custom packing » ? gratuites ? sur un autre document ?).",
+    label: "Comptage size-up : 6 163 pièces facturées, 6 119 polos réels",
+    estimatedCents: 440,
+    note: "Sa ligne « size up change cost from (#4815-#7506), total 6163 pieces, cost is 616.3 euro » = 0,10 €/pièce sur toute la plage. Recompté depuis SES propres lignes de facture : 6 119 polos (7 282 pièces tous types). Écart 44 pièces × 0,10 € = 4,40 €. ACCORDÉ par Claire, elle a refait le calcul elle-même. L'ancienne ligne (47,41 €, prorata « 3 des 39 réexpéditions ») reposait sur deux erreurs de notre côté et a été retirée.",
+  },
+  {
+    label: "Publicité perdue — 5 commandes × 35 € (#2850, #3618, #4458, #4615, #5458)",
+    estimatedCents: 17500,
+    note: "Cinq commandes à 0 ligne expédiée, remboursées à 100 % (quatre soldées le même jour, le 21/07 — un nettoyage, pas quatre changements d'avis). 35 € = CAC mesuré (35,05 juillet · 34,55 août · 35,43 septembre). Antérieures à #4814 : absentes des factures qu'on détient, donc on ne réclame QUE la pub, jamais la marchandise. Claire CONTESTE (« on ne garantit pas livrer partout ») — contre-preuve : ses factures portent 405 lignes Belgique (371 trackées), 21 Luxembourg (19), 5 Espagne (5). Un tracking sur l'une d'elles retire la ligne, l'offre lui a été faite par écrit. #5458 figure aussi en A3 (marchandise 39,22 €) : deux natures, pas un doublon.",
+  },
+  {
+    label: "#4079, #5649 — erreurs d'expédition, clients dédommagés",
+    estimatedCents: 11848,
+    note: "Compensations versées aux clients (107,99 €) + frais de carte que Shopify ne rend jamais sur un remboursement (10,49 €). Motif écrit dans le journal de réexpéditions : « Supplier Shipping Issue » sur les deux. Jamais abordé avec Claire à ce jour.",
   },
 ];
 
@@ -206,21 +287,27 @@ export interface SupplierPrepayment {
 
 export const SUPPLIER_PREPAYMENTS: SupplierPrepayment[] = [
   // 10/09 : virement Wise « Sent money to Panda Dropshipping Limited »
-  // 5 613,02 €, vu en banque, sans facture transmise au dash. Le moteur
-  // COGS + taxe UE des commandes #7149 → #7407 donne 5 606,60 €, #7149 →
-  // #7408 : 5 624,66 € — le montant colle à 0,2 % près à une facture de
-  // ~260 commandes du 03 au 07/09. Enregistré en ACOMPTE (l'argent est
-  // sorti, la facture n'est pas encore dans le suivi) : sans cette ligne le
-  // rapprochement affichait un faux trou de 6 819 € (Badr 10/09 : « la
-  // facture Panda modifie le dashboard, vérifie qu'elle fait pas de la
-  // merde »). Dès réception de la facture : créer la SupplierBill
-  // #7149 → #7408, reporter ce montant dans son paidCents, appliedTo = sa ref.
+  // 5 613,02 €, vu en banque, d'abord enregistré en ACOMPTE parce que la
+  // facture n'était pas encore dans le suivi (sans cette ligne le
+  // rapprochement affichait un faux trou de 6 819 €).
+  //
+  // ABSORBÉ le 10/09 au soir : la facture est arrivée — Bill 20260909,
+  // #7149 → #7506, 8 326,31 € réclamés, dont ces 5 613,02 € payés et
+  // 2 713,29 € retenus. C'est exactement la manœuvre prévue par la note
+  // d'origine (« dès réception : créer la SupplierBill, reporter ce montant
+  // dans son paidCents, appliedTo = sa ref »).
+  //
+  // ⚠️ POURQUOI `appliedTo` DOIT ÊTRE RENSEIGNÉ : la dette fournisseur vaut
+  // `unbilled + owed − prepaid`. Le montant vit désormais dans le `paidCents`
+  // de la facture, donc dans `owed` ; le laisser aussi dans les acomptes le
+  // déduirait UNE DEUXIÈME FOIS et sous-estimerait la dette de 5 613,02 €.
+  // `supplierPrepaidCents()` ne compte que les `appliedTo === null`.
   {
     day: "2026-09-10",
     eurCents: 561302,
     original: "5 613,02 € (Wise EUR)",
-    appliedTo: null,
-    note: "Facture non transmise. Moteur #7149→#7408 : 5 607 à 5 625 €. À vérifier ligne à ligne dès réception, comme les trois précédentes.",
+    appliedTo: "Bill 20260909",
+    note: "Absorbé par la facture 20260909 (#7149→#7506) le 10/09 : il en constitue le paidCents. L'estimation faite à l'aveugle (#7149→#7408, 5 607 à 5 625 €) était bonne à 0,2 % — la vraie facture couvre une plage plus large et 2 713,29 € en sont retenus.",
   },
   // Aucun acompte enregistré : Badr annonce le virement (montant, jour) et on
   // l'ajoute ici — jamais déduit d'une capture de solde, jamais deviné.
@@ -233,6 +320,130 @@ export function supplierPrepaidCents(): number {
 
 export function supplierPendingCreditsCents(): number {
   return SUPPLIER_PENDING_CREDITS.reduce((t, c) => t + c.estimatedCents, 0);
+}
+
+// ---------------------------------------------------------------------------
+// AVOIRS À RÉCLAMER SUR DES FACTURES DÉJÀ PAYÉES (audit ligne à ligne du
+// 10/09/2026, les 4 fichiers Panda repassés au peigne fin).
+//
+// Distinct de SUPPLIER_PENDING_CREDITS : ces montants ne sont retenus sur
+// RIEN — ils sont déjà partis. Ils se réclament en avoir sur la prochaine
+// facture. Les garder dans une liste séparée évite de gonfler le « contesté »
+// avec de l'argent qu'on a déjà versé.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_CLAIMS_ON_PAID_BILLS: SupplierPendingCredit[] = [
+  {
+    label: "#4856 facturée DEUX FOIS (facture du 01/08, payée)",
+    estimatedCents: 1027,
+    note: "Seul doublon de tout l'historique : deux lignes pour #4856, trackings différents (06086507176810 « SHORTSx1, POLOx2 » 24,39 € et 06086507184076 « POLOx1 » 10,27 €). Shopify ne connaît QU'UN seul colis pour cette commande (2 polos + 1 short, tracking 06086507176810) et le client n'a jamais commandé de 3e polo. La 2e ligne n'a donc pas de contrepartie : 10,27 € à rendre. Vérification : les 650 lignes du fichier ne couvrent que 649 numéros — c'est ce trou d'un qui a mis le doublon en évidence.",
+  },
+  {
+    label: "#5458 facturée sans colis, client remboursé à 100 % (01/08, payée)",
+    estimatedCents: 3922,
+    note: "La ligne la plus nette de l'audit : aucun tracking sur leur facture, aucun fulfilment côté Shopify, et le client a été remboursé de 89,99 € EN ENTIER — il n'a rien gardé. On a donc payé 39,22 € pour une marchandise qui n'est jamais partie. C'est aussi le contre-exemple qui prouve que « annulée » et « non expédiée » ne sont pas la même chose : le fournisseur FACTURE parfois une commande qu'il n'expédie pas, d'où l'obligation de croiser ses factures avec Shopify plutôt que de se fier à un seul des deux.",
+  },
+  {
+    label: "#5455, #5842, #6945, #7023 — aucune preuve d'expédition des deux côtés",
+    estimatedCents: 10584,
+    note: "Même test que la catégorie 1 du relevé du 10/09 (les 47 commandes, 995,05 €), appliqué cette fois aux trois factures ANTÉRIEURES : ni tracking sur leur fichier, ni fulfilment côté Shopify au 10/09. #5455 (Suisse, 17,07 €) date du 01/08, six semaines. #5842 (Belgique, 34,73 €), #6945 (Belgique, 19,29 €), #7023 (Suisse, 34,75 €). Ce n'est PAS un litige : dès qu'ils envoient les numéros de suivi, la réclamation tombe. " +
+      "Garde-fou du test : on ne signale une commande que si LES DEUX sources sont muettes. Sur la seule facture du 03/09, 136 commandes sont facturées sans tracking — mais 134 sont bien fulfilled côté Shopify, donc le colis est parti et on ne dit rien. Seules #6945 et #7023 échouent aux deux.",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// EN NOTRE DÉFAVEUR, VOLONTAIREMENT NON ENCAISSÉ — le pendant honnête de la
+// liste ci-dessus, et la raison pour laquelle elle est crédible.
+//
+// #5535, #5576 et #5642 : Shopify montre 4 polos (+ caleçon) expédiés sous UN
+// seul tracking, la facture du 14/08 ne porte qu'un « POLOx1 » avec un tracking
+// DIFFÉRENT — 12,23 / 9,65 / 12,91 € facturés au lieu de ~31 €. Le fournisseur
+// nous a SOUS-facturés d'environ 59,78 €.
+//
+// Le COGS reste INCHANGÉ sur ces trois commandes : le colis complet est bien
+// parti, la facturation peut revenir. On le signale à Claire au lieu de
+// l'empocher — et on ne l'inscrit nulle part comme un gain.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_UNDERBILLED_CENTS = 5978;
+
+// ---------------------------------------------------------------------------
+// DOSSIERS OUVERTS — faute fournisseur établie, montant PAS ENCORE dû
+// (trouvés par Badr le 10/09 au soir, vérifiés dans Shopify le même jour).
+//
+// Troisième liste, et la distinction est délibérée :
+//   • SUPPLIER_PENDING_CREDITS  = retenu sur la facture du 09/09 (351,90 € au 12/09)
+//   • SUPPLIER_CLAIMS_ON_PAID_BILLS = avoir à réclamer, argent déjà versé
+//   • ici = RIEN n'est encore sorti ni réclamé. Sur ces deux commandes le
+//     client n'a PAS été remboursé (`refunded_cents` = 0, aucun litige) : la
+//     perte n'existe pas encore. On ne réclame pas une perte qui n'a pas eu
+//     lieu — c'est ce qui rend le reste du relevé crédible.
+//
+// Les deux sont postérieures au 01/07 (périmètre Panda) et ont un tracking,
+// donc le colis a été facturé. Mais elles sont sous #4814 : aucune facture de
+// cette période n'est en notre possession, le COGS est donc PRIXÉ sur leurs
+// grilles, pas cité d'un document — et le relevé le dit noir sur blanc.
+// ---------------------------------------------------------------------------
+export const SUPPLIER_OPEN_CASES: SupplierPendingCredit[] = [
+  {
+    label: "#2870 — mauvais article envoyé, jamais corrigé depuis le 26/08",
+    estimatedCents: 6224,
+    note: "01/07, France, 179,98 € payés pour POLOx4 + SHORTSx3, expédiée le 03/07 (YT2621500711304158). Un tee-shirt noir est arrivé à la place d'un polo et d'un short. Correction promise le 26/08, toujours rien. " +
+      "49,44 € = la valeur RÉELLEMENT PAYÉE des 2 articles, au prorata du panier (124,98 € catalogue × 179,98 ÷ 454,93) et non au prix affiché — la commande est un bundle remisé, facturer le prix catalogue serait gonfler. " +
+      "12,80 € = le COGS de ces 2 articles à leurs propres tarifs (1 polo au palier 4 : 6,69 € · 1 short au palier 3 : 6,11 €). " +
+      "PAS de coût publicitaire réclamé : le client garde 5 articles sur 7, la vente tient. Le réclamer serait indéfendable.",
+  },
+  {
+    label: "#4486 — tracking contredit par le transporteur",
+    estimatedCents: 26780,
+    note: "14/07, France, 179,97 € pour POLOx4 + SSx1 + SHORTSx1. Tracking fourni : DOFR9010176136745HD, WanbExpress — un transporteur qui n'apparaît sur AUCUNE de leurs 4 factures, où tout ce qui part vers la France est en YunExpress. La Poste annonce le colis encore chez nous, donc jamais remis. Client sans rien depuis le 14/07. " +
+      "179,97 € de CA (remboursable, PAS encore remboursé) + 9,94 € de frais de carte que Shopify garde sur un remboursement (7,28 + 2,66, lus sur la transaction) + 35,00 € de pub (CAC mesuré, commande totalement perdue) + 42,89 € de marchandise (26,76 polos + 13,13 chemise/short + 3,00 taxe UE). " +
+      "Une preuve de remise au transporteur annule la totalité de la ligne — c'est ce qu'on leur demande d'abord.",
+  },
+];
+
+/** 330,04 € annoncés mais PAS encore dus — jamais mélangés au contesté. */
+export function supplierOpenCasesCents(): number {
+  return SUPPLIER_OPEN_CASES.reduce((t, c) => t + c.estimatedCents, 0);
+}
+
+/**
+ * TOTAL RÉCLAMÉ AU FOURNISSEUR, toutes natures confondues : 837,27 € au 12/09
+ * (3 198,66 € sur le relevé du 10/09, avant la reprise ligne à ligne avec Claire).
+ *
+ * Badr, 10/09 : « le chiffre demandé au fournisseur n'a pas bougé alors que
+ * je t'ai rajouté des choses où il a merdé ». Il avait raison — on ajoutait
+ * des catégories au relevé sans qu'AUCUN total ne les additionne. Cette
+ * fonction existe pour qu'un ajout futur se voie forcément quelque part.
+ *
+ * Les trois natures restent séparées à l'affichage (elles n'ont pas le même
+ * statut : retenu / déjà versé / pas encore dû), mais elles ont désormais UNE
+ * somme, et c'est elle qu'on met en tête du relevé.
+ */
+export function supplierTotalClaimedCents(): number {
+  return supplierDisputedCents() + supplierClaimsOnPaidBillsCents() + supplierOpenCasesCents();
+}
+
+/**
+ * À DÉDUIRE DE LA PROCHAINE FACTURE : 507,23 € au 12/09 (2 868,62 € le 10/09).
+ *
+ * C'est LE chiffre actionnable, celui que le fournisseur doit lire en premier
+ * (Badr, 10/09 : « elle doit comprendre directement combien je dois faire en
+ * virement »).
+ *
+ * = le retenu (351,90 €, jamais versé) + les avoirs sur factures soldées
+ *   (155,33 €, déjà versés et dus en retour).
+ *
+ * Sur la facture du 09/09, c'est exactement ce qui manque au virement du solde :
+ * 8 326,31 − 5 613,02 − 507,23 = 2 206,06 € à virer.
+ *
+ * Les dossiers ouverts (330,04 €) en sont VOLONTAIREMENT exclus : le client
+ * n'a pas été remboursé, la perte n'existe pas, on ne la déduit pas.
+ */
+export function supplierToDeductNextBillCents(): number {
+  return supplierDisputedCents() + supplierClaimsOnPaidBillsCents();
+}
+
+export function supplierClaimsOnPaidBillsCents(): number {
+  return SUPPLIER_CLAIMS_ON_PAID_BILLS.reduce((t, c) => t + c.estimatedCents, 0);
 }
 
 export function supplierOwedCents(): number {

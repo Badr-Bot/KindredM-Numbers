@@ -9,6 +9,7 @@ import {
   orderAcquisitionFields,
   acquisitionColumnsReady,
   realFeeColumnsReady,
+  effectiveQuantity,
 } from "./shopify";
 import {
   fetchMetaAdInsights,
@@ -79,7 +80,7 @@ export async function backfillOrders(
           order.line_items.map((li) => ({
             title: li.title,
             sku: li.sku ?? undefined,
-            quantity: li.quantity,
+            quantity: effectiveQuantity(li),
             price_cents: Math.round(parseFloat(li.price) * 100),
           })),
           productsMap,

@@ -4,6 +4,7 @@ import { MARKETS } from "./markets";
 import { isExcludedCampaign } from "./meta";
 import { readManualRevenue } from "./manualRevenue";
 import { JUNE_REAL_FEES } from "./juneRealFees";
+import { orderAdjustment } from "./orderAdjustments";
 
 // Dérivé de MARKETS (markets.ts) et non recopié : la liste avait divergé à
 // l'ajout du Canada (06/08) — CA existait dans le type et l'UI mais pas ici,
@@ -187,15 +188,35 @@ export async function recomputeDailyAggregatesForDays(
     const b = buckets.get(k);
     if (!b) continue; // hors de la plage de jours demandée
     b.orders += 1;
-    b.caCents += o.total_cents - o.refunded_cents;
-    b.cogsCents += o.cogs_product_cents + o.cogs_upsells_cents;
-    b.cogsProductCents += o.cogs_product_cents;
-    b.cogsUpsellsCents += o.cogs_upsells_cents;
-    b.taxCents += o.tax_eu_cents;
-    b.refundedCents += o.refunded_cents;
+    // Deux corrections que la base seule ne porte pas (orderAdjustments.ts) :
+    //
+    //  • CHARGEBACK PERDU — la banque a repris l'argent, mais le pipeline ne
+    //    lit que les `refunds` Shopify, jamais les `disputes`. On ne déduit
+    //    que ce qui DÉPASSE le remboursement déjà enregistré : les litiges
+    //    perdus qui ont aussi été remboursés côté Shopify sont donc comptés
+    //    une seule fois, quoi qu'il arrive.
+    //  • COMMANDE SANS COLIS — le fournisseur facture le COLIS, pas la
+    //    commande : `UNFULFILLED` + `fulfillments: []` côté Shopify = aucune
+    //    ligne de facture possible. Son COGS et sa taxe UE sont un coût
+    //    fantôme, mis à zéro ici.
+    const adj = orderAdjustment(o.store, o.order_name);
+    const chargebackCents = Math.max(0, adj.lostChargebackCents - o.refunded_cents);
+    const cogsProduct = adj.noParcelSent ? 0 : o.cogs_product_cents;
+    const cogsUpsells = adj.noParcelSent ? 0 : o.cogs_upsells_cents;
+    const taxCents = adj.noParcelSent ? 0 : o.tax_eu_cents;
+
+    b.caCents += o.total_cents - o.refunded_cents - chargebackCents;
+    b.cogsCents += cogsProduct + cogsUpsells;
+    b.cogsProductCents += cogsProduct;
+    b.cogsUpsellsCents += cogsUpsells;
+    b.taxCents += taxCents;
+    // L'argent repris par la banque sort du compte comme un remboursement :
+    // il est agrégé au même endroit pour que le net et la ligne « remboursé »
+    // racontent la même histoire.
+    b.refundedCents += o.refunded_cents + chargebackCents;
     // Frais Shopify : réels si lus, sinon repli 3 % SUR CETTE COMMANDE (et non
     // sur le jour entier) — une journée à moitié re-scannée reste juste.
-    const orderCa = o.total_cents - o.refunded_cents;
+    const orderCa = o.total_cents - o.refunded_cents - chargebackCents;
     if (typeof o.fee_total_cents === "number") {
       b.shopifyFeeCents += o.fee_total_cents;
       b.feeProcessingCents += o.fee_processing_cents ?? 0;
