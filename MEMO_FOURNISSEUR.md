@@ -238,6 +238,16 @@ réclamations qui se sont effondrées en une journée.
    concessions du 12/09 est arrivée juste après qu'on lui a donné raison sur un
    point. Un relevé qui se corrige contre lui-même n'est plus discuté sur le reste.
 
+9. **Un problème mesuré dans l'historique n'est pas un problème actuel.** Avant de
+   présenter une perte comme un chantier ouvert, regarder la **date de la dernière
+   occurrence**, pas seulement le total. Les pertes DOM-TOM (section 8) ont été
+   annoncées à Badr comme 8 000 € à aller chercher alors qu'elles s'arrêtent toutes
+   au 15/07 : le problème était déjà réglé. `max(day)` avant `sum()`.
+
+10. **Demander à Badr ce qui a déjà été convenu avant de proposer une action.**
+    L'arrêt des ventes sur ces zones avait été décidé avec Adnane dès le début —
+    l'information n'est dans aucune table, seulement dans sa tête.
+
 ---
 
 ## 5. Ce que Claire a admis par écrit — à opposer plus tard
@@ -326,15 +336,39 @@ alors que le code attend les versions `2026-09-10-…`. **Les correctifs COGS du
 
 ---
 
-## 8. Le vrai sujet, qui n'est pas chez le fournisseur
+## 8. Destinations non desservies — DOSSIER CLOS, ne pas le rouvrir
 
-**70 commandes vers des destinations qu'elle ne dessert pas : 5 613,68 € remboursés
-+ ~2 450 € de pub brûlée ≈ 8 000 €.** Neuf fois le dossier entier.
+⚠️ **Erreur commise le 12/09 : ce dossier a été présenté à Badr comme un chantier
+ouvert à ~8 000 €. C'est faux, il est réglé depuis le 15/07.** Badr et Adnane
+avaient convenu avec Panda d'arrêter de vendre sur ces zones dès le début de la
+collaboration, et le blocage a bien été appliqué. Ne pas redemander à Claire sa
+« liste de destinations non desservies » : elle sait que c'est fermé depuis juillet,
+et la question ferait passer NIVA pour quelqu'un qui ne suit pas son propre dossier.
 
-Ça ne se négocie pas : **ça se bloque au checkout Shopify.** Demander à Claire sa
-liste de destinations non desservies, puis restreindre les zones de livraison.
-Tant que ce n'est pas fait, on continue d'encaisser des commandes que personne ne
-peut livrer, en ayant déjà payé la pub.
+Mesuré en base (commandes FR remboursées à 100 % sans aucun article physique
+expédié, hors e-book, depuis le 01/07) :
+
+| Destination | Cmd | Première | **Dernière** | € remboursés |
+|---|---|---|---|---|
+| Guadeloupe | 14 | 01/07 | **15/07** | 1 196,80 |
+| Nouvelle-Calédonie | 11 | 01/07 | **15/07** | 1 039,84 |
+| Martinique | 12 | 02/07 | **15/07** | 939,82 |
+| Guyane | 2 | 13/07 | **15/07** | 249,95 |
+| Mayotte, Polynésie, St-Pierre, St-Martin, Andorre, Guernesey, Lituanie | 7 | 01/07 | 14/07 | ~471 |
+
+**Tout s'arrête au 15/07.** La perte est historique, concentrée sur les deux
+premières semaines de la collaboration. Il n'y a rien à récupérer et rien à bloquer.
+
+**Deux résidus seulement :**
+- **Monaco** — 5 commandes, toutes remboursées sans colis, dernière le **15/08**,
+  soit un mois après le blocage des autres zones. Aucune depuis, mais 5 commandes en
+  deux mois et demi ne permettent pas de dire si c'est fermé ou s'il n'y a plus de
+  trafic. À confirmer dans Shopify.
+- **États-Unis** — les USA fonctionnent (10 commandes expédiées entre le 12/07 et le
+  02/09, zéro remboursement). Mais **4 commandes du 12/09 — #7708, #7709, #7710,
+  #7711 — ont été remboursées le jour même, sans expédition, pour ~210 €**, dont une
+  à 30,00 € qui ne correspond à aucun bundle. Profil à vérifier (annulation
+  volontaire ou test de carte). **Sans rapport avec le fournisseur.**
 
 Autres chantiers ouverts, hors fournisseur :
 - Champ **motif obligatoire sur chaque remboursement** (aujourd'hui beaucoup de
