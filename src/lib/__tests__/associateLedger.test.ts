@@ -75,7 +75,10 @@ describe("Abonnements payés de sa poche : le dû court tout seul", () => {
     const aout = soldeDuMois("2026-08-01", "2026-08-31");
     const septembre = soldeDuMois("2026-09-01", "2026-09-30");
     expect(aout).toBeLessThan(0); // Adnane est créancier net
-    expect(Math.abs(aout - septembre)).toBeLessThanOrEqual(20); // à 0,20 € près
+    // Septembre porte en plus les 30 € de Shopify DE payés par Badr le 12/09
+    // (50/50 → +15 € pour Badr) : le régime mensuel, lui, est identique.
+    const shopifyDeBadr = 1500;
+    expect(Math.abs(aout - (septembre - shopifyDeBadr))).toBeLessThanOrEqual(20); // à 0,20 € près
   });
 
   it("l'écart entre les deux parts vaut le DOUBLE du solde (l'argent change de poche)", () => {

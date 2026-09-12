@@ -21,6 +21,22 @@ export function getShopifyMarkets(): Market[] {
   return [...MARKETS];
 }
 
+/** Boutiques FERMÉES (jour de fermeture) : on ne les interroge plus (synchro,
+ * en route, versements) — leurs commandes passées restent en base. DE fermée
+ * par Badr le 12/09 (« avant de le fermer »). */
+export const CLOSED_MARKETS: Partial<Record<Market, string>> = { DE: "2026-09-12" };
+
+export function isMarketClosed(market: Market): boolean {
+  return CLOSED_MARKETS[market] !== undefined;
+}
+
+/** Les boutiques encore OUVERTES — pour tout ce qui interroge Shopify au
+ * quotidien (synchro, live, en route, versements). Le backfill et la
+ * découverte gardent toutes les boutiques : l'historique DE reste lisible. */
+export function getOpenShopifyStoreConfigs(): ShopifyStoreConfig[] {
+  return getShopifyStoreConfigs().filter((c) => !isMarketClosed(c.market));
+}
+
 /**
  * Deux méthodes d'auth par store, au choix (dans .env.local) :
  *   1. SHOPIFY_<M>_TOKEN=shpat_…                          (token statique)

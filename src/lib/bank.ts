@@ -1264,7 +1264,7 @@ async function fetchShopifyEnRoute(): Promise<{
   /** Boutiques dont le solde a été lu pour de vrai. */
   answered: Market[];
 }> {
-  const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
+  const { getOpenShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   let totalEurCents = 0;
   let missingScopes = false;
   const skipped: string[] = [];
@@ -1274,7 +1274,7 @@ async function fetchShopifyEnRoute(): Promise<{
   // propre CA (Badr 07/09 : « ES et UK on s'en fout, je fais plus de vente
   // dessus » — leur estimation vaut alors zéro, et le total devient exact).
   const answered: Market[] = [];
-  for (const config of getShopifyStoreConfigs()) {
+  for (const config of getOpenShopifyStoreConfigs()) {
     try {
       const token = await resolveAccessToken(config);
       const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {
@@ -1441,7 +1441,7 @@ async function fetchShopifyPayouts(): Promise<{
   /** Ventes en attente de versement, par devise (brut / frais / net). */
   pending: { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }[];
 }> {
-  const { getShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
+  const { getOpenShopifyStoreConfigs, resolveAccessToken } = await import("./shopify");
   const payouts: ShopifyPayout[] = [];
   const markets: string[] = [];
   const warnings: string[] = [];
@@ -1451,7 +1451,7 @@ async function fetchShopifyPayouts(): Promise<{
   const pending = new Map<string, { currency: string; grossCents: number; feeCents: number; netCents: number; count: number }>();
   let oldestIssuedDay: string | null = null;
   const since = addDaysToDay(todayParisDay(), -PAYOUTS_LOOKBACK_DAYS);
-  for (const config of getShopifyStoreConfigs()) {
+  for (const config of getOpenShopifyStoreConfigs()) {
     try {
       const token = await resolveAccessToken(config);
       const res = await fetch(`https://${config.domain}/admin/api/2025-01/graphql.json`, {

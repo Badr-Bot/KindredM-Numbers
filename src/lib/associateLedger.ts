@@ -80,6 +80,20 @@ export const ONE_OFF_COSTS: OneOffCost[] = [
     badrShare: 0.5,
     note: "Conversion au taux figé du dashboard (1 € = 1,1539 $). Dépense variable : à rajouter chaque fois qu'un débit tombe.",
   },
+  // Shopify DE : frais de la boutique allemande réglés par Badr de sa poche
+  // avant sa fermeture (Badr 12/09 : « j'ai pris en charge moi 30 € de
+  // frais Shopify du shop Allemagne avant de le fermer »). Charge société
+  // 50/50 → Adnane lui en doit la moitié. Date = jour de l'annonce, Badr n'a
+  // pas donné celle du paiement.
+  {
+    day: "2026-09-12",
+    label: "Shopify DE — frais de fermeture",
+    eurCents: 3000,
+    original: "30 €",
+    paidBy: "BADR",
+    badrShare: 0.5,
+    note: "Payé par Badr avant la fermeture de la boutique allemande (annoncé le 12/09, date du débit non précisée).",
+  },
   // Google One (1,99 €/mois payé par Badr) et Hushed (7,99 €/mois payé par
   // Adnane) ne sont PLUS des frais ponctuels : ce sont des abonnements, ils
   // vivent dans subscriptions.ts avec `paidBy`, et le dû entre associés se
