@@ -64,10 +64,15 @@ point où elle avait raison. C'est le mode de fonctionnement à conserver.
 | **B1** · chargebacks | 0,00 | ❌ **retiré par nous** |
 | **B2** · pub brûlée, 5 × 35 € | 175,00 | ⏳ elle conteste |
 | **B3** · #4079, #5649 | 118,48 | ⏳ non abordé |
-| **Ouvert, non déduit** · #2870, #4486 | 330,04 | ⏳ en attente d'elle |
+| **Ouvert, non déduit** · #4486 seul | 267,80 | ⏳ en attente d'elle |
 | **En sa faveur, signalé** · #5535, #5576, #5642 | −59,78 | sous-facturé, à re-facturer |
 
-**Total réclamé : 837,27 €** (contre 3 198,66 € au départ le 10/09).
+**Total réclamé : 775,03 €** (contre 3 198,66 € au départ le 10/09).
+
+> ⚠️ **Le code dit encore 837,27 €** : `SUPPLIER_OPEN_CASES` contient toujours
+> #2870 à 62,24 €, retiré le 12/09 après relecture de nos propres journaux
+> (voir plus bas). Le montant à virer ne change pas — les dossiers ouverts ne
+> sont pas déduits — seul `supplierTotalClaimedCents()` est concerné.
 
 ---
 
@@ -176,19 +181,42 @@ Erreurs d'expédition documentées dans notre journal de réexpéditions, client
 dédommagé. 107,99 € rendus + 10,49 € de frais de carte conservés par Shopify.
 **Jamais abordé avec elle à ce jour.**
 
-### ⏳ Ouvert — #2870 (62,24 €) et #4486 (267,80 €)
-**Non déduits**, car dans les deux cas **le client n'a pas encore été remboursé**
-(`refunded_cents = 0` vérifié). Les compter serait réclamer une perte qui n'existe
-pas — c'est exactement ce qui décrédibiliserait le relevé.
+### ❌ #2870 — RETIRÉ le 12/09, la réclamation était fausse
+Le relevé décrivait « un tee-shirt noir livré à la place d'un polo et d'un short,
+correction promise le 26/08 jamais faite », et présentait **YT2621500711304158**
+comme le tracking de l'envoi d'origine. **Nos trois sources internes disent toutes
+autre chose** — `reexpeditions_fournisseur.txt`, `Litiges_et_fautes_fournisseur.xlsx`
+et `Reexpeditions_responsabilite.xlsx` :
 
-- **#2870** — t-shirt noir livré à la place d'un polo et d'un short. Correction
-  promise le **26/08**, toujours rien. 49,44 € (prorata réel payé par le client sur
-  le bundle : 124,98 × 179,98 ÷ 454,93) + 12,80 € de marchandise. Pas de pub
-  réclamée : le client a gardé 5 articles sur 7, la vente tient.
-- **#4486** — Claire a admis : *« first package is lost which is our responsibility
-  so we reshipped and it's in transit »*. **Aucune trace chez nous** : pas de second
-  tracking, **aucun mouvement sur la commande depuis le 15/07**. Demander le tracking
-  de la réexpédition.
+> `#2870 · Supplier Shipping Issue · Shipped · Polo (taché) + Short beige — resend
+> in size 4XL` · tracking **YT2621500711304158** · note client : *« polo with a
+> factory problem and problem with size / ordered 3x L short and receive 2 x short
+> 4xl and 1 3xl / so we size up only 2 shorts »*
+
+Donc : polo **taché** (défaut usine) + erreur de taille sur les shorts, et
+**YT2621500711304158 est le tracking de la RÉEXPÉDITION, déjà partie**. Aucune
+source ne mentionne de promesse du 26/08. Le client n'a jamais été remboursé.
+**Il n'y a donc aucune perte et rien à réclamer.** La seule question posée à Claire
+est devenue : ce colis est-il arrivé ?
+
+⚠️ `SUPPLIER_OPEN_CASES` dans `supplierBills.ts` **contient encore cette ligne**
+avec son ancienne description. À retirer, sous réserve de cohérence avec
+`NIVA/Fournisseur/PANDA-DOSSIER-FACTURES.md` que le commit `fdcfa0f` désigne comme
+faisant foi.
+
+### ⏳ Ouvert — #4486 seul (267,80 €)
+**Non déduit**, car **le client n'a pas encore été remboursé** (`refunded_cents = 0`
+vérifié). Le compter serait réclamer une perte qui n'existe pas.
+Claire a admis le 12/09 : *« first package is lost which is our responsibility so we
+reshipped and it's in transit »*. **Aucune trace chez nous** : pas de second tracking,
+**aucun mouvement sur la commande depuis le 15/07**. Demander le tracking de la
+réexpédition.
+
+⚠️ L'ancienne note dans le code pointe WanbExpress comme transporteur suspect. **Le
+fait est exact** (recompté : 1 703 lignes France en YunExpress, 0 en WanB — WanB
+existe chez eux mais sur la Suisse), **mais la conclusion est dépassée** : elle a
+reconnu que le colis était perdu. L'angle n'est plus le transporteur, c'est le
+tracking de la réexpédition.
 
 ### ℹ️ En sa faveur — ~59,78 €
 #5535, #5576, #5642 facturées « POLOx1 » chacune (12,23 + 9,65 + 12,91 = 34,79 €)
@@ -314,7 +342,7 @@ Fichier autonome (envoyable / imprimable) : `scratchpad/art/NIVA_Invoice_Review_
 | `SUPPLIER_PENDING_CREDITS` (total) | 2 713,29 € | **351,90 €** |
 | `Bill 20260909.disputedCents` | 271329 | **35190** |
 | `SUPPLIER_CLAIMS_ON_PAID_BILLS` | 155,33 € | inchangé |
-| `SUPPLIER_OPEN_CASES` | 330,04 € | inchangé |
+| `SUPPLIER_OPEN_CASES` | 330,04 € | **267,80 €** — retirer #2870 |
 | `SUPPLIER_UNDERBILLED_CENTS` | 5978 | inchangé |
 
 `src/lib/__tests__/supplierBills.test.ts` fige les anciennes valeurs → **les tests
