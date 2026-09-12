@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { createSupabaseServerClient } from "./supabase";
-import { getShopifyStoreConfigs, iterateOrders, computeRefundedCents, effectiveQuantity } from "./shopify";
+import { getOpenShopifyStoreConfigs, iterateOrders, computeRefundedCents, effectiveQuantity } from "./shopify";
 import { fetchMetaSpend, mapCampaignToMarket } from "./meta";
 import {
   classifyLineItems,
@@ -45,7 +45,7 @@ async function fetchTodaySnapshotUncached(): Promise<TodaySnapshot> {
   const supabase = createSupabaseServerClient();
   const { data: productsMap } = await supabase.from("products_map").select("*");
   const today = todayParisDay();
-  const configs = getShopifyStoreConfigs();
+  const configs = getOpenShopifyStoreConfigs();
 
   const perMarket: Record<Market, MarketAccumulator> = {
     ES: emptyAccumulator(),
