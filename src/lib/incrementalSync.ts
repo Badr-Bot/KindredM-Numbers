@@ -659,7 +659,16 @@ const RESYNC_VERSION_KEY = "full_resync_version";
 // simplement adossé au v14 encore en attente — sinon, le jour où le v14 sera
 // consommé avant le déploiement de ce code, les deux coûts n'entreraient
 // jamais dans l'historique et personne ne le verrait.
-const REQUIRED_FULL_RESYNC_VERSION = "2026-09-10-packaging-14-08-carte-12-08-v15";
+// v16 (12/09 soir) : le forfait size-up est passé du 03/09 au 18/07 (plage
+// réellement facturée #4815→#7506) — mais SANS bump de marqueur, donc sans
+// effet. Constaté en base : les commandes FR de 2 polos d'août portent encore
+// 1 506 centimes au lieu de 1 526. `sizeUpFeeCents` entre dans
+// `cogs_product_cents`, FIGÉ par commande à la synchro : changer la constante
+// ne suffit pas, il faut re-télécharger. 529,80 € de coût payé restaient hors
+// du net, dont 341,20 € sur août.
+// La fenêtre API de 60 jours remonte au 14/07 et le forfait démarre au 18/07 :
+// toute la plage est récupérable, rien ne restera en estimation.
+const REQUIRED_FULL_RESYNC_VERSION = "2026-09-12-size-up-depuis-18-07-v16";
 
 const META_RESYNC_VERSION_KEY = "meta_resync_version";
 // v7 : onglet Créas — hold rate vidéo 50/75/100 % (migration 0011).
