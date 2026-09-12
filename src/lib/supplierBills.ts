@@ -177,42 +177,50 @@ export const SUPPLIER_BILLS: SupplierBill[] = [
     // le montant réclamé tombe à 8 326,31 €, la valeur retenue ici.
     totalCents: 832631,
     //
-    // RETENU = 2 713,29 €, notifiés par un relevé de déduction détaillé envoyé
-    // le 10/09 (chaque numéro de commande listé, une source par ligne) :
+    // RETENU AU 12/09 = 351,90 € (était 2 713,29 € sur le relevé du 10/09).
+    // Après trois jours d'échanges avec Claire (10 → 12/09), le relevé a été
+    // repris ligne à ligne — détail et preuves dans
+    // NIVA\Fournisseur\PANDA-DOSSIER-FACTURES.md (fait foi) :
     //
-    //   1. 995,05 € — 47 commandes facturées sans AUCUNE preuve d'expédition
-    //      (#7173 + #7460→#7506 sauf #7493) : ni tracking sur leur fichier, ni
-    //      fulfilment côté Shopify au 10/09. Ce n'est PAS un litige, c'est du
-    //      décalage : payé le jour où ils envoient les trackings. Règle posée
-    //      par Badr : « si c'est pas expédié, je paye pas » — expédition, pas
-    //      livraison.
-    //   2. 842,24 € — 11 commandes annulées et remboursées parce que le colis
-    //      n'est jamais parti, vers des pays qu'on livre. Jamais facturées par
-    //      eux (donc aucun COGS payé), mais la vente est perdue.
-    //   3. 118,48 € — #4079 et #5649 : compensations versées aux clients
-    //      (107,99 €) + frais de carte jamais rendus par Shopify (10,49 €).
-    //   4. 253,21 € — #3285 et #4368 : chargebacks PERDUS (173,96 € repris par
-    //      la banque) + marchandise déjà payée dessus (49,25 €) + frais de
-    //      litige Shopify estimés (30,00 €, seul chiffre estimé du relevé).
-    //   5. 455,00 € — publicité perdue : 13 commandes totalement perdues × 35 €.
-    //      35 € = le CAC MESURÉ (35,05 juillet · 34,55 août · 35,43 septembre),
-    //      pas un objectif. Badr voulait 40 €, ramené à la valeur prouvable.
-    //   6. 49,31 € — forfait size-up : leur part (3 des 39 réexpéditions sur
-    //      #4815→#7506 sont de leur faute = 7,7 % de 616,30 € = 47,41 €) +
-    //      1,90 € de comptage gonflé (6 163 pièces facturées vs 6 144 polos).
+    //   A1.  54,02 € — #7173 et #7484 : seules commandes vraiment non parties
+    //        (adresses incomplètes ; seule ligne « fulfilled » = l'e-book).
+    //        Les 45 autres des « 47 sans tracking » ont été expédiées le 10/09,
+    //        le lendemain de la facture — Claire avait raison, elles sont payées.
+    //        ✅ accordé par Claire : retiré de la facture, re-facturé au départ.
+    //   A2.   4,40 € — comptage size-up : 6 163 pièces facturées, 6 119 polos
+    //        recomptés sur SES lignes #4815→#7506 (44 × 0,10 €). ✅ accordé.
+    //        L'ancien prorata « 3 des 39 réexpéditions » (47,41 €) était faux.
+    //   B2. 175,00 € — publicité perdue : 5 commandes jamais expédiées, 0 ligne
+    //        partie, remboursées à 100 % (#2850, #3618, #4458, #4615, #5458)
+    //        × 35 € de CAC mesuré. ⏳ Claire conteste. Antérieures à #4814 : on
+    //        ne réclame que la pub, jamais la marchandise.
+    //   B3. 118,48 € — #4079, #5649 : erreurs d'expédition, clients dédommagés
+    //        (107,99 €) + frais de carte Shopify (10,49 €). ⏳ non abordé.
     //
-    // BORNE DE PÉRIODE : ce fournisseur ne travaille avec nous que depuis le
-    // 01/07/2026 (Badr, 10/09). Tout ce qui précède a été RETIRÉ de la
-    // réclamation même quand la perte était réelle — #2195, #1903, #2593 et
-    // 5 chargebacks de juin, soit ~1 107 € abandonnés volontairement. C'est ce
-    // qui rend le reste crédible en négociation.
-    disputedCents: 271329,
-    // PARTIELLE : Badr a viré 5 613,02 € le 10/09 (8 326,31 − 2 713,29).
+    // RETIRÉ PAR NOUS (erreurs de notre côté, reconnues par écrit) :
+    //   • 995,05 → 54,02 € : 45 des 47 commandes étaient bien parties.
+    //   • 842,24 € (11 commandes annulées) : antérieures aux factures qu'on
+    //     détient, marchandise non prouvable — seule la pub reste (B2).
+    //   • 253,21 € chargebacks #3285/#4368 : colis LIVRÉS (18 jours), fraude
+    //     client, affaire de banque — pas de Claire. Et −70 € de pub avec.
+    //   • 455,00 → 175,00 € de pub (13 → 5 commandes).
+    //   • 49,31 → 4,40 € (le forfait est 0,10 €/pièce, pas un forfait de
+    //     réexpédition).
+    //
+    // LES 155,33 € d'A3 (SUPPLIER_CLAIMS_ON_PAID_BILLS) sont aussi COMPENSÉS
+    // sur ce virement : à virer = 8 326,31 − 58,42 − 5 613,02 − 155,33 − 293,48
+    // = 2 206,06 €. La carte affiche « payable » 2 361,39 € (dû − contesté) et,
+    // séparément, les 155,33 € d'avoirs sur factures payées : la différence
+    // est voulue, ce sont deux natures.
+    disputedCents: 35190,
+    // PARTIELLE : Badr a viré 5 613,02 € le 10/09. Le solde de 2 206,06 € est
+    // ANNONCÉ pour le lundi 15/09 — il ne sera noté ici qu'une fois que Badr
+    // confirme le virement (montant en $, date). Jamais avant.
     status: "partielle",
     paidCents: 561302,
     note:
       "Nouvelle plage #7149→#7506 (358 commandes du 03 au 08/09) : IRRÉPROCHABLE. Recalculée par le moteur, elle donne 7 710,05 € contre 7 710,01 € facturés — 4 CENTIMES d'écart. Croisée avec Shopify : 358 lignes = 358 commandes, contiguës, sans doublon, upsells au compte exact (124 unités). Les 2 seules différences de quantité (#7331 : 4 polos facturés sur 8 commandés · #7441 Mexique : 2 sur 3) sont JUSTES — dans les deux cas les autres lignes ont été retirées de la commande côté Shopify (current_quantity 0) ; c'est NOTRE base qui les compte encore. " +
-      "PAYÉE À HAUTEUR DE 5 613,02 € le 10/09. Les 2 713,29 € restants sont retenus et notifiés par un relevé détaillé (6 catégories, chaque numéro de commande listé) — détail en commentaire ci-dessus. La plus grosse ligne (995,05 €) n'est pas un litige mais un décalage : elle se paie dès réception des trackings. " +
+      "PAYÉE À HAUTEUR DE 5 613,02 € le 10/09. Relevé du 10/09 (2 713,29 € retenus) REPRIS le 12/09 après échanges avec Claire : retenue justifiée 351,90 € (A1 54,02 + A2 4,40 accordés · B2 175,00 + B3 118,48 en discussion). Les 155,33 € d'avoirs sur factures payées (A3) se compensent sur le même virement → RESTE À VIRER 2 206,06 € (annoncé par Badr pour le 15/09, non encore noté). " +
       "Le forfait size-up (0,10 €/pièce) est ACCEPTÉ pour l'avenir, sur les seuls changements de taille demandés par le client, et à condition qu'il soit facturé chaque mois sur sa propre ligne. À encoder dans le moteur (coût par commande absent aujourd'hui) — cf. MEMO.",
   },
 ];
@@ -230,40 +238,28 @@ export interface SupplierPendingCredit {
 }
 
 export const SUPPLIER_PENDING_CREDITS: SupplierPendingCredit[] = [
+  // État au 12/09/2026 — somme = 351,90 € = disputedCents de la Bill 20260909.
+  // Source : NIVA\Fournisseur\PANDA-DOSSIER-FACTURES.md (fait foi). Les lignes du
+  // relevé du 10/09 retirées par nous sont listées en commentaire de la facture.
   {
-    label: "Trackings des 47 commandes non expédiées (facture 09/09)",
-    estimatedCents: 99505,
-    note: "#7173 + #7460→#7506 sauf #7493. Ni tracking sur leur fichier, ni fulfilment côté Shopify au 10/09. Retenu sur la facture, PAS contesté : payable le jour où ils envoient les numéros de suivi. C'est la ligne à relancer en premier, c'est la plus grosse et la plus simple à solder.",
+    label: "#7173, #7484 — jamais expédiées (adresses incomplètes)",
+    estimatedCents: 5402,
+    note: "Reste des « 47 commandes sans tracking » du relevé du 10/09 (995,05 €) : 45 ont été expédiées le 10/09, le lendemain de la facture — Claire avait raison, elles sont payées. Sur ces deux-là, la seule ligne fulfilled côté Shopify est l'e-book (numérique) ; aucun article physique n'est parti. ACCORDÉ par Claire : retiré de la facture, re-facturé au départ du colis. Action NIVA : lui envoyer les deux adresses complètes.",
   },
   {
-    label: "Commandes qu'ils n'ont pas pu expédier (11 cmd)",
-    estimatedCents: 84224,
-    note: "Annulées et remboursées au client parce que le colis n'est jamais parti, vers des pays qu'on livre : #6327, #5458, #4615, #4493, #4458, #3618, #3439, #3346, #3290, #2874, #2850. Jamais facturées par eux — donc aucun COGS payé — mais la vente est perdue. Preuve : note de remboursement Shopify « Commande annulée » + notre réponse au client « nous n'avons pas pu assurer l'expédition ».",
+    label: "Comptage size-up : 6 163 pièces facturées, 6 119 polos réels",
+    estimatedCents: 440,
+    note: "Sa ligne « size up change cost from (#4815-#7506), total 6163 pieces, cost is 616.3 euro » = 0,10 €/pièce sur toute la plage. Recompté depuis SES propres lignes de facture : 6 119 polos (7 282 pièces tous types). Écart 44 pièces × 0,10 € = 4,40 €. ACCORDÉ par Claire, elle a refait le calcul elle-même. L'ancienne ligne (47,41 €, prorata « 3 des 39 réexpéditions ») reposait sur deux erreurs de notre côté et a été retirée.",
   },
   {
-    label: "Leurs erreurs sur commandes livrées (#4079, #5649)",
+    label: "Publicité perdue — 5 commandes × 35 € (#2850, #3618, #4458, #4615, #5458)",
+    estimatedCents: 17500,
+    note: "Cinq commandes à 0 ligne expédiée, remboursées à 100 % (quatre soldées le même jour, le 21/07 — un nettoyage, pas quatre changements d'avis). 35 € = CAC mesuré (35,05 juillet · 34,55 août · 35,43 septembre). Antérieures à #4814 : absentes des factures qu'on détient, donc on ne réclame QUE la pub, jamais la marchandise. Claire CONTESTE (« on ne garantit pas livrer partout ») — contre-preuve : ses factures portent 405 lignes Belgique (371 trackées), 21 Luxembourg (19), 5 Espagne (5). Un tracking sur l'une d'elles retire la ligne, l'offre lui a été faite par écrit. #5458 figure aussi en A3 (marchandise 39,22 €) : deux natures, pas un doublon.",
+  },
+  {
+    label: "#4079, #5649 — erreurs d'expédition, clients dédommagés",
     estimatedCents: 11848,
-    note: "Compensations versées aux clients (107,99 €) + frais de carte que Shopify ne rend jamais sur un remboursement (10,49 €). Motif écrit dans le tracker : « Supplier Shipping Issue » sur les deux.",
-  },
-  {
-    label: "Chargebacks perdus (#3285, #4368)",
-    estimatedCents: 25321,
-    note: "173,96 € repris par la banque + 49,25 € de marchandise déjà payée + 30,00 € de frais de litige Shopify ESTIMÉS (~15 €/litige, seul chiffre non lu du relevé — le scope `read_shopify_payments` reste refusé). Claire a écrit le 09/09 : « let me know on the chargebacks or any loss you got as of the shipping issue, we will cover ».",
-  },
-  {
-    label: "Publicité perdue — 13 commandes × 35 €",
-    estimatedCents: 45500,
-    note: "Le coût d'acquisition est payé AVANT que la commande existe : quand elle est totalement perdue, il l'est aussi. 35 € = CAC mesuré dans le dashboard (35,05 juillet · 34,55 août · 35,43 septembre), pas un objectif — Badr voulait 40 €, ramené à la valeur prouvable. Appliqué aux seules commandes totalement perdues (catégories 2 et 4), jamais aux remboursements partiels où le client garde la marchandise.",
-  },
-  {
-    label: "Forfait size-up : leur part + comptage gonflé",
-    estimatedCents: 4931,
-    note: "47,41 € = 3 des 39 réexpéditions sur #4815→#7506 sont de leur faute (#4933, #5446, #5649) = 7,7 % des 616,30 €. Le ratio est calculé sur la FENÊTRE DU FORFAIT, pas sur les 295 réexpéditions depuis le début — c'est ce qui le rend incontestable. + 1,90 € : ils comptent 6 163 pièces là où Shopify en a 6 144.",
-  },
-  {
-    label: "Réexpédition #2994 — réelle mais NON réclamée",
-    estimatedCents: 0,
-    note: "Renvoyée à nos frais après une erreur de taille inscrite de leur côté, mais le tracker ne porte aucun montant pour elle. Volontairement laissée hors du relevé : on ne chiffre pas ce qu'on ne peut pas prouver. Même logique pour #2859, retirée après vérification (statut « Not Shipped » — la réexpédition n'est jamais partie).",
+    note: "Compensations versées aux clients (107,99 €) + frais de carte que Shopify ne rend jamais sur un remboursement (10,49 €). Motif écrit dans le journal de réexpéditions : « Supplier Shipping Issue » sur les deux. Jamais abordé avec Claire à ce jour.",
   },
 ];
 
@@ -374,7 +370,7 @@ export const SUPPLIER_UNDERBILLED_CENTS = 5978;
 // (trouvés par Badr le 10/09 au soir, vérifiés dans Shopify le même jour).
 //
 // Troisième liste, et la distinction est délibérée :
-//   • SUPPLIER_PENDING_CREDITS  = retenu sur la facture du 09/09 (2 713,29 €)
+//   • SUPPLIER_PENDING_CREDITS  = retenu sur la facture du 09/09 (351,90 € au 12/09)
 //   • SUPPLIER_CLAIMS_ON_PAID_BILLS = avoir à réclamer, argent déjà versé
 //   • ici = RIEN n'est encore sorti ni réclamé. Sur ces deux commandes le
 //     client n'a PAS été remboursé (`refunded_cents` = 0, aucun litige) : la
@@ -410,7 +406,8 @@ export function supplierOpenCasesCents(): number {
 }
 
 /**
- * TOTAL RÉCLAMÉ AU FOURNISSEUR, toutes natures confondues : 3 198,66 €.
+ * TOTAL RÉCLAMÉ AU FOURNISSEUR, toutes natures confondues : 837,27 € au 12/09
+ * (3 198,66 € sur le relevé du 10/09, avant la reprise ligne à ligne avec Claire).
  *
  * Badr, 10/09 : « le chiffre demandé au fournisseur n'a pas bougé alors que
  * je t'ai rajouté des choses où il a merdé ». Il avait raison — on ajoutait
@@ -426,15 +423,17 @@ export function supplierTotalClaimedCents(): number {
 }
 
 /**
- * À DÉDUIRE DE LA PROCHAINE FACTURE : 2 868,62 €.
+ * À DÉDUIRE DE LA PROCHAINE FACTURE : 507,23 € au 12/09 (2 868,62 € le 10/09).
  *
  * C'est LE chiffre actionnable, celui que le fournisseur doit lire en premier
  * (Badr, 10/09 : « elle doit comprendre directement combien je dois faire en
- * virement »). La facture du 09/09 est SOLDÉE — les 5 613,02 € sont partis —
- * donc plus rien ne se paie dessus : tout se reporte en déduction.
+ * virement »).
  *
- * = le retenu (2 713,29 €, jamais versé) + les avoirs sur factures soldées
+ * = le retenu (351,90 €, jamais versé) + les avoirs sur factures soldées
  *   (155,33 €, déjà versés et dus en retour).
+ *
+ * Sur la facture du 09/09, c'est exactement ce qui manque au virement du solde :
+ * 8 326,31 − 5 613,02 − 507,23 = 2 206,06 € à virer.
  *
  * Les dossiers ouverts (330,04 €) en sont VOLONTAIREMENT exclus : le client
  * n'a pas été remboursé, la perte n'existe pas, on ne la déduit pas.

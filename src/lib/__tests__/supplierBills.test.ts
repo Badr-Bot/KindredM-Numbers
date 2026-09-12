@@ -44,14 +44,17 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("facture du 09/09 : payée à hauteur de 5 613,02 €, le reste retenu", () => {
+  it("facture du 09/09 : 5 613,02 € payés, 351,90 € retenus, 2 361,39 € payables", () => {
     // Elle a retiré les 168,40 € de lignes suisses : réclamé 8 326,31 €.
-    // Badr a viré 5 613,02 € le 10/09 → il reste exactement le montant retenu.
+    // Badr a viré 5 613,02 € le 10/09 → reste dû 2 713,29 €, dont 351,90 €
+    // retenus (relevé du 10/09 repris ligne à ligne le 12/09 avec Claire).
     expect(supplierOwedCents()).toBe(832631 - 561302);
     expect(supplierOwedCents()).toBe(271329);
-    expect(supplierDisputedCents()).toBe(271329);
-    // Rien de payable immédiatement : tout le reste est notifié en déduction.
-    expect(supplierPayableCents()).toBe(0);
+    expect(supplierDisputedCents()).toBe(35190);
+    // Payable = dû − contesté. Le virement réel est 2 206,06 € : les 155,33 €
+    // d'avoirs sur factures payées (A3) se compensent sur le même virement.
+    expect(supplierPayableCents()).toBe(236139);
+    expect(supplierPayableCents() - supplierClaimsOnPaidBillsCents()).toBe(220606);
   });
 
   it("aucune facture ne peut être payée au-delà de son montant", () => {
@@ -63,20 +66,22 @@ describe("Ledger fournisseur Panda", () => {
     }
   });
 
-  it("les 6 lignes retenues du relevé du 10/09 somment au montant retenu", () => {
+  it("les 4 lignes retenues au 12/09 somment au montant retenu", () => {
     // L'avoir Long Sleeves est abandonné (packing confirmé par Badr le 04/09),
     // les lignes suisses ont été retirées par le fournisseur lui-même.
     expect(SUPPLIER_PENDING_CREDITS.find((c) => c.label.includes("Long Sleeves"))).toBeUndefined();
-    // 995,05 + 842,24 + 118,48 + 253,21 + 455,00 + 49,31 = 2 713,29 €,
-    // exactement ce qui est retenu sur la facture du 09/09.
-    expect(supplierPendingCreditsCents()).toBe(271329);
+    // 54,02 (#7173, #7484) + 4,40 (size-up) + 175,00 (pub 5 × 35) + 118,48
+    // (#4079, #5649) = 351,90 €, exactement ce qui reste retenu sur la facture
+    // du 09/09 après la reprise du relevé avec Claire (12/09).
+    expect(SUPPLIER_PENDING_CREDITS.map((c) => c.estimatedCents)).toEqual([5402, 440, 17500, 11848]);
+    expect(supplierPendingCreditsCents()).toBe(35190);
     expect(supplierPendingCreditsCents()).toBe(supplierDisputedCents());
   });
 
   it("les avoirs sur factures PAYÉES restent hors du contesté", () => {
     // 10,27 € de doublon sur la facture du 01/08 : l'argent est déjà parti,
     // il se réclame en avoir. Le mélanger au contesté ferait croire qu'on
-    // retient 2 723,56 € alors qu'on en retient 2 713,29 €.
+    // retient 507,23 € alors qu'on en retient 351,90 €.
     // 10,27 (#4856 en double) + 39,22 (#5458) + 105,84 (les 4 sans preuve).
     expect(supplierClaimsOnPaidBillsCents()).toBe(15533);
     expect(SUPPLIER_CLAIMS_ON_PAID_BILLS.map((c) => c.label.slice(0, 5))).toEqual([
@@ -85,7 +90,7 @@ describe("Ledger fournisseur Panda", () => {
       "#5455",
     ]);
     // Le contesté ne bouge PAS : ces 155,33 € sont sur des factures soldées.
-    expect(supplierDisputedCents()).toBe(271329);
+    expect(supplierDisputedCents()).toBe(35190);
   });
 
   it("les dossiers ouverts sont annoncés mais PAS comptés comme dus", () => {
@@ -95,7 +100,7 @@ describe("Ledger fournisseur Panda", () => {
     // perdu — c'est précisément ce qui décrédibiliserait tout le relevé.
     expect(supplierOpenCasesCents()).toBe(33004);
     expect(SUPPLIER_OPEN_CASES.map((c) => c.label.slice(0, 5))).toEqual(["#2870", "#4486"]);
-    expect(supplierDisputedCents()).toBe(271329);
+    expect(supplierDisputedCents()).toBe(35190);
     expect(supplierClaimsOnPaidBillsCents()).toBe(15533);
   });
 
@@ -103,16 +108,17 @@ describe("Ledger fournisseur Panda", () => {
     // Le relevé envoyé au fournisseur affiche ce chiffre en tête. Sans lui,
     // on ajoutait des catégories sans qu'aucun total ne bouge (remarque de
     // Badr le 10/09) — un ajout futur doit se voir ici, forcément.
-    expect(supplierTotalClaimedCents()).toBe(271329 + 15533 + 33004);
-    expect(supplierTotalClaimedCents()).toBe(319866);
+    expect(supplierTotalClaimedCents()).toBe(35190 + 15533 + 33004);
+    expect(supplierTotalClaimedCents()).toBe(83727);
   });
 
   it("le chiffre ACTIONNABLE : à déduire de la prochaine facture", () => {
-    // La facture du 09/09 est soldée (5 613,02 € virés) : plus rien ne se
-    // paie dessus, tout se reporte en déduction. C'est ce montant-là que le
-    // fournisseur doit lire en premier, pas le total réclamé.
-    expect(supplierToDeductNextBillCents()).toBe(271329 + 15533);
-    expect(supplierToDeductNextBillCents()).toBe(286862);
+    // Retenu (351,90) + avoirs sur factures payées (155,33) = 507,23 €.
+    // C'est ce que Badr garde sur le solde de la facture du 09/09 :
+    // 8 326,31 − 5 613,02 − 507,23 = 2 206,06 € à virer.
+    expect(supplierToDeductNextBillCents()).toBe(35190 + 15533);
+    expect(supplierToDeductNextBillCents()).toBe(50723);
+    expect(832631 - 561302 - supplierToDeductNextBillCents()).toBe(220606);
     // Les dossiers ouverts en sont exclus : la perte n'existe pas encore.
     expect(supplierTotalClaimedCents() - supplierToDeductNextBillCents()).toBe(
       supplierOpenCasesCents()
@@ -122,8 +128,11 @@ describe("Ledger fournisseur Panda", () => {
   it("les trois listes fournisseur restent étanches", () => {
     // Retenu / avoir à réclamer / annoncé non dû : aucune commande ne doit
     // apparaître dans deux listes à la fois, sinon on réclame deux fois.
+    // Seule exception documentée : #5458 — marchandise payée sans colis (A3,
+    // 39,22 €) ET publicité perdue (B2, 35 €) : deux natures, pas un doublon.
+    const exceptions = new Set(["#5458"]);
     const refs = (cs: { label: string }[]) =>
-      cs.flatMap((c) => c.label.match(/#\d+/g) ?? []);
+      cs.flatMap((c) => c.label.match(/#\d+/g) ?? []).filter((r) => !exceptions.has(r));
     const toutes = [
       ...refs(SUPPLIER_PENDING_CREDITS),
       ...refs(SUPPLIER_CLAIMS_ON_PAID_BILLS),
