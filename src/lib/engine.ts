@@ -384,14 +384,25 @@ export function primaryParcelPackingCents(
 //
 // Réponse du fournisseur à la question « où sont facturées les réexpéditions ? » :
 // un forfait de 0,10 € la pièce, qui mutualise les changements de taille
-// demandés par le client. Accepté par Badr POUR L'AVENIR uniquement, à partir
-// de la facture du 09/09 — dont la première commande est le #7149 du 03/09.
-// Le rattrapage de 616,30 € qu'ils réclamaient sur le passé est traité en
-// négociation (supplierBills.ts), jamais étalé sur l'historique.
+// demandés par le client. C'est LÀ que les réexpéditions sont facturées
+// (Badr 12/09 : « les dernières réexpéditions ont été facturées dans la
+// dernière facture de 8 000 € »).
+//
+// Sa ligne couvre TOUTE la plage : « size up change cost from (#4815-#7506),
+// total 6163 pieces, cost is 616.3 euro ». Elle est facturée et payée sur ce
+// périmètre (seuls 4,40 € d'erreur de comptage ont été retenus, accordés) —
+// donc le coût court depuis #4815, le 18/07, et non depuis la première
+// commande de la facture. Le limiter au 03/09 laissait 529,80 € payés hors
+// du net (dont 341,20 € sur août).
+//
+// Réparti au jour de la commande, comme tout coût par commande : 153,90 € en
+// juillet, 341,20 € en août, 117,00 € en septembre = 612,10 € pour 6 121
+// polos, contre 6 163 pièces facturées (l'écart est exactement l'A2 accordé).
 // ---------------------------------------------------------------------------
 
 export const SIZE_UP_FEE_CENTS_PER_POLO = 10;
-export const SIZE_UP_FEE_START_DAY = "2026-09-03";
+/** 18/07/2026 = jour de la commande #4815, première de la plage facturée. */
+export const SIZE_UP_FEE_START_DAY = "2026-07-18";
 
 /** Forfait changement de taille d'une commande : 0,10 € par polo, à partir du
  * jour d'entrée en vigueur INCLUS. Les commandes d'avant n'ont pas supporté ce

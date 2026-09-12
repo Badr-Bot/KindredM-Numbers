@@ -8,6 +8,7 @@ import {
   computeOrderCogsTax,
   perOrderExtrasCents,
   poloCogsCents,
+  sizeUpFeeCents,
 } from "../engine";
 
 /**
@@ -73,8 +74,11 @@ describe("Coûts par commande — packaging + carte de remerciement", () => {
     const lesDeux = jour("2026-08-14");
     // Le COGS polo ne bouge à AUCUNE des trois dates : c'est le garde-fou
     // contre le raccourci d'étiquetage qui avait produit le bug de mai.
+    // Le COGS polo ne porte que le polo + le forfait size-up (facturé par le
+    // fournisseur sur toute la plage #4815→#7506, donc actif à ces trois dates) :
+    // il ne bouge pas d'un centime quand packaging et carte s'activent.
     for (const res of [avant, carteSeule, lesDeux]) {
-      expect(res.cogsProductCents).toBe(poloCogsCents("FR", 2));
+      expect(res.cogsProductCents).toBe(poloCogsCents("FR", 2) + sizeUpFeeCents("2026-08-11", 2));
     }
     expect(avant.cogsUpsellsCents).toBe(0);
     expect(carteSeule.cogsUpsellsCents).toBe(3);

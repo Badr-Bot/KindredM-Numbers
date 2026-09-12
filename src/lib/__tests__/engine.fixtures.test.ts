@@ -8,6 +8,7 @@ import {
   euTaxCents,
   feesCentsForCa,
   poloCogsCents,
+  sizeUpFeeCents,
   mer,
   UnmappedProductError,
   upsellCogsCents,
@@ -357,7 +358,8 @@ describe("Variantes tolérantes — une vente ne se perd jamais", () => {
       upsells: [{ productKey: "CEINTURE_PAS_ENCORE_TARIFEE", qty: 1 }],
     });
     // Le COGS polo reste exact ; seul l'upsell inconnu est à 0 et signalé.
-    expect(tolerant.cogsProductCents).toBe(poloCogsCents("FR", 4));
+    // (+ le forfait size-up, facturé sur toute la plage #4815→#7506.)
+    expect(tolerant.cogsProductCents).toBe(poloCogsCents("FR", 4) + sizeUpFeeCents("2026-07-26", 4));
     expect(tolerant.cogsUpsellsCents).toBe(0);
     expect(tolerant.unknownUpsellKeys).toEqual(["CEINTURE_PAS_ENCORE_TARIFEE"]);
   });
