@@ -21,8 +21,14 @@ import {
  * 14/08) : on les retire pour comparer ce qui est comparable, au lieu de
  * figer un total qui bougerait au prochain coût interne ajouté.
  */
-const factureFournisseur = (res: { cogsProductCents: number; cogsUpsellsCents: number }, day: string) =>
-  res.cogsProductCents + res.cogsUpsellsCents - perOrderExtrasCents(day, true);
+/** La LIGNE COMMANDE de la facture fournisseur : le COGS sans nos propres
+ * coûts (packaging, carte) et sans le forfait size-up, qui est facturé à part
+ * sur sa propre ligne pour toute la plage #4815→#7506. */
+const factureFournisseur = (
+  res: { cogsProductCents: number; cogsUpsellsCents: number },
+  day: string,
+  poloQty = 0
+) => res.cogsProductCents + res.cogsUpsellsCents - perOrderExtrasCents(day, true) - sizeUpFeeCents(day, poloQty);
 
 /**
  * Les corrections du 10/09/2026, chacune adossée à une ligne de facture ou à
@@ -162,7 +168,7 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 2,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 1 }],
     });
-    expect(factureFournisseur(res, "2026-08-20")).toBe(2196);
+    expect(factureFournisseur(res, "2026-08-20", 2)).toBe(2196);
   });
 
   it("le palier 2 reproduit la seule commande multi-pantalons observée", () => {
@@ -174,7 +180,7 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 4,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 3 }],
     });
-    expect(factureFournisseur(res, "2026-08-20")).toBe(4956);
+    expect(factureFournisseur(res, "2026-08-20", 4)).toBe(4956);
   });
 
   it("pantalon SEUL = 6,90 + 4,00 de packing = 10,90 € (#6264)", () => {
@@ -185,19 +191,20 @@ describe("Pantalon FR : prix réels de la facture du 03/09", () => {
       poloQty: 0,
       upsells: [{ productKey: "DRESS_TROUSERS", qty: 1 }],
     });
-    expect(factureFournisseur(res, "2026-08-18")).toBe(1090);
+    expect(factureFournisseur(res, "2026-08-18", 0)).toBe(1090);
   });
 });
 
 describe("Forfait size-up (0,10 €/polo, accepté pour l'avenir le 10/09)", () => {
   it("s'applique à partir du 03/09 — 1re commande de la facture du 09/09", () => {
-    expect(sizeUpFeeCents("2026-09-02", 2)).toBe(0);
+    expect(sizeUpFeeCents("2026-07-17", 2)).toBe(0);
+    expect(sizeUpFeeCents("2026-07-18", 2)).toBe(20);
     expect(sizeUpFeeCents("2026-09-03", 2)).toBe(20);
     expect(sizeUpFeeCents("2026-09-10", 4)).toBe(40);
   });
 
   it("jamais rétroactif, jamais sur une commande sans polo", () => {
-    expect(sizeUpFeeCents("2026-08-31", 4)).toBe(0);
+    expect(sizeUpFeeCents("2026-08-31", 4)).toBe(40); // la plage facturée #4815→#7506 couvre août
     expect(sizeUpFeeCents("2026-09-10", 0)).toBe(0);
     expect(sizeUpFeeCents(undefined, 4)).toBe(0);
   });
