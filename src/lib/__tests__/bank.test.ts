@@ -13,6 +13,7 @@ import {
   type SlashTx,
 } from "../bank";
 import { monthlyEurCents } from "../subscriptions";
+import { SUPPLIER_PREPAYMENTS, supplierPrepaidCents } from "../supplierBills";
 
 /** 🏦 Rapprochement bancaire — catégorisation et écarts (pur, sans réseau). */
 
@@ -413,8 +414,14 @@ describe("pandaTransferKind — un virement Panda sans facture n'est jamais « u
   it("colle à une facture du suivi → facture", () => {
     expect(pandaTransferKind({ day: "2026-09-04", amountEurCents: -2544836 })).toBe("facture");
   });
-  it("colle à un acompte enregistré (même jour, ±2 %) → acompte", () => {
-    expect(pandaTransferKind({ day: "2026-09-10", amountEurCents: -561302 })).toBe("acompte");
+  it("l'acompte du 10/09 est devenu un paiement de facture — jamais les deux", () => {
+    // Il a été enregistré en acompte le 10/09 (facture pas encore reçue), puis
+    // ABSORBÉ le soir même par la facture 20260909 dont il constitue le
+    // paidCents. Le classer encore en « acompte » le déduirait deux fois de la
+    // dette fournisseur (`unbilled + owed − prepaid`).
+    expect(pandaTransferKind({ day: "2026-09-10", amountEurCents: -561302 })).toBe("facture");
+    expect(SUPPLIER_PREPAYMENTS.every((p) => p.appliedTo !== null)).toBe(true);
+    expect(supplierPrepaidCents()).toBe(0);
   });
   it("postérieur à la dernière facture, inconnu → acompte automatique (l'argent est sorti, il se déduit de la prochaine)", () => {
     expect(pandaTransferKind({ day: "2026-09-20", amountEurCents: -700000 })).toBe("acompte_auto");

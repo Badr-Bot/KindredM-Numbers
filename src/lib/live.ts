@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { createSupabaseServerClient } from "./supabase";
-import { getOpenShopifyStoreConfigs, iterateOrders, computeRefundedCents } from "./shopify";
+import { getOpenShopifyStoreConfigs, iterateOrders, computeRefundedCents, effectiveQuantity } from "./shopify";
 import { fetchMetaSpend, mapCampaignToMarket } from "./meta";
 import {
   classifyLineItems,
@@ -65,7 +65,7 @@ async function fetchTodaySnapshotUncached(): Promise<TodaySnapshot> {
         order.line_items.map((li) => ({
           title: li.title,
           sku: li.sku ?? undefined,
-          quantity: li.quantity,
+          quantity: effectiveQuantity(li),
           price_cents: Math.round(parseFloat(li.price) * 100),
         })),
         (productsMap ?? []) as ProductMapEntry[],

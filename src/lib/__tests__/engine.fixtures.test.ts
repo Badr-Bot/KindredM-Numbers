@@ -241,13 +241,15 @@ describe("Grille COGS upsells — paliers 1/2/4 (correction 3→4 pcs, 06/07/202
   });
 
   it("le palier 4 pcs = la valeur ex-« 3 pcs » du tableau (inchangée)", () => {
-    // DRESS_TROUSERS FR : la 3e colonne (2873) est désormais le bundle 4 pcs.
-    expect(upsellCogsCents("DRESS_TROUSERS", "FR", 4)).toBe(2873);
+    // SHORT_SLEEVE_DRESS_SHIRT FR : la 3e colonne (2003) est le bundle 4 pcs.
+    // (L'exemple portait sur DRESS_TROUSERS FR jusqu'au 10/09 ; sa grille a été
+    // remplacée par les prix réels de la facture du 03/09, cf. engine.ts.)
+    expect(upsellCogsCents("SHORT_SLEEVE_DRESS_SHIRT", "FR", 4)).toBe(2003);
   });
 
   it("qty=3 (hors grille) = grille[2] + (grille[2] − grille[1]) × 1, comme le polo", () => {
-    const g2 = upsellCogsCents("DRESS_TROUSERS", "FR", 2); // 1926
-    const g1 = upsellCogsCents("DRESS_TROUSERS", "FR", 1); // 984
+    const g2 = upsellCogsCents("DRESS_TROUSERS", "FR", 2); // 1485
+    const g1 = upsellCogsCents("DRESS_TROUSERS", "FR", 1); // 690
     expect(upsellCogsCents("DRESS_TROUSERS", "FR", 3)).toBe(Math.round(g2 + (g2 - g1) * 1));
   });
 

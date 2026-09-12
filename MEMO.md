@@ -366,6 +366,115 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
 - **Ledger mis à jour** : `Bill 20260903` passe à 2 544 836 centimes, `disputedCents` à 0 — **payable en entier, 25 448,36 € (≈ 29 563,27 $)**. Statut toujours `a_payer` tant que Badr n'annonce pas le virement.
 - **Reste ouvert, non bloquant** : les 4 commandes suisses d'un même client dans un seul colis (#6953/6954/6955/6981, 203,15 €, même tracking) n'ont PAS été fusionnées, alors que le fournisseur vient d'accepter exactement ce raisonnement pour les deux autres paires. À réclamer en avoir sur la prochaine facture (`SUPPLIER_PENDING_CREDITS`). Et les 136 commandes sans tracking (3 066,86 €, dont le bloc #6619→#6658) sont inchangées — Badr a tranché : « s'il manque le tracking, ça sera livré ».
 
+## Facture Panda du 09/09 (#7149→#7506) — la plage est parfaite, deux réserves à 701,90 €
+- **FINAL TOTAL 8 494,71 €** = 7 878,41 € de lignes commandes + **une ligne nouvelle « size up change cost from (#4815-#7506), total 6163 pieces, cost is 616.3 euro »**. Ajoutée au ledger en `a_payer` avec `disputedCents` = 70 190 (701,90 €).
+- **La nouvelle plage #7149→#7506 est la plus propre reçue à ce jour** : 358 lignes = 358 commandes Shopify (03→08/09), contiguës, sans doublon ; recalcul moteur **7 710,05 € contre 7 710,01 € facturés — 4 centimes d'écart** ; upsells au compte exact (124 unités) ; aucune ligne à 0 €, aucun tracking partagé, taxe 316 × 3 €.
+## ⚠️ Les chargebacks PERDUS ne sont pas déduits du CA (trouvé le 10/09)
+- Sur les **7 litiges perdus**, seuls 2 apparaissent dans `refunded_cents` (#1447 et #2787, qui ont aussi été remboursés côté Shopify). Les **5 autres — #2005 (89,99), #2232 (59,98), #2291 (59,98), #3285 (113,98), #4368 (59,98) — ne sont déduits NULLE PART** : la banque a repris l'argent, mais le CA du dashboard le compte encore. **383,91 € de CA fantôme**, et le net d'autant trop beau.
+- Le pipeline ne lit que les `refunds` Shopify ; un chargeback est un autre objet (`disputes`), qu'on ne lisait pas jusqu'ici faute d'avoir trouvé le filtre. **Le filtre `chargeback_status:*` + le champ `disputes { status }` sur la commande fonctionnent SANS le scope `read_shopify_payments`** (seuls le motif bancaire et les frais de litige le réclament). Donc le branchement est possible dès maintenant : lire les litiges à la synchro, déduire les PERDUS du CA au jour d'achat (même règle que les remboursements), et signaler les EN COURS comme montant à risque.
+- **Frais de traitement jamais rendus** : sur les 4 commandes remboursées pour faute fournisseur, Shopify a gardé **13,24 €** de frais (`fee_refund_cents` = 0 partout). Idem sur les litiges perdus : 15,76 € de frais déjà encaissés. Le moteur les compte bien en frais, mais ils ne sont jamais récupérés — à ne pas oublier dans les réclamations.
+
+## Le « size up change cost » doit entrer dans le COGS (à faire)
+- Si Badr accepte le principe (0,10 €/pièce sur les changements demandés par le client), **c'est un coût par commande qui n'existe nulle part dans le moteur aujourd'hui**. Même famille que `PER_ORDER_EXTRAS` (packaging 0,35 € + carte 0,03 €), lui aussi codé mais INACTIF faute de date.
+- Ordre de grandeur : **0,10 €/polo**, soit ~0,23 €/commande sur la facture du 09/09 (828 polos pour 358 commandes), ~250 €/mois au rythme actuel. Le rattrapage de 616,30 € porte sur le passé → charge ponctuelle datée, pas à étaler.
+- **Chantier groupé** : ce coût + les 4 correctifs déjà en attente (`current_quantity`, mapping Chemise Turenne, packing colis primaire généralisé, pantalon FR à 6,90 €) + la lecture des chargebacks = **un seul resync**, une seule bascule de `REQUIRED_FULL_RESYNC_VERSION`.
+
+## Commandes facturées jamais expédiées : le point au 10/09
+- Vérifié dans Shopify (statut de fulfilment ligne à ligne) : **#2859, #4844, #5200 et #6577 SONT parties** — ma note du 09/09 disant l'inverse était fausse, elle venait du tracker (colonne « Status » tenue à la main) et pas de Shopify.
+- **Seule #6945 (Belgique, POLOx2, 19,29 €) n'a toujours aucune ligne expédiée**, dernière mise à jour de la base le 31/08 (hors fenêtre J-7, donc à reconfirmer dans l'admin). Elle est facturée sur la **facture du 03/09 déjà payée** → à réclamer en avoir si elle n'est jamais partie.
+
+## RESYNC du 10/09 — 7 correctifs passés d'un coup (v14 / v16)
+- `REQUIRED_FULL_RESYNC_VERSION` → **v14** (`2026-09-10-current-quantity-packing-colis-primaire-v14`) et `REQUIRED_RECOMPUTE_VERSION` → **v16**. Le premier re-télécharge les commandes (le COGS est figé par commande), le second recalcule les jours. **262 tests verts, `next build` OK.**
+- **(1) Chargebacks perdus déduits du CA** — `orderAdjustments.ts`, `LOST_CHARGEBACKS_FR` : **5 commandes, 383,91 €** (#2005, #2232, #2291, #3285, #4368) que la banque a reprises et que RIEN ne déduisait. Les 2 autres litiges perdus (#1447, #2787) ont aussi été remboursés côté Shopify : ils ne sont PAS dans la liste, et `aggregate.ts` ne déduit de toute façon que ce qui dépasse `refunded_cents` — impossible de compter deux fois, même en cas d'erreur de saisie.
+- **(2) COGS fantôme des commandes annulées** — `CANCELLED_BEFORE_DISPATCH_FR` : **81 commandes**, jamais expédiées donc jamais facturées (le fournisseur les facture 0,00 €, vérifié sur #6794/#6327/#6103). Leur COGS **2 061,70 €** et leur taxe **21,00 €** passent à zéro : **+2 082,70 € de bénéfice** qui existait déjà. Les colis PARTIS mais non livrés (#1903, #5458) restent facturés — ils l'ont bien été.
+- **(3) `current_quantity` au lieu de `quantity`** — `effectiveQuantity()` dans `shopify.ts`, branché aux 3 endroits qui lisent les line items. Une ligne retirée d'une commande tombe à 0 côté Shopify sans que `quantity` bouge : 82 commandes, 254 unités portaient un COGS fantôme depuis le 01/07. C'est la facture du 03/09 qui l'a révélé (#7331 et #7441 facturées avec moins d'unités que notre base — et le fournisseur avait raison). ⚠️ **Le compte « 82 commandes / 254 unités » n'est PAS vérifié et paraît très surévalué** (relevé du 10/09 : 5 unités sur les 2 693 commandes croisées avec les factures, 8 unités sur tous les `partially_refunded` de l'historique). Effet positif, ordre de grandeur inchangé, mais à ne pas citer comme un chiffre mesuré.
+- **(4) Packing « colis primaire » généralisé** — `primaryParcelPackingCents()` : **toute** commande sans polo paie +4,00 €, plus seulement le gilet. Le supplément est PAR COLIS : si la commande contient un gilet, il est déjà dans `giletCogsCents` et n'est pas ajouté deux fois (GILETx1+LSx1 FR = 19,20 € facturés, reproduit au centime par un test).
+- **(5) Pantalon FR : 6,90 € en upsell, pas 9,84** — la grille du devis était fausse. 12 commandes « POLOx2 + TROUSERSx1 » facturées 21,96 € donnent 6,90 € pile. Palier 2 fixé à 14,85 € pour reproduire la seule commande multi-pantalons observée (#6060, POLOx4+TROUSERSx3 = 49,56 €), palier 4 sur la même pente. **Correction d'une valeur de devis erronée → appliquée à tout l'historique**, ce n'est pas un changement de prix (même traitement que la Suisse le 14/08).
+- **(6) Forfait size-up encodé** — `sizeUpFeeCents()` : **0,10 €/polo à partir du 03/09** (1re commande de la facture du 09/09, date à laquelle Badr l'accepte). Jamais rétroactif : le rattrapage de 616,30 € qu'ils réclamaient sur le passé se règle en négociation, pas dans l'historique.
+- **(7) Mapping « La Chemise Turenne »** — corrigé EN BASE (`products_map`, store FR) vers `LONG_SLEEVE_DRESS_SHIRT` : c'est la chemise manches LONGUES, le renommage du 29/08 l'avait versée dans la grille manches courtes.
+- **Solde attendu sur le net : ≈ +1 247 €** (chiffré ligne à ligne le 10/09 au soir — cf. « Solde réel » plus bas). ⚠️ Les deux premières estimations de ce solde (+1 700 puis +1 883) étaient FAUSSES : elles ne retenaient que le COGS fantôme moins les chargebacks et **oubliaient les quatre coûts par commande** (packaging, size-up, packing colis primaire, carte). Un solde ne se lit jamais sur deux lignes. Les deux corrections vont en sens inverse et c'est normal : l'une retirait du coût qu'on n'a jamais payé, l'autre rendait du CA qu'on n'a jamais encaissé.
+
+## Packaging ACTIVÉ au 14/08, carte toujours en attente (10/09)
+- **Badr tranche** : les 410 € de « custom packing » de la facture du 14/08 sont **une AVANCE sur un stock d'emballages**, et le nouveau packaging part avec les colis **à partir de cette date**. Le coût se reconnaît donc commande par commande, à mesure que le stock est consommé.
+- **`PACKAGING_START_DATE = "2026-08-14"`, 0,35 €/commande.** Pas de double compte : les 410 € eux-mêmes ne sont comptés nulle part dans le net — la carte 📦 de `supplierBills.ts` est un suivi de TRÉSORERIE, pas une comptabilisation (règle posée le 14/08). Ordre de grandeur : 410 ÷ 0,35 ≈ 1 171 emballages, soit environ 3 semaines de volume ; quand le stock sera épuisé une nouvelle avance apparaîtra sur une facture, sans rien changer au calcul.
+- **Les deux dates sont désormais SÉPARÉES** (`PACKAGING_START_DATE` / `THANKS_CARD_START_DATE`) : elles n'ont aucune raison d'être les mêmes, et les fusionner obligeait à attendre la seconde pour activer la première. `perOrderExtrasCents()` additionne les composants actifs.
+- **La carte de remerciement est ACTIVE au 12/08/2026** — `THANKS_CARD_START_DATE = "2026-08-12"`, 0,03 €/commande. La date a d'abord été cherchée (MEMO, Gmail, Drive : introuvable ailleurs), puis **confirmée par Badr le 10/09 : « donc oui c'est le 12 »** — le jour même où il annonçait les deux coûts. Elle précède bien le packaging de 2 jours, exactement ce qu'il disait (« la carte a démarré avant je crois »).
+- **La fenêtre 12-13/08 est le garde-fou** : sur ces deux jours, la carte compte et le packaging non (0,03 € et pas 0,38 €). Un test dédié la verrouille — c'est la seule preuve mécanique que les deux dates sont restées indépendantes, et ça empêche quiconque de les refusionner « pour simplifier ».
+- **Impact mesuré** : 1 687 commandes depuis le 12/08 = **50,61 €** (≈ 75 €/mois au rythme actuel). Petit, mais il rentre par la même porte que le packaging, `cogsUpsellsCents`, jamais `cogsProductCents`.
+- **Où le coût atterrit** : dans `cogsUpsellsCents`, jamais dans `cogsProductCents`. Ce n'est pas un coût de polo et ça n'a rien à faire dans la ligne « COGS polo » du macaron Dépenses — c'est exactement le raccourci d'étiquetage qui avait produit le bug de mai, et c'est écrit dans le code.
+- **Effet MESURÉ** (compté en base le 10/09, pas estimé) : **1 583 commandes depuis le 14/08** → 0,35 €/cmd = **554,05 €/mois**. Le forfait size-up, lui, pèse plus que je ne l'avais dit : **1 189 polos en 8 jours** depuis le 03/09, soit ~4 460 polos/mois × 0,10 € = **~446 €/mois**. Les deux ensemble : **~1 000 €/mois** de charges qui n'étaient pas comptées.
+- **⚠️ POINT DE VIGILANCE : on a déjà dépassé l'avance.** 1 583 commandes × 0,35 € = 554,05 € comptabilisés, contre **410 € réellement décaissés**. Trois lectures : (a) le stock de 410 € couvrait plus de 1 171 unités, donc le coût unitaire réel est inférieur à 0,35 € ; (b) le stock est épuisé et une nouvelle avance tombera sur la prochaine facture ; (c) une avance est passée sans qu'on la voie — écarté, aucune ligne packing sur les factures du 03/09 ni du 09/09. **À trancher à la réception de la prochaine facture** : si aucune nouvelle avance n'apparaît, le coût unitaire est à recalculer (410 € ÷ nombre réel d'unités livrées) et la constante à corriger.
+- **Ce n'était PAS déjà compté** — vérifié deux fois sur la demande de Badr : (1) `git grep perOrderExtrasCents` sur le commit d'avant → **aucun appel dans le pipeline**, seulement dans son propre test : code mort depuis le 12/08 ; (2) ce n'est pas non plus dans les grilles COGS, puisque le fournisseur facture le packing sur une **ligne séparée** (410 €, après le TOTAL des lignes de commande du 14/08) — les grilles reproduisent les lignes de commande, pas celle-là.
+- Les tests qui reproduisent les lignes de facture Panda retirent désormais explicitement nos coûts internes (`factureFournisseur()`) : ils comparent ce qui est comparable et ne casseront pas au prochain coût par commande ajouté.
+- **Nouvelle avance packaging : elle VA tomber, c'est acquis** (Badr, 10/09 : « forcément une nouvelle avance tombera, il faudra juste s'en rappeler »). À pointer sur la prochaine facture Panda comme les avoirs : si aucune ligne packing n'apparaît alors que le compteur dépasse 410 €, c'est que le coût unitaire réel est sous 0,35 € et la constante est à recalculer.
+
+## Audit exhaustif des 4 factures Panda + relevé Shopify (10/09 soir)
+
+Badr : « vérifie tout, que tout se concorde, je veux que mon net affiché soit vraiment réel. » Les 4 fichiers Panda (#4814→#7506, 2 697 lignes) ont été reparsés et croisés ligne à ligne avec la base, et le statut d'expédition relevé sur la TOTALITÉ des commandes. Ce qui en sort :
+
+- **La liste « COGS fantôme » était INCOMPLÈTE — 81 → 88 commandes (+184,14 €).** Elle avait été bâtie sur les NOTES de remboursement Shopify (« Commande annulée »), pas sur le statut. Refaite sur la source qui fait foi :
+  - `status:cancelled` rend **83** commandes (et non 81) — **#2213 et #2257 manquaient**. Toutes les 83 sont `UNFULFILLED` avec `fulfillments: []`.
+  - 5 de plus sont remboursées à 100 %, `UNFULFILLED`, sans aucun colis, mais **pas** marquées annulées : #2409, #2965, #3277, #5420, #6103. Même réalité comptable, autre étiquette.
+  - Deux d'entre elles sont **doublement prouvées** : #5420 figure à **0,00 €** sur la facture du 01/08 et #6103 à **0,00 €** sur celle du 03/09.
+- **La preuve a changé de nature, et c'est le point important.** Avant : « le fournisseur facture 0 € les annulées, vérifié sur 3 exemples » → une déduction étendue à 81 commandes, dont 80 hors de toute facture en notre possession (le ledger démarre à #4814, rien avant). Maintenant : chaque commande de la liste est `UNFULFILLED` + `fulfillments: []`. Le fournisseur facture le COLIS ; pas de colis = pas de ligne possible. Ça ne dépend plus d'une facture qu'on n'a pas.
+- **#4856 facturée DEUX FOIS sur la facture du 01/08 (déjà payée) : 10,27 € à récupérer.** Seul doublon de tout l'historique. Deux lignes, deux trackings ; Shopify n'en connaît qu'un (2 polos + 1 short, 06086507176810) et le 3ᵉ polo n'a jamais été commandé. Repéré parce que le fichier compte 650 lignes pour 649 numéros. → `SUPPLIER_CLAIMS_ON_PAID_BILLS`, volontairement SÉPARÉ du contesté : cet argent est déjà parti, il se réclame en avoir, il ne se retient sur rien.
+- **`ordersCount` de la facture du 14/08 corrigé : 531 → 533.** Recompté sur le fichier (#5463→#5995, aucun trou, aucun doublon). L'en-tête Panda annonce 535 : même défaut que sur celle du 03/09 (1157 annoncées, 1153 réelles) — le TOTAL réclamé est juste, le compte annoncé non. **Toujours recompter les lignes, jamais croire l'en-tête.**
+- **Sous-facturation fournisseur sur 3 commandes — À NE PAS ENCAISSER.** #5535, #5576, #5642 : Shopify montre 4 polos (+ caleçon) expédiés sous un seul tracking, la facture du 14/08 ne porte qu'un `POLOx1` avec un tracking DIFFÉRENT (12,23 / 9,65 / 12,91 € au lieu de ~31 €). Écart ~59,78 € **en notre faveur**. Le COGS est laissé INCHANGÉ : le colis complet est bien parti, la facturation peut revenir. À signaler à Claire plutôt qu'à empocher.
+- **#5599 (Croatie) et #5759 (Réunion) : expédiées, facturées 0,00 €**, mention « country not covered by polo quote ». Tracking présent → le colis existe → **on garde leur COGS** (57,49 €). Elles sont explicitement exclues de la liste sans colis, et un test le verrouille.
+- **Étiquette LS/SS** : le fournisseur appelle « LS » ce que la base mappait en manches courtes (~75 pièces). Écart réel 0,09 €/pièce (6,80 vs 6,89 en FR ×1), soit ~7 € — corrigé par la ligne `products_map` du 10/09, effectif au prochain full resync.
+- **Quantités : plus aucun écart inexpliqué.** Sur les 2 697 lignes, tous les écarts base/facture sont identifiés et documentés : le doublon #4856, les 5 commandes sans colis, les 3 sous-facturations, et #7331/#7441 (lignes retirées côté Shopify, `current_quantity` 0 — déjà traité par `effectiveQuantity`, appliqué au prochain full resync).
+
+### Restes connus, chiffrés, NON corrigés (aucun n'est un trou : ils sont mesurés)
+- **9 commandes ES/UK/DE remboursées à 100 % portent 183,47 € de COGS.** Même profil que les 88 du store FR, mais la connexion Shopify MCP pointe la boutique FR : leur statut d'expédition n'est pas vérifiable d'ici. **On ne les retire pas sans la preuve** — c'est exactement l'erreur qu'on vient de corriger.
+- **5 sur-remboursements, 2,58 € au total** (#1009 UK, #2120, #2733, #2752, #3238) : remboursé légèrement supérieur à l'encaissé, écart de change. Sans effet visible.
+- **172 commandes du 14→18/06 sans frais réels** (hors fenêtre 60 j de l'API, `juneRealFees` s'arrête au 13/06) : elles restent au repli 3 % alors que le réel mesuré en juin est 2,26 % → les frais sont **surestimés d'environ 74 €** sur ces jours. Le net affiché est donc légèrement PESSIMISTE, jamais optimiste.
+- **Aucun produit sans COGS** : 0 commande avec un polo ou un upsell physique à 0 € de coût. Le mapping produit est complet.
+
+
+## Facture 20260909 : payée 5 613,02 €, 2 713,29 € retenus (10/09)
+- **Le fournisseur retire les 168,40 € de lignes suisses** (Claire : « Yes you are right for Stéphane, I delete it ») → montant réclamé **8 326,31 €**. Badr a viré **5 613,02 €** le 10/09 ; la facture passe en `partielle`, le reste dû = exactement le montant retenu.
+- **BORNE DE PÉRIODE, décisive** : ce fournisseur ne travaille avec nous que **depuis le 01/07/2026** (Badr, 10/09). Tout ce qui précède est sorti de la réclamation **même quand la perte est réelle** — #2195, #1903, #2593 et 5 chargebacks de juin, soit **~1 107 € abandonnés volontairement**. C'est ce qui rend le reste crédible : le relevé s'ouvre là-dessus.
+- **Les 6 lignes retenues** (relevé détaillé envoyé le 10/09, chaque numéro de commande listé, une source par ligne) : 995,05 € commandes sans preuve d'expédition · 842,24 € commandes qu'ils n'ont pas pu expédier · 118,48 € leurs erreurs sur commandes livrées · 253,21 € chargebacks perdus · 455,00 € publicité perdue · 49,31 € corrections du forfait size-up. Elles somment au centime aux 2 713,29 € retenus — **verrouillé par un test**.
+- **La plus grosse ligne n'est pas un litige** : 995,05 € = 47 commandes sans tracking ni fulfilment. Règle posée par Badr : « si c'est pas expédié je paye pas » — **expédition, pas livraison**. Payable le jour où ils envoient les numéros.
+- **Publicité : 35 €/commande, pas 40**. Badr voulait 40 ; le CAC MESURÉ dans le dashboard est 35,05 (juillet) · 34,55 (août) · 35,43 (septembre). On facture la valeur prouvable — c'est la seule ligne du relevé qui ne soit pas adossée à une pièce comptable, elle doit donc être irréprochable. Appliquée aux seules commandes TOTALEMENT perdues, jamais aux remboursements partiels où le client garde la marchandise.
+- **Ratio du forfait size-up recalculé sur la bonne fenêtre** : le forfait couvre #4815→#7506, où le tracker compte 39 réexpéditions dont **3 de leur faute** (#4933, #5446, #5649) = 7,7 %. Le premier calcul (45/295 = 15,3 %, sur tout l'historique) était plus généreux mais attaquable. **Le forfait 0,10 €/pièce est ACCEPTÉ pour l'avenir**, sur les seuls changements de taille demandés par le client, et à condition qu'il soit facturé chaque mois sur sa propre ligne.
+- **Deux lignes retirées après vérification** : #2859 (statut « Not Shipped » — la réexpédition n'est jamais partie) et #2994 (réelle, mais aucun montant au tracker). Signalées comme non réclamées dans le relevé : on ne chiffre pas ce qu'on ne peut pas prouver.
+- Relevé publié en artefact + fichier HTML autonome remis à Badr.
+
+## Claire (fournisseur) : sa version VÉRIFIÉE, et les litiges enfin chiffrés (09/09)
+- **Sa réponse du 09/09** : (1) « Yes you are right for Stéphane, I delete it » → les **168,40 € sont retirés** ; (2) le size-up fee n'a **jamais** été facturé sur les factures d'août, la dernière fois remonte à juillet, « you paid size up change fee till order #4814 » ; (3) « let me know on the chargebacks or any loss you got as of the shipping issue, for that us our responsibility we will cover no problem ».
+- **Point (2) VÉRIFIÉ, elle dit vrai.** Les deux fichiers du Drive relus ligne à ligne : **`Polo_Bill_2026-08-01_#4814-5462`** = lignes de commandes + `TOTAL 14 279,96 €`, **rien d'autre** ; **`polo_Bill_2026-08-14_#5364-5995`** = lignes + `TOTAL 11 654,41 €` + `custom packing 410,00 €` + `TOTAL 12 064,41 € / $13 914,91`. **Aucune ligne de size-up fee sur aucune des deux.** Donc les 616,30 € ne sont PAS un double paiement : c'est un rattrapage d'une période jamais facturée. L'argument « rétroactif = double facturation » tombe ; restent deux vrais arguments : ça rouvre des factures closes, et ça mélange ses fautes avec les demandes clients.
+- **CHARGEBACKS ENFIN LISIBLES** : le scope `read_shopify_payments` reste refusé (impossible de lire les montants et motifs de litige côté Shopify Payments), MAIS le filtre `chargeback_status:*` sur `orders` passe et le champ `disputes { id status initiatedAs }` de la commande aussi. **38 commandes en litige sur toute l'histoire de la boutique FR**, 39 litiges (#2062 en a 2) : **7 PERDUS (533,88 €)**, 22 gagnés, **6 en cours (557,39 € encore à risque)**, statuts NEEDS_RESPONSE ×3 et UNDER_REVIEW ×3. Les 3 plus récents (#7205, #7076, #6798) sont à répondre.
+- **Chiffrage opposable au fournisseur** : **43 commandes réexpédiées pour SA faute** (3 840,52 € de CA), sur lesquelles on a **remboursé 257,96 €** aux clients. **Une seule commande est à la fois en litige et faute fournisseur** (#3103, 119,99 €) — donc les deux blocs ne se recouvrent presque pas. **Total documenté : 791,84 €** (533,88 de litiges perdus + 257,96 de remboursements sur ses fautes), à quoi s'ajoutent les frais de litige Shopify non lisibles.
+- Fichiers remis à Badr : `Reexpeditions_responsabilite.xlsx` (295 lignes classées) et `Litiges_et_fautes_fournisseur.xlsx` (3 onglets : litiges, fautes fournisseur, synthèse).
+
+## Réexpéditions : qui paie quoi — le partage responsabilité (09/09)
+- **Classement des 295 lignes du tracker** (script rejouable côté scratchpad, fichier `Reexpeditions_responsabilite.xlsx` remis à Badr) : **46 imputables au FOURNISSEUR** (Supplier Shipping Issue 20 · Factory issue 8 · Supplier Color Error 8 · Supplier Size Error 4 · Wrong item/size 3 · Very late delivery 1) · **245 demandes du CLIENT** (changement de taille) · **4 à trancher** (motif vide ou geste commercial).
+- **C'est la ligne de partage à défendre** : le forfait « size up change cost » ne peut couvrir que les 245 demandes clients. Les 46 cas d'erreur fournisseur sont à leur charge, forfait ou pas — sinon on paie deux fois leurs propres erreurs (le produit ET la réexpédition).
+- **Remboursements clients constatés en base** sur la même période #4815→#7506 : **1 498,75 €** (01/08 : 571,44 € sur 46 612 € de CA · 14/08 : 536,11 € sur 37 184 € · 03/09 : 391,20 € sur 80 350 € · 09/09 : 0 €). Base de départ pour chiffrer ce qui est imputable au fournisseur (retard, malfaçon).
+- **⚠️ Les CHARGEBACKS ne sont pas lisibles par le dashboard** : la permission Shopify `read_shopify_payments_disputes` n'a jamais été accordée (bloqueur connu depuis le 08/08). Tant qu'elle ne l'est pas, le comptage des rétrofacturations doit se faire à la main dans l'admin Shopify. Badr seul peut accorder le scope.
+
+## Réexpéditions (reshipments) : l'état des lieux vérifié (09/09)
+- **Source : `NIVA_Reshipment_Tracker V1` dans le Drive**, lu et compté le 09/09 (fichier à jour au 08/09). **295 lignes, 272 commandes distinctes, de #1003 à #6577.** Statuts : 265 expédiées, 18 en attente, 9 non expédiées, 3 annulées.
+- **Motifs** : **248 « Customer Requested Size Return » (84 %)** — le client veut une autre taille, c'est notre coût ; **40 erreurs fournisseur (14 %)** : 20 « shipping issue », 8 « factory issue », 8 « color error », 4 « size error » — leur coût. Le tracker ne note explicitement le payeur que 15 fois (11 « payed by niva », 4 « payed by supplier ») et la colonne Cost n'est remplie que 5 fois, toujours à **7,25 €**.
+- **Ce qu'on a payé jusqu'ici : ZÉRO.** Aucune ligne de réexpédition sur les factures du 01/08, 14/08 et 03/09 — vérifié : les trois sont des plages de commandes contiguës, une ligne = une commande Shopify.
+- **Sur les commandes déjà facturées, 39 réexpéditions** : 30 sur la facture du 01/08 (payée), 7 sur celle du 14/08 (payée), 2 sur celle du 03/09 (#6240, #6577). Les 256 autres portent sur des commandes antérieures au ledger.
+- **Le forfait proposé le 09/09 (0,10 €/polo) revient à 2,27 € par réexpédition** (616,30 € ÷ 272) contre les 7,25 € relevés dans le tracker : **le tarif est bon marché, le principe se défend pour l'avenir**. C'est le rétroactif sur des factures soldées qui ne se défend pas — et le fait qu'ils facturent aussi les ~40 cas d'erreur fournisseur.
+
+- **⚠️ 168,40 € RE-FACTURÉS.** Trois lignes portant le numéro **#6953** (Suisse, Stephane Lenain : LSx3+SSx3 62,40 · SSx5 53,50 · LSx5 52,50) sont, bundle pour bundle et centime pour centime, les lignes **#6981 / #6955 / #6954 de la facture du 03/09** — seuls les trackings changent (06086507233xxx au lieu de YT2624500709168612). Ce sont **exactement les lignes dont on demandait le regroupement en avoir** : au lieu de l'avoir, elles reviennent en plein tarif. **Vérifié dans le tracker Drive le 09/09 : aucune réexpédition n'y est enregistrée** — ni « Lenain », ni #6953/6954/6955/6981, ni les trackings 0608650723xxxx (le tracker s'arrête à #6577). Donc rien ne documente une réexpédition : à ce stade c'est un doublon non expliqué, à faire trancher AVANT de payer. Le numéro est en plus faux : sur la facture du 03/09, #6953 = CALECONx1+POLOx4 (34,75 €), qui n'est pas repris ici.
+- **⚠️ 533,50 € de « size up change cost » RÉTROACTIF.** La ligne couvre #4815→#7506, donc les deux factures **déjà payées et soldées** (« on part à zéro depuis les deux dernières bills », Badr 14/08) plus celle du 03/09 déjà validée. Réparti à 0,10 €/polo, compté sur Shopify : **20260801 = 158,50 € · 20260814 = 122,00 € · 20260903 = 251,10 € · période courante = 82,80 €**. Seuls ces 82,80 € portent sur les commandes de cette facture. Ils comptent aussi **6 163 pièces là où Shopify en a 6 144** sur la même plage (+19).
+- **Sur le fond, le principe se défend pour l'AVENIR** : c'est la réponse à notre question du 04/09 (« où sont facturées les réexpéditions ? »). Le tracker Drive liste ~250 réexpéditions ; à ~7,25 € pièce elles coûteraient ~1 800 €, contre 616 € pour le forfait. C'est le **rétroactif** qui n'est pas acceptable, pas le tarif.
+- **À régler hors contesté : 7 792,81 €.**
+
+## Commandes facturées sans tracking : ce que ça veut dire (vérifié 09/09)
+- **Le fournisseur facture à l'EXPÉDITION, pas à la livraison** — d'où des lignes sans numéro de suivi sur les commandes récentes. Ce n'est pas anormal en soi ; ce qui compte est de vérifier dans Shopify si la commande est partie.
+- **Facture 03/09, bloc #6619→#6658 (40 cmd, 894,76 €) : elles SONT parties.** Dans Shopify, les 40 sont `fulfilled` au 27/08 — c'est le fichier du fournisseur qui n'a pas repris le tracking, pas l'expédition qui manque. **Rien à contester, on paye.** Seule **#6945** (31/08) n'a aucune ligne expédiée : à pointer.
+- **Facture 09/09 : 47 lignes sans tracking (995,05 €), toutes de #7173 à #7506**, c'est-à-dire les commandes des 3-8/09. Croisé avec Shopify : 309 des 358 commandes sont expédiées, 47 pas encore, 2 partielles (#7331, #7441 — lignes retirées de la commande). Les 47 correspondent exactement aux non expédiées : cohérent, elles partiront.
+
+## Notre base compte les lignes de commande ANNULÉES (trouvé le 09/09)
+- Deux commandes de la facture du 09/09 sont facturées avec MOINS d'unités que Shopify n'en montre — **et le fournisseur a raison** : #7331 (8 polos en base, 4 facturés) et #7441 Mexique (3 en base, 2 facturés). Dans les deux cas la ligne manquante a `current_quantity: 0` et `fulfillment_status: null` : elle a été **retirée de la commande côté Shopify**, jamais expédiée.
+- `shopify.ts` lit `quantity` (la quantité d'ORIGINE) au lieu de `current_quantity` (ce qui reste après édition). **Depuis le 01/07 : 82 commandes concernées, 254 unités comptées en trop** dans le COGS — le net réel est donc un peu MEILLEUR qu'affiché. Correctif = lire `coalesce(current_quantity, quantity)` + resync. **Non appliqué**, à grouper avec les autres corrections en attente. ⚠️ **Le compte « 82 commandes / 254 unités » n'est PAS vérifié et paraît très surévalué** (relevé du 10/09 : 5 unités sur les 2 693 commandes croisées avec les factures, 8 unités sur tous les `partially_refunded` de l'historique). Effet positif, ordre de grandeur inchangé, mais à ne pas citer comme un chiffre mesuré.
+
 ## ⚠️ Bug de mapping trouvé au passage (04/09) — « La Chemise Turenne » est la MANCHES LONGUES
 - La facture distingue **LS (46 unités) et SS (21 unités)** là où Shopify n'a que du `SHORT_SLEEVE_DRESS_SHIRT` (67 unités). En remontant aux titres : **« La Chemise Turenne » = 46 unités** (la manches LONGUES, ex-« Nivafit™ - Chemise infroissable à coupe extensible ») et **« La Chemise Turenne — Édition Manches Courtes » = 21 unités**. Les deux titres pointent sur `SHORT_SLEEVE_DRESS_SHIRT` dans `products_map` : le renommage Shopify du 29/08 a versé la manches longues dans la grille manches courtes, et la clé `LONG_SLEEVE_DRESS_SHIRT` n'est plus jamais utilisée.
 - **Impact euros minuscule** (FR ×1 : 6,89 au lieu de 6,80 = 9 centimes l'unité, ~4 € sur la facture) **mais c'est une erreur d'étiquette qui va dériver** : les grilles s'écartent sur les paliers hauts (×4 : 20,03 vs 19,70) et le tracé « quel produit coûte quoi » devient faux. Correctif = une ligne de `products_map` (`La Chemise Turenne` → `LONG_SLEEVE_DRESS_SHIRT`) + resync. **NON appliqué** : écriture en base de production, en attente du feu vert de Badr.
@@ -707,3 +816,137 @@ validation** (branche `claude/theme-pour-7ebcne`) : voir statut ci-dessous.
   mesuré au journal du compte. Le montant dépensé d'Ads Manager est une
   estimation, le reçu fait foi (help/196476577203529). Si un jour la tuile
   Meta du Comptable s'écarte de 0 %, chercher d'abord un location fee.
+
+### ⚠️ À VÉRIFIER AU DÉPLOIEMENT (relevé le 10/09 au soir)
+
+`app_state` en production, lu le 10/09 à 15h38 :
+
+| Clé | Valeur en base | Valeur dans le code |
+|---|---|---|
+| `full_resync_version` | `2026-08-17-…-v13` (28/08) | **v15** |
+| `full_recompute_version` | `2026-08-16-…-v15` (28/08) | **v17** |
+
+**Aucun correctif du 10/09 n'est encore appliqué en base** — ni les
+chargebacks, ni le COGS fantôme, ni le packaging, ni la carte. La synchro
+tourne bien (`last_incremental_sync_at` = 15h38 le 10/09), donc ce n'est pas
+un blocage : c'est que **le code déployé sur Vercel n'est pas cette branche**
+(`claude/invoice-payment-verification-n033vp`). Les chiffres du dashboard ne
+bougeront **qu'une fois la branche déployée** ; au premier passage après, le
+resync complet part tout seul et le recompute suit.
+
+**Bonne pratique confirmée ici** : ne jamais adosser un correctif de COGS à un
+bump de resync déjà en attente. Le packaging du 588a76f l'avait fait — ça a
+tenu par chance (le v14 n'était pas encore consommé). Le v15 est explicite.
+
+## Solde réel des correctifs en attente (chiffré le 10/09 au soir)
+
+Badr : « donc mon net augmente ? » — oui, mais il fallait le CALCULER, pas
+l'estimer. Chaque ligne est comptée en base, aucune n'est extrapolée :
+
+| Correctif | Assiette mesurée | Effet sur le net |
+|---|---|---|
+| COGS fantôme — 88 commandes sans colis | 88 cmd | **+2 266,84 €** |
+| Pantalon FR à 6,90 € (palier 1) | 43 cmd ×1 | +126,42 € |
+| Pantalon FR palier 2 (`g2 + (g2−g1)`) | 7 cmd ×3 | +41,16 € |
+| Chemise Turenne → manches longues | ~75 pièces × 0,09 € | +6,75 € |
+| Chargebacks perdus déduits du CA | 5 cmd | −383,91 € |
+| Packaging 0,35 €/cmd depuis le 14/08 | 1 599 cmd | −559,65 € |
+| Forfait size-up 0,10 €/polo depuis le 03/09 | 1 235 polos | −123,50 € |
+| Packing colis primaire +4 € depuis le 02/08 | 19 cmd | −76,00 € |
+| Carte de remerciement 0,03 €/cmd depuis le 12/08 | 1 698 cmd | −50,94 € |
+| **TOTAL** | | **+1 247,17 €** |
+
+**Deux lectures à ne pas confondre.** Le +1 247 € est un RATTRAPAGE
+ponctuel sur l'historique. Les coûts par commande, eux, sont RÉCURRENTS :
+packaging + size-up ≈ **1 000 €/mois** à partir de maintenant. Le net des
+mois passés monte une fois ; celui des mois à venir portera cette charge en
+permanence.
+
+**Pourquoi le packing colis primaire ne pèse que 76 € et pas des milliers** :
+il ne s'applique qu'aux commandes SANS polo ET SANS gilet (le gilet porte
+déjà son packing depuis le 14/08, appliqué en base au resync v13 du 28/08 —
+pas de double compte). Il n'y en a que 19 depuis le 02/08.
+
+**Effet `current_quantity` : positif, non chiffré, et petit.** Le MEMO
+annonçait « 82 commandes, 254 unités » — **ce chiffre n'est pas vérifié et il
+est probablement très surévalué**. Deux mesures le contredisent : (a) sur les
+2 693 commandes #4814→#7506 croisées avec les factures Panda, seules **5
+unités** de polo diffèrent (#7331, #7441) ; (b) sur TOUTES les commandes
+`partially_refunded` de l'historique, on trouve **8 unités** retirées
+(#1134, #4079, #4910). Le chiffrer exactement demanderait de relire les
+~6 600 commandes une par une côté Shopify. **À ne pas citer tant que ce n'est
+pas fait** — il va dans le bon sens, il ne change pas l'ordre de grandeur.
+
+## Effet des correctifs sur l'écart de trésorerie (onglet Banque) — chiffré le 10/09 au soir
+
+Badr : « le trou entre ce qu'on doit avoir en banque et ce qu'on a réellement, il deviendra plus grand là non ? » — **Oui, de 1 833,35 €.** Et c'est voulu.
+
+Le pont de trésorerie (`treasury.ts`) calcule :
+`cash théorique = net cumulé + dû sur factures reçues + livré-non-facturé − acomptes déjà virés`, puis
+`attendu en banque = cash théorique − versements Shopify en route`, et
+`écart = attendu − solde réel` (positif = il manque de l'argent).
+
+| Poste | Avant (déployé) | Après | Δ |
+|---|---|---|---|
+| Net cumulé, charges fixes déduites | 62 311,72 € | 63 558,89 € | +1 247,17 € |
+| Dû sur factures reçues (`supplierOwed`) | 0 € | 2 713,29 € | +2 713,29 € |
+| Livré, pas encore facturé (`supplierUnbilled`) | 11 214,68 € | 3 474,55 € | −7 740,13 € |
+| Acompte viré (se SOUSTRAIT) | −5 613,02 € | 0 € | +5 613,02 € |
+| **= cash théorique** | **67 913,38 €** | **69 746,73 €** | **+1 833,35 €** |
+| Versements Shopify en route (estimé, 5 j) | −22 930,90 € | −22 930,90 € | 0 |
+| **= attendu en banque** | **44 982,48 €** | **46 815,83 €** | **+1 833,35 €** |
+
+D'où viennent ces 1 833,35 € :
+- **1 247,17 €** — la correction du net (le rattrapage COGS fantôme, chargebacks, coûts par commande).
+- **586,18 €** — la reconnaissance de la facture du 09/09 : elle réclame 8 326,31 € sur une plage que notre moteur coûtait 7 740,13 €. L'écart, c'est essentiellement la **ligne size-up de 616,30 €** — une vraie charge nouvelle, acceptée, pas un trou.
+
+**L'écart ne se CRÉE pas, il se RÉVÈLE.** Pendant quatre mois le dashboard a soutenu qu'on avait dépensé 2 266,84 € qu'on n'a jamais sortis. Cet argent est censé être en banque. Le coût fantôme MASQUAIT l'écart : en le retirant, le modèle dit la vérité, et si l'argent n'y est pas, l'onglet le dira au lieu de le cacher. C'est exactement le service qu'on lui demande.
+
+⚠️ **L'alerte va s'allumer au déploiement, et c'est normal.** `UNEXPLAINED_ALERT_CENTS` = 1 000 € et `PRE_LLC_RESIDUAL` est plafonné à 1 850 € (figé le 04/09, « un écart au-delà est un trou NEUF »). +1 833 € passe largement le seuil. Ne pas le prendre pour une régression du correctif.
+
+**Ce qui le fera redescendre**, sans rien coder : si Claire accepte les 2 713,29 € de déductions, `supplierOwed` retombe à 0 et l'attendu baisse d'autant. Les 995,05 € de trackings, eux, sont dus dès réception des numéros.
+
+**Non calculable d'ici** : le solde réel Slash/Wise. Le montant ABSOLU de l'écart n'existe que dans l'app déployée, qui lit les comptes. Ce tableau donne l'attendu ; le réel, c'est l'onglet Banque qui l'a.
+
+## Deux fautes fournisseur trouvées par Badr (10/09 au soir) — 330,04 € annoncés, PAS ENCORE dus
+
+Vérifiées dans Shopify le jour même. Les deux sont **postérieures au 01/07**, donc dans le périmètre Panda, et les deux ont un tracking — le colis a été facturé.
+
+| Cde | Date | Panier | Payé | Remboursé | Tracking fourni |
+|---|---|---|---|---|---|
+| #2870 | 01/07 | POLOx4 + SHORTSx3 | 179,98 € | **0 €** | YT2621500711304158 (YunExpress) |
+| #4486 | 14/07 | POLOx4 + SSx1 + SHORTSx1 | 179,97 € | **0 €** | DOFR9010176136745HD (WanbExpress) |
+
+**#2870 — mauvais article, jamais corrigé (62,24 €).** Un tee-shirt noir à la place d'un polo et d'un short. Correction promise le 26/08, rien depuis.
+- **49,44 €** = la valeur RÉELLEMENT PAYÉE des 2 articles. La commande est un bundle remisé : 179,98 € payés pour 454,93 € de prix catalogue. Le calcul est au prorata (124,98 × 179,98 ÷ 454,93), **pas au prix affiché** — facturer 124,98 € serait gonfler de 75 € et casserait la crédibilité du reste.
+- **12,80 €** = le COGS des 2 articles à leurs propres tarifs (1 polo au palier 4 : 6,69 € · 1 short au palier 3 : 6,11 €).
+- **Aucun coût publicitaire réclamé** : le client garde 5 articles sur 7, la vente tient. Le réclamer serait indéfendable.
+
+**#4486 — tracking contredit par le transporteur (267,80 €).** WanbExpress n'apparaît sur **aucune** des 4 factures Panda, où tout ce qui part vers la France est en YunExpress. La Poste annonce le colis encore chez nous.
+- 179,97 € de CA + 9,94 € de frais de carte (7,28 + 2,66, **lus sur la transaction**) + 35,00 € de pub (CAC mesuré) + 42,89 € de marchandise.
+- Le COGS est **prixé sur leurs grilles, pas cité d'un document** : #4486 est sous #4814, aucune facture de cette période n'est en notre possession. Le relevé le dit explicitement — mieux vaut l'annoncer que se le faire opposer.
+
+### La règle posée ici, et pourquoi elle compte
+**Sur les deux, le client n'a PAS été remboursé** (`refunded_cents` = 0, aucun litige bancaire). **La perte n'existe donc pas encore.** Ces 330,04 € sont ANNONCÉS, pas déduits : ils vivent dans `SUPPLIER_OPEN_CASES`, une troisième liste étanche des deux autres.
+
+Le ledger fournisseur compte maintenant **trois listes qui ne doivent jamais se mélanger** — un test vérifie qu'aucun numéro de commande n'apparaît dans deux d'entre elles :
+
+| Liste | Montant | Statut de l'argent |
+|---|---|---|
+| `SUPPLIER_PENDING_CREDITS` | 2 713,29 € | **Retenu** sur la facture du 09/09 |
+| `SUPPLIER_CLAIMS_ON_PAID_BILLS` | 155,33 € | **Déjà versé**, à réclamer en avoir |
+| `SUPPLIER_OPEN_CASES` | 330,04 € | **Rien n'est sorti**, annoncé seulement |
+
+Réclamer une perte qui n'a pas eu lieu est le meilleur moyen de faire tomber tout le reste du relevé. C'est la même raison qui nous fait signaler les 59,78 € de sous-facturation en leur faveur.
+
+**Ce qu'on demande d'abord, et ce n'est pas de l'argent** : sur #2870, la décision (remplacement ou avoir) — deux semaines de retard. Sur #4486, la preuve de remise au transporteur ; si elle existe, les 267,80 € tombent.
+
+### ⚠️ Le total réclamé doit exister, sinon un ajout ne se voit nulle part
+
+Badr, 10/09 : « le chiffre demandé au fournisseur n'a pas bougé alors que je t'ai rajouté des choses où il a merdé, donc c'est pas bon là ». **Il avait raison.** J'avais ajouté les catégories 7 et 8 au relevé sans qu'AUCUN total ne les additionne : le document affichait toujours « 2 713,29 retenus / 5 613,02 payés » et les 485,37 € nouveaux flottaient sans être sommés nulle part.
+
+Corrigé des deux côtés :
+- **Dans le relevé** : un bloc « Total on the table — 3 198,66 EUR » juste après le règlement, plus le total dans l'en-tête. Les trois natures restent listées séparément (elles n'ont pas le même statut), mais elles ont enfin une somme.
+- **Dans le code** : `supplierTotalClaimedCents()` = contesté + avoirs + dossiers ouverts, verrouillé par un test à 3 198,66 €.
+
+**La leçon, à ne pas re-perdre** : séparer proprement des natures d'argent (retenu / déjà versé / pas encore dû) est juste, mais si aucun total ne les rassemble, le document ment par omission — il donne l'impression que rien n'a bougé. Toute catégorie ajoutée doit apparaître dans `supplierTotalClaimedCents()`.

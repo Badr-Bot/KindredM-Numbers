@@ -1093,6 +1093,123 @@ l'infobulle du jour, en toutes lettres et en couleur. La moyenne en pointillé
 des mini-graphiques Créas part aussi : elle reste écrite en chiffre (« moy. »)
 juste au-dessus.
 
+## Mise à jour 09/09 — facture du 09/09 : la plage est nickel, 701,90 € à contester
+
+Nouvelle facture reçue (#7149 → #7506). **FINAL TOTAL 8 494,71 €.**
+
+**La partie commandes est la plus propre reçue à ce jour** : 358 lignes =
+358 commandes Shopify du 03 au 08/09, contiguës, sans doublon, et le
+recalcul moteur donne **7 710,05 € contre 7 710,01 € facturés — 4 centimes
+d'écart**.
+
+**Mais deux choses ne passent pas, 701,90 € :**
+
+1. **168,40 € re-facturés.** Trois lignes numérotées #6953 (Suisse,
+   Stephane Lenain) sont, au centime près, les lignes #6954/#6955/#6981
+   **déjà sur la facture du 03/09**. Ce sont exactement celles dont on
+   demandait le regroupement en avoir — elles reviennent en plein tarif,
+   avec de nouveaux trackings et un numéro de commande faux.
+2. **533,50 € de « size up change cost » rétroactif.** Nouvelle ligne de
+   616,30 € (0,10 €/polo) couvrant #4815 → #7506, donc les deux factures
+   déjà payées et celle du 03/09 déjà validée. Seuls 82,80 € concernent
+   les commandes de cette facture.
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée le 06/08 |
+| 20260814 | 12 064,41 € | ✅ payée le 14/08 |
+| 20260903 | 25 448,36 € | ✅ payée (annonce Badr 09/09) |
+| **20260909** | **8 494,71 €** | **⏳ dont 701,90 € contestés → 7 792,81 € à régler** |
+
+**Bug trouvé chez nous au passage** : deux commandes sont facturées avec
+moins d'unités que Shopify n'en montre, et le fournisseur a raison — les
+lignes en question ont été retirées de la commande (`current_quantity` 0).
+Notre `shopify.ts` lit `quantity` au lieu de `current_quantity` : **82
+commandes, 254 unités comptées en trop dans le COGS depuis le 01/07** —
+chiffre NON vérifié et probablement très surévalué (relevé du 10/09 : 5 unités
+sur 2 693 commandes croisées avec les factures). Le
+net réel est donc un peu meilleur qu'affiché. Correctif non appliqué, à
+grouper avec les autres corrections en attente de resync.
+
+## Mise à jour 10/09 — facture du 09/09 réglée en partie, 2 713,29 € retenus
+
+| Facture | Montant | État |
+|---|---|---|
+| 20260801 | 14 279,96 € | ✅ payée |
+| 20260814 | 12 064,41 € | ✅ payée |
+| 20260903 | 25 448,36 € | ✅ payée |
+| **20260909** | **8 326,31 €** | **5 613,02 € payés · 2 713,29 € retenus** |
+
+Le fournisseur a retiré de lui-même les 168,40 € de lignes suisses. Badr a
+viré le solde hors déductions le 10/09.
+
+**Les 2 713,29 € retenus, notifiés par un relevé détaillé** (chaque numéro de
+commande listé, une source par ligne) :
+
+| | Ligne | EUR |
+|---|---|---|
+| 1 | 47 commandes sans preuve d'expédition | 995,05 |
+| 2 | 11 commandes qu'ils n'ont pas pu expédier | 842,24 |
+| 3 | Leurs erreurs sur commandes livrées (#4079, #5649) | 118,48 |
+| 4 | Chargebacks perdus (#3285, #4368) | 253,21 |
+| 5 | Publicité perdue — 13 cmd × 35 € | 455,00 |
+| 6 | Corrections du forfait size-up | 49,31 |
+
+**La ligne 1 n'est pas un litige** : elle se paie dès réception des trackings.
+Règle posée par Badr — on paie à l'EXPÉDITION, pas à la livraison.
+
+**Deux garde-fous qui rendent le dossier tenable** : tout ce qui précède le
+01/07 a été retiré (le fournisseur n'existait pas avant), soit ~1 107 € de
+pertes réelles abandonnées ; et le coût pub est facturé à **35 €**, la valeur
+mesurée, pas les 40 € demandés au départ.
+
+## Mise à jour 10/09 (suite) — resync : 7 correctifs passés d'un coup
+
+`REQUIRED_FULL_RESYNC_VERSION` → v14, `REQUIRED_RECOMPUTE_VERSION` → v16.
+**262 tests verts, `next build` OK.** Le prochain passage du cron (ou une
+ouverture du site) re-télécharge les commandes et recalcule les jours.
+
+| | Correctif | Effet sur le net |
+|---|---|---|
+| 1 | Chargebacks perdus déduits du CA (5 cmd) | **−383,91 €** |
+| 2 | COGS fantôme des commandes sans colis (81 → **88**, cf. audit ci-dessous) | **+2 266,84 €** |
+| 3 | `current_quantity` au lieu de `quantity` | + (petit — le « 254 unités » n'est pas vérifié, cf. MEMO) |
+| 4 | Packing « colis primaire » généralisé | − (~4 €/cmd sans polo) |
+| 5 | Pantalon FR à 6,90 € en upsell | + (~2,94 €/cmd concernée) |
+| 6 | Forfait size-up 0,10 €/polo depuis le 03/09 | − (~250 €/mois) |
+| 7 | « La Chemise Turenne » → manches longues (en base) | ~0 |
+
+**Solde attendu : +1 247,17 €**, chiffré ligne à ligne le 10/09 au soir (voir
+le tableau complet dans le MEMO, « Solde réel des correctifs en attente »).
+⚠️ Les deux estimations précédentes de ce solde (+1 700 puis +1 883) étaient
+FAUSSES : elles ne retenaient que le COGS fantôme moins les chargebacks et
+oubliaient les quatre coûts par commande (packaging −559,65 €, size-up
+−123,50 €, packing colis primaire −76,00 €, carte −50,94 €).
+
+**Et le rattrapage ne doit pas masquer la charge récurrente** : packaging +
+size-up pèsent **≈ 1 000 €/mois** à partir de maintenant. Le net des mois
+passés monte une fois ; celui des mois à venir porte cette charge en
+permanence.
+
+Chaque correctif est adossé à une pièce et verrouillé par un test qui
+reproduit une ligne réelle de facture — `orderAdjustments.test.ts`, 15 tests.
+
+**Packaging activé au 14/08** (8ᵉ correctif) : Badr confirme que les 410 € de
+« custom packing » sont une avance sur un stock d'emballages et que le nouveau
+packaging part depuis cette date. **0,35 €/commande. Compté en base :
+1 583 commandes depuis le 14/08 = 554 €/mois** (et le forfait size-up pèse
+~446 €/mois, pas 250 : 1 189 polos en 8 jours). Soit **~1 000 €/mois** de
+charges réelles qui n'étaient pas comptées.
+
+⚠️ On a déjà comptabilisé 554 € de packaging pour 410 € décaissés : soit le
+stock couvrait plus de 1 171 unités, soit une nouvelle avance arrive sur la
+prochaine facture. À trancher à sa réception. Aucun double compte : les 410 € ne touchent pas le
+net (la carte fournisseur est un suivi de trésorerie).
+
+**La carte de remerciement (0,03 €) reste inactive** : Badr la pense
+antérieure mais n'a pas la date. Les deux dates sont maintenant indépendantes
+dans le code, il suffira de poser celle de la carte.
+
 ## Notes techniques utiles
 
 - `read_orders` = 60 jours d'historique max. Lancement = 04/06 → OK si le
@@ -1355,3 +1472,37 @@ confirme les mesures :
   différentes selon qu'on regarde le spend, la facture ou la banque.
 
 339 tests verts, build OK, lint et typecheck clean.
+
+## Mise à jour 10/09 (soir) — audit exhaustif : « je veux que le net soit vraiment réel »
+
+`REQUIRED_RECOMPUTE_VERSION` → **v17**. **268 tests verts, tsc + eslint + `next build` OK.**
+Recalcul seul, aucun appel API : les listes voyagent avec le code.
+
+Les 4 factures Panda (#4814→#7506, **2 697 lignes**) reparsées et croisées
+ligne à ligne avec la base, plus le **statut d'expédition de la totalité des
+commandes** relevé sur Shopify. Bilan :
+
+| | Constat | Preuve | Effet |
+|---|---|---|---|
+| 1 | La liste « COGS fantôme » était **incomplète : 81 → 88** | `status:cancelled` rend **83** commandes (#2213 et #2257 manquaient) + 5 remboursées sans colis (#2409, #2965, #3277, #5420, #6103) — toutes `UNFULFILLED`, `fulfillments: []` | **+184,14 €** |
+| 2 | **#4856 facturée deux fois** le 01/08 (déjà payée) | 650 lignes pour 649 numéros ; 2 trackings, Shopify n'en connaît qu'un | **10,27 € à réclamer** |
+| 3 | `ordersCount` du 14/08 faux | 533 lignes recomptées, pas 531 (en-tête Panda : 535, faux) | tracé |
+| 4 | **Sous-facturation** #5535/#5576/#5642 | 4 polos expédiés, `POLOx1` facturé | **~59,78 € en notre faveur, NON encaissés** |
+| 5 | #5599 / #5759 facturées 0 € mais **expédiées** | tracking présent, « country not covered by polo quote » | COGS **conservé** (57,49 €) |
+
+**Ce qui a changé dans la nature de la preuve.** Avant : « le fournisseur
+facture 0 € les commandes annulées, vérifié sur 3 exemples » — une déduction
+étendue à 81 commandes, dont 80 hors de toute facture en notre possession.
+Maintenant : chaque commande de la liste est `UNFULFILLED` avec zéro
+fulfillment. Le fournisseur facture le COLIS ; pas de colis, pas de ligne.
+La preuve ne dépend plus d'une facture qu'on n'a pas.
+
+**Restes connus, chiffrés, non corrigés** (aucun n'est un trou — ils sont mesurés) :
+- **9 commandes ES/UK/DE remboursées à 100 %, 183,47 € de COGS** : même profil,
+  mais la connexion Shopify pointe la boutique FR — pas vérifiable d'ici, donc
+  **pas retiré sans preuve**.
+- **172 commandes du 14→18/06 au repli 3 %** (réel juin mesuré : 2,26 %) →
+  frais **surestimés d'environ 74 €**. Le net penche du côté pessimiste.
+- **5 sur-remboursements, 2,58 €** au total (écarts de change).
+- **Carte de remerciement toujours inactive** : date cherchée dans MEMO, Gmail
+  et Drive le 10/09 — introuvable. Une ligne suffit dès que Badr la donne.
